@@ -11,8 +11,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@types/node": "18.15.3",
@@ -27,15 +27,17 @@
     "typescript": "5.0.2"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.5.16",
-    "@storybook/addon-links": "^6.5.16",
-    "@storybook/addons": "^6.5.16",
-    "@storybook/builder-webpack5": "^6.5.16",
-    "@storybook/manager-webpack5": "^6.5.16",
-    "@storybook/react": "^6.5.16",
+    "@storybook/addon-actions": "^7.0.0-rc.4",
+    "@storybook/addon-links": "^7.0.0-rc.4",
+    "@storybook/addon-mdx-gfm": "7.0.0-rc.4",
+    "@storybook/addons": "^7.0.0-rc.4",
+    "@storybook/nextjs": "7.0.0-rc.4",
+    "@storybook/react": "^7.0.0-rc.4",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "prettier": "^2.8.4"
+    "eslint-plugin-storybook": "^0.6.11",
+    "prettier": "^2.8.4",
+    "storybook": "7.0.0-rc.4"
   }
 }
