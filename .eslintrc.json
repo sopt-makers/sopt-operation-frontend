@@ -2,11 +2,24 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
     "prettier"
   ],
-  "plugins": ["prettier", "simple-import-sort"],
+  "plugins": ["prettier", "simple-import-sort", "react-hooks"],
   "rules": {
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
     "prettier/prettier": "error",
-    "simple-import-sort/imports": "error"
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "no-tabs": ["error", { "allowIndentationTabs": true }],
+    "computed-property-spacing": ["error", "never"],
+    "space-in-parens": ["error", "never"],
+    "eol-last": ["error", "always"],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   }
 }
