@@ -3,7 +3,8 @@
     "next/core-web-vitals",
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
   "plugins": ["prettier", "simple-import-sort", "react-hooks"],
   "rules": {
@@ -13,9 +14,25 @@
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
-    "no-multiple-empty-lines": ["error", { "max": 1 }],
-    "comma-spacing": ["error", { "before": false, "after": true }],
-    "no-tabs": ["error", { "allowIndentationTabs": true }],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "no-tabs": [
+      "error",
+      {
+        "allowIndentationTabs": true
+      }
+    ],
     "computed-property-spacing": ["error", "never"],
     "space-in-parens": ["error", "never"],
     "eol-last": ["error", "always"],
