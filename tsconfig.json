@@ -12,8 +12,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
     "incremental": true,
+    "types": ["@emotion/react/types/css-prop"],
     "paths": {
       "@/*": ["./src/*"]
     }
