@@ -8,18 +8,33 @@
   ],
   "plugins": ["prettier", "simple-import-sort", "react-hooks"],
   "rules": {
+    // React hooks 규칙을 검사하여 잘 사용했는지 확인하고 경고합니다.
     "react-hooks/rules-of-hooks": "warn",
+
+    // useEffect나 useCallback 등에서 사용하는 의존성 배열(deps)이 모든 상황에 대해 모두 포함되었는지 확인하고 경고합니다.
     "react-hooks/exhaustive-deps": "warn",
+
+    // Prettier 에러가 발생하면 바로 에러를 발생시킵니다.
     "prettier/prettier": "error",
+
+    // 쌍 따옴표 대신 홑 따옴표를 사용하는 것을 강제합니다.
     "quotes": ["error", "single"],
+
+    // 세미콜론을 항상 사용하도록 강제합니다.
     "semi": ["error", "always"],
+
+    // 객체나 배열의 마지막 요소 뒤에 항상 쉼표를 사용합니다.
     "comma-dangle": ["error", "always-multiline"],
+
+    // 빈 줄을 허용하지 않습니다. 최대 빈 줄 수는 1개입니다.
     "no-multiple-empty-lines": [
       "error",
       {
         "max": 1
       }
     ],
+
+    // 쉼표 앞에는 공백을 사용하지 않도록 합니다. 쉼표 뒤에는 공백을 사용하도록 합니다.
     "comma-spacing": [
       "error",
       {
@@ -27,16 +42,28 @@
         "after": true
       }
     ],
+
+    // 탭을 사용하지 않도록 합니다. 들여쓰기에서는 탭을 허용합니다.
     "no-tabs": [
       "error",
       {
         "allowIndentationTabs": true
       }
     ],
+
+    // 계산된 속성 표기법에서 괄호 안에 공백을 사용하지 않도록 합니다.
     "computed-property-spacing": ["error", "never"],
+
+    // 괄호 안에 공백을 사용하지 않도록 합니다.
     "space-in-parens": ["error", "never"],
+
+    // 파일 끝에 항상 개행문자를 사용하도록 합니다.
     "eol-last": ["error", "always"],
+
+    // import 구문을 간단하게 정리(sort)하도록 합니다.
     "simple-import-sort/imports": "error",
+
+    // export 구문을 간단하게 정리(sort)하도록 합니다.
     "simple-import-sort/exports": "error"
   }
 }
