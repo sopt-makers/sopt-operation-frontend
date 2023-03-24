@@ -1,13 +1,18 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
+import { useRecoilState } from 'recoil';
 
-import Example from '../../components/example/Example';
+import Example from '@/components/example/Example';
+import { user as userState } from '@/store/globalStore';
 
 export default function Home() {
   const theme = useTheme();
 
-  console.log(theme.color);
+  const [user, setUser] = useRecoilState(userState);
+
+  console.log('theme color : ', theme.color);
+  console.log('user : ', user);
 
   return (
     <StyledRoot>
