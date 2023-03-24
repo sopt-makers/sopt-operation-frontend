@@ -1,7 +1,5 @@
-import { Theme } from '@emotion/react';
-
-const theme: Theme = {
-  colors: {
+const theme = {
+  color: {
     primary: 'blue',
   },
 };
