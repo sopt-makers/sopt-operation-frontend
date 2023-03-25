@@ -9,10 +9,10 @@
   "plugins": ["prettier", "simple-import-sort", "react-hooks"],
   "rules": {
     // React hooks 규칙을 검사하여 잘 사용했는지 확인하고 경고합니다.
-    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/rules-of-hooks": "error",
 
     // useEffect나 useCallback 등에서 사용하는 의존성 배열(deps)이 모든 상황에 대해 모두 포함되었는지 확인하고 경고합니다.
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "error",
 
     // Prettier 에러가 발생하면 바로 에러를 발생시킵니다.
     "prettier/prettier": "error",
