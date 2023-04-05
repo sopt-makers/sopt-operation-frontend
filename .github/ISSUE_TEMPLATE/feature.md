@@ -1,7 +1,7 @@
 ---
 name: feature
 about: 새로운 기능 구현하기
-title: "[FEATURE] E#0-S#0 feature 이름"
+title: "[FEATURE] view_feature 내용"
 labels: "✨ feature"
 assignees: ''
 
