@@ -8,6 +8,6 @@ export const StComponent = {
     width: 22rem;
     height: 100%;
 
-    background-color: ${({ theme }) => theme.MainColor.PURPLE_100};
+    background-color: ${({ theme }) => theme.color.grayscale.white100};
   `,
 };

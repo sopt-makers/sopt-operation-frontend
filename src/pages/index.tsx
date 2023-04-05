@@ -11,7 +11,7 @@ export default function Home() {
 
   const [user, setUser] = useRecoilState(userState);
 
-  console.log('theme color : ', theme.MainColor);
+  console.log('theme color : ', theme.color.main);
   console.log('user : ', user);
 
   return (
@@ -31,6 +31,6 @@ export default function Home() {
 const StyledRoot = styled.div`
   padding-left: 22rem;
   h1 {
-    color: ${({ theme }) => theme.MainColor.PURPLE_100};
+    color: ${({ theme }) => theme.color.main.purple100};
   }
 `;
