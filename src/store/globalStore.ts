@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
 
 export const user = atom<User>({
-  key: 'userData',
+  key: 'user',
   default: {
-    name: 'sohee',
-    age: 26,
+    id: 0,
+    name: '',
   },
 });
