@@ -5,6 +5,11 @@ import emotionReset from 'emotion-reset';
 const global: Interpolation<Theme> = (theme: Theme) => css`
   ${emotionReset}
 
+  * {
+    font-family: 'SUIT', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
   html {
     font-size: 10px;
   }
@@ -12,6 +17,9 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     margin: 0;
     padding: 0;
     background-color: ${theme.color.grayscale.gray20};
+    font-family: 'SUIT', sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   button {
     border: none;
@@ -22,6 +30,28 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
   a {
     color: black;
     text-decoration: none;
+  }
+
+  @font-face {
+    font-family: 'SUIT';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2')
+      format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'SUIT';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2')
+      format('woff2');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'SUIT';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2')
+      format('woff2');
+    font-weight: 700;
+    font-style: normal;
   }
 `;
 
