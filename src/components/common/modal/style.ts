@@ -12,10 +12,6 @@ export const StModalBackground = styled.div`
 `;
 
 export const StModalWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   position: fixed;
   top: 50%;
   left: 50%;
