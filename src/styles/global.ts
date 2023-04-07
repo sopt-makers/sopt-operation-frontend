@@ -14,7 +14,7 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
   body {
     font-size: 10px;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background-color: ${theme.color.grayscale.gray20};
     font-family: 'SUIT', sans-serif;
     font-weight: 400;
@@ -22,7 +22,7 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
   }
   #__next {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
   }
   button {
     border: none;

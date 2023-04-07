@@ -29,7 +29,6 @@ export default function Home() {
 }
 
 const StyledRoot = styled.div`
-  padding-left: 22rem;
   h1 {
     color: ${({ theme }) => theme.color.main.purple100};
   }
