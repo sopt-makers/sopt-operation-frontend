@@ -27,6 +27,11 @@ const body1 = css`
   line-height: 2rem;
   font-weight: 500;
 `;
+const body2 = css`
+  font-size: 1.4rem;
+  line-height: 2rem;
+  font-weight: 500;
+`;
 
 const caption1 = css`
   font-size: 1.2rem;
@@ -39,4 +44,13 @@ const caption2 = css`
   font-weight: 500;
 `;
 
-export { body1, caption1, caption2, display1, display2, headline1, headline2 };
+export {
+  body1,
+  body2,
+  caption1,
+  caption2,
+  display1,
+  display2,
+  headline1,
+  headline2,
+};

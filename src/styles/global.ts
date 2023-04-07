@@ -10,16 +10,19 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     font-weight: 400;
     font-style: normal;
   }
-  html {
-    font-size: 10px;
-  }
+  html,
   body {
-    margin: 0;
-    padding: 0;
+    font-size: 10px;
+    width: 100%;
+    height: 100%;
     background-color: ${theme.color.grayscale.gray20};
     font-family: 'SUIT', sans-serif;
     font-weight: 400;
     font-style: normal;
+  }
+  #__next {
+    width: 100%;
+    height: 100%;
   }
   button {
     border: none;

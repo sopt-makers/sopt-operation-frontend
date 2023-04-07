@@ -47,6 +47,7 @@ declare global {
     name: string;
     generation: number;
     part: PART;
+    attribute: SESSION_TYPE;
     members: Member[];
   }
 
