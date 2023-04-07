@@ -9,6 +9,7 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     font-family: 'SUIT', sans-serif;
     font-weight: 400;
     font-style: normal;
+    box-sizing: border-box;
   }
   html,
   body {
