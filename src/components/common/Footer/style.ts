@@ -1,11 +1,14 @@
 import styled from '@emotion/styled';
 
+import zIndex from '@/utils/zIndex';
+
 export const StFooterWrap = styled.div`
   width: 100%;
   height: 15rem;
 `;
 export const StFooter = styled.footer`
   position: fixed;
+  z-index: ${zIndex.footer};
   bottom: 0;
   left: 22rem;
   width: calc(100% - 22rem);
