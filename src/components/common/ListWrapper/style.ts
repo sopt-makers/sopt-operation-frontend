@@ -10,6 +10,7 @@ export const StList = styled.table`
     ${caption1}
     font-weight: 400;
     color: ${({ theme }) => theme.color.grayscale.black40};
+    opacity: 0.7;
     & > th {
       padding-bottom: 2.4rem;
     }

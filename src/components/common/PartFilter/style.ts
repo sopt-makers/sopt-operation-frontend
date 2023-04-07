@@ -6,6 +6,7 @@ export const StPartFilter = styled.div`
   background-color: ${({ theme }) => theme.color.grayscale.gray10};
   border-radius: 4rem;
   width: fit-content;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.02);
 `;
 export const FilterButton = styled.button<{ selected: boolean }>`
   font-size: 1.4rem;
