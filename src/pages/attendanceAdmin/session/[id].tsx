@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
 import ListWrapper from '@/components/common/ListWrapper';
+import PartFilter from '@/components/common/PartFilter';
 import { attendanceInit, sessionDetailDummy } from '@/data/sessionData';
 import { precision } from '@/utils';
 
@@ -18,8 +20,15 @@ function SessionDetailPage() {
     '변동점수',
   ];
 
+  const [selectedPart, setSelectedPart] = useState<PART>('ALL');
+
+  const onChangePart = (part: PART) => {
+    setSelectedPart(part);
+  };
+
   return (
     <>
+      <PartFilter selected={selectedPart} onChangePart={onChangePart} />
       <ListWrapper>
         <thead>
           <tr>
