@@ -88,4 +88,11 @@ export const StSubMenu = styled.p`
   color: ${({ theme }) => theme.color.grayscale.gray60};
 
   cursor: pointer;
+
+  &:hover {
+    color: ${({ theme }) => theme.color.main.purple40};
+  }
+  &:active {
+    color: ${({ theme }) => theme.color.main.purple100};
+  }
 `;
