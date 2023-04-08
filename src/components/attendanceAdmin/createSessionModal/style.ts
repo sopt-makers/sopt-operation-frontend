@@ -112,6 +112,9 @@ export const StFormSection = styled.section`
 `;
 
 export const StFormLayout = styled.div`
+  display: flex;
+  align-items: center;
+
   width: 100%;
   height: 4.4rem;
 
@@ -161,6 +164,10 @@ export const StFormLayout = styled.div`
         color: ${({ theme }) => theme.color.grayscale.gray40};
       }
     }
+  }
+
+  & > svg {
+    margin-right: 1.4rem;
   }
 `;
 
