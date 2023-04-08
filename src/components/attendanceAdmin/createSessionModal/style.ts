@@ -118,7 +118,7 @@ export const StFormLayout = styled.div`
   width: 100%;
   height: 4.4rem;
 
-  border: 1px solid ${({ theme }) => theme.color.grayscale.gray30};
+  border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
 
@@ -128,7 +128,7 @@ export const StFormLayout = styled.div`
 
     padding: 1rem 1.4rem;
 
-    color: ${({ theme }) => theme.color.grayscale.gray40};
+    color: ${({ theme }) => theme.color.grayscale.black40};
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -139,7 +139,7 @@ export const StFormLayout = styled.div`
     border-radius: 8px;
 
     &::placeholder {
-      color: ${({ theme }) => theme.color.grayscale.gray40};
+      color: ${({ theme }) => theme.color.grayscale.black40};
     }
   }
 
@@ -150,7 +150,7 @@ export const StFormLayout = styled.div`
 
       padding: 1rem 1.4rem;
 
-      color: ${({ theme }) => theme.color.grayscale.gray40};
+      color: ${({ theme }) => theme.color.grayscale.black40};
       font-weight: 400;
       font-size: 16px;
       line-height: 24px;
@@ -161,7 +161,7 @@ export const StFormLayout = styled.div`
       border-radius: 8px;
 
       &::placeholder {
-        color: ${({ theme }) => theme.color.grayscale.gray40};
+        color: ${({ theme }) => theme.color.grayscale.black40};
       }
     }
   }

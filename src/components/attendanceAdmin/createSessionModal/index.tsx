@@ -83,20 +83,26 @@ function CreateSessionModal() {
                 <p>세션 날짜</p>
                 <StFormLayout>
                   <DatePicker
+                    placeholderText="세션 날짜를 선택해주세요"
                     dateFormat="yyyy/MM/dd"
                     selected={selectedDate}
                     onChange={(date: Date | null) => setSelectedDate(date)}
                   />
+                  <IcDropdown color="#3C3D40" />
                 </StFormLayout>
               </div>
               <div className="input_time">
                 <div className="form_container">
                   <p>시작 시각</p>
-                  <StFormLayout></StFormLayout>
+                  <StFormLayout>
+                    <IcDropdown color="#3C3D40" />
+                  </StFormLayout>
                 </div>
                 <div className="form_container">
                   <p>종료 시각</p>
-                  <StFormLayout></StFormLayout>
+                  <StFormLayout>
+                    <IcDropdown color="#3C3D40" />
+                  </StFormLayout>
                 </div>
               </div>
             </article>
