@@ -1,5 +1,18 @@
+import CreateSessionModal from '@/components/attendanceAdmin/createSessionModal';
+import Footer from '@/components/common/Footer';
+import Modal from '@/components/common/modal';
+
 function SessionPage() {
-  return <div></div>;
+  return (
+    <>
+      <Footer>
+        <Modal>
+          <CreateSessionModal />
+        </Modal>
+        <></>
+      </Footer>
+    </>
+  );
 }
 
 export default SessionPage;
