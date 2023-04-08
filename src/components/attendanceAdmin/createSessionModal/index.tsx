@@ -1,5 +1,8 @@
+import 'react-datepicker/dist/react-datepicker.css';
+
 import { useEffect, useState } from 'react';
 import React from 'react';
+import DatePicker from 'react-datepicker';
 
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import IcDropdown from '@/components/common/icons/IcDropDown';
@@ -15,9 +18,10 @@ import {
   StTitle,
   StWrapper,
 } from './style';
-
 function CreateSessionModal() {
   const [selectedSessionIndex, setSelectedSessionIndex] = useState<number>(-1);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
   const SESSION_TYPE = [
     {
       session: '세미나',
@@ -77,7 +81,13 @@ function CreateSessionModal() {
             <article>
               <div className="form_container">
                 <p>세션 날짜</p>
-                <StFormLayout></StFormLayout>
+                <StFormLayout>
+                  <DatePicker
+                    dateFormat="yyyy/MM/dd"
+                    selected={selectedDate}
+                    onChange={(date: Date | null) => setSelectedDate(date)}
+                  />
+                </StFormLayout>
               </div>
               <div className="input_time">
                 <div className="form_container">
