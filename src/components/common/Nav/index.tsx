@@ -19,10 +19,10 @@ const MENU_LIST = [
   },
 ];
 
-const GENERATION_LIST = [32, 33];
+const GENERATION_LIST = ['32'];
 
 function Nav() {
-  const [generation, setGeneration] = useState<number>(GENERATION_LIST[0]);
+  const [generation, setGeneration] = useState<string>(GENERATION_LIST[0]);
   const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
   return (
