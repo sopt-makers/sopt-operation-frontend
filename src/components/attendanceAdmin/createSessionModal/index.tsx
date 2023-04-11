@@ -5,6 +5,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
+import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
 
 import {
@@ -18,24 +19,33 @@ import {
   StTitle,
   StWrapper,
 } from './style';
+
+const SESSION_TYPE = [
+  {
+    session: '세미나',
+    desc: '미 출석시 출석점수 감점',
+  },
+  {
+    session: '행사',
+    desc: '출석 시 0.5점 부여',
+  },
+  {
+    session: '기타',
+    desc: '출석 점수 미반영',
+  },
+];
+
+const PART_LIST = ['전체', '기획', '디자인', '서버', 'IOS', '안드로이드', '웹'];
+
 function CreateSessionModal() {
   const [selectedSessionIndex, setSelectedSessionIndex] = useState<number>(-1);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [part, setPart] = useState<string>('파트선택');
+  const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
-  const SESSION_TYPE = [
-    {
-      session: '세미나',
-      desc: '미 출석시 출석점수 감점',
-    },
-    {
-      session: '행사',
-      desc: '출석 시 0.5점 부여',
-    },
-    {
-      session: '기타',
-      desc: '출석 점수 미반영',
-    },
-  ];
+  useEffect(() => {
+    console.log(selectedDate);
+  }, [selectedDate]);
 
   useEffect(() => {
     if (selectedSessionIndex !== -1) {
@@ -59,10 +69,11 @@ function CreateSessionModal() {
           <h2>새로운 SOPT 세션을 생성합니다. 대상 파트를 선택해주세요.</h2>
         </StHeader>
         <StMain>
-          <StPartSelector>
-            <span>전체</span>
+          <StPartSelector onClick={() => setIsDropdownOn(!isDropdownOn)}>
+            <span>{part}</span>
             <IcDropdown color="#8040FF" />
           </StPartSelector>
+          {isDropdownOn && <DropDown list={PART_LIST} />}
           <StFormSection>
             <article>
               <div className="form_container">

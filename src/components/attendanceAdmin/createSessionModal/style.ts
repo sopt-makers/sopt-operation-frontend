@@ -39,17 +39,21 @@ export const StMain = styled.main`
 `;
 
 export const StPartSelector = styled.div`
+  width: 100%;
+
   font-weight: 600;
   font-size: 2rem;
   line-height: 140%;
   letter-spacing: -0.02em;
 
-  cursor: pointer;
-
   & > span {
     padding-right: 0.4rem;
 
     color: ${({ theme }) => theme.color.main.purple100};
+    cursor: pointer;
+  }
+  & > svg {
+    cursor: pointer;
   }
 `;
 

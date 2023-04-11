@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { IcNavMenu } from '@/assets/icons';
 
+import DropDown from '../DropDown';
 import IcDropDown from '../icons/IcDropDown';
 import {
   StGenerationDropdown,
@@ -11,21 +12,29 @@ import {
   StSubMenu,
 } from './style';
 
+const MENU_LIST = [
+  {
+    title: '출석 관리',
+    subMenu: ['출석 세션', '출석 총점'],
+  },
+];
+
+const GENERATION_LIST = [32, 33];
+
 function Nav() {
-  const MENU_LIST = [
-    {
-      title: '출석 관리',
-      subMenu: ['출석 세션', '출석 총점'],
-    },
-  ];
+  const [generation, setGeneration] = useState<number>(GENERATION_LIST[0]);
+  const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
   return (
     <StNavWrapper>
       <header>
         <StSoptLogo>SOPT</StSoptLogo>
         <StGenerationDropdown>
-          <span>32기</span>
-          <IcDropDown />
+          <div onClick={() => setIsDropdownOn(!isDropdownOn)}>
+            <span>{generation}기</span>
+            <IcDropDown />
+          </div>
+          {isDropdownOn && <DropDown list={GENERATION_LIST} />}
         </StGenerationDropdown>
       </header>
       {MENU_LIST.map((menu) => (

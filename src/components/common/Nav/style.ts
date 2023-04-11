@@ -30,13 +30,16 @@ export const StSoptLogo = styled.h1`
 export const StGenerationDropdown = styled.div`
   cursor: pointer;
 
-  & > span {
-    margin-right: 0.4rem;
+  & > div {
+    cursor: pointer;
+    & > span {
+      margin-right: 0.4rem;
 
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 140%;
-    letter-spacing: -0.02em;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 140%;
+      letter-spacing: -0.02em;
+    }
   }
 `;
 
