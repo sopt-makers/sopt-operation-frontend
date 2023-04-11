@@ -15,6 +15,7 @@ import {
   StHeader,
   StMain,
   StPartSelector,
+  StSelectedPart,
   StSessionSelector,
   StTitle,
   StWrapper,
@@ -58,6 +59,11 @@ function CreateSessionModal() {
     }
   }, [selectedSessionIndex]);
 
+  function handlePartSelection(selectedPart: string) {
+    setPart(selectedPart);
+    setIsDropdownOn(false);
+  }
+
   return (
     <>
       <StWrapper>
@@ -70,10 +76,16 @@ function CreateSessionModal() {
         </StHeader>
         <StMain>
           <StPartSelector onClick={() => setIsDropdownOn(!isDropdownOn)}>
-            <span>{part}</span>
-            <IcDropdown color="#8040FF" />
+            <StSelectedPart
+              textColor={part === '파트선택' ? '#606265' : '#8040FF'}>
+              {part}
+            </StSelectedPart>
+            <IcDropdown color={part === '파트선택' ? '#606265' : '#8040FF'} />
           </StPartSelector>
-          {isDropdownOn && <DropDown list={PART_LIST} />}
+          {isDropdownOn && (
+            <DropDown list={PART_LIST} onItemSelected={handlePartSelection} />
+          )}
+
           <StFormSection>
             <article>
               <div className="form_container">

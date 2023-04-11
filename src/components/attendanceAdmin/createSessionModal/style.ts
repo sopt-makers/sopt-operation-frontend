@@ -46,15 +46,15 @@ export const StPartSelector = styled.div`
   line-height: 140%;
   letter-spacing: -0.02em;
 
-  & > span {
-    padding-right: 0.4rem;
-
-    color: ${({ theme }) => theme.color.main.purple100};
-    cursor: pointer;
-  }
   & > svg {
     cursor: pointer;
   }
+`;
+
+export const StSelectedPart = styled.span<{ textColor: string }>`
+  cursor: pointer;
+  padding-right: 0.4rem;
+  color: ${({ textColor }) => textColor};
 `;
 
 export const StFormSection = styled.section`
