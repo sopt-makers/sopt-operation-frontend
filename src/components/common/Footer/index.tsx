@@ -11,7 +11,9 @@ function Footer(props: Props) {
 
   return (
     <StFooterWrap>
-      <StFooter>{children}</StFooter>
+      <StFooter>
+        <div>{children}</div>
+      </StFooter>
     </StFooterWrap>
   );
 }
