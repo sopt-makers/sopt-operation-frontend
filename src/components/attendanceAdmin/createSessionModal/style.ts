@@ -176,11 +176,19 @@ export const StFormLayout = styled.div`
 `;
 
 export const StFooter = styled.footer`
+  display: flex;
+  justify-content: space-between;
+
   padding: 2.9rem 4rem;
 
   background-color: ${({ theme }) => theme.color.grayscale.gray20};
 
   border-radius: 0 0 1.2rem 1.2rem;
+
+  & > article {
+    display: flex;
+    gap: 1.2rem;
+  }
 `;
 
 export const StSessionSelector = styled.article`

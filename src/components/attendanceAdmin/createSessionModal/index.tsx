@@ -5,6 +5,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
+import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
 
@@ -155,6 +156,10 @@ function CreateSessionModal({ onClose }: Props) {
             </React.Fragment>
           ))}
         </StSessionSelector>
+        <article>
+          <Button type={'button'} text="취소하기" onClick={onClose} />
+          <Button type={'submit'} text="세션 생성하기" />
+        </article>
       </StFooter>
     </>
   );
