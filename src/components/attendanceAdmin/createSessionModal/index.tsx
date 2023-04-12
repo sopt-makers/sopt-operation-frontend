@@ -8,6 +8,7 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
+import { partList, sessionType } from '@/utils/session';
 
 import {
   StFooter,
@@ -21,23 +22,6 @@ import {
   StTitle,
   StWrapper,
 } from './style';
-
-const SESSION_TYPE = [
-  {
-    session: '세미나',
-    desc: '미 출석시 출석점수 감점',
-  },
-  {
-    session: '행사',
-    desc: '출석 시 0.5점 부여',
-  },
-  {
-    session: '기타',
-    desc: '출석 점수 미반영',
-  },
-];
-
-const PART_LIST = ['전체', '기획', '디자인', '서버', 'IOS', '안드로이드', '웹'];
 
 type Props = {
   onClose: () => void;
@@ -57,7 +41,7 @@ function CreateSessionModal({ onClose }: Props) {
     if (selectedSessionIndex !== -1) {
       console.log(
         '현재 체크된 세션 값:',
-        SESSION_TYPE[selectedSessionIndex].session,
+        sessionType[selectedSessionIndex].session,
       );
     } else {
       console.log('현재 체크된 세션 값: 없음');
@@ -88,7 +72,7 @@ function CreateSessionModal({ onClose }: Props) {
             <IcDropdown color={part === '파트선택' ? '#606265' : '#8040FF'} />
           </StPartSelector>
           {isDropdownOn && (
-            <DropDown list={PART_LIST} onItemSelected={handlePartSelection} />
+            <DropDown list={partList} onItemSelected={handlePartSelection} />
           )}
 
           <StFormSection>
@@ -139,7 +123,7 @@ function CreateSessionModal({ onClose }: Props) {
       </StWrapper>
       <StFooter>
         <StSessionSelector>
-          {SESSION_TYPE.map((type, index) => (
+          {sessionType.map((type, index) => (
             <React.Fragment key={index}>
               <IcCheckBox
                 isChecked={selectedSessionIndex === index}
