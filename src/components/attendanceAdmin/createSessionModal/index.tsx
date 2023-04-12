@@ -38,14 +38,18 @@ const SESSION_TYPE = [
 
 const PART_LIST = ['전체', '기획', '디자인', '서버', 'IOS', '안드로이드', '웹'];
 
-function CreateSessionModal() {
+type Props = {
+  onClose: () => void;
+};
+
+function CreateSessionModal({ onClose }: Props) {
   const [selectedSessionIndex, setSelectedSessionIndex] = useState<number>(-1);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [part, setPart] = useState<string>('파트선택');
   const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(selectedDate);
+    console.log(`세션 실행 날짜 : ${selectedDate}`);
   }, [selectedDate]);
 
   useEffect(() => {
@@ -70,7 +74,7 @@ function CreateSessionModal() {
         <StHeader>
           <StTitle>
             <h1>세션 생성</h1>
-            <IcModalClose />
+            <IcModalClose onClick={onClose} />
           </StTitle>
           <h2>새로운 SOPT 세션을 생성합니다. 대상 파트를 선택해주세요.</h2>
         </StHeader>
