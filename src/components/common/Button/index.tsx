@@ -1,7 +1,7 @@
 import { StButton } from './style';
 
 export interface Props {
-  type: 'button' | 'submit' | 'passive';
+  type: 'button' | 'submit';
   text: string;
   onClick?: () => void;
   disabled?: boolean;

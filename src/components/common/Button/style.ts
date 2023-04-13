@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Props } from './index';
+
 export const StButton = styled.button<Pick<Props, 'type'>>`
   height: 4.8rem;
   padding: 1.6rem 2.4rem;
@@ -30,7 +31,6 @@ export const StButton = styled.button<Pick<Props, 'type'>>`
         `
       : css`
           background-color: ${theme.color.grayscale.gray30};
-          border: 1px solid ${theme.color.grayscale.gray30};
           color: ${theme.color.grayscale.white100};
         `};
 `;

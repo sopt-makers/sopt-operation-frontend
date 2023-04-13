@@ -41,7 +41,7 @@ function CreateSessionModal({ onClose }: Props) {
   const [isStartTimeOpen, setIsStartTimeOpen] = useState<boolean>(false);
   const [isEndTimeOpen, setIsEndTimeOpen] = useState<boolean>(false);
 
-  const [buttonType, setButtonType] = useState<'passive' | 'submit'>('passive');
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
 
   useEffect(() => {
     if (
@@ -53,9 +53,9 @@ function CreateSessionModal({ onClose }: Props) {
       endTime &&
       selectedSessionIndex !== -1
     ) {
-      setButtonType('submit');
+      setButtonDisabled(false);
     } else {
-      setButtonType('passive');
+      setButtonDisabled(true);
     }
   }, [
     part,
@@ -236,9 +236,10 @@ function CreateSessionModal({ onClose }: Props) {
         <article>
           <Button type={'button'} text="취소하기" onClick={onClose} />
           <Button
-            type={buttonType}
+            type={'submit'}
             text="세션 생성하기"
-            onClick={() => buttonType === 'submit' && handleSubmit()}
+            onClick={() => !buttonDisabled && handleSubmit()}
+            disabled={buttonDisabled}
           />
         </article>
       </StFooter>
