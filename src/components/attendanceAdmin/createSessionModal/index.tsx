@@ -68,12 +68,16 @@ function CreateSessionModal({ onClose }: Props) {
   ]);
 
   const handleSubmit = () => {
-    console.log(`세션 대상 파트 : ${part}`);
-    console.log(`세션 이름 : ${sessionName}`);
-    console.log(`세션 장소 : ${sessionLocation}`);
-    console.log(`세션 시작 시간 : ${date} ${startTime}`);
-    console.log(`세션 종료 시간 : ${date} ${endTime}`);
-    console.log(`세션 타입 : ${sessionType[selectedSessionIndex].session}`);
+    const submitContents = {
+      part: part,
+      name: sessionName,
+      place: sessionLocation,
+      startTime: `${date} ${startTime}`,
+      endTime: `${date} ${endTime}`,
+      attribute: sessionType[selectedSessionIndex].session,
+    };
+
+    console.log(submitContents);
   };
 
   const handlePartSelection = (selectedPart: string) => {
