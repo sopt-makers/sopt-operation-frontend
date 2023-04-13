@@ -117,6 +117,7 @@ export const StFormSection = styled.section`
 
 export const StFormLayout = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   width: 100%;
@@ -125,6 +126,18 @@ export const StFormLayout = styled.div`
   border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
+
+  cursor: pointer;
+
+  & > span {
+    padding: 1.4rem;
+
+    color: ${({ theme }) => theme.color.grayscale.black40};
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.02em;
+  }
 
   & > input {
     width: 100%;

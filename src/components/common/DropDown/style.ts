@@ -1,13 +1,24 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const DropdownWrapper = styled.div`
+import { Props } from './index';
+
+export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
   position: absolute;
 
   width: 10rem;
   height: auto;
+  max-height: 32.1rem;
 
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
   border-radius: 1.3rem;
+
+  ${({ type }) =>
+    type === 'times' &&
+    css`
+      overflow: scroll;
+      margin-top: 7rem;
+    `}
 
   background: ${({ theme }) => theme.color.grayscale.white100};
 

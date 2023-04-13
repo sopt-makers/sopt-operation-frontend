@@ -22,3 +22,10 @@ export const partList = [
   '안드로이드',
   '웹',
 ];
+
+export const times: string[] = [];
+
+for (let i = 0; i < 24; i++) {
+  const hour = i < 10 ? `0${i}` : `${i}`;
+  times.push(`${hour}:00`);
+}

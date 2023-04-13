@@ -1,12 +1,13 @@
 import { DropdownWrapper } from './style';
 
-interface Props {
+export interface Props {
+  type: 'select' | 'times';
   list: string[];
   onItemSelected?: (value: string) => void;
 }
 
 function DropDown(props: Props) {
-  const { list, onItemSelected } = props;
+  const { type, list, onItemSelected } = props;
 
   function handleClick(item: string) {
     if (onItemSelected) {
@@ -15,7 +16,7 @@ function DropDown(props: Props) {
   }
 
   return (
-    <DropdownWrapper>
+    <DropdownWrapper type={type}>
       <div>
         {list.map((list) => (
           <p key={list} onClick={() => handleClick(list)}>

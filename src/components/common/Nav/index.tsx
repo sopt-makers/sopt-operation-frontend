@@ -34,7 +34,7 @@ function Nav() {
             <span>{generation}기</span>
             <IcDropDown />
           </div>
-          {isDropdownOn && <DropDown list={GENERATION_LIST} />}
+          {isDropdownOn && <DropDown list={GENERATION_LIST} type={'select'} />}
         </StGenerationDropdown>
       </header>
       {MENU_LIST.map((menu) => (

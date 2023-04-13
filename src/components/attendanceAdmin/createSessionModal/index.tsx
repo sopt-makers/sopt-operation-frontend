@@ -8,7 +8,7 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
-import { partList, sessionType } from '@/utils/session';
+import { partList, sessionType, times } from '@/utils/session';
 
 import {
   StFooter,
@@ -28,30 +28,68 @@ type Props = {
 };
 
 function CreateSessionModal({ onClose }: Props) {
-  const [selectedSessionIndex, setSelectedSessionIndex] = useState<number>(-1);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [part, setPart] = useState<string>('파트선택');
-  const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
+  const [sessionName, setSessionName] = useState<string>('');
+  const [sessionLocation, setSessionLocation] = useState<string>('');
+  const [date, setDate] = useState<string>('');
+  const [startTime, setStartTime] = useState<string>('14:00');
+  const [endTime, setEndTime] = useState<string>('18:00');
+  const [selectedSessionIndex, setSelectedSessionIndex] = useState<number>(-1);
 
-  useEffect(() => {
-    console.log(`세션 실행 날짜 : ${selectedDate}`);
-  }, [selectedDate]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isPartOpen, setIsPartOpen] = useState<boolean>(false);
+  const [isStartTimeOpen, setIsStartTimeOpen] = useState<boolean>(false);
+  const [isEndTimeOpen, setIsEndTimeOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (selectedSessionIndex !== -1) {
-      console.log(
-        '현재 체크된 세션 값:',
-        sessionType[selectedSessionIndex].session,
-      );
-    } else {
-      console.log('현재 체크된 세션 값: 없음');
-    }
-  }, [selectedSessionIndex]);
+  const handleSubmit = () => {
+    console.log(`세션 대상 파트 : ${part}`);
+    console.log(`세션 이름 : ${sessionName}`);
+    console.log(`세션 장소 : ${sessionLocation}`);
+    console.log(`세션 시작 시간 : ${date} ${startTime}`);
+    console.log(`세션 종료 시간 : ${date} ${endTime}`);
+    console.log(`세션 타입 : ${sessionType[selectedSessionIndex].session}`);
+  };
 
-  function handlePartSelection(selectedPart: string) {
+  const handlePartSelection = (selectedPart: string) => {
     setPart(selectedPart);
-    setIsDropdownOn(false);
-  }
+    setIsPartOpen(false);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    inputType: string,
+  ) => {
+    const value = e.target.value;
+
+    if (inputType === '세션 이름') {
+      setSessionName(value);
+    } else if (inputType === '세션 장소') {
+      setSessionLocation(value);
+    }
+  };
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+
+    if (date) {
+      const year = date.getFullYear();
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const day = ('0' + date.getDate()).slice(-2);
+
+      const formattedDate = `${year}/${month}/${day}`;
+      setDate(formattedDate);
+    }
+  };
+
+  const handleTimeSelection = (time: string, timeType: string) => {
+    if (timeType === 'startTime') {
+      setStartTime(time);
+      setIsStartTimeOpen(false);
+    } else if (timeType === 'endTime') {
+      setEndTime(time);
+      setIsEndTimeOpen(false);
+    }
+  };
 
   return (
     <>
@@ -64,29 +102,36 @@ function CreateSessionModal({ onClose }: Props) {
           <h2>새로운 SOPT 세션을 생성합니다. 대상 파트를 선택해주세요.</h2>
         </StHeader>
         <StMain>
-          <StPartSelector onClick={() => setIsDropdownOn(!isDropdownOn)}>
+          <StPartSelector onClick={() => setIsPartOpen(!isPartOpen)}>
             <StSelectedPart
               textColor={part === '파트선택' ? '#606265' : '#8040FF'}>
               {part}
             </StSelectedPart>
             <IcDropdown color={part === '파트선택' ? '#606265' : '#8040FF'} />
           </StPartSelector>
-          {isDropdownOn && (
-            <DropDown list={partList} onItemSelected={handlePartSelection} />
+          {isPartOpen && (
+            <DropDown
+              list={partList}
+              onItemSelected={handlePartSelection}
+              type={'select'}
+            />
           )}
-
           <StFormSection>
             <article>
               <div className="form_container">
                 <p>세션명</p>
                 <StFormLayout>
-                  <input placeholder="세션 이름을 입력해주세요"></input>
+                  <input
+                    placeholder="세션 이름을 입력해주세요"
+                    onChange={(e) => handleInputChange(e, '세션 이름')}></input>
                 </StFormLayout>
               </div>
               <div className="form_container">
                 <p>세션 장소</p>
                 <StFormLayout>
-                  <input placeholder="세션이 열리는 장소를 입력해주세요"></input>
+                  <input
+                    placeholder="세션이 열리는 장소를 입력해주세요"
+                    onChange={(e) => handleInputChange(e, '세션 장소')}></input>
                 </StFormLayout>
               </div>
             </article>
@@ -98,7 +143,7 @@ function CreateSessionModal({ onClose }: Props) {
                     placeholderText="세션 날짜를 선택해주세요"
                     dateFormat="yyyy/MM/dd"
                     selected={selectedDate}
-                    onChange={(date: Date | null) => setSelectedDate(date)}
+                    onChange={handleDateChange}
                   />
                   <IcDropdown color="#3C3D40" />
                 </StFormLayout>
@@ -106,15 +151,37 @@ function CreateSessionModal({ onClose }: Props) {
               <div className="input_time">
                 <div className="form_container">
                   <p>시작 시각</p>
-                  <StFormLayout>
+                  <StFormLayout
+                    onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}>
+                    <span>{startTime}</span>
                     <IcDropdown color="#3C3D40" />
                   </StFormLayout>
+                  {isStartTimeOpen && (
+                    <DropDown
+                      list={times}
+                      type={'times'}
+                      onItemSelected={(time: string) =>
+                        handleTimeSelection(time, 'startTime')
+                      }
+                    />
+                  )}
                 </div>
                 <div className="form_container">
                   <p>종료 시각</p>
-                  <StFormLayout>
+                  <StFormLayout
+                    onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}>
+                    <span>{endTime}</span>
                     <IcDropdown color="#3C3D40" />
                   </StFormLayout>
+                  {isEndTimeOpen && (
+                    <DropDown
+                      list={times}
+                      type={'times'}
+                      onItemSelected={(time: string) =>
+                        handleTimeSelection(time, 'endTime')
+                      }
+                    />
+                  )}
                 </div>
               </div>
             </article>
@@ -142,7 +209,7 @@ function CreateSessionModal({ onClose }: Props) {
         </StSessionSelector>
         <article>
           <Button type={'button'} text="취소하기" onClick={onClose} />
-          <Button type={'submit'} text="세션 생성하기" />
+          <Button type={'submit'} text="세션 생성하기" onClick={handleSubmit} />
         </article>
       </StFooter>
     </>
