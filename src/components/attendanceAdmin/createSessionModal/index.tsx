@@ -29,9 +29,9 @@ type Props = {
 
 function CreateSessionModal({ onClose }: Props) {
   const [part, setPart] = useState<string>('파트선택');
-  const [sessionName, setSessionName] = useState<string>('');
-  const [sessionLocation, setSessionLocation] = useState<string>('');
-  const [date, setDate] = useState<string>('');
+  const [sessionName, setSessionName] = useState<string>();
+  const [sessionLocation, setSessionLocation] = useState<string>();
+  const [date, setDate] = useState<string>();
   const [startTime, setStartTime] = useState<string>('14:00');
   const [endTime, setEndTime] = useState<string>('18:00');
   const [selectedSessionIndex, setSelectedSessionIndex] = useState<number>(-1);
@@ -40,6 +40,32 @@ function CreateSessionModal({ onClose }: Props) {
   const [isPartOpen, setIsPartOpen] = useState<boolean>(false);
   const [isStartTimeOpen, setIsStartTimeOpen] = useState<boolean>(false);
   const [isEndTimeOpen, setIsEndTimeOpen] = useState<boolean>(false);
+
+  const [buttonType, setButtonType] = useState<'passive' | 'submit'>('passive');
+
+  useEffect(() => {
+    if (
+      part !== '파트선택' &&
+      sessionName &&
+      sessionLocation &&
+      date &&
+      startTime &&
+      endTime &&
+      selectedSessionIndex !== -1
+    ) {
+      setButtonType('submit');
+    } else {
+      setButtonType('passive');
+    }
+  }, [
+    part,
+    sessionName,
+    sessionLocation,
+    date,
+    startTime,
+    endTime,
+    selectedSessionIndex,
+  ]);
 
   const handleSubmit = () => {
     console.log(`세션 대상 파트 : ${part}`);
@@ -209,7 +235,11 @@ function CreateSessionModal({ onClose }: Props) {
         </StSessionSelector>
         <article>
           <Button type={'button'} text="취소하기" onClick={onClose} />
-          <Button type={'submit'} text="세션 생성하기" onClick={handleSubmit} />
+          <Button
+            type={buttonType}
+            text="세션 생성하기"
+            onClick={() => buttonType === 'submit' && handleSubmit()}
+          />
         </article>
       </StFooter>
     </>
