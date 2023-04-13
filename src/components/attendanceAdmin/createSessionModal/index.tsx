@@ -75,8 +75,9 @@ function CreateSessionModal({ onClose }: Props) {
       startTime: `${date} ${startTime}`,
       endTime: `${date} ${endTime}`,
       attribute: sessionType[selectedSessionIndex].session,
+      generation: 32,
     };
-
+    onClose();
     console.log(submitContents);
   };
 
