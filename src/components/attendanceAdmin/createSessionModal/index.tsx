@@ -8,7 +8,13 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
-import { partList, sessionType, times } from '@/utils/session';
+import {
+  partList,
+  partTranslator,
+  sessionTranslator,
+  sessionType,
+  times,
+} from '@/utils/session';
 
 import {
   StFooter,
@@ -68,13 +74,17 @@ function CreateSessionModal({ onClose }: Props) {
   ]);
 
   const handleSubmit = () => {
+    const translatedPart = partTranslator[part];
+    const translatedAttribute =
+      sessionTranslator[sessionType[selectedSessionIndex].session];
+
     const submitContents = {
-      part: part,
+      part: translatedPart,
       name: sessionName,
       place: sessionLocation,
       startTime: `${date} ${startTime}`,
       endTime: `${date} ${endTime}`,
-      attribute: sessionType[selectedSessionIndex].session,
+      attribute: translatedAttribute,
       generation: 32,
     };
     onClose();
@@ -243,7 +253,7 @@ function CreateSessionModal({ onClose }: Props) {
           <Button
             type={'submit'}
             text="세션 생성하기"
-            onClick={() => !buttonDisabled && handleSubmit()}
+            onClick={() => handleSubmit()}
             disabled={buttonDisabled}
           />
         </article>

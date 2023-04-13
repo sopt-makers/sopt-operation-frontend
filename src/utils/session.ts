@@ -13,6 +13,12 @@ export const sessionType = [
   },
 ];
 
+export const sessionTranslator: Record<string, SESSION_TYPE> = {
+  세미나: 'SEMINAR',
+  행사: 'EVENT',
+  기타: 'ETC',
+};
+
 export const partList = [
   '전체',
   '기획',
@@ -22,6 +28,16 @@ export const partList = [
   '안드로이드',
   '웹',
 ];
+
+export const partTranslator: Record<string, PART> = {
+  전체: 'ALL',
+  기획: 'PLAN',
+  디자인: 'DESIGN',
+  서버: 'SERVER',
+  IOS: 'IOS',
+  안드로이드: 'ANDROID',
+  웹: 'WEB',
+};
 
 export const times: string[] = [];
 
