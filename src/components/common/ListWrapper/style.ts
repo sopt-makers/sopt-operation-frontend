@@ -28,6 +28,7 @@ export const StList = styled.table`
       border-bottom: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
     }
     & > td:first-of-type {
+      /* padding: 0 4rem; */
       border-top-left-radius: 1rem;
       border-bottom-left-radius: 1rem;
       border: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
