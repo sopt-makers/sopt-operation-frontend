@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import { IcNavMenu } from '@/assets/icons';
@@ -12,12 +13,19 @@ import {
 } from './style';
 
 function Nav() {
+  const router = useRouter();
+
   const MENU_LIST = [
     {
       title: '출석 관리',
       subMenu: ['출석 세션', '출석 총점'],
+      path: ['/attendanceAdmin/session', '/attendanceAdmin/totalScore'],
     },
   ];
+
+  const handleSubMenuClick = (path: string) => {
+    router.push(path);
+  };
 
   return (
     <StNavWrapper>
@@ -37,8 +45,12 @@ function Nav() {
             </p>
           </StMenu>
           {menu.subMenu &&
-            menu.subMenu.map((subMenu) => (
-              <StSubMenu key={subMenu}>{subMenu}</StSubMenu>
+            menu.subMenu.map((subMenu, i) => (
+              <StSubMenu
+                key={subMenu}
+                onClick={() => handleSubMenuClick(menu.path[i])}>
+                {subMenu}
+              </StSubMenu>
             ))}
         </React.Fragment>
       ))}

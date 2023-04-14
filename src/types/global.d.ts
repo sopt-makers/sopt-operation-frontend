@@ -3,6 +3,12 @@ declare global {
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
 
+  /* 에러 */
+  interface ProjectError {
+    success: boolean;
+    message: string;
+  }
+
   /* 회원 정보 */
   interface Attendance {
     round: number;
@@ -26,17 +32,23 @@ declare global {
     attribute: SESSION_TYPE;
   }
   interface Lecture {
-    name: string;
-    partValue: PART;
-    partName: string;
-    date: string; // yyyy/MM/dd
-    attribute: SESSION_TYPE;
-    attributeName: string;
-    status: {
-      attendance: number;
-      absent: number;
-      tardy: number;
-      unknown: number;
+    data: {
+      generation: number;
+      lectures: {
+        lectureId: number;
+        name: string;
+        partValue: PART;
+        partName: string;
+        date: string; // yyyy/MM/dd
+        attribute: SESSION_TYPE;
+        attributeName: string;
+        status: {
+          attendance: number;
+          absent: number;
+          tardy: number;
+          unknown: number;
+        };
+      };
     };
   }
   interface Session {
@@ -55,6 +67,18 @@ declare global {
   interface User {
     id: number;
     name: string;
+  }
+
+  /* 로그인 */
+  interface AuthHeader {
+    Authorization: string;
+  }
+  interface LoginData {
+    email: string;
+    password: string;
+  }
+  interface LoginRes extends User {
+    accessToken: string;
   }
 }
 

@@ -1,13 +1,15 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
 import ListWrapper from '@/components/common/ListWrapper';
-import { attendanceInit, sessionDetailDummy } from '@/data/sessionData';
-import { getSessionList } from '@/services/api/user/user';
+import { getSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
-
+import { getToken } from '@/utils/auth';
 function SessionPage() {
+  const router = useRouter();
+
   const HEADER_LABELS = [
     '순번',
     '파트',
@@ -22,20 +24,21 @@ function SessionPage() {
   ];
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [lectureData, setLectureData] = useState<Lecture | null>(null); // lectureData 상태 추가
+  const [lectureData, setLectureData] = useState<Lecture['lectures']>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getSessionList();
-      console.log(data);
-      setLectureData(data);
+      const accessToken = getToken('ACCESS');
+      const authHeader = { Authorization: `${accessToken}` };
+      const response = await getSessionList(32, authHeader);
+      const lecturesData = response?.data.lectures;
+      setLectureData(lecturesData);
     };
-
     fetchData();
   }, []);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const handleManageClick = (lectureId: number) => {
+    router.push(`/attendanceAdmin/session/${lectureId}`);
   };
 
   return (
@@ -49,26 +52,32 @@ function SessionPage() {
           </tr>
         </thead>
         <tbody>
-          {sessionDetailDummy.members.map((member, index) => {
+          {lectureData.map((lecture, index) => {
             return (
-              <tr key={`${member.name}-${member.university}`}>
+              <tr key={lecture.lectureId}>
                 <td>{precision(index + 1, 2)}</td>
-                <td>전체</td>
-                <td>세미나</td>
-                <td>00차 세미나</td>
-                <td>2023/00/00</td>
-                <td>000</td>
-                <td>000</td>
-                <td>000</td>
-                <td>000</td>
-                <td>관리</td>
+                <td>{lecture.partName}</td>
+                <td>{lecture.attributeName}</td>
+                <td>{lecture.name}</td>
+                <td>{lecture.date}</td>
+                <td>{lecture.status.attendance}</td>
+                <td>{lecture.status.tardy}</td>
+                <td>{lecture.status.absent}</td>
+                <td>{lecture.status.unknown}</td>
+                <td onClick={() => handleManageClick(lecture.lectureId)}>
+                  관리
+                </td>
               </tr>
             );
           })}
         </tbody>
       </ListWrapper>
       <Footer>
-        <Button onClick={toggleModal} type={'submit'} text={'세션 생성하기'} />
+        <Button
+          onClick={() => setIsModalOpen(!isModalOpen)}
+          type={'submit'}
+          text={'세션 생성하기'}
+        />
       </Footer>
     </>
   );
