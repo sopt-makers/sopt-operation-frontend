@@ -1,11 +1,11 @@
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 import { client } from '@/services/api/client';
 import { setToken } from '@/utils/auth';
 
 export const userLogin = async (
   loginData: LoginData,
-): Promise<User | string> => {
+): Promise<User | ProjectError> => {
   try {
     const { data }: AxiosResponse<LoginRes> = await client.post(
       '/auth/login',
@@ -16,7 +16,10 @@ export const userLogin = async (
 
     return user;
   } catch (e) {
-    console.log(e);
-    return '';
+    if (e instanceof AxiosError) {
+      return e.response?.data;
+    } else {
+      return { success: false, message: '알 수 없는 에러입니다' };
+    }
   }
 };

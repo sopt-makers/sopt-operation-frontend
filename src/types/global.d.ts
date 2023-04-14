@@ -5,6 +5,12 @@ declare global {
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
 
+  /* 에러 */
+  interface ProjectError {
+    success: boolean;
+    message: string;
+  }
+
   /* 회원 정보 */
   interface Attendance {
     round: number;
