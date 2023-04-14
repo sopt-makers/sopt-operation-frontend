@@ -56,8 +56,12 @@ function SessionPage() {
             return (
               <tr key={lecture.lectureId}>
                 <td>{precision(index + 1, 2)}</td>
-                <td>{lecture.partName}</td>
-                <td>{lecture.attributeName}</td>
+                <td>
+                  <span className="part">{lecture.partName}</span>
+                </td>
+                <td>
+                  <span className="session">{lecture.attributeName}</span>
+                </td>
                 <td>{lecture.name}</td>
                 <td>{lecture.date}</td>
                 <td>{lecture.status.attendance}</td>
