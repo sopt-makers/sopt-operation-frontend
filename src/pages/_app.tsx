@@ -5,7 +5,6 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 
 import Layout from '@/components/common/Layout';
-import Nav from '@/components/common/Nav';
 import global from '@/styles/global';
 import theme from '@/styles/theme';
 

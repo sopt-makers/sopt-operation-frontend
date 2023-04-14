@@ -1,3 +1,5 @@
+import { AxiosHeaders } from 'axios';
+
 declare global {
   type ATTEND_STATUS = 'ATTENDANCE' | 'ABSENT' | 'TARDY';
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
@@ -55,6 +57,18 @@ declare global {
   interface User {
     id: number;
     name: string;
+  }
+
+  /* 로그인 */
+  interface AuthHeader {
+    Authorization: string;
+  }
+  interface LoginData {
+    email: string;
+    password: string;
+  }
+  interface LoginRes extends User {
+    accessToken: string;
   }
 }
 
