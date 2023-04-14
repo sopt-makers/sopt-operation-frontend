@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import Button from '@/components/common/Button';
+import Loading from '@/components/common/Loading';
 import useInput from '@/hooks/useInput';
 import { userLogin } from '@/services/api/auth';
 import { user as userState } from '@/store/globalStore';
@@ -19,6 +20,7 @@ function LoginPage() {
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (getToken('ACCESS')) {
@@ -28,7 +30,9 @@ function LoginPage() {
 
   const onSubmit = async () => {
     if (state.email && state.password) {
+      setIsLoading(true);
       const result = await userLogin(state);
+      setIsLoading(false);
 
       if ('success' in result) {
         alert(result.message);
@@ -64,6 +68,7 @@ function LoginPage() {
         />
         <Button type="submit" text="로그인" onClick={onSubmit} />
       </StyledLogin>
+      {isLoading && <Loading />}
     </>
   );
 }
