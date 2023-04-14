@@ -1,4 +1,4 @@
-const API_URL = 'https://operation-api.sopt.org/api';
+const API_URL = 'https://operation.api.dev.sopt.org/api/v1';
 const CLIENT_URL = 'https://operation.sopt.org';
 
 const config = {
