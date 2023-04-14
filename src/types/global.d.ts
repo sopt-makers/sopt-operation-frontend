@@ -1,5 +1,3 @@
-import { AxiosHeaders } from 'axios';
-
 declare global {
   type ATTEND_STATUS = 'ATTENDANCE' | 'ABSENT' | 'TARDY';
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
