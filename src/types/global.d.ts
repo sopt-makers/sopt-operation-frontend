@@ -16,10 +16,19 @@ declare global {
     date: string;
   }
   interface Member {
-    name: string;
-    university: string;
-    attendances: Attendance[];
-    score: number;
+    data: {
+      id: number;
+      name: string;
+      university: string;
+      part: string;
+      score: number;
+      total: {
+        attendance: string;
+        absent: string;
+        tardy: string;
+        participate: string;
+      };
+    };
   }
 
   /* 출석 세션 */
