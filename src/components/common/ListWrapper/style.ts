@@ -26,29 +26,16 @@ export const StList = styled.table`
       background-color: ${({ theme }) => theme.color.grayscale.white100};
       border-top: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
       border-bottom: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
-
-      & > span {
-        padding: 0.4rem 1.1rem;
-        color: ${({ theme }) => theme.color.grayscale.white100};
-        border-radius: 0.4rem;
-      }
-      & > span.part {
-        background-color: ${({ theme }) => theme.color.grayscale.gray100};
-      }
-      & > span.session {
-        color: ${({ theme }) => theme.color.grayscale.white100};
-        background-color: ${({ theme }) => theme.color.main.purple100};
-      }
     }
 
     & > td:first-of-type {
-      /* padding: 0 4rem; */
       border-top-left-radius: 1rem;
       border-bottom-left-radius: 1rem;
       border: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
       border-right: none;
     }
     & > td:last-of-type {
+      cursor: pointer;
       border-top-right-radius: 1rem;
       border-bottom-right-radius: 1rem;
       border: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};

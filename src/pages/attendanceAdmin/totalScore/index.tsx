@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import ListWrapper from '@/components/common/ListWrapper';
 import PartFilter from '@/components/common/PartFilter';
-import { attendanceInit, sessionDetailDummy } from '@/data/sessionData';
 import { getMemberList } from '@/services/api/member';
 import { precision } from '@/utils';
 import { getToken } from '@/utils/auth';
+import { getPartValue, partTranslator } from '@/utils/session';
 
 function TotalScorePage() {
   const HEADER_LABELS = [
@@ -51,13 +51,15 @@ function TotalScorePage() {
           </tr>
         </thead>
         <tbody>
-          {memberData.map((member, index) => {
+          {memberData?.map((member, index) => {
+            const partNameInKorean =
+              getPartValue(partTranslator, member.part) || member.part;
             return (
               <tr key={`${member.name}-${member.university}`}>
                 <td>{precision(index + 1, 2)}</td>
                 <td>{member.name}</td>
                 <td>{member.university}</td>
-                <td>{member.part}</td>
+                <td>{partNameInKorean}</td>
                 <td>{member.score}</td>
                 <td>{member.total.attendance}</td>
                 <td>{member.total.tardy}</td>
