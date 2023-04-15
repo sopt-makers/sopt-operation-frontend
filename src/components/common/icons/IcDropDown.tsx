@@ -22,7 +22,6 @@ function IcDropdown(props: Props) {
       case 'UP':
         return 'rotate(-90deg)';
       case 'DOWN':
-        return 'rotate(180deg)';
       default:
         return 'rotate(0deg)';
     }
@@ -32,6 +31,7 @@ function IcDropdown(props: Props) {
     <svg
       width={width}
       height={height}
+      style={{ transform: rotate() }}
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 
 import Header from '@/components/common/Header';
@@ -12,6 +13,9 @@ interface Props {
 function Layout(props: Props) {
   const { children } = props;
 
+  const router = useRouter();
+
+  if (router.pathname === '/') return <>{children}</>;
   return (
     <StLayout>
       <Nav />
