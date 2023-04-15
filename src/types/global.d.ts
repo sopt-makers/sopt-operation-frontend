@@ -25,11 +25,12 @@ declare global {
   /* 출석 세션 */
   interface SessionBase {
     part: PART;
-    name: string;
-    place: string;
+    name: string | undefined;
+    place: string | undefined;
     startTime: string; // yyyy/MM/dd HH:mm
     endTime: string; // yyyy/MM/dd HH:mm
     attribute: SESSION_TYPE;
+    generation: number;
   }
   interface Lecture {
     name: string;
