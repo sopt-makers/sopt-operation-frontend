@@ -1,23 +1,16 @@
 import { AxiosResponse } from 'axios';
 
 import { client } from '@/services/api/client';
-
 export const postNewSession = async (
   sessionData: SessionBase,
   authHeader: AuthHeader,
-): Promise<SessionBase | null> => {
+): Promise<void> => {
   try {
-    const { data }: AxiosResponse<SessionBase> = await client.post(
-      '/lectures',
-      sessionData,
-      { headers: { ...authHeader } },
-    );
-    return data;
+    await client.post('/lectures', sessionData, { headers: { ...authHeader } });
   } catch (e) {
-    return null;
+    console.error('Error posting new session:', e);
   }
 };
-
 export const getSessionDetail = async (
   lectureId: number,
   part: PART,

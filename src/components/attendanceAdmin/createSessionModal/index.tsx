@@ -86,11 +86,12 @@ function CreateSessionModal({ onClose }: Props) {
       part: translatedPart,
       name: sessionName,
       place: sessionLocation,
-      startTime: `${date} ${startTime}`,
-      endTime: `${date} ${endTime}`,
+      startDate: `${date} ${startTime}`,
+      endDate: `${date} ${endTime}`,
       attribute: translatedAttribute,
       generation: 32,
     };
+    console.log(submitContents);
     await postNewSession(submitContents, authHeader);
     onClose();
   };
