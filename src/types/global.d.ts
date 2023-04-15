@@ -16,18 +16,16 @@ declare global {
     date: string;
   }
   interface Member {
-    data: {
-      id: number;
-      name: string;
-      university: string;
-      part: string;
-      score: number;
-      total: {
-        attendance: string;
-        absent: string;
-        tardy: string;
-        participate: string;
-      };
+    id: number;
+    name: string;
+    university: string;
+    part: string;
+    score: number;
+    total: {
+      attendance: string;
+      absent: string;
+      tardy: string;
+      participate: string;
     };
   }
 

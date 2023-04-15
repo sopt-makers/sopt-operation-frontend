@@ -52,19 +52,21 @@ function TotalScorePage() {
         </thead>
         <tbody>
           {memberData?.map((member, index) => {
-            const partNameInKorean =
-              getPartValue(partTranslator, member.part) || member.part;
+            const { part, name, university, score, total } = member;
+            const { attendance, tardy, absent, participate } = total;
+
+            const partNameInKorean = getPartValue(partTranslator, part) || part;
             return (
-              <tr key={`${member.name}-${member.university}`}>
+              <tr key={`${name}-${university}`}>
                 <td>{precision(index + 1, 2)}</td>
-                <td>{member.name}</td>
-                <td>{member.university}</td>
+                <td>{name}</td>
+                <td>{university}</td>
                 <td>{partNameInKorean}</td>
-                <td>{member.score}</td>
-                <td>{member.total.attendance}</td>
-                <td>{member.total.tardy}</td>
-                <td>{member.total.absent}</td>
-                <td>{member.total.participate}</td>
+                <td>{score}</td>
+                <td>{attendance}</td>
+                <td>{tardy}</td>
+                <td>{absent}</td>
+                <td>{participate}</td>
                 <td>조회</td>
               </tr>
             );

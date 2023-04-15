@@ -56,23 +56,27 @@ function SessionList() {
       </thead>
       <tbody>
         {lectureData.map((lecture, index) => {
+          const { lectureId, partName, attributeName, name, date, status } =
+            lecture;
+          const { attendance, tardy, absent, unknown } = status;
           const partNameInKorean =
-            getPartValue(partTranslator, lecture.partName) || lecture.partName;
+            getPartValue(partTranslator, partName) || partName;
+
           return (
-            <tr key={lecture.lectureId}>
+            <tr key={lectureId}>
               <td>{precision(index + 1, 2)}</td>
               <td>
                 <StPartIndicator>{partNameInKorean}</StPartIndicator>
               </td>
               <td>
-                <StSessionIndicator>{lecture.attributeName}</StSessionIndicator>
+                <StSessionIndicator>{attributeName}</StSessionIndicator>
               </td>
-              <td>{lecture.name}</td>
-              <td>{lecture.date}</td>
-              <td>{lecture.status.attendance}</td>
-              <td>{lecture.status.tardy}</td>
-              <td>{lecture.status.absent}</td>
-              <td>{lecture.status.unknown}</td>
+              <td>{name}</td>
+              <td>{date}</td>
+              <td>{attendance}</td>
+              <td>{tardy}</td>
+              <td>{absent}</td>
+              <td>{unknown}</td>
               <td onClick={() => handleManageClick(lecture.lectureId)}>
                 <IcManageBtn />
               </td>
