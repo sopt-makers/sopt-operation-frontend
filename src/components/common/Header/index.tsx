@@ -1,17 +1,27 @@
 import { useRouter } from 'next/router';
 
 import { IcGoPrev } from '@/assets/icons';
+import { destroyToken } from '@/utils/auth';
 
 import { StHeader } from './style';
 
 function Header() {
   const router = useRouter();
+
+  const logout = () => {
+    destroyToken('ACCESS');
+    router.replace('/');
+  };
+
   return (
     <StHeader>
-      <div onClick={() => router.back()}>
+      <button onClick={() => router.back()}>
         <IcGoPrev />
         <p>이전</p>
-      </div>
+      </button>
+      <button className="logout" onClick={logout}>
+        <p>로그아웃</p>
+      </button>
     </StHeader>
   );
 }

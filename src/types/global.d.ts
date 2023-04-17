@@ -3,6 +3,12 @@ declare global {
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
 
+  /* 에러 */
+  interface ProjectError {
+    success: boolean;
+    message: string;
+  }
+
   /* 회원 정보 */
   interface Attendance {
     round: number;
@@ -55,6 +61,18 @@ declare global {
   interface User {
     id: number;
     name: string;
+  }
+
+  /* 로그인 */
+  interface AuthHeader {
+    Authorization: string;
+  }
+  interface LoginData {
+    email: string;
+    password: string;
+  }
+  interface LoginRes extends User {
+    accessToken: string;
   }
 }
 
