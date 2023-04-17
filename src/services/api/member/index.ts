@@ -4,7 +4,7 @@ import { client } from '@/services/api/client';
 
 export const getMemberList = async (
   generation: number,
-  part: PART,
+  part: string,
   authHeader: AuthHeader,
 ): Promise<Member | null> => {
   try {
