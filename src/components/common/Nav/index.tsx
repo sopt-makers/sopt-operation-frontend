@@ -1,8 +1,9 @@
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import React from 'react';
 
 import { IcNavMenu } from '@/assets/icons';
 
+import DropDown from '../DropDown';
 import IcDropDown from '../icons/IcDropDown';
 import {
   StGenerationDropdown,
@@ -11,6 +12,15 @@ import {
   StSoptLogo,
   StSubMenu,
 } from './style';
+
+const MENU_LIST = [
+  {
+    title: '출석 관리',
+    subMenu: ['출석 세션', '출석 총점'],
+  },
+];
+
+const GENERATION_LIST = ['32'];
 
 function Nav() {
   const router = useRouter();
@@ -22,6 +32,8 @@ function Nav() {
       path: ['/attendanceAdmin/session', '/attendanceAdmin/totalScore'],
     },
   ];
+  const [generation, setGeneration] = useState<string>(GENERATION_LIST[0]);
+  const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
   const handleSubMenuClick = (path: string) => {
     router.push(path);
@@ -32,8 +44,11 @@ function Nav() {
       <header>
         <StSoptLogo>SOPT</StSoptLogo>
         <StGenerationDropdown>
-          <span>32기</span>
-          <IcDropDown />
+          <div onClick={() => setIsDropdownOn(!isDropdownOn)}>
+            <span>{generation}기</span>
+            <IcDropDown />
+          </div>
+          {isDropdownOn && <DropDown list={GENERATION_LIST} type={'select'} />}
         </StGenerationDropdown>
       </header>
       {MENU_LIST.map((menu) => (
