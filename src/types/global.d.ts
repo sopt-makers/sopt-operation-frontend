@@ -32,63 +32,62 @@ declare global {
   /* 출석 세션 */
   interface SessionBase {
     part: PART;
-    name: string;
-    place: string;
+    name: string | undefined;
+    place: string | undefined;
     startTime: string; // yyyy/MM/dd HH:mm
     endTime: string; // yyyy/MM/dd HH:mm
     attribute: SESSION_TYPE;
+    generation: number;
   }
+
   interface Lecture {
-    data: {
-      generation: number;
-      lectures: LectureList[];
+    generation: number;
+    lectures: LectureList[];
+  }
+  interface LectureList {
+    lectureId: number;
+    name: string;
+    partValue: PART;
+    partName: string;
+    date: string; // yyyy/MM/dd
+    attribute: SESSION_TYPE;
+    attributeName: string;
+    status: {
+      attendance: number;
+      absent: number;
+      tardy: number;
+      unknown: number;
     };
   }
-}
 
-interface LectureList {
-  lectureId: number;
-  name: string;
-  partValue: PART;
-  partName: string;
-  date: string; // yyyy/MM/dd
-  attribute: SESSION_TYPE;
-  attributeName: string;
-  status: {
-    attendance: number;
-    absent: number;
-    tardy: number;
-    unknown: number;
-  };
-}
+  interface Session {
+    generation: number;
+    lectures: Lecture[];
+  }
+  interface SessionDetail {
+    name: string;
+    generation: number;
+    part: PART;
+    attribute: SESSION_TYPE;
+    members: Member[];
+  }
 
-interface Session {
-  generation: number;
-  lectures: Lecture[];
-}
-interface SessionDetail {
-  name: string;
-  generation: number;
-  part: PART;
-  attribute: SESSION_TYPE;
-  members: Member[];
-}
+  /* 어드민 */
+  interface User {
+    id: number;
+    name: string;
+  }
 
-/* 어드민 */
-interface User {
-  id: number;
-  name: string;
-}
-
-/* 로그인 */
-interface AuthHeader {
-  Authorization: string;
-}
-interface LoginData {
-  email: string;
-  password: string;
-}
-interface LoginRes extends User {
-  accessToken: string;
+  /* 로그인 */
+  interface AuthHeader {
+    Authorization: string;
+  }
+  interface LoginData {
+    email: string;
+    password: string;
+  }
+  interface LoginRes extends User {
+    accessToken: string;
+  }
 }
 export default global;
