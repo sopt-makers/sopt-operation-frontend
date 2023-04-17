@@ -54,7 +54,6 @@ function TotalScorePage() {
           {memberData?.map((member, index) => {
             const { part, name, university, score, total } = member;
             const { attendance, tardy, absent, participate } = total;
-
             const partNameInKorean = getPartValue(partTranslator, part) || part;
             return (
               <tr key={`${name}-${university}`}>

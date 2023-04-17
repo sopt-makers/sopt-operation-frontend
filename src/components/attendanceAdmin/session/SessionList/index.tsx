@@ -5,7 +5,7 @@ import ListWrapper from '@/components/common/ListWrapper';
 import { getSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getToken } from '@/utils/auth';
-import { getPartValue, partTranslator } from '@/utils/session';
+import { partTranslator } from '@/utils/translator';
 
 import { StPartIndicator, StSessionIndicator } from './style';
 
@@ -53,17 +53,15 @@ function SessionList() {
       </thead>
       <tbody>
         {lectureData?.map((lecture, index) => {
-          const { lectureId, partName, attributeName, name, date, status } =
+          const { lectureId, partValue, attributeName, name, date, status } =
             lecture;
           const { attendance, tardy, absent, unknown } = status;
-          const partNameInKorean =
-            getPartValue(partTranslator, partName) || partName;
-
+          const part = partTranslator[partValue] || partValue;
           return (
             <tr key={lectureId}>
               <td>{precision(index + 1, 2)}</td>
               <td>
-                <StPartIndicator>{partNameInKorean}</StPartIndicator>
+                <StPartIndicator>{part}</StPartIndicator>
               </td>
               <td>
                 <StSessionIndicator>{attributeName}</StSessionIndicator>
