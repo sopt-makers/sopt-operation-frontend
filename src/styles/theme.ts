@@ -4,6 +4,7 @@ const theme = {
       purple100: '#8040FF',
       purple40: '#C6A9FF',
       purpledim100: '#282039',
+      purpledim20: '#C6A9FF33',
     },
     grayscale: {
       black100: '#0F1010',
