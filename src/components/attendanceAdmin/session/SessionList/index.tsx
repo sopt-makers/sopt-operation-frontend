@@ -26,9 +26,7 @@ function SessionList() {
     '관리',
   ];
 
-  const [lectureData, setLectureData] = useState<Lecture['data']['lectures'][]>(
-    [],
-  );
+  const [lectureData, setLectureData] = useState<LectureList[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
