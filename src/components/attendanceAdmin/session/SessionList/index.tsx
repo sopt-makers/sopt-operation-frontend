@@ -37,7 +37,7 @@ function SessionList() {
       setLectureData(lecturesData);
     };
     fetchData();
-  }, []);
+  }, [lectureData]);
 
   const handleManageClick = (lectureId: number) => {
     router.push(`/attendanceAdmin/session/${lectureId}`);
