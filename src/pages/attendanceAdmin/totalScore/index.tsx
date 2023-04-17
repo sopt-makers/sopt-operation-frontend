@@ -22,17 +22,17 @@ function TotalScorePage() {
   ];
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [memberData, setMemberData] = useState<Member[]>([]);
+  const [memberData, setMemberData] = useState<MemberList[] | undefined>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getData = async () => {
       const accessToken = getToken('ACCESS');
       const authHeader = { Authorization: `${accessToken}` };
       const response = await getMemberList(32, selectedPart, authHeader);
       const membersData = response?.data;
       setMemberData(membersData);
     };
-    fetchData();
+    getData();
   }, [selectedPart]);
 
   const onChangePart = (part: PART) => {

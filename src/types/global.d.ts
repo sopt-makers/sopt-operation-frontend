@@ -16,6 +16,10 @@ declare global {
     date: string;
   }
   interface Member {
+    data: MemberList[] | undefined;
+  }
+
+  interface MemberList {
     id: number;
     name: string;
     university: string;
@@ -34,15 +38,17 @@ declare global {
     part: PART;
     name: string | undefined;
     place: string | undefined;
-    startTime: string; // yyyy/MM/dd HH:mm
-    endTime: string; // yyyy/MM/dd HH:mm
+    startDate: string; // yyyy/MM/dd HH:mm
+    endDate: string; // yyyy/MM/dd HH:mm
     attribute: SESSION_TYPE;
     generation: number;
   }
 
   interface Lecture {
-    generation: number;
-    lectures: LectureList[];
+    data: {
+      generation: number;
+      lectures: LectureList[] | undefined;
+    };
   }
   interface LectureList {
     lectureId: number;
@@ -64,6 +70,7 @@ declare global {
     generation: number;
     lectures: Lecture[];
   }
+
   interface SessionDetail {
     name: string;
     generation: number;

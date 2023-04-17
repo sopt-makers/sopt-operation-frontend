@@ -26,18 +26,18 @@ function SessionList() {
     '관리',
   ];
 
-  const [lectureData, setLectureData] = useState<LectureList[]>([]);
+  const [lectureData, setLectureData] = useState<LectureList[] | undefined>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getData = async () => {
       const accessToken = getToken('ACCESS');
       const authHeader = { Authorization: `${accessToken}` };
       const response = await getSessionList(32, authHeader);
       const lecturesData = response?.data.lectures;
       setLectureData(lecturesData);
     };
-    fetchData();
-  }, [lectureData]);
+    getData();
+  }, []);
 
   const handleManageClick = (lectureId: number) => {
     router.push(`/attendanceAdmin/session/${lectureId}`);
@@ -53,7 +53,7 @@ function SessionList() {
         </tr>
       </thead>
       <tbody>
-        {lectureData.map((lecture, index) => {
+        {lectureData?.map((lecture, index) => {
           const { lectureId, partName, attributeName, name, date, status } =
             lecture;
           const { attendance, tardy, absent, unknown } = status;
