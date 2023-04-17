@@ -29,10 +29,23 @@ export const StHeader = styled.header`
       letter-spacing: -0.02em;
     }
     &.logout > p {
-      font-size: 1.2rem;
+      padding: 1.1rem 2.3rem;
+
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 100%;
+      text-align: center;
+      letter-spacing: -0.02em;
+
+      background: ${({ theme }) => theme.color.grayscale.white100};
+      color: ${({ theme }) => theme.color.grayscale.gray60};
+      border: 0.1rem solid ${({ theme }) => theme.color.grayscale.gray20};
+      border-radius: 4rem;
     }
-    &.logout:hover {
+    &.logout > p:hover {
       color: ${({ theme }) => theme.color.main.purple100};
+      background: ${({ theme }) => theme.color.main.purpledim20};
+      border: 0.1rem solid ${({ theme }) => theme.color.main.purple40};
     }
   }
 `;
