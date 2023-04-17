@@ -67,7 +67,9 @@ function TotalScorePage() {
                 <td>{tardy}</td>
                 <td>{absent}</td>
                 <td>{participate}</td>
-                <td>조회</td>
+                <td>
+                  <span>관리</span>
+                </td>
               </tr>
             );
           })}

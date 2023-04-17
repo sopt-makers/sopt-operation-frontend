@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import { IcManageBtn } from '@/assets/icons';
 import ListWrapper from '@/components/common/ListWrapper';
 import { getSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
@@ -76,7 +75,7 @@ function SessionList() {
               <td>{absent}</td>
               <td>{unknown}</td>
               <td onClick={() => handleManageClick(lecture.lectureId)}>
-                <IcManageBtn />
+                <span>관리</span>
               </td>
             </tr>
           );
