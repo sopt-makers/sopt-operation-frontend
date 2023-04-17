@@ -1,50 +1,76 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
 import ListWrapper from '@/components/common/ListWrapper';
+import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
 import Select from '@/components/session/Select';
 import {
   attendanceInit,
-  attendanceOptions,
-  sessionDetailDummy,
+  eventAttendanceOptions,
+  seminarAttendanceOptions,
 } from '@/data/sessionData';
+import { getSessionDetail } from '@/services/api/lecture';
 import { precision } from '@/utils';
+import { getToken } from '@/utils/auth';
 
 const HEADER_LABELS = [
   'ㅤ순번ㅤ',
-  '회원명',
-  '학교명',
+  'ㅤ회원명ㅤ',
+  'ㅤ학교명ㅤ',
   '1차 출석 상태',
   '1차 출석 일시',
   '2차 출석 상태',
   '2차 출석 일시',
   '변동점수',
+  'ㅤㅤㅤㅤㅤ',
 ];
 
 function SessionDetailPage() {
+  const router = useRouter();
+  const id =
+    typeof router.query.id === 'string' ? Number(router.query.id) : null;
+
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [session, setSession] = useState<SessionDetail>(sessionDetailDummy);
-  const [members, setMembers] = useState<Member[]>(sessionDetailDummy.members);
+  const [session, setSession] = useState<SessionDetail>();
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (!id) return;
+
+    (async () => {
+      const result = await getSessionDetail(id, selectedPart, {
+        Authorization: getToken('ACCESS'),
+      });
+      if ('error' in result) {
+        alert(result.error);
+      } else {
+        setSession(result);
+      }
+    })();
+  }, [id, selectedPart, router.isReady]);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
   };
 
+  if (!id) return;
+  if (!session) return <Loading />;
   return (
     <StPageWrapper>
       <StPageHeader>
         <div className="session-info">
           <h2>
-            <strong>1차 세미나</strong> 출석 관리
+            <strong>{session.name}</strong> 출석 관리
           </h2>
           <div className="attendance-info">
-            <p>출석 100</p>
-            <p>지각 29</p>
-            <p>결석 3</p>
-            <p>미정 45</p>
+            <p>출석 {0}</p>
+            <p>지각 {0}</p>
+            <p>결석 {0}</p>
+            <p>미정 {0}</p>
           </div>
         </div>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
@@ -59,7 +85,7 @@ function SessionDetailPage() {
           </tr>
         </thead>
         <tbody>
-          {members.map((member, index) => {
+          {session?.members?.map((member, index) => {
             const firstRound =
               member.attendances.find((item) => item.round === 1) ??
               attendanceInit;
@@ -70,29 +96,28 @@ function SessionDetailPage() {
             return (
               <tr key={`${member.name}-${member.university}`}>
                 <td>{precision(index + 1, 2)}</td>
-                <td className="member-name">
-                  <p>{member.name}</p>
-                </td>
-                <td className="member-university">
-                  <p>{member.university}</p>
-                </td>
+                <td className="member-name">{member.name + '하이하이하이'}</td>
+                <td className="member-university">{member.university}</td>
                 <td>
                   <Select
                     selected={firstRound.status}
-                    options={attendanceOptions}
+                    options={seminarAttendanceOptions}
                     onChange={(value) => console.log(value)}
                   />
                 </td>
-                <td>{firstRound.date}</td>
+                <td className="member-date">{firstRound.date}</td>
                 <td>
                   <Select
                     selected={secondRound.status}
-                    options={attendanceOptions}
+                    options={seminarAttendanceOptions}
                     onChange={(value) => console.log(value)}
                   />
                 </td>
-                <td>{secondRound.date}</td>
-                <td>{member.score}</td>
+                <td className="member-date">{secondRound.date}</td>
+                <td>{member.score}점</td>
+                <td className="member-update">
+                  <button>갱신</button>
+                </td>
               </tr>
             );
           })}
@@ -101,10 +126,6 @@ function SessionDetailPage() {
 
       <Footer>
         <StFooterContents>
-          <div className="code-wrap">
-            <p>1차 출석코드</p>
-            <p>80182</p>
-          </div>
           <div className="button-wrap">
             <Button type="submit" text="1차 출석 시작하기" />
             <Button type="submit" text="2차 출석 시작하기" disabled />
@@ -116,16 +137,30 @@ function SessionDetailPage() {
 }
 
 const StPageWrapper = styled.div`
-  .member-name p,
-  .member-university p {
-    max-width: 7.3rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin: 0 auto;
-  }
-  .member-university p {
-    max-width: 7.6rem;
+  .member {
+    &-name,
+    &-university {
+      max-width: 7.3rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0 auto;
+    }
+    &-university {
+      max-width: 7.6rem;
+    }
+    &-date {
+      color: ${({ theme }) => theme.color.grayscale.gray80};
+    }
+    &-update button {
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 0.6rem 1rem;
+      border: 1px solid ${({ theme }) => theme.color.main.purple40};
+      border-radius: 16px;
+      background-color: rgba(198, 169, 255, 0.2);
+      color: ${({ theme }) => theme.color.main.purple100};
+    }
   }
 `;
 const StPageHeader = styled.div`
@@ -155,23 +190,6 @@ const StFooterContents = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .code-wrap {
-    display: flex;
-    align-items: center;
-    gap: 1.6rem;
-    font-size: 1.6rem;
-    line-height: 2.2rem;
-    font-weight: 600;
-    & > p:first-of-type {
-      color: ${({ theme }) => theme.color.grayscale.gray100};
-    }
-    & > p:last-of-type {
-      color: ${({ theme }) => theme.color.grayscale.white100};
-      background-color: ${({ theme }) => theme.color.main.purple100};
-      padding: 0.4rem 1rem;
-      border-radius: 0.4rem;
-    }
-  }
   .button-wrap {
     display: flex;
     gap: 2.4rem;

@@ -5,7 +5,7 @@ import { setToken } from '@/utils/auth';
 
 export const userLogin = async (
   loginData: LoginData,
-): Promise<User | ProjectError> => {
+): Promise<User | LoginError> => {
   try {
     const { data }: AxiosResponse<LoginRes> = await client.post(
       '/auth/login',

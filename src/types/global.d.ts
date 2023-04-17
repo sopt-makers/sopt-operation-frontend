@@ -4,9 +4,13 @@ declare global {
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
 
   /* 에러 */
-  interface ProjectError {
+  interface LoginError {
     success: boolean;
     message: string;
+  }
+  interface ProjectError {
+    status: number;
+    error: string;
   }
 
   /* 회원 정보 */
@@ -32,11 +36,12 @@ declare global {
     attribute: SESSION_TYPE;
   }
   interface Lecture {
+    lectureId: number;
     name: string;
     partValue: PART;
     partName: string;
     date: string; // yyyy/MM/dd
-    attribute: SESSION_TYPE;
+    attributeValue: SESSION_TYPE;
     attributeName: string;
     status: {
       attendance: number;
@@ -44,6 +49,11 @@ declare global {
       tardy: number;
       unknown: number;
     };
+  }
+  interface SubLecture {
+    subLectureId: number;
+    round: number;
+    startAt: string; // yyyy-MM-ddThh:mm:ss
   }
   interface Session {
     generation: number;
@@ -54,6 +64,7 @@ declare global {
     generation: number;
     part: PART;
     attribute: SESSION_TYPE;
+    subLectures: SubLecture[];
     members: Member[];
   }
 
