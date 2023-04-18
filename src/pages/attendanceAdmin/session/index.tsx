@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import CreateSessionModal from '@/components/attendanceAdmin/createSessionModal';
+import CreateSessionModal from '@/components/attendanceAdmin/session/CreateSessionModal';
 import SessionList from '@/components/attendanceAdmin/session/SessionList';
 import SessionListFooter from '@/components/attendanceAdmin/session/SessionListFooter';
 import Footer from '@/components/common/Footer';
