@@ -7,7 +7,7 @@ import { precision } from '@/utils';
 import { getToken } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
-import { StListHeader } from './style';
+import { StListHeader, StMemberInfo } from './style';
 
 function MemberList() {
   const HEADER_LABELS = [
@@ -61,20 +61,20 @@ function MemberList() {
             const { attendance, tardy, absent, participate } = total;
             const partName = getPartValue(partTranslator, part) || part;
             return (
-              <tr key={`${name}-${university}`}>
+              <StMemberInfo key={`${name}-${university}`}>
                 <td>{precision(index + 1, 2)}</td>
-                <td>{name}</td>
-                <td>{university}</td>
+                <td className="identify">{name}</td>
+                <td className="identify">{university}</td>
                 <td>{partName}</td>
                 <td>{score}</td>
-                <td>{attendance}</td>
-                <td>{tardy}</td>
-                <td>{absent}</td>
-                <td>{participate}</td>
+                <td className="attendance">{attendance}</td>
+                <td className="attendance">{tardy}</td>
+                <td className="attendance">{absent}</td>
+                <td className="attendance">{participate}</td>
                 <td>
                   <span>관리</span>
                 </td>
-              </tr>
+              </StMemberInfo>
             );
           })}
         </tbody>
