@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 import { IcNavMenu } from '@/assets/icons';
+import { MENU_LIST } from '@/utils/nav';
 
 import DropDown from '../DropDown';
 import IcDropDown from '../icons/IcDropDown';
@@ -13,25 +14,10 @@ import {
   StSubMenu,
 } from './style';
 
-const MENU_LIST = [
-  {
-    title: '출석 관리',
-    subMenu: ['출석 세션', '출석 총점'],
-  },
-];
-
 const GENERATION_LIST = ['32'];
 
 function Nav() {
   const router = useRouter();
-
-  const MENU_LIST = [
-    {
-      title: '출석 관리',
-      subMenu: ['출석 세션', '출석 총점'],
-      path: ['/attendanceAdmin/session', '/attendanceAdmin/totalScore'],
-    },
-  ];
   const [generation, setGeneration] = useState<string>(GENERATION_LIST[0]);
   const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
