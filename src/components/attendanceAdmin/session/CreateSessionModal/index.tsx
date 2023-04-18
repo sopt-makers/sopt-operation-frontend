@@ -8,7 +8,7 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
-import { postNewSession } from '@/services/api/lecture';
+import { getSessionList, postNewSession } from '@/services/api/lecture';
 import { getToken } from '@/utils/auth';
 import {
   partList,
@@ -91,7 +91,6 @@ function CreateSessionModal({ onClose }: Props) {
       attribute: translatedAttribute,
       generation: 32,
     };
-    console.log(submitContents);
     await postNewSession(submitContents, authHeader);
     onClose();
   };
