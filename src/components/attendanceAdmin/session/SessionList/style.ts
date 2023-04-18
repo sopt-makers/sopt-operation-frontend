@@ -1,15 +1,8 @@
 import styled from '@emotion/styled';
 
 export const SessionInfo = styled.tr`
-  & > td {
-    /* white-space: nowrap; */
-    overflow: hidden; /* 텍스트가 컨테이너를 초과할 때 자르기 */
-    text-overflow: ellipsis; /* 텍스트가 초과될 때 "..." 표시 */
-  }
-
   & > td:first-of-type {
     width: 11%;
-    margin-right: 2rem;
   }
   & > td.indicator {
     width: 6.25%;
