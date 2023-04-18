@@ -7,10 +7,10 @@ export const SessionInfo = styled.tr`
   & > td.indicator {
     width: 6.25%;
   }
-  & > td:nth-child(4) {
+  & > td:nth-of-type(4) {
     width: 24%;
   }
-  & > td:nth-child(5) {
+  & > td:nth-of-type(5) {
     width: 14%;
   }
   & > td.attendance {
