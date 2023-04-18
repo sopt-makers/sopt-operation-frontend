@@ -7,7 +7,7 @@ import { precision } from '@/utils';
 import { getToken } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
-import { StPartIndicator, StSessionIndicator } from './style';
+import { SessionInfo, StPartIndicator, StSessionIndicator } from './style';
 
 function SessionList() {
   const router = useRouter();
@@ -58,24 +58,26 @@ function SessionList() {
           const { attendance, tardy, absent, unknown } = status;
           const part = partTranslator[partValue] || partValue;
           return (
-            <tr key={lectureId}>
+            <SessionInfo key={lectureId}>
               <td>{precision(index + 1, 2)}</td>
-              <td>
+              <td className="indicator">
                 <StPartIndicator>{part}</StPartIndicator>
               </td>
-              <td>
-                <StSessionIndicator>{attributeName}</StSessionIndicator>
+              <td className="indicator">
+                <StSessionIndicator attributeName={attributeName}>
+                  {attributeName}
+                </StSessionIndicator>
               </td>
               <td>{name}</td>
               <td>{date}</td>
-              <td>{attendance}</td>
-              <td>{tardy}</td>
-              <td>{absent}</td>
-              <td>{unknown}</td>
-              <td onClick={() => handleManageClick(lecture.lectureId)}>
+              <td className="attendance">{attendance}</td>
+              <td className="attendance">{tardy}</td>
+              <td className="attendance">{absent}</td>
+              <td className="attendance">{unknown}</td>
+              <td onClick={() => handleManageClick(lectureId)}>
                 <span>관리</span>
               </td>
-            </tr>
+            </SessionInfo>
           );
         })}
       </tbody>
