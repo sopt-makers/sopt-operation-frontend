@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import css from 'styled-jsx/css';
 
 import { body2, caption1 } from '@/styles/fonts';
 
-export const StList = styled.table`
+export const StList = styled.table<{ tableWidth: string[] }>`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 1.6rem;
@@ -14,6 +15,13 @@ export const StList = styled.table`
     & > th {
       padding-bottom: 2.4rem;
     }
+    ${({ tableWidth }) =>
+      tableWidth &&
+      tableWidth
+        .map(
+          (width, index) => `th:nth-of-type(${index + 1}) { width: ${width} }`,
+        )
+        .join('')}
   }
   tbody > tr {
     ${body2}

@@ -15,7 +15,8 @@ export const StSelect = styled.button`
   color: ${({ theme }) => theme.color.grayscale.black40};
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 1.2rem;
+  transform: translateX(0.6rem);
 `;
 export const StOptions = styled.ul`
   z-index: ${zIndex.select};

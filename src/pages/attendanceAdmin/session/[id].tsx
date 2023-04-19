@@ -22,16 +22,17 @@ import { addPlus, precision } from '@/utils';
 import { getAuthHeader, getToken } from '@/utils/auth';
 
 const HEADER_LABELS = [
-  'ㅤ순번ㅤ',
-  'ㅤ회원명ㅤ',
-  'ㅤ학교명ㅤ',
+  '순번',
+  '회원명',
+  '학교명',
   '1차 출석 상태',
   '1차 출석 일시',
   '2차 출석 상태',
   '2차 출석 일시',
   '변동점수',
-  'ㅤㅤㅤㅤㅤ',
+  'ㅤㅤ',
 ];
+const TABLE_WIDTH = ['9%', '9%', '12%', '10%', '16%', '10%', '16%', '9%', '9%'];
 
 function SessionDetailPage() {
   const router = useRouter();
@@ -138,7 +139,7 @@ function SessionDetailPage() {
       </StPageHeader>
 
       {members.length > 0 ? (
-        <ListWrapper>
+        <ListWrapper tableWidth={TABLE_WIDTH}>
           <thead>
             <tr>
               {HEADER_LABELS.map((label) => (
