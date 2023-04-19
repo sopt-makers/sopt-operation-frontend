@@ -15,15 +15,20 @@ declare global {
 
   /* 회원 정보 */
   interface Attendance {
+    subAttendanceId: number;
     round: number;
     status: ATTEND_STATUS;
-    date: string;
+    updateAt: string;
   }
   interface Member {
-    name: string;
-    university: string;
+    attendanceId: number;
     attendances: Attendance[];
-    score: number;
+    member: {
+      memberId: number;
+      name: string;
+      university: string;
+    };
+    updatedScore: number;
   }
 
   /* 출석 세션 */
@@ -54,18 +59,25 @@ declare global {
     subLectureId: number;
     round: number;
     startAt: string; // yyyy-MM-ddThh:mm:ss
+    code: string;
   }
   interface Session {
     generation: number;
     lectures: Lecture[];
   }
   interface SessionDetail {
+    lectureId: number;
     name: string;
     generation: number;
     part: PART;
     attribute: SESSION_TYPE;
     subLectures: SubLecture[];
-    members: Member[];
+    result: {
+      attendance: number;
+      absent: number;
+      tardy: number;
+      unknown: number;
+    };
   }
 
   /* 어드민 */

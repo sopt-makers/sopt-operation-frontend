@@ -40,4 +40,10 @@ export const StList = styled.table`
       border-left: none;
     }
   }
+  .focused > td,
+  .focused > td:first-of-type,
+  .focused > td:last-of-type {
+    border-color: ${({ theme }) => theme.color.main.purple100};
+    border-width: 1px;
+  }
 `;

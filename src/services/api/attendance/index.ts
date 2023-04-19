@@ -2,16 +2,18 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 import { client } from '@/services/api/client';
 
-export const getSessionDetail = async (
-  lectureId: number,
+export const updateMemberAttendStatus = async (
+  subAttendanceId: number,
+  status: ATTEND_STATUS,
+  attribute: SESSION_TYPE,
   authHeader: AuthHeader,
-): Promise<SessionDetail | ProjectError> => {
+): Promise<void | ProjectError> => {
   try {
-    const { data }: AxiosResponse<{ data: SessionDetail }> = await client.get(
-      `/lectures/${lectureId}`,
+    await client.patch(
+      '/attendances',
+      { subAttendanceId, status, attribute },
       { headers: { ...authHeader } },
     );
-    return data.data;
   } catch (e) {
     if (e instanceof AxiosError) {
       return e.response?.data;
@@ -21,16 +23,16 @@ export const getSessionDetail = async (
   }
 };
 
-export const getSessionMembers = async (
-  lectureId: number,
+export const updateMemberScore = async (
+  memberId: number,
   authHeader: AuthHeader,
-): Promise<Member[] | ProjectError> => {
+): Promise<void | ProjectError> => {
   try {
-    const { data }: AxiosResponse<{ data: Member[] }> = await client.get(
-      `/attendances/lecture/${lectureId}`,
+    await client.patch(
+      `/attendances/member/${memberId}`,
+      {},
       { headers: { ...authHeader } },
     );
-    return data.data;
   } catch (e) {
     if (e instanceof AxiosError) {
       return e.response?.data;

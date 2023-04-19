@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
@@ -13,9 +13,13 @@ import {
   eventAttendanceOptions,
   seminarAttendanceOptions,
 } from '@/data/sessionData';
-import { getSessionDetail } from '@/services/api/lecture';
-import { precision } from '@/utils';
-import { getToken } from '@/utils/auth';
+import {
+  updateMemberAttendStatus,
+  updateMemberScore,
+} from '@/services/api/attendance';
+import { getSessionDetail, getSessionMembers } from '@/services/api/lecture';
+import { addPlus, precision } from '@/utils';
+import { getAuthHeader, getToken } from '@/utils/auth';
 
 const HEADER_LABELS = [
   'ㅤ순번ㅤ',
@@ -36,25 +40,80 @@ function SessionDetailPage() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [session, setSession] = useState<SessionDetail>();
+  const [members, setMembers] = useState<Member[]>([]);
+  const [changedMembers, setChangedMembers] = useState<Member[]>([]);
 
-  useEffect(() => {
-    if (!router.isReady) return;
-    if (!id) return;
-
-    (async () => {
-      const result = await getSessionDetail(id, selectedPart, {
-        Authorization: getToken('ACCESS'),
-      });
+  const getSessionData = useCallback(async () => {
+    if (id) {
+      const result = await getSessionDetail(id, getAuthHeader());
       if ('error' in result) {
         alert(result.error);
       } else {
         setSession(result);
       }
-    })();
-  }, [id, selectedPart, router.isReady]);
+    }
+  }, [id]);
+
+  const getSessionMemberData = useCallback(async () => {
+    if (id) {
+      const result = await getSessionMembers(id, getAuthHeader());
+      if ('error' in result) {
+        alert(result.error);
+      } else {
+        setMembers(result);
+      }
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    getSessionData();
+    getSessionMemberData();
+  }, [getSessionData, getSessionMemberData, router.isReady]);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
+    // TODO:: 파트별 멤버 필터링 필요
+  };
+
+  const onChangeStatus = async (
+    status: ATTEND_STATUS,
+    member: Member,
+    subAttendanceId: number,
+  ) => {
+    if (session) {
+      const result = await updateMemberAttendStatus(
+        subAttendanceId,
+        status,
+        session.attribute,
+        getAuthHeader(),
+      );
+      if (result) {
+        alert(result.error);
+      } else {
+        setChangedMembers([...changedMembers, member]);
+        await getSessionMemberData();
+      }
+    }
+  };
+
+  const onUpdateScore = async (memberId: number) => {
+    const result = await updateMemberScore(memberId, getAuthHeader());
+    if (result) {
+      alert(result.error);
+    } else {
+      setChangedMembers(
+        changedMembers.filter((member) => member.member.memberId !== memberId),
+      );
+      await getSessionData();
+    }
+  };
+
+  const isChangedMember = (member: Member) => {
+    return changedMembers.find(
+      (item) => item.member.memberId === member.member.memberId,
+    );
   };
 
   if (!id) return;
@@ -67,62 +126,97 @@ function SessionDetailPage() {
             <strong>{session.name}</strong> 출석 관리
           </h2>
           <div className="attendance-info">
-            <p>출석 {0}</p>
-            <p>지각 {0}</p>
-            <p>결석 {0}</p>
-            <p>미정 {0}</p>
+            <p>출석 {session.result.attendance}</p>
+            <p>지각 {session.result.tardy}</p>
+            <p>결석 {session.result.absent}</p>
+            <p>미정 {session.result.unknown}</p>
           </div>
         </div>
-        <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+        {session.part === 'ALL' && (
+          <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+        )}
       </StPageHeader>
 
-      <ListWrapper>
-        <thead>
-          <tr>
-            {HEADER_LABELS.map((label) => (
-              <th key={label}>{label}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {session?.members?.map((member, index) => {
-            const firstRound =
-              member.attendances.find((item) => item.round === 1) ??
-              attendanceInit;
-            const secondRound =
-              member.attendances.find((item) => item.round === 2) ??
-              attendanceInit;
+      {members.length > 0 ? (
+        <ListWrapper>
+          <thead>
+            <tr>
+              {HEADER_LABELS.map((label) => (
+                <th key={label}>{label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {members.map((member, index) => {
+              const firstRound =
+                member.attendances.find((item) => item.round === 1) ??
+                attendanceInit;
+              const secondRound =
+                member.attendances.find((item) => item.round === 2) ??
+                attendanceInit;
 
-            return (
-              <tr key={`${member.name}-${member.university}`}>
-                <td>{precision(index + 1, 2)}</td>
-                <td className="member-name">{member.name + '하이하이하이'}</td>
-                <td className="member-university">{member.university}</td>
-                <td>
-                  <Select
-                    selected={firstRound.status}
-                    options={seminarAttendanceOptions}
-                    onChange={(value) => console.log(value)}
-                  />
-                </td>
-                <td className="member-date">{firstRound.date}</td>
-                <td>
-                  <Select
-                    selected={secondRound.status}
-                    options={seminarAttendanceOptions}
-                    onChange={(value) => console.log(value)}
-                  />
-                </td>
-                <td className="member-date">{secondRound.date}</td>
-                <td>{member.score}점</td>
-                <td className="member-update">
-                  <button>갱신</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </ListWrapper>
+              return (
+                <tr
+                  key={member.member.memberId}
+                  className={isChangedMember(member) ? 'focused' : ''}>
+                  <td>{precision(index + 1, 2)}</td>
+                  <td className="member-name">{member.member.name}</td>
+                  <td className="member-university">
+                    {member.member.university}
+                  </td>
+                  <td>
+                    <Select
+                      selected={firstRound.status}
+                      options={
+                        session.attribute === 'SEMINAR'
+                          ? seminarAttendanceOptions
+                          : eventAttendanceOptions
+                      }
+                      onChange={(value) =>
+                        onChangeStatus(
+                          value,
+                          member,
+                          firstRound.subAttendanceId,
+                        )
+                      }
+                    />
+                  </td>
+                  <td className="member-date">{firstRound.updateAt}</td>
+                  <td>
+                    <Select
+                      selected={secondRound.status}
+                      options={
+                        session.attribute === 'SEMINAR'
+                          ? seminarAttendanceOptions
+                          : eventAttendanceOptions
+                      }
+                      onChange={(value) =>
+                        onChangeStatus(
+                          value,
+                          member,
+                          secondRound.subAttendanceId,
+                        )
+                      }
+                    />
+                  </td>
+                  <td className="member-date">{secondRound.updateAt}</td>
+                  <td>{addPlus(member.updatedScore)}점</td>
+                  <td className="member-update">
+                    {isChangedMember(member) && (
+                      <button
+                        onClick={() => onUpdateScore(member.member.memberId)}>
+                        갱신
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </ListWrapper>
+      ) : (
+        <p className="empty">데이터가 없어요</p>
+      )}
 
       <Footer>
         <StFooterContents>
@@ -145,6 +239,7 @@ const StPageWrapper = styled.div`
       text-overflow: ellipsis;
       white-space: nowrap;
       margin: 0 auto;
+      padding: 0 2.2rem;
     }
     &-university {
       max-width: 7.6rem;
@@ -161,6 +256,12 @@ const StPageWrapper = styled.div`
       background-color: rgba(198, 169, 255, 0.2);
       color: ${({ theme }) => theme.color.main.purple100};
     }
+  }
+  .empty {
+    text-align: center;
+    font-size: 1.4rem;
+    color: ${({ theme }) => theme.color.grayscale.gray60};
+    padding-top: 3rem;
   }
 `;
 const StPageHeader = styled.div`
