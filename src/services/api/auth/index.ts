@@ -17,9 +17,12 @@ export const userLogin = async (
     return user;
   } catch (e) {
     if (e instanceof AxiosError) {
-      return e.response?.data;
+      return {
+        success: false,
+        message: '존재하지 않는 이메일이거나, 잘못된 비밀번호예요',
+      };
     } else {
-      return { success: false, message: '알 수 없는 에러입니다' };
+      return { success: false, message: '알 수 없는 에러예요' };
     }
   }
 };

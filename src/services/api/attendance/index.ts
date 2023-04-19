@@ -16,9 +16,20 @@ export const updateMemberAttendStatus = async (
     );
   } catch (e) {
     if (e instanceof AxiosError) {
-      return e.response?.data;
+      switch (e.response?.status) {
+        case 400:
+          return { status: 400, error: '출석 상태를 변경하는데 실패했어요' };
+        case 401:
+        case 402:
+        case 403:
+          return { status: 403, error: '출석 상태 변경 권한이 없어요' };
+        case 404:
+        case 500:
+        default:
+          return { status: 500, error: '알 수 없는 에러예요' };
+      }
     } else {
-      return { status: 999, error: 'Unknown Error' };
+      return { status: 999, error: '알 수 없는 에러예요' };
     }
   }
 };
@@ -35,9 +46,20 @@ export const updateMemberScore = async (
     );
   } catch (e) {
     if (e instanceof AxiosError) {
-      return e.response?.data;
+      switch (e.response?.status) {
+        case 400:
+          return { status: 400, error: '출석 상태를 갱신하는데 실패했어요' };
+        case 401:
+        case 402:
+        case 403:
+          return { status: 403, error: '출석 상태 갱신 권한이 없어요' };
+        case 404:
+        case 500:
+        default:
+          return { status: 500, error: '알 수 없는 에러예요' };
+      }
     } else {
-      return { status: 999, error: 'Unknown Error' };
+      return { status: 999, error: '알 수 없는 에러예요' };
     }
   }
 };
