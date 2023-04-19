@@ -17,7 +17,10 @@ export const userLogin = async (
     return user;
   } catch (e) {
     if (e instanceof AxiosError) {
-      return e.response?.data;
+      return {
+        success: false,
+        message: '아이디 혹은 비밀번호가 일치하지 않아요',
+      };
     } else {
       return { success: false, message: '알 수 없는 에러입니다' };
     }
