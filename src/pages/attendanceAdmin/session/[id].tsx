@@ -55,16 +55,19 @@ function SessionDetailPage() {
     }
   }, [id]);
 
-  const getSessionMemberData = useCallback(async () => {
-    if (id) {
-      const result = await getSessionMembers(id, getAuthHeader());
-      if ('error' in result) {
-        alert(result.error);
-      } else {
-        setMembers(result);
+  const getSessionMemberData = useCallback(
+    async (part?: PART) => {
+      if (id) {
+        const result = await getSessionMembers(id, getAuthHeader(), part);
+        if ('error' in result) {
+          alert(result.error);
+        } else {
+          setMembers(result);
+        }
       }
-    }
-  }, [id]);
+    },
+    [id],
+  );
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -75,7 +78,7 @@ function SessionDetailPage() {
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
-    // TODO:: 파트별 멤버 필터링 필요
+    getSessionMemberData(part);
   };
 
   const onChangeStatus = async (
@@ -94,7 +97,9 @@ function SessionDetailPage() {
         alert(result.error);
       } else {
         setChangedMembers([...changedMembers, member]);
-        await getSessionMemberData();
+        session.part === 'ALL'
+          ? await getSessionMemberData()
+          : await getSessionMemberData(selectedPart);
       }
     }
   };
