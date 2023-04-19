@@ -19,7 +19,7 @@ import {
 } from '@/services/api/attendance';
 import { getSessionDetail, getSessionMembers } from '@/services/api/lecture';
 import { addPlus, precision } from '@/utils';
-import { getAuthHeader, getToken } from '@/utils/auth';
+import { getAuthHeader } from '@/utils/auth';
 
 const HEADER_LABELS = [
   '순번',
