@@ -80,7 +80,8 @@ declare global {
       unknown: number;
     };
   }
-  
+  type Lecture = LectureList;
+
   interface SubLecture {
     subLectureId: number;
     round: number;
