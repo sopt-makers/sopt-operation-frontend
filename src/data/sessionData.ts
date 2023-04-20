@@ -1,7 +1,8 @@
 export const attendanceInit: Attendance = {
+  subAttendanceId: 0,
   round: 0,
   status: 'ABSENT',
-  date: '-',
+  updateAt: '-',
 };
 
 export const seminarAttendanceOptions: Array<{
