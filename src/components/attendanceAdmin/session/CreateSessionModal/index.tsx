@@ -8,6 +8,8 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
+import { getSessionList, postNewSession } from '@/services/api/lecture';
+import { getToken } from '@/utils/auth';
 import {
   partList,
   partTranslator,
@@ -73,7 +75,9 @@ function CreateSessionModal({ onClose }: Props) {
     selectedSessionIndex,
   ]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const accessToken = getToken('ACCESS');
+    const authHeader = { Authorization: `${accessToken}` };
     const translatedPart = partTranslator[part];
     const translatedAttribute =
       sessionTranslator[sessionType[selectedSessionIndex].session];
@@ -82,13 +86,13 @@ function CreateSessionModal({ onClose }: Props) {
       part: translatedPart,
       name: sessionName,
       place: sessionLocation,
-      startTime: `${date} ${startTime}`,
-      endTime: `${date} ${endTime}`,
+      startDate: `${date} ${startTime}`,
+      endDate: `${date} ${endTime}`,
       attribute: translatedAttribute,
       generation: 32,
     };
+    await postNewSession(submitContents, authHeader);
     onClose();
-    console.log(submitContents);
   };
 
   const handlePartSelection = (selectedPart: string) => {

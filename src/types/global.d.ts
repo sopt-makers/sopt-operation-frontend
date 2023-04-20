@@ -30,17 +30,42 @@ declare global {
     };
     updatedScore: number;
   }
+  interface Member {
+    data: MemberList[] | undefined;
+  }
+
+  interface MemberList {
+    id: number;
+    name: string;
+    university: string;
+    part: string;
+    score: number;
+    total: {
+      attendance: string;
+      absent: string;
+      tardy: string;
+      participate: string;
+    };
+  }
 
   /* 출석 세션 */
   interface SessionBase {
     part: PART;
-    name: string;
-    place: string;
-    startTime: string; // yyyy/MM/dd HH:mm
-    endTime: string; // yyyy/MM/dd HH:mm
+    name: string | undefined;
+    place: string | undefined;
+    startDate: string; // yyyy/MM/dd HH:mm
+    endDate: string; // yyyy/MM/dd HH:mm
     attribute: SESSION_TYPE;
+    generation: number;
   }
-  interface Lecture {
+
+  interface LectureImsy {
+    data: {
+      generation: number;
+      lectures: LectureList[] | undefined;
+    };
+  }
+  interface LectureList {
     lectureId: number;
     name: string;
     partValue: PART;
@@ -55,16 +80,19 @@ declare global {
       unknown: number;
     };
   }
+  
   interface SubLecture {
     subLectureId: number;
     round: number;
     startAt: string; // yyyy-MM-ddThh:mm:ss
     code: string;
   }
+
   interface Session {
     generation: number;
     lectures: Lecture[];
   }
+
   interface SessionDetail {
     lectureId: number;
     name: string;
@@ -98,5 +126,4 @@ declare global {
     accessToken: string;
   }
 }
-
 export default global;

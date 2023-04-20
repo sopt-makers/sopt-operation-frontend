@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { display1 } from '@/styles/fonts';
+
 export const StWrapper = styled.div`
   padding: 0 4rem;
 `;
@@ -13,10 +15,7 @@ export const StTitle = styled.div`
   margin-bottom: 0.8rem;
 
   & > h1 {
-    font-weight: 700;
-    font-size: 2.4rem;
-    line-height: 140%;
-    letter-spacing: -0.02em;
+    ${display1}
   }
 
   & > svg {

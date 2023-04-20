@@ -1,5 +1,7 @@
+import MemberList from '@/components/attendanceAdmin/totalScore/MemberList';
+
 function TotalScorePage() {
-  return <div></div>;
+  return <MemberList />;
 }
 
 export default TotalScorePage;

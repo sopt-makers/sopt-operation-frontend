@@ -7,6 +7,7 @@ declare module '@emotion/react' {
         purple100: string;
         purple40: string;
         purpledim100: string;
+        purpledim20: string;
       };
       sub: {
         red: string;
