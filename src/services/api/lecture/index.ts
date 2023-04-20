@@ -16,9 +16,9 @@ export const postNewSession = async (
 export const getSessionList = async (
   generation: number,
   authHeader: AuthHeader,
-): Promise<Lecture | null> => {
+): Promise<LectureImsy | null> => {
   try {
-    const { data }: AxiosResponse<Lecture> = await client.get(
+    const { data }: AxiosResponse<LectureImsy> = await client.get(
       `/lectures?generation=${generation}`,
       { headers: { ...authHeader } },
     );
