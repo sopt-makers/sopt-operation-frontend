@@ -27,6 +27,7 @@ export const StList = styled.table`
       border-top: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
       border-bottom: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
     }
+
     & > td:first-of-type {
       border-top-left-radius: 1rem;
       border-bottom-left-radius: 1rem;
@@ -38,6 +39,16 @@ export const StList = styled.table`
       border-bottom-right-radius: 1rem;
       border: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
       border-left: none;
+
+      & > span {
+        padding: 0.5rem 0.9rem;
+        border: 0.1rem solid ${({ theme }) => theme.color.main.purple40};
+        border-radius: 1.6rem;
+        background-color: ${({ theme }) => theme.color.main.purpledim20};
+        color: ${({ theme }) => theme.color.main.purple100};
+
+        cursor: pointer;
+      }
     }
   }
 `;

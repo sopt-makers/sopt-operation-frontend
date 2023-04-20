@@ -39,6 +39,10 @@ export const partTranslator: Record<string, PART> = {
   웹: 'WEB',
 };
 
+export const getPartValue = (obj: Record<string, PART>, value: string) => {
+  return Object.keys(obj).find((key) => obj[key] === value);
+};
+
 export const times: string[] = [];
 
 for (let i = 0; i < 24; i++) {
