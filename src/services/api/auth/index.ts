@@ -19,7 +19,7 @@ export const userLogin = async (
     if (e instanceof AxiosError) {
       return {
         success: false,
-        message: '존재하지 않는 이메일이거나, 잘못된 비밀번호예요',
+        message: '아이디 혹은 비밀번호가 일치하지 않아요',
       };
     } else {
       return { success: false, message: '알 수 없는 에러예요' };
