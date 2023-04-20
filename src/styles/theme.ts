@@ -6,6 +6,11 @@ const theme = {
       purpledim100: '#282039',
       purpledim20: '#C6A9FF33',
     },
+    sub: {
+      red: '#E45656',
+      green: '#378F5C',
+      yellow: '#D09600',
+    },
     grayscale: {
       black100: '#0F1010',
       black80: '#1C1D1E',

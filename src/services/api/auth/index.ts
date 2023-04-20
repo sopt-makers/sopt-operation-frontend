@@ -5,7 +5,7 @@ import { setToken } from '@/utils/auth';
 
 export const userLogin = async (
   loginData: LoginData,
-): Promise<User | ProjectError> => {
+): Promise<User | LoginError> => {
   try {
     const { data }: AxiosResponse<LoginRes> = await client.post(
       '/auth/login',
@@ -22,7 +22,7 @@ export const userLogin = async (
         message: '아이디 혹은 비밀번호가 일치하지 않아요',
       };
     } else {
-      return { success: false, message: '알 수 없는 에러입니다' };
+      return { success: false, message: '알 수 없는 에러예요' };
     }
   }
 };

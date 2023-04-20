@@ -9,6 +9,11 @@ declare module '@emotion/react' {
         purpledim100: string;
         purpledim20: string;
       };
+      sub: {
+        red: string;
+        green: string;
+        yellow: string;
+      };
       grayscale: {
         black100: string;
         black80: string;

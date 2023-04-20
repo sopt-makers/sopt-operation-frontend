@@ -3,3 +3,5 @@ export const precision = (num: number, precisionNum: number) => {
   const numLength = numToString.length;
   return '0'.repeat(precisionNum - numLength) + numToString;
 };
+
+export const addPlus = (num: number) => (num < 0 ? num : `+${num}`);

@@ -1,218 +1,23 @@
 export const attendanceInit: Attendance = {
+  subAttendanceId: 0,
   round: 0,
   status: 'ABSENT',
-  date: '- -',
+  updateAt: '-',
 };
 
-export const sessionDetailDummy: SessionDetail = {
-  name: '테스트',
-  generation: 32,
-  part: 'SERVER',
-  attribute: 'SEMINAR',
-  members: [
-    {
-      name: '소현',
-      university: '앙중대',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-    {
-      name: '용택',
-      university: '숭실숭실',
-      attendances: [
-        {
-          round: 1,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-        {
-          round: 2,
-          status: 'ABSENT',
-          date: '23/01/01 11:00',
-        },
-      ],
-      score: 0,
-    },
-  ],
-};
+export const seminarAttendanceOptions: Array<{
+  label: string;
+  value: ATTEND_STATUS;
+}> = [
+  { label: '출석', value: 'ATTENDANCE' },
+  { label: '지각', value: 'TARDY' },
+  { label: '결석', value: 'ABSENT' },
+];
+
+export const eventAttendanceOptions: Array<{
+  label: string;
+  value: ATTEND_STATUS;
+}> = [
+  { label: '출석', value: 'ATTENDANCE' },
+  { label: '결석', value: 'ABSENT' },
+];

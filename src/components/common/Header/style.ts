@@ -1,11 +1,14 @@
 import styled from '@emotion/styled';
 
+import zIndex from '@/utils/zIndex';
+
 export const StHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   position: fixed;
+  z-index: ${zIndex.header};
   top: 0;
   left: 22rem;
   width: calc(100% - 22rem);

@@ -4,16 +4,31 @@ declare global {
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
 
   /* 에러 */
-  interface ProjectError {
+  interface LoginError {
     success: boolean;
     message: string;
+  }
+  interface ProjectError {
+    status: number;
+    error: string;
   }
 
   /* 회원 정보 */
   interface Attendance {
+    subAttendanceId: number;
     round: number;
     status: ATTEND_STATUS;
-    date: string;
+    updateAt: string;
+  }
+  interface Member {
+    attendanceId: number;
+    attendances: Attendance[];
+    member: {
+      memberId: number;
+      name: string;
+      university: string;
+    };
+    updatedScore: number;
   }
   interface Member {
     data: MemberList[] | undefined;
@@ -44,7 +59,7 @@ declare global {
     generation: number;
   }
 
-  interface Lecture {
+  interface LectureImsy {
     data: {
       generation: number;
       lectures: LectureList[] | undefined;
@@ -56,7 +71,7 @@ declare global {
     partValue: PART;
     partName: string;
     date: string; // yyyy/MM/dd
-    attribute: SESSION_TYPE;
+    attributeValue: SESSION_TYPE;
     attributeName: string;
     status: {
       attendance: number;
@@ -65,6 +80,14 @@ declare global {
       unknown: number;
     };
   }
+  type Lecture = LectureList;
+
+  interface SubLecture {
+    subLectureId: number;
+    round: number;
+    startAt: string; // yyyy-MM-ddThh:mm:ss
+    code: string;
+  }
 
   interface Session {
     generation: number;
@@ -72,11 +95,18 @@ declare global {
   }
 
   interface SessionDetail {
+    lectureId: number;
     name: string;
     generation: number;
     part: PART;
     attribute: SESSION_TYPE;
-    members: Member[];
+    subLectures: SubLecture[];
+    result: {
+      attendance: number;
+      absent: number;
+      tardy: number;
+      unknown: number;
+    };
   }
 
   /* 어드민 */

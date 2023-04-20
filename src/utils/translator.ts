@@ -16,3 +16,8 @@ export const partTranslator: Record<PART, string> = {
   ANDROID: 'AOS',
   WEB: '웹',
 };
+export const attendanceTranslator: Record<ATTEND_STATUS, string> = {
+  ATTENDANCE: '출석',
+  TARDY: '지각',
+  ABSENT: '결석',
+};
