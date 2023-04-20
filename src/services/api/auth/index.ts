@@ -7,11 +7,11 @@ export const userLogin = async (
   loginData: LoginData,
 ): Promise<User | LoginError> => {
   try {
-    const { data }: AxiosResponse<LoginRes> = await client.post(
+    const { data }: AxiosResponse<{ data: LoginRes }> = await client.post(
       '/auth/login',
       loginData,
     );
-    const { accessToken, ...user } = data;
+    const { accessToken, ...user } = data.data;
     setToken('ACCESS', accessToken);
 
     return user;
