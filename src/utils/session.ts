@@ -34,7 +34,7 @@ export const partTranslator: Record<string, PART> = {
   기획: 'PLAN',
   디자인: 'DESIGN',
   서버: 'SERVER',
-  IOS: 'IOS',
+  iOS: 'IOS',
   안드로이드: 'ANDROID',
   웹: 'WEB',
 };
