@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import zIndex from '@/utils/zIndex';
+
 export const StModalBackground = styled.div`
   position: fixed;
   top: 0;
@@ -7,7 +9,7 @@ export const StModalBackground = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1;
+  z-index: ${zIndex.dim};
 `;
 
 export const StModalWrapper = styled.div`
@@ -23,5 +25,5 @@ export const StModalWrapper = styled.div`
   box-shadow: 0px 0px 40px rgba(16, 24, 40, 0.06);
   border-radius: 1.2rem;
 
-  z-index: 2;
+  z-index: ${zIndex.modal};
 `;
