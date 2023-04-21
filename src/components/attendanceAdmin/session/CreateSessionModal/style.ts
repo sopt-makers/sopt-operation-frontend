@@ -162,8 +162,9 @@ export const StFormLayout = styled.div`
   & > div > .react-datepicker__input-container {
     & > input {
       width: 100%;
-      height: 100%;
+      height: 3.5rem;
 
+      margin-left: 0.2rem;
       padding: 1rem 1.4rem;
 
       color: ${({ theme }) => theme.color.grayscale.black40};
