@@ -59,11 +59,9 @@ declare global {
     generation: number;
   }
 
-  interface LectureImsy {
-    data: {
-      generation: number;
-      lectures: LectureList[] | undefined;
-    };
+  interface Lecture {
+    generation: number;
+    lectures: LectureList[];
   }
   interface LectureList {
     lectureId: number;
@@ -80,7 +78,6 @@ declare global {
       unknown: number;
     };
   }
-  type Lecture = LectureList;
 
   interface SubLecture {
     subLectureId: number;
