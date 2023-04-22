@@ -16,14 +16,15 @@ export const postNewSession = async (
 
 export const useGetSessionList = (
   generation: number,
+  part: string,
   authHeader: AuthHeader,
 ) => {
   return useQuery<Lecture, Error>(
-    ['sessionList', generation, authHeader],
+    ['sessionList', generation, part, authHeader],
     async () => {
       try {
         const { data }: AxiosResponse<{ data: Lecture }> = await client.get(
-          `/lectures?generation=${generation}`,
+          `/lectures?generation=${generation}&part=${part}`,
           {
             headers: { ...authHeader },
           },

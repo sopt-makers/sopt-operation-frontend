@@ -3,12 +3,18 @@ import { useEffect, useState } from 'react';
 
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
+import PartFilter from '@/components/common/PartFilter';
 import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader, getToken } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
-import { SessionInfo, StPartIndicator, StSessionIndicator } from './style';
+import {
+  SessionInfo,
+  StListHeader,
+  StPartIndicator,
+  StSessionIndicator,
+} from './style';
 
 function SessionList() {
   const router = useRouter();
@@ -26,10 +32,12 @@ function SessionList() {
     '관리',
   ];
 
+  const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
 
   const { data, isLoading, isError, error } = useGetSessionList(
     32,
+    selectedPart,
     getAuthHeader(),
   );
 
@@ -43,8 +51,16 @@ function SessionList() {
     router.push(`/attendanceAdmin/session/${lectureId}`);
   };
 
+  const onChangePart = (part: PART) => {
+    setSelectedPart(part);
+  };
+
   return (
     <>
+      <StListHeader>
+        <h1>출석 세션</h1>
+        <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+      </StListHeader>
       <ListWrapper>
         <thead>
           <tr>
