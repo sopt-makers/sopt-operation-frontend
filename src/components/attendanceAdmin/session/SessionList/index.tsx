@@ -9,12 +9,7 @@ import { precision } from '@/utils';
 import { getAuthHeader, getToken } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
-import {
-  SessionInfo,
-  StListHeader,
-  StPartIndicator,
-  StSessionIndicator,
-} from './style';
+import { StListHeader, StPartIndicator, StSessionIndicator } from './style';
 
 function SessionList() {
   const router = useRouter();
@@ -30,6 +25,19 @@ function SessionList() {
     '결석',
     '미정',
     '관리',
+  ];
+
+  const TABLE_WIDTH = [
+    '11%',
+    '6.25%',
+    '6.25%',
+    '24%',
+    '14%',
+    '6.5%',
+    '6.5%',
+    '6.5%',
+    '6.5%',
+    '14.5%',
   ];
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
@@ -61,7 +69,7 @@ function SessionList() {
         <h1>출석 세션</h1>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
       </StListHeader>
-      <ListWrapper>
+      <ListWrapper tableWidth={TABLE_WIDTH}>
         <thead>
           <tr>
             {HEADER_LABELS.map((label) => (
@@ -76,7 +84,7 @@ function SessionList() {
             const { attendance, tardy, absent, unknown } = status;
             const part = partTranslator[partValue] || partValue;
             return (
-              <SessionInfo key={lectureId}>
+              <tr key={lectureId}>
                 <td>{precision(index + 1, 2)}</td>
                 <td className="indicator">
                   <StPartIndicator>{part}</StPartIndicator>
@@ -95,7 +103,7 @@ function SessionList() {
                 <td onClick={() => handleManageClick(lectureId)}>
                   <span>관리</span>
                 </td>
-              </SessionInfo>
+              </tr>
             );
           })}
         </tbody>

@@ -8,7 +8,7 @@ import { precision } from '@/utils';
 import { getAuthHeader, getToken } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
-import { StListHeader, StMemberInfo } from './style';
+import { StListHeader } from './style';
 
 function MemberList() {
   const HEADER_LABELS = [
@@ -22,6 +22,19 @@ function MemberList() {
     '결석',
     '참여',
     '관리',
+  ];
+
+  const TABLE_WIDTH = [
+    '10%',
+    '13.5%',
+    '13.5%',
+    '13%',
+    '15%',
+    '5%',
+    '5%',
+    '5%',
+    '5%',
+    '12%',
   ];
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
@@ -49,7 +62,7 @@ function MemberList() {
         <h1>출석 총점</h1>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
       </StListHeader>
-      <ListWrapper>
+      <ListWrapper tableWidth={TABLE_WIDTH}>
         <thead>
           <tr>
             {HEADER_LABELS.map((label) => (
@@ -63,10 +76,10 @@ function MemberList() {
             const { attendance, tardy, absent, participate } = total;
             const partName = getPartValue(partTranslator, part) || part;
             return (
-              <StMemberInfo key={`${name}-${university}`}>
+              <tr key={`${name}-${university}`}>
                 <td>{precision(index + 1, 2)}</td>
                 <td className="identify">{name}</td>
-                <td className="identify">{university}</td>
+                <td className="university">{university}</td>
                 <td>{partName}</td>
                 <td>{score}</td>
                 <td className="attendance">{attendance}</td>
@@ -76,7 +89,7 @@ function MemberList() {
                 <td>
                   <span>관리</span>
                 </td>
-              </StMemberInfo>
+              </tr>
             );
           })}
         </tbody>

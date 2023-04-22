@@ -13,26 +13,6 @@ export const StListHeader = styled.header`
   }
 `;
 
-export const SessionInfo = styled.tr`
-  & > td:first-of-type {
-    width: 11%;
-  }
-  & > td.indicator {
-    width: 6.25%;
-  }
-  & > td:nth-of-type(4) {
-    width: 24%;
-  }
-  & > td:nth-of-type(5) {
-    width: 14%;
-  }
-  & > td.attendance {
-    width: 6.5%;
-  }
-  & > td:last-of-type {
-    width: 14.5%;
-  }
-`;
 export const IndicatorStructure = styled.span`
   display: inline-block;
   min-width: 4.9rem;
