@@ -1,4 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
 
 import { client } from '@/services/api/client';
 
@@ -13,19 +14,26 @@ export const postNewSession = async (
   }
 };
 
-export const getSessionList = async (
+export const useGetSessionList = (
   generation: number,
   authHeader: AuthHeader,
-): Promise<LectureImsy | null> => {
-  try {
-    const { data }: AxiosResponse<LectureImsy> = await client.get(
-      `/lectures?generation=${generation}`,
-      { headers: { ...authHeader } },
-    );
-    return data;
-  } catch (e) {
-    return null;
-  }
+) => {
+  return useQuery<Lecture, Error>(
+    ['sessionList', generation, authHeader],
+    async () => {
+      try {
+        const { data }: AxiosResponse<{ data: Lecture }> = await client.get(
+          `/lectures?generation=${generation}`,
+          {
+            headers: { ...authHeader },
+          },
+        );
+        return data.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+  );
 };
 
 export const getSessionDetail = async (
