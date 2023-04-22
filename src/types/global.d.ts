@@ -31,10 +31,6 @@ declare global {
     updatedScore: number;
   }
   interface Member {
-    data: MemberList[] | undefined;
-  }
-
-  interface MemberList {
     id: number;
     name: string;
     university: string;
@@ -88,7 +84,7 @@ declare global {
 
   interface Session {
     generation: number;
-    lectures: Lecture[];
+    lectures: LectureList[];
   }
 
   interface SessionDetail {

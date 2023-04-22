@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 
 import ListWrapper from '@/components/common/ListWrapper';
+import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
-import { getMemberList } from '@/services/api/member';
+import { useGetMemberList } from '@/services/api/member';
 import { precision } from '@/utils';
-import { getToken } from '@/utils/auth';
+import { getAuthHeader, getToken } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
 import { StListHeader, StMemberInfo } from './style';
@@ -24,18 +25,19 @@ function MemberList() {
   ];
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [memberData, setMemberData] = useState<MemberList[] | undefined>([]);
+  const [memberData, setMemberData] = useState<Member[]>([]);
+
+  const { data, isLoading, isError, error } = useGetMemberList(
+    32,
+    selectedPart,
+    getAuthHeader(),
+  );
 
   useEffect(() => {
-    const getData = async () => {
-      const accessToken = getToken('ACCESS');
-      const authHeader = { Authorization: `${accessToken}` };
-      const response = await getMemberList(32, selectedPart, authHeader);
-      const membersData = response?.data;
-      setMemberData(membersData);
-    };
-    getData();
-  }, [selectedPart]);
+    if (data) {
+      setMemberData(data);
+    }
+  }, [data]);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
@@ -79,6 +81,7 @@ function MemberList() {
           })}
         </tbody>
       </ListWrapper>
+      {isLoading && <Loading />}
     </>
   );
 }
