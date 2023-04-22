@@ -43,7 +43,7 @@ export const StGenerationDropdown = styled.div`
   }
 `;
 
-export const StMenu = styled.div`
+export const StMenu = styled.div<{ currentPage: boolean | undefined }>`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -62,12 +62,15 @@ export const StMenu = styled.div`
 
     width: 100%;
 
-    padding: 1.6rem 6.9rem 1.6rem 2.4rem;
+    padding: 1.6rem 2.4rem 1.6rem 2.4rem;
 
     text-align: center;
-    /* color: ${({ theme }) => theme.color.grayscale.gray60}; */
-    color: ${({ theme }) => theme.color.main.purple100};
-    background: #c6a9ff33;
+    color: ${({ theme, currentPage }) =>
+      currentPage ? theme.color.main.purple100 : theme.color.grayscale.gray60};
+    background: ${({ theme, currentPage }) =>
+      currentPage
+        ? theme.color.main.purpledim20
+        : theme.color.grayscale.gray10};
     border-radius: 8rem;
 
     cursor: pointer;
@@ -79,16 +82,21 @@ export const StMenu = styled.div`
   }
 `;
 
-export const StSubMenu = styled.p`
+export const StSubMenu = styled.p<{
+  currentPage: boolean | undefined;
+  isLast: boolean;
+}>`
   padding: 1.6rem 6.9rem 1.6rem 6rem;
   margin: 0 1.6rem;
+  margin-bottom: ${({ isLast }) => (isLast ? '1.6rem' : '0')};
 
   font-weight: 400;
   font-size: 16px;
   line-height: 100%;
   letter-spacing: -0.02em;
 
-  color: ${({ theme }) => theme.color.grayscale.gray60};
+  color: ${({ theme, currentPage }) =>
+    currentPage ? theme.color.main.purple100 : theme.color.grayscale.gray60};
 
   cursor: pointer;
 
