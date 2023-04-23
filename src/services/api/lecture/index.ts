@@ -94,3 +94,21 @@ export const getSessionMembers = async (
     }
   }
 };
+
+export const startAttendance = async (
+  code: string,
+  lectureId: number,
+  round: number,
+  authHeader: AuthHeader,
+): Promise<boolean> => {
+  try {
+    await client.patch(
+      '/lectures/attendance',
+      { code, lectureId, round },
+      { headers: { ...authHeader } },
+    );
+    return true;
+  } catch (e) {
+    return false;
+  }
+};

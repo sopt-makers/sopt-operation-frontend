@@ -25,6 +25,9 @@ export const StAttendanceModal = styled.div`
     line-height: 140%;
     color: ${({ theme }) => theme.color.main.purple100};
     margin-bottom: 2rem;
+    &-warn {
+      color: ${({ theme }) => theme.color.sub.red};
+    }
   }
   .code-wrapper {
     display: flex;

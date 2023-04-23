@@ -149,6 +149,8 @@ function SessionDetailPage() {
 
   const finishAttendance = () => {
     setModal(null);
+    getSessionData();
+    getSessionMemberData();
   };
 
   if (!id) return;
@@ -274,7 +276,11 @@ function SessionDetailPage() {
 
       {modal && (
         <Modal>
-          <AttendanceModal modal={modal} finishAttendance={finishAttendance} />
+          <AttendanceModal
+            round={modal}
+            lectureId={session.lectureId}
+            finishAttendance={finishAttendance}
+          />
         </Modal>
       )}
     </StPageWrapper>
