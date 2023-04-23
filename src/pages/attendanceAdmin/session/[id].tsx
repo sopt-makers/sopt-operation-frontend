@@ -1,17 +1,20 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
+import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import Select from '@/components/session/Select';
 import {
   attendanceInit,
   eventAttendanceOptions,
   seminarAttendanceOptions,
+  subLectureInit,
 } from '@/data/sessionData';
 import {
   updateMemberAttendStatus,
@@ -30,7 +33,7 @@ const HEADER_LABELS = [
   '2차 출석 상태',
   '2차 출석 일시',
   '변동점수',
-  'ㅤㅤ',
+  'ㅤ',
 ];
 const TABLE_WIDTH = ['9%', '9%', '12%', '10%', '16%', '10%', '16%', '9%', '9%'];
 
@@ -43,6 +46,7 @@ function SessionDetailPage() {
   const [session, setSession] = useState<SessionDetail>();
   const [members, setMembers] = useState<Member[]>([]);
   const [changedMembers, setChangedMembers] = useState<Member[]>([]);
+  const [modal, setModal] = useState<number | null>(null);
 
   const getSessionData = useCallback(async () => {
     if (id) {
@@ -67,6 +71,23 @@ function SessionDetailPage() {
       }
     },
     [id],
+  );
+
+  const firstSession = useMemo(
+    () =>
+      session
+        ? session.subLectures.find((subLecture) => subLecture.round === 1) ??
+          subLectureInit
+        : subLectureInit,
+    [session],
+  );
+  const secondSession = useMemo(
+    () =>
+      session
+        ? session.subLectures.find((subLecture) => subLecture.round === 2) ??
+          subLectureInit
+        : subLectureInit,
+    [session],
   );
 
   useEffect(() => {
@@ -120,6 +141,14 @@ function SessionDetailPage() {
     return changedMembers.find(
       (item) => item.member.memberId === member.member.memberId,
     );
+  };
+
+  const startAttendance = (round: number) => {
+    setModal(round);
+  };
+
+  const finishAttendance = () => {
+    setModal(null);
   };
 
   if (!id) return;
@@ -227,11 +256,27 @@ function SessionDetailPage() {
       <Footer>
         <StFooterContents>
           <div className="button-wrap">
-            <Button type="submit" text="1차 출석 시작하기" />
-            <Button type="submit" text="2차 출석 시작하기" disabled />
+            <Button
+              type="submit"
+              text="1차 출석 시작하기"
+              disabled={!!firstSession.startAt}
+              onClick={() => startAttendance(1)}
+            />
+            <Button
+              type="submit"
+              text="2차 출석 시작하기"
+              disabled={!firstSession.startAt || !!secondSession.startAt}
+              onClick={() => startAttendance(2)}
+            />
           </div>
         </StFooterContents>
       </Footer>
+
+      {modal && (
+        <Modal>
+          <AttendanceModal modal={modal} finishAttendance={finishAttendance} />
+        </Modal>
+      )}
     </StPageWrapper>
   );
 }

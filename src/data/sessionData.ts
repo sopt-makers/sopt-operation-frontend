@@ -5,6 +5,13 @@ export const attendanceInit: Attendance = {
   updateAt: '-',
 };
 
+export const subLectureInit: SubLecture = {
+  subLectureId: 0,
+  round: 0,
+  startAt: null,
+  code: null,
+};
+
 export const seminarAttendanceOptions: Array<{
   label: string;
   value: ATTEND_STATUS;

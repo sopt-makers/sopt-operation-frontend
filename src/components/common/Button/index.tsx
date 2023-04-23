@@ -11,7 +11,10 @@ function Button(props: Props) {
   const { type, text, onClick, disabled = false } = props;
 
   return (
-    <StButton type={type} onClick={onClick} disabled={disabled}>
+    <StButton
+      type={type}
+      onClick={() => !disabled && onClick && onClick()}
+      disabled={disabled}>
       {text}
     </StButton>
   );
