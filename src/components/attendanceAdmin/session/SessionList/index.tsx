@@ -6,7 +6,7 @@ import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
 import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
-import { getAuthHeader, getToken } from '@/utils/auth';
+import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
 import { StListHeader, StPartIndicator, StSessionIndicator } from './style';
