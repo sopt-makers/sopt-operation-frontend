@@ -16,7 +16,7 @@ export const StNavWrapper = styled.nav`
 
     padding: 4rem 4rem 3.6rem 4rem;
 
-    color: ${({ theme }) => theme.color.grayscale.black100};
+    color: ${({ theme }) => theme.color.grayscale.black40};
   }
 `;
 

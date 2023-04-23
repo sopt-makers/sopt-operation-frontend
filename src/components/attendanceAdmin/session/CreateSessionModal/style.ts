@@ -16,6 +16,7 @@ export const StTitle = styled.div`
 
   & > h1 {
     ${display1}
+    color: ${({ theme }) => theme.color.grayscale.black40};
   }
 
   & > svg {

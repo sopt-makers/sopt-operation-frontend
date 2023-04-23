@@ -30,6 +30,7 @@ export const StHeader = styled.header`
       font-size: 1.6rem;
       line-height: 100%;
       letter-spacing: -0.02em;
+      color: ${({ theme }) => theme.color.grayscale.black40};
     }
     &.logout > p {
       padding: 1.1rem 2.3rem;

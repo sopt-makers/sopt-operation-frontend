@@ -10,6 +10,7 @@ export const StListHeader = styled.header`
     font-size: 20px;
     line-height: 25px;
     letter-spacing: -0.02em;
+    color: ${({ theme }) => theme.color.grayscale.black60};
   }
 `;
 
