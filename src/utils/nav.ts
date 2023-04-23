@@ -6,6 +6,6 @@ export const MENU_LIST = [
   }, {
     title:'공홈 관리',
     subMenu: ['ABOUT'],
-    path: ['/orgAdmin/aboutManagement'],
+    path: ['/orgAdmin/aboutTabManagement'],
   }
 ];
