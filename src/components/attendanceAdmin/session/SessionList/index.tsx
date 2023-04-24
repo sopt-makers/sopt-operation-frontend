@@ -50,7 +50,7 @@ function SessionList() {
   );
 
   useEffect(() => {
-    if (data) {
+    if (data && 'lectures' in data) {
       setLectureData(data.lectures);
     }
   }, [data]);
@@ -62,7 +62,6 @@ function SessionList() {
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
   };
-
   return (
     <>
       <StListHeader>
