@@ -1,6 +1,5 @@
+import FilterButton from '@/components/common/FilterButton';
 import { partList, partTranslator } from '@/utils/translator';
-
-import { FilterButton, StPartFilter } from './style';
 
 interface Props {
   selected: PART;
@@ -11,16 +10,12 @@ function PartFilter(props: Props) {
   const { selected, onChangePart } = props;
 
   return (
-    <StPartFilter>
-      {partList.map((part) => (
-        <FilterButton
-          key={part}
-          selected={selected === part}
-          onClick={() => onChangePart(part)}>
-          {partTranslator[part]}
-        </FilterButton>
-      ))}
-    </StPartFilter>
+    <FilterButton<PART>
+      list={partList}
+      selected={selected}
+      onChange={onChangePart}
+      translator={partTranslator}
+    />
   );
 }
 
