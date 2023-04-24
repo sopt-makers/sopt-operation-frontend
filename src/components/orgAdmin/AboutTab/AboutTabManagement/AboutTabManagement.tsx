@@ -3,12 +3,12 @@ import {
   StLayout,
   StContent,
   StCoreValueLogo,
-} from '@/components/orgAdmin/style';
+} from '@/components/orgAdmin/AboutTab/AboutTabManagement/style';
 import React, { ChangeEvent, useRef, useState } from 'react';
 import TextField from '@/components/orgAdmin/TextField';
 import ImageSelect from '@/components/orgAdmin/ImageSelect';
 
-const AboutTab = () => {
+const AboutTabManagement = () => {
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [image, setImage] = useState<string | null>(null);
   const logoInputRef = useRef<HTMLInputElement | null>(null);
@@ -110,4 +110,4 @@ const AboutTab = () => {
   );
 };
 
-export default AboutTab;
+export default AboutTabManagement;
