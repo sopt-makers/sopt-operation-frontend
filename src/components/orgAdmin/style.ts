@@ -16,38 +16,32 @@ export const StLayout = styled.div`
 export const StContent = styled.div`
   padding: 12px;
 
+  & > .form_container {
+    padding-bottom: 2rem;
+  }
+
   & > h2 {
-    font-weight: 400;
-    font-size: 1.6rem;
+    padding-bottom: 2rem;
+    font-weight: bold;
+    font-size: 2rem;
     line-height: 140%;
     letter-spacing: -0.02em;
   }
 
   & > p {
-    padding-bottom: 0.6rem;
-
+    padding-bottom: 2rem;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 1.8rem;
     line-height: 20px;
     letter-spacing: -0.02em;
 
     color: ${({ theme }) => theme.color.grayscale.gray100};
   }
 `;
-export const StLogo = styled.div`
-  width: 678px;
-  height: 188px;
-  border: 1px solid #ccc;
+
+export const StCoreValueLogo = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-
-  & > div {
-    display: flex;
-
-    width: 100%;
-    height: 100%;
-    background-color: #f2f2f2;
-  }
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 2rem;
 `;

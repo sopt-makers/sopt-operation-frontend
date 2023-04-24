@@ -1,36 +1,12 @@
 import PartFilter from '@/components/common/PartFilter';
-import {StLayout, StContent, StLogo} from '@/components/orgAdmin/style';
+import {
+  StLayout,
+  StContent,
+  StCoreValueLogo,
+} from '@/components/orgAdmin/style';
 import React, { ChangeEvent, useRef, useState } from 'react';
-
-
-
-function ImageUpload(props: {
-  image: string | null;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  ref: React.MutableRefObject<HTMLInputElement | null>;
-}) {
-  return (
-    <StLogo>
-      {props.image ? (
-        <img
-          src={props.image}
-          alt="Uploaded image"
-          style={{ maxWidth: '100%', maxHeight: '100%' }}
-        />
-      ) : (
-        <>
-          <input
-            id={'logoFileUpload'}
-            type="file"
-            accept="image/*"
-            onChange={props.onChange}
-            ref={props.ref}
-          />
-        </>
-      )}
-    </StLogo>
-  );
-}
+import TextField from '@/components/orgAdmin/TextField';
+import ImageSelect from '@/components/orgAdmin/ImageSelect';
 
 const AboutTab = () => {
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
@@ -60,31 +36,75 @@ const AboutTab = () => {
       <h1>ABOUT 탭</h1>
       <StContent>
         <h2>썸네일</h2>
-        <p>image(옆에 이미지 사이즈 기재 필요)</p>
-        <ImageUpload
-          image={image}
-          onChange={handleImageChange}
-          ref={logoInputRef}
-        />
+        <p>image (1920 * 630)</p>
+        <div className={'form_container'}>
+          <ImageSelect
+            image={image}
+            onChange={handleImageChange}
+            ref={logoInputRef}
+          />
+        </div>
 
         <p>Title</p>
+        <div className={'form_container'}>
+          <TextField label={'ex. 32기 GO SOPT 소개'} />
+        </div>
       </StContent>
       <StContent>
         <h2>핵심가치</h2>
-        <p>image(옆에 이미지 사이즈 기재 필요)</p>
+        <p>image (380 * 380)</p>
+        <StCoreValueLogo>
+          <ImageSelect
+            image={image}
+            onChange={handleImageChange}
+            ref={logoInputRef}
+          />
+          <ImageSelect
+            image={image}
+            onChange={handleImageChange}
+            ref={logoInputRef}
+          />
+          <ImageSelect
+            image={image}
+            onChange={handleImageChange}
+            ref={logoInputRef}
+          />
+        </StCoreValueLogo>
       </StContent>
       <StContent>
         <h2>모집파트 & 커리큘럼</h2>
-        <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+        <div className={'form_container'}>
+          <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+        </div>
+        <div className={'form_container'}>
+          <ImageSelect
+            image={image}
+            onChange={handleImageChange}
+            ref={logoInputRef}
+          />
+        </div>
       </StContent>
       <StContent>
         <h2>활동내용</h2>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
       </StContent>
       <StContent>
-        <p>image(옆에 이미지 사이즈 기재 필요)</p>
         <p>Title</p>
+        <div className={'form_container'}>
+          <TextField label={'ex. 정기 세미나'} />
+        </div>
         <p>Sub title</p>
+        <div className={'form_container'}>
+          <TextField label={'ex. 2023년 4월 ~ 6월'} />
+        </div>
+        <p>image(옆에 이미지 사이즈 기재 필요)</p>
+        <div className={'form_container'}>
+          <ImageSelect
+            image={image}
+            onChange={handleImageChange}
+            ref={logoInputRef}
+          />
+        </div>
       </StContent>
     </StLayout>
   );

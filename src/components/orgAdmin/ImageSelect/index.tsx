@@ -1,4 +1,5 @@
 import React from 'react';
+import { StContainer } from '@/components/orgAdmin/ImageSelect/style';
 
 interface Props {
   image: string | null;
@@ -8,7 +9,7 @@ interface Props {
 
 const ImageSelect = ({ image, onChange, ref }: Props) => {
   return (
-    <>
+    <StContainer>
       {image ? (
         <img
           src={image}
@@ -26,7 +27,7 @@ const ImageSelect = ({ image, onChange, ref }: Props) => {
           />
         </>
       )}
-    </>
+    </StContainer>
   );
 };
 
