@@ -180,7 +180,7 @@ function CreateSessionModal({ onClose }: Props) {
             <article>
               <div className="form_container">
                 <p>세션명</p>
-                <StFormLayout>
+                <StFormLayout hasValue={sessionName ? true : false}>
                   <input
                     placeholder="세션 이름을 입력해주세요"
                     onChange={(e) => handleInputChange(e, '세션 이름')}></input>
@@ -188,7 +188,7 @@ function CreateSessionModal({ onClose }: Props) {
               </div>
               <div className="form_container">
                 <p>세션 장소</p>
-                <StFormLayout>
+                <StFormLayout hasValue={sessionLocation ? true : false}>
                   <input
                     placeholder="세션이 열리는 장소를 입력해주세요"
                     onChange={(e) => handleInputChange(e, '세션 장소')}></input>
@@ -198,21 +198,22 @@ function CreateSessionModal({ onClose }: Props) {
             <article>
               <div className="form_container">
                 <p>세션 날짜</p>
-                <StFormLayout>
+                <StFormLayout hasValue={date ? true : false}>
                   <DatePicker
                     placeholderText="세션 날짜를 선택해주세요"
                     dateFormat="yyyy/MM/dd"
                     selected={selectedDate}
                     onChange={handleDateChange}
                   />
-                  <IcDropdown color="#3C3D40" />
+                  <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
                 </StFormLayout>
               </div>
               <div className="input_time">
                 <div className="form_container">
                   <p>시작 시각</p>
                   <StFormLayout
-                    onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}>
+                    onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}
+                    hasValue={true}>
                     <span>{startTime}</span>
                     <IcDropdown color="#3C3D40" />
                   </StFormLayout>
@@ -229,7 +230,8 @@ function CreateSessionModal({ onClose }: Props) {
                 <div className="form_container">
                   <p>종료 시각</p>
                   <StFormLayout
-                    onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}>
+                    onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}
+                    hasValue={true}>
                     <span>{endTime}</span>
                     <IcDropdown color="#3C3D40" />
                   </StFormLayout>
