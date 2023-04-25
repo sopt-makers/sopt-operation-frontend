@@ -16,6 +16,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
   ${({ type }) =>
     type === 'times' &&
     css`
+      margin-left: 9.3rem;
       overflow: scroll;
       margin-top: 7rem;
     `}
