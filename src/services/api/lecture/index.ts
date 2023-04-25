@@ -112,3 +112,21 @@ export const startAttendance = async (
     return false;
   }
 };
+
+export const updateAttendance = async (
+  lectureId: number,
+  authHeader: AuthHeader,
+): Promise<boolean> => {
+  try {
+    await client.patch(
+      `/lectures/${lectureId}`,
+      {},
+      {
+        headers: { ...authHeader },
+      },
+    );
+    return true;
+  } catch (e) {
+    return false;
+  }
+};

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import Button from '@/components/common/Button';
 import { startAttendance } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
@@ -20,18 +21,22 @@ function AttendanceModal(props: Props) {
 
   const [timer, setTimer] = useState({ minutes: 10, seconds: 0 });
   const [code, setCode] = useState('');
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     const code = createCode();
     setCode(code);
 
     (async () => {
-      const result = await startAttendance(
+      const isStarted = await startAttendance(
         code,
         lectureId,
         round,
         getAuthHeader(),
       );
+      if (!isStarted) {
+        alert('출석이 정상적으로 시작되지 않았어요');
+      }
     })();
 
     let minutes = MINUTES;
@@ -40,7 +45,7 @@ function AttendanceModal(props: Props) {
     const id = setInterval(() => {
       if (minutes === 0 && seconds === 0) {
         clearInterval(id);
-        finishAttendance();
+        setIsFinished(true);
       } else if (seconds === 0) {
         minutes -= 1;
         seconds = 59;
@@ -81,7 +86,12 @@ function AttendanceModal(props: Props) {
           <p>출석을 정상적으로 종료하기 전에 창을 닫거나 이동하지 마세요!</p>
           <p>출석이 제대로 기록되지 않을 수 있어요.</p>
         </div>
-        <button onClick={finishAttendance}>출석 종료하기</button>
+        <Button
+          type="submit"
+          text="출석 종료하기"
+          onClick={finishAttendance}
+          disabled={!isFinished}
+        />
       </div>
     </StAttendanceModal>
   );

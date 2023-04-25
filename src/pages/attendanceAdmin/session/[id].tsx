@@ -20,7 +20,11 @@ import {
   updateMemberAttendStatus,
   updateMemberScore,
 } from '@/services/api/attendance';
-import { getSessionDetail, getSessionMembers } from '@/services/api/lecture';
+import {
+  getSessionDetail,
+  getSessionMembers,
+  updateAttendance,
+} from '@/services/api/lecture';
 import { addPlus, precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 
@@ -75,18 +79,16 @@ function SessionDetailPage() {
 
   const firstSession = useMemo(
     () =>
-      session
-        ? session.subLectures.find((subLecture) => subLecture.round === 1) ??
-          subLectureInit
-        : subLectureInit,
+      (session &&
+        session.subLectures.find((subLecture) => subLecture.round === 1)) ??
+      subLectureInit,
     [session],
   );
   const secondSession = useMemo(
     () =>
-      session
-        ? session.subLectures.find((subLecture) => subLecture.round === 2) ??
-          subLectureInit
-        : subLectureInit,
+      (session &&
+        session.subLectures.find((subLecture) => subLecture.round === 2)) ??
+      subLectureInit,
     [session],
   );
 
@@ -151,6 +153,15 @@ function SessionDetailPage() {
     setModal(null);
     getSessionData();
     getSessionMemberData();
+  };
+
+  const closeAttendance = async () => {
+    if (id) {
+      await updateAttendance(id, getAuthHeader());
+      getSessionData();
+      getSessionMemberData();
+      alert('출석 점수가 갱신되었어요');
+    }
   };
 
   if (!id) return;
@@ -271,6 +282,12 @@ function SessionDetailPage() {
               onClick={() => startAttendance(2)}
             />
           </div>
+          <Button
+            type="submit"
+            text="출석 종료하기"
+            disabled={!firstSession.startAt || !secondSession.startAt}
+            onClick={closeAttendance}
+          />
         </StFooterContents>
       </Footer>
 

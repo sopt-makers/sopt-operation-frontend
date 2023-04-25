@@ -63,14 +63,5 @@ export const StAttendanceModal = styled.div`
       line-height: 160%;
       color: ${({ theme }) => theme.color.sub.red};
     }
-    button {
-      font-size: 1.6rem;
-      font-weight: 600;
-      line-height: 100%;
-      color: ${({ theme }) => theme.color.grayscale.white100};
-      padding: 1.6rem 2.4rem;
-      border-radius: 4rem;
-      background-color: ${({ theme }) => theme.color.main.purple100};
-    }
   }
 `;
