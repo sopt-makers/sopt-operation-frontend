@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import ListWrapper from '@/components/common/ListWrapper';
+import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
-import { getMemberList } from '@/services/api/member';
+import { useGetMemberList } from '@/services/api/member';
 import { precision } from '@/utils';
-import { getToken } from '@/utils/auth';
+import { getAuthHeader, getToken } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
-import { StListHeader, StMemberInfo } from './style';
+import { StListHeader } from './style';
 
 function MemberList() {
   const HEADER_LABELS = [
@@ -16,26 +17,40 @@ function MemberList() {
     '학교명',
     '파트명',
     '총점',
-    '전체',
     '출석',
     '지각',
     '결석',
+    '참여',
     '관리',
   ];
 
+  const TABLE_WIDTH = [
+    '10%',
+    '13.5%',
+    '13.5%',
+    '12%',
+    '12%',
+    '5%',
+    '5%',
+    '5%',
+    '5%',
+    '12%',
+  ];
+
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [memberData, setMemberData] = useState<MemberList[] | undefined>([]);
+  const [memberData, setMemberData] = useState<Member[]>([]);
+
+  const { data, isLoading, isError, error } = useGetMemberList(
+    32,
+    selectedPart,
+    getAuthHeader(),
+  );
 
   useEffect(() => {
-    const getData = async () => {
-      const accessToken = getToken('ACCESS');
-      const authHeader = { Authorization: `${accessToken}` };
-      const response = await getMemberList(32, selectedPart, authHeader);
-      const membersData = response?.data;
-      setMemberData(membersData);
-    };
-    getData();
-  }, [selectedPart]);
+    if (data) {
+      setMemberData(data);
+    }
+  }, [data]);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
@@ -47,7 +62,7 @@ function MemberList() {
         <h1>출석 총점</h1>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
       </StListHeader>
-      <ListWrapper>
+      <ListWrapper tableWidth={TABLE_WIDTH}>
         <thead>
           <tr>
             {HEADER_LABELS.map((label) => (
@@ -61,10 +76,10 @@ function MemberList() {
             const { attendance, tardy, absent, participate } = total;
             const partName = getPartValue(partTranslator, part) || part;
             return (
-              <StMemberInfo key={`${name}-${university}`}>
+              <tr key={`${name}-${university}`}>
                 <td>{precision(index + 1, 2)}</td>
                 <td className="identify">{name}</td>
-                <td className="identify">{university}</td>
+                <td className="university">{university}</td>
                 <td>{partName}</td>
                 <td>{score}</td>
                 <td className="attendance">{attendance}</td>
@@ -74,11 +89,12 @@ function MemberList() {
                 <td>
                   <span>관리</span>
                 </td>
-              </StMemberInfo>
+              </tr>
             );
           })}
         </tbody>
       </ListWrapper>
+      {isLoading && <Loading />}
     </>
   );
 }

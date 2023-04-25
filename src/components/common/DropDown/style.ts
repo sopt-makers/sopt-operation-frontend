@@ -42,7 +42,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
       border-radius: 0.6rem;
 
       &:hover {
-        background-color: ${({ theme }) => theme.color.grayscale.gray20};
+        background-color: ${({ theme }) => theme.color.main.purpledim20};
 
         cursor: pointer;
       }

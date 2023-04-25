@@ -1,23 +1,30 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
+import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import Select from '@/components/session/Select';
 import {
   attendanceInit,
   eventAttendanceOptions,
   seminarAttendanceOptions,
+  subLectureInit,
 } from '@/data/sessionData';
 import {
   updateMemberAttendStatus,
   updateMemberScore,
 } from '@/services/api/attendance';
-import { getSessionDetail, getSessionMembers } from '@/services/api/lecture';
+import {
+  getSessionDetail,
+  getSessionMembers,
+  updateAttendance,
+} from '@/services/api/lecture';
 import { addPlus, precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 
@@ -30,7 +37,7 @@ const HEADER_LABELS = [
   '2차 출석 상태',
   '2차 출석 일시',
   '변동점수',
-  'ㅤㅤ',
+  'ㅤ',
 ];
 const TABLE_WIDTH = ['9%', '9%', '12%', '10%', '16%', '10%', '16%', '9%', '9%'];
 
@@ -43,6 +50,7 @@ function SessionDetailPage() {
   const [session, setSession] = useState<SessionDetail>();
   const [members, setMembers] = useState<Member[]>([]);
   const [changedMembers, setChangedMembers] = useState<Member[]>([]);
+  const [modal, setModal] = useState<number | null>(null);
 
   const getSessionData = useCallback(async () => {
     if (id) {
@@ -67,6 +75,21 @@ function SessionDetailPage() {
       }
     },
     [id],
+  );
+
+  const firstSession = useMemo(
+    () =>
+      (session &&
+        session.subLectures.find((subLecture) => subLecture.round === 1)) ??
+      subLectureInit,
+    [session],
+  );
+  const secondSession = useMemo(
+    () =>
+      (session &&
+        session.subLectures.find((subLecture) => subLecture.round === 2)) ??
+      subLectureInit,
+    [session],
   );
 
   useEffect(() => {
@@ -120,6 +143,27 @@ function SessionDetailPage() {
     return changedMembers.find(
       (item) => item.member.memberId === member.member.memberId,
     );
+  };
+
+  const startAttendance = (round: number) => {
+    setModal(round);
+  };
+
+  const finishAttendance = () => {
+    setModal(null);
+    getSessionData();
+    getSessionMemberData();
+  };
+
+  const closeAttendance = async () => {
+    const result = id && (await updateAttendance(id, getAuthHeader()));
+    if (result) {
+      getSessionData();
+      getSessionMemberData();
+      alert('출석 점수가 갱신되었어요');
+    } else {
+      alert('출석 점수를 갱신하는데 실패했어요');
+    }
   };
 
   if (!id) return;
@@ -227,11 +271,37 @@ function SessionDetailPage() {
       <Footer>
         <StFooterContents>
           <div className="button-wrap">
-            <Button type="submit" text="1차 출석 시작하기" />
-            <Button type="submit" text="2차 출석 시작하기" disabled />
+            <Button
+              type="submit"
+              text="1차 출석 시작하기"
+              disabled={!!firstSession.startAt}
+              onClick={() => startAttendance(1)}
+            />
+            <Button
+              type="submit"
+              text="2차 출석 시작하기"
+              disabled={!firstSession.startAt || !!secondSession.startAt}
+              onClick={() => startAttendance(2)}
+            />
           </div>
+          <Button
+            type="submit"
+            text="출석 종료하기"
+            disabled={!firstSession.startAt || !secondSession.startAt}
+            onClick={closeAttendance}
+          />
         </StFooterContents>
       </Footer>
+
+      {modal && (
+        <Modal>
+          <AttendanceModal
+            round={modal}
+            lectureId={session.lectureId}
+            finishAttendance={finishAttendance}
+          />
+        </Modal>
+      )}
     </StPageWrapper>
   );
 }

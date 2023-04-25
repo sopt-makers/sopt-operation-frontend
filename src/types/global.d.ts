@@ -31,10 +31,6 @@ declare global {
     updatedScore: number;
   }
   interface Member {
-    data: MemberList[] | undefined;
-  }
-
-  interface MemberList {
     id: number;
     name: string;
     university: string;
@@ -59,11 +55,9 @@ declare global {
     generation: number;
   }
 
-  interface LectureImsy {
-    data: {
-      generation: number;
-      lectures: LectureList[] | undefined;
-    };
+  interface Lecture {
+    generation: number;
+    lectures: LectureList[];
   }
   interface LectureList {
     lectureId: number;
@@ -80,18 +74,17 @@ declare global {
       unknown: number;
     };
   }
-  type Lecture = LectureList;
 
   interface SubLecture {
     subLectureId: number;
     round: number;
-    startAt: string; // yyyy-MM-ddThh:mm:ss
-    code: string;
+    startAt: string | null; // yyyy-MM-ddThh:mm:ss
+    code: string | null;
   }
 
   interface Session {
     generation: number;
-    lectures: Lecture[];
+    lectures: LectureList[];
   }
 
   interface SessionDetail {

@@ -4,4 +4,7 @@ export const MENU_LIST = [
     subMenu: ['출석 세션', '출석 총점'],
     path: ['/attendanceAdmin/session', '/attendanceAdmin/totalScore'],
   },
+  {
+    title: '공홈 어드민',
+  },
 ];

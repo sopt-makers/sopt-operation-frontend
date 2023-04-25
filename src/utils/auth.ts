@@ -48,7 +48,9 @@ export const getAuthHeader = (req?: IncomingMessage): AuthHeader => {
   const token =
     req && req.headers.cookie
       ? getCookie(TOKEN_KEY.ACCESS, req.headers.cookie)
-      : getCookie(TOKEN_KEY.ACCESS, document.cookie);
+      : typeof window !== 'undefined'
+      ? getCookie(TOKEN_KEY.ACCESS, document.cookie)
+      : '';
 
   const header: AuthHeader = { Authorization: token };
   return header;
