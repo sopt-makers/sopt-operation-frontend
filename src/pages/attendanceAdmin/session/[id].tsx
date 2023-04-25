@@ -156,11 +156,13 @@ function SessionDetailPage() {
   };
 
   const closeAttendance = async () => {
-    if (id) {
-      await updateAttendance(id, getAuthHeader());
+    const result = id && (await updateAttendance(id, getAuthHeader()));
+    if (result) {
       getSessionData();
       getSessionMemberData();
       alert('출석 점수가 갱신되었어요');
+    } else {
+      alert('출석 점수를 갱신하는데 실패했어요');
     }
   };
 
