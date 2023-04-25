@@ -19,7 +19,7 @@ const SECONDS = 0;
 function AttendanceModal(props: Props) {
   const { round, lectureId, finishAttendance } = props;
 
-  const [timer, setTimer] = useState({ minutes: 10, seconds: 0 });
+  const [timer, setTimer] = useState({ minutes: MINUTES, seconds: SECONDS });
   const [code, setCode] = useState('');
   const [isFinished, setIsFinished] = useState(false);
 

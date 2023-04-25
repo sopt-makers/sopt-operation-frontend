@@ -121,9 +121,7 @@ export const updateAttendance = async (
     await client.patch(
       `/lectures/${lectureId}`,
       {},
-      {
-        headers: { ...authHeader },
-      },
+      { headers: { ...authHeader } },
     );
     return true;
   } catch (e) {
