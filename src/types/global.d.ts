@@ -85,8 +85,8 @@ declare global {
   interface SubLecture {
     subLectureId: number;
     round: number;
-    startAt: string; // yyyy-MM-ddThh:mm:ss
-    code: string;
+    startAt: string | null; // yyyy-MM-ddThh:mm:ss
+    code: string | null;
   }
 
   interface Session {
