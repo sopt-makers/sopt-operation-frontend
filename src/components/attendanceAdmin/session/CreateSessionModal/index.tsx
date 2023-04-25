@@ -1,6 +1,6 @@
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import React from 'react';
 import DatePicker from 'react-datepicker';
 
@@ -8,7 +8,7 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
-import { getSessionList, postNewSession } from '@/services/api/lecture';
+import { postNewSession } from '@/services/api/lecture';
 import { getToken } from '@/utils/auth';
 import {
   partList,
@@ -50,6 +50,7 @@ function CreateSessionModal({ onClose }: Props) {
   const [isEndTimeOpen, setIsEndTimeOpen] = useState<boolean>(false);
 
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     if (
@@ -75,25 +76,39 @@ function CreateSessionModal({ onClose }: Props) {
     selectedSessionIndex,
   ]);
 
-  const handleSubmit = async () => {
-    const accessToken = getToken('ACCESS');
-    const authHeader = { Authorization: `${accessToken}` };
-    const translatedPart = partTranslator[part];
-    const translatedAttribute =
-      sessionTranslator[sessionType[selectedSessionIndex].session];
+  const handleSubmit = useCallback(async () => {
+    if (!buttonClicked) {
+      setButtonClicked(true);
 
-    const submitContents = {
-      part: translatedPart,
-      name: sessionName,
-      place: sessionLocation,
-      startDate: `${date} ${startTime}`,
-      endDate: `${date} ${endTime}`,
-      attribute: translatedAttribute,
-      generation: 32,
-    };
-    await postNewSession(submitContents, authHeader);
-    onClose();
-  };
+      const accessToken = getToken('ACCESS');
+      const authHeader = { Authorization: `${accessToken}` };
+      const translatedPart = partTranslator[part];
+      const translatedAttribute =
+        sessionTranslator[sessionType[selectedSessionIndex].session];
+
+      const submitContents = {
+        part: translatedPart,
+        name: sessionName,
+        place: sessionLocation,
+        startDate: `${date} ${startTime}`,
+        endDate: `${date} ${endTime}`,
+        attribute: translatedAttribute,
+        generation: 32,
+      };
+      await postNewSession(submitContents, authHeader);
+      onClose();
+    }
+  }, [
+    buttonClicked,
+    date,
+    endTime,
+    onClose,
+    part,
+    selectedSessionIndex,
+    sessionLocation,
+    sessionName,
+    startTime,
+  ]);
 
   const handlePartSelection = (selectedPart: string) => {
     setPart(selectedPart);
@@ -257,7 +272,7 @@ function CreateSessionModal({ onClose }: Props) {
           <Button
             type={'submit'}
             text="세션 생성하기"
-            onClick={() => handleSubmit()}
+            onClick={handleSubmit}
             disabled={buttonDisabled}
           />
         </article>

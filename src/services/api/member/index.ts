@@ -1,19 +1,27 @@
 import { AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
 
 import { client } from '@/services/api/client';
 
-export const getMemberList = async (
+export const useGetMemberList = (
   generation: number,
   part: string,
   authHeader: AuthHeader,
-): Promise<Member | null> => {
-  try {
-    const { data }: AxiosResponse<Member> = await client.get(
-      `/members/list?generation=${generation}&part=${part}`,
-      { headers: { ...authHeader } },
-    );
-    return data;
-  } catch (e) {
-    return null;
-  }
+) => {
+  return useQuery<Member[], Error>(
+    ['memberList', generation, part, authHeader],
+    async () => {
+      try {
+        const { data }: AxiosResponse<{ data: Member[] }> = await client.get(
+          `/members/list?generation=${generation}&part=${part}`,
+          {
+            headers: { ...authHeader },
+          },
+        );
+        return data.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+  );
 };
