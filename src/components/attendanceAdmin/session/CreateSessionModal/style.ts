@@ -114,7 +114,7 @@ export const StFormSection = styled.section`
   }
 `;
 
-export const StFormLayout = styled.div`
+export const StFormLayout = styled.div<{ hasValue?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,7 +122,10 @@ export const StFormLayout = styled.div`
   width: 100%;
   height: 4.4rem;
 
-  border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
+  border: ${({ hasValue, theme }) =>
+    hasValue
+      ? `1px solid ${theme.color.grayscale.black40}`
+      : `1px solid ${theme.color.grayscale.gray30}`};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
 
@@ -155,7 +158,7 @@ export const StFormLayout = styled.div`
     border-radius: 8px;
 
     &::placeholder {
-      color: ${({ theme }) => theme.color.grayscale.black40};
+      color: ${({ theme }) => theme.color.grayscale.gray30};
     }
   }
 
@@ -178,7 +181,7 @@ export const StFormLayout = styled.div`
       border-radius: 8px;
 
       &::placeholder {
-        color: ${({ theme }) => theme.color.grayscale.black40};
+        color: ${({ theme }) => theme.color.grayscale.gray30};
       }
     }
   }
