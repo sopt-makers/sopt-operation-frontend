@@ -92,6 +92,7 @@ function CreateSessionModal({ onClose }: Props) {
       generation: 32,
     };
     await postNewSession(submitContents, authHeader);
+    location.reload();
     onClose();
   };
 
