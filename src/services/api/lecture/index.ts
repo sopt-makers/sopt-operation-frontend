@@ -74,9 +74,9 @@ export const getSessionMembers = async (
   lectureId: number,
   authHeader: AuthHeader,
   part?: PART,
-): Promise<Member[] | ProjectError> => {
+): Promise<SessionMember[] | ProjectError> => {
   try {
-    const { data }: AxiosResponse<{ data: Member[] }> = await client.get(
+    const { data }: AxiosResponse<{ data: SessionMember[] }> = await client.get(
       `/attendances/lecture/${lectureId}${part ? `?part=${part}` : ''}`,
       { headers: { ...authHeader } },
     );
