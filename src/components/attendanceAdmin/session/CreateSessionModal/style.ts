@@ -216,7 +216,7 @@ export const StSessionSelector = styled.article`
   display: flex;
   gap: 1.6rem;
 
-  & > div {
+  & > label {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
@@ -232,6 +232,9 @@ export const StSessionSelector = styled.article`
       font-size: 14px;
       line-height: 100%;
       letter-spacing: -0.02em;
+    }
+    &:hover {
+      cursor: pointer;
     }
   }
 `;
