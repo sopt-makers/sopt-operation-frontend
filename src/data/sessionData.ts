@@ -5,6 +5,12 @@ export const attendanceInit: Attendance = {
   updateAt: '-',
 };
 
+export const scoreDetailAttendanceInit: ScoreDetailAttendance = {
+  round: 0,
+  status: '결석',
+  date: '-',
+};
+
 export const subLectureInit: SubLecture = {
   subLectureId: 0,
   round: 0,

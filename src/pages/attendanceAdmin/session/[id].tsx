@@ -48,8 +48,8 @@ function SessionDetailPage() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [session, setSession] = useState<SessionDetail>();
-  const [members, setMembers] = useState<Member[]>([]);
-  const [changedMembers, setChangedMembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<SessionMember[]>([]);
+  const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [modal, setModal] = useState<number | null>(null);
 
   const getSessionData = useCallback(async () => {
@@ -106,7 +106,7 @@ function SessionDetailPage() {
 
   const onChangeStatus = async (
     status: ATTEND_STATUS,
-    member: Member,
+    member: SessionMember,
     subAttendanceId: number,
   ) => {
     if (session) {
@@ -139,7 +139,7 @@ function SessionDetailPage() {
     }
   };
 
-  const isChangedMember = (member: Member) => {
+  const isChangedMember = (member: SessionMember) => {
     return changedMembers.find(
       (item) => item.member.memberId === member.member.memberId,
     );
