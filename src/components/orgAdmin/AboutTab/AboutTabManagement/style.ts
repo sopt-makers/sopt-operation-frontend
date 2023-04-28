@@ -38,10 +38,3 @@ export const StContent = styled.div`
     color: ${({ theme }) => theme.color.grayscale.gray100};
   }
 `;
-
-export const StCoreValueLogo = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-bottom: 2rem;
-`;
