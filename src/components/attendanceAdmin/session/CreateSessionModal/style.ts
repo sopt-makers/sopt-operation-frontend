@@ -142,7 +142,7 @@ export const StFormLayout = styled.div<{ hasValue?: boolean }>`
     letter-spacing: -0.02em;
   }
 
-  & > input {
+  & input {
     width: 100%;
     height: 100%;
 
@@ -160,6 +160,10 @@ export const StFormLayout = styled.div<{ hasValue?: boolean }>`
 
     &::placeholder {
       color: ${({ theme }) => theme.color.grayscale.gray30};
+    }
+    &:focus {
+      outline: none;
+      border: 1px solid ${({ theme }) => theme.color.main.purple100};
     }
   }
 
