@@ -25,7 +25,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
 
   z-index: 1;
 
-  animation: appear 0.6s;
+  animation: appearDropdown 0.6s;
   & > div {
     display: flex;
     flex-direction: column;
@@ -51,7 +51,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
     }
   }
 
-  @keyframes appear {
+  @keyframes appearDropdown {
     from {
       opacity: 0;
       transform: translateY(-1rem);
