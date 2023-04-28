@@ -53,3 +53,11 @@ export const StModalWrap = styled.div`
     }
   }
 `;
+
+export const StSessionName = styled.p`
+  max-width: 15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 auto;
+`;

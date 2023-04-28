@@ -9,7 +9,12 @@ import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
-import { StListHeader, StPartIndicator, StSessionIndicator } from './style';
+import {
+  StListHeader,
+  StPartIndicator,
+  StSessionIndicator,
+  StSessionName,
+} from './style';
 
 function SessionList() {
   const router = useRouter();
@@ -93,7 +98,9 @@ function SessionList() {
                     {attributeName}
                   </StSessionIndicator>
                 </td>
-                <td>{name}</td>
+                <td>
+                  <StSessionName>{name}</StSessionName>
+                </td>
                 <td>{date}</td>
                 <td className="attendance">{attendance}</td>
                 <td className="attendance">{tardy}</td>

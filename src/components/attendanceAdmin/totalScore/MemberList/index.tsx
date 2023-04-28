@@ -9,7 +9,7 @@ import { getAuthHeader, getToken } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
 import MemberDetail from '../MemberDetail';
-import { StListHeader } from './style';
+import { StListHeader, StMemberName, StMemberUniversity } from './style';
 
 function MemberList() {
   const HEADER_LABELS = [
@@ -90,8 +90,12 @@ function MemberList() {
             return (
               <tr key={`${name}-${university}`}>
                 <td>{precision(index + 1, 2)}</td>
-                <td className="identify">{name}</td>
-                <td className="university">{university}</td>
+                <td className="identify">
+                  <StMemberName>{name}</StMemberName>
+                </td>
+                <td className="university">
+                  <StMemberUniversity>{university}</StMemberUniversity>
+                </td>
                 <td>{partName}</td>
                 <td>{score}</td>
                 <td className="attendance">{attendance}</td>
