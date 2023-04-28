@@ -142,7 +142,7 @@ export const StFormLayout = styled.div<{ hasValue?: boolean }>`
     letter-spacing: -0.02em;
   }
 
-  & > input {
+  & input {
     width: 100%;
     height: 100%;
 
@@ -160,6 +160,10 @@ export const StFormLayout = styled.div<{ hasValue?: boolean }>`
 
     &::placeholder {
       color: ${({ theme }) => theme.color.grayscale.gray30};
+    }
+    &:focus {
+      outline: none;
+      border: 1px solid ${({ theme }) => theme.color.main.purple100};
     }
   }
 
@@ -212,7 +216,7 @@ export const StSessionSelector = styled.article`
   display: flex;
   gap: 1.6rem;
 
-  & > div {
+  & > label {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
@@ -228,6 +232,9 @@ export const StSessionSelector = styled.article`
       font-size: 14px;
       line-height: 100%;
       letter-spacing: -0.02em;
+    }
+    &:hover {
+      cursor: pointer;
     }
   }
 `;

@@ -38,3 +38,11 @@ export const StSessionIndicator = styled(IndicatorStructure)<{
       ? theme.color.main.purple40
       : theme.color.main.purpledim100};
 `;
+
+export const StSessionName = styled.p`
+  max-width: 17rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 auto;
+`;

@@ -10,14 +10,12 @@ export const StModalBackground = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: ${zIndex.dim};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const StModalWrapper = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
   width: 90rem;
   height: auto;
 
@@ -26,4 +24,17 @@ export const StModalWrapper = styled.div`
   border-radius: 1.2rem;
 
   z-index: ${zIndex.modal};
+
+  animation: appearModal 0.6s forwards;
+
+  @keyframes appearModal {
+    from {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;

@@ -13,3 +13,19 @@ export const StListHeader = styled.header`
     color: ${({ theme }) => theme.color.grayscale.black60};
   }
 `;
+
+export const StMemberName = styled.p`
+  max-width: 7.3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 auto;
+`;
+
+export const StMemberUniversity = styled.p`
+  max-width: 7.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 auto;
+`;

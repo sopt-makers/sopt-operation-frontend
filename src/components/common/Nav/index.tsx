@@ -41,7 +41,8 @@ function Nav() {
         <React.Fragment key={menu.title}>
           <StMenu
             currentPage={
-              menu.path && menu.path.some((path) => router.pathname === path)
+              menu.path &&
+              menu.path.some((path) => router.pathname.includes(path))
             }
             onClick={() => menu.path && handleSubMenuClick(menu.path[0])}>
             <p>
@@ -53,7 +54,9 @@ function Nav() {
             menu.subMenu.map((subMenu, i) => (
               <StSubMenu
                 key={subMenu}
-                currentPage={menu.path && router.pathname === menu.path[i]}
+                currentPage={
+                  menu.path && router.pathname.includes(menu.path[i])
+                }
                 isLast={i === menu.subMenu.length - 1}
                 onClick={() => handleSubMenuClick(menu.path[i])}>
                 {subMenu}

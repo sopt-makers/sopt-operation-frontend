@@ -262,10 +262,15 @@ function CreateSessionModal({ onClose }: Props) {
                   )
                 }
               />
-              <div>
+              <label
+                onClick={() =>
+                  setSelectedSessionIndex(
+                    selectedSessionIndex === index ? -1 : index,
+                  )
+                }>
                 <h3>{type.session}</h3>
                 <p>{type.desc}</p>
-              </div>
+              </label>
             </React.Fragment>
           ))}
         </StSessionSelector>

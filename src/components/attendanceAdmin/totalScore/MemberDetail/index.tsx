@@ -8,7 +8,7 @@ import { getMemberAttendance } from '@/services/api/attendance';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 
-import { StModalWrap } from './style';
+import { StModalWrap, StSessionName } from './style';
 
 interface Props {
   memberId: number;
@@ -97,7 +97,9 @@ function MemberDetail(props: Props) {
                     <td style={{ width: TABLE_WIDTH[0] }}>
                       {precision(index + 1, 2)}
                     </td>
-                    <td style={{ width: TABLE_WIDTH[1] }}>{lecture.lecture}</td>
+                    <td style={{ width: TABLE_WIDTH[1] }}>
+                      <StSessionName>{lecture.lecture}</StSessionName>
+                    </td>
                     <td style={{ width: TABLE_WIDTH[2] }}>
                       {firstRound.status}
                     </td>
