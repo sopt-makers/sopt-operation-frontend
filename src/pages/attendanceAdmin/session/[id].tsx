@@ -50,6 +50,7 @@ function SessionDetailPage() {
   const [members, setMembers] = useState<SessionMember[]>([]);
   const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [modal, setModal] = useState<number | null>(null);
+  const [ended, setEnded] = useState(false);
 
   const getSessionData = useCallback(async () => {
     if (id) {
@@ -155,13 +156,19 @@ function SessionDetailPage() {
   };
 
   const closeAttendance = async () => {
-    const result = id && (await updateAttendance(id, getAuthHeader()));
-    if (result) {
-      getSessionData();
-      getSessionMemberData();
-      alert('출석 점수가 갱신되었어요');
-    } else {
-      alert('출석 점수를 갱신하는데 실패했어요');
+    const res = confirm(
+      '세미나가 끝난 후에 출석을 종료할 수 있어요. 출석을 종료하시겠어요?',
+    );
+    if (res) {
+      const result = id && (await updateAttendance(id, getAuthHeader()));
+      if (result) {
+        getSessionData();
+        getSessionMemberData();
+        setEnded(true);
+        alert('출석 점수가 갱신되었어요');
+      } else {
+        alert('출석 점수를 갱신하는데 실패했어요');
+      }
     }
   };
 
@@ -278,7 +285,7 @@ function SessionDetailPage() {
           <Button
             type="submit"
             text="출석 종료하기"
-            disabled={!firstSession.startAt || !secondSession.startAt}
+            disabled={ended || !firstSession.startAt || !secondSession.startAt}
             onClick={closeAttendance}
           />
         </StFooterContents>
