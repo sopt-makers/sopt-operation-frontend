@@ -24,7 +24,7 @@ export const partList = [
   '기획',
   '디자인',
   '서버',
-  'IOS',
+  'iOS',
   '안드로이드',
   '웹',
 ];
