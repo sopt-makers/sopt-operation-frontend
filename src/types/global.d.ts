@@ -22,7 +22,7 @@ declare global {
   }
   interface ScoreDetailAttendance {
     round: number;
-    status: ATTEND_STATUS;
+    status: string;
     date: string;
   }
   interface SessionMember {
@@ -57,7 +57,7 @@ declare global {
     lectures: Array<{
       lecture: string;
       additiveScore: number;
-      status: ATTEND_STATUS;
+      status: string;
       attendances: ScoreDetailAttendance[];
     }>;
   }

@@ -7,7 +7,7 @@ export const attendanceInit: Attendance = {
 
 export const scoreDetailAttendanceInit: ScoreDetailAttendance = {
   round: 0,
-  status: 'ABSENT',
+  status: '결석',
   date: '-',
 };
 

@@ -64,7 +64,7 @@ function MemberDetail(props: Props) {
             {member.name}
             <span>{member.score}점</span>
           </p>
-          <p className="member-part">{member.part}</p>
+          <p className="member-part">{member.part}파트</p>
           <p className="member-university">{member.university}</p>
           <p className="member-phone">{member.phone}</p>
         </header>
