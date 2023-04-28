@@ -12,8 +12,7 @@ import PartFilter from '@/components/common/PartFilter';
 import Select from '@/components/session/Select';
 import {
   attendanceInit,
-  eventAttendanceOptions,
-  seminarAttendanceOptions,
+  attendanceOptions,
   subLectureInit,
 } from '@/data/sessionData';
 import {
@@ -217,11 +216,7 @@ function SessionDetailPage() {
                   <td>
                     <Select
                       selected={firstRound.status}
-                      options={
-                        session.attribute === 'SEMINAR'
-                          ? seminarAttendanceOptions
-                          : eventAttendanceOptions
-                      }
+                      options={attendanceOptions}
                       onChange={(value) =>
                         onChangeStatus(
                           value,
@@ -235,11 +230,7 @@ function SessionDetailPage() {
                   <td>
                     <Select
                       selected={secondRound.status}
-                      options={
-                        session.attribute === 'SEMINAR'
-                          ? seminarAttendanceOptions
-                          : eventAttendanceOptions
-                      }
+                      options={attendanceOptions}
                       onChange={(value) =>
                         onChangeStatus(
                           value,

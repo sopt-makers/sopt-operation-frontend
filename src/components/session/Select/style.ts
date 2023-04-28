@@ -21,14 +21,15 @@ export const StSelect = styled.button`
 export const StOptions = styled.ul`
   z-index: ${zIndex.select};
   position: absolute;
-  transform: translateY(8rem);
+  transform: translateY(6.5rem);
   background-color: ${({ theme }) => theme.color.grayscale.realwhite};
   border-radius: 1rem;
-  padding: 0.8rem 0;
+  padding: 0.7rem;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1);
   animation: appear 0.6s;
   li {
-    padding: 0.8rem 2.4rem;
+    border-radius: 0.6rem;
+    padding: 0.9rem 1.7rem;
     &:hover {
       background-color: rgba(198, 169, 255, 0.2);
       cursor: pointer;

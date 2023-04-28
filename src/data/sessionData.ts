@@ -18,16 +18,7 @@ export const subLectureInit: SubLecture = {
   code: null,
 };
 
-export const seminarAttendanceOptions: Array<{
-  label: string;
-  value: ATTEND_STATUS;
-}> = [
-  { label: '출석', value: 'ATTENDANCE' },
-  { label: '지각', value: 'TARDY' },
-  { label: '결석', value: 'ABSENT' },
-];
-
-export const eventAttendanceOptions: Array<{
+export const attendanceOptions: Array<{
   label: string;
   value: ATTEND_STATUS;
 }> = [
