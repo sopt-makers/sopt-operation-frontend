@@ -8,6 +8,7 @@ import { precision } from '@/utils';
 import { getAuthHeader, getToken } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
+import MemberDetail from '../MemberDetail';
 import { StListHeader } from './style';
 
 function MemberList() {
@@ -38,7 +39,10 @@ function MemberList() {
   ];
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [memberData, setMemberData] = useState<Member[]>([]);
+  const [memberData, setMemberData] = useState<ScoreMember[]>([]);
+  const [selectedMember, setSelectedMember] = useState<ScoreMember | null>(
+    null,
+  );
 
   const { data, isLoading, isError, error } = useGetMemberList(
     32,
@@ -54,6 +58,14 @@ function MemberList() {
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
+  };
+
+  const onChangeMember = (member: ScoreMember) => {
+    setSelectedMember(member);
+  };
+
+  const onCloseModal = () => {
+    setSelectedMember(null);
   };
 
   return (
@@ -86,7 +98,7 @@ function MemberList() {
                 <td className="attendance">{tardy}</td>
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{participate}</td>
-                <td>
+                <td onClick={() => onChangeMember(member)}>
                   <span>관리</span>
                 </td>
               </tr>
@@ -95,6 +107,9 @@ function MemberList() {
         </tbody>
       </ListWrapper>
       {isLoading && <Loading />}
+      {selectedMember && (
+        <MemberDetail memberId={selectedMember.id} onClose={onCloseModal} />
+      )}
     </>
   );
 }
