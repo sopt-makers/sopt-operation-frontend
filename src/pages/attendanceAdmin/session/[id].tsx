@@ -1,23 +1,29 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
+import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import Select from '@/components/session/Select';
 import {
   attendanceInit,
-  eventAttendanceOptions,
-  seminarAttendanceOptions,
+  attendanceOptions,
+  subLectureInit,
 } from '@/data/sessionData';
 import {
   updateMemberAttendStatus,
   updateMemberScore,
 } from '@/services/api/attendance';
-import { getSessionDetail, getSessionMembers } from '@/services/api/lecture';
+import {
+  getSessionDetail,
+  getSessionMembers,
+  updateAttendance,
+} from '@/services/api/lecture';
 import { addPlus, precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 
@@ -30,7 +36,7 @@ const HEADER_LABELS = [
   '2차 출석 상태',
   '2차 출석 일시',
   '변동점수',
-  'ㅤㅤ',
+  'ㅤ',
 ];
 const TABLE_WIDTH = ['9%', '9%', '12%', '10%', '16%', '10%', '16%', '9%', '9%'];
 
@@ -41,8 +47,10 @@ function SessionDetailPage() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [session, setSession] = useState<SessionDetail>();
-  const [members, setMembers] = useState<Member[]>([]);
-  const [changedMembers, setChangedMembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<SessionMember[]>([]);
+  const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
+  const [modal, setModal] = useState<number | null>(null);
+  const [ended, setEnded] = useState(false);
 
   const getSessionData = useCallback(async () => {
     if (id) {
@@ -69,6 +77,21 @@ function SessionDetailPage() {
     [id],
   );
 
+  const firstSession = useMemo(
+    () =>
+      (session &&
+        session.subLectures.find((subLecture) => subLecture.round === 1)) ??
+      subLectureInit,
+    [session],
+  );
+  const secondSession = useMemo(
+    () =>
+      (session &&
+        session.subLectures.find((subLecture) => subLecture.round === 2)) ??
+      subLectureInit,
+    [session],
+  );
+
   useEffect(() => {
     if (!router.isReady) return;
 
@@ -83,7 +106,7 @@ function SessionDetailPage() {
 
   const onChangeStatus = async (
     status: ATTEND_STATUS,
-    member: Member,
+    member: SessionMember,
     subAttendanceId: number,
   ) => {
     if (session) {
@@ -116,10 +139,37 @@ function SessionDetailPage() {
     }
   };
 
-  const isChangedMember = (member: Member) => {
+  const isChangedMember = (member: SessionMember) => {
     return changedMembers.find(
       (item) => item.member.memberId === member.member.memberId,
     );
+  };
+
+  const startAttendance = (round: number) => {
+    setModal(round);
+  };
+
+  const finishAttendance = () => {
+    setModal(null);
+    getSessionData();
+    getSessionMemberData();
+  };
+
+  const closeAttendance = async () => {
+    const res = confirm(
+      '세미나가 끝난 후에 출석을 종료할 수 있어요. 출석을 종료하시겠어요?',
+    );
+    if (res) {
+      const result = id && (await updateAttendance(id, getAuthHeader()));
+      if (result) {
+        getSessionData();
+        getSessionMemberData();
+        setEnded(true);
+        alert('출석 점수가 갱신되었어요');
+      } else {
+        alert('출석 점수를 갱신하는데 실패했어요');
+      }
+    }
   };
 
   if (!id) return;
@@ -173,11 +223,7 @@ function SessionDetailPage() {
                   <td>
                     <Select
                       selected={firstRound.status}
-                      options={
-                        session.attribute === 'SEMINAR'
-                          ? seminarAttendanceOptions
-                          : eventAttendanceOptions
-                      }
+                      options={attendanceOptions}
                       onChange={(value) =>
                         onChangeStatus(
                           value,
@@ -191,11 +237,7 @@ function SessionDetailPage() {
                   <td>
                     <Select
                       selected={secondRound.status}
-                      options={
-                        session.attribute === 'SEMINAR'
-                          ? seminarAttendanceOptions
-                          : eventAttendanceOptions
-                      }
+                      options={attendanceOptions}
                       onChange={(value) =>
                         onChangeStatus(
                           value,
@@ -227,11 +269,37 @@ function SessionDetailPage() {
       <Footer>
         <StFooterContents>
           <div className="button-wrap">
-            <Button type="submit" text="1차 출석 시작하기" />
-            <Button type="submit" text="2차 출석 시작하기" disabled />
+            <Button
+              type="submit"
+              text="1차 출석 시작하기"
+              disabled={!!firstSession.startAt}
+              onClick={() => startAttendance(1)}
+            />
+            <Button
+              type="submit"
+              text="2차 출석 시작하기"
+              disabled={!firstSession.startAt || !!secondSession.startAt}
+              onClick={() => startAttendance(2)}
+            />
           </div>
+          <Button
+            type="submit"
+            text="출석 종료하기"
+            disabled={ended || !firstSession.startAt || !secondSession.startAt}
+            onClick={closeAttendance}
+          />
         </StFooterContents>
       </Footer>
+
+      {modal && (
+        <Modal>
+          <AttendanceModal
+            round={modal}
+            lectureId={session.lectureId}
+            finishAttendance={finishAttendance}
+          />
+        </Modal>
+      )}
     </StPageWrapper>
   );
 }
@@ -279,10 +347,17 @@ const StPageHeader = styled.div`
     font-size: 2rem;
     font-weight: 600;
     line-height: 2.5rem;
+    height: 3rem;
     margin-bottom: 1.2rem;
     color: ${({ theme }) => theme.color.grayscale.black60};
+    display: flex;
     strong {
       font-weight: 700;
+      max-width: 18rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
     }
   }
   .attendance-info {

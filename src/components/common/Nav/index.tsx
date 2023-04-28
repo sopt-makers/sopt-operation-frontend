@@ -39,7 +39,12 @@ function Nav() {
       </header>
       {MENU_LIST.map((menu) => (
         <React.Fragment key={menu.title}>
-          <StMenu>
+          <StMenu
+            currentPage={
+              menu.path &&
+              menu.path.some((path) => router.pathname.includes(path))
+            }
+            onClick={() => menu.path && handleSubMenuClick(menu.path[0])}>
             <p>
               <IcNavMenu />
               <span>{menu.title}</span>
@@ -49,6 +54,10 @@ function Nav() {
             menu.subMenu.map((subMenu, i) => (
               <StSubMenu
                 key={subMenu}
+                currentPage={
+                  menu.path && router.pathname.includes(menu.path[i])
+                }
+                isLast={i === menu.subMenu.length - 1}
                 onClick={() => handleSubMenuClick(menu.path[i])}>
                 {subMenu}
               </StSubMenu>

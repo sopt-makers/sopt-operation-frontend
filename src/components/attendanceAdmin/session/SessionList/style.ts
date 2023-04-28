@@ -1,25 +1,19 @@
 import styled from '@emotion/styled';
 
-export const SessionInfo = styled.tr`
-  & > td:first-of-type {
-    width: 11%;
-  }
-  & > td.indicator {
-    width: 6.25%;
-  }
-  & > td:nth-of-type(4) {
-    width: 24%;
-  }
-  & > td:nth-of-type(5) {
-    width: 14%;
-  }
-  & > td.attendance {
-    width: 6.5%;
-  }
-  & > td:last-of-type {
-    width: 14.5%;
+export const StListHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5rem;
+
+  & > h1 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 25px;
+    letter-spacing: -0.02em;
+    color: ${({ theme }) => theme.color.grayscale.black60};
   }
 `;
+
 export const IndicatorStructure = styled.span`
   display: inline-block;
   min-width: 4.9rem;
@@ -43,4 +37,12 @@ export const StSessionIndicator = styled(IndicatorStructure)<{
       : attributeName === '행사'
       ? theme.color.main.purple40
       : theme.color.main.purpledim100};
+`;
+
+export const StSessionName = styled.p`
+  max-width: 17rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 auto;
 `;

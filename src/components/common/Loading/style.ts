@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import zIndex from '@/utils/zIndex';
+
 export const StyledLoading = styled.div`
   background: rgba(0, 0, 0, 0.4);
   width: 100%;
@@ -10,6 +12,7 @@ export const StyledLoading = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: ${zIndex.dim};
 
   & > div {
     width: 4.8rem;

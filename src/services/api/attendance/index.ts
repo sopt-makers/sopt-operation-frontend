@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 import { client } from '@/services/api/client';
 
@@ -61,5 +61,20 @@ export const updateMemberScore = async (
     } else {
       return { status: 999, error: '알 수 없는 에러예요' };
     }
+  }
+};
+
+export const getMemberAttendance = async (
+  memberId: number,
+  authHeader: AuthHeader,
+): Promise<ScoreMemberDetail | null> => {
+  try {
+    const { data }: AxiosResponse<{ data: ScoreMemberDetail }> =
+      await client.get(`/attendances/${memberId}`, {
+        headers: { ...authHeader },
+      });
+    return data.data;
+  } catch (e) {
+    return null;
   }
 };

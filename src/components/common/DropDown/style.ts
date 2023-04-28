@@ -16,6 +16,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
   ${({ type }) =>
     type === 'times' &&
     css`
+      margin-left: 9.3rem;
       overflow: scroll;
       margin-top: 7rem;
     `}
@@ -24,12 +25,14 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
 
   z-index: 1;
 
+  animation: appearDropdown 0.6s;
   & > div {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 
     padding: 0.7rem;
+
     & > p {
       padding: 0.75rem 0 0.75rem 0.5rem;
 
@@ -41,10 +44,21 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
       border-radius: 0.6rem;
 
       &:hover {
-        background-color: ${({ theme }) => theme.color.grayscale.gray20};
+        background-color: ${({ theme }) => theme.color.main.purpledim20};
 
         cursor: pointer;
       }
+    }
+  }
+
+  @keyframes appearDropdown {
+    from {
+      opacity: 0;
+      transform: translateY(-1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0rem);
     }
   }
 `;

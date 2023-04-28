@@ -1,4 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
 
 import { client } from '@/services/api/client';
 
@@ -13,19 +14,27 @@ export const postNewSession = async (
   }
 };
 
-export const getSessionList = async (
+export const useGetSessionList = (
   generation: number,
+  part: string,
   authHeader: AuthHeader,
-): Promise<LectureImsy | null> => {
-  try {
-    const { data }: AxiosResponse<LectureImsy> = await client.get(
-      `/lectures?generation=${generation}`,
-      { headers: { ...authHeader } },
-    );
-    return data;
-  } catch (e) {
-    return null;
-  }
+) => {
+  return useQuery<Lecture, Error>(
+    ['sessionList', generation, part, authHeader],
+    async () => {
+      try {
+        const { data }: AxiosResponse<{ data: Lecture }> = await client.get(
+          `/lectures?generation=${generation}&part=${part}`,
+          {
+            headers: { ...authHeader },
+          },
+        );
+        return data.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+  );
 };
 
 export const getSessionDetail = async (
@@ -65,9 +74,9 @@ export const getSessionMembers = async (
   lectureId: number,
   authHeader: AuthHeader,
   part?: PART,
-): Promise<Member[] | ProjectError> => {
+): Promise<SessionMember[] | ProjectError> => {
   try {
-    const { data }: AxiosResponse<{ data: Member[] }> = await client.get(
+    const { data }: AxiosResponse<{ data: SessionMember[] }> = await client.get(
       `/attendances/lecture/${lectureId}${part ? `?part=${part}` : ''}`,
       { headers: { ...authHeader } },
     );
@@ -92,5 +101,39 @@ export const getSessionMembers = async (
     } else {
       return { status: 999, error: '알 수 없는 에러예요' };
     }
+  }
+};
+
+export const startAttendance = async (
+  code: string,
+  lectureId: number,
+  round: number,
+  authHeader: AuthHeader,
+): Promise<boolean> => {
+  try {
+    await client.patch(
+      '/lectures/attendance',
+      { code, lectureId, round },
+      { headers: { ...authHeader } },
+    );
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export const updateAttendance = async (
+  lectureId: number,
+  authHeader: AuthHeader,
+): Promise<boolean> => {
+  try {
+    await client.patch(
+      `/lectures/${lectureId}`,
+      {},
+      { headers: { ...authHeader } },
+    );
+    return true;
+  } catch (e) {
+    return false;
   }
 };

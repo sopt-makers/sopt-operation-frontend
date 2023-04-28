@@ -20,7 +20,12 @@ declare global {
     status: ATTEND_STATUS;
     updateAt: string;
   }
-  interface Member {
+  interface ScoreDetailAttendance {
+    round: number;
+    status: string;
+    date: string;
+  }
+  interface SessionMember {
     attendanceId: number;
     attendances: Attendance[];
     member: {
@@ -30,11 +35,7 @@ declare global {
     };
     updatedScore: number;
   }
-  interface Member {
-    data: MemberList[] | undefined;
-  }
-
-  interface MemberList {
+  interface ScoreMember {
     id: number;
     name: string;
     university: string;
@@ -46,6 +47,19 @@ declare global {
       tardy: string;
       participate: string;
     };
+  }
+  interface ScoreMemberDetail {
+    name: string;
+    score: number;
+    part: PART;
+    university: string;
+    phone: string;
+    lectures: Array<{
+      lecture: string;
+      additiveScore: number;
+      status: string;
+      attendances: ScoreDetailAttendance[];
+    }>;
   }
 
   /* 출석 세션 */
@@ -59,11 +73,9 @@ declare global {
     generation: number;
   }
 
-  interface LectureImsy {
-    data: {
-      generation: number;
-      lectures: LectureList[] | undefined;
-    };
+  interface Lecture {
+    generation: number;
+    lectures: LectureList[];
   }
   interface LectureList {
     lectureId: number;
@@ -80,18 +92,17 @@ declare global {
       unknown: number;
     };
   }
-  type Lecture = LectureList;
 
   interface SubLecture {
     subLectureId: number;
     round: number;
-    startAt: string; // yyyy-MM-ddThh:mm:ss
-    code: string;
+    startAt: string | null; // yyyy-MM-ddThh:mm:ss
+    code: string | null;
   }
 
   interface Session {
     generation: number;
-    lectures: Lecture[];
+    lectures: LectureList[];
   }
 
   interface SessionDetail {

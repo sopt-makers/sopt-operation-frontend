@@ -2,12 +2,19 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import ListWrapper from '@/components/common/ListWrapper';
-import { getSessionList } from '@/services/api/lecture';
+import Loading from '@/components/common/Loading';
+import PartFilter from '@/components/common/PartFilter';
+import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
-import { getToken } from '@/utils/auth';
+import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
-import { SessionInfo, StPartIndicator, StSessionIndicator } from './style';
+import {
+  StListHeader,
+  StPartIndicator,
+  StSessionIndicator,
+  StSessionName,
+} from './style';
 
 function SessionList() {
   const router = useRouter();
@@ -25,63 +32,90 @@ function SessionList() {
     '관리',
   ];
 
-  const [lectureData, setLectureData] = useState<LectureList[] | undefined>([]);
+  const TABLE_WIDTH = [
+    '11%',
+    '6.25%',
+    '6.25%',
+    '24%',
+    '14%',
+    '6.5%',
+    '6.5%',
+    '6.5%',
+    '6.5%',
+    '14.5%',
+  ];
+
+  const [selectedPart, setSelectedPart] = useState<PART>('ALL');
+  const [lectureData, setLectureData] = useState<LectureList[]>([]);
+
+  const { data, isLoading, isError, error } = useGetSessionList(
+    32,
+    selectedPart,
+    getAuthHeader(),
+  );
 
   useEffect(() => {
-    const getData = async () => {
-      const accessToken = getToken('ACCESS');
-      const authHeader = { Authorization: `${accessToken}` };
-      const response = await getSessionList(32, authHeader);
-      const lecturesData = response?.data.lectures;
-      setLectureData(lecturesData);
-    };
-    getData();
-  }, []);
+    if (data && 'lectures' in data) {
+      setLectureData(data.lectures);
+    }
+  }, [data]);
 
   const handleManageClick = (lectureId: number) => {
     router.push(`/attendanceAdmin/session/${lectureId}`);
   };
 
+  const onChangePart = (part: PART) => {
+    setSelectedPart(part);
+  };
   return (
-    <ListWrapper>
-      <thead>
-        <tr>
-          {HEADER_LABELS.map((label) => (
-            <th key={label}>{label}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {lectureData?.map((lecture, index) => {
-          const { lectureId, partValue, attributeName, name, date, status } =
-            lecture;
-          const { attendance, tardy, absent, unknown } = status;
-          const part = partTranslator[partValue] || partValue;
-          return (
-            <SessionInfo key={lectureId}>
-              <td>{precision(index + 1, 2)}</td>
-              <td className="indicator">
-                <StPartIndicator>{part}</StPartIndicator>
-              </td>
-              <td className="indicator">
-                <StSessionIndicator attributeName={attributeName}>
-                  {attributeName}
-                </StSessionIndicator>
-              </td>
-              <td>{name}</td>
-              <td>{date}</td>
-              <td className="attendance">{attendance}</td>
-              <td className="attendance">{tardy}</td>
-              <td className="attendance">{absent}</td>
-              <td className="attendance">{unknown}</td>
-              <td onClick={() => handleManageClick(lectureId)}>
-                <span>관리</span>
-              </td>
-            </SessionInfo>
-          );
-        })}
-      </tbody>
-    </ListWrapper>
+    <>
+      <StListHeader>
+        <h1>출석 세션</h1>
+        <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+      </StListHeader>
+      <ListWrapper tableWidth={TABLE_WIDTH}>
+        <thead>
+          <tr>
+            {HEADER_LABELS.map((label) => (
+              <th key={label}>{label}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {lectureData?.map((lecture, index) => {
+            const { lectureId, partValue, attributeName, name, date, status } =
+              lecture;
+            const { attendance, tardy, absent, unknown } = status;
+            const part = partTranslator[partValue] || partValue;
+            return (
+              <tr key={lectureId}>
+                <td>{precision(index + 1, 2)}</td>
+                <td className="indicator">
+                  <StPartIndicator>{part}</StPartIndicator>
+                </td>
+                <td className="indicator">
+                  <StSessionIndicator attributeName={attributeName}>
+                    {attributeName}
+                  </StSessionIndicator>
+                </td>
+                <td>
+                  <StSessionName>{name}</StSessionName>
+                </td>
+                <td>{date}</td>
+                <td className="attendance">{attendance}</td>
+                <td className="attendance">{tardy}</td>
+                <td className="attendance">{absent}</td>
+                <td className="attendance">{unknown}</td>
+                <td onClick={() => handleManageClick(lectureId)}>
+                  <span>관리</span>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </ListWrapper>
+      {isLoading && <Loading />}
+    </>
   );
 }
 

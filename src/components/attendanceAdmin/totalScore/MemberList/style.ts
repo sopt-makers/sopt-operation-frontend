@@ -10,26 +10,22 @@ export const StListHeader = styled.header`
     font-size: 20px;
     line-height: 25px;
     letter-spacing: -0.02em;
+    color: ${({ theme }) => theme.color.grayscale.black60};
   }
 `;
 
-export const StMemberInfo = styled.tr`
-  & > td:first-of-type {
-    width: 10%;
-  }
-  & > td.identify {
-    width: 13.5%;
-  }
-  & > td:nth-of-type(4) {
-    width: 13%;
-  }
-  & > td:nth-of-type(5) {
-    width: 15%;
-  }
-  & > td.attendance {
-    width: 5%;
-  }
-  & > td:last-of-type {
-    width: 12%;
-  }
+export const StMemberName = styled.p`
+  max-width: 7.3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 auto;
+`;
+
+export const StMemberUniversity = styled.p`
+  max-width: 7.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 auto;
 `;
