@@ -20,7 +20,12 @@ declare global {
     status: ATTEND_STATUS;
     updateAt: string;
   }
-  interface Member {
+  interface ScoreDetailAttendance {
+    round: number;
+    status: ATTEND_STATUS;
+    date: string;
+  }
+  interface SessionMember {
     attendanceId: number;
     attendances: Attendance[];
     member: {
@@ -30,7 +35,7 @@ declare global {
     };
     updatedScore: number;
   }
-  interface Member {
+  interface ScoreMember {
     id: number;
     name: string;
     university: string;
@@ -42,6 +47,19 @@ declare global {
       tardy: string;
       participate: string;
     };
+  }
+  interface ScoreMemberDetail {
+    name: string;
+    score: number;
+    part: PART;
+    university: string;
+    phone: string;
+    lectures: Array<{
+      lecture: string;
+      additiveScore: number;
+      status: ATTEND_STATUS;
+      attendances: ScoreDetailAttendance[];
+    }>;
   }
 
   /* 출석 세션 */
