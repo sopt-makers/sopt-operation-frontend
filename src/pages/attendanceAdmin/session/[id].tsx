@@ -12,8 +12,7 @@ import PartFilter from '@/components/common/PartFilter';
 import Select from '@/components/session/Select';
 import {
   attendanceInit,
-  eventAttendanceOptions,
-  seminarAttendanceOptions,
+  attendanceOptions,
   subLectureInit,
 } from '@/data/sessionData';
 import {
@@ -48,9 +47,10 @@ function SessionDetailPage() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [session, setSession] = useState<SessionDetail>();
-  const [members, setMembers] = useState<Member[]>([]);
-  const [changedMembers, setChangedMembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<SessionMember[]>([]);
+  const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [modal, setModal] = useState<number | null>(null);
+  const [ended, setEnded] = useState(false);
 
   const getSessionData = useCallback(async () => {
     if (id) {
@@ -106,7 +106,7 @@ function SessionDetailPage() {
 
   const onChangeStatus = async (
     status: ATTEND_STATUS,
-    member: Member,
+    member: SessionMember,
     subAttendanceId: number,
   ) => {
     if (session) {
@@ -139,7 +139,7 @@ function SessionDetailPage() {
     }
   };
 
-  const isChangedMember = (member: Member) => {
+  const isChangedMember = (member: SessionMember) => {
     return changedMembers.find(
       (item) => item.member.memberId === member.member.memberId,
     );
@@ -156,13 +156,19 @@ function SessionDetailPage() {
   };
 
   const closeAttendance = async () => {
-    const result = id && (await updateAttendance(id, getAuthHeader()));
-    if (result) {
-      getSessionData();
-      getSessionMemberData();
-      alert('출석 점수가 갱신되었어요');
-    } else {
-      alert('출석 점수를 갱신하는데 실패했어요');
+    const res = confirm(
+      '세미나가 끝난 후에 출석을 종료할 수 있어요. 출석을 종료하시겠어요?',
+    );
+    if (res) {
+      const result = id && (await updateAttendance(id, getAuthHeader()));
+      if (result) {
+        getSessionData();
+        getSessionMemberData();
+        setEnded(true);
+        alert('출석 점수가 갱신되었어요');
+      } else {
+        alert('출석 점수를 갱신하는데 실패했어요');
+      }
     }
   };
 
@@ -217,11 +223,7 @@ function SessionDetailPage() {
                   <td>
                     <Select
                       selected={firstRound.status}
-                      options={
-                        session.attribute === 'SEMINAR'
-                          ? seminarAttendanceOptions
-                          : eventAttendanceOptions
-                      }
+                      options={attendanceOptions}
                       onChange={(value) =>
                         onChangeStatus(
                           value,
@@ -235,11 +237,7 @@ function SessionDetailPage() {
                   <td>
                     <Select
                       selected={secondRound.status}
-                      options={
-                        session.attribute === 'SEMINAR'
-                          ? seminarAttendanceOptions
-                          : eventAttendanceOptions
-                      }
+                      options={attendanceOptions}
                       onChange={(value) =>
                         onChangeStatus(
                           value,
@@ -287,7 +285,7 @@ function SessionDetailPage() {
           <Button
             type="submit"
             text="출석 종료하기"
-            disabled={!firstSession.startAt || !secondSession.startAt}
+            disabled={ended || !firstSession.startAt || !secondSession.startAt}
             onClick={closeAttendance}
           />
         </StFooterContents>
@@ -349,10 +347,17 @@ const StPageHeader = styled.div`
     font-size: 2rem;
     font-weight: 600;
     line-height: 2.5rem;
+    height: 3rem;
     margin-bottom: 1.2rem;
     color: ${({ theme }) => theme.color.grayscale.black60};
+    display: flex;
     strong {
       font-weight: 700;
+      max-width: 18rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
     }
   }
   .attendance-info {

@@ -5,6 +5,12 @@ export const attendanceInit: Attendance = {
   updateAt: '-',
 };
 
+export const scoreDetailAttendanceInit: ScoreDetailAttendance = {
+  round: 0,
+  status: '결석',
+  date: '-',
+};
+
 export const subLectureInit: SubLecture = {
   subLectureId: 0,
   round: 0,
@@ -12,16 +18,7 @@ export const subLectureInit: SubLecture = {
   code: null,
 };
 
-export const seminarAttendanceOptions: Array<{
-  label: string;
-  value: ATTEND_STATUS;
-}> = [
-  { label: '출석', value: 'ATTENDANCE' },
-  { label: '지각', value: 'TARDY' },
-  { label: '결석', value: 'ABSENT' },
-];
-
-export const eventAttendanceOptions: Array<{
+export const attendanceOptions: Array<{
   label: string;
   value: ATTEND_STATUS;
 }> = [

@@ -8,7 +8,8 @@ import { precision } from '@/utils';
 import { getAuthHeader, getToken } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
-import { StListHeader } from './style';
+import MemberDetail from '../MemberDetail';
+import { StListHeader, StMemberName, StMemberUniversity } from './style';
 
 function MemberList() {
   const HEADER_LABELS = [
@@ -38,7 +39,10 @@ function MemberList() {
   ];
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [memberData, setMemberData] = useState<Member[]>([]);
+  const [memberData, setMemberData] = useState<ScoreMember[]>([]);
+  const [selectedMember, setSelectedMember] = useState<ScoreMember | null>(
+    null,
+  );
 
   const { data, isLoading, isError, error } = useGetMemberList(
     32,
@@ -54,6 +58,14 @@ function MemberList() {
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
+  };
+
+  const onChangeMember = (member: ScoreMember) => {
+    setSelectedMember(member);
+  };
+
+  const onCloseModal = () => {
+    setSelectedMember(null);
   };
 
   return (
@@ -78,15 +90,19 @@ function MemberList() {
             return (
               <tr key={`${name}-${university}`}>
                 <td>{precision(index + 1, 2)}</td>
-                <td className="identify">{name}</td>
-                <td className="university">{university}</td>
+                <td className="identify">
+                  <StMemberName>{name}</StMemberName>
+                </td>
+                <td className="university">
+                  <StMemberUniversity>{university}</StMemberUniversity>
+                </td>
                 <td>{partName}</td>
                 <td>{score}</td>
                 <td className="attendance">{attendance}</td>
                 <td className="attendance">{tardy}</td>
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{participate}</td>
-                <td>
+                <td onClick={() => onChangeMember(member)}>
                   <span>관리</span>
                 </td>
               </tr>
@@ -95,6 +111,9 @@ function MemberList() {
         </tbody>
       </ListWrapper>
       {isLoading && <Loading />}
+      {selectedMember && (
+        <MemberDetail memberId={selectedMember.id} onClose={onCloseModal} />
+      )}
     </>
   );
 }

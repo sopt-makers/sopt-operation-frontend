@@ -8,16 +8,17 @@ export const useGetMemberList = (
   part: string,
   authHeader: AuthHeader,
 ) => {
-  return useQuery<Member[], Error>(
+  return useQuery<ScoreMember[], Error>(
     ['memberList', generation, part, authHeader],
     async () => {
       try {
-        const { data }: AxiosResponse<{ data: Member[] }> = await client.get(
-          `/members/list?generation=${generation}&part=${part}`,
-          {
-            headers: { ...authHeader },
-          },
-        );
+        const { data }: AxiosResponse<{ data: ScoreMember[] }> =
+          await client.get(
+            `/members/list?generation=${generation}&part=${part}`,
+            {
+              headers: { ...authHeader },
+            },
+          );
         return data.data;
       } catch (error) {
         throw error;

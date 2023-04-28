@@ -11,10 +11,9 @@ function Modal(props: Props) {
   const { children, onClose } = props;
 
   return (
-    <>
-      <StModalBackground onClick={onClose} />
+    <StModalBackground onClick={onClose}>
       <StModalWrapper>{children}</StModalWrapper>
-    </>
+    </StModalBackground>
   );
 }
 
