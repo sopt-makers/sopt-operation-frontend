@@ -26,4 +26,17 @@ export const StModalWrapper = styled.div`
   border-radius: 1.2rem;
 
   z-index: ${zIndex.modal};
+
+  animation: appear 0.6s;
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -40%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
 `;
