@@ -39,11 +39,11 @@ export const StOptions = styled.ul`
   @keyframes appear {
     from {
       opacity: 0;
-      transform: translateY(7rem);
+      transform: translateY(5.5rem);
     }
     to {
       opacity: 1;
-      transform: translateY(8rem);
+      transform: translateY(6.5rem);
     }
   }
 `;

@@ -25,12 +25,14 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
 
   z-index: 1;
 
+  animation: appear 0.6s;
   & > div {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 
     padding: 0.7rem;
+
     & > p {
       padding: 0.75rem 0 0.75rem 0.5rem;
 
@@ -46,6 +48,17 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
 
         cursor: pointer;
       }
+    }
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translateY(-1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0rem);
     }
   }
 `;
