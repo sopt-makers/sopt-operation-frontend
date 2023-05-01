@@ -20,5 +20,12 @@ const axiosFormConfig: AxiosRequestConfig<IAxiosConfig> = {
   },
 };
 
+const axiosOrgConfig: AxiosRequestConfig<IAxiosConfig> = {
+  baseURL: config.ORG_API_URL,
+  headers: { 'Content-Type': 'application/json' },
+};
+
 export const client: AxiosInstance = axios.create(axiosConfig);
 export const formClient: AxiosInstance = axios.create(axiosFormConfig);
+
+export const orgClient: AxiosInstance = axios.create(axiosOrgConfig);
