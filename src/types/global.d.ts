@@ -163,5 +163,9 @@ declare global {
     serverCurriculum: string;
     coreValues: CoreValue[];
   }
+
+  interface ResponsePresignedUrl {
+    presignedUrl: string;
+  }
 }
 export default global;
