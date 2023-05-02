@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import PartFilter from '@/components/orgAdmin/PartFilter';
 import {
@@ -47,16 +47,13 @@ const initialAboutSopt: AboutSopt = {
 
 const AboutTabManagement = () => {
   const [selectedPart, setSelectedPart] = useState<PartWithoutAll>('PLAN');
-  const [image, setImage] = useState<string | null>(null);
-  const bannerInputRef = useRef<HTMLInputElement | null>(null);
-  const curriculumInputRef = useRef<HTMLInputElement | null>(null);
   const [aboutSopt, setAboutSopt] = useState<AboutSopt>(initialAboutSopt);
 
   useEffect(() => {
     console.log(aboutSopt);
   }, [aboutSopt]);
 
-  const handleBannerImageChange = async (e) => {
+  const updateBannerImage = async (e) => {
     if (!e.target.files) {
       return;
     }
@@ -69,7 +66,7 @@ const AboutTabManagement = () => {
     }
   };
 
-  const handleChangeImageByAboutSoptProperty = async (e) => {
+  const updateAboutSpotImage = async (e) => {
     if (!e.target.files) {
       return;
     }
@@ -82,22 +79,6 @@ const AboutTabManagement = () => {
         [getCurriculum]: image,
       }));
     }
-  };
-
-  const handleImageChange = (e) => {
-    if (!e.target.files) {
-      return;
-    }
-
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        setImage(reader.result);
-      }
-    };
   };
 
   const getCurriculum = useMemo(() => {
@@ -125,7 +106,7 @@ const AboutTabManagement = () => {
     setSelectedPart(part);
   };
 
-  const onHandleChangeByAboutSoptProperty = (key: keyof AboutSopt) => {
+  const handleBannerImage = (key: keyof AboutSopt) => {
     return ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
       setAboutSopt((prevState) => ({
         ...prevState,
@@ -134,7 +115,36 @@ const AboutTabManagement = () => {
     };
   };
 
-  const onHandleChangeByCoreValueProperty = (
+  const handleCoreValueImageAtIndex = (index: number) => {
+    return async (e) => {
+      if (!e.target.files) {
+        return;
+      }
+
+      const image = await putObject(e.target.files[0]);
+
+      if (image !== null) {
+        const coreValues = aboutSopt.coreValues.map(
+          (coreValue, coreValueIndex) => {
+            if (index !== coreValueIndex) {
+              return coreValue;
+            }
+            return {
+              ...coreValue,
+              imageUrl: image,
+            };
+          },
+        );
+
+        setAboutSopt((prevState) => ({
+          ...prevState,
+          coreValues,
+        }));
+      }
+    };
+  };
+
+  const handleUpdateCoreValueProperty = (
     index: number,
     key: keyof CoreValue,
   ) => {
@@ -167,8 +177,7 @@ const AboutTabManagement = () => {
         <div className={'form_container'}>
           <ImageSelect
             image={aboutSopt.bannerImage}
-            onChange={handleBannerImageChange}
-            ref={bannerInputRef}
+            onChange={updateBannerImage}
           />
         </div>
 
@@ -177,7 +186,7 @@ const AboutTabManagement = () => {
           <TextField
             label={'ex. 32기 GO SOPT 소개'}
             value={aboutSopt.title}
-            onChange={onHandleChangeByAboutSoptProperty('title')}
+            onChange={handleBannerImage('title')}
           />
         </div>
       </StContent>
@@ -185,24 +194,24 @@ const AboutTabManagement = () => {
         <h2>핵심가치</h2>
         {aboutSopt.coreValues.map((coreValue, index) => {
           return (
-            <>
+            <div key={coreValue.id}>
               <p>image (380 * 380)</p>
               <CoreValueInput
-                key={coreValue.id}
+                image={aboutSopt.coreValues[index].imageUrl}
                 coreValue={coreValue}
-                onChange={handleImageChange}
+                onChange={handleCoreValueImageAtIndex(index)}
                 title={aboutSopt.coreValues[index].title}
                 subTitle={aboutSopt.coreValues[index].subTitle}
-                onHandleTitleChange={onHandleChangeByCoreValueProperty(
+                onHandleTitleChange={handleUpdateCoreValueProperty(
                   index,
                   'title',
                 )}
-                onHandleSubTitleChange={onHandleChangeByCoreValueProperty(
+                onHandleSubTitleChange={handleUpdateCoreValueProperty(
                   index,
                   'subTitle',
                 )}
               />
-            </>
+            </div>
           );
         })}
       </StContent>
@@ -215,8 +224,7 @@ const AboutTabManagement = () => {
         <div className={'form_container'}>
           <ImageSelect
             image={aboutSopt[getCurriculum]}
-            onChange={handleChangeImageByAboutSoptProperty}
-            ref={curriculumInputRef}
+            onChange={updateAboutSpotImage}
           />
         </div>
       </StContent>

@@ -4,10 +4,9 @@ import { StContainer } from '@/components/orgAdmin/ImageSelect/style';
 interface Props {
   image: string | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  ref: React.MutableRefObject<HTMLInputElement | null>;
 }
 
-const ImageSelect = ({ image, onChange, ref }: Props) => {
+const ImageSelect = ({ image, onChange }: Props) => {
   return (
     <StContainer>
       {image ? (
@@ -21,9 +20,8 @@ const ImageSelect = ({ image, onChange, ref }: Props) => {
           <input
             id={'logoFileUpload'}
             type="file"
-            accept="image/*"
+            accept="image/jpg, image/png, image/jpeg"
             onChange={onChange}
-            ref={ref}
           />
         </>
       )}
