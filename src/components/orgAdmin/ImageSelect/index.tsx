@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { StContainer } from '@/components/orgAdmin/ImageSelect/style';
 
 interface Props {
@@ -8,8 +8,15 @@ interface Props {
 }
 
 const ImageSelect = ({ image, onChange, onRemoveImage }: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null!);
+  const handleClick = () => {
+    if (inputRef.current) {
+      inputRef.current?.click();
+    }
+  };
+
   return (
-    <StContainer>
+    <StContainer onClick={handleClick}>
       {image ? (
         <>
           <img
@@ -21,7 +28,11 @@ const ImageSelect = ({ image, onChange, onRemoveImage }: Props) => {
         </>
       ) : (
         <>
+          클릭하여 이미지 업로드
           <input
+            ref={inputRef}
+            hidden
+            className={'input-field'}
             id={'logoFileUpload'}
             type="file"
             accept="image/jpg, image/png, image/jpeg"

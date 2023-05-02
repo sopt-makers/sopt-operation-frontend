@@ -1,13 +1,23 @@
 import styled from '@emotion/styled';
 
-export const StContainer = styled.div`
-  height: 20rem;
-  border: 1px solid #ccc;
+export const StContainer = styled.form`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 2px dashed #858585;
+  height: 20rem;
+  width: 50rem;
+  cursor: pointer;
+  border-radius: 5px;
   overflow: hidden;
   position: relative;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
   & > button {
     position: absolute;

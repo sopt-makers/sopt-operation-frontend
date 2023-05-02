@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, ChangeEvent } from 'react';
 
 import PartFilter from '@/components/orgAdmin/PartFilter';
 import {
@@ -53,11 +53,17 @@ const AboutTabManagement = () => {
     console.log(aboutSopt);
   }, [aboutSopt]);
 
-  const updateBannerImage = async (e) => {
-    if (!e.target.files) {
+  const updateBannerImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (!files) {
       return;
     }
-    const image = await putObject(e.target.files[0]);
+    if (!files.length) {
+      return;
+    }
+
+    const image = await putObject(files[0]);
     if (image !== null) {
       setAboutSopt((prevState) => ({
         ...prevState,
@@ -66,12 +72,17 @@ const AboutTabManagement = () => {
     }
   };
 
-  const updateAboutSpotImage = async (e) => {
-    if (!e.target.files) {
+  const updateAboutSpotImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (!files) {
+      return;
+    }
+    if (!files.length) {
       return;
     }
 
-    const image = await putObject(e.target.files[0]);
+    const image = await putObject(files[0]);
 
     if (image !== null) {
       setAboutSopt((prevState) => ({
@@ -107,7 +118,7 @@ const AboutTabManagement = () => {
   };
 
   const handleBannerImage = (key: keyof AboutSopt) => {
-    return ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    return ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setAboutSopt((prevState) => ({
         ...prevState,
         [key]: value,
@@ -116,12 +127,17 @@ const AboutTabManagement = () => {
   };
 
   const handleCoreValueImageAtIndex = (index: number) => {
-    return async (e) => {
-      if (!e.target.files) {
+    return async (e: ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+
+      if (!files) {
+        return;
+      }
+      if (!files.length) {
         return;
       }
 
-      const image = await putObject(e.target.files[0]);
+      const image = await putObject(files[0]);
 
       if (image !== null) {
         const coreValues = aboutSopt.coreValues.map(
@@ -148,7 +164,7 @@ const AboutTabManagement = () => {
     index: number,
     key: keyof CoreValue,
   ) => {
-    return ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    return ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       const coreValues = aboutSopt.coreValues.map(
         (coreValue, coreValueIndex) => {
           if (index !== coreValueIndex) {
