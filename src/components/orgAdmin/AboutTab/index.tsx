@@ -2,7 +2,7 @@ import AboutTabManagement from '@/components/orgAdmin/AboutTab/AboutTabManagemen
 import Footer from '@/components/common/Footer';
 import AboutTabAction from '@/components/orgAdmin/AboutTab/AboutTabAction';
 import { useEffect, useState } from 'react';
-import { useGetAboutSopt } from '@/services/api/aboutSopt';
+import { useGetAboutSopt, useUpdateAboutSopt } from '@/services/api/aboutSopt';
 import { getBearerTokenAuthHeader } from '@/utils/auth';
 
 const initialAboutSopt: AboutSopt = {
@@ -40,8 +40,14 @@ const initialAboutSopt: AboutSopt = {
 };
 
 const AboutTab = () => {
+  const semester = 32; // todo Generation 정보 받아오기
   const [aboutSopt, setAboutSopt] = useState<AboutSopt>(initialAboutSopt);
-  const { data } = useGetAboutSopt(32, getBearerTokenAuthHeader());
+  const { data } = useGetAboutSopt(semester, getBearerTokenAuthHeader());
+  const mutation = useUpdateAboutSopt(
+    semester,
+    aboutSopt,
+    getBearerTokenAuthHeader(),
+  );
 
   const onHandleAboutSopt = (aboutSopt: AboutSopt) => {
     setAboutSopt(aboutSopt);
@@ -58,7 +64,11 @@ const AboutTab = () => {
         onHandleAboutSopt={onHandleAboutSopt}
       />
       <Footer>
-        <AboutTabAction onClick={() => console.log('aboutSopt', aboutSopt)} />
+        <AboutTabAction
+          onClick={() => {
+            mutation.mutate(aboutSopt);
+          }}
+        />
       </Footer>
     </>
   );
