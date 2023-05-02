@@ -1,5 +1,5 @@
-import { useQuery } from 'react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useQuery } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import { orgClient } from '@/services/api/client';
 
 export const useGetAboutSopt = (semester: number, authHeader: AuthHeader) => {
@@ -21,4 +21,24 @@ export const useGetAboutSopt = (semester: number, authHeader: AuthHeader) => {
   return useQuery(['aboutSopt', semester, authHeader], queryFn);
 };
 
-export const usePut;
+export const useUpdateAboutSopt = (
+  semester: number,
+  aboutSopt: AboutSopt,
+  authHeader: AuthHeader,
+) => {
+  const mutationFn = async (aboutSopt) => {
+    const { data }: AxiosResponse<AboutSopt, AboutSopt> = await orgClient.put<
+      AboutSopt,
+      AboutSopt
+    >(`/aboutSopt/admin/semester/${semester}`, aboutSopt, {
+      headers: { ...authHeader },
+    });
+    return data;
+  };
+  useMutation({
+    mutationFn,
+    onError: (error: AxiosError) => {
+      alert(error.message);
+    },
+  });
+};

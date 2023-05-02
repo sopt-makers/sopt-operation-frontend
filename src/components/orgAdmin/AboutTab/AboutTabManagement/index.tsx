@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, ChangeEvent } from 'react';
+import React, { useMemo, useState, ChangeEvent } from 'react';
 
 import PartFilter from '@/components/orgAdmin/PartFilter';
 import {
@@ -10,53 +10,14 @@ import ImageSelect from '@/components/orgAdmin/ImageSelect';
 import { CoreValueInput } from '@/components/orgAdmin/AboutTab/AboutTabManagement/CoreValueInput';
 import { putObject } from '@/utils/putObject';
 import { PartWithoutAll } from '@/components/orgAdmin/PartFilter';
-import { useGetAboutSopt } from '@/services/api/aboutSopt';
-import { getBearerTokenAuthHeader } from '@/utils/auth';
 
-const initialAboutSopt: AboutSopt = {
-  id: 0,
-  isPublished: false,
-  title: '',
-  bannerImage: '',
-  coreDescription: '',
-  planCurriculum: '',
-  designCurriculum: '',
-  androidCurriculum: '',
-  iosCurriculum: '',
-  webCurriculum: '',
-  serverCurriculum: '',
-  coreValues: [
-    {
-      id: 0,
-      title: '',
-      subTitle: '',
-      imageUrl: '',
-    },
-    {
-      id: 1,
-      title: '',
-      subTitle: '',
-      imageUrl: '',
-    },
-    {
-      id: 2,
-      title: '',
-      subTitle: '',
-      imageUrl: '',
-    },
-  ],
-};
+interface Props {
+  aboutSopt: AboutSopt;
+  onHandleAboutSopt: (aboutSopt: AboutSopt) => void;
+}
 
-const AboutTabManagement = () => {
+const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
   const [selectedPart, setSelectedPart] = useState<PartWithoutAll>('PLAN');
-  const [aboutSopt, setAboutSopt] = useState<AboutSopt>(initialAboutSopt);
-  const { data } = useGetAboutSopt(32, getBearerTokenAuthHeader());
-
-  useEffect(() => {
-    if (data) {
-      setAboutSopt(data);
-    }
-  }, [data]);
 
   const updateBannerImage = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -70,10 +31,7 @@ const AboutTabManagement = () => {
 
     const image = await putObject(files[0]);
     if (image !== null) {
-      setAboutSopt((prevState) => ({
-        ...prevState,
-        bannerImage: image,
-      }));
+      onHandleAboutSopt({ ...aboutSopt, bannerImage: image });
     }
   };
 
@@ -90,10 +48,7 @@ const AboutTabManagement = () => {
     const image = await putObject(files[0]);
 
     if (image !== null) {
-      setAboutSopt((prevState) => ({
-        ...prevState,
-        [getCurriculum]: image,
-      }));
+      onHandleAboutSopt({ ...aboutSopt, [getCurriculum]: image });
     }
   };
 
@@ -124,10 +79,7 @@ const AboutTabManagement = () => {
 
   const handleBannerImage = (key: keyof AboutSopt) => {
     return ({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
-      setAboutSopt((prevState) => ({
-        ...prevState,
-        [key]: value,
-      }));
+      onHandleAboutSopt({ ...aboutSopt, [key]: value });
     };
   };
 
@@ -157,10 +109,7 @@ const AboutTabManagement = () => {
           },
         );
 
-        setAboutSopt((prevState) => ({
-          ...prevState,
-          coreValues,
-        }));
+        onHandleAboutSopt({ ...aboutSopt, coreValues });
       }
     };
   };
@@ -182,10 +131,7 @@ const AboutTabManagement = () => {
         },
       );
 
-      setAboutSopt((prevState) => ({
-        ...prevState,
-        coreValues,
-      }));
+      onHandleAboutSopt({ ...aboutSopt, coreValues });
     };
   };
 
@@ -200,10 +146,7 @@ const AboutTabManagement = () => {
             image={aboutSopt.bannerImage}
             onChange={updateBannerImage}
             onRemoveImage={() => {
-              setAboutSopt((prevState) => ({
-                ...prevState,
-                bannerImage: '',
-              }));
+              onHandleAboutSopt({ ...aboutSopt, bannerImage: '' });
             }}
           />
         </div>
@@ -249,10 +192,7 @@ const AboutTabManagement = () => {
                       };
                     },
                   );
-                  setAboutSopt((prevState) => ({
-                    ...prevState,
-                    coreValues,
-                  }));
+                  onHandleAboutSopt({ ...aboutSopt, coreValues });
                 }}
               />
             </div>
@@ -270,10 +210,7 @@ const AboutTabManagement = () => {
             image={aboutSopt[getCurriculum]}
             onChange={updateAboutSpotImage}
             onRemoveImage={() => {
-              setAboutSopt((prevState) => ({
-                ...prevState,
-                [getCurriculum]: '',
-              }));
+              onHandleAboutSopt({ ...aboutSopt, [getCurriculum]: '' });
             }}
           />
         </div>
