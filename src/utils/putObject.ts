@@ -6,8 +6,10 @@ import { orgClient } from '@/services/api/client';
 export const putObject = async (file: File): Promise<string | null> => {
   const REMOVE_QUERY_STRING_REGEX = /\?.*/;
 
+  const extension = file.name.split('.').pop();
+
   const { data }: AxiosResponse<ResponsePresignedUrl> = await orgClient.get(
-    '/file/presigned-url',
+    `/file/presigned-url?fileType=${extension}`,
     {
       headers: { ...getBearerTokenAuthHeader() },
     },
