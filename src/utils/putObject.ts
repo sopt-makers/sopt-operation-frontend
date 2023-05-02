@@ -1,16 +1,19 @@
-import { useGetPresignedUrl } from '@/services/api/storage';
-import { getBearerTokenAuthHeader } from '@/utils/auth';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
-export const useS3Upload = async (file: File): Promise<string | null> => {
+import { getBearerTokenAuthHeader } from '@/utils/auth';
+import { orgClient } from '@/services/api/client';
+
+export const putObject = async (file: File): Promise<string | null> => {
   const REMOVE_QUERY_STRING_REGEX = /\?.*/;
 
-  const { data, isError, isLoading } = useGetPresignedUrl<
-    ResponsePresignedUrl,
-    Error
-  >(getBearerTokenAuthHeader());
+  const { data }: AxiosResponse<ResponsePresignedUrl> = await orgClient.get(
+    '/file/presigned-url',
+    {
+      headers: { ...getBearerTokenAuthHeader() },
+    },
+  );
 
-  if (data && !isLoading && !isError) {
+  if (data) {
     try {
       const res = await axios.put(data.presignedUrl, file);
       if (!res.status === 200) {

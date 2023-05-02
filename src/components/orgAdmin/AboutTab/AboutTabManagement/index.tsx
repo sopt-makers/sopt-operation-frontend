@@ -8,7 +8,7 @@ import {
 import TextField from '@/components/orgAdmin/TextField';
 import ImageSelect from '@/components/orgAdmin/ImageSelect';
 import { CoreValueInput } from '@/components/orgAdmin/AboutTab/AboutTabManagement/CoreValueInput';
-import { useS3Upload } from '@/hooks/useS3Upload';
+import { putObject } from '@/utils/putObject';
 import { PartWithoutAll } from '@/components/orgAdmin/PartFilter';
 
 const initialAboutSopt: AboutSopt = {
@@ -60,7 +60,7 @@ const AboutTabManagement = () => {
     if (!e.target.files) {
       return;
     }
-    const image = await useS3Upload(e.target.files[0]);
+    const image = await putObject(e.target.files[0]);
     if (image !== null) {
       setAboutSopt((prevState) => ({
         ...prevState,
@@ -73,8 +73,8 @@ const AboutTabManagement = () => {
     if (!e.target.files) {
       return;
     }
-    // todo Ref 넣어서 수정
-    const image = await useS3Upload(e.target.files[0]);
+
+    const image = await putObject(e.target.files[0]);
 
     if (image !== null) {
       setAboutSopt((prevState) => ({
