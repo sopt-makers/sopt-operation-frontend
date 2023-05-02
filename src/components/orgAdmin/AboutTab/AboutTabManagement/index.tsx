@@ -10,6 +10,8 @@ import ImageSelect from '@/components/orgAdmin/ImageSelect';
 import { CoreValueInput } from '@/components/orgAdmin/AboutTab/AboutTabManagement/CoreValueInput';
 import { putObject } from '@/utils/putObject';
 import { PartWithoutAll } from '@/components/orgAdmin/PartFilter';
+import { useGetAboutSopt } from '@/services/api/aboutSopt';
+import { getBearerTokenAuthHeader } from '@/utils/auth';
 
 const initialAboutSopt: AboutSopt = {
   id: 0,
@@ -48,10 +50,13 @@ const initialAboutSopt: AboutSopt = {
 const AboutTabManagement = () => {
   const [selectedPart, setSelectedPart] = useState<PartWithoutAll>('PLAN');
   const [aboutSopt, setAboutSopt] = useState<AboutSopt>(initialAboutSopt);
+  const { data } = useGetAboutSopt(32, getBearerTokenAuthHeader());
 
   useEffect(() => {
-    console.log(aboutSopt);
-  }, [aboutSopt]);
+    if (data) {
+      setAboutSopt(data);
+    }
+  }, [data]);
 
   const updateBannerImage = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
