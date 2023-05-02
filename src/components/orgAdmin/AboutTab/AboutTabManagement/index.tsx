@@ -178,6 +178,12 @@ const AboutTabManagement = () => {
           <ImageSelect
             image={aboutSopt.bannerImage}
             onChange={updateBannerImage}
+            onRemoveImage={() => {
+              setAboutSopt((prevState) => ({
+                ...prevState,
+                bannerImage: '',
+              }));
+            }}
           />
         </div>
 
@@ -210,6 +216,23 @@ const AboutTabManagement = () => {
                   index,
                   'subTitle',
                 )}
+                onRemoveImage={() => {
+                  const coreValues = aboutSopt.coreValues.map(
+                    (coreValue, coreValueIndex) => {
+                      if (index !== coreValueIndex) {
+                        return coreValue;
+                      }
+                      return {
+                        ...coreValue,
+                        imageUrl: '',
+                      };
+                    },
+                  );
+                  setAboutSopt((prevState) => ({
+                    ...prevState,
+                    coreValues,
+                  }));
+                }}
               />
             </div>
           );
@@ -225,6 +248,12 @@ const AboutTabManagement = () => {
           <ImageSelect
             image={aboutSopt[getCurriculum]}
             onChange={updateAboutSpotImage}
+            onRemoveImage={() => {
+              setAboutSopt((prevState) => ({
+                ...prevState,
+                [getCurriculum]: '',
+              }));
+            }}
           />
         </div>
       </StContent>

@@ -18,11 +18,16 @@ export const CoreValueInput = ({
   onHandleTitleChange,
   image,
   onChange,
+  onRemoveImage,
 }: Props) => {
   return (
     <StCoreValueLogo>
       <div className={'core_value_container'}>
-        <ImageSelect image={image} onChange={onChange} />
+        <ImageSelect
+          image={image}
+          onChange={onChange}
+          onRemoveImage={onRemoveImage}
+        />
         <div style={{ height: '100%' }} className={'title_container'}>
           <p className={'text'}>Title</p>
           <div style={{ height: '40%' }} className={'text_field_container'}>
