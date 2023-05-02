@@ -118,7 +118,7 @@ const AboutTabManagement = () => {
   };
 
   const handleBannerImage = (key: keyof AboutSopt) => {
-    return ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    return ({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
       setAboutSopt((prevState) => ({
         ...prevState,
         [key]: value,
@@ -164,7 +164,7 @@ const AboutTabManagement = () => {
     index: number,
     key: keyof CoreValue,
   ) => {
-    return ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    return ({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
       const coreValues = aboutSopt.coreValues.map(
         (coreValue, coreValueIndex) => {
           if (index !== coreValueIndex) {

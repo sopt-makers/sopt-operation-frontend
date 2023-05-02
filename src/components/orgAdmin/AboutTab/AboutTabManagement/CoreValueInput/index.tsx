@@ -8,8 +8,8 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title: string;
   subTitle: string;
-  onHandleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onHandleSubTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onHandleTitleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onHandleSubTitleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 export const CoreValueInput = ({
   title,
@@ -30,7 +30,7 @@ export const CoreValueInput = ({
         />
         <div style={{ height: '100%' }} className={'title_container'}>
           <p className={'text'}>Title</p>
-          <div style={{ height: '40%' }} className={'text_field_container'}>
+          <div style={{ height: '25%' }} className={'text_field_container'}>
             <TextField
               label={'ex.connection'}
               value={title}
@@ -46,6 +46,7 @@ export const CoreValueInput = ({
               }
               value={subTitle}
               onChange={onHandleSubTitleChange}
+              multiline
             />
           </div>
         </div>

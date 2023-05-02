@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
-export const StLayout = styled.input`
+export const StLayout = styled.textarea`
   width: 100%;
   height: 100%;
-  padding: 1rem 1.4rem;
+  padding: 1rem 1rem;
   color: ${({ theme }) => theme.color.grayscale.black40};
   font-weight: 400;
   font-size: 16px;
@@ -13,12 +13,18 @@ export const StLayout = styled.input`
   border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
   outline: none;
   transition: border-color 0.2s ease-in-out;
+  overflow: ${({ multiline }) => (multiline ? 'auto' : 'hidden')};
+  white-space: ${({ multiline }) => (multiline ? 'normal' : 'nowrap')};
+  resize: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:focus {
     border-color: #4a90e2;
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.color.grayscale.black40};
+    color: grey;
   }
 `;
