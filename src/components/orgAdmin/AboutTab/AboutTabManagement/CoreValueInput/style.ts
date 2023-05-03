@@ -2,9 +2,19 @@ import styled from '@emotion/styled';
 
 export const StCoreValueLogo = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding-bottom: 2rem;
+
+  & > p {
+    padding-bottom: 2rem;
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 20px;
+    letter-spacing: -0.02em;
+
+    color: ${({ theme }) => theme.color.grayscale.gray100};
+  }
 
   & > .core_value_container {
     flex-direction: row;

@@ -24,6 +24,7 @@ export const CoreValueInput = ({
 }: Props) => {
   return (
     <StCoreValueLogo>
+      <p>image (380 * 380)</p>
       <div className={'core_value_container'}>
         <ImageSelect
           image={image}

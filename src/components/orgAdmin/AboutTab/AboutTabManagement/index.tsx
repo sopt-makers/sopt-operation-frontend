@@ -166,39 +166,45 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
       </StContent>
       <StContent>
         <h2>핵심가치</h2>
+        <p> 브랜딩 메시지</p>
+        <div className={'form_container'}>
+          <TextField
+            label={'ex. 32기 GO SOPT의 열정이 되어주세요!!!!!'}
+            value={aboutSopt.coreDescription}
+            onChange={handleBannerImage('coreDescription')}
+          />
+        </div>
         {aboutSopt.coreValues.map((coreValue, index) => {
           return (
-            <div key={coreValue.id}>
-              <p>image (380 * 380)</p>
-              <CoreValueInput
-                image={aboutSopt.coreValues[index].imageUrl}
-                onChange={handleCoreValueImageAtIndex(index)}
-                title={aboutSopt.coreValues[index].title}
-                subTitle={aboutSopt.coreValues[index].subTitle}
-                onHandleTitleChange={handleUpdateCoreValueProperty(
-                  index,
-                  'title',
-                )}
-                onHandleSubTitleChange={handleUpdateCoreValueProperty(
-                  index,
-                  'subTitle',
-                )}
-                onRemoveImage={() => {
-                  const coreValues = aboutSopt.coreValues.map(
-                    (coreValue, coreValueIndex) => {
-                      if (index !== coreValueIndex) {
-                        return coreValue;
-                      }
-                      return {
-                        ...coreValue,
-                        imageUrl: '',
-                      };
-                    },
-                  );
-                  onHandleAboutSopt({ ...aboutSopt, coreValues });
-                }}
-              />
-            </div>
+            <CoreValueInput
+              key={coreValue.id}
+              image={aboutSopt.coreValues[index].imageUrl}
+              onChange={handleCoreValueImageAtIndex(index)}
+              title={aboutSopt.coreValues[index].title}
+              subTitle={aboutSopt.coreValues[index].subTitle}
+              onHandleTitleChange={handleUpdateCoreValueProperty(
+                index,
+                'title',
+              )}
+              onHandleSubTitleChange={handleUpdateCoreValueProperty(
+                index,
+                'subTitle',
+              )}
+              onRemoveImage={() => {
+                const coreValues = aboutSopt.coreValues.map(
+                  (coreValue, coreValueIndex) => {
+                    if (index !== coreValueIndex) {
+                      return coreValue;
+                    }
+                    return {
+                      ...coreValue,
+                      imageUrl: '',
+                    };
+                  },
+                );
+                onHandleAboutSopt({ ...aboutSopt, coreValues });
+              }}
+            />
           );
         })}
       </StContent>

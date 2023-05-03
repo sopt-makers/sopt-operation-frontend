@@ -1,10 +1,12 @@
-import AboutTabManagement from '@/components/orgAdmin/AboutTab/AboutTabManagement';
+import { useEffect, useState } from 'react';
+
 import Footer from '@/components/common/Footer';
 import AboutTabAction from '@/components/orgAdmin/AboutTab/AboutTabAction';
-import { useEffect, useState } from 'react';
+import AboutTabManagement from '@/components/orgAdmin/AboutTab/AboutTabManagement';
+import { AboutTabWrapper } from '@/components/orgAdmin/AboutTab/style';
+import { SnackBar } from '@/components/orgAdmin/SnackBar';
 import { useGetAboutSopt, useUpdateAboutSopt } from '@/services/api/aboutSopt';
 import { getBearerTokenAuthHeader } from '@/utils/auth';
-import { SnackBar } from '@/components/orgAdmin/SnackBar';
 
 const initialAboutSopt: AboutSopt = {
   id: 0,
@@ -88,7 +90,7 @@ const AboutTab = () => {
   }
 
   return (
-    <>
+    <AboutTabWrapper>
       {data && (
         <>
           <AboutTabManagement
@@ -112,7 +114,7 @@ const AboutTab = () => {
           <div>저장 완료</div>
         </SnackBar>
       )}
-    </>
+    </AboutTabWrapper>
   );
 };
 
