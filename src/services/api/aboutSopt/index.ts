@@ -29,16 +29,6 @@ export const useUpdateAboutSopt = (
   aboutSopt: AboutSopt,
   authHeader: AuthHeader,
 ) => {
-  // const mutationFn = async (aboutSopt: AboutSopt): Promise<AboutSopt> => {
-  //   const { data } = await orgClient.put<AboutSopt, AboutSopt>(
-  //     `/aboutSopt/admin/semester/${semester}`,
-  //     aboutSopt,
-  //     {
-  //       headers: { ...authHeader },
-  //     },
-  //   );
-  //   return data;
-  // };
   return useMutation('updateAboutSopt', {
     mutationFn: async (aboutSopt: AboutSopt): Promise<AboutSopt> => {
       const { data }: AxiosResponse<AboutSopt> = await orgClient.put(
@@ -55,6 +45,32 @@ export const useUpdateAboutSopt = (
     },
     onSuccess: (args: AboutSopt) => {
       console.log('onSuccess', args);
+    },
+  });
+};
+
+export const usePublishAboutSopt = (
+  semester: number,
+  authHeader: AuthHeader,
+) => {
+  return useMutation('publishAboutSopt', {
+    mutationFn: async (semester: number): Promise<AboutSopt> => {
+      const { data }: AxiosResponse<AboutSopt> = await orgClient.post(
+        `/aboutSopt/admin/semester/${semester}/publish`,
+        {},
+        {
+          headers: { ...authHeader },
+        },
+      );
+      return data;
+    },
+    onError: (error: AxiosError) => {
+      if (error.response.status === 400) {
+        alert('빈값이 있으면 공홈에 노출 할 수 없어요.');
+      }
+      if (error.response.status === 500) {
+        alert('서버에러');
+      }
     },
   });
 };

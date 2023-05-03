@@ -5,7 +5,11 @@ import AboutTabAction from '@/components/orgAdmin/AboutTab/AboutTabAction';
 import AboutTabManagement from '@/components/orgAdmin/AboutTab/AboutTabManagement';
 import { AboutTabWrapper } from '@/components/orgAdmin/AboutTab/style';
 import { SnackBar } from '@/components/orgAdmin/SnackBar';
-import { useGetAboutSopt, useUpdateAboutSopt } from '@/services/api/aboutSopt';
+import {
+  useGetAboutSopt,
+  usePublishAboutSopt,
+  useUpdateAboutSopt,
+} from '@/services/api/aboutSopt';
 import { getBearerTokenAuthHeader } from '@/utils/auth';
 
 const initialAboutSopt: AboutSopt = {
@@ -50,9 +54,13 @@ const AboutTab = () => {
     getBearerTokenAuthHeader(),
   );
   const [snackBar, setSnackBar] = useState(false);
-  const { mutate, isSuccess } = useUpdateAboutSopt(
+  const { mutate: updateAboutSopt, isSuccess } = useUpdateAboutSopt(
     semester,
     aboutSopt,
+    getBearerTokenAuthHeader(),
+  );
+  const { mutate: publishAboutSopt } = usePublishAboutSopt(
+    semester,
     getBearerTokenAuthHeader(),
   );
 
@@ -99,8 +107,11 @@ const AboutTab = () => {
           />
           <Footer>
             <AboutTabAction
-              onClick={() => {
-                mutate(aboutSopt);
+              onSave={() => {
+                updateAboutSopt(aboutSopt);
+              }}
+              onPublish={() => {
+                publishAboutSopt(semester);
               }}
             />
           </Footer>

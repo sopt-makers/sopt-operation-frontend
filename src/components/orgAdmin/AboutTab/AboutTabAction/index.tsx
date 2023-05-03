@@ -1,15 +1,22 @@
-import { StLayout } from '@/components/orgAdmin/AboutTab/AboutTabAction/style';
 import Button from '@/components/common/Button';
+import {
+  StButtonContainer,
+  StLayout,
+} from '@/components/orgAdmin/AboutTab/AboutTabAction/style';
 
 interface Props {
-  onClick: () => void;
+  onSave: () => void;
+  onPublish: () => void;
 }
-const AboutTabAction = ({ onClick }: Props) => {
+const AboutTabAction = ({ onSave, onPublish }: Props) => {
   return (
     <StLayout>
-      <div>
-        <Button type={'submit'} text={'저장하기'} onClick={onClick} />
-      </div>
+      <StButtonContainer>
+        <Button type={'submit'} text={'공홈에 노출하기'} onClick={onPublish} />
+      </StButtonContainer>
+      <StButtonContainer>
+        <Button type={'submit'} text={'저장하기'} onClick={onSave} />
+      </StButtonContainer>
     </StLayout>
   );
 };
