@@ -143,16 +143,18 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
         <h2>상단 배너</h2>
         <p>image (1920 * 630)</p>
         <div className={'form_container'}>
-          <ImageSelect
-            image={aboutSopt.bannerImage}
-            onChange={updateBannerImage}
-            onRemoveImage={() => {
-              onHandleAboutSopt({ ...aboutSopt, bannerImage: '' });
-            }}
-            width={1920}
-            height={630}
-            priority
-          />
+          <div className={'banner_image_container'}>
+            <ImageSelect
+              image={aboutSopt.bannerImage}
+              onChange={updateBannerImage}
+              onRemoveImage={() => {
+                onHandleAboutSopt({ ...aboutSopt, bannerImage: '' });
+              }}
+              width={1920}
+              height={630}
+              priority
+            />
+          </div>
         </div>
 
         <p>Title</p>
@@ -215,18 +217,20 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
         </div>
         <p>image (1200 * 600)</p>
         <div className={'form_container'}>
-          <ImageSelect
-            image={aboutSopt[getCurriculum] as string}
-            onChange={updateAboutSpotImage}
-            onRemoveImage={() => {
-              onHandleAboutSopt({
-                ...aboutSopt,
-                [getCurriculum as string]: '',
-              });
-            }}
-            width={1200}
-            height={600}
-          />
+          <div className={'curriculum_image_container'}>
+            <ImageSelect
+              image={aboutSopt[getCurriculum] as string}
+              onChange={updateAboutSpotImage}
+              onRemoveImage={() => {
+                onHandleAboutSopt({
+                  ...aboutSopt,
+                  [getCurriculum as string]: '',
+                });
+              }}
+              width={1200}
+              height={600}
+            />
+          </div>
         </div>
       </StContent>
     </StLayout>

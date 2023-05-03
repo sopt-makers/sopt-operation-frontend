@@ -12,8 +12,6 @@ export const StCoreValueLogo = styled.div`
     font-size: 1.8rem;
     line-height: 20px;
     letter-spacing: -0.02em;
-
-    color: ${({ theme }) => theme.color.grayscale.gray100};
   }
 
   & > .core_value_container {
@@ -22,25 +20,37 @@ export const StCoreValueLogo = styled.div`
     align-items: start;
     width: 100%;
 
-    & > .title_container {
-      display: flex;
-      padding-left: 1rem;
-      flex-direction: column;
-      width: 100%;
-
-      & > .text {
-        padding: 0.8rem 0.8rem 0.1rem 0.4rem;
-        font-weight: 500;
-        font-size: 1.8rem;
-        line-height: 20px;
-        letter-spacing: -0.02em;
-
-        color: ${({ theme }) => theme.color.grayscale.gray100};
-      }
-
-      & > .text_field_container {
-        height: 5rem;
-      }
+    & > .core_value_logo_container {
+      width: 40%;
+      height: 240px;
     }
   }
+`;
+
+export const StTextFieldContainer = styled.div`
+  height: 100%;
+`;
+
+export const StTitleContainer = styled.div`
+  display: flex;
+  padding-left: 1rem;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
+
+export const StMainTitleContainer = styled.div`
+  height: 30%;
+`;
+
+export const StSubTitleContainer = styled.div`
+  height: 70%;
+`;
+
+export const StTypography = styled.p`
+  padding: 0.8rem 0.8rem 0.1rem 0.4rem;
+  font-weight: 500;
+  font-size: 1.8rem;
+  line-height: 20px;
+  letter-spacing: -0.02em;
 `;

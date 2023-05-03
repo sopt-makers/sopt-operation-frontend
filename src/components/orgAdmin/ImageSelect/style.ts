@@ -10,8 +10,8 @@ export const StContainer = styled.form<StImageProps>`
   justify-content: center;
   align-items: center;
   border: ${({ hasImage }) => (hasImage ? '' : '2px dashed #858585')};
-  height: 20rem;
-  width: 50rem;
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   border-radius: 5px;
   overflow: hidden;

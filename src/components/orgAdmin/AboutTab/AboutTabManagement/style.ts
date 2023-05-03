@@ -18,6 +18,14 @@ export const StContent = styled.div`
 
   & > .form_container {
     padding-bottom: 2rem;
+
+    & > .banner_image_container {
+      height: 280px;
+    }
+
+    & > .curriculum_image_container {
+      height: 400px;
+    }
   }
 
   & > h2 {

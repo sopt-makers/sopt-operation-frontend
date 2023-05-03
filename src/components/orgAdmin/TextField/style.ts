@@ -1,17 +1,18 @@
 import styled from '@emotion/styled';
+import { CSSProperties } from 'react';
 
 interface StyledTextAreaProps {
   multiline: boolean;
+  height?: CSSProperties['height'];
 }
 
 export const StLayout = styled.textarea<StyledTextAreaProps>`
   width: 100%;
-  height: 100%;
+  height: ${({ height }) => height};
   padding: 1rem 1rem;
   color: ${({ theme }) => theme.color.grayscale.black40};
   font-weight: 400;
   font-size: 16px;
-  line-height: 24px;
   letter-spacing: -0.02em;
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
