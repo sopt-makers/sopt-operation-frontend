@@ -1,7 +1,8 @@
-import TextField from '@/components/orgAdmin/TextField';
-import ImageSelect from '@/components/orgAdmin/ImageSelect';
 import React from 'react';
+
 import { StCoreValueLogo } from '@/components/orgAdmin/AboutTab/AboutTabManagement/CoreValueInput/style';
+import ImageSelect from '@/components/orgAdmin/ImageSelect';
+import TextField from '@/components/orgAdmin/TextField';
 
 interface Props {
   image: string | null;
@@ -10,6 +11,7 @@ interface Props {
   subTitle: string;
   onHandleTitleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onHandleSubTitleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onRemoveImage: () => void;
 }
 export const CoreValueInput = ({
   title,
@@ -35,6 +37,7 @@ export const CoreValueInput = ({
               label={'ex.connection'}
               value={title}
               onChange={onHandleTitleChange}
+              multiline={false}
             />
           </div>
 

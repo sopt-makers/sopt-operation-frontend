@@ -1,15 +1,15 @@
-import React, { useMemo, useState, ChangeEvent } from 'react';
+import React, { ChangeEvent, useMemo, useState } from 'react';
 
-import PartFilter from '@/components/orgAdmin/PartFilter';
-import {
-  StLayout,
-  StContent,
-} from '@/components/orgAdmin/AboutTab/AboutTabManagement/style';
-import TextField from '@/components/orgAdmin/TextField';
-import ImageSelect from '@/components/orgAdmin/ImageSelect';
 import { CoreValueInput } from '@/components/orgAdmin/AboutTab/AboutTabManagement/CoreValueInput';
-import { putObject } from '@/utils/putObject';
+import {
+  StContent,
+  StLayout,
+} from '@/components/orgAdmin/AboutTab/AboutTabManagement/style';
+import ImageSelect from '@/components/orgAdmin/ImageSelect';
+import PartFilter from '@/components/orgAdmin/PartFilter';
 import { PartWithoutAll } from '@/components/orgAdmin/PartFilter';
+import TextField from '@/components/orgAdmin/TextField';
+import { putObject } from '@/utils/putObject';
 
 interface Props {
   aboutSopt: AboutSopt;
@@ -48,11 +48,11 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
     const image = await putObject(files[0]);
 
     if (image !== null) {
-      onHandleAboutSopt({ ...aboutSopt, [getCurriculum]: image });
+      onHandleAboutSopt({ ...aboutSopt, [getCurriculum as string]: image });
     }
   };
 
-  const getCurriculum = useMemo(() => {
+  const getCurriculum: keyof AboutSopt = useMemo(() => {
     if (selectedPart === 'PLAN') {
       return 'planCurriculum';
     }
@@ -68,9 +68,10 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
     if (selectedPart === 'WEB') {
       return 'webCurriculum';
     }
-    if (selectedPart === 'SERVER') {
-      return 'serverCurriculum';
-    }
+    // if (selectedPart === 'SERVER') {
+    //   return 'serverCurriculum';
+    // }
+    throw new Error('invalid part');
   }, [selectedPart]);
 
   const onChangePart = (part: PartWithoutAll) => {
@@ -168,7 +169,6 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
               <p>image (380 * 380)</p>
               <CoreValueInput
                 image={aboutSopt.coreValues[index].imageUrl}
-                coreValue={coreValue}
                 onChange={handleCoreValueImageAtIndex(index)}
                 title={aboutSopt.coreValues[index].title}
                 subTitle={aboutSopt.coreValues[index].subTitle}
@@ -207,10 +207,13 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
         <p>image (1200 * 600)</p>
         <div className={'form_container'}>
           <ImageSelect
-            image={aboutSopt[getCurriculum]}
+            image={aboutSopt[getCurriculum] as string}
             onChange={updateAboutSpotImage}
             onRemoveImage={() => {
-              onHandleAboutSopt({ ...aboutSopt, [getCurriculum]: '' });
+              onHandleAboutSopt({
+                ...aboutSopt,
+                [getCurriculum as string]: '',
+              });
             }}
           />
         </div>

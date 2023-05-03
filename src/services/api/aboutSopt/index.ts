@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
+import { useMutation, useQuery } from 'react-query';
 
 import { orgClient } from '@/services/api/client';
 
@@ -29,21 +29,31 @@ export const useUpdateAboutSopt = (
   aboutSopt: AboutSopt,
   authHeader: AuthHeader,
 ) => {
-  const mutationFn = async (aboutSopt): Promise<AboutSopt> => {
-    const { data }: AxiosResponse<AboutSopt, AboutSopt> = await orgClient.put<
-      AboutSopt,
-      AboutSopt
-    >(`/aboutSopt/admin/semester/${semester}`, aboutSopt, {
-      headers: { ...authHeader },
-    });
-    return data;
-  };
-  return useMutation<AboutSopt, unknown, AboutSopt, unknown>({
-    mutationFn,
+  // const mutationFn = async (aboutSopt: AboutSopt): Promise<AboutSopt> => {
+  //   const { data } = await orgClient.put<AboutSopt, AboutSopt>(
+  //     `/aboutSopt/admin/semester/${semester}`,
+  //     aboutSopt,
+  //     {
+  //       headers: { ...authHeader },
+  //     },
+  //   );
+  //   return data;
+  // };
+  return useMutation('updateAboutSopt', {
+    mutationFn: async (aboutSopt: AboutSopt): Promise<AboutSopt> => {
+      const { data }: AxiosResponse<AboutSopt> = await orgClient.put(
+        `/aboutSopt/admin/semester/${semester}`,
+        aboutSopt,
+        {
+          headers: { ...authHeader },
+        },
+      );
+      return data;
+    },
     onError: (error: AxiosError) => {
       alert(error.message);
     },
-    onSuccess: (args) => {
+    onSuccess: (args: AboutSopt) => {
       console.log('onSuccess', args);
     },
   });

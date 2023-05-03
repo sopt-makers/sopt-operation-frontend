@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { getBearerTokenAuthHeader } from '@/utils/auth';
 import { orgClient } from '@/services/api/client';
+import { getBearerTokenAuthHeader } from '@/utils/auth';
 
 export const putObject = async (file: File): Promise<string | null> => {
   const REMOVE_QUERY_STRING_REGEX = /\?.*/;
@@ -18,7 +18,7 @@ export const putObject = async (file: File): Promise<string | null> => {
   if (data) {
     try {
       const res = await axios.put(data.presignedUrl, file);
-      if (!res.status === 200) {
+      if (res.status !== 200) {
         return null;
       }
       return data.presignedUrl.replace(REMOVE_QUERY_STRING_REGEX, '');
@@ -27,4 +27,5 @@ export const putObject = async (file: File): Promise<string | null> => {
       return null;
     }
   }
+  return null;
 };

@@ -1,4 +1,5 @@
 import React, { KeyboardEvent } from 'react';
+
 import { StLayout } from '@/components/orgAdmin/TextField/style';
 
 type CustomTextFieldProps = {
@@ -8,20 +9,16 @@ type CustomTextFieldProps = {
   multiline?: boolean;
 };
 
-const TextField = ({
-  label,
-  onChange,
-  value,
-  multiline = false,
-}: CustomTextFieldProps) => {
+const TextField = (props: CustomTextFieldProps) => {
+  const { label, onChange, value, multiline = false } = props;
   return (
     <StLayout
-      type="text"
+      multiline={multiline}
       placeholder={label}
       onChange={onChange}
       value={value}
       onKeyDown={(event: KeyboardEvent<HTMLTextAreaElement>) => {
-        if (multiline === false) {
+        if (!multiline) {
           if (event.key === 'Enter') {
             event.preventDefault();
           }

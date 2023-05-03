@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
+
 import { StContainer } from '@/components/orgAdmin/ImageSelect/style';
 
 interface Props {
   image: string | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onRemoveImage?: () => void;
+  onRemoveImage: () => void;
 }
 
 const ImageSelect = ({ image, onChange, onRemoveImage }: Props) => {
