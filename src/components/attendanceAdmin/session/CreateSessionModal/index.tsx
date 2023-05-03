@@ -9,7 +9,7 @@ import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
 import { postNewSession } from '@/services/api/lecture';
-import { getToken } from '@/utils/auth';
+import { getAuthHeader } from '@/utils/auth';
 import {
   partList,
   partTranslator,
@@ -80,8 +80,6 @@ function CreateSessionModal({ onClose }: Props) {
     if (!buttonClicked) {
       setButtonClicked(true);
 
-      const accessToken = getToken('ACCESS');
-      const authHeader = { Authorization: `${accessToken}` };
       const translatedPart = partTranslator[part];
       const translatedAttribute =
         sessionTranslator[sessionType[selectedSessionIndex].session];
@@ -95,7 +93,8 @@ function CreateSessionModal({ onClose }: Props) {
         attribute: translatedAttribute,
         generation: 32,
       };
-      await postNewSession(submitContents, authHeader);
+      console.log(submitContents);
+      // await postNewSession(submitContents, getAuthHeader());
       onClose();
     }
   }, [
