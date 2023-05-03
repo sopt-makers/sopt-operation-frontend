@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
 
-export const StContainer = styled.form`
+interface StImageProps {
+  hasImage: boolean;
+}
+
+export const StContainer = styled.form<StImageProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px dashed #858585;
+  border: ${({ hasImage }) => (hasImage ? '' : '2px dashed #858585')};
   height: 20rem;
   width: 50rem;
   cursor: pointer;

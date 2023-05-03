@@ -68,9 +68,9 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
     if (selectedPart === 'WEB') {
       return 'webCurriculum';
     }
-    // if (selectedPart === 'SERVER') {
-    //   return 'serverCurriculum';
-    // }
+    if (selectedPart === 'SERVER') {
+      return 'serverCurriculum';
+    }
     throw new Error('invalid part');
   }, [selectedPart]);
 
@@ -140,7 +140,7 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
     <StLayout>
       <h1>ABOUT 탭</h1>
       <StContent>
-        <h2>썸네일</h2>
+        <h2>상단 배너</h2>
         <p>image (1920 * 630)</p>
         <div className={'form_container'}>
           <ImageSelect
@@ -149,6 +149,9 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
             onRemoveImage={() => {
               onHandleAboutSopt({ ...aboutSopt, bannerImage: '' });
             }}
+            width={1920}
+            height={630}
+            priority
           />
         </div>
 
@@ -215,6 +218,8 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
                 [getCurriculum as string]: '',
               });
             }}
+            width={1200}
+            height={600}
           />
         </div>
       </StContent>

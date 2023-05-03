@@ -29,6 +29,8 @@ export const CoreValueInput = ({
           image={image}
           onChange={onChange}
           onRemoveImage={onRemoveImage}
+          width={380}
+          height={380}
         />
         <div style={{ height: '100%' }} className={'title_container'}>
           <p className={'text'}>Title</p>

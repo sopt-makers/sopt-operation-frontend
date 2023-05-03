@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useRef } from 'react';
 
 import { StContainer } from '@/components/orgAdmin/ImageSelect/style';
@@ -6,9 +7,19 @@ interface Props {
   image: string | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemoveImage: () => void;
+  width: number;
+  height: number;
+  priority?: boolean;
 }
 
-const ImageSelect = ({ image, onChange, onRemoveImage }: Props) => {
+const ImageSelect = ({
+  image,
+  onChange,
+  onRemoveImage,
+  width,
+  height,
+  priority = false,
+}: Props) => {
   const inputRef = useRef<HTMLInputElement>(null!);
   const handleClick = () => {
     if (inputRef.current) {
@@ -17,13 +28,16 @@ const ImageSelect = ({ image, onChange, onRemoveImage }: Props) => {
   };
 
   return (
-    <StContainer onClick={handleClick}>
+    <StContainer hasImage={!!image} onClick={handleClick}>
       {image ? (
         <>
-          <img
+          <Image
             src={image}
             alt="Uploaded image"
             style={{ maxWidth: '100%', maxHeight: '100%' }}
+            width={width}
+            height={height}
+            priority={priority}
           />
           <button onClick={onRemoveImage}> X </button>
         </>
