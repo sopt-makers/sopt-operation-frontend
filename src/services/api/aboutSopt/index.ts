@@ -18,7 +18,10 @@ export const useGetAboutSopt = (semester: number, authHeader: AuthHeader) => {
     }
   };
 
-  return useQuery(['aboutSopt', semester, authHeader], queryFn);
+  return useQuery<AboutSopt, AxiosError, AboutSopt>(
+    ['getAboutSopt', semester, authHeader],
+    queryFn,
+  );
 };
 
 export const useUpdateAboutSopt = (
@@ -41,7 +44,7 @@ export const useUpdateAboutSopt = (
       alert(error.message);
     },
     onSuccess: (args) => {
-      console.log('success', args);
+      console.log('onSuccess', args);
     },
   });
 };
