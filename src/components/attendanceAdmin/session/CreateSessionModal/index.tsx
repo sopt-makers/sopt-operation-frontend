@@ -93,8 +93,7 @@ function CreateSessionModal({ onClose }: Props) {
         attribute: translatedAttribute,
         generation: 32,
       };
-      console.log(submitContents);
-      // await postNewSession(submitContents, getAuthHeader());
+      await postNewSession(submitContents, getAuthHeader());
       onClose();
     }
   }, [
