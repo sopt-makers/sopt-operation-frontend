@@ -1,4 +1,4 @@
-import React, { CSSProperties, KeyboardEvent } from 'react';
+import React, { CSSProperties, KeyboardEvent, useEffect } from 'react';
 
 import { StLayout } from '@/components/orgAdmin/TextField/style';
 
@@ -12,8 +12,18 @@ type CustomTextFieldProps = {
 
 const TextField = (props: CustomTextFieldProps) => {
   const { label, onChange, value, multiline = false, height = '100%' } = props;
+  const [hasValue, setHasValue] = React.useState(value !== '');
+
+  useEffect(() => {
+    if (value && value !== '') {
+      return setHasValue(true);
+    }
+    setHasValue(false);
+  }, [value]);
+
   return (
     <StLayout
+      hasValue={hasValue}
       height={height}
       multiline={multiline}
       placeholder={label}

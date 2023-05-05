@@ -4,6 +4,7 @@ import { CSSProperties } from 'react';
 interface StyledTextAreaProps {
   multiline: boolean;
   height?: CSSProperties['height'];
+  hasValue: boolean;
 }
 
 export const StLayout = styled.textarea<StyledTextAreaProps>`
@@ -15,7 +16,10 @@ export const StLayout = styled.textarea<StyledTextAreaProps>`
   font-size: 16px;
   letter-spacing: -0.02em;
   border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
+  border: ${({ hasValue, theme }) =>
+    hasValue
+      ? `1px solid ${theme.color.grayscale.black40}`
+      : `1px solid ${theme.color.grayscale.gray30}`};
   outline: none;
   transition: border-color 0.2s ease-in-out;
   overflow: ${({ multiline }) => (multiline ? 'auto' : 'hidden')};
@@ -26,7 +30,7 @@ export const StLayout = styled.textarea<StyledTextAreaProps>`
   align-items: center;
 
   &:focus {
-    border-color: #4a90e2;
+    border: 1px solid ${({ theme }) => theme.color.main.purple100};
   }
 
   &::placeholder {
