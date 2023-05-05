@@ -59,7 +59,7 @@ function AboutTab() {
     aboutSopt,
     getBearerTokenAuthHeader(),
   );
-  const { mutate: publishAboutSopt } = usePublishAboutSopt(
+  const { mutate: publishAboutSopt, data: publishData } = usePublishAboutSopt(
     generation,
     getBearerTokenAuthHeader(),
   );
@@ -87,7 +87,11 @@ function AboutTab() {
     if (data) {
       setAboutSopt(data);
     }
-  }, [data]);
+
+    if (publishData) {
+      setAboutSopt(publishData);
+    }
+  }, [data, publishData]);
 
   if (isError) {
     return <div>{error?.message}</div>;
@@ -113,6 +117,7 @@ function AboutTab() {
               onPublish={() => {
                 publishAboutSopt(generation);
               }}
+              isPublished={aboutSopt.isPublished}
             />
           </Footer>
         </>

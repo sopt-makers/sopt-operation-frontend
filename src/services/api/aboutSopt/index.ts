@@ -64,9 +64,16 @@ export const usePublishAboutSopt = (
       );
       return data;
     },
+    onSuccess: (aboutSopt: AboutSopt) => {
+      if (aboutSopt.isPublished) {
+        alert('공식 홈페이지에 노출 되었어요.');
+      } else {
+        alert('공식 홈페이지에서 숨겨졌어요');
+      }
+    },
     onError: (error: AxiosError) => {
       if (error?.response?.status === 400) {
-        alert('빈값이 있으면 공홈에 노출 할 수 없어요.');
+        alert('입력이 되지 않은 필드가 있으면 공홈에 노출 할 수 없어요.');
       }
       if (error?.response?.status === 500) {
         alert('서버에러');
