@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const StLayout = styled.div`
+export const StAboutTabActionContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

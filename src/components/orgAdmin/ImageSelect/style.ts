@@ -4,7 +4,7 @@ interface StImageProps {
   hasImage: boolean;
 }
 
-export const StContainer = styled.form<StImageProps>`
+export const StImageSelect = styled.form<StImageProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;

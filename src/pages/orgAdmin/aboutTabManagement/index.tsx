@@ -1,7 +1,7 @@
 import AboutTab from '@/components/orgAdmin/AboutTab';
 
-const AboutTabManagement = () => {
+function AboutTabManagement() {
   return <AboutTab />;
-};
+}
 
 export default AboutTabManagement;

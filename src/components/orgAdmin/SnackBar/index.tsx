@@ -1,15 +1,18 @@
 import { ReactNode } from 'react';
-import { StContainer, StContent } from '@/components/orgAdmin/SnackBar/style';
+
+import { StContent, StSnackBar } from '@/components/orgAdmin/SnackBar/style';
 
 interface Props {
   children: ReactNode;
   onClose: () => void;
 }
 
-export const SnackBar = ({ children, onClose }: Props) => {
+function SnackBar({ children, onClose }: Props) {
   return (
-    <StContainer onClick={onClose}>
+    <StSnackBar onClick={onClose}>
       <StContent>{children}</StContent>
-    </StContainer>
+    </StSnackBar>
   );
-};
+}
+
+export default SnackBar;

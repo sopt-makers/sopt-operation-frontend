@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { useRef } from 'react';
 
-import { StContainer } from '@/components/orgAdmin/ImageSelect/style';
+import { StImageSelect } from '@/components/orgAdmin/ImageSelect/style';
 
 interface Props {
   image: string | null;
@@ -12,14 +12,14 @@ interface Props {
   priority?: boolean;
 }
 
-const ImageSelect = ({
+function ImageSelect({
   image,
   onChange,
   onRemoveImage,
   width,
   height,
   priority = false,
-}: Props) => {
+}: Props) {
   const inputRef = useRef<HTMLInputElement>(null!);
   const handleClick = () => {
     if (inputRef.current) {
@@ -28,7 +28,7 @@ const ImageSelect = ({
   };
 
   return (
-    <StContainer hasImage={!!image} onClick={handleClick}>
+    <StImageSelect hasImage={!!image} onClick={handleClick}>
       {image ? (
         <>
           <Image
@@ -55,8 +55,8 @@ const ImageSelect = ({
           />
         </>
       )}
-    </StContainer>
+    </StImageSelect>
   );
-};
+}
 
 export default ImageSelect;

@@ -7,7 +7,7 @@ interface StyledTextAreaProps {
   hasValue: boolean;
 }
 
-export const StLayout = styled.textarea<StyledTextAreaProps>`
+export const StTextField = styled.textarea<StyledTextAreaProps>`
   width: 100%;
   height: ${({ height }) => height};
   padding: 1rem 1rem;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  StCoreValueLogo,
+  StCoreValueInputContainer,
   StMainTitleContainer,
   StSubTitleContainer,
   StTextFieldContainer,
@@ -20,7 +20,7 @@ interface Props {
   onHandleSubTitleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onRemoveImage: () => void;
 }
-export const CoreValueInput = ({
+function CoreValueInput({
   title,
   subTitle,
   onHandleSubTitleChange,
@@ -28,9 +28,9 @@ export const CoreValueInput = ({
   image,
   onChange,
   onRemoveImage,
-}: Props) => {
+}: Props) {
   return (
-    <StCoreValueLogo>
+    <StCoreValueInputContainer>
       <p>image (380 * 380)</p>
       <div className={'core_value_container'}>
         <div className={'core_value_logo_container'}>
@@ -70,6 +70,8 @@ export const CoreValueInput = ({
           </StSubTitleContainer>
         </StTitleContainer>
       </div>
-    </StCoreValueLogo>
+    </StCoreValueInputContainer>
   );
-};
+}
+
+export default CoreValueInput;

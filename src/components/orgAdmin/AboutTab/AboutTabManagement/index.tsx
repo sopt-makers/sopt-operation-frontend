@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useMemo, useState } from 'react';
 
-import { CoreValueInput } from '@/components/orgAdmin/AboutTab/AboutTabManagement/CoreValueInput';
+import CoreValueInput from '@/components/orgAdmin/AboutTab/AboutTabManagement/CoreValueInput';
 import {
+  StAboutTabManagementContainer,
   StContent,
-  StLayout,
 } from '@/components/orgAdmin/AboutTab/AboutTabManagement/style';
 import ImageSelect from '@/components/orgAdmin/ImageSelect';
 import PartFilter from '@/components/orgAdmin/PartFilter';
@@ -16,7 +16,7 @@ interface Props {
   onHandleAboutSopt: (aboutSopt: AboutSopt) => void;
 }
 
-const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
+function AboutTabManagement({ aboutSopt, onHandleAboutSopt }: Props) {
   const [selectedPart, setSelectedPart] = useState<PartWithoutAll>('PLAN');
 
   const updateBannerImage = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -137,7 +137,7 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
   };
 
   return (
-    <StLayout>
+    <StAboutTabManagementContainer>
       <h1>ABOUT 탭</h1>
       <StContent>
         <h2>상단 배너</h2>
@@ -233,8 +233,8 @@ const AboutTabManagement = ({ aboutSopt, onHandleAboutSopt }: Props) => {
           </div>
         </div>
       </StContent>
-    </StLayout>
+    </StAboutTabManagementContainer>
   );
-};
+}
 
 export default AboutTabManagement;

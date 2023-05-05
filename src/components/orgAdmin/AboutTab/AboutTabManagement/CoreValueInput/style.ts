@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const StCoreValueLogo = styled.div`
+export const StCoreValueInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

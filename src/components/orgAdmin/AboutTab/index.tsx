@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import Footer from '@/components/common/Footer';
 import AboutTabAction from '@/components/orgAdmin/AboutTab/AboutTabAction';
 import AboutTabManagement from '@/components/orgAdmin/AboutTab/AboutTabManagement';
-import { AboutTabWrapper } from '@/components/orgAdmin/AboutTab/style';
-import { SnackBar } from '@/components/orgAdmin/SnackBar';
+import { StAboutTabWrapper } from '@/components/orgAdmin/AboutTab/style';
+import SnackBar from '@/components/orgAdmin/SnackBar';
 import {
   useGetAboutSopt,
   usePublishAboutSopt,
@@ -46,7 +46,7 @@ const initialAboutSopt: AboutSopt = {
   ],
 };
 
-const AboutTab = () => {
+function AboutTab() {
   const semester = 32; // todo Generation 정보 받아오기
   const [aboutSopt, setAboutSopt] = useState<AboutSopt>(initialAboutSopt);
   const { data, isError, isLoading, error } = useGetAboutSopt(
@@ -98,7 +98,7 @@ const AboutTab = () => {
   }
 
   return (
-    <AboutTabWrapper>
+    <StAboutTabWrapper>
       {data && (
         <>
           <AboutTabManagement
@@ -125,8 +125,8 @@ const AboutTab = () => {
           <div>저장 완료</div>
         </SnackBar>
       )}
-    </AboutTabWrapper>
+    </StAboutTabWrapper>
   );
-};
+}
 
 export default AboutTab;

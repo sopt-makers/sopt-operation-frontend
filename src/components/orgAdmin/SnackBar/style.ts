@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const StContainer = styled.div`
+export const StSnackBar = styled.div`
   position: fixed;
   bottom: 24px;
   left: 24px;

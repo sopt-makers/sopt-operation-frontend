@@ -1,6 +1,6 @@
 import React, { CSSProperties, KeyboardEvent, useEffect } from 'react';
 
-import { StLayout } from '@/components/orgAdmin/TextField/style';
+import { StTextField } from '@/components/orgAdmin/TextField/style';
 
 type CustomTextFieldProps = {
   label: string;
@@ -10,7 +10,7 @@ type CustomTextFieldProps = {
   height?: CSSProperties['height'];
 };
 
-const TextField = (props: CustomTextFieldProps) => {
+function TextField(props: CustomTextFieldProps) {
   const { label, onChange, value, multiline = false, height = '100%' } = props;
   const [hasValue, setHasValue] = React.useState(value !== '');
 
@@ -22,7 +22,7 @@ const TextField = (props: CustomTextFieldProps) => {
   }, [value]);
 
   return (
-    <StLayout
+    <StTextField
       hasValue={hasValue}
       height={height}
       multiline={multiline}
@@ -38,6 +38,6 @@ const TextField = (props: CustomTextFieldProps) => {
       }}
     />
   );
-};
+}
 
 export default TextField;

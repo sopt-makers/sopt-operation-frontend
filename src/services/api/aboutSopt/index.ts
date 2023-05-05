@@ -65,10 +65,10 @@ export const usePublishAboutSopt = (
       return data;
     },
     onError: (error: AxiosError) => {
-      if (error.response.status === 400) {
+      if (error?.response?.status === 400) {
         alert('빈값이 있으면 공홈에 노출 할 수 없어요.');
       }
-      if (error.response.status === 500) {
+      if (error?.response?.status === 500) {
         alert('서버에러');
       }
     },

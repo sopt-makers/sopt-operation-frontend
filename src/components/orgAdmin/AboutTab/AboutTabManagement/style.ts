@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const StLayout = styled.div`
+export const StAboutTabManagementContainer = styled.div`
   padding: 0 4rem;
   display: flex;
   flex-direction: column;
