@@ -47,20 +47,20 @@ const initialAboutSopt: AboutSopt = {
 };
 
 function AboutTab() {
-  const semester = 32; // todo Generation 정보 받아오기
+  const generation = 32; // todo Generation 정보 받아오기
   const [aboutSopt, setAboutSopt] = useState<AboutSopt>(initialAboutSopt);
   const { data, isError, isLoading, error } = useGetAboutSopt(
-    semester,
+    generation,
     getBearerTokenAuthHeader(),
   );
   const [snackBar, setSnackBar] = useState(false);
   const { mutate: updateAboutSopt, isSuccess } = useUpdateAboutSopt(
-    semester,
+    generation,
     aboutSopt,
     getBearerTokenAuthHeader(),
   );
   const { mutate: publishAboutSopt } = usePublishAboutSopt(
-    semester,
+    generation,
     getBearerTokenAuthHeader(),
   );
 
@@ -111,7 +111,7 @@ function AboutTab() {
                 updateAboutSopt(aboutSopt);
               }}
               onPublish={() => {
-                publishAboutSopt(semester);
+                publishAboutSopt(generation);
               }}
             />
           </Footer>

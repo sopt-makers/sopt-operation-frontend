@@ -3,11 +3,11 @@ import { useMutation, useQuery } from 'react-query';
 
 import { orgClient } from '@/services/api/client';
 
-export const useGetAboutSopt = (semester: number, authHeader: AuthHeader) => {
+export const useGetAboutSopt = (generation: number, authHeader: AuthHeader) => {
   const queryFn = async () => {
     try {
       const { data }: AxiosResponse<AboutSopt> = await orgClient.get(
-        `/aboutSopt/admin/semester/${semester}`,
+        `/aboutSopt/admin/generation/${generation}`,
         {
           headers: { ...authHeader },
         },
@@ -19,20 +19,20 @@ export const useGetAboutSopt = (semester: number, authHeader: AuthHeader) => {
   };
 
   return useQuery<AboutSopt, AxiosError, AboutSopt>(
-    ['getAboutSopt', semester, authHeader],
+    ['getAboutSopt', generation, authHeader],
     queryFn,
   );
 };
 
 export const useUpdateAboutSopt = (
-  semester: number,
+  generation: number,
   aboutSopt: AboutSopt,
   authHeader: AuthHeader,
 ) => {
   return useMutation('updateAboutSopt', {
     mutationFn: async (aboutSopt: AboutSopt): Promise<AboutSopt> => {
       const { data }: AxiosResponse<AboutSopt> = await orgClient.put(
-        `/aboutSopt/admin/semester/${semester}`,
+        `/aboutSopt/admin/generation/${generation}`,
         aboutSopt,
         {
           headers: { ...authHeader },
@@ -50,13 +50,13 @@ export const useUpdateAboutSopt = (
 };
 
 export const usePublishAboutSopt = (
-  semester: number,
+  generation: number,
   authHeader: AuthHeader,
 ) => {
   return useMutation('publishAboutSopt', {
-    mutationFn: async (semester: number): Promise<AboutSopt> => {
+    mutationFn: async (generation: number): Promise<AboutSopt> => {
       const { data }: AxiosResponse<AboutSopt> = await orgClient.post(
-        `/aboutSopt/admin/semester/${semester}/publish`,
+        `/aboutSopt/admin/generation/${generation}/publish`,
         {},
         {
           headers: { ...authHeader },
