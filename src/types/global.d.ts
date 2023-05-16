@@ -137,5 +137,35 @@ declare global {
   interface LoginRes extends User {
     accessToken: string;
   }
+
+  /*Sopt.org 어드민 */
+
+  /* CoreValue */
+  interface CoreValue {
+    id: number;
+    title: string;
+    subTitle: string;
+    imageUrl: string;
+  }
+
+  /* AboutSopt */
+  interface AboutSopt {
+    id: number;
+    isPublished: boolean;
+    title: string;
+    bannerImage: string;
+    coreDescription: string;
+    planCurriculum: string;
+    designCurriculum: string;
+    androidCurriculum: string;
+    iosCurriculum: string;
+    webCurriculum: string;
+    serverCurriculum: string;
+    coreValues: CoreValue[];
+  }
+
+  interface ResponsePresignedUrl {
+    presignedUrl: string;
+  }
 }
 export default global;
