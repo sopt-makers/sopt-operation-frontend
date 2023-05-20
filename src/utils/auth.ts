@@ -4,7 +4,7 @@ type ITokenType = 'ACCESS' | 'REFRESH';
 
 export const TOKEN_KEY: Record<ITokenType, string> = {
   ACCESS: 'ACCESS_TOKEN',
-  REFRESH: 'REFRESH_TOKEN',
+  REFRESH: 'refreshToken',
 };
 
 export const getToken = (type: ITokenType) =>
@@ -16,7 +16,7 @@ export const setToken = (type: ITokenType, token: string, expiresIn?: number) =>
 export const setCookie = (name: string, value: string, expiresIn?: number) => {
   if (expiresIn) {
     const date = new Date();
-    date.setTime(date.getTime() + expiresIn * 24 * 60 * 60 * 1000);
+    date.setTime(date.getTime() + expiresIn * 60 * 60 * 1000);
     const expires = 'expires=' + date.toUTCString();
     document.cookie = `${name}=${value};${expires};path=/`;
   } else {
