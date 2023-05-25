@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import config from '@/configs/config';
+import { getToken } from '@/utils/auth';
 
 interface IAxiosConfig {
   baseURL: string;
@@ -20,12 +21,19 @@ const axiosFormConfig: AxiosRequestConfig<IAxiosConfig> = {
   },
 };
 
-const axiosOrgConfig: AxiosRequestConfig<IAxiosConfig> = {
-  baseURL: config.ORG_API_URL,
-  headers: { 'Content-Type': 'application/json' },
-};
+const client: AxiosInstance = axios.create(axiosConfig);
+const formClient: AxiosInstance = axios.create(axiosFormConfig);
 
-export const client: AxiosInstance = axios.create(axiosConfig);
-export const formClient: AxiosInstance = axios.create(axiosFormConfig);
+client.interceptors.request.use(
+  function (config) {
+    if (window.location.pathname !== '/' && !getToken('ACCESS')) {
+      window.location.replace('/');
+    }
+    return config;
+  },
+  function (error) {
+    console.log(error);
+  },
+);
 
-export const orgClient: AxiosInstance = axios.create(axiosOrgConfig);
+export { client, formClient };

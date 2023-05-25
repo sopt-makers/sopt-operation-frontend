@@ -12,7 +12,7 @@ export const userLogin = async (
       loginData,
     );
     const { accessToken, ...user } = data.data;
-    setToken('ACCESS', accessToken);
+    setToken('ACCESS', accessToken, 4);
 
     return user;
   } catch (e) {
