@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import ListWrapper from '@/components/common/ListWrapper';
@@ -5,13 +6,15 @@ import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
 import { useGetMemberList } from '@/services/api/member';
 import { precision } from '@/utils';
-import { getAuthHeader, getToken } from '@/utils/auth';
+import { getAuthHeader } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
 import MemberDetail from '../MemberDetail';
 import { StListHeader, StMemberName, StMemberUniversity } from './style';
 
 function MemberList() {
+  const router = useRouter();
+
   const HEADER_LABELS = [
     '순번',
     '회원명',
@@ -54,7 +57,13 @@ function MemberList() {
     if (data) {
       setMemberData(data);
     }
-  }, [data]);
+    if (isError) {
+      alert(error.error);
+      document.cookie =
+        'ACCESS_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      router.push('/');
+    }
+  }, [data, error, isError, router]);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);

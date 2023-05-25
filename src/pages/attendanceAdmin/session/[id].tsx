@@ -120,7 +120,7 @@ function SessionDetailPage() {
         alert(result.error);
       } else {
         setChangedMembers([...changedMembers, member]);
-        session.part === 'ALL'
+        selectedPart === 'ALL'
           ? await getSessionMemberData()
           : await getSessionMemberData(selectedPart);
       }
