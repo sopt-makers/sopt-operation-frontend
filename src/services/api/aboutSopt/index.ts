@@ -1,12 +1,12 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
-import { orgClient } from '@/services/api/client';
+import { formClient } from '@/services/api/client';
 
 export const useGetAboutSopt = (generation: number, authHeader: AuthHeader) => {
   const queryFn = async () => {
     try {
-      const { data }: AxiosResponse<AboutSopt> = await orgClient.get(
+      const { data }: AxiosResponse<AboutSopt> = await formClient.get(
         `/aboutSopt/admin/generation/${generation}`,
         {
           headers: { ...authHeader },
@@ -31,7 +31,7 @@ export const useUpdateAboutSopt = (
 ) => {
   return useMutation('updateAboutSopt', {
     mutationFn: async (aboutSopt: AboutSopt): Promise<AboutSopt> => {
-      const { data }: AxiosResponse<AboutSopt> = await orgClient.put(
+      const { data }: AxiosResponse<AboutSopt> = await formClient.put(
         `/aboutSopt/admin/generation/${generation}`,
         aboutSopt,
         {
@@ -55,7 +55,7 @@ export const usePublishAboutSopt = (
 ) => {
   return useMutation('publishAboutSopt', {
     mutationFn: async (generation: number): Promise<AboutSopt> => {
-      const { data }: AxiosResponse<AboutSopt> = await orgClient.post(
+      const { data }: AxiosResponse<AboutSopt> = await formClient.post(
         `/aboutSopt/admin/generation/${generation}/publish`,
         {},
         {
