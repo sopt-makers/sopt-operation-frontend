@@ -300,7 +300,7 @@ const StPageWrapper = styled.div`
       padding: 0 2.2rem;
     }
     &-university {
-      max-width: 7.6rem;
+      max-width: 13.5rem;
     }
     &-date {
       color: ${({ theme }) => theme.color.grayscale.gray80};
