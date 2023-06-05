@@ -2,7 +2,7 @@ import { useTheme } from '@emotion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import IcDropdown from '@/components/icons/IcDropdown';
-import { attendanceTranslator } from '@/utils/translator';
+import { attendanceTranslator, getAttendanceColor } from '@/utils/translator';
 
 import { StOptions, StSelect, StSelectWrap } from './style';
 
@@ -38,19 +38,6 @@ function Select(props: Props) {
     };
   }, [optionsRef, toggleOptions]);
 
-  const getColor = (selected: ATTEND_STATUS) => {
-    switch (selected) {
-      case 'ABSENT':
-        return theme.color.sub.red;
-      case 'TARDY':
-        return theme.color.sub.yellow;
-      case 'ATTENDANCE':
-        return theme.color.sub.green;
-      default:
-        return theme.color.grayscale.black40;
-    }
-  };
-
   const onClickOption = (value: ATTEND_STATUS) => {
     onChange(value);
     toggleOptions();
@@ -59,7 +46,7 @@ function Select(props: Props) {
   return (
     <StSelectWrap>
       <StSelect onClick={toggleOptions}>
-        <p style={{ color: getColor(selected) }}>
+        <p style={{ color: getAttendanceColor(selected) }}>
           {attendanceTranslator[selected]}
         </p>
         <IcDropdown />
