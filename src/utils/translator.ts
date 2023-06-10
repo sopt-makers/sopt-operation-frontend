@@ -1,3 +1,5 @@
+import theme from '@/styles/theme';
+
 export const partList: PART[] = [
   'ALL',
   'PLAN',
@@ -20,4 +22,21 @@ export const attendanceTranslator: Record<ATTEND_STATUS, string> = {
   ATTENDANCE: '출석',
   TARDY: '지각',
   ABSENT: '결석',
+};
+export const getAttendanceColor = (
+  selected: ATTEND_STATUS | ATTEND_STATUS_KR,
+) => {
+  switch (selected) {
+    case 'ABSENT':
+    case '결석':
+      return theme.color.sub.red;
+    case 'TARDY':
+    case '지각':
+      return theme.color.sub.yellow;
+    case 'ATTENDANCE':
+    case '출석':
+      return theme.color.sub.green;
+    default:
+      return theme.color.grayscale.black40;
+  }
 };

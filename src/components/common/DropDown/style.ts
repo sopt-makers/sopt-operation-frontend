@@ -36,6 +36,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
     & > p {
       padding: 0.75rem 0 0.75rem 0.5rem;
 
+      color: ${({ theme }) => theme.color.grayscale.black40};
       font-weight: 500;
       font-size: 16px;
       line-height: 100%;

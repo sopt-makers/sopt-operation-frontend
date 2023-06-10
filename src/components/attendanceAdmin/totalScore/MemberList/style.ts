@@ -23,7 +23,7 @@ export const StMemberName = styled.p`
 `;
 
 export const StMemberUniversity = styled.p`
-  max-width: 7.6rem;
+  max-width: 9.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
