@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { StFormLayout } from './style';
+import { StInputLayout } from './style';
 
 interface Props {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface Props {
 const Input = (props: Props) => {
   const { children } = props;
 
-  return <StFormLayout>{children}</StFormLayout>;
+  return <StInputLayout>{children}</StInputLayout>;
 };
 
 export default Input;
