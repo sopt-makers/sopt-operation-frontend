@@ -157,7 +157,9 @@ function CreateSessionModal({ onClose }: Props) {
         <StHeader>
           <StTitle>
             <h1>세션 생성</h1>
-            <IcModalClose onClick={onClose} />
+            <div onClick={onClose}>
+              <IcModalClose />
+            </div>
           </StTitle>
           <h2>새로운 SOPT 세션을 생성합니다. 대상 파트를 선택해주세요.</h2>
         </StHeader>
