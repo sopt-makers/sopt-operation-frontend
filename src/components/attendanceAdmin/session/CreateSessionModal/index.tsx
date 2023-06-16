@@ -183,29 +183,17 @@ function CreateSessionModal({ onClose }: Props) {
             <article>
               <div className="form_container">
                 <p>세션명</p>
-                <FormType formType={'name'} />
+                <FormType formType="name" />
               </div>
               <div className="form_container">
                 <p>세션 장소</p>
-                <StFormLayout hasValue={sessionLocation ? true : false}>
-                  <input
-                    placeholder="세션이 열리는 장소를 입력해주세요"
-                    onChange={(e) => handleInputChange(e, '세션 장소')}></input>
-                </StFormLayout>
+                <FormType formType="location" />
               </div>
             </article>
             <article>
               <div className="form_container">
                 <p>세션 날짜</p>
-                <StFormLayout hasValue={date ? true : false}>
-                  <DatePicker
-                    placeholderText="세션 날짜를 선택해주세요"
-                    dateFormat="yyyy/MM/dd"
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                  />
-                  <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
-                </StFormLayout>
+                <FormType formType="date" />
               </div>
               <div className="input_time">
                 <div className="form_container">

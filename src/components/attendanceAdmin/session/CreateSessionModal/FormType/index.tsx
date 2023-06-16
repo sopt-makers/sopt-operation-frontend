@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import Form from '@/components/common/Form';
 import IcDropdown from '@/components/common/icons/IcDropDown';
 
-import { StInput } from './style';
+import { StDatePicker, StInput } from './style';
 
 interface Props {
   formType: string;
@@ -64,7 +64,7 @@ const FormType = (props: Props) => {
         );
       case 'date':
         return (
-          <>
+          <StDatePicker>
             <DatePicker
               placeholderText="세션 날짜를 선택해주세요"
               dateFormat="yyyy/MM/dd"
@@ -72,7 +72,7 @@ const FormType = (props: Props) => {
               onChange={handleDateChange}
             />
             <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
-          </>
+          </StDatePicker>
         );
     }
   };
