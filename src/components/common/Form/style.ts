@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const StInputLayout = styled.div<{ hasValue?: boolean }>`
+export const StFormLayout = styled.div<{ hasValue?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;

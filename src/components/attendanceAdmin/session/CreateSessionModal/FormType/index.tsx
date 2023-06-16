@@ -3,8 +3,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 
+import Form from '@/components/common/Form';
 import IcDropdown from '@/components/common/icons/IcDropDown';
-import Input from '@/components/common/Input';
+
+import { StInput } from './style';
 
 interface Props {
   formType: string;
@@ -48,20 +50,17 @@ const FormType = (props: Props) => {
     switch (formType) {
       case 'name':
         return (
-          <>
-            <input
-              placeholder="세션 이름을 입력해주세요"
-              onChange={(e) => handleInputChange(e, '세션 이름')}
-            />
-          </>
+          <StInput
+            placeholder="세션 이름을 입력해주세요"
+            onChange={(e) => handleInputChange(e, '세션 이름')}
+          />
         );
       case 'location':
         return (
-          <>
-            <input
-              placeholder="세션이 열리는 장소를 입력해주세요"
-              onChange={(e) => handleInputChange(e, '세션 장소')}></input>
-          </>
+          <StInput
+            placeholder="세션이 열리는 장소를 입력해주세요"
+            onChange={(e) => handleInputChange(e, '세션 장소')}
+          />
         );
       case 'date':
         return (
@@ -78,7 +77,7 @@ const FormType = (props: Props) => {
     }
   };
 
-  return <Input>{handleForm()}</Input>;
+  return <Form>{handleForm()}</Form>;
 };
 
 export default FormType;

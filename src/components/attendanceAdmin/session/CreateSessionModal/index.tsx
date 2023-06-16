@@ -18,6 +18,7 @@ import {
   times,
 } from '@/utils/session';
 
+import FormType from './FormType';
 import {
   StFooter,
   StFormLayout,
@@ -182,11 +183,7 @@ function CreateSessionModal({ onClose }: Props) {
             <article>
               <div className="form_container">
                 <p>세션명</p>
-                <StFormLayout hasValue={sessionName ? true : false}>
-                  <input
-                    placeholder="세션 이름을 입력해주세요"
-                    onChange={(e) => handleInputChange(e, '세션 이름')}></input>
-                </StFormLayout>
+                <FormType formType={'name'} />
               </div>
               <div className="form_container">
                 <p>세션 장소</p>
