@@ -18,7 +18,6 @@ import {
   times,
 } from '@/utils/session';
 
-import FormType from './FormType';
 import {
   StFooter,
   StFormLayout,
@@ -158,9 +157,7 @@ function CreateSessionModal({ onClose }: Props) {
         <StHeader>
           <StTitle>
             <h1>세션 생성</h1>
-            <div onClick={onClose}>
-              <IcModalClose />
-            </div>
+            <IcModalClose onClick={onClose} />
           </StTitle>
           <h2>새로운 SOPT 세션을 생성합니다. 대상 파트를 선택해주세요.</h2>
         </StHeader>
@@ -183,17 +180,33 @@ function CreateSessionModal({ onClose }: Props) {
             <article>
               <div className="form_container">
                 <p>세션명</p>
-                <FormType formType="name" />
+                <StFormLayout hasValue={sessionName ? true : false}>
+                  <input
+                    placeholder="세션 이름을 입력해주세요"
+                    onChange={(e) => handleInputChange(e, '세션 이름')}></input>
+                </StFormLayout>
               </div>
               <div className="form_container">
                 <p>세션 장소</p>
-                <FormType formType="location" />
+                <StFormLayout hasValue={sessionLocation ? true : false}>
+                  <input
+                    placeholder="세션이 열리는 장소를 입력해주세요"
+                    onChange={(e) => handleInputChange(e, '세션 장소')}></input>
+                </StFormLayout>
               </div>
             </article>
             <article>
               <div className="form_container">
                 <p>세션 날짜</p>
-                <FormType formType="date" />
+                <StFormLayout hasValue={date ? true : false}>
+                  <DatePicker
+                    placeholderText="세션 날짜를 선택해주세요"
+                    dateFormat="yyyy/MM/dd"
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                  />
+                  <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
+                </StFormLayout>
               </div>
               <div className="input_time">
                 <div className="form_container">
