@@ -37,7 +37,7 @@ interface Props {
 }
 
 type MutationInput = {
-  newData: any;
+  newData: SessionBase;
   authHeader: AuthHeader;
 };
 
