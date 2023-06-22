@@ -3,6 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useCallback, useEffect, useState } from 'react';
 import React from 'react';
 import DatePicker from 'react-datepicker';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
@@ -31,11 +32,18 @@ import {
   StWrapper,
 } from './style';
 
-type Props = {
+interface Props {
   onClose: () => void;
+}
+
+type MutationInput = {
+  newData: any;
+  authHeader: AuthHeader;
 };
 
-function CreateSessionModal({ onClose }: Props) {
+function CreateSessionModal(props: Props) {
+  const { onClose } = props;
+
   const [part, setPart] = useState<string>('파트선택');
   const [sessionName, setSessionName] = useState<string>();
   const [sessionLocation, setSessionLocation] = useState<string>();
@@ -51,6 +59,8 @@ function CreateSessionModal({ onClose }: Props) {
 
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [buttonClicked, setButtonClicked] = useState(false);
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (
@@ -76,6 +86,20 @@ function CreateSessionModal({ onClose }: Props) {
     selectedSessionIndex,
   ]);
 
+  const mutation = useMutation<void, unknown, MutationInput, unknown>(
+    ({ newData, authHeader }) => postNewSession(newData, authHeader),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([
+          'sessionList',
+          32,
+          partTranslator[part],
+          { Authorization: `${getToken('ACCESS')}` },
+        ]);
+      },
+    },
+  );
+
   const handleSubmit = useCallback(async () => {
     if (!buttonClicked) {
       setButtonClicked(true);
@@ -95,7 +119,7 @@ function CreateSessionModal({ onClose }: Props) {
         attribute: translatedAttribute,
         generation: 32,
       };
-      await postNewSession(submitContents, authHeader);
+      mutation.mutate({ newData: submitContents, authHeader });
       onClose();
     }
   }, [
@@ -108,6 +132,7 @@ function CreateSessionModal({ onClose }: Props) {
     sessionLocation,
     sessionName,
     startTime,
+    mutation,
   ]);
 
   const handlePartSelection = (selectedPart: string) => {
