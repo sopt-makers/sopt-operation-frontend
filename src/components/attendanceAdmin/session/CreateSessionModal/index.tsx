@@ -86,7 +86,7 @@ function CreateSessionModal(props: Props) {
     selectedSessionIndex,
   ]);
 
-  const mutation = useMutation<void, unknown, MutationInput, unknown>(
+  const mutation = useMutation<void, ProjectError, MutationInput, SessionBase>(
     ({ newData, authHeader }) => postNewSession(newData, authHeader),
     {
       onSuccess: () => {
