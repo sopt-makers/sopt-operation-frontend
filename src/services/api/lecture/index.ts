@@ -61,11 +61,6 @@ export const useGetSessionList = (
   );
 };
 
-export const deleteSession = async (lectureId: string | undefined) => {
-  const res = await client.delete(`/lectures/${lectureId}`);
-  return res;
-};
-
 export const getSessionDetail = async (
   lectureId: number,
   authHeader: AuthHeader,
