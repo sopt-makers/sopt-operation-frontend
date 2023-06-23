@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
-import { useGetSessionList } from '@/services/api/lecture';
+import { deleteSession, useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
@@ -106,6 +106,10 @@ function SessionList() {
                 </td>
                 <td>
                   <StSessionName>{name}</StSessionName>
+                  <button
+                    onClick={() => deleteSession(lectureId, getAuthHeader())}>
+                    삭제
+                  </button>
                 </td>
                 <td>{date}</td>
                 <td className="attendance">{attendance}</td>
