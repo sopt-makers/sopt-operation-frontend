@@ -14,6 +14,16 @@ export const postNewSession = async (
   }
 };
 
+export const deleteSession = async (
+  lectureId: number,
+  authHeader: AuthHeader,
+) => {
+  const res = await client.delete(`/lectures/${lectureId}`, {
+    headers: { ...authHeader },
+  });
+  return res;
+};
+
 export const useGetSessionList = (
   generation: number,
   part: string,
