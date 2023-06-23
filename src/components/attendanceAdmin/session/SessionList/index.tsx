@@ -73,6 +73,7 @@ function SessionList() {
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
   };
+
   return (
     <>
       <StListHeader>
@@ -107,7 +108,10 @@ function SessionList() {
                 <td>
                   <StSessionName>{name}</StSessionName>
                   <button
-                    onClick={() => deleteSession(lectureId, getAuthHeader())}>
+                    onClick={() => {
+                      confirm('세션을 삭제하시겠습니까?');
+                      deleteSession(lectureId, getAuthHeader());
+                    }}>
                     삭제
                   </button>
                 </td>
