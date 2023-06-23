@@ -86,6 +86,7 @@ function CreateSessionModal(props: Props) {
     selectedSessionIndex,
   ]);
 
+  /** POST 요청 후에 세션 데이터를 Mutation 하는 useMutation hook */
   const mutation = useMutation<void, ProjectError, MutationInput, SessionBase>(
     ({ newData, authHeader }) => postNewSession(newData, authHeader),
     {
@@ -100,6 +101,7 @@ function CreateSessionModal(props: Props) {
     },
   );
 
+  /** 각각의 State 에 담아준 상태들을 객체화 시켜 post 하는 함수 */
   const handleSubmit = useCallback(async () => {
     if (!buttonClicked) {
       setButtonClicked(true);
