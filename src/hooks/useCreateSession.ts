@@ -26,12 +26,12 @@ export const useCreateSession = (part: string) => {
     },
   );
 
-  const mutateSession = (submitContents: SessionBase) => {
+  const createSession = (submitContents: SessionBase) => {
     const accessToken = getToken('ACCESS');
     const authHeader = { Authorization: `${accessToken}` };
 
     mutation.mutate({ newData: submitContents, authHeader });
   };
 
-  return { mutateSession, mutation };
+  return { createSession, mutation };
 };
