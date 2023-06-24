@@ -109,8 +109,11 @@ function SessionList() {
                   <StSessionName>{name}</StSessionName>
                   <button
                     onClick={() => {
-                      deleteSession(lectureId, getAuthHeader());
-                      alert('세션이 삭제되었습니다.');
+                      const result = confirm('세션을 삭제하시겠습니까?');
+                      if (result) {
+                        deleteSession(lectureId, getAuthHeader());
+                        alert('세션이 삭제되었습니다.');
+                      }
                     }}>
                     삭제
                   </button>
