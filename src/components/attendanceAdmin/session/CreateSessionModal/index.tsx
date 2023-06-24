@@ -137,12 +137,25 @@ function CreateSessionModal(props: Props) {
     mutation,
   ]);
 
-  const handlePartSelection = (selectedPart: string) => {
+  /** 파트 선택 핸들러 */
+  const handleSelectedPart = (selectedPart: string) => {
     setPart(selectedPart);
     setIsPartOpen(false);
   };
 
-  const handleInputChange = (
+  /** 시간 선택 핸들러 */
+  const handleSelectedTime = (time: string, timeType: string) => {
+    if (timeType === 'startTime') {
+      setStartTime(time);
+      setIsStartTimeOpen(false);
+    } else if (timeType === 'endTime') {
+      setEndTime(time);
+      setIsEndTimeOpen(false);
+    }
+  };
+
+  /** 세션 이름 or 세션 장소 핸들러*/
+  const handleSessionInfo = (
     e: React.ChangeEvent<HTMLInputElement>,
     inputType: string,
   ) => {
@@ -155,7 +168,8 @@ function CreateSessionModal(props: Props) {
     }
   };
 
-  const handleDateChange = (date: Date | null) => {
+  /** 받아온 날짜 데이터를 변환하는 함수 */
+  const handleSessionDate = (date: Date | null) => {
     setSelectedDate(date);
 
     if (date) {
@@ -165,16 +179,6 @@ function CreateSessionModal(props: Props) {
 
       const formattedDate = `${year}/${month}/${day}`;
       setDate(formattedDate);
-    }
-  };
-
-  const handleTimeSelection = (time: string, timeType: string) => {
-    if (timeType === 'startTime') {
-      setStartTime(time);
-      setIsStartTimeOpen(false);
-    } else if (timeType === 'endTime') {
-      setEndTime(time);
-      setIsEndTimeOpen(false);
     }
   };
 
@@ -199,7 +203,7 @@ function CreateSessionModal(props: Props) {
           {isPartOpen && (
             <DropDown
               list={partList}
-              onItemSelected={handlePartSelection}
+              onItemSelected={handleSelectedPart}
               type={'select'}
             />
           )}
@@ -210,7 +214,7 @@ function CreateSessionModal(props: Props) {
                 <StFormLayout hasValue={sessionName ? true : false}>
                   <input
                     placeholder="세션 이름을 입력해주세요"
-                    onChange={(e) => handleInputChange(e, '세션 이름')}></input>
+                    onChange={(e) => handleSessionInfo(e, '세션 이름')}></input>
                 </StFormLayout>
               </div>
               <div className="form_container">
@@ -218,7 +222,7 @@ function CreateSessionModal(props: Props) {
                 <StFormLayout hasValue={sessionLocation ? true : false}>
                   <input
                     placeholder="세션이 열리는 장소를 입력해주세요"
-                    onChange={(e) => handleInputChange(e, '세션 장소')}></input>
+                    onChange={(e) => handleSessionInfo(e, '세션 장소')}></input>
                 </StFormLayout>
               </div>
             </article>
@@ -230,7 +234,7 @@ function CreateSessionModal(props: Props) {
                     placeholderText="세션 날짜를 선택해주세요"
                     dateFormat="yyyy/MM/dd"
                     selected={selectedDate}
-                    onChange={handleDateChange}
+                    onChange={handleSessionDate}
                   />
                   <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
                 </StFormLayout>
@@ -249,7 +253,7 @@ function CreateSessionModal(props: Props) {
                       list={times}
                       type={'times'}
                       onItemSelected={(time: string) =>
-                        handleTimeSelection(time, 'startTime')
+                        handleSelectedTime(time, 'startTime')
                       }
                     />
                   )}
@@ -267,7 +271,7 @@ function CreateSessionModal(props: Props) {
                       list={times}
                       type={'times'}
                       onItemSelected={(time: string) =>
-                        handleTimeSelection(time, 'endTime')
+                        handleSelectedTime(time, 'endTime')
                       }
                     />
                   )}
