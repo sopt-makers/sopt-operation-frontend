@@ -3,15 +3,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useCallback, useEffect, useState } from 'react';
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { useMutation, useQueryClient } from 'react-query';
 
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
 import { useCreateSession } from '@/hooks/useCreateSession';
-import { postNewSession } from '@/services/api/lecture';
-import { getToken } from '@/utils/auth';
 import {
   partList,
   partTranslator,
@@ -56,7 +53,7 @@ function CreateSessionModal(props: Props) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  const { mutateSession } = useCreateSession(part);
+  const { createSession } = useCreateSession(part);
 
   useEffect(() => {
     if (
@@ -83,7 +80,7 @@ function CreateSessionModal(props: Props) {
   ]);
 
   /** 각각의 State 에 담아준 상태들을 객체화 시켜 post 하는 함수 */
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = async () => {
     if (!buttonClicked) {
       setButtonClicked(true);
 
@@ -101,21 +98,10 @@ function CreateSessionModal(props: Props) {
         generation: 32,
       };
 
-      mutateSession(submitContents);
+      createSession(submitContents);
       onClose();
     }
-  }, [
-    buttonClicked,
-    date,
-    endTime,
-    onClose,
-    part,
-    selectedSessionIndex,
-    sessionLocation,
-    sessionName,
-    startTime,
-    mutateSession,
-  ]);
+  };
 
   /** 파트 선택 핸들러 */
   const handleSelectedPart = (selectedPart: string) => {
