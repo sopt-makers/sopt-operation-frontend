@@ -9,6 +9,7 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
+import { useCreateSession } from '@/hooks/useCreateSession';
 import { postNewSession } from '@/services/api/lecture';
 import { getToken } from '@/utils/auth';
 import {
@@ -36,11 +37,6 @@ interface Props {
   onClose: () => void;
 }
 
-type MutationInput = {
-  newData: SessionBase;
-  authHeader: AuthHeader;
-};
-
 function CreateSessionModal(props: Props) {
   const { onClose } = props;
 
@@ -60,7 +56,7 @@ function CreateSessionModal(props: Props) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  const queryClient = useQueryClient();
+  const { mutateSession } = useCreateSession(part);
 
   useEffect(() => {
     if (
@@ -86,28 +82,11 @@ function CreateSessionModal(props: Props) {
     selectedSessionIndex,
   ]);
 
-  /** POST 요청 후에 세션 데이터를 Mutation 하는 useMutation hook */
-  const mutation = useMutation<void, ProjectError, MutationInput, SessionBase>(
-    ({ newData, authHeader }) => postNewSession(newData, authHeader),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([
-          'sessionList',
-          32,
-          partTranslator[part],
-          { Authorization: `${getToken('ACCESS')}` },
-        ]);
-      },
-    },
-  );
-
   /** 각각의 State 에 담아준 상태들을 객체화 시켜 post 하는 함수 */
   const handleSubmit = useCallback(async () => {
     if (!buttonClicked) {
       setButtonClicked(true);
 
-      const accessToken = getToken('ACCESS');
-      const authHeader = { Authorization: `${accessToken}` };
       const translatedPart = partTranslator[part];
       const translatedAttribute =
         sessionTranslator[sessionType[selectedSessionIndex].session];
@@ -121,7 +100,8 @@ function CreateSessionModal(props: Props) {
         attribute: translatedAttribute,
         generation: 32,
       };
-      mutation.mutate({ newData: submitContents, authHeader });
+
+      mutateSession(submitContents);
       onClose();
     }
   }, [
@@ -134,7 +114,7 @@ function CreateSessionModal(props: Props) {
     sessionLocation,
     sessionName,
     startTime,
-    mutation,
+    mutateSession,
   ]);
 
   /** 파트 선택 핸들러 */
