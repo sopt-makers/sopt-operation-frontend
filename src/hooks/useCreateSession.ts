@@ -33,5 +33,5 @@ export const useCreateSession = (part: string) => {
     mutation.mutate({ newData: submitContents, authHeader });
   };
 
-  return { createSession, mutation };
+  return { createSession };
 };
