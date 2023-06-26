@@ -22,7 +22,7 @@ const axiosFormConfig: AxiosRequestConfig<IAxiosConfig> = {
 };
 
 const client: AxiosInstance = axios.create(axiosConfig);
-const formClient: AxiosInstance = axios.create(axiosFormConfig);
+const orgClient: AxiosInstance = axios.create(axiosFormConfig);
 
 client.interceptors.request.use(
   function (config) {
@@ -36,4 +36,4 @@ client.interceptors.request.use(
   },
 );
 
-export { client, formClient };
+export { client, orgClient };
