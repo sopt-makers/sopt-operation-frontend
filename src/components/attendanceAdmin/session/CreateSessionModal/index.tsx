@@ -37,6 +37,7 @@ interface Props {
 function CreateSessionModal(props: Props) {
   const { onClose } = props;
 
+  // 세션 생성에 필요한 State
   const [part, setPart] = useState<string>('파트선택');
   const [sessionName, setSessionName] = useState<string>();
   const [sessionLocation, setSessionLocation] = useState<string>();
