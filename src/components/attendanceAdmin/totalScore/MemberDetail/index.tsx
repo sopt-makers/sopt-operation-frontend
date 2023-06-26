@@ -7,6 +7,7 @@ import { scoreDetailAttendanceInit } from '@/data/sessionData';
 import { getMemberAttendance } from '@/services/api/attendance';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
+import { getAttendanceColor } from '@/utils/translator';
 
 import { StModalWrap, StSessionName } from './style';
 
@@ -100,17 +101,31 @@ function MemberDetail(props: Props) {
                     <td style={{ width: TABLE_WIDTH[1] }}>
                       <StSessionName>{lecture.lecture}</StSessionName>
                     </td>
-                    <td style={{ width: TABLE_WIDTH[2] }}>
+                    <td
+                      style={{
+                        width: TABLE_WIDTH[2],
+                        color: getAttendanceColor(firstRound.status),
+                      }}>
                       {firstRound.status}
                     </td>
                     <td style={{ width: TABLE_WIDTH[3] }}>{firstRound.date}</td>
-                    <td style={{ width: TABLE_WIDTH[4] }}>
+                    <td
+                      style={{
+                        width: TABLE_WIDTH[4],
+                        color: getAttendanceColor(secondRound.status),
+                      }}>
                       {secondRound.status}
                     </td>
                     <td style={{ width: TABLE_WIDTH[5] }}>
                       {secondRound.date}
                     </td>
-                    <td style={{ width: TABLE_WIDTH[6] }}>{lecture.status}</td>
+                    <td
+                      style={{
+                        width: TABLE_WIDTH[6],
+                        color: getAttendanceColor(lecture.status),
+                      }}>
+                      {lecture.status}
+                    </td>
                     <td style={{ width: TABLE_WIDTH[7] }}>
                       {lecture.additiveScore}점
                     </td>

@@ -50,7 +50,6 @@ function SessionDetailPage() {
   const [members, setMembers] = useState<SessionMember[]>([]);
   const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [modal, setModal] = useState<number | null>(null);
-  const [ended, setEnded] = useState(false);
 
   const getSessionData = useCallback(async () => {
     if (id) {
@@ -75,21 +74,6 @@ function SessionDetailPage() {
       }
     },
     [id],
-  );
-
-  const firstSession = useMemo(
-    () =>
-      (session &&
-        session.subLectures.find((subLecture) => subLecture.round === 1)) ??
-      subLectureInit,
-    [session],
-  );
-  const secondSession = useMemo(
-    () =>
-      (session &&
-        session.subLectures.find((subLecture) => subLecture.round === 2)) ??
-      subLectureInit,
-    [session],
   );
 
   useEffect(() => {
@@ -164,7 +148,7 @@ function SessionDetailPage() {
       if (result) {
         getSessionData();
         getSessionMemberData();
-        setEnded(true);
+        setChangedMembers([]);
         alert('출석 점수가 갱신되었어요');
       } else {
         alert('출석 점수를 갱신하는데 실패했어요');
@@ -250,7 +234,7 @@ function SessionDetailPage() {
                   <td className="member-date">{secondRound.updateAt}</td>
                   <td>{addPlus(member.updatedScore)}점</td>
                   <td className="member-update">
-                    {isChangedMember(member) && (
+                    {session.status === 'END' && isChangedMember(member) && (
                       <button
                         onClick={() => onUpdateScore(member.member.memberId)}>
                         갱신
@@ -272,20 +256,20 @@ function SessionDetailPage() {
             <Button
               type="submit"
               text="1차 출석 시작하기"
-              disabled={!!firstSession.startAt}
+              disabled={session.status !== 'BEFORE'}
               onClick={() => startAttendance(1)}
             />
             <Button
               type="submit"
               text="2차 출석 시작하기"
-              disabled={!firstSession.startAt || !!secondSession.startAt}
+              disabled={session.status !== 'FIRST'}
               onClick={() => startAttendance(2)}
             />
           </div>
           <Button
             type="submit"
             text="출석 종료하기"
-            disabled={ended || !firstSession.startAt || !secondSession.startAt}
+            disabled={session.status !== 'SECOND'}
             onClick={closeAttendance}
           />
         </StFooterContents>
@@ -316,7 +300,7 @@ const StPageWrapper = styled.div`
       padding: 0 2.2rem;
     }
     &-university {
-      max-width: 7.6rem;
+      max-width: 13.5rem;
     }
     &-date {
       color: ${({ theme }) => theme.color.grayscale.gray80};

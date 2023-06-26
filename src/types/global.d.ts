@@ -1,7 +1,9 @@
 declare global {
   type ATTEND_STATUS = 'ATTENDANCE' | 'ABSENT' | 'TARDY';
+  type ATTEND_STATUS_KR = '출석' | '결석' | '지각';
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
+  type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
 
   /* 에러 */
   interface LoginError {
@@ -22,7 +24,7 @@ declare global {
   }
   interface ScoreDetailAttendance {
     round: number;
-    status: string;
+    status: ATTEND_STATUS_KR;
     date: string;
   }
   interface SessionMember {
@@ -57,7 +59,7 @@ declare global {
     lectures: Array<{
       lecture: string;
       additiveScore: number;
-      status: string;
+      status: ATTEND_STATUS_KR;
       attendances: ScoreDetailAttendance[];
     }>;
   }
@@ -112,6 +114,7 @@ declare global {
     part: PART;
     attribute: SESSION_TYPE;
     subLectures: SubLecture[];
+    status: SESSION_STATUS;
     result: {
       attendance: number;
       absent: number;

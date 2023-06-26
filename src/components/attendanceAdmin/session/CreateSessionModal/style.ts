@@ -31,6 +31,7 @@ export const StHeader = styled.header`
     font-size: 1.6rem;
     line-height: 140%;
     letter-spacing: -0.02em;
+    color: ${({ theme }) => theme.color.grayscale.gray80};
   }
 `;
 
@@ -162,8 +163,7 @@ export const StFormLayout = styled.div<{ hasValue?: boolean }>`
       color: ${({ theme }) => theme.color.grayscale.gray30};
     }
     &:focus {
-      outline: none;
-      border: 1px solid ${({ theme }) => theme.color.main.purple100};
+      outline: ${({ theme }) => theme.color.main.purple100} solid 1px;
     }
   }
 
@@ -226,12 +226,16 @@ export const StSessionSelector = styled.article`
       font-size: 16px;
       line-height: 100%;
       letter-spacing: -0.02em;
+
+      color: ${({ theme }) => theme.color.grayscale.black40};
     }
     & > p {
       font-weight: 400;
       font-size: 14px;
       line-height: 100%;
       letter-spacing: -0.02em;
+
+      color: ${({ theme }) => theme.color.grayscale.gray60};
     }
     &:hover {
       cursor: pointer;
