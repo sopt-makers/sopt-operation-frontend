@@ -113,7 +113,7 @@ function SessionList() {
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{unknown}</td>
                 <td onClick={() => handleManageClick(lectureId)}>
-                  <span>관리</span>
+                  <span>조회</span>
                 </td>
               </tr>
             );
