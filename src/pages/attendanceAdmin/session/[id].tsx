@@ -336,6 +336,8 @@ const StPageHeader = styled.div`
     color: ${({ theme }) => theme.color.grayscale.black60};
     display: flex;
     strong {
+      margin-right: 0.8rem;
+
       font-weight: 700;
       max-width: 18rem;
       overflow: hidden;
