@@ -60,7 +60,7 @@ function MemberList() {
     if (isError) {
       alert(error.error);
     }
-  }, [data, error, isError, router]);
+  }, [data, error, isError]);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
