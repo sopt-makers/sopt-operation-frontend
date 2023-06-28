@@ -47,7 +47,7 @@ function MemberList() {
     null,
   );
 
-  const { data, isLoading, isError, error } = useGetMemberList(
+  const { data, isLoading, error } = useGetMemberList(
     32,
     selectedPart,
     getAuthHeader(),
@@ -57,10 +57,7 @@ function MemberList() {
     if (data) {
       setMemberData(data);
     }
-    if (isError) {
-      alert(error.error);
-    }
-  }, [data, error, isError, router]);
+  }, [data]);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
@@ -73,6 +70,9 @@ function MemberList() {
   const onCloseModal = () => {
     setSelectedMember(null);
   };
+
+  if (isLoading) return <Loading />;
+  if (error) alert(error.error);
 
   return (
     <>
@@ -116,7 +116,6 @@ function MemberList() {
           })}
         </tbody>
       </ListWrapper>
-      {isLoading && <Loading />}
       {selectedMember && (
         <MemberDetail memberId={selectedMember.id} onClose={onCloseModal} />
       )}
