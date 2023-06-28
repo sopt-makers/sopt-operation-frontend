@@ -48,7 +48,7 @@ function SessionList() {
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
 
-  const { data, isLoading, isError, error } = useGetSessionList(
+  const { data, isLoading, error } = useGetSessionList(
     32,
     selectedPart,
     getAuthHeader(),
@@ -69,7 +69,7 @@ function SessionList() {
   };
 
   if (isLoading) return <Loading />;
-  if (isError) {
+  if (error) {
     alert(error.error);
   }
 
