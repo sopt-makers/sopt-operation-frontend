@@ -116,10 +116,10 @@ function MemberList() {
           })}
         </tbody>
       </ListWrapper>
+      {isLoading && <Loading />}
       {selectedMember && (
         <MemberDetail memberId={selectedMember.id} onClose={onCloseModal} />
       )}
-      {isLoading && <Loading />}
     </>
   );
 }
