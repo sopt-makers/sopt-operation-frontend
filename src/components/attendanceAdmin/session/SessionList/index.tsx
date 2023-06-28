@@ -61,7 +61,7 @@ function SessionList() {
     if (isError) {
       alert(error.error);
     }
-  }, [data, error, isError]);
+  }, [data, error, isError, router]);
 
   const handleManageClick = (lectureId: number) => {
     router.push(`/attendanceAdmin/session/${lectureId}`);
