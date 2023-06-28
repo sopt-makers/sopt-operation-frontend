@@ -57,10 +57,7 @@ function MemberList() {
     if (data) {
       setMemberData(data);
     }
-    if (isError) {
-      alert(error.error);
-    }
-  }, [data, error, isError]);
+  }, [data]);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
@@ -73,6 +70,11 @@ function MemberList() {
   const onCloseModal = () => {
     setSelectedMember(null);
   };
+
+  if (isLoading) return <Loading />;
+  if (isError) {
+    alert(error.error);
+  }
 
   return (
     <>
@@ -119,7 +121,6 @@ function MemberList() {
       {selectedMember && (
         <MemberDetail memberId={selectedMember.id} onClose={onCloseModal} />
       )}
-      {isLoading && <Loading />}
     </>
   );
 }
