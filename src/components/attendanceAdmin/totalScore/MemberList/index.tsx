@@ -72,7 +72,9 @@ function MemberList() {
   };
 
   if (isLoading) return <Loading />;
-  if (error) alert(error.error);
+  if (error) {
+    alert(error.error);
+  }
 
   return (
     <>
