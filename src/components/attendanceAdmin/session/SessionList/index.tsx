@@ -48,7 +48,7 @@ function SessionList() {
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
 
-  const { data, isLoading, isError, error } = useGetSessionList(
+  const { data, isLoading, error } = useGetSessionList(
     32,
     selectedPart,
     getAuthHeader(),
@@ -58,7 +58,7 @@ function SessionList() {
     if (data && 'lectures' in data) {
       setLectureData(data.lectures);
     }
-  }, [data, error, isError, router]);
+  }, [data]);
 
   const handleManageClick = (lectureId: number) => {
     router.push(`/attendanceAdmin/session/${lectureId}`);
