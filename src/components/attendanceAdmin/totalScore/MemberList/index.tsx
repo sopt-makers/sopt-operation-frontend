@@ -47,7 +47,7 @@ function MemberList() {
     null,
   );
 
-  const { data, isLoading, error } = useGetMemberList(
+  const { data, isLoading, isError, error } = useGetMemberList(
     32,
     selectedPart,
     getAuthHeader(),
@@ -72,7 +72,7 @@ function MemberList() {
   };
 
   if (isLoading) return <Loading />;
-  if (error) {
+  if (isError) {
     alert(error.error);
   }
 
