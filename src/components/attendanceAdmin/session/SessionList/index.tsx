@@ -58,7 +58,10 @@ function SessionList() {
     if (data && 'lectures' in data) {
       setLectureData(data.lectures);
     }
-  }, [data]);
+    if (isError) {
+      alert(error.error);
+    }
+  }, [data, error, isError]);
 
   const handleManageClick = (lectureId: number) => {
     router.push(`/attendanceAdmin/session/${lectureId}`);
@@ -67,11 +70,6 @@ function SessionList() {
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
   };
-
-  if (isLoading) return <Loading />;
-  if (isError) {
-    alert(error.error);
-  }
 
   return (
     <>
@@ -120,6 +118,7 @@ function SessionList() {
           })}
         </tbody>
       </ListWrapper>
+      {isLoading && <Loading />}
     </>
   );
 }
