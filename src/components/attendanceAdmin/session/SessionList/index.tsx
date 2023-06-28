@@ -58,6 +58,9 @@ function SessionList() {
     if (data && 'lectures' in data) {
       setLectureData(data.lectures);
     }
+    if (isError) {
+      alert(error.error);
+    }
   }, [data, error, isError, router]);
 
   const handleManageClick = (lectureId: number) => {
@@ -67,10 +70,6 @@ function SessionList() {
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
   };
-
-  if (isLoading) return <Loading />;
-  if (error) alert(error.error);
-
   return (
     <>
       <StListHeader>
@@ -118,6 +117,7 @@ function SessionList() {
           })}
         </tbody>
       </ListWrapper>
+      {isLoading && <Loading />}
     </>
   );
 }
