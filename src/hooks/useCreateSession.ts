@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
 import { postNewSession } from '@/services/api/lecture';
-import { getToken } from '@/utils/auth';
+import { getAuthHeader, getToken } from '@/utils/auth';
 import { partTranslator } from '@/utils/session';
 
 type MutationInput = {
@@ -20,15 +20,14 @@ export const useCreateSession = (part: string) => {
           'sessionList',
           32,
           partTranslator[part],
-          { Authorization: `${getToken('ACCESS')}` },
+          getAuthHeader(),
         ]);
       },
     },
   );
 
   const createSession = (submitContents: SessionBase) => {
-    const accessToken = getToken('ACCESS');
-    const authHeader = { Authorization: `${accessToken}` };
+    const authHeader = getAuthHeader();
 
     mutation.mutate({ newData: submitContents, authHeader });
   };
