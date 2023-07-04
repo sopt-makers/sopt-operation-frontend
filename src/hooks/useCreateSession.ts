@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from 'react-query';
 
 import { postNewSession } from '@/services/api/lecture';
-import { getAuthHeader, getToken } from '@/utils/auth';
+import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/session';
 
-type MutationInput = {
+interface MutationInput {
   newData: SessionBase;
   authHeader: AuthHeader;
-};
+}
 
 /** 세션 생성 시 작동하는 커스텀 훅
  * @param  part 선택한 파트
