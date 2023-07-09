@@ -15,10 +15,8 @@ const axiosConfig: AxiosRequestConfig<IAxiosConfig> = {
   headers: { 'Content-Type': 'application/json' },
 };
 const axiosFormConfig: AxiosRequestConfig<IAxiosConfig> = {
-  baseURL: config.API_URL,
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
+  baseURL: config.ORG_API_URL,
+  headers: { 'Content-Type': 'application/json' },
 };
 
 const client: AxiosInstance = axios.create(axiosConfig);
