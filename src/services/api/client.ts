@@ -14,13 +14,13 @@ const axiosConfig: AxiosRequestConfig<IAxiosConfig> = {
   baseURL: config.API_URL,
   headers: { 'Content-Type': 'application/json' },
 };
-const axiosFormConfig: AxiosRequestConfig<IAxiosConfig> = {
+const orgAxiosConfig: AxiosRequestConfig<IAxiosConfig> = {
   baseURL: config.ORG_API_URL,
   headers: { 'Content-Type': 'application/json' },
 };
 
 const client: AxiosInstance = axios.create(axiosConfig);
-const orgClient: AxiosInstance = axios.create(axiosFormConfig);
+const orgClient: AxiosInstance = axios.create(orgAxiosConfig);
 
 client.interceptors.request.use(
   function (config) {
