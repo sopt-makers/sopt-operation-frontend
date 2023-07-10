@@ -60,9 +60,6 @@ function SessionList() {
     }
     if (isError) {
       alert(error.error);
-      document.cookie =
-        'ACCESS_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      router.push('/');
     }
   }, [data, error, isError, router]);
 
@@ -113,7 +110,7 @@ function SessionList() {
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{unknown}</td>
                 <td onClick={() => handleManageClick(lectureId)}>
-                  <span>관리</span>
+                  <span>조회</span>
                 </td>
               </tr>
             );
