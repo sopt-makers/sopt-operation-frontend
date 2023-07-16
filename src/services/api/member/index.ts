@@ -48,5 +48,6 @@ export const useGetMemberList = (
         }
       }
     },
+    { staleTime: 10 * 60 * 1000 },
   );
 };
