@@ -14,6 +14,7 @@ import {
   StPartIndicator,
   StSessionIndicator,
   StSessionName,
+  StTbody,
 } from './style';
 
 function SessionList() {
@@ -87,14 +88,14 @@ function SessionList() {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <StTbody>
           {lectureData?.map((lecture, index) => {
             const { lectureId, partValue, attributeName, name, date, status } =
               lecture;
             const { attendance, tardy, absent, unknown } = status;
             const part = partTranslator[partValue] || partValue;
             return (
-              <tr key={lectureId}>
+              <tr key={lectureId} onClick={() => handleManageClick(lectureId)}>
                 <td>{precision(index + 1, 2)}</td>
                 <td className="indicator">
                   <StPartIndicator>{part}</StPartIndicator>
@@ -112,13 +113,19 @@ function SessionList() {
                 <td className="attendance">{tardy}</td>
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{unknown}</td>
-                <td onClick={() => handleManageClick(lectureId)}>
-                  <span>관리</span>
+                <td>
+                  <span
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      console.log('버튼은 따로 동작합니다!');
+                    }}>
+                    관리
+                  </span>
                 </td>
               </tr>
             );
           })}
-        </tbody>
+        </StTbody>
       </ListWrapper>
       {isLoading && <Loading />}
     </>
