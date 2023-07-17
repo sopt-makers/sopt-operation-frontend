@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
+import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
+import SessionDetailModal from './SessionDetailModal';
 import {
   StListHeader,
   StPartIndicator,
@@ -48,6 +50,7 @@ function SessionList() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
+  const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
 
   const { data, isLoading, isError, error } = useGetSessionList(
     32,
@@ -117,7 +120,7 @@ function SessionList() {
                   <span
                     onClick={(event) => {
                       event.stopPropagation();
-                      console.log('버튼은 따로 동작합니다!');
+                      setIsDetailOpen(true);
                     }}>
                     관리
                   </span>
@@ -127,6 +130,11 @@ function SessionList() {
           })}
         </StTbody>
       </ListWrapper>
+      {isDetailOpen && (
+        <Modal>
+          <SessionDetailModal onClose={() => setIsDetailOpen(!isDetailOpen)} />
+        </Modal>
+      )}
       {isLoading && <Loading />}
     </>
   );
