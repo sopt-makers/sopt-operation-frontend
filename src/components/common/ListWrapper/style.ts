@@ -49,6 +49,9 @@ export const StList = styled.table<{ tableWidth: string[] }>`
       border-left: none;
 
       & > span {
+        transition: transform 0.1s;
+        display: inline-block;
+
         padding: 0.5rem 0.9rem;
         border: 0.1rem solid ${({ theme }) => theme.color.main.purple40};
         border-radius: 1.6rem;
@@ -56,6 +59,10 @@ export const StList = styled.table<{ tableWidth: string[] }>`
         color: ${({ theme }) => theme.color.main.purple100};
 
         cursor: pointer;
+        &:hover {
+          transform: scale(1.15);
+          border: 1px solid ${({ theme }) => theme.color.main.purple100};
+        }
       }
     }
   }
