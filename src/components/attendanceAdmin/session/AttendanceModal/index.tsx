@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Button from '@/components/common/Button';
 import { startAttendance } from '@/services/api/lecture';
 import { precision } from '@/utils';
-import { getAuthHeader } from '@/utils/auth';
 
 import { StAttendanceModal } from './style';
 
@@ -28,12 +27,7 @@ function AttendanceModal(props: Props) {
     setCode(code);
 
     (async () => {
-      const isStarted = await startAttendance(
-        code,
-        lectureId,
-        round,
-        getAuthHeader(),
-      );
+      const isStarted = await startAttendance(code, lectureId, round);
       if (!isStarted) {
         alert('출석이 정상적으로 시작되지 않았어요');
       }

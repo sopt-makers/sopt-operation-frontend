@@ -6,7 +6,6 @@ import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
 import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
-import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
 import {
@@ -51,7 +50,6 @@ function SessionList() {
   const { data, isLoading, isError, error } = useGetSessionList(
     32,
     selectedPart,
-    getAuthHeader(),
   );
 
   useEffect(() => {

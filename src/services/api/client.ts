@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import config from '@/configs/config';
-import { getToken } from '@/utils/auth';
+import { getAuthHeader, getToken } from '@/utils/auth';
 
 interface IAxiosConfig {
   baseURL: string;
@@ -28,6 +28,8 @@ client.interceptors.request.use(
   function (config) {
     if (window.location.pathname !== '/' && !getToken('ACCESS')) {
       window.location.replace('/');
+    } else {
+      config.headers.Authorization = getAuthHeader().Authorization;
     }
     return config;
   },

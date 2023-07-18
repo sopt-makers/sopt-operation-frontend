@@ -6,7 +6,6 @@ import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
 import { useGetMemberList } from '@/services/api/member';
 import { precision } from '@/utils';
-import { getAuthHeader } from '@/utils/auth';
 import { getPartValue, partTranslator } from '@/utils/session';
 
 import MemberDetail from '../MemberDetail';
@@ -50,7 +49,6 @@ function MemberList() {
   const { data, isLoading, isError, error } = useGetMemberList(
     32,
     selectedPart,
-    getAuthHeader(),
   );
 
   useEffect(() => {

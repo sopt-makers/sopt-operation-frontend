@@ -6,14 +6,9 @@ export const updateMemberAttendStatus = async (
   subAttendanceId: number,
   status: ATTEND_STATUS,
   attribute: SESSION_TYPE,
-  authHeader: AuthHeader,
 ): Promise<void | ProjectError> => {
   try {
-    await client.patch(
-      '/attendances',
-      { subAttendanceId, status, attribute },
-      { headers: { ...authHeader } },
-    );
+    await client.patch('/attendances', { subAttendanceId, status, attribute });
   } catch (e) {
     if (e instanceof AxiosError) {
       switch (e.response?.status) {
@@ -36,14 +31,9 @@ export const updateMemberAttendStatus = async (
 
 export const updateMemberScore = async (
   memberId: number,
-  authHeader: AuthHeader,
 ): Promise<void | ProjectError> => {
   try {
-    await client.patch(
-      `/attendances/member/${memberId}`,
-      {},
-      { headers: { ...authHeader } },
-    );
+    await client.patch(`/attendances/member/${memberId}`, {});
   } catch (e) {
     if (e instanceof AxiosError) {
       switch (e.response?.status) {
@@ -66,13 +56,10 @@ export const updateMemberScore = async (
 
 export const getMemberAttendance = async (
   memberId: number,
-  authHeader: AuthHeader,
 ): Promise<ScoreMemberDetail | null> => {
   try {
     const { data }: AxiosResponse<{ data: ScoreMemberDetail }> =
-      await client.get(`/attendances/${memberId}`, {
-        headers: { ...authHeader },
-      });
+      await client.get(`/attendances/${memberId}`, {});
     return data.data;
   } catch (e) {
     return null;
