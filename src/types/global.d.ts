@@ -95,6 +95,16 @@ declare global {
     };
   }
 
+  interface LectureDetail {
+    lectureId: number;
+    name: string;
+    place: string;
+    part: string;
+    startDate: number[];
+    endDate: number[];
+    attribute: string;
+  }
+
   interface SubLecture {
     subLectureId: number;
     round: number;
