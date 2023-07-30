@@ -1,6 +1,8 @@
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import InputContainer from '@/components/common/inputContainer';
+import { deleteSession } from '@/services/api/lecture';
+import { getAuthHeader } from '@/utils/auth';
 
 import {
   StFooter,
@@ -12,9 +14,23 @@ import {
 
 interface Props {
   onClose: () => void;
+  lectureId: number;
 }
 
-const SessionDetailModal = ({ onClose }: Props) => {
+const SessionDetailModal = (props: Props) => {
+  const { onClose, lectureId } = props;
+
+  const handleDeleteSession = () => {
+    const isConfirmed = confirm(
+      '세션을 삭제하면 복구할 수 없습니다.\n정말 삭제할까요?',
+    );
+    if (isConfirmed) {
+      deleteSession(lectureId, getAuthHeader());
+      alert('세션이 삭제되었습니다.');
+      onClose();
+    }
+  };
+
   return (
     <>
       <StWrapper>
@@ -48,7 +64,11 @@ const SessionDetailModal = ({ onClose }: Props) => {
             <p>미 출석 시 출석 점수 감점</p>
           </label>
         </div>
-        <Button type={'button'} text="세션 삭제하기" />
+        <Button
+          type={'button'}
+          text="세션 삭제하기"
+          onClick={handleDeleteSession}
+        />
       </StFooter>
     </>
   );
