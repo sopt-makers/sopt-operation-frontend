@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
-import { useGetSessionList } from '@/services/api/lecture';
+import { deleteSession, useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
@@ -70,6 +70,7 @@ function SessionList() {
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
   };
+
   return (
     <>
       <StListHeader>
@@ -103,6 +104,16 @@ function SessionList() {
                 </td>
                 <td>
                   <StSessionName>{name}</StSessionName>
+                  <button
+                    onClick={() => {
+                      const result = confirm('세션을 삭제하시겠습니까?');
+                      if (result) {
+                        deleteSession(lectureId, getAuthHeader());
+                        alert('세션이 삭제되었습니다.');
+                      }
+                    }}>
+                    삭제
+                  </button>
                 </td>
                 <td>{date}</td>
                 <td className="attendance">{attendance}</td>
