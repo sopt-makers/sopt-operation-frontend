@@ -3,17 +3,20 @@ import { useEffect, useState } from 'react';
 
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
+import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import { deleteSession, useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
+import SessionDetailModal from './SessionDetailModal';
 import {
   StListHeader,
   StPartIndicator,
   StSessionIndicator,
   StSessionName,
+  StTbody,
 } from './style';
 
 function SessionList() {
@@ -47,6 +50,7 @@ function SessionList() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
+  const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
 
   const { data, isLoading, isError, error } = useGetSessionList(
     32,
@@ -85,14 +89,14 @@ function SessionList() {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <StTbody>
           {lectureData?.map((lecture, index) => {
             const { lectureId, partValue, attributeName, name, date, status } =
               lecture;
             const { attendance, tardy, absent, unknown } = status;
             const part = partTranslator[partValue] || partValue;
             return (
-              <tr key={lectureId}>
+              <tr key={lectureId} onClick={() => handleManageClick(lectureId)}>
                 <td>{precision(index + 1, 2)}</td>
                 <td className="indicator">
                   <StPartIndicator>{part}</StPartIndicator>
@@ -120,14 +124,25 @@ function SessionList() {
                 <td className="attendance">{tardy}</td>
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{unknown}</td>
-                <td onClick={() => handleManageClick(lectureId)}>
-                  <span>조회</span>
+                <td>
+                  <span
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setIsDetailOpen(true);
+                    }}>
+                    조회
+                  </span>
                 </td>
               </tr>
             );
           })}
-        </tbody>
+        </StTbody>
       </ListWrapper>
+      {isDetailOpen && (
+        <Modal>
+          <SessionDetailModal onClose={() => setIsDetailOpen(!isDetailOpen)} />
+        </Modal>
+      )}
       {isLoading && <Loading />}
     </>
   );
