@@ -60,10 +60,6 @@ function SessionList() {
   );
 
   useEffect(() => {
-    console.log(selectedLecture);
-  }, [selectedLecture]);
-
-  useEffect(() => {
     if (data && 'lectures' in data) {
       setLectureData(data.lectures);
     }
