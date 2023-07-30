@@ -58,6 +58,7 @@ export const useGetSessionList = (
         }
       }
     },
+    { staleTime: 10 * 60 * 1000 },
   );
 };
 

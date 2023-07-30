@@ -64,9 +64,6 @@ function SessionList() {
     }
     if (isError) {
       alert(error.error);
-      document.cookie =
-        'ACCESS_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      router.push('/');
     }
   }, [data, error, isError, router]);
 
@@ -122,7 +119,7 @@ function SessionList() {
                       event.stopPropagation();
                       setIsDetailOpen(true);
                     }}>
-                    관리
+                    조회
                   </span>
                 </td>
               </tr>
