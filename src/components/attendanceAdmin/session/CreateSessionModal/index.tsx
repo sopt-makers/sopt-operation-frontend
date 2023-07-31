@@ -102,7 +102,6 @@ function CreateSessionModal(props: Props) {
         attribute: translatedAttribute,
         generation: parseInt(currentGeneration),
       };
-      console.log(submitContents);
 
       createSession(submitContents);
       onClose();
