@@ -56,12 +56,6 @@ const SessionDetailModal = (props: Props) => {
 
   return (
     <>
-      <button
-        onClick={() => {
-          console.log(lectureDetailData);
-        }}>
-        데이터 나와라 얍
-      </button>
       <StWrapper>
         <StHeader>
           <StTitle>
