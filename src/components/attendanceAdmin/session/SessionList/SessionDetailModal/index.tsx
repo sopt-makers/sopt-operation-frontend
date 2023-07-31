@@ -86,10 +86,14 @@ const SessionDetailModal = (props: Props) => {
             </InputContainer>
             <div className="time">
               <InputContainer title="시작 시각">
-                <span>{`${data?.startDate[3]}:${data?.startDate[4]}`}</span>
+                <span>{`${data?.startDate[3]}:${data?.startDate[4]}${
+                  data?.startDate[4] === 0 ? 0 : ''
+                }`}</span>
               </InputContainer>
               <InputContainer title="종료 시각">
-                <span>{`${data?.endDate[3]}:${data?.endDate[4]}`}</span>
+                <span>{`${data?.endDate[3]}:${data?.endDate[4]}${
+                  data?.endDate[4] === 0 ? 0 : ''
+                }`}</span>
               </InputContainer>
             </div>
           </div>
