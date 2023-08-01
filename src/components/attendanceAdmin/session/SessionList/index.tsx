@@ -53,6 +53,7 @@ function SessionList() {
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
   const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
+  const [selectedLecture, setSelectedLecture] = useState<number>(0);
   const currentGeneration = useRecoilValue(currentGenerationState);
 
   const { data, isLoading, isError, error } = useGetSessionList(
@@ -111,16 +112,6 @@ function SessionList() {
                 </td>
                 <td>
                   <StSessionName>{name}</StSessionName>
-                  <button
-                    onClick={() => {
-                      const result = confirm('세션을 삭제하시겠습니까?');
-                      if (result) {
-                        deleteSession(lectureId, getAuthHeader());
-                        alert('세션이 삭제되었습니다.');
-                      }
-                    }}>
-                    삭제
-                  </button>
                 </td>
                 <td>{date}</td>
                 <td className="attendance">{attendance}</td>
@@ -131,6 +122,7 @@ function SessionList() {
                   <span
                     onClick={(event) => {
                       event.stopPropagation();
+                      setSelectedLecture(lectureId);
                       setIsDetailOpen(true);
                     }}>
                     조회
@@ -143,7 +135,10 @@ function SessionList() {
       </ListWrapper>
       {isDetailOpen && (
         <Modal>
-          <SessionDetailModal onClose={() => setIsDetailOpen(!isDetailOpen)} />
+          <SessionDetailModal
+            onClose={() => setIsDetailOpen(!isDetailOpen)}
+            lectureId={selectedLecture}
+          />
         </Modal>
       )}
       {isLoading && <Loading />}
