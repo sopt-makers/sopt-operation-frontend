@@ -3,12 +3,14 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import DatePicker from 'react-datepicker';
+import { useRecoilValue } from 'recoil';
 
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
 import { useCreateSession } from '@/hooks/useCreateSession';
+import { currentGenerationState } from '@/recoil/atom';
 import {
   partList,
   partTranslator,
@@ -54,6 +56,8 @@ function CreateSessionModal(props: Props) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [buttonClicked, setButtonClicked] = useState(false);
 
+  const currentGeneration = useRecoilValue(currentGenerationState);
+
   const { createSession } = useCreateSession(part);
 
   useEffect(() => {
@@ -96,7 +100,7 @@ function CreateSessionModal(props: Props) {
         startDate: `${date} ${startTime}`,
         endDate: `${date} ${endTime}`,
         attribute: translatedAttribute,
-        generation: 32,
+        generation: parseInt(currentGeneration),
       };
 
       createSession(submitContents);
