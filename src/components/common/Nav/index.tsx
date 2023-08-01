@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { IcNavMenu } from '@/assets/icons';
+import { currentGenerationState } from '@/recoil/atom';
 import { MENU_LIST } from '@/utils/nav';
 
 import DropDown from '../DropDown';
@@ -14,12 +16,20 @@ import {
   StSubMenu,
 } from './style';
 
-const GENERATION_LIST = ['32'];
+const GENERATION_LIST = ['33', '32'];
 
 function Nav() {
   const router = useRouter();
-  const [generation, setGeneration] = useState<string>(GENERATION_LIST[0]);
+  const currentGeneration = useRecoilValue(currentGenerationState);
+  const setCurrentGeneration = useSetRecoilState<string>(
+    currentGenerationState,
+  );
   const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
+
+  const handleSelectedGeneration = (selectedGeneration: string) => {
+    setCurrentGeneration(selectedGeneration);
+    setIsDropdownOn(false);
+  };
 
   const handleSubMenuClick = (path: string) => {
     router.push(path);
@@ -31,10 +41,16 @@ function Nav() {
         <StSoptLogo>SOPT</StSoptLogo>
         <StGenerationDropdown>
           <div onClick={() => setIsDropdownOn(!isDropdownOn)}>
-            <span>{generation}기</span>
+            <span>{currentGeneration}기</span>
             <IcDropDown />
           </div>
-          {isDropdownOn && <DropDown list={GENERATION_LIST} type={'select'} />}
+          {isDropdownOn && (
+            <DropDown
+              list={GENERATION_LIST}
+              type={'select'}
+              onItemSelected={handleSelectedGeneration}
+            />
+          )}
         </StGenerationDropdown>
       </header>
       {MENU_LIST.map((menu) => (
