@@ -109,7 +109,7 @@ function MemberList() {
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{participate}</td>
                 <td onClick={() => onChangeMember(member)}>
-                  <span>관리</span>
+                  <span>조회</span>
                 </td>
               </tr>
             );
