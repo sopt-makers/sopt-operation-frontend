@@ -1,11 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
-import { useGetSessionList } from '@/services/api/lecture';
+import { currentGenerationState } from '@/recoil/atom';
+import { deleteSession, useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
@@ -52,9 +54,10 @@ function SessionList() {
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
   const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
   const [selectedLecture, setSelectedLecture] = useState<number>(0);
+  const currentGeneration = useRecoilValue(currentGenerationState);
 
   const { data, isLoading, isError, error } = useGetSessionList(
-    32,
+    parseInt(currentGeneration),
     selectedPart,
     getAuthHeader(),
   );
