@@ -7,7 +7,7 @@ import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import { currentGenerationState } from '@/recoil/atom';
-import { deleteSession, useGetSessionList } from '@/services/api/lecture';
+import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
@@ -95,9 +95,15 @@ function SessionList() {
         </thead>
         <StTbody>
           {lectureData?.map((lecture, index) => {
-            const { lectureId, partValue, attributeName, name, date, status } =
-              lecture;
-            const { attendance, tardy, absent, unknown } = status;
+            const {
+              lectureId,
+              partValue,
+              attributeName,
+              name,
+              startDate,
+              attendances,
+            } = lecture;
+            const { attendance, tardy, absent, unknown } = attendances;
             const part = partTranslator[partValue] || partValue;
             return (
               <tr key={lectureId} onClick={() => handleManageClick(lectureId)}>
@@ -113,7 +119,7 @@ function SessionList() {
                 <td>
                   <StSessionName>{name}</StSessionName>
                 </td>
-                <td>{date}</td>
+                <td>{startDate}</td>
                 <td className="attendance">{attendance}</td>
                 <td className="attendance">{tardy}</td>
                 <td className="attendance">{absent}</td>
