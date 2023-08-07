@@ -4,6 +4,7 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import InputContainer from '@/components/common/inputContainer';
 import Loading from '@/components/common/Loading';
+import { useDateFormat } from '@/hooks/useDateFormat';
 import { deleteSession, useGetLectureDetail } from '@/services/api/lecture';
 import { getAuthHeader } from '@/utils/auth';
 
@@ -22,18 +23,11 @@ interface Props {
 
 const SessionDetailModal = (props: Props) => {
   const { onClose, lectureId } = props;
-  const [lectureDetailData, setLectureDetailData] = useState<LectureDetail>();
+  const { data, isLoading } = useGetLectureDetail(lectureId, getAuthHeader());
 
-  const { data, isLoading, isError, error } = useGetLectureDetail(
-    lectureId,
-    getAuthHeader(),
-  );
-
-  useEffect(() => {
-    if (data) {
-      setLectureDetailData(data);
-    }
-  }, [data]);
+  const date = useDateFormat(data?.startDate, 'date');
+  const startTime = useDateFormat(data?.startDate, 'time');
+  const endTime = useDateFormat(data?.endDate, 'time');
 
   const handleDeleteSession = () => {
     const isConfirmed = confirm(
@@ -72,29 +66,25 @@ const SessionDetailModal = (props: Props) => {
           <h2>생성된 SOPT 세션 정보를 조회합니다.</h2>
         </StHeader>
         <StInformationSection>
-          <p>{lectureDetailData?.part}</p>
+          <p>{data?.part}</p>
           <div>
             <InputContainer title="세션명">
-              <span>{lectureDetailData?.name}</span>
+              <span>{data?.name}</span>
             </InputContainer>
             <InputContainer title="세션 장소">
-              <span>{lectureDetailData?.place}</span>
+              <span>{data?.place}</span>
             </InputContainer>
           </div>
           <div>
             <InputContainer title="세션 날짜">
-              <span>{`${lectureDetailData?.startDate[0]}/${lectureDetailData?.startDate[1]}/${lectureDetailData?.startDate[2]}`}</span>
+              <span>{date}</span>
             </InputContainer>
             <div className="time">
               <InputContainer title="시작 시각">
-                <span>{`${lectureDetailData?.startDate[3]}:${
-                  lectureDetailData?.startDate[4]
-                }${lectureDetailData?.startDate[4] === 0 ? 0 : ''}`}</span>
+                <span>{startTime}</span>
               </InputContainer>
               <InputContainer title="종료 시각">
-                <span>{`${lectureDetailData?.endDate[3]}:${
-                  lectureDetailData?.endDate[4]
-                }${lectureDetailData?.endDate[4] === 0 ? 0 : ''}`}</span>
+                <span>{endTime}</span>
               </InputContainer>
             </div>
           </div>

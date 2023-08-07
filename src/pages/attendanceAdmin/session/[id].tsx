@@ -166,10 +166,10 @@ function SessionDetailPage() {
             <strong>{session.name}</strong> 출석 관리
           </h2>
           <div className="attendance-info">
-            <p>출석 {session.result.attendance}</p>
-            <p>지각 {session.result.tardy}</p>
-            <p>결석 {session.result.absent}</p>
-            <p>미정 {session.result.unknown}</p>
+            <p>출석 {session.attendances.attendance}</p>
+            <p>지각 {session.attendances.tardy}</p>
+            <p>결석 {session.attendances.absent}</p>
+            <p>미정 {session.attendances.unknown}</p>
           </div>
         </div>
         {session.part === 'ALL' && (

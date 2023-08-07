@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -6,6 +7,7 @@ import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
+import { useDateFormat } from '@/hooks/useDateFormat';
 import { currentGenerationState } from '@/recoil/atom';
 import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
@@ -54,6 +56,7 @@ function SessionList() {
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
   const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
   const [selectedLecture, setSelectedLecture] = useState<number>(0);
+  const [formattedDates, setFormattedDates] = useState<string[]>([]);
   const currentGeneration = useRecoilValue(currentGenerationState);
 
   const { data, isLoading, isError, error } = useGetSessionList(
@@ -105,6 +108,8 @@ function SessionList() {
             } = lecture;
             const { attendance, tardy, absent, unknown } = attendances;
             const part = partTranslator[partValue] || partValue;
+            const date = dayjs(startDate);
+            const formattedDate = date.format('YYYY/MM/DD');
             return (
               <tr key={lectureId} onClick={() => handleManageClick(lectureId)}>
                 <td>{precision(index + 1, 2)}</td>
@@ -119,7 +124,7 @@ function SessionList() {
                 <td>
                   <StSessionName>{name}</StSessionName>
                 </td>
-                <td>{startDate}</td>
+                <td>{formattedDate}</td>
                 <td className="attendance">{attendance}</td>
                 <td className="attendance">{tardy}</td>
                 <td className="attendance">{absent}</td>
