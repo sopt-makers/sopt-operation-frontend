@@ -9,6 +9,7 @@ import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
+import InputContainer from '@/components/common/inputContainer';
 import { useCreateSession } from '@/hooks/useCreateSession';
 import { currentGenerationState } from '@/recoil/atom';
 import {
@@ -20,11 +21,12 @@ import {
 } from '@/utils/session';
 
 import {
+  StDatePickerInput,
+  StDropDownInput,
   StFooter,
-  StFormLayout,
-  StFormSection,
   StHeader,
-  StMain,
+  StInformationSection,
+  StInput,
   StPartSelector,
   StSelectedPart,
   StSessionSelector,
@@ -163,94 +165,89 @@ function CreateSessionModal(props: Props) {
           </StTitle>
           <h2>새로운 SOPT 세션을 생성합니다. 대상 파트를 선택해주세요.</h2>
         </StHeader>
-        <StMain>
+        <StInformationSection>
           <StPartSelector onClick={() => setIsPartOpen(!isPartOpen)}>
             <StSelectedPart
               textColor={part === '파트선택' ? '#606265' : '#8040FF'}>
               {part}
+              <IcDropdown color={part === '파트선택' ? '#606265' : '#8040FF'} />
             </StSelectedPart>
-            <IcDropdown color={part === '파트선택' ? '#606265' : '#8040FF'} />
+            {isPartOpen && (
+              <DropDown
+                list={partList}
+                onItemSelected={handleSelectedPart}
+                type={'select'}
+              />
+            )}
           </StPartSelector>
-          {isPartOpen && (
-            <DropDown
-              list={partList}
-              onItemSelected={handleSelectedPart}
-              type={'select'}
-            />
-          )}
-          <StFormSection>
-            <article>
-              <div className="form_container">
-                <p>세션명</p>
-                <StFormLayout hasValue={sessionName ? true : false}>
-                  <input
-                    placeholder="세션 이름을 입력해주세요"
-                    onChange={(e) => handleSessionInfo(e, '세션 이름')}></input>
-                </StFormLayout>
-              </div>
-              <div className="form_container">
-                <p>세션 장소</p>
-                <StFormLayout hasValue={sessionLocation ? true : false}>
-                  <input
-                    placeholder="세션이 열리는 장소를 입력해주세요"
-                    onChange={(e) => handleSessionInfo(e, '세션 장소')}></input>
-                </StFormLayout>
-              </div>
-            </article>
-            <article>
-              <div className="form_container">
-                <p>세션 날짜</p>
-                <StFormLayout hasValue={date ? true : false}>
-                  <DatePicker
-                    placeholderText="세션 날짜를 선택해주세요"
-                    dateFormat="yyyy/MM/dd"
-                    selected={selectedDate}
-                    onChange={handleSessionDate}
-                  />
+          <div>
+            <InputContainer title="세션명">
+              <StInput
+                hasValue={sessionName ? true : false}
+                placeholder="세션 이름을 입력해주세요"
+                onChange={(e) => handleSessionInfo(e, '세션 이름')}
+              />
+            </InputContainer>
+            <InputContainer title="세션 장소">
+              <StInput
+                hasValue={sessionLocation ? true : false}
+                placeholder="세션이 열리는 장소를 입력해주세요"
+                onChange={(e) => handleSessionInfo(e, '세션 장소')}
+              />
+            </InputContainer>
+          </div>
+          <div>
+            <InputContainer title="세션 날짜">
+              <StDatePickerInput>
+                <DatePicker
+                  placeholderText="세션 날짜를 선택해주세요"
+                  dateFormat="yyyy/MM/dd"
+                  selected={selectedDate}
+                  onChange={handleSessionDate}>
                   <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
-                </StFormLayout>
+                </DatePicker>
+              </StDatePickerInput>
+            </InputContainer>
+            <div className="time">
+              <div>
+                <InputContainer
+                  title="시작 시각"
+                  onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}>
+                  <StDropDownInput>
+                    {startTime} <IcDropdown color="#3C3D40" />
+                  </StDropDownInput>
+                </InputContainer>
+                {isStartTimeOpen && (
+                  <DropDown
+                    list={times}
+                    type={'times'}
+                    onItemSelected={(time: string) =>
+                      handleSelectedTime(time, 'startTime')
+                    }
+                  />
+                )}
               </div>
-              <div className="input_time">
-                <div className="form_container">
-                  <p>시작 시각</p>
-                  <StFormLayout
-                    onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}
-                    hasValue={true}>
-                    <span>{startTime}</span>
-                    <IcDropdown color="#3C3D40" />
-                  </StFormLayout>
-                  {isStartTimeOpen && (
-                    <DropDown
-                      list={times}
-                      type={'times'}
-                      onItemSelected={(time: string) =>
-                        handleSelectedTime(time, 'startTime')
-                      }
-                    />
-                  )}
-                </div>
-                <div className="form_container">
-                  <p>종료 시각</p>
-                  <StFormLayout
-                    onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}
-                    hasValue={true}>
-                    <span>{endTime}</span>
-                    <IcDropdown color="#3C3D40" />
-                  </StFormLayout>
-                  {isEndTimeOpen && (
-                    <DropDown
-                      list={times}
-                      type={'times'}
-                      onItemSelected={(time: string) =>
-                        handleSelectedTime(time, 'endTime')
-                      }
-                    />
-                  )}
-                </div>
+              <div>
+                <InputContainer
+                  title="종료 시각"
+                  onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}>
+                  <StDropDownInput>
+                    {endTime} <IcDropdown color="#3C3D40" />
+                  </StDropDownInput>
+                </InputContainer>
+                {isEndTimeOpen && (
+                  <DropDown
+                    list={times}
+                    type={'times'}
+                    onItemSelected={(time: string) =>
+                      handleSelectedTime(time, 'endTime')
+                    }
+                  />
+                )}
               </div>
-            </article>
-          </StFormSection>
-        </StMain>
+            </div>
+          </div>
+        </StInformationSection>
       </StWrapper>
       <StFooter>
         <StSessionSelector>

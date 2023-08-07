@@ -5,13 +5,14 @@ import { StLayout } from './style';
 interface Props {
   title: string;
   children?: ReactNode;
+  onClick?: () => void;
 }
 
 const InputContainer = (props: Props) => {
-  const { title, children } = props;
+  const { title, children, onClick } = props;
 
   return (
-    <StLayout>
+    <StLayout onClick={onClick}>
       <p>{title}</p>
       <div>{children}</div>
     </StLayout>

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import InputContainer from '@/components/common/inputContainer';
+import Loading from '@/components/common/Loading';
+import { useDateFormat } from '@/hooks/useDateFormat';
 import { deleteSession, useGetLectureDetail } from '@/services/api/lecture';
 import { getAuthHeader } from '@/utils/auth';
 
@@ -21,16 +23,11 @@ interface Props {
 
 const SessionDetailModal = (props: Props) => {
   const { onClose, lectureId } = props;
-  const [lectureDetailData, setLectureDetailData] = useState<LectureDetail>();
+  const { data, isLoading } = useGetLectureDetail(lectureId, getAuthHeader());
 
-  const { data, isLoading, isError, error } = useGetLectureDetail(
-    lectureId,
-    getAuthHeader(),
-  );
-
-  useEffect(() => {
-    setLectureDetailData(data);
-  }, [data]);
+  const date = useDateFormat(data?.startDate, 'date');
+  const startTime = useDateFormat(data?.startDate, 'time');
+  const endTime = useDateFormat(data?.endDate, 'time');
 
   const handleDeleteSession = () => {
     const isConfirmed = confirm(
@@ -54,6 +51,10 @@ const SessionDetailModal = (props: Props) => {
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <StWrapper>
@@ -76,18 +77,14 @@ const SessionDetailModal = (props: Props) => {
           </div>
           <div>
             <InputContainer title="세션 날짜">
-              <span>{`${data?.startDate[0]}/${data?.startDate[1]}/${data?.startDate[2]}`}</span>
+              <span>{date}</span>
             </InputContainer>
             <div className="time">
               <InputContainer title="시작 시각">
-                <span>{`${data?.startDate[3]}:${data?.startDate[4]}${
-                  data?.startDate[4] === 0 ? 0 : ''
-                }`}</span>
+                <span>{startTime}</span>
               </InputContainer>
               <InputContainer title="종료 시각">
-                <span>{`${data?.endDate[3]}:${data?.endDate[4]}${
-                  data?.endDate[4] === 0 ? 0 : ''
-                }`}</span>
+                <span>{endTime}</span>
               </InputContainer>
             </div>
           </div>

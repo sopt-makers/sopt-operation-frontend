@@ -5,6 +5,7 @@ export const StLayout = styled.div`
   flex-direction: column;
 
   width: 100%;
+  height: 100%;
 
   & > p {
     padding-bottom: 0.6rem;
@@ -19,18 +20,22 @@ export const StLayout = styled.div`
   & > div {
     display: flex;
     align-items: center;
+
     width: 100%;
+    height: auto;
 
-    height: 4.4rem;
-
-    border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
-    border-radius: 8px;
     box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 8px;
 
     & > span {
-      padding: 1.4rem;
+      width: 100%;
+
+      padding: 1rem 1.4rem;
 
       color: ${({ theme }) => theme.color.grayscale.black40};
+      border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
+      border-radius: 0.8rem;
+
       font-weight: 500;
       font-size: 1.6rem;
       line-height: 2.4rem;

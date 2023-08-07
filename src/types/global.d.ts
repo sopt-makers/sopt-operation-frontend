@@ -84,10 +84,10 @@ declare global {
     name: string;
     partValue: PART;
     partName: string;
-    date: string; // yyyy/MM/dd
+    startDate: string; // yyyy/MM/dd
     attributeValue: SESSION_TYPE;
     attributeName: string;
-    status: {
+    attendances: {
       attendance: number;
       absent: number;
       tardy: number;
@@ -100,8 +100,8 @@ declare global {
     name: string;
     place: string;
     part: string;
-    startDate: number[];
-    endDate: number[];
+    startDate: string;
+    endDate: string;
     attribute: string;
   }
 
@@ -125,7 +125,7 @@ declare global {
     attribute: SESSION_TYPE;
     subLectures: SubLecture[];
     status: SESSION_STATUS;
-    result: {
+    attendances: {
       attendance: number;
       absent: number;
       tardy: number;

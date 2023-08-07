@@ -35,11 +35,8 @@ export const StHeader = styled.header`
   }
 `;
 
-export const StMain = styled.main`
-  padding: 3.2rem 0 5.6rem 0;
-`;
-
 export const StPartSelector = styled.div`
+  position: relative;
   width: 100%;
 
   font-weight: 600;
@@ -53,146 +50,156 @@ export const StPartSelector = styled.div`
 `;
 
 export const StSelectedPart = styled.span<{ textColor: string }>`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.4rem;
+
   cursor: pointer;
-  padding-right: 0.4rem;
   color: ${({ textColor }) => textColor};
 `;
 
-export const StFormSection = styled.section`
+export const StInformationSection = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  width: 100%;
+  padding: 3.2rem 0 5.6rem 0;
 
-  padding-top: 2rem;
+  & > p {
+    font-weight: 600;
+    font-size: 2rem;
+    line-height: 140%;
+    letter-spacing: -0.02em;
 
-  & > article {
+    color: ${({ theme }) => theme.color.main.purple100};
+  }
+
+  & > div {
     display: flex;
-    flex-direction: row;
     gap: 1.6rem;
+    width: 100%;
 
-    & > .form_container {
+    padding-top: 2rem;
+
+    & > div.time {
       display: flex;
-      flex-direction: column;
-
-      width: 100%;
-
-      & > p {
-        padding-bottom: 0.6rem;
-
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 20px;
-        letter-spacing: -0.02em;
-
-        color: ${({ theme }) => theme.color.grayscale.gray100};
-      }
-    }
-
-    & > .input_time {
-      display: flex;
-      flex-direction: row;
+      flex: row;
       gap: 1.6rem;
 
       width: 100%;
 
-      & > .form_container {
-        display: flex;
-        flex-direction: column;
+      & > div {
+        position: relative;
 
         width: 100%;
-
-        & > p {
-          padding-bottom: 0.6rem;
-
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 20px;
-          letter-spacing: -0.02em;
-
-          color: ${({ theme }) => theme.color.grayscale.gray100};
-        }
       }
     }
   }
 `;
 
-export const StFormLayout = styled.div<{ hasValue?: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
+export const StInput = styled.input<{ hasValue?: boolean }>`
   width: 100%;
-  height: 4.4rem;
+  height: auto;
 
-  border: ${({ hasValue, theme }) =>
+  padding: 1rem 1.4rem;
+  border: none;
+
+  outline: ${({ hasValue, theme }) =>
     hasValue
       ? `1px solid ${theme.color.grayscale.black40}`
       : `1px solid ${theme.color.grayscale.gray30}`};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
 
-  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
 
-  & > span {
-    padding: 1.4rem;
-
-    color: ${({ theme }) => theme.color.grayscale.black40};
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: -0.02em;
+  &::placeholder {
+    color: ${({ theme }) => theme.color.grayscale.gray30};
   }
+  &:focus {
+    outline: ${({ theme }) => theme.color.main.purple100} solid 1px;
+  }
+`;
 
-  & input {
+export const StDatePickerInput = styled.div<{ hasValue?: boolean }>`
+  width: 100%;
+  height: auto;
+
+  & > div.react-datepicker-wrapper {
     width: 100%;
-    height: 100%;
+    height: auto;
 
-    padding: 1rem 1.4rem;
-
-    color: ${({ theme }) => theme.color.grayscale.black40};
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: -0.02em;
-
-    border: none;
-
-    border-radius: 8px;
-
-    &::placeholder {
-      color: ${({ theme }) => theme.color.grayscale.gray30};
-    }
-    &:focus {
-      outline: ${({ theme }) => theme.color.main.purple100} solid 1px;
-    }
-  }
-
-  & > div > .react-datepicker__input-container {
-    & > input {
+    & > div {
       width: 100%;
-      height: 3.5rem;
+      height: auto;
 
-      margin-left: 0.2rem;
-      padding: 1rem 1.4rem;
+      & > input {
+        width: 100%;
+        height: auto;
 
-      color: ${({ theme }) => theme.color.grayscale.black40};
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 24px;
-      letter-spacing: -0.02em;
+        padding: 1rem 1.4rem;
 
-      border: none;
+        color: ${({ theme }) => theme.color.grayscale.black40};
+        font-weight: 500;
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+        letter-spacing: -0.02em;
 
-      border-radius: 8px;
+        outline: ${({ hasValue, theme }) =>
+          hasValue
+            ? `1px solid ${theme.color.grayscale.black40}`
+            : `1px solid ${theme.color.grayscale.gray30}`};
+        border: none;
+        box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+        border-radius: 8px;
 
-      &::placeholder {
-        color: ${({ theme }) => theme.color.grayscale.gray30};
+        &::placeholder {
+          color: ${({ theme }) => theme.color.grayscale.gray30};
+
+          font-weight: 500;
+          font-size: 1.6rem;
+          line-height: 2.4rem;
+          letter-spacing: -0.02em;
+        }
+        &:focus {
+          outline: ${({ theme }) => theme.color.main.purple100} solid 1px;
+        }
       }
     }
   }
 
-  & > svg {
-    margin-right: 1.4rem;
+  & > div.react-datepicker__tab-loop {
+    width: auto;
+  }
+`;
+
+export const StDropDownInput = styled.div<{ hasValue?: boolean }>`
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  padding: 1rem 1.4rem;
+
+  color: ${({ theme }) => theme.color.grayscale.black40};
+  outline: 1px solid ${({ theme }) => theme.color.grayscale.black40};
+  border-radius: 0.8rem;
+
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.02em;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.color.grayscale.gray30};
   }
 `;
 
