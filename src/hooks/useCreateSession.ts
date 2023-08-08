@@ -3,12 +3,10 @@ import { useRecoilValue } from 'recoil';
 
 import { currentGenerationState } from '@/recoil/atom';
 import { postNewSession } from '@/services/api/lecture';
-import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/session';
 
 interface MutationInput {
   newData: SessionBase;
-  authHeader: AuthHeader;
 }
 
 /** 세션 생성 시 작동하는 커스텀 훅
@@ -21,14 +19,13 @@ export const useCreateSession = (part: string) => {
   const currentGeneration = useRecoilValue(currentGenerationState);
 
   const mutation = useMutation<void, ProjectError, MutationInput, SessionBase>(
-    ({ newData, authHeader }) => postNewSession(newData, authHeader),
+    ({ newData }) => postNewSession(newData),
     {
       onSuccess: () => {
         queryClient.invalidateQueries([
           'sessionList',
           parseInt(currentGeneration),
           partTranslator[part],
-          getAuthHeader(),
         ]);
       },
     },
@@ -38,9 +35,7 @@ export const useCreateSession = (part: string) => {
    * @param submitContents 세션 생성에 필요한 정보를 담은 객체
    */
   const createSession = (submitContents: SessionBase) => {
-    const authHeader = getAuthHeader();
-
-    mutation.mutate({ newData: submitContents, authHeader });
+    mutation.mutate({ newData: submitContents });
   };
 
   return { createSession };

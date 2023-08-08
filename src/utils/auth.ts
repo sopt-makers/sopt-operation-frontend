@@ -50,24 +50,27 @@ const getSessionStorageItem = (key: string): string =>
 //   }
 // };
 
-// const getCookie = (cookieName: string, cookie: string) => {
-//   const name = cookieName + '=';
-//   const decodedCookie = decodeURIComponent(cookie);
-//   const ca = decodedCookie.split(';');
-//   for (let i = 0; i < ca.length; i++) {
-//     let c = ca[i];
-//     while (c.charAt(0) === ' ') {
-//       c = c.substring(1);
-//     }
-//     if (c.indexOf(name) === 0) {
-//       return c.substring(name.length, c.length);
-//     }
-//   }
-//   return '';
-// };
+const getCookie = (cookieName: string, cookie: string) => {
+  const name = cookieName + '=';
+  const decodedCookie = decodeURIComponent(cookie);
+  const ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return '';
+};
 
-export const getAuthHeader = (): AuthHeader => {
-  const token = getToken('ACCESS');
+export const getAuthHeader = (req?: IncomingMessage): AuthHeader => {
+  const token =
+    req && req.headers.cookie
+      ? getCookie(TOKEN_KEY.ACCESS, req.headers.cookie)
+      : getToken('ACCESS');
   const header: AuthHeader = { Authorization: token };
   return header;
 };

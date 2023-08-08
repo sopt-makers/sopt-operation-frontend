@@ -54,28 +54,18 @@ export const useGetSessionList = (generation: number, part: string) => {
   );
 };
 
-export const deleteSession = async (
-  lectureId: number,
-  authHeader: AuthHeader,
-) => {
-  const res = await client.delete(`/lectures/${lectureId}`, {
-    headers: { ...authHeader },
-  });
+export const deleteSession = async (lectureId: number) => {
+  const res = await client.delete(`/lectures/${lectureId}`);
   return res;
 };
 
-export const useGetLectureDetail = (
-  lectureId: number,
-  authHeader: AuthHeader,
-) => {
+export const useGetLectureDetail = (lectureId: number) => {
   return useQuery<LectureDetail, ProjectError>(
-    ['lectureDetail', lectureId, authHeader],
+    ['lectureDetail', lectureId],
     async () => {
       try {
         const { data }: AxiosResponse<{ data: LectureDetail }> =
-          await client.get(`/lectures/detail/${lectureId}`, {
-            headers: { ...authHeader },
-          });
+          await client.get(`/lectures/detail/${lectureId}`);
         return data.data;
       } catch (error) {
         if (error instanceof AxiosError) {
