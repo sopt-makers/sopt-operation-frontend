@@ -56,7 +56,6 @@ function SessionList() {
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
   const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
   const [selectedLecture, setSelectedLecture] = useState<number>(0);
-  const [formattedDates, setFormattedDates] = useState<string[]>([]);
   const currentGeneration = useRecoilValue(currentGenerationState);
 
   const { data, isLoading, isError, error } = useGetSessionList(
