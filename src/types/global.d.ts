@@ -84,15 +84,25 @@ declare global {
     name: string;
     partValue: PART;
     partName: string;
-    date: string; // yyyy/MM/dd
+    startDate: string; // yyyy/MM/dd
     attributeValue: SESSION_TYPE;
     attributeName: string;
-    status: {
+    attendances: {
       attendance: number;
       absent: number;
       tardy: number;
       unknown: number;
     };
+  }
+
+  interface LectureDetail {
+    lectureId: number;
+    name: string;
+    place: string;
+    part: string;
+    startDate: string;
+    endDate: string;
+    attribute: string;
   }
 
   interface SubLecture {
@@ -115,7 +125,7 @@ declare global {
     attribute: SESSION_TYPE;
     subLectures: SubLecture[];
     status: SESSION_STATUS;
-    result: {
+    attendances: {
       attendance: number;
       absent: number;
       tardy: number;
@@ -141,5 +151,35 @@ declare global {
     password: string;
   }
   type LoginRes = User & Auth;
+
+  /*Sopt.org 어드민 */
+
+  /* CoreValue */
+  interface CoreValue {
+    id: number;
+    title: string;
+    subTitle: string;
+    imageUrl: string;
+  }
+
+  /* AboutSopt */
+  interface AboutSopt {
+    id: number;
+    isPublished: boolean;
+    title: string;
+    bannerImage: string;
+    coreDescription: string;
+    planCurriculum: string;
+    designCurriculum: string;
+    androidCurriculum: string;
+    iosCurriculum: string;
+    webCurriculum: string;
+    serverCurriculum: string;
+    coreValues: CoreValue[];
+  }
+
+  interface ResponsePresignedUrl {
+    presignedUrl: string;
+  }
 }
 export default global;

@@ -41,5 +41,6 @@ export const useGetMemberList = (generation: number, part: string) => {
         }
       }
     },
+    { staleTime: 10 * 60 * 1000 },
   );
 };

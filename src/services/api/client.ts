@@ -24,9 +24,14 @@ const axiosFormConfig: AxiosRequestConfig<IAxiosConfig> = {
   },
   withCredentials: true,
 };
+const orgAxiosConfig: AxiosRequestConfig<IAxiosConfig> = {
+  baseURL: config.ORG_API_URL,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
+};
 
 const client: AxiosInstance = axios.create(axiosConfig);
-const formClient: AxiosInstance = axios.create(axiosFormConfig);
+const orgClient: AxiosInstance = axios.create(orgAxiosConfig);
 
 client.interceptors.request.use(
   async (config) => {
@@ -56,4 +61,4 @@ client.interceptors.response.use(
   },
 );
 
-export { client, formClient };
+export { client, orgClient };

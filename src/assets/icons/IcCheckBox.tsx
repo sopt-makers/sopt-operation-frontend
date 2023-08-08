@@ -1,6 +1,6 @@
 interface Props {
   isChecked?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 function IcCheckBox(props: Props) {

@@ -71,3 +71,7 @@ export const getAuthHeader = (): AuthHeader => {
   const header: AuthHeader = { Authorization: token };
   return header;
 };
+
+export const getBearerTokenAuthHeader = (req?: IncomingMessage): AuthHeader => {
+  return { Authorization: `Bearer ${getAuthHeader(req).Authorization}` };
+};

@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
+import { currentGenerationState } from '@/recoil/atom';
 import { useGetMemberList } from '@/services/api/member';
 import { precision } from '@/utils';
 import { getPartValue, partTranslator } from '@/utils/session';
@@ -45,9 +47,10 @@ function MemberList() {
   const [selectedMember, setSelectedMember] = useState<ScoreMember | null>(
     null,
   );
+  const currentGeneration = useRecoilValue(currentGenerationState);
 
   const { data, isLoading, isError, error } = useGetMemberList(
-    32,
+    parseInt(currentGeneration),
     selectedPart,
   );
 
@@ -57,9 +60,6 @@ function MemberList() {
     }
     if (isError) {
       alert(error.error);
-      document.cookie =
-        'ACCESS_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      router.push('/');
     }
   }, [data, error, isError, router]);
 

@@ -50,6 +50,62 @@ export const useGetSessionList = (generation: number, part: string) => {
         }
       }
     },
+    { staleTime: 10 * 60 * 1000 },
+  );
+};
+
+export const deleteSession = async (
+  lectureId: number,
+  authHeader: AuthHeader,
+) => {
+  const res = await client.delete(`/lectures/${lectureId}`, {
+    headers: { ...authHeader },
+  });
+  return res;
+};
+
+export const useGetLectureDetail = (
+  lectureId: number,
+  authHeader: AuthHeader,
+) => {
+  return useQuery<LectureDetail, ProjectError>(
+    ['lectureDetail', lectureId, authHeader],
+    async () => {
+      try {
+        const { data }: AxiosResponse<{ data: LectureDetail }> =
+          await client.get(`/lectures/detail/${lectureId}`, {
+            headers: { ...authHeader },
+          });
+        return data.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          switch (error.response?.status) {
+            case 400:
+              throw {
+                status: 400,
+                error: '세션 정보를 불러오는데 실패했어요',
+              };
+            case 401:
+            case 402:
+            case 403:
+              throw {
+                status: 403,
+                error: '만료된 토큰입니다. 다시 로그인 해주세요.',
+              };
+            case 404:
+            case 500:
+            default:
+              throw {
+                status: 500,
+                error: '알 수 없는 에러예요',
+              };
+          }
+        } else {
+          throw { status: 999, error: '알 수 없는 에러예요' };
+        }
+      }
+    },
+    { staleTime: 10 * 60 * 1000 },
   );
 };
 
