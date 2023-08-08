@@ -93,10 +93,10 @@ function MemberDetail(props: Props) {
                 const secondRound =
                   lecture.attendances.find((item) => item.round === 2) ??
                   scoreDetailAttendanceInit;
-                const firstRoundTime = dayjs(firstRound.date).format(
+                const firstRoundDate = dayjs(firstRound.date).format(
                   'YYYY/MM/DD HH:mm',
                 );
-                const secondRoundTime = dayjs(secondRound.date).format(
+                const secondRoundDate = dayjs(secondRound.date).format(
                   'YYYY/MM/DD HH:mm',
                 );
                 return (
@@ -114,7 +114,7 @@ function MemberDetail(props: Props) {
                       }}>
                       {firstRound.status}
                     </td>
-                    <td style={{ width: TABLE_WIDTH[3] }}>{firstRoundTime}</td>
+                    <td style={{ width: TABLE_WIDTH[3] }}>{firstRoundDate}</td>
                     <td
                       style={{
                         width: TABLE_WIDTH[4],
@@ -122,7 +122,7 @@ function MemberDetail(props: Props) {
                       }}>
                       {secondRound.status}
                     </td>
-                    <td style={{ width: TABLE_WIDTH[5] }}>{secondRoundTime}</td>
+                    <td style={{ width: TABLE_WIDTH[5] }}>{secondRoundDate}</td>
                     <td
                       style={{
                         width: TABLE_WIDTH[6],
