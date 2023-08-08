@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { IcModalClose } from '@/assets/icons';
@@ -92,7 +93,12 @@ function MemberDetail(props: Props) {
                 const secondRound =
                   lecture.attendances.find((item) => item.round === 2) ??
                   scoreDetailAttendanceInit;
-
+                const firstRoundDate = dayjs(firstRound.date).format(
+                  'YYYY/MM/DD HH:mm',
+                );
+                const secondRoundDate = dayjs(secondRound.date).format(
+                  'YYYY/MM/DD HH:mm',
+                );
                 return (
                   <tr key={lecture.lecture}>
                     <td style={{ width: TABLE_WIDTH[0] }}>
@@ -108,7 +114,7 @@ function MemberDetail(props: Props) {
                       }}>
                       {firstRound.status}
                     </td>
-                    <td style={{ width: TABLE_WIDTH[3] }}>{firstRound.date}</td>
+                    <td style={{ width: TABLE_WIDTH[3] }}>{firstRoundDate}</td>
                     <td
                       style={{
                         width: TABLE_WIDTH[4],
@@ -116,9 +122,7 @@ function MemberDetail(props: Props) {
                       }}>
                       {secondRound.status}
                     </td>
-                    <td style={{ width: TABLE_WIDTH[5] }}>
-                      {secondRound.date}
-                    </td>
+                    <td style={{ width: TABLE_WIDTH[5] }}>{secondRoundDate}</td>
                     <td
                       style={{
                         width: TABLE_WIDTH[6],
