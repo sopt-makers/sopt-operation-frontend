@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import config from '@/configs/config';
 import { getAuthHeader, getToken } from '@/utils/auth';
@@ -51,10 +51,29 @@ client.interceptors.response.use(
   (response) => {
     return response;
   },
-  async (error) => {
-    if (error.response && error.response.status === 401) {
-      await reissueAccessToken();
-      return client(error.config);
+  async (error: AxiosError) => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 400:
+          return { status: 400, error: '요청을 처리하는데 실패했어요' };
+        case 401:
+          await reissueAccessToken();
+          if (error.config) {
+            return client(error.config);
+          }
+          return { status: 401, error: '만료된 토큰이에요' };
+        case 403:
+          return { status: 403, error: '권한이 없어요' };
+        case 404:
+          return { status: 404, error: '잘못된 요청이에요' };
+        case 500:
+          return { status: 500, error: '알 수 없는 에러예요' };
+        default:
+          return {
+            status: error.response.status,
+            error: '알 수 없는 에러예요',
+          };
+      }
     } else {
       throw error;
     }
