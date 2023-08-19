@@ -1,19 +1,26 @@
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
+import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
+import { useDateFormat } from '@/hooks/useDateFormat';
+import { currentGenerationState } from '@/recoil/atom';
 import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
 import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
+import SessionDetailModal from './SessionDetailModal';
 import {
   StListHeader,
   StPartIndicator,
   StSessionIndicator,
   StSessionName,
+  StTbody,
 } from './style';
 
 function SessionList() {
@@ -47,9 +54,12 @@ function SessionList() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
+  const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
+  const [selectedLecture, setSelectedLecture] = useState<number>(0);
+  const currentGeneration = useRecoilValue(currentGenerationState);
 
   const { data, isLoading, isError, error } = useGetSessionList(
-    32,
+    parseInt(currentGeneration),
     selectedPart,
     getAuthHeader(),
   );
@@ -60,9 +70,6 @@ function SessionList() {
     }
     if (isError) {
       alert(error.error);
-      document.cookie =
-        'ACCESS_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      router.push('/');
     }
   }, [data, error, isError, router]);
 
@@ -73,6 +80,7 @@ function SessionList() {
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
   };
+
   return (
     <>
       <StListHeader>
@@ -87,14 +95,22 @@ function SessionList() {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <StTbody>
           {lectureData?.map((lecture, index) => {
-            const { lectureId, partValue, attributeName, name, date, status } =
-              lecture;
-            const { attendance, tardy, absent, unknown } = status;
+            const {
+              lectureId,
+              partValue,
+              attributeName,
+              name,
+              startDate,
+              attendances,
+            } = lecture;
+            const { attendance, tardy, absent, unknown } = attendances;
             const part = partTranslator[partValue] || partValue;
+            const date = dayjs(startDate);
+            const formattedDate = date.format('YYYY/MM/DD');
             return (
-              <tr key={lectureId}>
+              <tr key={lectureId} onClick={() => handleManageClick(lectureId)}>
                 <td>{precision(index + 1, 2)}</td>
                 <td className="indicator">
                   <StPartIndicator>{part}</StPartIndicator>
@@ -107,19 +123,34 @@ function SessionList() {
                 <td>
                   <StSessionName>{name}</StSessionName>
                 </td>
-                <td>{date}</td>
+                <td>{formattedDate}</td>
                 <td className="attendance">{attendance}</td>
                 <td className="attendance">{tardy}</td>
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{unknown}</td>
-                <td onClick={() => handleManageClick(lectureId)}>
-                  <span>관리</span>
+                <td>
+                  <span
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setSelectedLecture(lectureId);
+                      setIsDetailOpen(true);
+                    }}>
+                    조회
+                  </span>
                 </td>
               </tr>
             );
           })}
-        </tbody>
+        </StTbody>
       </ListWrapper>
+      {isDetailOpen && (
+        <Modal>
+          <SessionDetailModal
+            onClose={() => setIsDetailOpen(!isDetailOpen)}
+            lectureId={selectedLecture}
+          />
+        </Modal>
+      )}
       {isLoading && <Loading />}
     </>
   );

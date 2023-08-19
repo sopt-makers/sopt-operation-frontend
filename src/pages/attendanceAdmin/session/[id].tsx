@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -166,10 +167,10 @@ function SessionDetailPage() {
             <strong>{session.name}</strong> 출석 관리
           </h2>
           <div className="attendance-info">
-            <p>출석 {session.result.attendance}</p>
-            <p>지각 {session.result.tardy}</p>
-            <p>결석 {session.result.absent}</p>
-            <p>미정 {session.result.unknown}</p>
+            <p>출석 {session.attendances.attendance}</p>
+            <p>지각 {session.attendances.tardy}</p>
+            <p>결석 {session.attendances.absent}</p>
+            <p>미정 {session.attendances.unknown}</p>
           </div>
         </div>
         {session.part === 'ALL' && (
@@ -194,7 +195,12 @@ function SessionDetailPage() {
               const secondRound =
                 member.attendances.find((item) => item.round === 2) ??
                 attendanceInit;
-
+              const firstRoundTime = dayjs(firstRound.updateAt).format(
+                'YYYY/MM/DD HH:mm',
+              );
+              const secondRoundTime = dayjs(secondRound.updateAt).format(
+                'YYYY/MM/DD HH:mm',
+              );
               return (
                 <tr
                   key={member.member.memberId}
@@ -217,7 +223,7 @@ function SessionDetailPage() {
                       }
                     />
                   </td>
-                  <td className="member-date">{firstRound.updateAt}</td>
+                  <td className="member-date">{firstRoundTime}</td>
                   <td>
                     <Select
                       selected={secondRound.status}
@@ -231,7 +237,7 @@ function SessionDetailPage() {
                       }
                     />
                   </td>
-                  <td className="member-date">{secondRound.updateAt}</td>
+                  <td className="member-date">{secondRoundTime}</td>
                   <td>{addPlus(member.updatedScore)}점</td>
                   <td className="member-update">
                     {session.status === 'END' && isChangedMember(member) && (

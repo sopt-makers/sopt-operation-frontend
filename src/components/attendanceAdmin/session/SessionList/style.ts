@@ -14,6 +14,27 @@ export const StListHeader = styled.header`
   }
 `;
 
+export const StTbody = styled.tbody`
+  cursor: pointer;
+
+  & > tr {
+    &:hover {
+      & > td {
+        border-top: 1px solid ${({ theme }) => theme.color.main.purple100};
+        border-bottom: 1px solid ${({ theme }) => theme.color.main.purple100};
+      }
+      & > td:first-of-type {
+        border: 1px solid ${({ theme }) => theme.color.main.purple100};
+        border-right: none;
+      }
+      & > td:last-of-type {
+        border: 1px solid ${({ theme }) => theme.color.main.purple100};
+        border-left: none;
+      }
+    }
+  }
+`;
+
 export const IndicatorStructure = styled.span`
   display: inline-block;
   min-width: 4.9rem;

@@ -12,7 +12,7 @@
     "test": "jest --watch"
   },
   "engines": {
-    "node": ">=18.13.0 <=18.15.0",
+    "node": ">=18.13.0",
     "yarn": "^1.22.19"
   },
   "dependencies": {
@@ -24,12 +24,14 @@
     "@types/react-datepicker": "^4.10.0",
     "@types/react-dom": "18.0.11",
     "axios": "^1.3.4",
+    "dayjs": "^1.11.9",
     "eslint-config-next": "^13.3.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "next": "^13.2.4",
     "react": "^18.2.0",
     "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.44.0",
     "react-query": "^3.39.3",
     "recoil": "^0.7.7",
     "typescript": "5.0.2"

@@ -5,6 +5,8 @@ export const MENU_LIST = [
     path: ['/attendanceAdmin/session', '/attendanceAdmin/totalScore'],
   },
   {
-    title: '공홈 어드민',
+    title: '공홈 관리',
+    subMenu: ['ABOUT'],
+    path: ['/orgAdmin/aboutTabManagement'],
   },
 ];
