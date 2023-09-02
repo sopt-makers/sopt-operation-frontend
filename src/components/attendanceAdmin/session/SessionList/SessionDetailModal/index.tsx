@@ -6,7 +6,6 @@ import InputContainer from '@/components/common/inputContainer';
 import Loading from '@/components/common/Loading';
 import { useDateFormat } from '@/hooks/useDateFormat';
 import { deleteSession, useGetLectureDetail } from '@/services/api/lecture';
-import { getAuthHeader } from '@/utils/auth';
 
 import {
   StFooter,
@@ -23,7 +22,7 @@ interface Props {
 
 const SessionDetailModal = (props: Props) => {
   const { onClose, lectureId } = props;
-  const { data, isLoading } = useGetLectureDetail(lectureId, getAuthHeader());
+  const { data, isLoading } = useGetLectureDetail(lectureId);
 
   const date = useDateFormat(data?.startDate, 'date');
   const startTime = useDateFormat(data?.startDate, 'time');
@@ -34,7 +33,7 @@ const SessionDetailModal = (props: Props) => {
       '세션을 삭제하면 복구할 수 없습니다.\n정말 삭제할까요?',
     );
     if (isConfirmed) {
-      deleteSession(lectureId, getAuthHeader());
+      deleteSession(lectureId);
       alert('세션이 삭제되었습니다.');
       onClose();
     }

@@ -12,7 +12,7 @@ export const userLogin = async (
       loginData,
     );
     const { accessToken, ...user } = data.data;
-    setToken('ACCESS', accessToken, 4);
+    setToken('ACCESS', accessToken);
 
     return user;
   } catch (e) {
@@ -24,5 +24,17 @@ export const userLogin = async (
     } else {
       return { success: false, message: '알 수 없는 에러예요' };
     }
+  }
+};
+
+export const reissueAccessToken = async (): Promise<void | LoginError> => {
+  try {
+    const { data }: AxiosResponse<{ data: string }> = await client.patch(
+      '/auth/refresh',
+    );
+    const accessToken = data.data;
+    setToken('ACCESS', accessToken);
+  } catch (e) {
+    return { success: false, message: '알 수 없는 에러예요' };
   }
 };

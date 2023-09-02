@@ -5,29 +5,21 @@ import { client } from '@/services/api/client';
 
 export const postNewSession = async (
   sessionData: SessionBase,
-  authHeader: AuthHeader,
 ): Promise<void> => {
   try {
-    await client.post('/lectures', sessionData, { headers: { ...authHeader } });
+    await client.post('/lectures', sessionData);
   } catch (e) {
     console.error('Error posting new session:', e);
   }
 };
 
-export const useGetSessionList = (
-  generation: number,
-  part: string,
-  authHeader: AuthHeader,
-) => {
+export const useGetSessionList = (generation: number, part: string) => {
   return useQuery<Lecture, ProjectError>(
-    ['sessionList', generation, part, authHeader],
+    ['sessionList', generation, part],
     async () => {
       try {
         const { data }: AxiosResponse<{ data: Lecture }> = await client.get(
           `/lectures?generation=${generation}&part=${part}`,
-          {
-            headers: { ...authHeader },
-          },
         );
         return data.data;
       } catch (error) {
@@ -62,28 +54,18 @@ export const useGetSessionList = (
   );
 };
 
-export const deleteSession = async (
-  lectureId: number,
-  authHeader: AuthHeader,
-) => {
-  const res = await client.delete(`/lectures/${lectureId}`, {
-    headers: { ...authHeader },
-  });
+export const deleteSession = async (lectureId: number) => {
+  const res = await client.delete(`/lectures/${lectureId}`);
   return res;
 };
 
-export const useGetLectureDetail = (
-  lectureId: number,
-  authHeader: AuthHeader,
-) => {
+export const useGetLectureDetail = (lectureId: number) => {
   return useQuery<LectureDetail, ProjectError>(
-    ['lectureDetail', lectureId, authHeader],
+    ['lectureDetail', lectureId],
     async () => {
       try {
         const { data }: AxiosResponse<{ data: LectureDetail }> =
-          await client.get(`/lectures/detail/${lectureId}`, {
-            headers: { ...authHeader },
-          });
+          await client.get(`/lectures/detail/${lectureId}`);
         return data.data;
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -119,12 +101,10 @@ export const useGetLectureDetail = (
 
 export const getSessionDetail = async (
   lectureId: number,
-  authHeader: AuthHeader,
 ): Promise<SessionDetail | ProjectError> => {
   try {
     const { data }: AxiosResponse<{ data: SessionDetail }> = await client.get(
       `/lectures/${lectureId}`,
-      { headers: { ...authHeader } },
     );
     return data.data;
   } catch (e) {
@@ -152,13 +132,11 @@ export const getSessionDetail = async (
 
 export const getSessionMembers = async (
   lectureId: number,
-  authHeader: AuthHeader,
   part?: PART,
 ): Promise<SessionMember[] | ProjectError> => {
   try {
     const { data }: AxiosResponse<{ data: SessionMember[] }> = await client.get(
       `/attendances/lecture/${lectureId}${part ? `?part=${part}` : ''}`,
-      { headers: { ...authHeader } },
     );
     return data.data;
   } catch (e) {
@@ -188,30 +166,18 @@ export const startAttendance = async (
   code: string,
   lectureId: number,
   round: number,
-  authHeader: AuthHeader,
 ): Promise<boolean> => {
   try {
-    await client.patch(
-      '/lectures/attendance',
-      { code, lectureId, round },
-      { headers: { ...authHeader } },
-    );
+    await client.patch('/lectures/attendance', { code, lectureId, round });
     return true;
   } catch (e) {
     return false;
   }
 };
 
-export const updateAttendance = async (
-  lectureId: number,
-  authHeader: AuthHeader,
-): Promise<boolean> => {
+export const updateAttendance = async (lectureId: number): Promise<boolean> => {
   try {
-    await client.patch(
-      `/lectures/${lectureId}`,
-      {},
-      { headers: { ...authHeader } },
-    );
+    await client.patch(`/lectures/${lectureId}`, {});
     return true;
   } catch (e) {
     return false;

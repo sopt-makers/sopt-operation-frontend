@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
@@ -11,11 +11,7 @@ import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import Select from '@/components/session/Select';
-import {
-  attendanceInit,
-  attendanceOptions,
-  subLectureInit,
-} from '@/data/sessionData';
+import { attendanceInit, attendanceOptions } from '@/data/sessionData';
 import {
   updateMemberAttendStatus,
   updateMemberScore,
@@ -26,7 +22,6 @@ import {
   updateAttendance,
 } from '@/services/api/lecture';
 import { addPlus, precision } from '@/utils';
-import { getAuthHeader } from '@/utils/auth';
 
 const HEADER_LABELS = [
   '순번',
@@ -54,7 +49,7 @@ function SessionDetailPage() {
 
   const getSessionData = useCallback(async () => {
     if (id) {
-      const result = await getSessionDetail(id, getAuthHeader());
+      const result = await getSessionDetail(id);
       if ('error' in result) {
         alert(result.error);
       } else {
@@ -66,7 +61,7 @@ function SessionDetailPage() {
   const getSessionMemberData = useCallback(
     async (part?: PART) => {
       if (id) {
-        const result = await getSessionMembers(id, getAuthHeader(), part);
+        const result = await getSessionMembers(id, part);
         if ('error' in result) {
           alert(result.error);
         } else {
@@ -99,7 +94,6 @@ function SessionDetailPage() {
         subAttendanceId,
         status,
         session.attribute,
-        getAuthHeader(),
       );
       if (result) {
         alert(result.error);
@@ -113,7 +107,7 @@ function SessionDetailPage() {
   };
 
   const onUpdateScore = async (memberId: number) => {
-    const result = await updateMemberScore(memberId, getAuthHeader());
+    const result = await updateMemberScore(memberId);
     if (result) {
       alert(result.error);
     } else {
@@ -145,7 +139,7 @@ function SessionDetailPage() {
       '세미나가 끝난 후에 출석을 종료할 수 있어요. 출석을 종료하시겠어요?',
     );
     if (res) {
-      const result = id && (await updateAttendance(id, getAuthHeader()));
+      const result = id && (await updateAttendance(id));
       if (result) {
         getSessionData();
         getSessionMemberData();

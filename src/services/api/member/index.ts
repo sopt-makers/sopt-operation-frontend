@@ -3,21 +3,14 @@ import { useQuery } from 'react-query';
 
 import { client } from '@/services/api/client';
 
-export const useGetMemberList = (
-  generation: number,
-  part: string,
-  authHeader: AuthHeader,
-) => {
+export const useGetMemberList = (generation: number, part: string) => {
   return useQuery<ScoreMember[], ProjectError>(
-    ['memberList', generation, part, authHeader],
+    ['memberList', generation, part],
     async () => {
       try {
         const { data }: AxiosResponse<{ data: ScoreMember[] }> =
           await client.get(
             `/members/list?generation=${generation}&part=${part}`,
-            {
-              headers: { ...authHeader },
-            },
           );
         return data.data;
       } catch (error) {

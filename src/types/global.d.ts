@@ -140,6 +140,9 @@ declare global {
   }
 
   /* 로그인 */
+  interface Auth {
+    accessToken: string;
+  }
   interface AuthHeader {
     Authorization: string;
   }
@@ -147,9 +150,7 @@ declare global {
     email: string;
     password: string;
   }
-  interface LoginRes extends User {
-    accessToken: string;
-  }
+  type LoginRes = User & Auth;
 
   /*Sopt.org 어드민 */
 

@@ -7,7 +7,6 @@ import Modal from '@/components/common/modal';
 import { scoreDetailAttendanceInit } from '@/data/sessionData';
 import { getMemberAttendance } from '@/services/api/attendance';
 import { precision } from '@/utils';
-import { getAuthHeader } from '@/utils/auth';
 import { getAttendanceColor } from '@/utils/translator';
 
 import { StModalWrap, StSessionName } from './style';
@@ -36,7 +35,7 @@ function MemberDetail(props: Props) {
 
   useEffect(() => {
     (async () => {
-      const result = await getMemberAttendance(memberId, getAuthHeader());
+      const result = await getMemberAttendance(memberId);
       result && setMember(result);
     })();
   }, [memberId]);

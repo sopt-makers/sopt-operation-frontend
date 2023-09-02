@@ -11,7 +11,6 @@ import { useDateFormat } from '@/hooks/useDateFormat';
 import { currentGenerationState } from '@/recoil/atom';
 import { useGetSessionList } from '@/services/api/lecture';
 import { precision } from '@/utils';
-import { getAuthHeader } from '@/utils/auth';
 import { partTranslator } from '@/utils/translator';
 
 import SessionDetailModal from './SessionDetailModal';
@@ -61,7 +60,6 @@ function SessionList() {
   const { data, isLoading, isError, error } = useGetSessionList(
     parseInt(currentGeneration),
     selectedPart,
-    getAuthHeader(),
   );
 
   useEffect(() => {
