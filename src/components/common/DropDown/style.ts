@@ -5,7 +5,6 @@ import { Props } from './index';
 
 export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
   position: absolute;
-  top: 100%;
 
   width: 10rem;
   height: auto;
