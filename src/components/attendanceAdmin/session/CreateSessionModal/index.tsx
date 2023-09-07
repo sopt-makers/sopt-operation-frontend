@@ -1,5 +1,6 @@
 import 'react-datepicker/dist/react-datepicker.css';
 
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import DatePicker from 'react-datepicker';
@@ -99,8 +100,8 @@ function CreateSessionModal(props: Props) {
         part: translatedPart,
         name: sessionName,
         place: sessionLocation,
-        startDate: `${date} ${startTime}`,
-        endDate: `${date} ${endTime}`,
+        startDate: `${date}T${startTime}`,
+        endDate: `${date}T${endTime}`,
         attribute: translatedAttribute,
         generation: parseInt(currentGeneration),
       };
@@ -143,15 +144,12 @@ function CreateSessionModal(props: Props) {
 
   /** 받아온 날짜 데이터를 변환하는 함수 */
   const handleSessionDate = (date: Date | null) => {
+    const originalDate = date;
+    const isoDate = dayjs(originalDate).format('YYYY-MM-DD');
     setSelectedDate(date);
 
     if (date) {
-      const year = date.getFullYear();
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const day = ('0' + date.getDate()).slice(-2);
-
-      const formattedDate = `${year}/${month}/${day}`;
-      setDate(formattedDate);
+      setDate(isoDate);
     }
   };
 
