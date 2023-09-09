@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { IcNavMenu } from '@/assets/icons';
@@ -26,6 +26,8 @@ function Nav() {
   );
   const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
   const handleSelectedGeneration = (selectedGeneration: string) => {
     setCurrentGeneration(selectedGeneration);
     setIsDropdownOn(false);
@@ -35,11 +37,27 @@ function Nav() {
     router.push(path);
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsDropdownOn(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <StNavWrapper>
       <header>
         <StSoptLogo>SOPT</StSoptLogo>
-        <StGenerationDropdown>
+        <StGenerationDropdown ref={dropdownRef}>
           <div onClick={() => setIsDropdownOn(!isDropdownOn)}>
             <span>{currentGeneration}기</span>
             <IcDropDown />
