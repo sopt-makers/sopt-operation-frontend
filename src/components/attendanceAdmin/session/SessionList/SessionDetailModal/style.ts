@@ -48,7 +48,7 @@ export const StInformationSection = styled.section`
     line-height: 140%;
     letter-spacing: -0.02em;
 
-    color: ${({ theme }) => theme.color.main.purple100};
+    color: ${({ theme }) => theme.color.grayscale.black100};
   }
 
   & > div {

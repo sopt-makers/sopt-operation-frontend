@@ -57,7 +57,7 @@ function SessionList() {
   const [selectedLecture, setSelectedLecture] = useState<number>(0);
   const currentGeneration = useRecoilValue(currentGenerationState);
 
-  const { data, isLoading, isError, error } = useGetSessionList(
+  const { data, isError, error } = useGetSessionList(
     parseInt(currentGeneration),
     selectedPart,
   );
@@ -149,7 +149,6 @@ function SessionList() {
           />
         </Modal>
       )}
-      {isLoading && <Loading />}
     </>
   );
 }
