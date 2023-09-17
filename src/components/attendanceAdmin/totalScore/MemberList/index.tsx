@@ -6,7 +6,7 @@ import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
 import { currentGenerationState } from '@/recoil/atom';
-import { useGetMemberList } from '@/services/api/member';
+import { useGetMemberList } from '@/services/api/member/query';
 import { precision } from '@/utils';
 import { getPartValue, partTranslator } from '@/utils/session';
 
@@ -59,7 +59,7 @@ function MemberList() {
       setMemberData(data);
     }
     if (isError) {
-      alert(error.error);
+      alert(error);
     }
   }, [data, error, isError, router]);
 

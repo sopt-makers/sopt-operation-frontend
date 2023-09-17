@@ -24,14 +24,9 @@ export const updateMemberScore = async (
   }
 };
 
-export const getMemberAttendance = async (
-  memberId: number,
-): Promise<ScoreMemberDetail | null> => {
-  try {
-    const { data }: AxiosResponse<{ data: ScoreMemberDetail }> =
-      await client.get(`/attendances/${memberId}`, {});
-    return data.data;
-  } catch (e) {
-    return null;
-  }
+export const getMemberAttendance = async (memberId: number) => {
+  const { data }: AxiosResponse<{ data: ScoreMemberDetail }> = await client.get(
+    `/attendances/${memberId}`,
+  );
+  return data.data;
 };

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
@@ -16,11 +16,11 @@ import {
   updateMemberAttendStatus,
   updateMemberScore,
 } from '@/services/api/attendance';
+import { updateAttendance } from '@/services/api/lecture';
 import {
-  getSessionDetail,
-  getSessionMembers,
-  updateAttendance,
-} from '@/services/api/lecture';
+  useGetSessionDetail,
+  useGetSessionMembers,
+} from '@/services/api/lecture/query';
 import { addPlus, precision } from '@/utils';
 
 const HEADER_LABELS = [
@@ -42,46 +42,24 @@ function SessionDetailPage() {
     typeof router.query.id === 'string' ? Number(router.query.id) : null;
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [session, setSession] = useState<SessionDetail>();
-  const [members, setMembers] = useState<SessionMember[]>([]);
   const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [modal, setModal] = useState<number | null>(null);
 
-  const getSessionData = useCallback(async () => {
-    if (id) {
-      const result = await getSessionDetail(id);
-      if ('error' in result) {
-        alert(result.error);
-      } else {
-        setSession(result);
-      }
-    }
-  }, [id]);
-
-  const getSessionMemberData = useCallback(
-    async (part?: PART) => {
-      if (id) {
-        const result = await getSessionMembers(id, part);
-        if ('error' in result) {
-          alert(result.error);
-        } else {
-          setMembers(result);
-        }
-      }
-    },
-    [id],
-  );
-
-  useEffect(() => {
-    if (!router.isReady) return;
-
-    getSessionData();
-    getSessionMemberData();
-  }, [getSessionData, getSessionMemberData, router.isReady]);
+  const {
+    data: session,
+    isLoading: isLoadingSession,
+    refetch: refetchSession,
+    error: sessionError,
+  } = useGetSessionDetail(id);
+  const {
+    data: members,
+    isLoading: isLoadingMembers,
+    refetch: refetchMembers,
+    error: membersError,
+  } = useGetSessionMembers(id, selectedPart);
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
-    getSessionMemberData(part);
   };
 
   const onChangeStatus = async (
@@ -99,9 +77,7 @@ function SessionDetailPage() {
         alert(result.error);
       } else {
         setChangedMembers([...changedMembers, member]);
-        selectedPart === 'ALL'
-          ? await getSessionMemberData()
-          : await getSessionMemberData(selectedPart);
+        refetchMembers();
       }
     }
   };
@@ -114,7 +90,7 @@ function SessionDetailPage() {
       setChangedMembers(
         changedMembers.filter((member) => member.member.memberId !== memberId),
       );
-      await getSessionData();
+      refetchSession();
     }
   };
 
@@ -130,8 +106,8 @@ function SessionDetailPage() {
 
   const finishAttendance = () => {
     setModal(null);
-    getSessionData();
-    getSessionMemberData();
+    refetchSession();
+    refetchMembers();
   };
 
   const closeAttendance = async () => {
@@ -141,8 +117,8 @@ function SessionDetailPage() {
     if (res) {
       const result = id && (await updateAttendance(id));
       if (result) {
-        getSessionData();
-        getSessionMemberData();
+        refetchSession();
+        refetchMembers();
         setChangedMembers([]);
         alert('출석 점수가 갱신되었어요');
       } else {
@@ -151,8 +127,8 @@ function SessionDetailPage() {
     }
   };
 
-  if (!id) return;
-  if (!session) return <Loading />;
+  if (!id || !session) return;
+  if (isLoadingSession || isLoadingMembers) return <Loading />;
   return (
     <StPageWrapper>
       <StPageHeader>
@@ -172,7 +148,7 @@ function SessionDetailPage() {
         )}
       </StPageHeader>
 
-      {members.length > 0 ? (
+      {members && members.length > 0 ? (
         <ListWrapper tableWidth={TABLE_WIDTH}>
           <thead>
             <tr>

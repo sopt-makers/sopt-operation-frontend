@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { IcModalClose } from '@/assets/icons';
 import ListWrapper from '@/components/common/ListWrapper';
+import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import { scoreDetailAttendanceInit } from '@/data/sessionData';
-import { getMemberAttendance } from '@/services/api/attendance';
+import { useGetMemberAttendance } from '@/services/api/attendance/query';
 import { precision } from '@/utils';
 import { getAttendanceColor } from '@/utils/translator';
 
@@ -31,14 +32,12 @@ const TABLE_WIDTH = ['10%', '20%', '10%', '15%', '10%', '15%', '10%', '10%'];
 function MemberDetail(props: Props) {
   const { memberId, onClose } = props;
 
-  const [member, setMember] = useState<ScoreMemberDetail>();
-
-  useEffect(() => {
-    (async () => {
-      const result = await getMemberAttendance(memberId);
-      result && setMember(result);
-    })();
-  }, [memberId]);
+  const {
+    data: member,
+    isLoading,
+    refetch,
+    error,
+  } = useGetMemberAttendance(memberId);
 
   useEffect(() => {
     const body = document.querySelector('body');
@@ -53,7 +52,8 @@ function MemberDetail(props: Props) {
     };
   }, []);
 
-  if (!member) return <></>;
+  if (error || !member) return <></>;
+  if (isLoading) return <Loading />;
   return (
     <Modal>
       <StModalWrap>

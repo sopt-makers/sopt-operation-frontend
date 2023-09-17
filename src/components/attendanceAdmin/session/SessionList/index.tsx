@@ -7,9 +7,8 @@ import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
-import { useDateFormat } from '@/hooks/useDateFormat';
 import { currentGenerationState } from '@/recoil/atom';
-import { useGetSessionList } from '@/services/api/lecture';
+import { useGetSessionList } from '@/services/api/lecture/query';
 import { precision } from '@/utils';
 import { partTranslator } from '@/utils/translator';
 
@@ -67,7 +66,7 @@ function SessionList() {
       setLectureData(data.lectures);
     }
     if (isError) {
-      alert(error.error);
+      alert(error);
     }
   }, [data, error, isError, router]);
 

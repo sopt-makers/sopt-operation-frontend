@@ -1,57 +1,11 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
+import { AxiosResponse } from 'axios';
 
 import { client } from '@/services/api/client';
 
 export const postNewSession = async (
   sessionData: SessionBase,
 ): Promise<void> => {
-  try {
-    await client.post('/lectures', sessionData);
-  } catch (e) {
-    console.error('Error posting new session:', e);
-  }
-};
-
-export const useGetSessionList = (generation: number, part: string) => {
-  return useQuery<Lecture, ProjectError>(
-    ['sessionList', generation, part],
-    async () => {
-      try {
-        const { data }: AxiosResponse<{ data: Lecture }> = await client.get(
-          `/lectures?generation=${generation}&part=${part}`,
-        );
-        return data.data;
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          switch (error.response?.status) {
-            case 400:
-              throw {
-                status: 400,
-                error: '세션 정보를 불러오는데 실패했어요',
-              };
-            case 401:
-            case 402:
-            case 403:
-              throw {
-                status: 403,
-                error: '만료된 토큰입니다. 다시 로그인 해주세요.',
-              };
-            case 404:
-            case 500:
-            default:
-              throw {
-                status: 500,
-                error: '알 수 없는 에러예요',
-              };
-          }
-        } else {
-          throw { status: 999, error: '알 수 없는 에러예요' };
-        }
-      }
-    },
-    { staleTime: 10 * 60 * 1000 },
-  );
+  await client.post('/lectures', sessionData);
 };
 
 export const deleteSession = async (lectureId: number) => {
@@ -59,127 +13,47 @@ export const deleteSession = async (lectureId: number) => {
   return res;
 };
 
-export const useGetLectureDetail = (lectureId: number) => {
-  return useQuery<LectureDetail, ProjectError>(
-    ['lectureDetail', lectureId],
-    async () => {
-      try {
-        const { data }: AxiosResponse<{ data: LectureDetail }> =
-          await client.get(`/lectures/detail/${lectureId}`);
-        return data.data;
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          switch (error.response?.status) {
-            case 400:
-              throw {
-                status: 400,
-                error: '세션 정보를 불러오는데 실패했어요',
-              };
-            case 401:
-            case 402:
-            case 403:
-              throw {
-                status: 403,
-                error: '만료된 토큰입니다. 다시 로그인 해주세요.',
-              };
-            case 404:
-            case 500:
-            default:
-              throw {
-                status: 500,
-                error: '알 수 없는 에러예요',
-              };
-          }
-        } else {
-          throw { status: 999, error: '알 수 없는 에러예요' };
-        }
-      }
-    },
-    { staleTime: 10 * 60 * 1000 },
-  );
-};
-
-export const getSessionDetail = async (
-  lectureId: number,
-): Promise<SessionDetail | ProjectError> => {
-  try {
-    const { data }: AxiosResponse<{ data: SessionDetail }> = await client.get(
-      `/lectures/${lectureId}`,
-    );
-    return data.data;
-  } catch (e) {
-    if (e instanceof AxiosError) {
-      switch (e.response?.status) {
-        case 400:
-          return {
-            status: 400,
-            error: '세션 정보를 불러오는데 실패했어요',
-          };
-        case 401:
-        case 402:
-        case 403:
-          return { status: 403, error: '세션 정보 조회 권한이 없어요' };
-        case 404:
-        case 500:
-        default:
-          return { status: 500, error: '알 수 없는 에러예요' };
-      }
-    } else {
-      return { status: 999, error: '알 수 없는 에러예요' };
-    }
-  }
-};
-
-export const getSessionMembers = async (
-  lectureId: number,
-  part?: PART,
-): Promise<SessionMember[] | ProjectError> => {
-  try {
-    const { data }: AxiosResponse<{ data: SessionMember[] }> = await client.get(
-      `/attendances/lecture/${lectureId}${part ? `?part=${part}` : ''}`,
-    );
-    return data.data;
-  } catch (e) {
-    if (e instanceof AxiosError) {
-      switch (e.response?.status) {
-        case 400:
-          return {
-            status: 400,
-            error: '회원 정보를 불러오는데 실패했어요',
-          };
-        case 401:
-        case 402:
-        case 403:
-          return { status: 403, error: '회원 정보 조회 권한이 없어요' };
-        case 404:
-        case 500:
-        default:
-          return { status: 500, error: '알 수 없는 에러예요' };
-      }
-    } else {
-      return { status: 999, error: '알 수 없는 에러예요' };
-    }
-  }
-};
-
 export const startAttendance = async (
   code: string,
   lectureId: number,
   round: number,
 ): Promise<boolean> => {
-  try {
-    await client.patch('/lectures/attendance', { code, lectureId, round });
-    return true;
-  } catch (e) {
-    return false;
-  }
+  await client.patch('/lectures/attendance', { code, lectureId, round });
+  return true;
 };
 
 export const updateAttendance = async (lectureId: number): Promise<boolean> => {
-  try {
-    await client.patch(`/lectures/${lectureId}`, {});
-    return true;
-  } catch (e) {
-    return false;
-  }
+  await client.patch(`/lectures/${lectureId}`, {});
+  return true;
+};
+
+export const getSessionList = async (
+  generation: number,
+  part: string,
+): Promise<Lecture> => {
+  const { data }: AxiosResponse<{ data: Lecture }> = await client.get(
+    `/lectures?generation=${generation}&part=${part}`,
+  );
+  return data.data;
+};
+
+export const getLectureDetail = async (lectureId: number) => {
+  const { data }: AxiosResponse<{ data: LectureDetail }> = await client.get(
+    `/lectures/detail/${lectureId}`,
+  );
+  return data.data;
+};
+
+export const getSessionDetail = async (lectureId: number) => {
+  const { data }: AxiosResponse<{ data: SessionDetail }> = await client.get(
+    `/lectures/${lectureId}`,
+  );
+  return data.data;
+};
+
+export const getSessionMembers = async (lectureId: number, part?: PART) => {
+  const { data }: AxiosResponse<{ data: SessionMember[] }> = await client.get(
+    `/attendances/lecture/${lectureId}${part ? `?part=${part}` : ''}`,
+  );
+  return data.data;
 };
