@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
-
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import InputContainer from '@/components/common/inputContainer';
 import Loading from '@/components/common/Loading';
 import { useDateFormat } from '@/hooks/useDateFormat';
-import { deleteSession, useGetLectureDetail } from '@/services/api/lecture';
+import { deleteSession } from '@/services/api/lecture';
+import { useGetLectureDetail } from '@/services/api/lecture/query';
 
 import {
   StFooter,

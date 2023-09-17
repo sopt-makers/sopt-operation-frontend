@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
@@ -11,16 +11,18 @@ import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import Select from '@/components/session/Select';
+import { PAGE_SIZE } from '@/data/queryData';
 import { attendanceInit, attendanceOptions } from '@/data/sessionData';
+import useObserver from '@/hooks/useObserver';
 import {
   updateMemberAttendStatus,
   updateMemberScore,
 } from '@/services/api/attendance';
+import { updateAttendance } from '@/services/api/lecture';
 import {
-  getSessionDetail,
-  getSessionMembers,
-  updateAttendance,
-} from '@/services/api/lecture';
+  useGetInfiniteSessionMembers,
+  useGetSessionDetail,
+} from '@/services/api/lecture/query';
 import { addPlus, precision } from '@/utils';
 
 const HEADER_LABELS = [
@@ -42,46 +44,32 @@ function SessionDetailPage() {
     typeof router.query.id === 'string' ? Number(router.query.id) : null;
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [session, setSession] = useState<SessionDetail>();
-  const [members, setMembers] = useState<SessionMember[]>([]);
   const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [modal, setModal] = useState<number | null>(null);
+  const bottomRef: RefObject<HTMLDivElement> = useRef(null);
 
-  const getSessionData = useCallback(async () => {
-    if (id) {
-      const result = await getSessionDetail(id);
-      if ('error' in result) {
-        alert(result.error);
-      } else {
-        setSession(result);
-      }
-    }
-  }, [id]);
+  const {
+    data: session,
+    isLoading: isLoadingSession,
+    refetch: refetchSession,
+    error: sessionError,
+  } = useGetSessionDetail(id);
 
-  const getSessionMemberData = useCallback(
-    async (part?: PART) => {
-      if (id) {
-        const result = await getSessionMembers(id, part);
-        if ('error' in result) {
-          alert(result.error);
-        } else {
-          setMembers(result);
-        }
-      }
-    },
-    [id],
-  );
+  const {
+    data: members,
+    fetchNextPage,
+    isFetchingNextPage,
+    status,
+    refetch: refetchMembers,
+  } = useGetInfiniteSessionMembers(id, selectedPart);
 
-  useEffect(() => {
-    if (!router.isReady) return;
-
-    getSessionData();
-    getSessionMemberData();
-  }, [getSessionData, getSessionMemberData, router.isReady]);
+  useObserver({
+    target: bottomRef,
+    fetchNextPage,
+  });
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
-    getSessionMemberData(part);
   };
 
   const onChangeStatus = async (
@@ -99,9 +87,7 @@ function SessionDetailPage() {
         alert(result.error);
       } else {
         setChangedMembers([...changedMembers, member]);
-        selectedPart === 'ALL'
-          ? await getSessionMemberData()
-          : await getSessionMemberData(selectedPart);
+        refetchMembers();
       }
     }
   };
@@ -114,7 +100,7 @@ function SessionDetailPage() {
       setChangedMembers(
         changedMembers.filter((member) => member.member.memberId !== memberId),
       );
-      await getSessionData();
+      refetchSession();
     }
   };
 
@@ -130,8 +116,8 @@ function SessionDetailPage() {
 
   const finishAttendance = () => {
     setModal(null);
-    getSessionData();
-    getSessionMemberData();
+    refetchSession();
+    refetchMembers();
   };
 
   const closeAttendance = async () => {
@@ -141,8 +127,8 @@ function SessionDetailPage() {
     if (res) {
       const result = id && (await updateAttendance(id));
       if (result) {
-        getSessionData();
-        getSessionMemberData();
+        refetchSession();
+        refetchMembers();
         setChangedMembers([]);
         alert('출석 점수가 갱신되었어요');
       } else {
@@ -151,28 +137,28 @@ function SessionDetailPage() {
     }
   };
 
-  if (!id) return;
-  if (!session) return <Loading />;
   return (
     <StPageWrapper>
-      <StPageHeader>
-        <div className="session-info">
-          <h2>
-            <strong>{session.name}</strong> 출석 관리
-          </h2>
-          <div className="attendance-info">
-            <p>출석 {session.attendances.attendance}</p>
-            <p>지각 {session.attendances.tardy}</p>
-            <p>결석 {session.attendances.absent}</p>
-            <p>미정 {session.attendances.unknown}</p>
+      {session && (
+        <StPageHeader>
+          <div className="session-info">
+            <h2>
+              <strong>{session.name}</strong> 출석 관리
+            </h2>
+            <div className="attendance-info">
+              <p>출석 {session.attendances.attendance}</p>
+              <p>지각 {session.attendances.tardy}</p>
+              <p>결석 {session.attendances.absent}</p>
+              <p>미정 {session.attendances.unknown}</p>
+            </div>
           </div>
-        </div>
-        {session.part === 'ALL' && (
-          <PartFilter selected={selectedPart} onChangePart={onChangePart} />
-        )}
-      </StPageHeader>
+          {session.part === 'ALL' && (
+            <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+          )}
+        </StPageHeader>
+      )}
 
-      {members.length > 0 ? (
+      {session && members ? (
         <ListWrapper tableWidth={TABLE_WIDTH}>
           <thead>
             <tr>
@@ -182,100 +168,107 @@ function SessionDetailPage() {
             </tr>
           </thead>
           <tbody>
-            {members.map((member, index) => {
-              const firstRound =
-                member.attendances.find((item) => item.round === 1) ??
-                attendanceInit;
-              const secondRound =
-                member.attendances.find((item) => item.round === 2) ??
-                attendanceInit;
-              const firstRoundTime = dayjs(firstRound.updateAt).format(
-                'YYYY/MM/DD HH:mm',
-              );
-              const secondRoundTime = dayjs(secondRound.updateAt).format(
-                'YYYY/MM/DD HH:mm',
-              );
-              return (
-                <tr
-                  key={member.member.memberId}
-                  className={isChangedMember(member) ? 'focused' : ''}>
-                  <td>{precision(index + 1, 2)}</td>
-                  <td className="member-name">{member.member.name}</td>
-                  <td className="member-university">
-                    {member.member.university}
-                  </td>
-                  <td>
-                    <Select
-                      selected={firstRound.status}
-                      options={attendanceOptions}
-                      onChange={(value) =>
-                        onChangeStatus(
-                          value,
-                          member,
-                          firstRound.subAttendanceId,
-                        )
-                      }
-                    />
-                  </td>
-                  <td className="member-date">{firstRoundTime}</td>
-                  <td>
-                    <Select
-                      selected={secondRound.status}
-                      options={attendanceOptions}
-                      onChange={(value) =>
-                        onChangeStatus(
-                          value,
-                          member,
-                          secondRound.subAttendanceId,
-                        )
-                      }
-                    />
-                  </td>
-                  <td className="member-date">{secondRoundTime}</td>
-                  <td>{addPlus(member.updatedScore)}점</td>
-                  <td className="member-update">
-                    {session.status === 'END' && isChangedMember(member) && (
-                      <button
-                        onClick={() => onUpdateScore(member.member.memberId)}>
-                        갱신
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+            {members.pages.map((pageMembers, pageIndex) =>
+              pageMembers.map((member, index) => {
+                const firstRound =
+                  member.attendances.find((item) => item.round === 1) ??
+                  attendanceInit;
+                const secondRound =
+                  member.attendances.find((item) => item.round === 2) ??
+                  attendanceInit;
+                const firstRoundTime = dayjs(firstRound.updateAt).format(
+                  'YYYY/MM/DD HH:mm',
+                );
+                const secondRoundTime = dayjs(secondRound.updateAt).format(
+                  'YYYY/MM/DD HH:mm',
+                );
+                return (
+                  <tr
+                    key={member.member.memberId}
+                    className={isChangedMember(member) ? 'focused' : ''}>
+                    <td>{precision(pageIndex * PAGE_SIZE + index + 1, 2)}</td>
+                    <td className="member-name">{member.member.name}</td>
+                    <td className="member-university">
+                      {member.member.university}
+                    </td>
+                    <td>
+                      <Select
+                        selected={firstRound.status}
+                        options={attendanceOptions}
+                        onChange={(value) =>
+                          onChangeStatus(
+                            value,
+                            member,
+                            firstRound.subAttendanceId,
+                          )
+                        }
+                      />
+                    </td>
+                    <td className="member-date">{firstRoundTime}</td>
+                    <td>
+                      <Select
+                        selected={secondRound.status}
+                        options={attendanceOptions}
+                        onChange={(value) =>
+                          onChangeStatus(
+                            value,
+                            member,
+                            secondRound.subAttendanceId,
+                          )
+                        }
+                      />
+                    </td>
+                    <td className="member-date">{secondRoundTime}</td>
+                    <td>{addPlus(member.updatedScore)}점</td>
+                    <td className="member-update">
+                      {session.status === 'END' && isChangedMember(member) && (
+                        <button
+                          onClick={() => onUpdateScore(member.member.memberId)}>
+                          갱신
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              }),
+            )}
           </tbody>
         </ListWrapper>
       ) : (
         <p className="empty">데이터가 없어요</p>
       )}
 
-      <Footer>
-        <StFooterContents>
-          <div className="button-wrap">
-            <Button
-              type="submit"
-              text="1차 출석 시작하기"
-              disabled={session.status !== 'BEFORE'}
-              onClick={() => startAttendance(1)}
-            />
-            <Button
-              type="submit"
-              text="2차 출석 시작하기"
-              disabled={session.status !== 'FIRST'}
-              onClick={() => startAttendance(2)}
-            />
-          </div>
-          <Button
-            type="submit"
-            text="출석 종료하기"
-            disabled={session.status !== 'SECOND'}
-            onClick={closeAttendance}
-          />
-        </StFooterContents>
-      </Footer>
+      <div ref={bottomRef} />
+      {isFetchingNextPage && <Loading />}
 
-      {modal && (
+      {session && (
+        <Footer>
+          <StFooterContents>
+            <div className="button-wrap">
+              <Button
+                type="submit"
+                text="1차 출석 시작하기"
+                disabled={session.status !== 'BEFORE'}
+                onClick={() => startAttendance(1)}
+              />
+              <Button
+                type="submit"
+                text="2차 출석 시작하기"
+                disabled={session.status !== 'FIRST'}
+                onClick={() => startAttendance(2)}
+              />
+            </div>
+            <Button
+              type="submit"
+              text="출석 종료하기"
+              disabled={session.status !== 'SECOND'}
+              onClick={closeAttendance}
+            />
+          </StFooterContents>
+        </Footer>
+      )}
+
+      {session && modal && (
         <Modal>
           <AttendanceModal
             round={modal}
@@ -284,6 +277,8 @@ function SessionDetailPage() {
           />
         </Modal>
       )}
+
+      {(isLoadingSession || status === 'loading') && <Loading />}
     </StPageWrapper>
   );
 }
