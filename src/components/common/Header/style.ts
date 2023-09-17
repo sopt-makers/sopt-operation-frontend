@@ -47,9 +47,9 @@ export const StHeader = styled.header`
       border-radius: 4rem;
     }
     &.logout > p:hover {
-      color: ${({ theme }) => theme.color.main.purple100};
-      background: ${({ theme }) => theme.color.main.purpledim20};
-      border: 0.1rem solid ${({ theme }) => theme.color.main.purple40};
+      color: ${({ theme }) => theme.color.grayscale.black40};
+      background: ${({ theme }) => theme.color.grayscale.gray20};
+      border: 0.1rem solid ${({ theme }) => theme.color.grayscale.gray60};
     }
   }
 `;

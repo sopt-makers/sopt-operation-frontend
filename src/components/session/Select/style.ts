@@ -31,7 +31,7 @@ export const StOptions = styled.ul`
     border-radius: 0.6rem;
     padding: 0.9rem 1.7rem;
     &:hover {
-      background-color: rgba(198, 169, 255, 0.2);
+      background-color: ${({ theme }) => theme.color.grayscale.gray20};
       cursor: pointer;
     }
   }

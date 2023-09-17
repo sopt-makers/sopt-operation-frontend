@@ -22,10 +22,10 @@ function IcCheckBox(props: Props) {
           width="9.14286"
           height="9.14286"
           rx="4.57143"
-          fill="#8040FF"
+          fill="#346DFF"
         />
       )}
-      <rect x="0.5" y="0.5" width="15" height="15" rx="7.5" stroke="#8040FF" />
+      <rect x="0.5" y="0.5" width="15" height="15" rx="7.5" stroke="#346DFF" />
     </svg>
   );
 }

@@ -19,7 +19,7 @@ export const FilterButtonItem = styled.button<{ selected: boolean }>`
       ? css`
           font-weight: 600;
           color: ${theme.color.grayscale.gray10};
-          background-color: ${theme.color.main.purple100};
+          background-color: ${theme.color.grayscale.black60};
         `
       : css`
           font-weight: 400;

@@ -53,15 +53,14 @@ export const StList = styled.table<{ tableWidth: string[] }>`
         display: inline-block;
 
         padding: 0.5rem 0.9rem;
-        border: 0.1rem solid ${({ theme }) => theme.color.main.purple40};
+        border: 0.1rem solid ${({ theme }) => theme.color.grayscale.gray60};
         border-radius: 1.6rem;
-        background-color: ${({ theme }) => theme.color.main.purpledim20};
-        color: ${({ theme }) => theme.color.main.purple100};
+        background-color: ${({ theme }) => theme.color.grayscale.gray20};
+        color: ${({ theme }) => theme.color.grayscale.black40};
 
         cursor: pointer;
         &:hover {
           transform: scale(1.15);
-          border: 1px solid ${({ theme }) => theme.color.main.purple100};
         }
       }
     }
@@ -69,7 +68,7 @@ export const StList = styled.table<{ tableWidth: string[] }>`
   .focused > td,
   .focused > td:first-of-type,
   .focused > td:last-of-type {
-    border-color: ${({ theme }) => theme.color.main.purple100};
+    border-color: ${({ theme }) => theme.color.grayscale.black40};
     border-width: 1px;
   }
 `;

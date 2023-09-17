@@ -166,9 +166,9 @@ function CreateSessionModal(props: Props) {
         <StInformationSection>
           <StPartSelector onClick={() => setIsPartOpen(!isPartOpen)}>
             <StSelectedPart
-              textColor={part === '파트선택' ? '#606265' : '#8040FF'}>
+              textColor={part === '파트선택' ? '#606265' : '#0F1010'}>
               {part}
-              <IcDropdown color={part === '파트선택' ? '#606265' : '#8040FF'} />
+              <IcDropdown color={part === '파트선택' ? '#606265' : '#0F1010'} />
             </StSelectedPart>
             {isPartOpen && (
               <DropDown

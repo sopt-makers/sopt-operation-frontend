@@ -20,7 +20,7 @@ export const StyledLoading = styled.div`
     border-radius: 100%;
     border: 4px solid white;
     border-width: 4px;
-    border-top-color: ${({ theme }) => theme.color.main.purple100};
+    border-top-color: ${({ theme }) => theme.color.grayscale.black100};
     animation: spin 1s linear infinite;
   }
   @keyframes spin {

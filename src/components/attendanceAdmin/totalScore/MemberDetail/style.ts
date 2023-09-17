@@ -28,7 +28,7 @@ export const StModalWrap = styled.div`
       line-height: 3.4rem;
       color: ${({ theme }) => theme.color.grayscale.black80};
       span {
-        color: ${({ theme }) => theme.color.main.purple100};
+        color: ${({ theme }) => theme.color.main.orange50};
         margin-left: 0.8rem;
       }
     }
@@ -45,7 +45,7 @@ export const StModalWrap = styled.div`
       width: 3px;
     }
     &::-webkit-scrollbar-thumb {
-      background: ${({ theme }) => theme.color.main.purple40};
+      background: ${({ theme }) => theme.color.grayscale.gray30};
       border-radius: 3px;
     }
     &::-webkit-scrollbar-track {

@@ -66,18 +66,20 @@ export const StMenu = styled.div<{ currentPage: boolean | undefined }>`
 
     text-align: center;
     color: ${({ theme, currentPage }) =>
-      currentPage ? theme.color.main.purple100 : theme.color.grayscale.gray60};
+      currentPage
+        ? theme.color.grayscale.white100
+        : theme.color.grayscale.gray60};
     background: ${({ theme, currentPage }) =>
       currentPage
-        ? theme.color.main.purpledim20
+        ? theme.color.grayscale.black40
         : theme.color.grayscale.gray10};
     border-radius: 8rem;
 
     cursor: pointer;
 
     &:hover {
-      color: ${({ theme }) => theme.color.main.purple100};
-      background: #c6a9ff33;
+      color: ${({ theme }) => theme.color.grayscale.white100};
+      background: ${({ theme }) => theme.color.grayscale.black40};
     }
   }
 `;
@@ -96,14 +98,14 @@ export const StSubMenu = styled.p<{
   letter-spacing: -0.02em;
 
   color: ${({ theme, currentPage }) =>
-    currentPage ? theme.color.main.purple100 : theme.color.grayscale.gray60};
+    currentPage ? theme.color.grayscale.black40 : theme.color.grayscale.gray60};
 
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.color.main.purple40};
+    color: ${({ theme }) => theme.color.grayscale.black40};
   }
   &:active {
-    color: ${({ theme }) => theme.color.main.purple100};
+    color: ${({ theme }) => theme.color.grayscale.black40};
   }
 `;

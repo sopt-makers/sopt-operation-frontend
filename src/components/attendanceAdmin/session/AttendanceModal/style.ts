@@ -23,7 +23,7 @@ export const StAttendanceModal = styled.div`
     font-size: 4.8rem;
     font-weight: 600;
     line-height: 140%;
-    color: ${({ theme }) => theme.color.main.purple100};
+    color: ${({ theme }) => theme.color.grayscale.black40};
     margin-bottom: 2rem;
     &-warn {
       color: ${({ theme }) => theme.color.sub.red};
@@ -38,12 +38,13 @@ export const StAttendanceModal = styled.div`
       width: 8.2rem;
       height: 11.2rem;
       border-radius: 0.8rem;
-      border: 2px solid ${({ theme }) => theme.color.main.purple100};
+      border: 2px solid ${({ theme }) => theme.color.grayscale.black40};
+      background-color: ${({ theme }) => theme.color.grayscale.gray10};
       display: flex;
       justify-content: center;
       align-items: center;
       & > p {
-        color: ${({ theme }) => theme.color.main.purple100};
+        color: ${({ theme }) => theme.color.grayscale.black80};
         font-size: 4rem;
         font-weight: 700;
       }

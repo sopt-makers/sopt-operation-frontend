@@ -20,15 +20,15 @@ export const StTbody = styled.tbody`
   & > tr {
     &:hover {
       & > td {
-        border-top: 1px solid ${({ theme }) => theme.color.main.purple100};
-        border-bottom: 1px solid ${({ theme }) => theme.color.main.purple100};
+        border-top: 1px solid ${({ theme }) => theme.color.grayscale.black40};
+        border-bottom: 1px solid ${({ theme }) => theme.color.grayscale.black40};
       }
       & > td:first-of-type {
-        border: 1px solid ${({ theme }) => theme.color.main.purple100};
+        border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
         border-right: none;
       }
       & > td:last-of-type {
-        border: 1px solid ${({ theme }) => theme.color.main.purple100};
+        border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
         border-left: none;
       }
     }
@@ -54,10 +54,10 @@ export const StSessionIndicator = styled(IndicatorStructure)<{
 }>`
   background-color: ${({ theme, attributeName }) =>
     attributeName === '세미나'
-      ? theme.color.main.purple100
+      ? theme.color.grayscale.black100
       : attributeName === '행사'
-      ? theme.color.main.purple40
-      : theme.color.main.purpledim100};
+      ? theme.color.grayscale.black40
+      : theme.color.grayscale.gray40};
 `;
 
 export const StSessionName = styled.p`

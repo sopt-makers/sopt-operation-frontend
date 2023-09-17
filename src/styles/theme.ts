@@ -1,6 +1,8 @@
 const theme = {
   color: {
     main: {
+      orange50: '#FF6E1D',
+      blue50: '#346DFF',
       purple100: '#8040FF',
       purple40: '#C6A9FF',
       purpledim100: '#282039',

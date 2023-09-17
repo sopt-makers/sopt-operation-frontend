@@ -121,7 +121,7 @@ export const StInput = styled.input<{ hasValue?: boolean }>`
     color: ${({ theme }) => theme.color.grayscale.gray30};
   }
   &:focus {
-    outline: ${({ theme }) => theme.color.main.purple100} solid 1px;
+    outline: ${({ theme }) => theme.color.grayscale.black40} solid 1px;
   }
 `;
 

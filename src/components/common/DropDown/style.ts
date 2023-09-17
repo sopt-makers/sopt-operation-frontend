@@ -36,7 +36,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
     & > p {
       padding: 0.75rem 0 0.75rem 0.5rem;
 
-      color: ${({ theme }) => theme.color.grayscale.black40};
+      color: ${({ theme }) => theme.color.grayscale.black60};
       font-weight: 500;
       font-size: 16px;
       line-height: 100%;
@@ -45,7 +45,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
       border-radius: 0.6rem;
 
       &:hover {
-        background-color: ${({ theme }) => theme.color.main.purpledim20};
+        background-color: ${({ theme }) => theme.color.grayscale.gray20};
 
         cursor: pointer;
       }

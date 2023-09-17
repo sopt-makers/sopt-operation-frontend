@@ -25,8 +25,8 @@ export const StButton = styled.button<Pick<Props, 'type'>>`
         `
       : type === 'submit'
       ? css`
-          background-color: ${theme.color.main.purple100};
-          border: 1px solid ${theme.color.main.purple100};
+          background-color: ${theme.color.grayscale.black100};
+          border: 1px solid ${theme.color.grayscale.black100};
           color: ${theme.color.grayscale.white100};
         `
       : css`

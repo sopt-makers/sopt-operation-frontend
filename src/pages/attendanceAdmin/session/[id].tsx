@@ -309,10 +309,10 @@ const StPageWrapper = styled.div`
       font-size: 1.2rem;
       font-weight: 500;
       padding: 0.6rem 1rem;
-      border: 1px solid ${({ theme }) => theme.color.main.purple40};
+      border: 1px solid ${({ theme }) => theme.color.grayscale.gray60};
       border-radius: 16px;
-      background-color: rgba(198, 169, 255, 0.2);
-      color: ${({ theme }) => theme.color.main.purple100};
+      background-color: ${({ theme }) => theme.color.grayscale.gray20};
+      color: ${({ theme }) => theme.color.grayscale.black40};
     }
   }
   .empty {
