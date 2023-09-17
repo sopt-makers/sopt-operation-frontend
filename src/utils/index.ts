@@ -7,3 +7,22 @@ export const precision = (num: number, precisionNum: number) => {
 };
 
 export const addPlus = (num: number) => (num < 0 ? num : `+${num}`);
+
+export const buildQuery = (
+  queries: Record<string, string | undefined | null>,
+): string => {
+  const query = new URLSearchParams();
+
+  Object.entries(queries).forEach(([key, value]) => {
+    value && query.append(key, value);
+  });
+
+  return query.toString() ? `?${query.toString()}` : '';
+};
+
+export const getQuery = (url: string, key: string) => {
+  const queryString = `?${url?.split('?')[1]}`;
+  const params = new URLSearchParams(queryString);
+
+  return params.get(key) || undefined;
+};

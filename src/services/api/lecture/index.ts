@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import { client } from '@/services/api/client';
+import { buildQuery } from '@/utils';
 
 export const postNewSession = async (
   sessionData: SessionBase,
@@ -51,9 +52,14 @@ export const getSessionDetail = async (lectureId: number) => {
   return data.data;
 };
 
-export const getSessionMembers = async (lectureId: number, part?: PART) => {
+export const getSessionMembers = async (
+  page: number,
+  lectureId: number,
+  part?: PART,
+) => {
+  const query = buildQuery({ part, page: `${page}` });
   const { data }: AxiosResponse<{ data: SessionMember[] }> = await client.get(
-    `/attendances/lecture/${lectureId}${part ? `?part=${part}` : ''}`,
+    `/attendances/lecture/${lectureId}${query}`,
   );
   return data.data;
 };
