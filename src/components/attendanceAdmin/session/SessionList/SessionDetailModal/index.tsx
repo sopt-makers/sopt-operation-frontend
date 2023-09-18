@@ -21,7 +21,7 @@ interface Props {
 
 const SessionDetailModal = (props: Props) => {
   const { onClose, lectureId } = props;
-  const { data, isLoading } = useGetLectureDetail(lectureId);
+  const { data } = useGetLectureDetail(lectureId);
 
   const date = useDateFormat(data?.startDate, 'date');
   const startTime = useDateFormat(data?.startDate, 'time');
@@ -48,10 +48,6 @@ const SessionDetailModal = (props: Props) => {
         return '출석 점수 미반영';
     }
   };
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <>
