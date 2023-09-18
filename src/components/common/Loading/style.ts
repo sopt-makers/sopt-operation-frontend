@@ -2,8 +2,9 @@ import styled from '@emotion/styled';
 
 import zIndex from '@/utils/zIndex';
 
-export const StyledLoading = styled.div`
-  background: rgba(0, 0, 0, 0.4);
+export const StyledLoading = styled.div<{ dimmed: boolean }>`
+  background: ${({ dimmed }) =>
+    dimmed ? 'rgba(0, 0, 0, 0.4)' : 'transparent'};
   width: 100%;
   height: 100vh;
   position: fixed;

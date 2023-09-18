@@ -2,7 +2,13 @@ import { useEffect } from 'react';
 
 import { StyledLoading } from './style';
 
-function Loading() {
+interface Props {
+  dimmed?: boolean;
+}
+
+function Loading(props: Props) {
+  const { dimmed = true } = props;
+
   useEffect(() => {
     const body = document.querySelector('body');
 
@@ -17,7 +23,7 @@ function Loading() {
   }, []);
 
   return (
-    <StyledLoading>
+    <StyledLoading dimmed={dimmed}>
       <div />
     </StyledLoading>
   );
