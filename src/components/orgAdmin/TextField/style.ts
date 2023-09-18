@@ -30,7 +30,7 @@ export const StTextField = styled.textarea<StyledTextAreaProps>`
   align-items: center;
 
   &:focus {
-    border: 1px solid ${({ theme }) => theme.color.main.purple100};
+    border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
   }
 
   &::placeholder {
