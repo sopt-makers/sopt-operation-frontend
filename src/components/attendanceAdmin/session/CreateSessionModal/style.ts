@@ -166,7 +166,7 @@ export const StDatePickerInput = styled.div<{ hasValue?: boolean }>`
           letter-spacing: -0.02em;
         }
         &:focus {
-          outline: ${({ theme }) => theme.color.main.purple100} solid 1px;
+          outline: ${({ theme }) => theme.color.grayscale.black40} solid 1px;
         }
       }
     }
