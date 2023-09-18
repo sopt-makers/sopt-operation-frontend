@@ -87,39 +87,41 @@ function MemberList() {
           </tr>
         </thead>
         <tbody>
-          {members?.pages.map((pageMembers, pageIndex) =>
-            pageMembers.map((member, index) => {
-              const { part, name, university, score, total } = member;
-              const { attendance, tardy, absent, participate } = total;
-              const partName = getPartValue(partTranslator, part) || part;
+          {members?.pages.map(
+            (pageMembers, pageIndex) =>
+              pageMembers &&
+              pageMembers.map((member, index) => {
+                const { part, name, university, score, total } = member;
+                const { attendance, tardy, absent, participate } = total;
+                const partName = getPartValue(partTranslator, part) || part;
 
-              return (
-                <tr key={`${name}-${university}`}>
-                  <td>{precision(pageIndex * PAGE_SIZE + index + 1, 2)}</td>
-                  <td className="identify">
-                    <StMemberName>{name}</StMemberName>
-                  </td>
-                  <td className="university">
-                    <StMemberUniversity>{university}</StMemberUniversity>
-                  </td>
-                  <td>{partName}</td>
-                  <td>{score}</td>
-                  <td className="attendance">{attendance}</td>
-                  <td className="attendance">{tardy}</td>
-                  <td className="attendance">{absent}</td>
-                  <td className="attendance">{participate}</td>
-                  <td onClick={() => onChangeMember(member)}>
-                    <span>조회</span>
-                  </td>
-                </tr>
-              );
-            }),
+                return (
+                  <tr key={`${name}-${university}`}>
+                    <td>{precision(pageIndex * PAGE_SIZE + index + 1, 2)}</td>
+                    <td className="identify">
+                      <StMemberName>{name}</StMemberName>
+                    </td>
+                    <td className="university">
+                      <StMemberUniversity>{university}</StMemberUniversity>
+                    </td>
+                    <td>{partName}</td>
+                    <td>{score}</td>
+                    <td className="attendance">{attendance}</td>
+                    <td className="attendance">{tardy}</td>
+                    <td className="attendance">{absent}</td>
+                    <td className="attendance">{participate}</td>
+                    <td onClick={() => onChangeMember(member)}>
+                      <span>조회</span>
+                    </td>
+                  </tr>
+                );
+              }),
           )}
         </tbody>
       </ListWrapper>
 
       <div ref={bottomRef} />
-      {isFetchingNextPage && <Loading />}
+      {isFetchingNextPage && <Loading dimmed={false} />}
 
       {status === 'loading' && <Loading />}
 

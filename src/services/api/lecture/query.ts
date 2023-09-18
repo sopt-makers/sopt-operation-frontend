@@ -1,4 +1,8 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+  useQuery,
+} from 'react-query';
 
 import { PAGE_SIZE } from '@/data/queryData';
 
@@ -36,18 +40,15 @@ export const useGetSessionDetail = (lectureId: number | null) => {
 export const useGetInfiniteSessionMembers = (
   lectureId: number | null,
   part?: PART,
-) => {
+): UseInfiniteQueryResult<SessionMember[]> => {
   return useInfiniteQuery(
     ['sessionMembers', lectureId, part],
     async ({ pageParam = 0 }) =>
-      await getSessionMembers(pageParam, lectureId ?? 0, part),
+      pageParam !== null &&
+      (await getSessionMembers(pageParam, lectureId ?? 0, part)),
     {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length < PAGE_SIZE) {
-          return null;
-        }
-        return pages.length;
-      },
+      getNextPageParam: (lastPage, pages) =>
+        lastPage && lastPage.length < PAGE_SIZE ? null : pages.length,
     },
   );
 };

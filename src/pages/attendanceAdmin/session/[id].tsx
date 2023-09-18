@@ -168,69 +168,74 @@ function SessionDetailPage() {
             </tr>
           </thead>
           <tbody>
-            {members.pages.map((pageMembers, pageIndex) =>
-              pageMembers.map((member, index) => {
-                const firstRound =
-                  member.attendances.find((item) => item.round === 1) ??
-                  attendanceInit;
-                const secondRound =
-                  member.attendances.find((item) => item.round === 2) ??
-                  attendanceInit;
-                const firstRoundTime = dayjs(firstRound.updateAt).format(
-                  'YYYY/MM/DD HH:mm',
-                );
-                const secondRoundTime = dayjs(secondRound.updateAt).format(
-                  'YYYY/MM/DD HH:mm',
-                );
-                return (
-                  <tr
-                    key={member.member.memberId}
-                    className={isChangedMember(member) ? 'focused' : ''}>
-                    <td>{precision(pageIndex * PAGE_SIZE + index + 1, 2)}</td>
-                    <td className="member-name">{member.member.name}</td>
-                    <td className="member-university">
-                      {member.member.university}
-                    </td>
-                    <td>
-                      <Select
-                        selected={firstRound.status}
-                        options={attendanceOptions}
-                        onChange={(value) =>
-                          onChangeStatus(
-                            value,
-                            member,
-                            firstRound.subAttendanceId,
-                          )
-                        }
-                      />
-                    </td>
-                    <td className="member-date">{firstRoundTime}</td>
-                    <td>
-                      <Select
-                        selected={secondRound.status}
-                        options={attendanceOptions}
-                        onChange={(value) =>
-                          onChangeStatus(
-                            value,
-                            member,
-                            secondRound.subAttendanceId,
-                          )
-                        }
-                      />
-                    </td>
-                    <td className="member-date">{secondRoundTime}</td>
-                    <td>{addPlus(member.updatedScore)}점</td>
-                    <td className="member-update">
-                      {session.status === 'END' && isChangedMember(member) && (
-                        <button
-                          onClick={() => onUpdateScore(member.member.memberId)}>
-                          갱신
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                );
-              }),
+            {members?.pages.map(
+              (pageMembers, pageIndex) =>
+                pageMembers &&
+                pageMembers.map((member, index) => {
+                  const firstRound =
+                    member.attendances.find((item) => item.round === 1) ??
+                    attendanceInit;
+                  const secondRound =
+                    member.attendances.find((item) => item.round === 2) ??
+                    attendanceInit;
+                  const firstRoundTime = dayjs(firstRound.updateAt).format(
+                    'YYYY/MM/DD HH:mm',
+                  );
+                  const secondRoundTime = dayjs(secondRound.updateAt).format(
+                    'YYYY/MM/DD HH:mm',
+                  );
+                  return (
+                    <tr
+                      key={member.member.memberId}
+                      className={isChangedMember(member) ? 'focused' : ''}>
+                      <td>{precision(pageIndex * PAGE_SIZE + index + 1, 2)}</td>
+                      <td className="member-name">{member.member.name}</td>
+                      <td className="member-university">
+                        {member.member.university}
+                      </td>
+                      <td>
+                        <Select
+                          selected={firstRound.status}
+                          options={attendanceOptions}
+                          onChange={(value) =>
+                            onChangeStatus(
+                              value,
+                              member,
+                              firstRound.subAttendanceId,
+                            )
+                          }
+                        />
+                      </td>
+                      <td className="member-date">{firstRoundTime}</td>
+                      <td>
+                        <Select
+                          selected={secondRound.status}
+                          options={attendanceOptions}
+                          onChange={(value) =>
+                            onChangeStatus(
+                              value,
+                              member,
+                              secondRound.subAttendanceId,
+                            )
+                          }
+                        />
+                      </td>
+                      <td className="member-date">{secondRoundTime}</td>
+                      <td>{addPlus(member.updatedScore)}점</td>
+                      <td className="member-update">
+                        {session.status === 'END' &&
+                          isChangedMember(member) && (
+                            <button
+                              onClick={() =>
+                                onUpdateScore(member.member.memberId)
+                              }>
+                              갱신
+                            </button>
+                          )}
+                      </td>
+                    </tr>
+                  );
+                }),
             )}
           </tbody>
         </ListWrapper>
@@ -239,7 +244,7 @@ function SessionDetailPage() {
       )}
 
       <div ref={bottomRef} />
-      {isFetchingNextPage && <Loading />}
+      {isFetchingNextPage && <Loading dimmed={false} />}
 
       {session && (
         <Footer>

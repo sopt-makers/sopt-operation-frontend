@@ -1,21 +1,20 @@
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, UseInfiniteQueryResult } from 'react-query';
 
 import { PAGE_SIZE } from '@/data/queryData';
 
 import { getMemberList } from './index';
 
-export const useGetInfiniteMemberList = (generation: number, part: PART) => {
+export const useGetInfiniteMemberList = (
+  generation: number,
+  part: PART,
+): UseInfiniteQueryResult<ScoreMember[]> => {
   return useInfiniteQuery(
     ['memberList', generation, part],
     async ({ pageParam = 0 }) =>
-      await getMemberList(pageParam, generation, part),
+      pageParam !== null && (await getMemberList(pageParam, generation, part)),
     {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length < PAGE_SIZE) {
-          return null;
-        }
-        return pages.length;
-      },
+      getNextPageParam: (lastPage, pages) =>
+        lastPage && lastPage.length < PAGE_SIZE ? null : pages.length,
     },
   );
 };
