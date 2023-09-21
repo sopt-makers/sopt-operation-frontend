@@ -61,6 +61,7 @@ export const StList = styled.table<{ tableWidth: string[] }>`
         cursor: pointer;
         &:hover {
           transform: scale(1.15);
+          border-color: ${({ theme }) => theme.color.grayscale.gray100};
         }
       }
     }

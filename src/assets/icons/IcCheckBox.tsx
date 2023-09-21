@@ -15,17 +15,22 @@ function IcCheckBox(props: Props) {
       xmlns="http://www.w3.org/2000/svg"
       onClick={onClick}>
       <rect x="0.5" y="0.5" width="15" height="15" rx="7.5" fill="#FCFCFC" />
-      {isChecked && (
-        <rect
-          x="3.42859"
-          y="3.42856"
-          width="9.14286"
-          height="9.14286"
-          rx="4.57143"
-          fill="#346DFF"
-        />
-      )}
-      <rect x="0.5" y="0.5" width="15" height="15" rx="7.5" stroke="#346DFF" />
+      <rect
+        x="3.42859"
+        y="3.42856"
+        width="9.14286"
+        height="9.14286"
+        rx="4.57143"
+        fill={isChecked ? '#346DFF' : ''}
+      />
+      <rect
+        x="0.5"
+        y="0.5"
+        width="15"
+        height="15"
+        rx="7.5"
+        stroke={isChecked ? '#346DFF' : '#989BA0'}
+      />
     </svg>
   );
 }
