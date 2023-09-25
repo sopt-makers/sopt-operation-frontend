@@ -1,19 +1,24 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import zIndex from '@/utils/zIndex';
 
-export const StyledLoading = styled.div<{ dimmed: boolean }>`
+export const StyledLoading = styled.div<{ dimmed: boolean; full: boolean }>`
   background: ${({ dimmed }) =>
     dimmed ? 'rgba(0, 0, 0, 0.4)' : 'transparent'};
-  width: 100%;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
+  ${({ full }) =>
+    full &&
+    css`
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: ${zIndex.dim};
+    `}
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: ${zIndex.dim};
 
   & > div {
     width: 4.8rem;

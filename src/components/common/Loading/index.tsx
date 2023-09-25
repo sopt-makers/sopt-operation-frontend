@@ -4,26 +4,27 @@ import { StyledLoading } from './style';
 
 interface Props {
   dimmed?: boolean;
+  full?: boolean;
 }
 
 function Loading(props: Props) {
-  const { dimmed = true } = props;
+  const { dimmed = true, full = true } = props;
 
   useEffect(() => {
     const body = document.querySelector('body');
 
-    if (body) {
+    if (body && full) {
       body.style.overflow = 'hidden';
     }
     return () => {
-      if (body) {
+      if (body && full) {
         body.style.overflow = 'scroll';
       }
     };
-  }, []);
+  }, [full]);
 
   return (
-    <StyledLoading dimmed={dimmed}>
+    <StyledLoading dimmed={dimmed} full={full}>
       <div />
     </StyledLoading>
   );

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
@@ -244,7 +244,7 @@ function SessionDetailPage() {
       )}
 
       <div ref={bottomRef} />
-      {isFetchingNextPage && <Loading dimmed={false} />}
+      {isFetchingNextPage && <Loading dimmed={false} full={false} />}
 
       {session && (
         <Footer>

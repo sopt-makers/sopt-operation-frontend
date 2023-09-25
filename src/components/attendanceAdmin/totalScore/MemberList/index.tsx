@@ -121,7 +121,7 @@ function MemberList() {
       </ListWrapper>
 
       <div ref={bottomRef} />
-      {isFetchingNextPage && <Loading dimmed={false} />}
+      {isFetchingNextPage && <Loading dimmed={false} full={false} />}
 
       {status === 'loading' && <Loading />}
 
