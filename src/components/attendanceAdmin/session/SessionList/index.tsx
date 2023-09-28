@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
+import ListActionButton from '@/components/common/ListActionButton';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
@@ -126,14 +127,13 @@ function SessionList() {
                 <td className="attendance">{absent}</td>
                 <td className="attendance">{unknown}</td>
                 <td>
-                  <span
-                    onClick={(event) => {
-                      event.stopPropagation();
+                  <ListActionButton
+                    text="조회"
+                    onClick={() => {
                       setSelectedLecture(lectureId);
                       setIsDetailOpen(true);
-                    }}>
-                    조회
-                  </span>
+                    }}
+                  />
                 </td>
               </tr>
             );

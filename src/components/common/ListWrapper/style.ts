@@ -47,23 +47,6 @@ export const StList = styled.table<{ tableWidth: string[] }>`
       border-bottom-right-radius: 1rem;
       border: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
       border-left: none;
-
-      & > span {
-        transition: transform 0.1s;
-        display: inline-block;
-
-        padding: 0.5rem 0.9rem;
-        border: 0.1rem solid ${({ theme }) => theme.color.grayscale.gray60};
-        border-radius: 1.6rem;
-        background-color: ${({ theme }) => theme.color.grayscale.gray20};
-        color: ${({ theme }) => theme.color.grayscale.black40};
-
-        cursor: pointer;
-        &:hover {
-          transform: scale(1.15);
-          border-color: ${({ theme }) => theme.color.grayscale.gray100};
-        }
-      }
     }
   }
   .focused > td,
