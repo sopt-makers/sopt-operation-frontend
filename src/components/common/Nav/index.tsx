@@ -31,6 +31,10 @@ function Nav() {
   const handleSelectedGeneration = (selectedGeneration: string) => {
     setCurrentGeneration(selectedGeneration);
     setIsDropdownOn(false);
+    const pathSegments = router.asPath.split('/');
+    if (pathSegments[pathSegments.length - 1].match(/^\d+$/)) {
+      router.push('/attendanceAdmin/session');
+    }
   };
 
   const handleSubMenuClick = (path: string) => {
