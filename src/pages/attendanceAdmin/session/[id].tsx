@@ -228,6 +228,7 @@ function SessionDetailPage() {
                       <td>{addPlus(member.updatedScore)}점</td>
                       <td className="member-update">
                         <ListActionButton
+                          onClick={() => onUpdateScore(member.member.memberId)}
                           text="갱신"
                           disabled={
                             !(
