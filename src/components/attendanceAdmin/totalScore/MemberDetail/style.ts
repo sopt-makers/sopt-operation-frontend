@@ -12,7 +12,7 @@ export const StModalWrap = styled.div`
     margin: 3.2rem 3.2rem 0 0;
   }
   header {
-    margin-top: 9.6rem;
+    margin-top: 3.2rem;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;

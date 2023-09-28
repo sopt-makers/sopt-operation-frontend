@@ -57,9 +57,6 @@ function MemberDetail(props: Props) {
   return (
     <Modal>
       <StModalWrap>
-        <button className="close-btn" onClick={() => onClose()}>
-          <IcModalClose />
-        </button>
         <header>
           <p className="member-name">
             {member.name}
@@ -68,6 +65,9 @@ function MemberDetail(props: Props) {
           <p className="member-part">{member.part}파트</p>
           <p className="member-university">{member.university}</p>
           <p className="member-phone">{member.phone}</p>
+          <button className="close-btn" onClick={() => onClose()}>
+            <IcModalClose />
+          </button>
         </header>
         <div className="list-head">
           <ListWrapper>

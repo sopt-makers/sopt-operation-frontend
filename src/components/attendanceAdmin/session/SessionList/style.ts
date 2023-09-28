@@ -52,6 +52,10 @@ export const StPartIndicator = styled(IndicatorStructure)`
 export const StSessionIndicator = styled(IndicatorStructure)<{
   attributeName: string;
 }>`
+  color: ${({ theme, attributeName }) =>
+    attributeName === '기타'
+      ? theme.color.grayscale.black60
+      : theme.color.grayscale.white100};
   background-color: ${({ theme, attributeName }) =>
     attributeName === '세미나'
       ? theme.color.grayscale.black100
