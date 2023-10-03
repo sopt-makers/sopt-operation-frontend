@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { IcNavMenu } from '@/assets/icons';
-import { currentGenerationState } from '@/recoil/atom';
+import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
 import { MENU_LIST } from '@/utils/nav';
 
 import DropDown from '../DropDown';
@@ -20,10 +19,7 @@ const GENERATION_LIST = ['33', '32'];
 
 function Nav() {
   const router = useRouter();
-  const currentGeneration = useRecoilValue(currentGenerationState);
-  const setCurrentGeneration = useSetRecoilState<string>(
-    currentGenerationState,
-  );
+  const [currentGeneration, setCurrentGeneration] = useRecoilGenerationSSR();
   const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);

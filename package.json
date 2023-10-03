@@ -34,6 +34,7 @@
     "react-hook-form": "^7.44.0",
     "react-query": "^3.39.3",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "typescript": "5.0.2"
   },
   "devDependencies": {
