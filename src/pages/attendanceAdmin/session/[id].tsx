@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
+import HelperText from '@/components/common/HelperText';
 import ListActionButton from '@/components/common/ListActionButton';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
@@ -269,12 +270,22 @@ function SessionDetailPage() {
                 onClick={() => startAttendance(2)}
               />
             </div>
-            <Button
-              type="submit"
-              text="출석 종료하기"
-              disabled={session.status !== 'SECOND'}
-              onClick={closeAttendance}
-            />
+            <div>
+              {session.status == 'SECOND' && (
+                <HelperText
+                  text={
+                    '추후에 출석 상태를 개별로 변경하실 수 있어요.\n출석이 대부분 진행되었다면 완료하세요!'
+                  }
+                  StWrapper={StHelperTextWrapper}
+                />
+              )}
+              <Button
+                type="submit"
+                text="출석 종료하기"
+                disabled={session.status !== 'SECOND'}
+                onClick={closeAttendance}
+              />
+            </div>
           </StFooterContents>
         </Footer>
       )}
@@ -359,6 +370,10 @@ const StFooterContents = styled.div`
     display: flex;
     gap: 2.4rem;
   }
+`;
+const StHelperTextWrapper = styled.div`
+  position: absolute;
+  transform: translate(-122px, -86px);
 `;
 
 export default SessionDetailPage;

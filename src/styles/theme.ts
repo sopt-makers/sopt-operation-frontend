@@ -7,6 +7,7 @@ const theme = {
       purple40: '#C6A9FF',
       purpledim100: '#282039',
       purpledim20: '#C6A9FF33',
+      newBlue: '#4B7EFF',
     },
     sub: {
       red: '#E45656',
