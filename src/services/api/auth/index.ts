@@ -31,6 +31,12 @@ export const reissueAccessToken = async (): Promise<void | LoginError> => {
   try {
     const { data }: AxiosResponse<{ data: string }> = await client.patch(
       '/auth/refresh',
+      {},
+      {
+        headers: {
+          'Reissue-Request': 'true',
+        },
+      },
     );
     const accessToken = data.data;
     setToken('ACCESS', accessToken);
