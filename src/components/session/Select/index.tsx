@@ -1,7 +1,9 @@
 import { useTheme } from '@emotion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import IcDropdown from '@/components/icons/IcDropdown';
+import { currentGenerationState } from '@/recoil/atom';
 import { attendanceTranslator, getAttendanceColor } from '@/utils/translator';
 
 import { StOptions, StSelect, StSelectWrap } from './style';
@@ -20,6 +22,8 @@ function Select(props: Props) {
   const optionsRef = useRef<HTMLUListElement>(null);
 
   const [showOptions, setShowOptions] = useState(false);
+
+  const currentGeneration = useRecoilValue(currentGenerationState);
 
   const toggleOptions = useCallback(() => {
     setShowOptions(!showOptions);
@@ -49,9 +53,9 @@ function Select(props: Props) {
         <p style={{ color: getAttendanceColor(selected) }}>
           {attendanceTranslator[selected]}
         </p>
-        <IcDropdown />
+        {currentGeneration === '33' && <IcDropdown />}
       </StSelect>
-      {showOptions && (
+      {showOptions && currentGeneration === '33' && (
         <StOptions ref={optionsRef}>
           {options.map((option) => (
             <li key={option.value} onClick={() => onClickOption(option.value)}>

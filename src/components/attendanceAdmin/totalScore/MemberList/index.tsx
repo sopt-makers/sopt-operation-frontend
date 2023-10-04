@@ -1,6 +1,7 @@
 import { RefObject, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
+import ListActionButton from '@/components/common/ListActionButton';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
@@ -110,8 +111,11 @@ function MemberList() {
                     <td className="attendance">{tardy}</td>
                     <td className="attendance">{absent}</td>
                     <td className="attendance">{participate}</td>
-                    <td onClick={() => onChangeMember(member)}>
-                      <span>조회</span>
+                    <td>
+                      <ListActionButton
+                        text="조회"
+                        onClick={() => onChangeMember(member)}
+                      />
                     </td>
                   </tr>
                 );

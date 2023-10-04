@@ -2,10 +2,12 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { RefObject, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
 import Footer from '@/components/common/Footer';
+import ListActionButton from '@/components/common/ListActionButton';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
@@ -14,6 +16,7 @@ import Select from '@/components/session/Select';
 import { PAGE_SIZE } from '@/data/queryData';
 import { attendanceInit, attendanceOptions } from '@/data/sessionData';
 import useObserver from '@/hooks/useObserver';
+import { currentGenerationState } from '@/recoil/atom';
 import {
   updateMemberAttendStatus,
   updateMemberScore,
@@ -47,6 +50,7 @@ function SessionDetailPage() {
   const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [modal, setModal] = useState<number | null>(null);
   const bottomRef: RefObject<HTMLDivElement> = useRef(null);
+  const currentGeneration = useRecoilValue(currentGenerationState);
 
   const {
     data: session,
@@ -223,15 +227,17 @@ function SessionDetailPage() {
                       <td className="member-date">{secondRoundTime}</td>
                       <td>{addPlus(member.updatedScore)}점</td>
                       <td className="member-update">
-                        {session.status === 'END' &&
-                          isChangedMember(member) && (
-                            <button
-                              onClick={() =>
-                                onUpdateScore(member.member.memberId)
-                              }>
-                              갱신
-                            </button>
-                          )}
+                        <ListActionButton
+                          onClick={() => onUpdateScore(member.member.memberId)}
+                          text="갱신"
+                          disabled={
+                            !(
+                              session.status === 'END' &&
+                              isChangedMember(member) &&
+                              currentGeneration === '33'
+                            )
+                          }
+                        />
                       </td>
                     </tr>
                   );
@@ -304,15 +310,6 @@ const StPageWrapper = styled.div`
     }
     &-date {
       color: ${({ theme }) => theme.color.grayscale.gray80};
-    }
-    &-update button {
-      font-size: 1.2rem;
-      font-weight: 500;
-      padding: 0.6rem 1rem;
-      border: 1px solid ${({ theme }) => theme.color.grayscale.gray60};
-      border-radius: 16px;
-      background-color: ${({ theme }) => theme.color.grayscale.gray20};
-      color: ${({ theme }) => theme.color.grayscale.black40};
     }
   }
   .empty {
