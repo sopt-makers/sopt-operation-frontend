@@ -271,12 +271,14 @@ function SessionDetailPage() {
               />
             </div>
             <div>
-              <HelperText
-                text={
-                  '추후에 출석 상태를 개별로 변경하실 수 있어요.\n출석이 대부분 진행되었다면 완료하세요!'
-                }
-                StWrapper={StHelperTextWrapper}
-              />
+              {session.status == 'SECOND' && (
+                <HelperText
+                  text={
+                    '추후에 출석 상태를 개별로 변경하실 수 있어요.\n출석이 대부분 진행되었다면 완료하세요!'
+                  }
+                  StWrapper={StHelperTextWrapper}
+                />
+              )}
               <Button
                 type="submit"
                 text="출석 종료하기"
