@@ -36,7 +36,7 @@ const useObserver = (props: UseObserver) => {
     }
 
     return () => observer && observer.disconnect();
-  }, [target, rootMargin, threshold]);
+  }, [rootMargin, threshold]);
 };
 
 export default useObserver;
