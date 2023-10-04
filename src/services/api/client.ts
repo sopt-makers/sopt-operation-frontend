@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import config from '@/configs/config';
-import { getAuthHeader, getToken } from '@/utils/auth';
+import { destroyToken, getAuthHeader, getToken } from '@/utils/auth';
 
 import { reissueAccessToken } from './auth';
 
@@ -55,6 +55,10 @@ client.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 400:
+          if (error?.config?.headers['Reissue-Request']) {
+            destroyToken('ACCESS');
+            window.location.replace('/');
+          }
           return { status: 400, error: '요청을 처리하는데 실패했어요' };
         case 401:
           await reissueAccessToken();
