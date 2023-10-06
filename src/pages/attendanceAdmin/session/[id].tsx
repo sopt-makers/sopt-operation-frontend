@@ -281,7 +281,7 @@ function SessionDetailPage() {
               )}
               <Button
                 type="submit"
-                text="출석 종료하기"
+                text="출석 완료하기"
                 disabled={session.status !== 'SECOND'}
                 onClick={closeAttendance}
               />
