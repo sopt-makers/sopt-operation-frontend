@@ -19,7 +19,7 @@ function SessionListFooter(props: Props) {
       <Button
         onClick={onClick}
         type={'submit'}
-        disabled={currentGeneration !== ACTIVITY_GENRATION ? true : false}
+        disabled={currentGeneration !== ACTIVITY_GENRATION}
         text={'세션 생성하기'}
       />
     </StFooterWrapper>
