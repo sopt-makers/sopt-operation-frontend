@@ -26,7 +26,7 @@ import {
   useGetSessionDetail,
 } from '@/services/api/lecture/query';
 import { addPlus, precision } from '@/utils';
-import { activityGeneration } from '@/utils/activityGeneration';
+import { ACTIVITY_GENRATION } from '@/utils/generation';
 
 const HEADER_LABELS = [
   '순번',
@@ -235,7 +235,7 @@ function SessionDetailPage() {
                             !(
                               session.status === 'END' &&
                               isChangedMember(member) &&
-                              String(session.generation) === activityGeneration
+                              String(session.generation) === ACTIVITY_GENRATION
                             )
                           }
                         />

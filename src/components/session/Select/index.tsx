@@ -2,7 +2,7 @@ import { useTheme } from '@emotion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import IcDropdown from '@/components/icons/IcDropdown';
-import { activityGeneration } from '@/utils/activityGeneration';
+import { ACTIVITY_GENRATION } from '@/utils/generation';
 import { attendanceTranslator, getAttendanceColor } from '@/utils/translator';
 
 import { StOptions, StSelect, StSelectWrap } from './style';
@@ -49,9 +49,9 @@ function Select(props: Props) {
         <p style={{ color: getAttendanceColor(selected) }}>
           {attendanceTranslator[selected]}
         </p>
-        {generation === activityGeneration && <IcDropdown />}
+        {generation === ACTIVITY_GENRATION && <IcDropdown />}
       </StSelect>
-      {showOptions && generation === activityGeneration && (
+      {showOptions && generation === ACTIVITY_GENRATION && (
         <StOptions ref={optionsRef}>
           {options.map((option) => (
             <li key={option.value} onClick={() => onClickOption(option.value)}>
