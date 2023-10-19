@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
@@ -33,21 +34,26 @@ function AttendanceModal(props: Props) {
       }
     })();
 
-    let minutes = MINUTES;
-    let seconds = SECONDS;
+    const startedAt = dayjs();
 
     const id = setInterval(() => {
-      if (minutes === 0 && seconds === 0) {
+      const now = dayjs();
+      const diff = now.diff(startedAt);
+      const elapsedMinutes = Math.floor(diff / (60 * 1000));
+      const elapsedSeconds = Math.floor((diff % (60 * 1000)) / 1000);
+
+      if (elapsedMinutes >= MINUTES) {
         clearInterval(id);
         setIsFinished(true);
-      } else if (seconds === 0) {
-        minutes -= 1;
-        seconds = 59;
+        setTimer({ minutes: 0, seconds: 0 });
       } else {
-        seconds -= 1;
+        setTimer({
+          minutes: MINUTES - elapsedMinutes - (elapsedSeconds === 0 ? 0 : 1),
+          seconds: (60 - elapsedSeconds) % 60,
+        });
       }
-      setTimer({ minutes, seconds });
     }, 1000);
+
     return () => clearInterval(id);
   }, []);
 
@@ -55,6 +61,15 @@ function AttendanceModal(props: Props) {
     const code = Math.floor(Math.random() * 99999 + 1) + '';
     const codeLength = code.length;
     return '0'.repeat(5 - codeLength) + code;
+  };
+
+  const onCloseModal = () => {
+    if (isFinished) {
+      finishAttendance();
+    } else {
+      const confirmed = confirm('출석을 조기 종료하시겠어요?');
+      confirmed && finishAttendance();
+    }
   };
 
   return (
@@ -80,12 +95,7 @@ function AttendanceModal(props: Props) {
           <p>출석을 정상적으로 종료하기 전에 창을 닫거나 이동하지 마세요!</p>
           <p>출석이 제대로 기록되지 않을 수 있어요.</p>
         </div>
-        <Button
-          type="submit"
-          text="출석 종료하기"
-          onClick={finishAttendance}
-          disabled={!isFinished}
-        />
+        <Button type="submit" text="출석 종료하기" onClick={onCloseModal} />
       </div>
     </StAttendanceModal>
   );
