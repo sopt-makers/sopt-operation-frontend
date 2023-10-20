@@ -2,6 +2,7 @@ import { useRecoilValue } from 'recoil';
 
 import Button from '@/components/common/Button';
 import { currentGenerationState } from '@/recoil/atom';
+import { ACTIVITY_GENRATION } from '@/utils/generation';
 
 import { StFooterWrapper } from './style';
 
@@ -18,7 +19,7 @@ function SessionListFooter(props: Props) {
       <Button
         onClick={onClick}
         type={'submit'}
-        disabled={currentGeneration !== '33' && true}
+        disabled={currentGeneration !== ACTIVITY_GENRATION}
         text={'세션 생성하기'}
       />
     </StFooterWrapper>
