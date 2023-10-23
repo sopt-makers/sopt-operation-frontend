@@ -1,10 +1,9 @@
 import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import InputContainer from '@/components/common/inputContainer';
-import Loading from '@/components/common/Loading';
-import { useDateFormat } from '@/hooks/useDateFormat';
 import { deleteSession } from '@/services/api/lecture';
 import { useGetLectureDetail } from '@/services/api/lecture/query';
+import { transDate } from '@/utils/date';
 
 import {
   StFooter,
@@ -23,9 +22,9 @@ const SessionDetailModal = (props: Props) => {
   const { onClose, lectureId } = props;
   const { data } = useGetLectureDetail(lectureId);
 
-  const date = useDateFormat(data?.startDate, 'date');
-  const startTime = useDateFormat(data?.startDate, 'time');
-  const endTime = useDateFormat(data?.endDate, 'time');
+  const date = transDate(data?.startDate, 'date');
+  const startTime = transDate(data?.startDate, 'time');
+  const endTime = transDate(data?.endDate, 'time');
 
   const handleDeleteSession = () => {
     const isConfirmed = confirm(

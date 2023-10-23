@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { currentGenerationState } from '@/recoil/atom';
+import { ACTIVITY_GENRATION } from '@/utils/generation';
 
 export const useRecoilGenerationSSR = () => {
-  const defaultValue = '33';
   const [isInitial, setIsInitial] = useState(true);
   const [value, setValue] = useRecoilState(currentGenerationState);
 
@@ -12,5 +12,5 @@ export const useRecoilGenerationSSR = () => {
     setIsInitial(false);
   }, []);
 
-  return [isInitial ? defaultValue : value, setValue] as const;
+  return [isInitial ? ACTIVITY_GENRATION : value, setValue] as const;
 };

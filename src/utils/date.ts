@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 type FormatType = 'date' | 'time';
 
-export const useDateFormat = (
+export const transDate = (
   date: string | undefined,
   type: FormatType,
 ): string => {
