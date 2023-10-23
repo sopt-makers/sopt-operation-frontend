@@ -18,6 +18,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@sopt-makers/colors": "^2.2.0",
     "@types/axios": "^0.14.0",
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
