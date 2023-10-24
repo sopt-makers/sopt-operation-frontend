@@ -90,7 +90,7 @@ function SessionDetailPage() {
         alert(result.error);
       } else {
         setChangedMembers([...changedMembers, member]);
-        refetchMembers();
+        // refetchMembers();
       }
     }
   };

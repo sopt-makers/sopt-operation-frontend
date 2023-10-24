@@ -19,6 +19,7 @@ function Select(props: Props) {
 
   const optionsRef = useRef<HTMLUListElement>(null);
 
+  const [currentValue, setCurrentValue] = useState(selected);
   const [showOptions, setShowOptions] = useState(false);
 
   const toggleOptions = useCallback(() => {
@@ -40,14 +41,15 @@ function Select(props: Props) {
 
   const onClickOption = (value: ATTEND_STATUS) => {
     onChange(value);
+    setCurrentValue(value);
     toggleOptions();
   };
 
   return (
     <StSelectWrap>
       <StSelect onClick={toggleOptions}>
-        <p style={{ color: getAttendanceColor(selected) }}>
-          {attendanceTranslator[selected]}
+        <p style={{ color: getAttendanceColor(currentValue) }}>
+          {attendanceTranslator[currentValue]}
         </p>
         {generation === ACTIVITY_GENRATION && <IcDropdown />}
       </StSelect>
