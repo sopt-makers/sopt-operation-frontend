@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import { Props } from './index';
 
@@ -20,7 +21,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
       overflow: scroll;
     `}
 
-  background: ${({ theme }) => theme.color.grayscale.white100};
+  background: ${colors.gray700};
 
   z-index: 1;
 
@@ -35,7 +36,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
     & > p {
       padding: 0.75rem 0 0.75rem 0.5rem;
 
-      color: ${({ theme }) => theme.color.grayscale.black60};
+      color: ${colors.gray10};
       font-weight: 500;
       font-size: 16px;
       line-height: 100%;
@@ -44,7 +45,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
       border-radius: 0.6rem;
 
       &:hover {
-        background-color: ${({ theme }) => theme.color.grayscale.gray20};
+        background-color: ${colors.gray600};
 
         cursor: pointer;
       }
