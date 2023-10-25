@@ -1922,6 +1922,11 @@
   dependencies:
     "@sinonjs/commons" "^2.0.0"
 
+"@sopt-makers/colors@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@sopt-makers/colors/-/colors-2.2.0.tgz#32be1c92c806d72f2e6893c094d446217ba3d7c8"
+  integrity sha512-L91wbWPxuLc5qTR+UJ1N69WzYqv35Z+jR5Yo3DhZHhzKFUwUrp9xOMVQd1ezS0RJKBXS60MsouMf3s2jA4ukug==
+
 "@storybook/addon-actions@7.0.0-rc.4":
   version "7.0.0-rc.4"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-7.0.0-rc.4.tgz#3d5692a766f3688a432cc1994a423587b03cf4c3"

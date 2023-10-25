@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { IcNavMenu } from '@/assets/icons';
 import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
+import { GENERATION_LIST } from '@/utils/generation';
 import { MENU_LIST } from '@/utils/nav';
 
 import DropDown from '../DropDown';
@@ -14,8 +15,6 @@ import {
   StSoptLogo,
   StSubMenu,
 } from './style';
-
-const GENERATION_LIST = ['33', '32'];
 
 function Nav() {
   const router = useRouter();

@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { RefObject, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
@@ -17,7 +16,6 @@ import Select from '@/components/session/Select';
 import { PAGE_SIZE } from '@/data/queryData';
 import { attendanceInit, attendanceOptions } from '@/data/sessionData';
 import useObserver from '@/hooks/useObserver';
-import { currentGenerationState } from '@/recoil/atom';
 import {
   updateMemberAttendStatus,
   updateMemberScore,
@@ -28,6 +26,7 @@ import {
   useGetSessionDetail,
 } from '@/services/api/lecture/query';
 import { addPlus, precision } from '@/utils';
+import { ACTIVITY_GENRATION } from '@/utils/generation';
 
 const HEADER_LABELS = [
   '순번',
@@ -51,7 +50,6 @@ function SessionDetailPage() {
   const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [modal, setModal] = useState<number | null>(null);
   const bottomRef: RefObject<HTMLDivElement> = useRef(null);
-  const currentGeneration = useRecoilValue(currentGenerationState);
 
   const {
     data: session,
@@ -92,7 +90,7 @@ function SessionDetailPage() {
         alert(result.error);
       } else {
         setChangedMembers([...changedMembers, member]);
-        refetchMembers();
+        // refetchMembers();
       }
     }
   };
@@ -209,6 +207,7 @@ function SessionDetailPage() {
                               firstRound.subAttendanceId,
                             )
                           }
+                          generation={String(session.generation)}
                         />
                       </td>
                       <td className="member-date">{firstRoundTime}</td>
@@ -223,6 +222,7 @@ function SessionDetailPage() {
                               secondRound.subAttendanceId,
                             )
                           }
+                          generation={String(session.generation)}
                         />
                       </td>
                       <td className="member-date">{secondRoundTime}</td>
@@ -235,7 +235,7 @@ function SessionDetailPage() {
                             !(
                               session.status === 'END' &&
                               isChangedMember(member) &&
-                              currentGeneration === '33'
+                              String(session.generation) === ACTIVITY_GENRATION
                             )
                           }
                         />

@@ -1,5 +1,6 @@
 import { Interpolation } from '@emotion/react';
 import { css, Theme } from '@emotion/react';
+import { colors } from '@sopt-makers/colors';
 import emotionReset from 'emotion-reset';
 
 const global: Interpolation<Theme> = (theme: Theme) => css`
@@ -17,6 +18,7 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     width: 100%;
     min-height: 100%;
     background-color: ${theme.color.grayscale.gray20};
+    /* background-color: ${colors.background}; */
     font-family: 'SUIT', sans-serif;
     font-weight: 400;
     font-style: normal;
