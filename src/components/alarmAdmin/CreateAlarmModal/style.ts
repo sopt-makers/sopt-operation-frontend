@@ -14,6 +14,7 @@ export const StAlarmModalWrapper = styled.section`
 
     & > .title {
       & > div {
+        position: relative;
         display: flex;
         flex-direction: column;
         gap: 0.6rem;

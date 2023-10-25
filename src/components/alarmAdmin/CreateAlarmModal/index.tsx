@@ -6,6 +6,14 @@ import DropDown from '@/components/common/DropDown';
 import InputContainer from '@/components/common/inputContainer';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
+import {
+  ALARM_TYPE,
+  IS_FILE_UPROAD_LIST,
+  LINK_TYPE_LIST,
+  TARGET_GENERATION_LIST,
+  TARGET_USER_LIST,
+} from '@/utils/alarm';
+import { partList } from '@/utils/session';
 
 import {
   StAlarmModalWrapper,
@@ -15,18 +23,32 @@ import {
   StTextArea,
 } from './style';
 
-type DropdownType = 'part' | 'target' | 'batch';
-
-const ALARM_TYPE = ['공지', '소식'];
+type DropdownType =
+  | 'part'
+  | 'target'
+  | 'batch'
+  | 'targetSelector'
+  | 'linkSelector';
 
 const dropdownItems: {
   label: string;
   type: DropdownType;
   placeholder: string;
+  list: string[];
 }[] = [
-  { label: '파트', type: 'part', placeholder: '발송 파트' },
-  { label: '발송 대상', type: 'target', placeholder: '활동 회원' },
-  { label: '발송 기수', type: 'batch', placeholder: '33기' },
+  { label: '파트', type: 'part', placeholder: '발송 파트', list: partList },
+  {
+    label: '발송 대상',
+    type: 'target',
+    placeholder: '활동 회원',
+    list: TARGET_USER_LIST,
+  },
+  {
+    label: '발송 기수',
+    type: 'batch',
+    placeholder: '33기',
+    list: TARGET_GENERATION_LIST,
+  },
 ];
 
 function CreateAlarmModal() {
@@ -34,9 +56,11 @@ function CreateAlarmModal() {
     part: false,
     target: false,
     batch: false,
+    targetSelector: false,
+    linkSelector: false,
   });
 
-  const toggleDropdown = (type: 'part' | 'target' | 'batch') => {
+  const toggleDropdown = (type: DropdownType) => {
     setDropdownVisibility((prev) => ({ ...prev, [type]: !prev[type] }));
   };
 
@@ -60,7 +84,7 @@ function CreateAlarmModal() {
                 <IcNewDropdown />
               </StTargetUserSelector>
               {dropdownVisibility[item.type] && (
-                <DropDown type={'select'} list={[]} />
+                <DropDown type={'select'} list={item.list} />
               )}
             </div>
           ))}
@@ -68,11 +92,16 @@ function CreateAlarmModal() {
         <div className="inputs title">
           <div>
             <p>대상자 지정 여부</p>
-            <StTargetUserSelector>
+            <StTargetUserSelector
+              onClick={() => toggleDropdown('targetSelector')}>
               대상자 전체
               <IcNewDropdown />
             </StTargetUserSelector>
+            {dropdownVisibility.targetSelector && (
+              <DropDown type={'select'} list={IS_FILE_UPROAD_LIST} />
+            )}
           </div>
+
           <div>
             <p>알림 제목</p>
             <StInput
@@ -86,10 +115,14 @@ function CreateAlarmModal() {
           </div>
           <div>
             <p>링크 첨부</p>
-            <StTargetUserSelector>
+            <StTargetUserSelector
+              onClick={() => toggleDropdown('linkSelector')}>
               이동할 링크를 선택하세요.
               <IcNewDropdown />
             </StTargetUserSelector>
+            {dropdownVisibility.linkSelector && (
+              <DropDown type={'select'} list={LINK_TYPE_LIST} />
+            )}
           </div>
         </div>
       </main>
