@@ -1,4 +1,151 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-export const StAlarmModalWrapper = styled.section``;
+export const StAlarmModalWrapper = styled.section`
+  width: 50.4rem;
+
+  & > main {
+    padding: 1.6rem 3rem 3.2rem 3rem;
+
+    & > .type_selector {
+      display: flex;
+      gap: 2rem;
+    }
+
+    & > .title {
+      & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+
+        & > p {
+          margin-top: 1.6rem;
+
+          font-size: 1.4rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 2rem; /* 142.857% */
+          letter-spacing: -0.028rem;
+
+          color: ${colors.gray300};
+        }
+      }
+    }
+
+    & > .dropdowns {
+      display: flex;
+      gap: 1.6rem;
+    }
+
+    & > .inputs {
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+    }
+  }
+  & > footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+  }
+`;
+
+export const StAlarmTypeButton = styled.button`
+  padding: 0.8rem 2rem;
+
+  border-radius: 11.8rem;
+
+  text-align: center;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  color: ${colors.gray100};
+
+  background: none;
+
+  &:hover {
+    background: ${colors.gray700};
+  }
+  &:active {
+    background: ${colors.gray600};
+  }
+`;
+
+export const StTargetUserSelector = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
+
+  padding: 1rem 1.4rem;
+
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 1.8rem */
+  letter-spacing: -0.018rem;
+
+  color: ${colors.gray400};
+
+  background-color: ${colors.gray700};
+  border-radius: 0.8rem;
+
+  cursor: pointer;
+`;
+
+export const StInput = styled.input`
+  padding: 1rem 1.4rem;
+
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 1.8rem */
+  letter-spacing: -0.018rem;
+
+  color: ${colors.gray10};
+  background-color: ${colors.gray700};
+  border: none;
+  outline: none;
+
+  border-radius: 0.8rem;
+
+  &::placeholder {
+    color: ${colors.gray400};
+  }
+
+  &:focus {
+    background-color: ${colors.gray600};
+    outline: 0.1rem solid ${colors.gray300};
+  }
+`;
+
+export const StTextArea = styled.textarea`
+  height: 12.8rem;
+
+  padding: 1rem 1.4rem;
+
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 1.8rem */
+  letter-spacing: -0.018rem;
+
+  color: ${colors.gray10};
+  background-color: ${colors.gray700};
+  border: none;
+  outline: none;
+  resize: none;
+
+  border-radius: 0.8rem;
+
+  &::placeholder {
+    color: ${colors.gray400};
+  }
+
+  &:focus {
+    background-color: ${colors.gray600};
+    outline: 0.1rem solid ${colors.gray300};
+  }
+`;

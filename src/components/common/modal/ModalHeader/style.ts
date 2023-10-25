@@ -6,8 +6,6 @@ export const StModalHeader = styled.header`
   justify-content: space-between;
   align-items: center;
 
-  width: 46rem;
-
   padding: 2.2rem 3.2rem 0.8rem 3.2rem;
 
   & > div.title {
