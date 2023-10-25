@@ -1,16 +1,20 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import { Props } from './index';
 
 export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
   position: absolute;
 
-  width: 11rem;
+  top: 100%;
+
+  width: 100%;
   height: auto;
   max-height: 32.1rem;
+  margin-top: 1rem;
 
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 5px 20px 0px rgba(63, 64, 66, 0.15);
   border-radius: 1.3rem;
 
   ${({ type }) =>
@@ -20,7 +24,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
       overflow: scroll;
     `}
 
-  background: ${({ theme }) => theme.color.grayscale.white100};
+  background-color: ${colors.gray500};
 
   z-index: 1;
 
@@ -35,16 +39,17 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
     & > p {
       padding: 0.75rem 0 0.75rem 0.5rem;
 
-      color: ${({ theme }) => theme.color.grayscale.black60};
+      color: ${colors.gray10};
+      font-size: 1.6rem;
+      font-style: normal;
       font-weight: 500;
-      font-size: 16px;
-      line-height: 100%;
-      letter-spacing: -0.01em;
+      line-height: 100%; /* 1.6rem */
+      letter-spacing: -0.016rem;
 
       border-radius: 0.6rem;
 
       &:hover {
-        background-color: ${({ theme }) => theme.color.grayscale.gray20};
+        background-color: ${colors.gray400};
 
         cursor: pointer;
       }
