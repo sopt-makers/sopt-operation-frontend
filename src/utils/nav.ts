@@ -15,5 +15,6 @@ export const MENU_LIST = [
   {
     title: '알림 관리',
     MenuIcon: IcAlarmMenu,
+    path: ['/alarmAdmin'],
   },
 ];
