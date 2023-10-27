@@ -51,7 +51,7 @@ export const StAlarmModalWrapper = styled.section`
   }
 `;
 
-export const StAlarmTypeButton = styled.button`
+export const StAlarmTypeButton = styled.button<{ isSelected: boolean }>`
   padding: 0.8rem 2rem;
 
   border-radius: 11.8rem;
@@ -62,12 +62,13 @@ export const StAlarmTypeButton = styled.button`
   font-weight: 500;
   line-height: normal;
 
-  color: ${colors.gray100};
+  color: ${({ isSelected }) => (isSelected ? colors.gray950 : colors.gray100)};
 
-  background: none;
+  background: ${({ isSelected }) => (isSelected ? colors.gray10 : 'none')};
 
   &:hover {
-    background: ${colors.gray700};
+    background: ${({ isSelected }) =>
+      isSelected ? colors.gray10 : colors.gray700};
   }
   &:active {
     background: ${colors.gray600};
@@ -80,6 +81,8 @@ export const StTargetUserSelector = styled.div`
   align-items: center;
   gap: 0.7rem;
 
+  min-width: 8.6rem;
+
   padding: 1rem 1.4rem;
 
   font-size: 1.8rem;
@@ -91,6 +94,27 @@ export const StTargetUserSelector = styled.div`
   color: ${colors.gray400};
 
   background-color: ${colors.gray700};
+  border-radius: 0.8rem;
+
+  cursor: pointer;
+`;
+
+export const StCsvUploader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 1rem 1.4rem;
+
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2.4rem; /* 150% */
+  letter-spacing: -0.032rem;
+
+  color: ${colors.gray400};
+  background-color: ${colors.gray700};
+
   border-radius: 0.8rem;
 
   cursor: pointer;

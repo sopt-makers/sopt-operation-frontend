@@ -5,10 +5,11 @@ import { StModalHeader } from './style';
 interface Props {
   title: string;
   desc: string;
+  onClose: () => void;
 }
 
 function ModalHeader(props: Props) {
-  const { title, desc } = props;
+  const { title, desc, onClose } = props;
 
   return (
     <StModalHeader>
@@ -16,7 +17,7 @@ function ModalHeader(props: Props) {
         <h1>{title}</h1>
         <h2>{desc}</h2>
       </div>
-      <IcModalClose />
+      <IcModalClose onClick={onClose} />
     </StModalHeader>
   );
 }

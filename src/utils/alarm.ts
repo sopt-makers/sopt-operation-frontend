@@ -1,7 +1,8 @@
+import { partList } from './session';
+
 export const ALARM_TYPE = ['공지', '소식'];
 
-export const TARGET_USER_LIST = ['전체 회원', '활동 회원', '명예 회원'];
-
+export const TARGET_USER_LIST = ['활동 회원', '명예 회원', 'CSV 첨부'];
 export const TARGET_GENERATION_LIST = [
   '전체 기수',
   '33기',
@@ -10,7 +11,7 @@ export const TARGET_GENERATION_LIST = [
   '30기',
 ];
 
-export const IS_FILE_UPROAD_LIST = ['대상자 전체', '특정 유저 지정'];
+export const IS_FILE_UPLOAD_LIST = ['대상자 전체', '특정 유저 지정'];
 
 export const LINK_TYPE_LIST = [
   '첨부하지 않음',

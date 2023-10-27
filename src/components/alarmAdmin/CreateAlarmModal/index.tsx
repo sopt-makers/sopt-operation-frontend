@@ -1,134 +1,300 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { IcNewDropdown } from '@/assets/icons';
+import { IcNewDropdown, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
-import InputContainer from '@/components/common/inputContainer';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
-import {
-  ALARM_TYPE,
-  IS_FILE_UPROAD_LIST,
-  LINK_TYPE_LIST,
-  TARGET_GENERATION_LIST,
-  TARGET_USER_LIST,
-} from '@/utils/alarm';
-import { partList } from '@/utils/session';
+import { postNewAlarm } from '@/services/api/alarm';
+import { TARGET_GENERATION_LIST, TARGET_USER_LIST } from '@/utils/alarm';
+import { partList, partTranslator } from '@/utils/session';
 
 import {
   StAlarmModalWrapper,
   StAlarmTypeButton,
+  StCsvUploader,
   StInput,
   StTargetUserSelector,
   StTextArea,
 } from './style';
 
-type DropdownType =
-  | 'part'
-  | 'target'
-  | 'batch'
-  | 'targetSelector'
-  | 'linkSelector';
+interface Props {
+  onClose: () => void;
+}
 
-const dropdownItems: {
-  label: string;
-  type: DropdownType;
-  placeholder: string;
-  list: string[];
-}[] = [
-  { label: '파트', type: 'part', placeholder: '발송 파트', list: partList },
-  {
-    label: '발송 대상',
-    type: 'target',
-    placeholder: '활동 회원',
-    list: TARGET_USER_LIST,
-  },
-  {
-    label: '발송 기수',
-    type: 'batch',
-    placeholder: '33기',
-    list: TARGET_GENERATION_LIST,
-  },
-];
+function CreateAlarmModal(props: Props) {
+  const { onClose } = props;
 
-function CreateAlarmModal() {
+  const [selectedValue, setSelectedValue] = useState<PostAlarmData>({
+    attribute: 'NOTICE',
+    part: '발송 파트',
+    isActive: true,
+    generation: 33,
+    targetList: null,
+    title: '',
+    content: '',
+    link: null,
+  });
   const [dropdownVisibility, setDropdownVisibility] = useState({
     part: false,
     target: false,
-    batch: false,
+    generation: false,
     targetSelector: false,
-    linkSelector: false,
+  });
+  const [isActiveUser, setIsActiveUser] = useState<string>('활동 회원');
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [selectedAlarmType, setSelectedAlarmType] = useState({
+    notice: true,
+    news: false,
   });
 
-  const toggleDropdown = (type: DropdownType) => {
+  useEffect(() => {
+    console.log(selectedValue);
+  }, [selectedValue]);
+
+  useEffect(() => {
+    if (isActiveUser === '활동 회원') {
+      setSelectedValue((prev) => ({ ...prev, isActive: true }));
+    } else {
+      setSelectedValue((prev) => ({ ...prev, isActive: false }));
+    }
+    if (isActiveUser === '특정 유저 지정') {
+      setSelectedValue((prev) => ({
+        ...prev,
+        part: '발송 파트',
+        isActive: null,
+      }));
+    }
+  }, [isActiveUser]);
+
+  const handleSubmit = () => {
+    let apiPartValue = selectedValue.part
+      ? partTranslator[selectedValue.part]
+      : null;
+    let apiIsActive = selectedValue.isActive;
+
+    if (isActiveUser === 'CSV첨부') {
+      apiPartValue = null;
+      apiIsActive = null;
+    }
+
+    let targetListValue = selectedValue.targetList;
+
+    if (isActiveUser !== 'CSV 첨부') {
+      targetListValue = null;
+    }
+
+    const payload = {
+      ...selectedValue,
+      part: apiPartValue,
+      isActive: apiIsActive,
+      targetList: targetListValue,
+    };
+
+    console.log(payload);
+
+    postNewAlarm(payload);
+    onClose();
+  };
+
+  const toggleDropdown = (type: AlarmDropdownType) => {
     setDropdownVisibility((prev) => ({ ...prev, [type]: !prev[type] }));
+  };
+
+  const handleCSVUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsText(file, 'UTF-8');
+      reader.onload = function (evt) {
+        const csv = evt.target?.result as string;
+        const lines = csv.split('\n');
+        const userIds: string[] = [];
+        let foundColumn = false;
+
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].includes('[Amplitude] User ID')) {
+            foundColumn = true;
+            continue;
+          }
+          if (foundColumn) {
+            let value = lines[i].split(',')[0].trim();
+            value = value.replace(/^"\t|\t"$|"/g, '').trim();
+            if (value) userIds.push(value);
+          }
+        }
+        setUploadedFile(file);
+        setSelectedValue((prev) => ({ ...prev, targetList: userIds }));
+      };
+    }
   };
 
   return (
     <StAlarmModalWrapper>
-      <ModalHeader title="알림 생성" desc="APP으로 발송할 알림을 생성합니다." />
+      <ModalHeader
+        title="알림 생성"
+        desc="APP으로 발송할 알림을 생성합니다."
+        onClose={onClose}
+      />
       <main>
         <div className="type_selector">
-          {ALARM_TYPE.map((type, idx) => (
-            <StAlarmTypeButton key={idx} type="button">
-              {type}
-            </StAlarmTypeButton>
-          ))}
+          <StAlarmTypeButton
+            type="button"
+            onClick={() => {
+              setSelectedValue((prev) => ({
+                ...prev,
+                attribute: 'NOTICE',
+              }));
+              setSelectedAlarmType({ notice: true, news: false });
+            }}
+            isSelected={selectedAlarmType.notice}>
+            공지
+          </StAlarmTypeButton>
+          <StAlarmTypeButton
+            type="button"
+            onClick={() => {
+              setSelectedValue((prev) => ({
+                ...prev,
+                attribute: 'NEWS',
+              }));
+              setSelectedAlarmType({ notice: false, news: true });
+            }}
+            isSelected={selectedAlarmType.news}>
+            소식
+          </StAlarmTypeButton>
         </div>
         <div className="dropdowns title">
-          {dropdownItems.map((item) => (
-            <div key={item.type}>
-              <p>{item.label}</p>
-              <StTargetUserSelector onClick={() => toggleDropdown(item.type)}>
-                {item.placeholder}
-                <IcNewDropdown />
-              </StTargetUserSelector>
-              {dropdownVisibility[item.type] && (
-                <DropDown type={'select'} list={item.list} />
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="inputs title">
           <div>
-            <p>대상자 지정 여부</p>
-            <StTargetUserSelector
-              onClick={() => toggleDropdown('targetSelector')}>
-              대상자 전체
+            <p>발송 대상</p>
+            <StTargetUserSelector onClick={() => toggleDropdown('target')}>
+              {isActiveUser}
               <IcNewDropdown />
             </StTargetUserSelector>
-            {dropdownVisibility.targetSelector && (
-              <DropDown type={'select'} list={IS_FILE_UPROAD_LIST} />
+            {dropdownVisibility.target && (
+              <DropDown
+                type={'select'}
+                list={TARGET_USER_LIST}
+                onItemSelected={(value) => {
+                  setIsActiveUser(value);
+                  toggleDropdown('target');
+                }}
+              />
             )}
           </div>
-
+          {isActiveUser !== 'CSV 첨부' && (
+            <>
+              <div>
+                <p>파트</p>
+                <StTargetUserSelector onClick={() => toggleDropdown('part')}>
+                  {selectedValue.part}
+                  <IcNewDropdown />
+                </StTargetUserSelector>
+                {dropdownVisibility.part && (
+                  <DropDown
+                    type={'select'}
+                    list={partList}
+                    onItemSelected={(value) => {
+                      setSelectedValue((prev) => ({
+                        ...prev,
+                        part: value,
+                      }));
+                      toggleDropdown('part');
+                    }}
+                  />
+                )}
+              </div>
+              <div>
+                <p>발송 기수</p>
+                <StTargetUserSelector
+                  onClick={() => toggleDropdown('generation')}>
+                  {selectedValue.generation}기
+                  <IcNewDropdown />
+                </StTargetUserSelector>
+                {dropdownVisibility.generation && (
+                  <DropDown
+                    type={'select'}
+                    list={TARGET_GENERATION_LIST}
+                    onItemSelected={(value) => {
+                      setSelectedValue((prev) => ({
+                        ...prev,
+                        selectedGeneration: value,
+                      }));
+                      toggleDropdown('generation');
+                    }}
+                  />
+                )}
+              </div>
+            </>
+          )}
+        </div>
+        <div className="inputs title">
+          {isActiveUser === 'CSV 첨부' && (
+            <div>
+              <p>CSV 파일 첨부</p>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleCSVUpload}
+                style={{ display: 'none' }}
+                id="csvUploaderInput"
+              />
+              <StCsvUploader
+                onClick={() =>
+                  document.getElementById('csvUploaderInput')?.click()
+                }>
+                {uploadedFile ? (
+                  uploadedFile.name
+                ) : (
+                  <>
+                    <IcUpload />
+                    눌러서 첨부하기
+                  </>
+                )}
+              </StCsvUploader>
+            </div>
+          )}
           <div>
             <p>알림 제목</p>
             <StInput
               type="text"
               placeholder="발송할 알림의 제목을 입력하세요."
+              onChange={(e) => {
+                setSelectedValue((prev) => ({
+                  ...prev,
+                  title: e.target.value,
+                }));
+              }}
             />
           </div>
           <div>
             <p>알림 내용</p>
-            <StTextArea placeholder="발송할 알림의 내용을 입력하세요." />
+            <StTextArea
+              placeholder="발송할 알림의 내용을 입력하세요."
+              onChange={(e) => {
+                setSelectedValue((prev) => ({
+                  ...prev,
+                  content: e.target.value,
+                }));
+              }}
+            />
           </div>
           <div>
             <p>링크 첨부</p>
-            <StTargetUserSelector
-              onClick={() => toggleDropdown('linkSelector')}>
-              이동할 링크를 선택하세요.
+            <StTargetUserSelector onClick={() => alert('개발중이에요 ㅠ')}>
+              개발중이에요 ㅠ
               <IcNewDropdown />
             </StTargetUserSelector>
-            {dropdownVisibility.linkSelector && (
-              <DropDown type={'select'} list={LINK_TYPE_LIST} />
-            )}
           </div>
         </div>
       </main>
       <ModalFooter>
-        <Button type={'button'} text="취소하기" />
-        <Button type={'submit'} text="알림 생성하기" disabled={true} />
+        <Button type={'button'} text="취소하기" onClick={onClose} />
+        <Button
+          type={'submit'}
+          text="알림 생성하기"
+          disabled={false}
+          onClick={() => handleSubmit()}
+        />
       </ModalFooter>
     </StAlarmModalWrapper>
   );

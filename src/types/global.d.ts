@@ -4,6 +4,7 @@ declare global {
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
+  type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
 
   /* 에러 */
   interface LoginError {
@@ -181,5 +182,17 @@ declare global {
   interface ResponsePresignedUrl {
     presignedUrl: string;
   }
+
+  interface PostAlarmData {
+    attribute: string;
+    part: string | null;
+    isActive: boolean | null;
+    generation: number;
+    targetList: string[] | null;
+    title: string;
+    content: string;
+    link?: string | null;
+  }
 }
+
 export default global;

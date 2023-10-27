@@ -10,6 +10,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
   top: 100%;
 
   width: 100%;
+  min-width: 11rem;
   height: auto;
   max-height: 32.1rem;
   margin-top: 1rem;
