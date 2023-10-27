@@ -102,7 +102,8 @@ export const StTargetUserSelector = styled.div`
 export const StCsvUploader = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+
+  width: 100%;
 
   padding: 1rem 1.4rem;
 
@@ -118,7 +119,38 @@ export const StCsvUploader = styled.div`
   border-radius: 0.8rem;
 
   cursor: pointer;
+
+  & > div.uploaded {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: ${colors.gray10};
+
+    & > svg {
+      &:hover {
+        fill: ${colors.gray600};
+      }
+      &:active {
+        fill: ${colors.gray500};
+      }
+    }
+  }
+
+  & > div.pre_upload {
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 1rem;
+  }
 `;
+
+export const StUploaded = styled.div``;
 
 export const StInput = styled.input`
   padding: 1rem 1.4rem;

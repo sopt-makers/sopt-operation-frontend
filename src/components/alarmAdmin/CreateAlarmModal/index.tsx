@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { IcNewDropdown, IcUpload } from '@/assets/icons';
+import { IcDeleteFile, IcNewDropdown, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import ModalFooter from '@/components/common/modal/ModalFooter';
@@ -16,6 +16,7 @@ import {
   StInput,
   StTargetUserSelector,
   StTextArea,
+  StUploaded,
 } from './style';
 
 interface Props {
@@ -47,10 +48,6 @@ function CreateAlarmModal(props: Props) {
     notice: true,
     news: false,
   });
-
-  useEffect(() => {
-    console.log(selectedValue);
-  }, [selectedValue]);
 
   useEffect(() => {
     if (isActiveUser === '활동 회원') {
@@ -231,24 +228,29 @@ function CreateAlarmModal(props: Props) {
           {isActiveUser === 'CSV 첨부' && (
             <div>
               <p>CSV 파일 첨부</p>
-              <input
-                type="file"
-                accept=".csv"
-                onChange={handleCSVUpload}
-                style={{ display: 'none' }}
-                id="csvUploaderInput"
-              />
-              <StCsvUploader
-                onClick={() =>
-                  document.getElementById('csvUploaderInput')?.click()
-                }>
+
+              <StCsvUploader>
                 {uploadedFile ? (
-                  uploadedFile.name
+                  <div className="uploaded">
+                    <span>{uploadedFile.name}</span>
+                    <IcDeleteFile onClick={() => setUploadedFile(null)} />
+                  </div>
                 ) : (
-                  <>
+                  <div
+                    className="pre_upload"
+                    onClick={() =>
+                      document.getElementById('csvUploaderInput')?.click()
+                    }>
+                    <input
+                      type="file"
+                      accept=".csv"
+                      onChange={handleCSVUpload}
+                      style={{ display: 'none' }}
+                      id="csvUploaderInput"
+                    />
                     <IcUpload />
                     눌러서 첨부하기
-                  </>
+                  </div>
                 )}
               </StCsvUploader>
             </div>
