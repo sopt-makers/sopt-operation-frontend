@@ -16,7 +16,6 @@ import {
   StInput,
   StTargetUserSelector,
   StTextArea,
-  StUploaded,
 } from './style';
 
 interface Props {
@@ -48,6 +47,7 @@ function CreateAlarmModal(props: Props) {
     notice: true,
     news: false,
   });
+  const [isReadyToSubmit, setIsReadyToSubmit] = useState<boolean>(true);
 
   useEffect(() => {
     if (isActiveUser === '활동 회원') {
@@ -64,13 +64,25 @@ function CreateAlarmModal(props: Props) {
     }
   }, [isActiveUser]);
 
+  useEffect(() => {
+    if (
+      selectedValue.part !== '발송 파트' &&
+      selectedValue.title !== '' &&
+      selectedValue.content !== ''
+    ) {
+      setIsReadyToSubmit(false);
+    } else {
+      setIsReadyToSubmit(true);
+    }
+  }, [selectedValue.content, selectedValue.part, selectedValue.title]);
+
   const handleSubmit = () => {
     let apiPartValue = selectedValue.part
       ? partTranslator[selectedValue.part]
       : null;
     let apiIsActive = selectedValue.isActive;
 
-    if (isActiveUser === 'CSV첨부') {
+    if (isActiveUser === 'CSV 첨부') {
       apiPartValue = null;
       apiIsActive = null;
     }
@@ -228,7 +240,6 @@ function CreateAlarmModal(props: Props) {
           {isActiveUser === 'CSV 첨부' && (
             <div>
               <p>CSV 파일 첨부</p>
-
               <StCsvUploader>
                 {uploadedFile ? (
                   <div className="uploaded">
@@ -294,7 +305,7 @@ function CreateAlarmModal(props: Props) {
         <Button
           type={'submit'}
           text="알림 생성하기"
-          disabled={false}
+          disabled={isReadyToSubmit}
           onClick={() => handleSubmit()}
         />
       </ModalFooter>
