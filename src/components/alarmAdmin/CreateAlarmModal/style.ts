@@ -75,7 +75,9 @@ export const StAlarmTypeButton = styled.button<{ isSelected: boolean }>`
   }
 `;
 
-export const StTargetUserSelector = styled.div`
+export const StTargetUserSelector = styled.div<{
+  defaultValue?: string;
+}>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,7 +93,8 @@ export const StTargetUserSelector = styled.div`
   line-height: 100%; /* 1.8rem */
   letter-spacing: -0.018rem;
 
-  color: ${colors.gray400};
+  color: ${({ defaultValue }) =>
+    defaultValue === '발송 파트' ? colors.gray400 : colors.gray10};
 
   background-color: ${colors.gray700};
   border-radius: 0.8rem;
@@ -147,34 +150,6 @@ export const StCsvUploader = styled.div`
     align-items: center;
 
     gap: 1rem;
-  }
-`;
-
-export const StUploaded = styled.div``;
-
-export const StInput = styled.input`
-  padding: 1rem 1.4rem;
-
-  font-size: 1.8rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 100%; /* 1.8rem */
-  letter-spacing: -0.018rem;
-
-  color: ${colors.gray10};
-  background-color: ${colors.gray700};
-  border: none;
-  outline: none;
-
-  border-radius: 0.8rem;
-
-  &::placeholder {
-    color: ${colors.gray400};
-  }
-
-  &:focus {
-    background-color: ${colors.gray600};
-    outline: 0.1rem solid ${colors.gray300};
   }
 `;
 

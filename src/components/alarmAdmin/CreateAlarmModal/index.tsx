@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { IcDeleteFile, IcNewDropdown, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
+import Input from '@/components/common/Input';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import { postNewAlarm } from '@/services/api/alarm';
@@ -13,7 +14,6 @@ import {
   StAlarmModalWrapper,
   StAlarmTypeButton,
   StCsvUploader,
-  StInput,
   StTargetUserSelector,
   StTextArea,
 } from './style';
@@ -194,7 +194,9 @@ function CreateAlarmModal(props: Props) {
             <>
               <div>
                 <p>파트</p>
-                <StTargetUserSelector onClick={() => toggleDropdown('part')}>
+                <StTargetUserSelector
+                  defaultValue={selectedValue?.part}
+                  onClick={() => toggleDropdown('part')}>
                   {selectedValue.part}
                   <IcNewDropdown />
                 </StTargetUserSelector>
@@ -268,7 +270,7 @@ function CreateAlarmModal(props: Props) {
           )}
           <div>
             <p>알림 제목</p>
-            <StInput
+            <Input
               type="text"
               placeholder="발송할 알림의 제목을 입력하세요."
               onChange={(e) => {
