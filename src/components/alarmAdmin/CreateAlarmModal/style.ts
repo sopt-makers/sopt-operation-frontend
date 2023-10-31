@@ -12,27 +12,6 @@ export const StAlarmModalWrapper = styled.section`
       gap: 2rem;
     }
 
-    & > .title {
-      & > div {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-
-        & > p {
-          margin-top: 1.6rem;
-
-          font-size: 1.4rem;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 2rem; /* 142.857% */
-          letter-spacing: -0.028rem;
-
-          color: ${colors.gray300};
-        }
-      }
-    }
-
     & > .dropdowns {
       display: flex;
       gap: 1.6rem;
@@ -76,7 +55,7 @@ export const StAlarmTypeButton = styled.button<{ isSelected: boolean }>`
 `;
 
 export const StTargetUserSelector = styled.div<{
-  defaultValue?: string;
+  defaultVal?: string | null;
 }>`
   display: flex;
   justify-content: space-between;
@@ -93,8 +72,8 @@ export const StTargetUserSelector = styled.div<{
   line-height: 100%; /* 1.8rem */
   letter-spacing: -0.018rem;
 
-  color: ${({ defaultValue }) =>
-    defaultValue === '발송 파트' ? colors.gray400 : colors.gray10};
+  color: ${({ defaultVal }) =>
+    defaultVal === '발송 파트' ? colors.gray400 : colors.gray10};
 
   background-color: ${colors.gray700};
   border-radius: 0.8rem;

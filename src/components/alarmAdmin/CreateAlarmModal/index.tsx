@@ -6,8 +6,13 @@ import DropDown from '@/components/common/DropDown';
 import Input from '@/components/common/Input';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
+import OptionTemplate from '@/components/common/OptionTemplate';
 import { postNewAlarm } from '@/services/api/alarm';
-import { TARGET_GENERATION_LIST, TARGET_USER_LIST } from '@/utils/alarm';
+import {
+  readPlaygroundId,
+  TARGET_GENERATION_LIST,
+  TARGET_USER_LIST,
+} from '@/utils/alarm';
 import { partList, partTranslator } from '@/utils/session';
 
 import {
@@ -81,13 +86,12 @@ function CreateAlarmModal(props: Props) {
       ? partTranslator[selectedValue.part]
       : null;
     let apiIsActive = selectedValue.isActive;
+    let targetListValue = selectedValue.targetList;
 
     if (isActiveUser === 'CSV 첨부') {
       apiPartValue = null;
       apiIsActive = null;
     }
-
-    let targetListValue = selectedValue.targetList;
 
     if (isActiveUser !== 'CSV 첨부') {
       targetListValue = null;
@@ -99,9 +103,6 @@ function CreateAlarmModal(props: Props) {
       isActive: apiIsActive,
       targetList: targetListValue,
     };
-
-    console.log(payload);
-
     postNewAlarm(payload);
     onClose();
   };
@@ -110,31 +111,33 @@ function CreateAlarmModal(props: Props) {
     setDropdownVisibility((prev) => ({ ...prev, [type]: !prev[type] }));
   };
 
-  const handleCSVUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.readAsText(file, 'UTF-8');
-      reader.onload = function (evt) {
-        const csv = evt.target?.result as string;
-        const lines = csv.split('\n');
-        const userIds: string[] = [];
-        let foundColumn = false;
-
-        for (let i = 0; i < lines.length; i++) {
-          if (lines[i].includes('[Amplitude] User ID')) {
-            foundColumn = true;
-            continue;
-          }
-          if (foundColumn) {
-            let value = lines[i].split(',')[0].trim();
-            value = value.replace(/^"\t|\t"$|"/g, '').trim();
-            if (value) userIds.push(value);
-          }
-        }
+      try {
+        const userIds = await readPlaygroundId(file);
         setUploadedFile(file);
         setSelectedValue((prev) => ({ ...prev, targetList: userIds }));
-      };
+      } catch (error) {
+        console.error('파일을 읽는데 실패했습니다.', error);
+      }
+    }
+  };
+
+  const handleAlarmType = (type: string): void => {
+    if (type === 'NOTICE') {
+      setSelectedValue((prev) => ({
+        ...prev,
+        attribute: 'NOTICE',
+      }));
+      setSelectedAlarmType({ notice: true, news: false });
+    }
+    if (type === 'NEWS') {
+      setSelectedValue((prev) => ({
+        ...prev,
+        attribute: 'NEWS',
+      }));
+      setSelectedAlarmType({ notice: false, news: true });
     }
   };
 
@@ -149,32 +152,19 @@ function CreateAlarmModal(props: Props) {
         <div className="type_selector">
           <StAlarmTypeButton
             type="button"
-            onClick={() => {
-              setSelectedValue((prev) => ({
-                ...prev,
-                attribute: 'NOTICE',
-              }));
-              setSelectedAlarmType({ notice: true, news: false });
-            }}
+            onClick={() => handleAlarmType('NOTICE')}
             isSelected={selectedAlarmType.notice}>
             공지
           </StAlarmTypeButton>
           <StAlarmTypeButton
             type="button"
-            onClick={() => {
-              setSelectedValue((prev) => ({
-                ...prev,
-                attribute: 'NEWS',
-              }));
-              setSelectedAlarmType({ notice: false, news: true });
-            }}
+            onClick={() => handleAlarmType('NEWS')}
             isSelected={selectedAlarmType.news}>
             소식
           </StAlarmTypeButton>
         </div>
-        <div className="dropdowns title">
-          <div>
-            <p>발송 대상</p>
+        <div className="dropdowns">
+          <OptionTemplate title="발송 대상">
             <StTargetUserSelector onClick={() => toggleDropdown('target')}>
               {isActiveUser}
               <IcNewDropdown />
@@ -189,13 +179,12 @@ function CreateAlarmModal(props: Props) {
                 }}
               />
             )}
-          </div>
+          </OptionTemplate>
           {isActiveUser !== 'CSV 첨부' && (
             <>
-              <div>
-                <p>파트</p>
+              <OptionTemplate title="파트">
                 <StTargetUserSelector
-                  defaultValue={selectedValue?.part}
+                  defaultVal={selectedValue?.part}
                   onClick={() => toggleDropdown('part')}>
                   {selectedValue.part}
                   <IcNewDropdown />
@@ -213,9 +202,8 @@ function CreateAlarmModal(props: Props) {
                     }}
                   />
                 )}
-              </div>
-              <div>
-                <p>발송 기수</p>
+              </OptionTemplate>
+              <OptionTemplate title="발송 기수">
                 <StTargetUserSelector
                   onClick={() => toggleDropdown('generation')}>
                   {selectedValue.generation}기
@@ -234,14 +222,13 @@ function CreateAlarmModal(props: Props) {
                     }}
                   />
                 )}
-              </div>
+              </OptionTemplate>
             </>
           )}
         </div>
-        <div className="inputs title">
+        <div className="inputs">
           {isActiveUser === 'CSV 첨부' && (
-            <div>
-              <p>CSV 파일 첨부</p>
+            <OptionTemplate title="CSV 파일 첨부">
               <StCsvUploader>
                 {uploadedFile ? (
                   <div className="uploaded">
@@ -266,10 +253,9 @@ function CreateAlarmModal(props: Props) {
                   </div>
                 )}
               </StCsvUploader>
-            </div>
+            </OptionTemplate>
           )}
-          <div>
-            <p>알림 제목</p>
+          <OptionTemplate title="알림 제목">
             <Input
               type="text"
               placeholder="발송할 알림의 제목을 입력하세요."
@@ -280,9 +266,8 @@ function CreateAlarmModal(props: Props) {
                 }));
               }}
             />
-          </div>
-          <div>
-            <p>알림 내용</p>
+          </OptionTemplate>
+          <OptionTemplate title="알림 내용">
             <StTextArea
               placeholder="발송할 알림의 내용을 입력하세요."
               onChange={(e) => {
@@ -292,14 +277,13 @@ function CreateAlarmModal(props: Props) {
                 }));
               }}
             />
-          </div>
-          <div>
-            <p>링크 첨부</p>
+          </OptionTemplate>
+          <OptionTemplate title="링크 첨부">
             <StTargetUserSelector onClick={() => alert('개발중이에요 ㅠ')}>
               개발중이에요 ㅠ
               <IcNewDropdown />
             </StTargetUserSelector>
-          </div>
+          </OptionTemplate>
         </div>
       </main>
       <ModalFooter>
