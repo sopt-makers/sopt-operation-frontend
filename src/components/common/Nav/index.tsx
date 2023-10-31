@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { IcNavMenu } from '@/assets/icons';
+import { IcAttendanceMenu } from '@/assets/icons';
 import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
 import { GENERATION_LIST } from '@/utils/generation';
 import { MENU_LIST } from '@/utils/nav';
@@ -55,7 +55,7 @@ function Nav() {
   return (
     <StNavWrapper>
       <header>
-        <StSoptLogo>SOPT</StSoptLogo>
+        <StSoptLogo>SOPT ADMIN</StSoptLogo>
         <StGenerationDropdown ref={dropdownRef}>
           <div onClick={() => setIsDropdownOn(!isDropdownOn)}>
             <span>{currentGeneration}기</span>
@@ -79,7 +79,7 @@ function Nav() {
             }
             onClick={() => menu.path && handleSubMenuClick(menu.path[0])}>
             <p>
-              <IcNavMenu />
+              <menu.MenuIcon />
               <span>{menu.title}</span>
             </p>
           </StMenu>
