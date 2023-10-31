@@ -1,4 +1,39 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+
+export const StSessionModalWrapper = styled.section`
+  width: 46rem;
+
+  & > main {
+    padding: 1.6rem 3rem 3.2rem 3rem;
+
+    & > .dropdowns {
+      display: flex;
+      gap: 1.6rem;
+    }
+
+    & > .inputs {
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+
+      & > .time {
+        display: flex;
+        gap: 1.6rem;
+
+        & > div {
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  & > footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+  }
+`;
 
 export const StPartSelector = styled.div`
   position: relative;
@@ -43,30 +78,28 @@ export const StDatePickerInput = styled.div<{ hasValue?: boolean }>`
 
         padding: 1rem 1.4rem;
 
-        color: ${({ theme }) => theme.color.grayscale.black40};
-        font-weight: 500;
-        font-size: 1.6rem;
-        line-height: 2.4rem;
-        letter-spacing: -0.02em;
+        color: ${colors.gray10};
+        background-color: ${colors.gray700};
 
-        outline: ${({ hasValue, theme }) =>
-          hasValue
-            ? `1px solid ${theme.color.grayscale.black40}`
-            : `1px solid ${theme.color.grayscale.gray30}`};
+        font-size: 1.6rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 165%; /* 2.64rem */
+        letter-spacing: -0.024rem;
+
+        outline: none;
         border: none;
         box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
         border-radius: 8px;
 
         &::placeholder {
-          color: ${({ theme }) => theme.color.grayscale.gray30};
+          color: ${colors.gray400};
 
-          font-weight: 500;
           font-size: 1.6rem;
-          line-height: 2.4rem;
-          letter-spacing: -0.02em;
-        }
-        &:focus {
-          outline: ${({ theme }) => theme.color.grayscale.black40} solid 1px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 165%; /* 2.64rem */
+          letter-spacing: -0.024rem;
         }
       }
     }

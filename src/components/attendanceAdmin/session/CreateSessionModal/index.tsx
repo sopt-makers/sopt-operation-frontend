@@ -17,14 +17,14 @@ import Selector from '@/components/common/Selector';
 import { useCreateSession } from '@/hooks/useCreateSession';
 import { currentGenerationState } from '@/recoil/atom';
 import {
+  attributeList,
   partList,
   partTranslator,
   sessionTranslator,
-  sessionType,
   times,
 } from '@/utils/session';
 
-import { StDatePickerInput } from './style';
+import { StDatePickerInput, StSessionModalWrapper } from './style';
 
 interface Props {
   onClose: () => void;
@@ -34,16 +34,17 @@ function CreateSessionModal(props: Props) {
   const { onClose } = props;
 
   // 세션 생성에 필요한 State
-  const [part, setPart] = useState<string>('파트선택');
+  const [part, setPart] = useState<string>('파트 선택');
   const [sessionName, setSessionName] = useState<string>();
   const [sessionLocation, setSessionLocation] = useState<string>();
   const [date, setDate] = useState<string>();
   const [startTime, setStartTime] = useState<string>('14:00');
   const [endTime, setEndTime] = useState<string>('18:00');
-  const [selectedSessionIndex, setSelectedSessionIndex] = useState<number>(-1);
+  const [attribute, setAttribute] = useState<string>('세션 선택');
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isPartOpen, setIsPartOpen] = useState<boolean>(false);
+  const [isAttributeOpen, setIsAttributeOpen] = useState<boolean>(false);
   const [isStartTimeOpen, setIsStartTimeOpen] = useState<boolean>(false);
   const [isEndTimeOpen, setIsEndTimeOpen] = useState<boolean>(false);
 
@@ -62,21 +63,13 @@ function CreateSessionModal(props: Props) {
       date &&
       startTime &&
       endTime &&
-      selectedSessionIndex !== -1
+      attribute !== '세션 선택'
     ) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
     }
-  }, [
-    part,
-    sessionName,
-    sessionLocation,
-    date,
-    startTime,
-    endTime,
-    selectedSessionIndex,
-  ]);
+  }, [part, sessionName, sessionLocation, date, startTime, endTime, attribute]);
 
   /** 각각의 State 에 담아준 상태들을 객체화 시켜 post 하는 함수 */
   const handleSubmit = async () => {
@@ -84,8 +77,7 @@ function CreateSessionModal(props: Props) {
       setButtonClicked(true);
 
       const translatedPart = partTranslator[part];
-      const translatedAttribute =
-        sessionTranslator[sessionType[selectedSessionIndex].session];
+      const translatedAttribute = sessionTranslator[attribute];
 
       const submitContents = {
         part: translatedPart,
@@ -106,6 +98,11 @@ function CreateSessionModal(props: Props) {
   const handleSelectedPart = (selectedPart: string) => {
     setPart(selectedPart);
     setIsPartOpen(false);
+  };
+
+  const handleSelectedAttribute = (selectedAttribute: string): void => {
+    setAttribute(selectedAttribute);
+    setIsAttributeOpen(false);
   };
 
   /** 시간 선택 핸들러 */
@@ -145,80 +142,101 @@ function CreateSessionModal(props: Props) {
   };
 
   return (
-    <>
+    <StSessionModalWrapper>
       <ModalHeader
         title="세션 생성"
         desc="대상 파트를 선택해주세요."
         onClose={onClose}
       />
-      <OptionTemplate title="세션 종류">
-        <Selector content="세미나" onClick={() => {}} />
-      </OptionTemplate>
-      <OptionTemplate title="파트">
-        <Selector content={part} onClick={() => setIsPartOpen(!isPartOpen)} />
-        {isPartOpen && (
-          <DropDown
-            list={partList}
-            onItemSelected={handleSelectedPart}
-            type={'select'}
-          />
-        )}
-      </OptionTemplate>
-      <OptionTemplate title="세션명">
-        <Input
-          type="text"
-          placeholder="세션명을 입력하세요."
-          onChange={(e) => handleSessionInfo(e, '세션 이름')}
-        />
-      </OptionTemplate>
-      <OptionTemplate title="세션 장소">
-        <Input
-          type="text"
-          placeholder="세션이 열리는 장소를 입력하세요."
-          onChange={(e) => handleSessionInfo(e, '세션 장소')}
-        />
-      </OptionTemplate>
-      <OptionTemplate title="세션 날짜">
-        <StDatePickerInput>
-          <DatePicker
-            placeholderText="세션 날짜를 선택해주세요"
-            dateFormat="yyyy/MM/dd"
-            selected={selectedDate}
-            onChange={handleSessionDate}>
-            <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
-          </DatePicker>
-        </StDatePickerInput>
-      </OptionTemplate>
-      <OptionTemplate title="시작 시각">
-        <Selector
-          content={startTime}
-          onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}
-        />
-        {isStartTimeOpen && (
-          <DropDown
-            list={times}
-            type={'times'}
-            onItemSelected={(time: string) =>
-              handleSelectedTime(time, 'startTime')
-            }
-          />
-        )}
-      </OptionTemplate>
-      <OptionTemplate title="종료 시각">
-        <Selector
-          content={endTime}
-          onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}
-        />
-        {isEndTimeOpen && (
-          <DropDown
-            list={times}
-            type={'times'}
-            onItemSelected={(time: string) =>
-              handleSelectedTime(time, 'endTime')
-            }
-          />
-        )}
-      </OptionTemplate>
+      <main>
+        <div className="dropdowns">
+          <OptionTemplate title="세션 종류">
+            <Selector
+              content={attribute}
+              onClick={() => setIsAttributeOpen(!isAttributeOpen)}
+            />
+            {isAttributeOpen && (
+              <DropDown
+                list={attributeList}
+                onItemSelected={handleSelectedAttribute}
+                type={'select'}
+              />
+            )}
+          </OptionTemplate>
+          <OptionTemplate title="파트">
+            <Selector
+              content={part}
+              onClick={() => setIsPartOpen(!isPartOpen)}
+            />
+            {isPartOpen && (
+              <DropDown
+                list={partList}
+                onItemSelected={handleSelectedPart}
+                type={'select'}
+              />
+            )}
+          </OptionTemplate>
+        </div>
+        <div className="inputs">
+          <OptionTemplate title="세션명">
+            <Input
+              type="text"
+              placeholder="세션명을 입력하세요."
+              onChange={(e) => handleSessionInfo(e, '세션 이름')}
+            />
+          </OptionTemplate>
+          <OptionTemplate title="세션 장소">
+            <Input
+              type="text"
+              placeholder="세션이 열리는 장소를 입력하세요."
+              onChange={(e) => handleSessionInfo(e, '세션 장소')}
+            />
+          </OptionTemplate>
+          <OptionTemplate title="세션 날짜">
+            <StDatePickerInput>
+              <DatePicker
+                placeholderText="세션 날짜를 선택해주세요"
+                dateFormat="yyyy.MM.dd"
+                selected={selectedDate}
+                onChange={handleSessionDate}>
+                <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
+              </DatePicker>
+            </StDatePickerInput>
+          </OptionTemplate>
+          <div className="time">
+            <OptionTemplate title="시작 시각">
+              <Selector
+                content={startTime}
+                onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}
+              />
+              {isStartTimeOpen && (
+                <DropDown
+                  list={times}
+                  type={'times'}
+                  onItemSelected={(time: string) =>
+                    handleSelectedTime(time, 'startTime')
+                  }
+                />
+              )}
+            </OptionTemplate>
+            <OptionTemplate title="종료 시각">
+              <Selector
+                content={endTime}
+                onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}
+              />
+              {isEndTimeOpen && (
+                <DropDown
+                  list={times}
+                  type={'times'}
+                  onItemSelected={(time: string) =>
+                    handleSelectedTime(time, 'endTime')
+                  }
+                />
+              )}
+            </OptionTemplate>
+          </div>
+        </div>
+      </main>
       <ModalFooter>
         <Button type={'button'} text="취소하기" onClick={onClose} />
         <Button
@@ -228,7 +246,7 @@ function CreateSessionModal(props: Props) {
           onClick={() => handleSubmit()}
         />
       </ModalFooter>
-    </>
+    </StSessionModalWrapper>
   );
 }
 
