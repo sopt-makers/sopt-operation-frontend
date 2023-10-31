@@ -22,3 +22,37 @@ export const LINK_TYPE_LIST = [
   '출석',
   '솝탬프',
 ];
+
+export const readPlaygroundId = async (file: File): Promise<string[]> => {
+  return new Promise((resolve, reject) => {
+    const userIds: string[] = [];
+    const reader = new FileReader();
+    let foundColumn = false;
+
+    reader.readAsText(file, 'UTF-8');
+    reader.onload = function (evt) {
+      try {
+        const csv = evt.target?.result as string;
+        const lines = csv.split('\n');
+
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].includes('[Amplitude] User ID')) {
+            foundColumn = true;
+            continue;
+          }
+          if (foundColumn) {
+            let value = lines[i].split(',')[0].trim();
+            value = value.replace(/^"\t|\t"$|"/g, '').trim();
+            if (value) userIds.push(value);
+          }
+        }
+        resolve(userIds);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    reader.onerror = function (error) {
+      reject(error);
+    };
+  });
+};
