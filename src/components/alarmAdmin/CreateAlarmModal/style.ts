@@ -55,7 +55,7 @@ export const StAlarmTypeButton = styled.button<{ isSelected: boolean }>`
 `;
 
 export const StTargetUserSelector = styled.div<{
-  defaultVal?: string | null;
+  selectedValue?: string | null;
 }>`
   display: flex;
   justify-content: space-between;
@@ -72,8 +72,8 @@ export const StTargetUserSelector = styled.div<{
   line-height: 100%; /* 1.8rem */
   letter-spacing: -0.018rem;
 
-  color: ${({ defaultVal }) =>
-    defaultVal === '발송 파트' ? colors.gray400 : colors.gray10};
+  color: ${({ selectedValue }) =>
+    selectedValue === '발송 파트' ? colors.gray400 : colors.gray10};
 
   background-color: ${colors.gray700};
   border-radius: 0.8rem;

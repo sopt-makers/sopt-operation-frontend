@@ -184,7 +184,7 @@ function CreateAlarmModal(props: Props) {
             <>
               <OptionTemplate title="파트">
                 <StTargetUserSelector
-                  defaultVal={selectedValue?.part}
+                  selectedValue={selectedValue?.part}
                   onClick={() => toggleDropdown('part')}>
                   {selectedValue.part}
                   <IcNewDropdown />
