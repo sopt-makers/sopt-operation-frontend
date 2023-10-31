@@ -17,7 +17,8 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     font-size: 10px;
     width: 100%;
     min-height: 100%;
-    background-color: ${colors.background};
+    background-color: ${theme.color.grayscale.gray20};
+    /* background-color: ${colors.background}; */
     font-family: 'SUIT', sans-serif;
     font-weight: 400;
     font-style: normal;
