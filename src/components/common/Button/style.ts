@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import { Props } from './index';
 
@@ -9,28 +10,26 @@ export const StButton = styled.button<Pick<Props, 'type'>>`
   font-size: 1.6rem;
   line-height: 1;
   font-weight: 600;
-  border-radius: 4rem;
+  padding: 1.6rem 2.4rem;
+  border-radius: 1rem;
   &:disabled {
-    background-color: ${({ theme }) => theme.color.grayscale.gray30};
-    border: 1px solid ${({ theme }) => theme.color.grayscale.gray30};
-    color: ${({ theme }) => theme.color.grayscale.white100};
+    background-color: ${colors.gray600};
+    color: ${colors.gray400};
     cursor: default;
   }
   ${({ theme, type }) =>
     type === 'button'
       ? css`
-          background-color: ${theme.color.grayscale.white100};
-          border: 1px solid ${theme.color.grayscale.gray30};
-          color: ${theme.color.grayscale.gray60};
+          background: none;
+          color: ${colors.gray200};
         `
       : type === 'submit'
       ? css`
-          background-color: ${theme.color.grayscale.black100};
-          border: 1px solid ${theme.color.grayscale.black100};
-          color: ${theme.color.grayscale.white100};
+          background-color: ${colors.white}
+          color: ${colors.black};
         `
       : css`
-          background-color: ${theme.color.grayscale.gray30};
+          background: none;
           color: ${theme.color.grayscale.white100};
         `};
 `;
