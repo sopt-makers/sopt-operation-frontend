@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
-import { body2 } from '@/styles/fonts';
-
 export const StButton = styled.button`
-  ${body2}
+  font-size: 1.4rem;
+  line-height: 2rem;
+  font-weight: 500;
   transition: transform 0.1s;
   display: inline-block;
 

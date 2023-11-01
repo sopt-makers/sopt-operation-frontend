@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import css from 'styled-jsx/css';
 
-import { body2, caption1 } from '@/styles/fonts';
-
 export const StList = styled.table<{ tableWidth: string[] }>`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 1.6rem;
   thead > tr {
-    ${caption1}
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    font-weight: 500;
     font-weight: 400;
     color: ${({ theme }) => theme.color.grayscale.black40};
     opacity: 0.7;
@@ -24,7 +24,9 @@ export const StList = styled.table<{ tableWidth: string[] }>`
         .join('')}
   }
   tbody > tr {
-    ${body2}
+    font-size: 1.4rem;
+    line-height: 2rem;
+    font-weight: 500;
     height: 7rem;
     color: ${({ theme }) => theme.color.grayscale.black40};
     & > td {
