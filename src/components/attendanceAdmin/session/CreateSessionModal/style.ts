@@ -101,6 +101,10 @@ export const StDatePickerInput = styled.div<{ hasValue?: boolean }>`
           line-height: 165%; /* 2.64rem */
           letter-spacing: -0.024rem;
         }
+        &:focus {
+          background-color: ${colors.gray600};
+          outline: 0.1rem solid ${colors.gray300};
+        }
       }
     }
   }

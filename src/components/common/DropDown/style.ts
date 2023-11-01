@@ -12,17 +12,11 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
   width: 100%;
   min-width: 11rem;
   height: auto;
-  max-height: 32.1rem;
   margin-top: 1rem;
+  padding: 0.8rem 0.7rem;
 
   box-shadow: 0px 5px 20px 0px rgba(63, 64, 66, 0.15);
   border-radius: 1.3rem;
-
-  ${({ type }) =>
-    type === 'times' &&
-    css`
-      overflow: scroll;
-    `}
 
   background-color: ${colors.gray500};
 
@@ -34,7 +28,24 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
     flex-direction: column;
     gap: 1.5rem;
 
-    padding: 0.7rem;
+    max-height: auto;
+
+    ${({ type }) =>
+      type === 'times' &&
+      css`
+        max-height: 20rem;
+        overflow-y: scroll; // 세로 스크롤만 허용
+        overflow-x: hidden; // 가로 스크롤 숨기기
+
+        ::-webkit-scrollbar {
+          width: 0.6rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: ${colors.gray300};
+          border-radius: 0.8rem;
+        }
+      `}
 
     & > p {
       padding: 0.75rem 0 0.75rem 0.5rem;
