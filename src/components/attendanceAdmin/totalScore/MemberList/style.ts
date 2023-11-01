@@ -14,6 +14,8 @@ export const StListHeader = styled.header`
   }
 `;
 
+export const StActionButton = styled.button``;
+
 export const StMemberName = styled.p`
   max-width: 7.3rem;
   overflow: hidden;

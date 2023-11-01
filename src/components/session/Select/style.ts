@@ -8,7 +8,6 @@ export const StSelectWrap = styled.div`
   align-items: center;
 `;
 export const StSelect = styled.button`
-  background: none;
   font-size: 1.4rem;
   font-weight: 500;
   line-height: 2rem;

@@ -8,7 +8,6 @@ export const StModalWrap = styled.div`
     right: 0;
     width: 4.4rem;
     height: 4.4rem;
-    background: none;
     margin: 3.2rem 3.2rem 0 0;
   }
   header {

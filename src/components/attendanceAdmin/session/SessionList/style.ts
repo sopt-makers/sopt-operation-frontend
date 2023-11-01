@@ -1,67 +1,105 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 
 export const StListHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5rem;
-
   & > h1 {
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 25px;
-    letter-spacing: -0.02em;
-    color: ${({ theme }) => theme.color.grayscale.black60};
+    ${fonts.TITLE_32_SB}
+    color: ${colors.gray10};
+    margin-bottom: 41px;
+  }
+  & > p {
+    ${fonts.TITLE_16_SB}
+    color: ${colors.gray200};
+    margin-top: 55px;
+    margin-bottom: 18px;
   }
 `;
 
-export const StTbody = styled.tbody`
-  cursor: pointer;
+export const StListItem = styled.li`
+  padding: 18px 22px 18px 32px;
+  display: flex;
+  justify-content: space-between;
 
-  & > tr {
-    &:hover {
-      & > td {
-        border-top: 1px solid ${({ theme }) => theme.color.grayscale.black40};
-        border-bottom: 1px solid ${({ theme }) => theme.color.grayscale.black40};
+  .left-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+
+    & > p:first-of-type {
+      ${fonts.TITLE_20_SB}
+      color: ${colors.gray10};
+      margin-right: 15px;
+    }
+  }
+  .left-bottom {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    p {
+      ${fonts.LABEL_12_SB}
+      color: ${colors.gray500};
+
+      span {
+        ${fonts.BODY_14_M}
+        color: ${colors.gray300};
+        margin-left: 6px;
       }
-      & > td:first-of-type {
-        border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
-        border-right: none;
-      }
-      & > td:last-of-type {
-        border: 1px solid ${({ theme }) => theme.color.grayscale.black40};
-        border-left: none;
+    }
+  }
+  .right {
+    ${fonts.BODY_14_M}
+    display: flex;
+    align-items: center;
+    gap: 55px;
+
+    & > div:first-of-type {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
     }
   }
 `;
 
 export const IndicatorStructure = styled.span`
+  ${fonts.LABEL_12_SB}
   display: inline-block;
-  min-width: 4.9rem;
-  padding: 0.4rem 0.6rem;
-  text-align: center;
-  vertical-align: middle;
-  color: ${({ theme }) => theme.color.grayscale.white100};
-  border-radius: 0.4rem;
+  border: 1px solid ${colors.gray500};
+  border-radius: 20px;
+  padding: 3.5px 8px;
+  margin-right: 10px;
 `;
 
 export const StPartIndicator = styled(IndicatorStructure)`
-  background-color: ${({ theme }) => theme.color.grayscale.gray100};
+  color: ${colors.gray200};
 `;
 
 export const StSessionIndicator = styled(IndicatorStructure)<{
   attributeName: string;
 }>`
-  color: ${({ theme, attributeName }) =>
-    attributeName === '기타'
-      ? theme.color.grayscale.black60
-      : theme.color.grayscale.white100};
-  background-color: ${({ theme, attributeName }) =>
+  ${({ attributeName }) =>
     attributeName === '세미나'
-      ? theme.color.grayscale.black100
+      ? css`
+          border-color: ${colors.orange600};
+          color: ${colors.orange600};
+        `
       : attributeName === '행사'
-      ? theme.color.grayscale.black40
-      : theme.color.grayscale.gray40};
+      ? css`
+          border-color: ${colors.blue400};
+          color: ${colors.blue400};
+        `
+      : css`
+          border-color: ${colors.yellow700};
+          color: ${colors.yellow700};
+        `}
 `;
 
 export const StSessionName = styled.p`
@@ -70,4 +108,14 @@ export const StSessionName = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   margin: 0 auto;
+`;
+
+export const StActionButton = styled.button`
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: ${colors.gray600};
+  }
 `;

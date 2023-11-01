@@ -25,6 +25,7 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
   }
   button {
     border: none;
+    background: none;
     font-size: 10px;
     padding: 0;
     cursor: pointer;

@@ -15,7 +15,7 @@ export const partTranslator: Record<PART, string> = {
   DESIGN: '디자인',
   SERVER: '서버',
   IOS: 'iOS',
-  ANDROID: 'AOS',
+  ANDROID: '안드로이드',
   WEB: '웹',
 };
 export const attendanceTranslator: Record<ATTEND_STATUS, string> = {
