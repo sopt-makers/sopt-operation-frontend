@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 export const StSelectorWrapper = styled.div<{
-  selectedValue?: string | null;
+  isDisabledValue: boolean | undefined;
 }>`
   display: flex;
   justify-content: space-between;
@@ -19,11 +19,16 @@ export const StSelectorWrapper = styled.div<{
   line-height: 100%; /* 1.8rem */
   letter-spacing: -0.018rem;
 
-  color: ${({ selectedValue }) =>
-    selectedValue === '발송 파트' ? colors.gray400 : colors.gray10};
+  color: ${({ isDisabledValue }) =>
+    isDisabledValue ? colors.gray400 : colors.gray10};
 
   background-color: ${colors.gray700};
   border-radius: 0.8rem;
 
   cursor: pointer;
+
+  & > svg > path {
+    fill: ${({ isDisabledValue }) =>
+      isDisabledValue ? colors.gray400 : colors.gray10};
+  }
 `;

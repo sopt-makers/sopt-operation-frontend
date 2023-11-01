@@ -154,6 +154,7 @@ function CreateSessionModal(props: Props) {
             <Selector
               content={attribute}
               onClick={() => setIsAttributeOpen(!isAttributeOpen)}
+              isDisabledValue={attribute === '세션 선택'}
             />
             {isAttributeOpen && (
               <DropDown
@@ -167,6 +168,7 @@ function CreateSessionModal(props: Props) {
             <Selector
               content={part}
               onClick={() => setIsPartOpen(!isPartOpen)}
+              isDisabledValue={part === '파트 선택'}
             />
             {isPartOpen && (
               <DropDown
