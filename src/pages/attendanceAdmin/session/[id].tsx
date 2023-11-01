@@ -1,10 +1,13 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { RefObject, useRef, useState } from 'react';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
+import Chip from '@/components/common/Chip';
 import Footer from '@/components/common/Footer';
 import HelperText from '@/components/common/HelperText';
 import ListActionButton from '@/components/common/ListActionButton';
@@ -27,19 +30,7 @@ import {
 } from '@/services/api/lecture/query';
 import { addPlus, precision } from '@/utils';
 import { ACTIVITY_GENRATION } from '@/utils/generation';
-
-const HEADER_LABELS = [
-  '순번',
-  '회원명',
-  '학교명',
-  '1차 출석 상태',
-  '1차 출석 일시',
-  '2차 출석 상태',
-  '2차 출석 일시',
-  '변동점수',
-  'ㅤ',
-];
-const TABLE_WIDTH = ['9%', '9%', '12%', '10%', '16%', '10%', '16%', '9%', '9%'];
+import { attributeTranslator, partTranslator } from '@/utils/translator';
 
 function SessionDetailPage() {
   const router = useRouter();
@@ -140,111 +131,123 @@ function SessionDetailPage() {
     }
   };
 
+  const getMemberCount = (attendances: Record<string, number>) => {
+    let sum = 0;
+    Object.keys(attendances).map((key) => (sum += attendances[key]));
+    return sum;
+  };
+
   return (
     <StPageWrapper>
       {session && (
         <StPageHeader>
-          <div className="session-info">
-            <h2>
-              <strong>{session.name}</strong> 출석 관리
-            </h2>
-            <div className="attendance-info">
+          <div className="title">
+            <h1>{session.name} 출석 관리</h1>
+            <Chip text={partTranslator[session.part]} />
+            <Chip text={attributeTranslator[session.attribute]} />
+          </div>
+          {session.part === 'ALL' && (
+            <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+          )}
+          <div className="attendances">
+            <p>총 {getMemberCount(session.attendances)}명</p>
+            <div>
               <p>출석 {session.attendances.attendance}</p>
               <p>지각 {session.attendances.tardy}</p>
               <p>결석 {session.attendances.absent}</p>
               <p>미정 {session.attendances.unknown}</p>
             </div>
           </div>
-          {session.part === 'ALL' && (
-            <PartFilter selected={selectedPart} onChangePart={onChangePart} />
-          )}
         </StPageHeader>
       )}
 
       {session && members ? (
-        <ListWrapper tableWidth={TABLE_WIDTH}>
-          <thead>
-            <tr>
-              {HEADER_LABELS.map((label) => (
-                <th key={label}>{label}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {members?.pages.map(
-              (pageMembers, pageIndex) =>
-                pageMembers &&
-                pageMembers.map((member, index) => {
-                  const firstRound =
-                    member.attendances.find((item) => item.round === 1) ??
-                    attendanceInit;
-                  const secondRound =
-                    member.attendances.find((item) => item.round === 2) ??
-                    attendanceInit;
-                  const firstRoundTime = dayjs(firstRound.updateAt).format(
-                    'YYYY/MM/DD HH:mm',
-                  );
-                  const secondRoundTime = dayjs(secondRound.updateAt).format(
-                    'YYYY/MM/DD HH:mm',
-                  );
-                  return (
-                    <tr
-                      key={member.member.memberId}
-                      className={isChangedMember(member) ? 'focused' : ''}>
-                      <td>{precision(pageIndex * PAGE_SIZE + index + 1, 2)}</td>
-                      <td className="member-name">{member.member.name}</td>
-                      <td className="member-university">
+        <ListWrapper>
+          {members?.pages.map(
+            (pageMembers, pageIndex) =>
+              pageMembers &&
+              pageMembers.map((member, index) => {
+                const firstRound =
+                  member.attendances.find((item) => item.round === 1) ??
+                  attendanceInit;
+                const secondRound =
+                  member.attendances.find((item) => item.round === 2) ??
+                  attendanceInit;
+                const firstRoundTime = dayjs(firstRound.updateAt).format(
+                  'YYYY/MM/DD HH:mm',
+                );
+                const secondRoundTime = dayjs(secondRound.updateAt).format(
+                  'YYYY/MM/DD HH:mm',
+                );
+                return (
+                  <StListItem
+                    key={member.member.memberId}
+                    className={isChangedMember(member) ? 'focused' : ''}>
+                    <p className="member-index">
+                      {precision(pageIndex * PAGE_SIZE + index + 1, 2)}
+                    </p>
+                    <div className="member-info">
+                      <div>
+                        <p className="member-name">{member.member.name}</p>
+                        <Chip text="파트" />
+                      </div>
+                      <p className="member-university">
                         {member.member.university}
-                      </td>
-                      <td>
-                        <Select
-                          selected={firstRound.status}
-                          options={attendanceOptions}
-                          onChange={(value) =>
-                            onChangeStatus(
-                              value,
-                              member,
-                              firstRound.subAttendanceId,
-                            )
-                          }
-                          generation={String(session.generation)}
-                        />
-                      </td>
-                      <td className="member-date">{firstRoundTime}</td>
-                      <td>
-                        <Select
-                          selected={secondRound.status}
-                          options={attendanceOptions}
-                          onChange={(value) =>
-                            onChangeStatus(
-                              value,
-                              member,
-                              secondRound.subAttendanceId,
-                            )
-                          }
-                          generation={String(session.generation)}
-                        />
-                      </td>
-                      <td className="member-date">{secondRoundTime}</td>
-                      <td>{addPlus(member.updatedScore)}점</td>
-                      <td className="member-update">
-                        <ListActionButton
-                          onClick={() => onUpdateScore(member.member.memberId)}
-                          text="갱신"
-                          disabled={
-                            !(
-                              session.status === 'END' &&
-                              isChangedMember(member) &&
-                              String(session.generation) === ACTIVITY_GENRATION
-                            )
-                          }
-                        />
-                      </td>
-                    </tr>
-                  );
-                }),
-            )}
-          </tbody>
+                      </p>
+                    </div>
+                    <Select
+                      selected={firstRound.status}
+                      options={attendanceOptions.first}
+                      round="1차"
+                      onChange={(value) =>
+                        onChangeStatus(
+                          value,
+                          member,
+                          firstRound.subAttendanceId,
+                        )
+                      }
+                      generation={String(session.generation)}
+                    />
+                    <p className="member-date">{firstRoundTime}</p>
+                    <Select
+                      selected={secondRound.status}
+                      options={attendanceOptions.second}
+                      round="2차"
+                      onChange={(value) =>
+                        onChangeStatus(
+                          value,
+                          member,
+                          secondRound.subAttendanceId,
+                        )
+                      }
+                      generation={String(session.generation)}
+                    />
+                    <p className="member-date">{secondRoundTime}</p>
+                    <div className="member-score-wrap">
+                      <p
+                        className={
+                          member.updatedScore < 0
+                            ? 'member-score minus-score'
+                            : 'member-score'
+                        }>
+                        {addPlus(member.updatedScore)}점
+                      </p>
+                    </div>
+                    <ListActionButton
+                      onClick={() => onUpdateScore(member.member.memberId)}
+                      text="갱신"
+                      disabled={
+                        !(
+                          session.status === 'END' &&
+                          isChangedMember(member) &&
+                          String(session.generation) === ACTIVITY_GENRATION
+                        )
+                      }
+                    />
+                  </StListItem>
+                );
+              }),
+          )}
         </ListWrapper>
       ) : (
         <p className="empty">데이터가 없어요</p>
@@ -306,23 +309,6 @@ function SessionDetailPage() {
 }
 
 const StPageWrapper = styled.div`
-  .member {
-    &-name,
-    &-university {
-      max-width: 7.3rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      margin: 0 auto;
-      padding: 0 2.2rem;
-    }
-    &-university {
-      max-width: 13.5rem;
-    }
-    &-date {
-      color: ${({ theme }) => theme.color.grayscale.gray80};
-    }
-  }
   .empty {
     text-align: center;
     font-size: 1.4rem;
@@ -331,35 +317,94 @@ const StPageWrapper = styled.div`
   }
 `;
 const StPageHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 6rem;
-  h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 2.5rem;
-    height: 3rem;
-    margin-bottom: 1.2rem;
-    color: ${({ theme }) => theme.color.grayscale.black60};
+  h1 {
+    ${fonts.TITLE_32_SB}
+    color: ${colors.gray10};
+    margin-right: 20px;
+  }
+  .title {
     display: flex;
-    strong {
-      margin-right: 0.8rem;
+    align-items: center;
+    margin-bottom: 41px;
+  }
+  .attendances {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 56px;
+    margin-bottom: 18px;
 
-      font-weight: 700;
-      max-width: 18rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      display: inline-block;
+    & > p {
+      ${fonts.TITLE_16_SB}
+      color: ${colors.gray200};
+    }
+    & > div {
+      ${fonts.TITLE_14_SB}
+      color: ${colors.gray400};
+      display: flex;
+      gap: 11px;
     }
   }
-  .attendance-info {
+`;
+const StListItem = styled.li`
+  padding: 18px 34px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  color: ${colors.gray100};
+
+  .member-index {
+    ${fonts.BODY_14_M}
+    width: 26px;
+    margin-right: 33px;
+  }
+  .member-info {
+    margin-right: 26px;
+  }
+  .member-info > div:first-of-type {
     display: flex;
-    gap: 1rem;
-    font-size: 1.4rem;
-    line-height: 1.7rem;
-    color: ${({ theme }) => theme.color.grayscale.gray100};
+    align-items: center;
+    margin-bottom: 4px;
+    width: 144px;
+  }
+  .member-name {
+    ${fonts.TITLE_18_SB}
+    color: ${colors.gray30};
+    margin-right: 15px;
+    max-width: 80px;
+  }
+  .member-university {
+    ${fonts.BODY_14_M}
+    color: ${colors.gray400};
+    max-width: 140px;
+  }
+  .member-name,
+  .member-university {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .member-date {
+    ${fonts.BODY_14_M}
+    color: ${colors.gray200};
+    width: 122px;
+    margin-right: 36px;
+  }
+  .member-score-wrap {
+    width: 80px;
+    margin-right: 22px;
+  }
+  .member-score {
+    ${fonts.BODY_16_M}
+    color: ${colors.gray50};
+    background-color: ${colors.gray700};
+    padding: 5px 13px;
+    border-radius: 30px;
+    width: fit-content;
+    margin: 0 auto;
+  }
+  .minus-score {
+    color: ${colors.error};
   }
 `;
 const StFooterContents = styled.div`

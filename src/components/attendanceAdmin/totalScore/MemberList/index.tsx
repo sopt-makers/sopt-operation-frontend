@@ -79,7 +79,7 @@ function MemberList() {
         <h1>출석 총점</h1>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
       </StListHeader>
-      <ListWrapper tableWidth={TABLE_WIDTH}>
+      <ListWrapper>
         <thead>
           <tr>
             {HEADER_LABELS.map((label) => (

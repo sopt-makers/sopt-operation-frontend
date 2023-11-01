@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import IcDate from '@/assets/icons/IcDate.svg';
 import IcMore from '@/assets/icons/IcMore.svg';
 import IcPlace from '@/assets/icons/icPlace.svg';
+import Chip from '@/components/common/Chip';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
@@ -19,8 +20,6 @@ import {
   StActionButton,
   StListHeader,
   StListItem,
-  StPartIndicator,
-  StSessionIndicator,
   StSessionName,
 } from './style';
 
@@ -84,10 +83,8 @@ function SessionList() {
               <div>
                 <div className="left-top">
                   <p>{name}</p>
-                  <StPartIndicator>{part}</StPartIndicator>
-                  <StSessionIndicator attributeName={attributeName}>
-                    {attributeName}
-                  </StSessionIndicator>
+                  <Chip text={part} />
+                  <Chip text={attributeName} />
                 </div>
                 <div className="left-bottom">
                   <p>

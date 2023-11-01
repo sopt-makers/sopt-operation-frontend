@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 
 import zIndex from '@/utils/zIndex';
 
@@ -7,15 +9,27 @@ export const StSelectWrap = styled.div`
   justify-content: center;
   align-items: center;
 `;
-export const StSelect = styled.button`
-  font-size: 1.4rem;
-  font-weight: 500;
-  line-height: 2rem;
-  color: ${({ theme }) => theme.color.grayscale.black40};
+export const StSelect = styled.button<{
+  value: ATTEND_STATUS | ATTEND_STATUS_KR;
+}>`
+  ${fonts.BODY_14_M}
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  transform: translateX(0.6rem);
+  padding: 3.5px 8px 3.5px 12px;
+  gap: 12px;
+  border-radius: 8px;
+  background-color: ${({ value }) => getAttendanceColor(value).background};
+  margin-right: 20px;
+
+  p {
+    color: ${({ value }) => getAttendanceColor(value).font};
+  }
+  svg {
+    margin-left: 12px;
+  }
+  path {
+    fill: ${({ value }) => getAttendanceColor(value).font};
+  }
 `;
 export const StOptions = styled.ul`
   z-index: ${zIndex.select};
@@ -46,3 +60,19 @@ export const StOptions = styled.ul`
     }
   }
 `;
+
+const getAttendanceColor = (value: ATTEND_STATUS | ATTEND_STATUS_KR) => {
+  switch (value) {
+    case 'ABSENT':
+    case '결석':
+      return { font: colors.red300, background: colors.red800 };
+    case 'TARDY':
+    case '지각':
+      return { font: colors.attention, background: colors.yellow900 };
+    case 'ATTENDANCE':
+    case '출석':
+      return { font: colors.information, background: colors.green900 };
+    default:
+      return { font: colors.gray10, background: colors.gray600 };
+  }
+};
