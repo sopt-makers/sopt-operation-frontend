@@ -22,6 +22,15 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     font-family: 'SUIT', sans-serif;
     font-weight: 400;
     font-style: normal;
+
+    ::-webkit-scrollbar {
+      width: 0.6rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: ${colors.gray300};
+      border-radius: 0.8rem;
+    }
   }
   #__next {
     width: 100%;
