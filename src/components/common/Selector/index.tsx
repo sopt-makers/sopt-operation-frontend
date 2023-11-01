@@ -4,7 +4,7 @@ import { StSelectorWrapper } from './style';
 
 interface Props {
   content: string | null;
-  onClick: () => void;
+  onClick?: () => void;
   isDisabledValue?: boolean;
 }
 

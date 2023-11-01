@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { IcDeleteFile, IcNewDropdown, IcUpload } from '@/assets/icons';
+import { IcDeleteFile, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import Input from '@/components/common/Input';
@@ -20,7 +20,6 @@ import {
   StAlarmModalWrapper,
   StAlarmTypeButton,
   StCsvUploader,
-  StTargetUserSelector,
   StTextArea,
 } from './style';
 
@@ -166,10 +165,11 @@ function CreateAlarmModal(props: Props) {
         </div>
         <div className="dropdowns">
           <OptionTemplate title="발송 대상">
-            <StTargetUserSelector onClick={() => toggleDropdown('target')}>
-              {isActiveUser}
-              <IcNewDropdown />
-            </StTargetUserSelector>
+            <Selector
+              content={isActiveUser}
+              onClick={() => toggleDropdown('target')}
+              isDisabledValue={false}
+            />
             {dropdownVisibility.target && (
               <DropDown
                 type={'select'}
@@ -279,11 +279,7 @@ function CreateAlarmModal(props: Props) {
             />
           </OptionTemplate>
           <OptionTemplate title="링크 첨부">
-            <Selector
-              content="개발중이에요 ㅠ"
-              onClick={() => alert('개발중이에요 ㅠ')}
-              isDisabledValue={true}
-            />
+            <Selector content="기능 추가 예정입니다." isDisabledValue={true} />
           </OptionTemplate>
         </div>
       </main>
