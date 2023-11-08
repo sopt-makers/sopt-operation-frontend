@@ -38,6 +38,7 @@ function GenerationDropDown() {
       router.push('/attendanceAdmin/session');
     }
   };
+
   return (
     <StWrapper>
       <StSelectedGeneration onClick={() => setIsDropdownOn(!isDropdownOn)}>
@@ -59,7 +60,7 @@ function GenerationDropDown() {
                 <StDropdownGeneration
                   key={generation}
                   onClick={() =>
-                    handleSelectedGeneration(generation, Logo, slogan)
+                    handleSelectedGeneration(generation, <Logo />, slogan)
                   }>
                   <Logo />
                   <div>
