@@ -1,9 +1,6 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import { Fragment } from 'react';
 
-import { IcAttendanceMenu } from '@/assets/icons';
-import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
-import { GENERATION_LIST } from '@/utils/generation';
 import { MENU_LIST } from '@/utils/nav';
 
 import GenerationDropDown from './GenerationDropDown';
@@ -11,8 +8,6 @@ import { StMenu, StNavWrapper, StSoptLogo, StSubMenu } from './style';
 
 function Nav() {
   const router = useRouter();
-
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubMenuClick = (path: string) => {
     router.push(path);
@@ -25,7 +20,7 @@ function Nav() {
       </header>
       <GenerationDropDown />
       {MENU_LIST.map((menu) => (
-        <React.Fragment key={menu.title}>
+        <Fragment key={menu.title}>
           <StMenu
             currentPage={
               menu.path &&
@@ -49,7 +44,7 @@ function Nav() {
                 {subMenu}
               </StSubMenu>
             ))}
-        </React.Fragment>
+        </Fragment>
       ))}
     </StNavWrapper>
   );
