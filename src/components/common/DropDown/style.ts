@@ -26,14 +26,14 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
   & > div {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.4rem;
 
     max-height: auto;
 
     ${({ type }) =>
       type === 'times' &&
       css`
-        max-height: 20rem;
+        max-height: 20.2rem;
         overflow-y: scroll; // 세로 스크롤만 허용
         overflow-x: hidden; // 가로 스크롤 숨기기
 
@@ -48,7 +48,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
       `}
 
     & > p {
-      padding: 0.75rem 0 0.75rem 0.5rem;
+      padding: 0.5rem 0.9rem;
 
       color: ${colors.gray10};
       font-size: 1.6rem;
