@@ -1,4 +1,18 @@
 import { IcAlarmMenu, IcAttendanceMenu, IcOrgMenu } from '@/assets/icons';
+import { DoSoptLogo, GoSoptLogo } from '@/assets/icons/SoptLogos';
+
+export const GENERATION_INFO = [
+  {
+    generation: '33',
+    Logo: DoSoptLogo,
+    slogan: 'DO',
+  },
+  {
+    generation: '32',
+    Logo: GoSoptLogo,
+    slogan: 'GO',
+  },
+];
 
 export const MENU_LIST = [
   {

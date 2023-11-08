@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { IcNewDropdown } from '@/assets/icons';
-import { DoSoptLogo, GoSoptLogo } from '@/assets/icons/SoptLogos';
+import { DoSoptLogo } from '@/assets/icons/SoptLogos';
 import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
+import { GENERATION_INFO } from '@/utils/nav';
 
 import {
   StDropdownGeneration,
@@ -12,19 +13,6 @@ import {
   StSelectedGeneration,
   StWrapper,
 } from './style';
-
-const GENERATION_INFO = [
-  {
-    generation: '33',
-    logo: <DoSoptLogo />,
-    slogan: 'DO',
-  },
-  {
-    generation: '32',
-    logo: <GoSoptLogo />,
-    slogan: 'GO',
-  },
-];
 
 function GenerationDropDown() {
   const router = useRouter();
@@ -65,15 +53,15 @@ function GenerationDropDown() {
         <StGenerationDropdown>
           <div>
             {GENERATION_INFO.map((info) => {
-              const { generation, logo, slogan } = info;
+              const { generation, Logo, slogan } = info;
 
               return (
                 <StDropdownGeneration
                   key={generation}
                   onClick={() =>
-                    handleSelectedGeneration(generation, logo, slogan)
+                    handleSelectedGeneration(generation, Logo, slogan)
                   }>
-                  {logo}
+                  <Logo />
                   <div>
                     <h1>{generation}기</h1>
                     <h2>{slogan} SOPT</h2>
