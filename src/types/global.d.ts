@@ -5,7 +5,7 @@ declare global {
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
-  type ALARM_STATUS = 'ALL' | 'BEFORE' | 'AFTER';
+  type ALARM_STATUS = '전체' | '발송 전' | '발송 후';
 
   /* 에러 */
   interface LoginError {

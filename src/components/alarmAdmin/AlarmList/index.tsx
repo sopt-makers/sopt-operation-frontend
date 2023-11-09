@@ -13,25 +13,22 @@ import Modal from '@/components/common/modal';
 import { currentGenerationState } from '@/recoil/atom';
 import { sendAlarm } from '@/services/api/alarm';
 import { useGetAlarmList } from '@/services/api/alarm/query';
-import { sendStatusTranslator } from '@/utils/translator';
 
 import CreateAlarmModal from '../CreateAlarmModal';
 import { StListItem, StPageHeader } from './style';
 
-const sendStatusList: ALARM_STATUS[] = ['ALL', 'BEFORE', 'AFTER'];
+const sendStatusList: ALARM_STATUS[] = ['전체', '발송 전', '발송 후'];
 
 function AlarmList() {
-  const [tab, setTab] = useState<ALARM_STATUS>('ALL');
+  const [tab, setTab] = useState<ALARM_STATUS>('전체');
   const [showDropdown, setShowDropdown] = useState(false);
   const [showAlarmDetail, setShowAlarmDetail] = useState<number | null>(null);
 
   const currentGeneration = useRecoilValue(currentGenerationState);
 
-  const {
-    data: alarmList,
-    isLoading,
-    isError,
-  } = useGetAlarmList(parseInt(currentGeneration));
+  const { data, isLoading, isError } = useGetAlarmList(
+    parseInt(currentGeneration),
+  );
 
   const onChangeTab = (value: ALARM_STATUS) => {
     setTab(value);
@@ -53,7 +50,11 @@ function AlarmList() {
     setShowAlarmDetail(null);
   };
 
-  if (isLoading || !alarmList) return <Loading />;
+  const alarmList = data
+    ? data.filter((item) => (tab === '전체' ? true : item.status === tab))
+    : [];
+
+  if (isLoading) return <Loading />;
   return (
     <>
       <StPageHeader>
@@ -62,7 +63,6 @@ function AlarmList() {
           list={sendStatusList}
           selected={tab}
           onChange={onChangeTab}
-          translator={sendStatusTranslator}
         />
         <p>총 0개</p>
       </StPageHeader>

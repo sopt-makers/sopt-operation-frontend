@@ -6,7 +6,7 @@ import {
 
 interface Props<T extends string | number> {
   list: T[];
-  translator: Record<T, string>;
+  translator?: Record<T, string>;
   onChange: (item: T) => void;
   selected: T;
 }
@@ -21,7 +21,7 @@ function FilterButton<T extends string | number>(props: Props<T>) {
             key={item}
             selected={selected === item}
             onClick={() => onChange(item)}>
-            {translator[item]}
+            {translator ? translator[item] : item}
           </FilterButtonItem>
         ))}
       </FilterWrapper>
