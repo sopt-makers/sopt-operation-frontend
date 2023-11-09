@@ -204,6 +204,11 @@ declare global {
     sentAt: string;
     status: string;
   }
+  interface AlarmDetail
+    extends Omit<PostAlarmData, 'generation' | 'targetList'> {
+    createdAt: string;
+    sentAt: string;
+  }
 }
 
 export default global;
