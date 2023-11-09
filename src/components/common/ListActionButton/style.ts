@@ -6,6 +6,7 @@ export const StButton = styled.button`
   ${fonts.BODY_14_M}
   color: ${colors.gray10};
   transition: transform 0.1s;
+
   display: inline-block;
 
   padding: 6px 10px;
