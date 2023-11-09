@@ -1,7 +1,7 @@
 import { RefObject, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import ListActionButton from '@/components/common/ListActionButton';
+import Chip from '@/components/common/Chip';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import PartFilter from '@/components/common/PartFilter';
@@ -13,35 +13,9 @@ import { precision } from '@/utils';
 import { getPartValue, partTranslator } from '@/utils/session';
 
 import MemberDetail from '../MemberDetail';
-import { StListHeader, StMemberName, StMemberUniversity } from './style';
+import { StListItem, StPageHeader } from './style';
 
 function MemberList() {
-  const HEADER_LABELS = [
-    '순번',
-    '회원명',
-    '학교명',
-    '파트명',
-    '총점',
-    '출석',
-    '지각',
-    '결석',
-    '참여',
-    '관리',
-  ];
-
-  const TABLE_WIDTH = [
-    '10%',
-    '13.5%',
-    '13.5%',
-    '12%',
-    '12%',
-    '5%',
-    '5%',
-    '5%',
-    '5%',
-    '12%',
-  ];
-
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [selectedMember, setSelectedMember] = useState<ScoreMember | null>(
     null,
@@ -65,7 +39,7 @@ function MemberList() {
     setSelectedPart(part);
   };
 
-  const onChangeMember = (member: ScoreMember) => {
+  const onShowMemberDetail = (member: ScoreMember) => {
     setSelectedMember(member);
   };
 
@@ -75,53 +49,64 @@ function MemberList() {
 
   return (
     <>
-      <StListHeader>
+      <StPageHeader>
         <h1>출석 총점</h1>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
-      </StListHeader>
+        <p>총 0명</p>
+      </StPageHeader>
       <ListWrapper>
-        <thead>
-          <tr>
-            {HEADER_LABELS.map((label) => (
-              <th key={label}>{label}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {members?.pages.map(
-            (pageMembers, pageIndex) =>
-              pageMembers &&
-              pageMembers.map((member, index) => {
-                const { part, name, university, score, total } = member;
-                const { attendance, tardy, absent, participate } = total;
-                const partName = getPartValue(partTranslator, part) || part;
+        {members?.pages.map(
+          (pageMembers, pageIndex) =>
+            pageMembers &&
+            pageMembers.map((member, index) => {
+              const { part, name, university, score, total } = member;
+              const { attendance, tardy, absent, participate } = total;
+              const partName = getPartValue(partTranslator, part) || part;
 
-                return (
-                  <tr key={`${name}-${university}`}>
-                    <td>{precision(pageIndex * PAGE_SIZE + index + 1, 2)}</td>
-                    <td className="identify">
-                      <StMemberName>{name}</StMemberName>
-                    </td>
-                    <td className="university">
-                      <StMemberUniversity>{university}</StMemberUniversity>
-                    </td>
-                    <td>{partName}</td>
-                    <td>{score}</td>
-                    <td className="attendance">{attendance}</td>
-                    <td className="attendance">{tardy}</td>
-                    <td className="attendance">{absent}</td>
-                    <td className="attendance">{participate}</td>
-                    <td>
-                      <ListActionButton
-                        text="조회"
-                        onClick={() => onChangeMember(member)}
-                      />
-                    </td>
-                  </tr>
-                );
-              }),
-          )}
-        </tbody>
+              return (
+                <StListItem
+                  key={`${name}-${university}`}
+                  onClick={() => onShowMemberDetail(member)}>
+                  <div className="member-info-wrap">
+                    <p className="index">
+                      {precision(pageIndex * PAGE_SIZE + index + 1, 2)}
+                    </p>
+                    <div className="member-info">
+                      <div>
+                        <p className="member-name">{name}</p>
+                        <Chip text={partName} />
+                      </div>
+                      <p className="member-university">{university}</p>
+                    </div>
+                  </div>
+                  <div className="member-score-wrap">
+                    <p className="attendance">
+                      <span>출석</span>
+                      {attendance}
+                    </p>
+                    <p className="attendance">
+                      <span>지각</span>
+                      {tardy}
+                    </p>
+                    <p className="attendance">
+                      <span>결석</span>
+                      {absent}
+                    </p>
+                    <p className="attendance">
+                      <span>미정</span>
+                      {participate}
+                    </p>
+                    <p
+                      className={
+                        score < 0 ? 'member-score minus-score' : 'member-score'
+                      }>
+                      {score}점
+                    </p>
+                  </div>
+                </StListItem>
+              );
+            }),
+        )}
       </ListWrapper>
 
       <div ref={bottomRef} />
