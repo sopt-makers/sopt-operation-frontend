@@ -1,9 +1,8 @@
-import { useTheme } from '@emotion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import IcDropdown from '@/components/icons/IcDropdown';
+import IcDropdownCheck from '@/assets/icons/IcDropdownCheck.svg';
 import { ACTIVITY_GENRATION } from '@/utils/generation';
-import { attendanceTranslator, getAttendanceColor } from '@/utils/translator';
+import { attendanceTranslator } from '@/utils/translator';
 
 import { StOptions, StSelect, StSelectWrap } from './style';
 
@@ -11,11 +10,12 @@ interface Props {
   options: Array<{ label: string; value: ATTEND_STATUS }>;
   selected: ATTEND_STATUS;
   generation: string;
+  round: '1차' | '2차';
   onChange: (value: ATTEND_STATUS) => void;
 }
 
 function Select(props: Props) {
-  const { options, selected, generation, onChange } = props;
+  const { options, selected, generation, round, onChange } = props;
 
   const optionsRef = useRef<HTMLUListElement>(null);
 
@@ -47,11 +47,11 @@ function Select(props: Props) {
 
   return (
     <StSelectWrap>
-      <StSelect onClick={toggleOptions}>
-        <p style={{ color: getAttendanceColor(currentValue) }}>
-          {attendanceTranslator[currentValue]}
+      <StSelect onClick={toggleOptions} value={currentValue}>
+        <p>
+          {round} {attendanceTranslator[currentValue]}
+          <IcDropdownCheck />
         </p>
-        {generation === ACTIVITY_GENRATION && <IcDropdown />}
       </StSelect>
       {showOptions && generation === ACTIVITY_GENRATION && (
         <StOptions ref={optionsRef}>

@@ -3,53 +3,28 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import ListActionButton from '@/components/common/ListActionButton';
+import IcDate from '@/assets/icons/IcDate.svg';
+import IcMore from '@/assets/icons/IcMore.svg';
+import IcPlace from '@/assets/icons/IcPlace.svg';
+import Chip from '@/components/common/Chip';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import { currentGenerationState } from '@/recoil/atom';
 import { useGetSessionList } from '@/services/api/lecture/query';
-import { precision } from '@/utils';
 import { partTranslator } from '@/utils/translator';
 
 import SessionDetailModal from './SessionDetailModal';
 import {
+  StActionButton,
   StListHeader,
-  StPartIndicator,
-  StSessionIndicator,
+  StListItem,
   StSessionName,
-  StTbody,
 } from './style';
 
 function SessionList() {
   const router = useRouter();
-
-  const HEADER_LABELS = [
-    '순번',
-    '파트',
-    '세션',
-    '세션명',
-    '날짜',
-    '출석',
-    '지각',
-    '결석',
-    '미정',
-    '관리',
-  ];
-
-  const TABLE_WIDTH = [
-    '11%',
-    '6.25%',
-    '6.25%',
-    '24%',
-    '14%',
-    '6.5%',
-    '6.5%',
-    '6.5%',
-    '6.5%',
-    '14.5%',
-  ];
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
@@ -84,61 +59,71 @@ function SessionList() {
       <StListHeader>
         <h1>출석 세션</h1>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
+        <p>총 {lectureData.length}개</p>
       </StListHeader>
-      <ListWrapper tableWidth={TABLE_WIDTH}>
-        <thead>
-          <tr>
-            {HEADER_LABELS.map((label) => (
-              <th key={label}>{label}</th>
-            ))}
-          </tr>
-        </thead>
-        <StTbody>
-          {lectureData?.map((lecture, index) => {
-            const {
-              lectureId,
-              partValue,
-              attributeName,
-              name,
-              startDate,
-              attendances,
-            } = lecture;
-            const { attendance, tardy, absent, unknown } = attendances;
-            const part = partTranslator[partValue] || partValue;
-            const date = dayjs(startDate);
-            const formattedDate = date.format('YYYY/MM/DD');
-            return (
-              <tr key={lectureId} onClick={() => handleManageClick(lectureId)}>
-                <td>{precision(index + 1, 2)}</td>
-                <td className="indicator">
-                  <StPartIndicator>{part}</StPartIndicator>
-                </td>
-                <td className="indicator">
-                  <StSessionIndicator attributeName={attributeName}>
-                    {attributeName}
-                  </StSessionIndicator>
-                </td>
-                <td>
-                  <StSessionName>{name}</StSessionName>
-                </td>
-                <td>{formattedDate}</td>
-                <td className="attendance">{attendance}</td>
-                <td className="attendance">{tardy}</td>
-                <td className="attendance">{absent}</td>
-                <td className="attendance">{unknown}</td>
-                <td>
-                  <ListActionButton
-                    text="조회"
-                    onClick={() => {
-                      setSelectedLecture(lectureId);
-                      setIsDetailOpen(true);
-                    }}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </StTbody>
+      <ListWrapper>
+        {lectureData?.map((lecture, index) => {
+          const {
+            lectureId,
+            partValue,
+            attributeName,
+            name,
+            startDate,
+            attendances,
+          } = lecture;
+          const { attendance, tardy, absent, unknown } = attendances;
+          const part = partTranslator[partValue] || partValue;
+          const date = dayjs(startDate);
+          const formattedDate = date.format('YYYY년 MM월 DD일 HH:mm');
+
+          return (
+            <StListItem
+              key={lectureId}
+              onClick={() => handleManageClick(lectureId)}>
+              <div>
+                <div className="left-top">
+                  <p>{name}</p>
+                  <Chip text={part} />
+                  <Chip text={attributeName} />
+                </div>
+                <div className="left-bottom">
+                  <p>
+                    출석<span>{attendance}</span>
+                  </p>
+                  <p>
+                    지각<span>{tardy}</span>
+                  </p>
+                  <p>
+                    결석<span>{absent}</span>
+                  </p>
+                  <p>
+                    미정<span>{unknown}</span>
+                  </p>
+                </div>
+              </div>
+              <div className="right">
+                <div>
+                  <p>
+                    <IcDate />
+                    {formattedDate}
+                  </p>
+                  <p>
+                    <IcPlace />
+                    장소
+                  </p>
+                </div>
+                <StActionButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedLecture(lectureId);
+                    setIsDetailOpen(true);
+                  }}>
+                  <IcMore />
+                </StActionButton>
+              </div>
+            </StListItem>
+          );
+        })}
       </ListWrapper>
       {isDetailOpen && (
         <Modal>
