@@ -39,7 +39,7 @@ export const StListItem = styled.li`
 
     & > div:first-of-type {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
     }
     .alarm-title {
       ${fonts.TITLE_18_SB}
@@ -59,7 +59,7 @@ export const StListItem = styled.li`
   .alarm-content {
     ${fonts.BODY_14_M}
     color: ${colors.gray100};
-    margin-right: 50px;
+    margin-right: 64px;
     width: 331px;
     height: 48px;
     text-overflow: ellipsis;
@@ -68,5 +68,8 @@ export const StListItem = styled.li`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+  .alarm-send {
+    margin-right: 28px;
   }
 `;

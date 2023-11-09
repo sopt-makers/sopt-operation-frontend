@@ -30,7 +30,10 @@ export const StAlarmModalWrapper = styled.section`
   }
 `;
 
-export const StAlarmTypeButton = styled.button<{ isSelected: boolean }>`
+export const StAlarmTypeButton = styled.button<{
+  isSelected: boolean;
+  readOnly: boolean;
+}>`
   padding: 0.8rem 2rem;
 
   border-radius: 11.8rem;
@@ -44,6 +47,8 @@ export const StAlarmTypeButton = styled.button<{ isSelected: boolean }>`
   color: ${({ isSelected }) => (isSelected ? colors.gray950 : colors.gray100)};
 
   background: ${({ isSelected }) => (isSelected ? colors.gray10 : 'none')};
+
+  pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'auto')};
 
   &:hover {
     background: ${({ isSelected }) =>
