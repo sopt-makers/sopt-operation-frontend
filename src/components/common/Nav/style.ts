@@ -30,22 +30,6 @@ export const StSoptLogo = styled.h1`
   color: ${colors.gray10};
 `;
 
-export const StGenerationDropdown = styled.div`
-  cursor: pointer;
-
-  & > div {
-    cursor: pointer;
-    & > span {
-      margin-right: 0.4rem;
-
-      font-weight: 600;
-      font-size: 24px;
-      line-height: 140%;
-      letter-spacing: -0.02em;
-    }
-  }
-`;
-
 export const StMenu = styled.div<{ currentPage: boolean | undefined }>`
   display: flex;
   flex-direction: column;

@@ -1,77 +1,26 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import { Fragment } from 'react';
 
-import { IcAttendanceMenu } from '@/assets/icons';
-import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
-import { GENERATION_LIST } from '@/utils/generation';
 import { MENU_LIST } from '@/utils/nav';
 
-import DropDown from '../DropDown';
-import IcDropDown from '../icons/IcDropDown';
-import {
-  StGenerationDropdown,
-  StMenu,
-  StNavWrapper,
-  StSoptLogo,
-  StSubMenu,
-} from './style';
+import GenerationDropDown from './GenerationDropDown';
+import { StMenu, StNavWrapper, StSoptLogo, StSubMenu } from './style';
 
 function Nav() {
   const router = useRouter();
-  const [currentGeneration, setCurrentGeneration] = useRecoilGenerationSSR();
-  const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
-
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-
-  const handleSelectedGeneration = (selectedGeneration: string) => {
-    setCurrentGeneration(selectedGeneration);
-    setIsDropdownOn(false);
-    const pathSegments = router.asPath.split('/');
-    if (pathSegments[pathSegments.length - 1].match(/^\d+$/)) {
-      router.push('/attendanceAdmin/session');
-    }
-  };
 
   const handleSubMenuClick = (path: string) => {
     router.push(path);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsDropdownOn(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
     <StNavWrapper>
       <header>
         <StSoptLogo>SOPT ADMIN</StSoptLogo>
-        <StGenerationDropdown ref={dropdownRef}>
-          <div onClick={() => setIsDropdownOn(!isDropdownOn)}>
-            <span>{currentGeneration}기</span>
-            <IcDropDown />
-          </div>
-          {isDropdownOn && (
-            <DropDown
-              list={GENERATION_LIST}
-              type={'select'}
-              onItemSelected={handleSelectedGeneration}
-            />
-          )}
-        </StGenerationDropdown>
       </header>
+      <GenerationDropDown />
       {MENU_LIST.map((menu) => (
-        <React.Fragment key={menu.title}>
+        <Fragment key={menu.title}>
           <StMenu
             currentPage={
               menu.path &&
@@ -95,7 +44,7 @@ function Nav() {
                 {subMenu}
               </StSubMenu>
             ))}
-        </React.Fragment>
+        </Fragment>
       ))}
     </StNavWrapper>
   );
