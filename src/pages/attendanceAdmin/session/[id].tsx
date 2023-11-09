@@ -3,11 +3,12 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { RefObject, useRef, useState } from 'react';
+import { ReactNode, RefObject, useRef, useState } from 'react';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Button from '@/components/common/Button';
 import Chip from '@/components/common/Chip';
+import FloatingButton from '@/components/common/FloatingButton';
 import Footer from '@/components/common/Footer';
 import HelperText from '@/components/common/HelperText';
 import ListActionButton from '@/components/common/ListActionButton';
@@ -137,6 +138,33 @@ function SessionDetailPage() {
     return sum;
   };
 
+  const getButtonContent = (status: SESSION_STATUS): ReactNode => {
+    switch (status) {
+      case 'BEFORE':
+        return <>1차 출석 시작하기</>;
+      case 'FIRST':
+        return <>2차 출석 시작하기</>;
+      case 'SECOND':
+        return <>출석 완료하기</>;
+      default:
+        return <></>;
+    }
+  };
+
+  const getButtonClickHandler = (status: SESSION_STATUS) => {
+    switch (status) {
+      case 'BEFORE':
+        return () => startAttendance(1);
+      case 'FIRST':
+        return () => startAttendance(2);
+      case 'SECOND':
+        return () => closeAttendance();
+      default:
+        // eslint-disable-next-line prettier/prettier
+        return () => { };
+    }
+  };
+
   return (
     <StPageWrapper>
       {session && (
@@ -256,41 +284,21 @@ function SessionDetailPage() {
       <div ref={bottomRef} />
       {isFetchingNextPage && <Loading dimmed={false} full={false} />}
 
-      {session && (
-        <Footer>
-          <StFooterContents>
-            <div className="button-wrap">
-              <Button
-                type="submit"
-                text="1차 출석 시작하기"
-                disabled={session.status !== 'BEFORE'}
-                onClick={() => startAttendance(1)}
-              />
-              <Button
-                type="submit"
-                text="2차 출석 시작하기"
-                disabled={session.status !== 'FIRST'}
-                onClick={() => startAttendance(2)}
-              />
-            </div>
-            <div>
-              {session.status == 'SECOND' && (
-                <HelperText
-                  text={
-                    '추후에 출석 상태를 개별로 변경하실 수 있어요.\n출석이 대부분 진행되었다면 완료하세요!'
-                  }
-                  StWrapper={StHelperTextWrapper}
-                />
-              )}
-              <Button
-                type="submit"
-                text="출석 완료하기"
-                disabled={session.status !== 'SECOND'}
-                onClick={closeAttendance}
-              />
-            </div>
-          </StFooterContents>
-        </Footer>
+      {session && session.status !== 'END' && (
+        <>
+          {session.status == 'SECOND' && (
+            <HelperText
+              text={
+                '추후에 출석 상태를 개별로 변경하실 수 있어요.\n출석이 대부분 진행되었다면 완료하세요!'
+              }
+              StWrapper={StHelperTextWrapper}
+            />
+          )}
+          <FloatingButton
+            content={getButtonContent(session.status)}
+            onClick={getButtonClickHandler(session.status)}
+          />
+        </>
       )}
 
       {session && modal && (
@@ -417,8 +425,9 @@ const StFooterContents = styled.div`
   }
 `;
 const StHelperTextWrapper = styled.div`
-  position: absolute;
-  transform: translate(-122px, -86px);
+  position: fixed;
+  bottom: 126px;
+  right: 60px;
 `;
 
 export default SessionDetailPage;
