@@ -71,15 +71,25 @@ function CreateAlarmModal(props: Props) {
 
   useEffect(() => {
     if (
-      selectedValue.part !== '발송 파트' &&
-      selectedValue.title !== '' &&
-      selectedValue.content !== ''
+      (selectedValue.part !== '발송 파트' &&
+        selectedValue.title !== '' &&
+        selectedValue.content !== '') ||
+      (uploadedFile !== null &&
+        isActiveUser === 'CSV 첨부' &&
+        selectedValue.content !== '' &&
+        selectedValue.title !== '')
     ) {
       setIsReadyToSubmit(false);
     } else {
       setIsReadyToSubmit(true);
     }
-  }, [selectedValue.content, selectedValue.part, selectedValue.title]);
+  }, [
+    isActiveUser,
+    selectedValue.content,
+    selectedValue.part,
+    selectedValue.title,
+    uploadedFile,
+  ]);
 
   const handleSubmit = () => {
     let apiPartValue = selectedValue.part
