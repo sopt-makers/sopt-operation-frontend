@@ -1,17 +1,4 @@
-export const sessionType = [
-  {
-    session: '세미나',
-    desc: '미 출석시 출석점수 감점',
-  },
-  {
-    session: '행사',
-    desc: '출석 시 0.5점 부여',
-  },
-  {
-    session: '기타',
-    desc: '출석 점수 미반영',
-  },
-];
+export const attributeList: string[] = ['세미나', '행사', '기타'];
 
 export const sessionTranslator: Record<string, SESSION_TYPE> = {
   세미나: 'SEMINAR',

@@ -1,51 +1,43 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 
 export const StModalWrap = styled.div`
-  padding: 0 4rem 4rem 4rem;
-  button.close-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 4.4rem;
-    height: 4.4rem;
-    background: none;
-    margin: 3.2rem 3.2rem 0 0;
-  }
+  padding: 41px 34px 30px 34px;
+  display: flex;
+  align-items: flex-start;
+
   header {
-    margin-top: 3.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    margin-bottom: 4rem;
-    p {
-      font-size: 1.6rem;
-      line-height: 2.2rem;
-      color: ${({ theme }) => theme.color.grayscale.gray80};
-    }
     .member-name {
-      font-size: 2.4rem;
-      font-weight: 700;
-      line-height: 3.4rem;
-      color: ${({ theme }) => theme.color.grayscale.black80};
-      span {
-        color: ${({ theme }) => theme.color.main.orange50};
-        margin-left: 0.8rem;
-      }
+      ${fonts.TITLE_28_SB}
+      color: ${colors.gray10};
+    }
+    .member-score {
+      ${fonts.TITLE_28_SB}
+      color: ${colors.orange400};
+      margin-bottom: 16px;
+    }
+    .chip {
+      ${fonts.BODY_14_M}
+      color: ${colors.gray100};
+      background-color: ${colors.gray700};
+      padding: 5px 8px;
+      border-radius: 4px;
+      margin-bottom: 7px;
+      width: fit-content;
     }
   }
-  .list-head > table {
-    border-spacing: 0;
-  }
-  .list-body {
-    width: calc(100% + 8px);
-    height: 36rem;
+  .score-list {
+    width: 654px;
+    height: 510px;
     overflow-y: scroll;
-    padding-right: 5px;
+    margin: 0 27px 0 40px;
+
     &::-webkit-scrollbar {
       width: 3px;
     }
     &::-webkit-scrollbar-thumb {
-      background: ${({ theme }) => theme.color.grayscale.gray30};
+      background: ${colors.gray500};
       border-radius: 3px;
     }
     &::-webkit-scrollbar-track {
@@ -55,9 +47,49 @@ export const StModalWrap = styled.div`
 `;
 
 export const StSessionName = styled.p`
-  max-width: 15rem;
+  ${fonts.TITLE_18_SB}
+  color: ${colors.gray10};
+  max-width: 320px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin: 0 auto;
+  margin-right: 12px;
+`;
+
+export const StListItem = styled.li`
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 33px;
+  border: 1px solid ${colors.gray700} !important;
+
+  .session-score {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  .session-date {
+    ${fonts.BODY_14_M}
+    color: ${colors.gray300};
+  }
+  .attendance-info {
+    ${fonts.BODY_14_M}
+    color: ${colors.gray300};
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .attendance {
+      color: ${colors.gray100};
+      margin-right: 15px;
+    }
+    .absent {
+      color: ${colors.error};
+    }
+    span:not(.attendance) {
+      display: inline-block;
+      width: 122px;
+    }
+  }
 `;

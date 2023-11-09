@@ -1,6 +1,7 @@
 import {
   FilterButtonItem,
-  StWrapper,
+  FilterWrapper,
+  StUnderline,
 } from '@/components/common/FilterButton/style';
 
 interface Props<T extends string | number> {
@@ -13,16 +14,19 @@ interface Props<T extends string | number> {
 function FilterButton<T extends string | number>(props: Props<T>) {
   const { list, translator, selected, onChange } = props;
   return (
-    <StWrapper>
-      {list.map((item: T) => (
-        <FilterButtonItem
-          key={item}
-          selected={selected === item}
-          onClick={() => onChange(item)}>
-          {translator[item]}
-        </FilterButtonItem>
-      ))}
-    </StWrapper>
+    <>
+      <FilterWrapper>
+        {list.map((item: T) => (
+          <FilterButtonItem
+            key={item}
+            selected={selected === item}
+            onClick={() => onChange(item)}>
+            {translator[item]}
+          </FilterButtonItem>
+        ))}
+      </FilterWrapper>
+      <StUnderline />
+    </>
   );
 }
 

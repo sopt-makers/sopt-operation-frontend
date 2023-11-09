@@ -5,6 +5,7 @@ declare global {
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
+  type ALARM_STATUS = 'ALL' | 'BEFORE' | 'AFTER';
 
   /* 에러 */
   interface LoginError {
@@ -183,6 +184,7 @@ declare global {
     presignedUrl: string;
   }
 
+  /* 알림 */
   interface PostAlarmData {
     attribute: string;
     part: string | null;
@@ -192,6 +194,15 @@ declare global {
     title: string;
     content: string;
     link?: string | null;
+  }
+  interface Alarm {
+    alarmId: number;
+    part: string | null;
+    attribute: string;
+    title: string;
+    content: string;
+    sentAt: string;
+    status: string;
   }
 }
 
