@@ -6,10 +6,8 @@ import { useRouter } from 'next/router';
 import { ReactNode, RefObject, useRef, useState } from 'react';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
-import Button from '@/components/common/Button';
 import Chip from '@/components/common/Chip';
 import FloatingButton from '@/components/common/FloatingButton';
-import Footer from '@/components/common/Footer';
 import HelperText from '@/components/common/HelperText';
 import ListActionButton from '@/components/common/ListActionButton';
 import ListWrapper from '@/components/common/ListWrapper';
@@ -413,15 +411,6 @@ const StListItem = styled.li`
   }
   .minus-score {
     color: ${colors.error};
-  }
-`;
-const StFooterContents = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  .button-wrap {
-    display: flex;
-    gap: 2.4rem;
   }
 `;
 const StHelperTextWrapper = styled.div`
