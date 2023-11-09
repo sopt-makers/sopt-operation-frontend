@@ -25,7 +25,7 @@ export const StButton = styled.button<Pick<Props, 'type'>>`
         `
       : type === 'submit'
       ? css`
-          background-color: ${colors.white}
+          background-color: ${colors.white};
           color: ${colors.black};
         `
       : css`
