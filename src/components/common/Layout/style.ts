@@ -5,7 +5,7 @@ export const StLayout = styled.div`
   display: flex;
   .main-wrapper {
     width: 100%;
-    padding: 10rem 0 0 22rem;
+    padding: 88px 0 0 212px;
     main {
       max-width: 98rem;
       width: 100%;
