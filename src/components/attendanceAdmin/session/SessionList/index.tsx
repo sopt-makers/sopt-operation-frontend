@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 
 import IcDate from '@/assets/icons/IcDate.svg';
 import IcMore from '@/assets/icons/IcMore.svg';
-import IcPlace from '@/assets/icons/icPlace.svg';
+import IcPlace from '@/assets/icons/IcPlace.svg';
 import Chip from '@/components/common/Chip';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';

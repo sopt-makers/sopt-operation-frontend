@@ -1,4 +1,3 @@
-import { useTheme } from '@emotion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import IcDropdownCheck from '@/assets/icons/IcDropdownCheck.svg';
