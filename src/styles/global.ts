@@ -35,6 +35,19 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     text-decoration: none;
   }
 
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${colors.gray500};
+    border-radius: 5px;
+    background-clip: padding-box;
+    border: 3px solid transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${colors.gray700};
+  }
+
   @font-face {
     font-family: 'SUIT';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Light.woff2')
