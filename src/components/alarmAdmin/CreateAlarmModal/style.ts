@@ -54,33 +54,6 @@ export const StAlarmTypeButton = styled.button<{ isSelected: boolean }>`
   }
 `;
 
-export const StTargetUserSelector = styled.div<{
-  defaultVal?: string | null;
-}>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.7rem;
-
-  min-width: 8.6rem;
-
-  padding: 1rem 1.4rem;
-
-  font-size: 1.8rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 100%; /* 1.8rem */
-  letter-spacing: -0.018rem;
-
-  color: ${({ defaultVal }) =>
-    defaultVal === '발송 파트' ? colors.gray400 : colors.gray10};
-
-  background-color: ${colors.gray700};
-  border-radius: 0.8rem;
-
-  cursor: pointer;
-`;
-
 export const StCsvUploader = styled.div`
   display: flex;
   align-items: center;

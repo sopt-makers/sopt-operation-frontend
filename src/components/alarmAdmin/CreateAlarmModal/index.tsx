@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { IcDeleteFile, IcNewDropdown, IcUpload } from '@/assets/icons';
+import { IcDeleteFile, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import Input from '@/components/common/Input';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import OptionTemplate from '@/components/common/OptionTemplate';
+import Selector from '@/components/common/Selector';
 import { postNewAlarm } from '@/services/api/alarm';
 import {
   readPlaygroundId,
@@ -19,7 +20,6 @@ import {
   StAlarmModalWrapper,
   StAlarmTypeButton,
   StCsvUploader,
-  StTargetUserSelector,
   StTextArea,
 } from './style';
 
@@ -165,10 +165,11 @@ function CreateAlarmModal(props: Props) {
         </div>
         <div className="dropdowns">
           <OptionTemplate title="발송 대상">
-            <StTargetUserSelector onClick={() => toggleDropdown('target')}>
-              {isActiveUser}
-              <IcNewDropdown />
-            </StTargetUserSelector>
+            <Selector
+              content={isActiveUser}
+              onClick={() => toggleDropdown('target')}
+              isDisabledValue={false}
+            />
             {dropdownVisibility.target && (
               <DropDown
                 type={'select'}
@@ -183,12 +184,11 @@ function CreateAlarmModal(props: Props) {
           {isActiveUser !== 'CSV 첨부' && (
             <>
               <OptionTemplate title="파트">
-                <StTargetUserSelector
-                  defaultVal={selectedValue?.part}
-                  onClick={() => toggleDropdown('part')}>
-                  {selectedValue.part}
-                  <IcNewDropdown />
-                </StTargetUserSelector>
+                <Selector
+                  content={selectedValue.part}
+                  onClick={() => toggleDropdown('part')}
+                  isDisabledValue={selectedValue.part === '발송 파트'}
+                />
                 {dropdownVisibility.part && (
                   <DropDown
                     type={'select'}
@@ -204,19 +204,19 @@ function CreateAlarmModal(props: Props) {
                 )}
               </OptionTemplate>
               <OptionTemplate title="발송 기수">
-                <StTargetUserSelector
-                  onClick={() => toggleDropdown('generation')}>
-                  {selectedValue.generation}기
-                  <IcNewDropdown />
-                </StTargetUserSelector>
-                {dropdownVisibility.generation && (
+                <Selector
+                  content={`${selectedValue.generation}기`}
+                  onClick={() => toggleDropdown('generation')}
+                  isDisabledValue={selectedValue.isActive == true}
+                />
+                {dropdownVisibility.generation && !selectedValue.isActive && (
                   <DropDown
                     type={'select'}
                     list={TARGET_GENERATION_LIST}
                     onItemSelected={(value) => {
                       setSelectedValue((prev) => ({
                         ...prev,
-                        selectedGeneration: value,
+                        generation: parseInt(value),
                       }));
                       toggleDropdown('generation');
                     }}
@@ -279,10 +279,7 @@ function CreateAlarmModal(props: Props) {
             />
           </OptionTemplate>
           <OptionTemplate title="링크 첨부">
-            <StTargetUserSelector onClick={() => alert('개발중이에요 ㅠ')}>
-              개발중이에요 ㅠ
-              <IcNewDropdown />
-            </StTargetUserSelector>
+            <Selector content="기능 추가 예정입니다." isDisabledValue={true} />
           </OptionTemplate>
         </div>
       </main>
