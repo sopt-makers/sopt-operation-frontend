@@ -28,3 +28,8 @@ export const attendanceTranslator: Record<ATTEND_STATUS, string> = {
   TARDY: '지각',
   ABSENT: '결석',
 };
+export const sendStatusTranslator: Record<ALARM_STATUS, string> = {
+  ALL: '전체',
+  BEFORE: '발송 전',
+  AFTER: '발송 완료',
+};

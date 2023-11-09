@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
+import AlarmList from '@/components/alarmAdmin/AlarmList';
 import CreateAlarmModal from '@/components/alarmAdmin/CreateAlarmModal';
-import Button from '@/components/common/Button';
+import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 
 function AlarmAdminPage() {
@@ -9,9 +10,9 @@ function AlarmAdminPage() {
 
   return (
     <>
-      <Button
-        type={'button'}
-        text="모달 열기"
+      <AlarmList />
+      <FloatingButton
+        content={<>알림 생성하기</>}
         onClick={() => setIsModalOpen(!isModalOpen)}
       />
       {isModalOpen && (
