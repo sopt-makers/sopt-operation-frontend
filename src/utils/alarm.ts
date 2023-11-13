@@ -2,7 +2,7 @@ import { partList } from './session';
 
 export const ALARM_TYPE = ['공지', '소식'];
 
-export const TARGET_USER_LIST = ['활동 회원', '명예 회원', 'CSV 첨부'];
+export const TARGET_USER_LIST = ['활동 회원', 'CSV 첨부'];
 export const TARGET_GENERATION_LIST = [
   '전체 기수',
   '33기',
