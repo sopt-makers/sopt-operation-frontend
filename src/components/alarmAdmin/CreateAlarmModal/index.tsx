@@ -113,8 +113,8 @@ function CreateAlarmModal(props: Props) {
   const getActiveUser = (isActive: boolean | null) => {
     if (isActive) {
       return '활동 회원';
-    } else if (isActive === null) {
-      return '명예 회원';
+      // } else if (isActive === null) {
+      //   return '명예 회원';
     } else {
       return 'CSV 첨부';
     }
@@ -280,7 +280,7 @@ function CreateAlarmModal(props: Props) {
           )}
         </div>
         <div className="inputs">
-          {isActiveUser === 'CSV 첨부' && (
+          {isActiveUser === 'CSV 첨부' && !readOnly && (
             <OptionTemplate title="CSV 파일 첨부">
               <StCsvUploader>
                 {uploadedFile ? (
