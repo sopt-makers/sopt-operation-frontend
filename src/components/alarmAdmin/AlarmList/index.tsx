@@ -64,7 +64,7 @@ function AlarmList() {
           selected={tab}
           onChange={onChangeTab}
         />
-        <p>총 0개</p>
+        <p>총 {alarmList.length}개</p>
       </StPageHeader>
 
       <ListWrapper>
