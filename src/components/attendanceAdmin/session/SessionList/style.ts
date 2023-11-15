@@ -65,6 +65,42 @@ export const StListItem = styled.li`
         gap: 8px;
       }
     }
+
+    & > div:last-of-type {
+      display: flex;
+      flex-direction: column;
+
+      & > div.delete_dropdown {
+        position: absolute;
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        width: 9.3rem;
+
+        margin-top: 1rem;
+        padding: 0.8rem 0.7rem;
+
+        background-color: ${colors.gray700};
+        border-radius: 1rem;
+
+        & > p {
+          width: 100%;
+          height: 100%;
+
+          padding: 0.5rem 0.9rem;
+
+          color: ${colors.error};
+
+          border-radius: 0.6rem;
+
+          &:hover {
+            background-color: ${colors.gray600};
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -77,6 +113,8 @@ export const StSessionName = styled.p`
 `;
 
 export const StActionButton = styled.button`
+  position: relative;
+
   width: 32px;
   height: 32px;
   border-radius: 8px;

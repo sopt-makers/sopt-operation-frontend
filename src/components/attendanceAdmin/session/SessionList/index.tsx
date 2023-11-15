@@ -9,19 +9,13 @@ import IcPlace from '@/assets/icons/IcPlace.svg';
 import Chip from '@/components/common/Chip';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
-import Modal from '@/components/common/modal';
 import PartFilter from '@/components/common/PartFilter';
 import { currentGenerationState } from '@/recoil/atom';
+import { deleteSession } from '@/services/api/lecture';
 import { useGetSessionList } from '@/services/api/lecture/query';
 import { partTranslator } from '@/utils/translator';
 
-import SessionDetailModal from './SessionDetailModal';
-import {
-  StActionButton,
-  StListHeader,
-  StListItem,
-  StSessionName,
-} from './style';
+import { StActionButton, StListHeader, StListItem } from './style';
 
 function SessionList() {
   const router = useRouter();
@@ -52,6 +46,16 @@ function SessionList() {
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
+  };
+
+  const handleDeleteSession = (lectureId: number) => {
+    const isConfirmed = confirm(
+      '세션을 삭제하면 복구할 수 없습니다.\n정말 삭제할까요?',
+    );
+    if (isConfirmed) {
+      deleteSession(lectureId);
+      alert('세션이 삭제되었습니다.');
+    }
   };
 
   return (
@@ -112,27 +116,25 @@ function SessionList() {
                     장소
                   </p>
                 </div>
-                <StActionButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedLecture(lectureId);
-                    setIsDetailOpen(true);
-                  }}>
-                  <IcMore />
-                </StActionButton>
+                <div>
+                  <StActionButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedLecture(lectureId);
+                      setIsDetailOpen(true);
+                      console.log('눌렸습니다.');
+                    }}>
+                    <IcMore />
+                  </StActionButton>
+                  <div className="delete_dropdown">
+                    <p>삭제하기</p>
+                  </div>
+                </div>
               </div>
             </StListItem>
           );
         })}
       </ListWrapper>
-      {isDetailOpen && (
-        <Modal>
-          <SessionDetailModal
-            onClose={() => setIsDetailOpen(!isDetailOpen)}
-            lectureId={selectedLecture}
-          />
-        </Modal>
-      )}
       {isLoading && <Loading />}
     </>
   );
