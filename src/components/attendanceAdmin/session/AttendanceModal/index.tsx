@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
+import ModalFooter from '@/components/common/modal/ModalFooter';
+import ModalHeader from '@/components/common/modal/ModalHeader';
 import { startAttendance } from '@/services/api/lecture';
 import { precision } from '@/utils';
 
@@ -74,11 +76,12 @@ function AttendanceModal(props: Props) {
 
   return (
     <StAttendanceModal>
+      <ModalHeader
+        title={`${round}차 출석하기`}
+        desc="출석 코드 다섯 자리를 랜덤 생성합니다."
+        onClose={onCloseModal}
+      />
       <div>
-        <div className="modal-header">
-          <h3>{round}차 출석하기</h3>
-          <p>출석 코드 다섯 자리를 랜덤 생성합니다.</p>
-        </div>
         <p className={timer.minutes === 0 ? 'timer timer-warn' : 'timer'}>
           {precision(timer.minutes, 2)}:{precision(timer.seconds, 2)}
         </p>
@@ -90,13 +93,13 @@ function AttendanceModal(props: Props) {
           ))}
         </div>
       </div>
-      <div className="modal-footer">
+      <ModalFooter>
         <div>
           <p>출석을 정상적으로 종료하기 전에 창을 닫거나 이동하지 마세요!</p>
           <p>출석이 제대로 기록되지 않을 수 있어요.</p>
         </div>
         <Button type="submit" text="출석 종료하기" onClick={onCloseModal} />
-      </div>
+      </ModalFooter>
     </StAttendanceModal>
   );
 }
