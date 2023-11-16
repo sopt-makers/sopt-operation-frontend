@@ -25,12 +25,11 @@ import {
 
 interface Props {
   onClose: () => void;
-  readOnly?: boolean;
   alarmId?: number;
 }
 
 function CreateAlarmModal(props: Props) {
-  const { onClose, readOnly = false, alarmId } = props;
+  const { onClose, alarmId } = props;
 
   const [selectedValue, setSelectedValue] = useState<PostAlarmData>({
     attribute: 'NOTICE',
@@ -93,22 +92,6 @@ function CreateAlarmModal(props: Props) {
     selectedValue.title,
     uploadedFile,
   ]);
-
-  useEffect(() => {
-    if (readOnly && alarmId) {
-      (async () => {
-        const alarmData = await getAlarm(alarmId);
-        setSelectedValue({
-          ...alarmData,
-          generation: 33,
-          targetList: null,
-          part: alarmData.part ?? '전체',
-        });
-        setIsSent(!!alarmData.sentAt);
-        setIsActiveUser(getActiveUser(alarmData.isActive));
-      })();
-    }
-  }, [readOnly, alarmId]);
 
   const getActiveUser = (isActive: boolean | null) => {
     if (isActive) {
@@ -193,24 +176,22 @@ function CreateAlarmModal(props: Props) {
   return (
     <StAlarmModalWrapper>
       <ModalHeader
-        title={readOnly ? '알림 조회' : '알림 생성'}
-        desc={readOnly ? '' : 'APP으로 발송할 알림을 생성합니다.'}
+        title="알림 생성"
+        desc="APP으로 발송할 알림을 생성합니다."
         onClose={onClose}
       />
       <main>
         <div className="type_selector">
           <StAlarmTypeButton
             type="button"
-            onClick={() => !readOnly && handleAlarmType('NOTICE')}
-            isSelected={selectedAlarmType.notice}
-            readOnly={readOnly}>
+            onClick={() => handleAlarmType('NOTICE')}
+            isSelected={selectedAlarmType.notice}>
             공지
           </StAlarmTypeButton>
           <StAlarmTypeButton
             type="button"
-            onClick={() => !readOnly && handleAlarmType('NEWS')}
-            isSelected={selectedAlarmType.news}
-            readOnly={readOnly}>
+            onClick={() => handleAlarmType('NEWS')}
+            isSelected={selectedAlarmType.news}>
             소식
           </StAlarmTypeButton>
         </div>
@@ -221,7 +202,7 @@ function CreateAlarmModal(props: Props) {
               onClick={() => toggleDropdown('target')}
               isDisabledValue={false}
             />
-            {dropdownVisibility.target && !readOnly && (
+            {dropdownVisibility.target && (
               <DropDown
                 type={'select'}
                 list={TARGET_USER_LIST}
@@ -240,7 +221,7 @@ function CreateAlarmModal(props: Props) {
                   onClick={() => toggleDropdown('part')}
                   isDisabledValue={selectedValue.part === '발송 파트'}
                 />
-                {dropdownVisibility.part && !readOnly && (
+                {dropdownVisibility.part && (
                   <DropDown
                     type={'select'}
                     list={partList}
@@ -260,27 +241,25 @@ function CreateAlarmModal(props: Props) {
                   onClick={() => toggleDropdown('generation')}
                   isDisabledValue={selectedValue.isActive == true}
                 />
-                {dropdownVisibility.generation &&
-                  !selectedValue.isActive &&
-                  !readOnly && (
-                    <DropDown
-                      type={'select'}
-                      list={TARGET_GENERATION_LIST}
-                      onItemSelected={(value) => {
-                        setSelectedValue((prev) => ({
-                          ...prev,
-                          generation: parseInt(value),
-                        }));
-                        toggleDropdown('generation');
-                      }}
-                    />
-                  )}
+                {dropdownVisibility.generation && !selectedValue.isActive && (
+                  <DropDown
+                    type={'select'}
+                    list={TARGET_GENERATION_LIST}
+                    onItemSelected={(value) => {
+                      setSelectedValue((prev) => ({
+                        ...prev,
+                        generation: parseInt(value),
+                      }));
+                      toggleDropdown('generation');
+                    }}
+                  />
+                )}
               </OptionTemplate>
             </>
           )}
         </div>
         <div className="inputs">
-          {isActiveUser === 'CSV 첨부' && !readOnly && (
+          {isActiveUser === 'CSV 첨부' && (
             <OptionTemplate title="CSV 파일 첨부">
               <StCsvUploader>
                 {uploadedFile ? (
@@ -310,7 +289,6 @@ function CreateAlarmModal(props: Props) {
           )}
           <OptionTemplate title="알림 제목">
             <Input
-              readOnly={readOnly}
               type="text"
               placeholder="발송할 알림의 제목을 입력하세요."
               value={selectedValue.title}
@@ -324,7 +302,6 @@ function CreateAlarmModal(props: Props) {
           </OptionTemplate>
           <OptionTemplate title="알림 내용">
             <StTextArea
-              readOnly={readOnly}
               placeholder="발송할 알림의 내용을 입력하세요."
               value={selectedValue.content}
               onChange={(e) => {
@@ -341,19 +318,13 @@ function CreateAlarmModal(props: Props) {
         </div>
       </main>
       <ModalFooter>
-        {readOnly && !isSent ? (
-          <Button type="button" text="삭제하기" onClick={onDeleteAlarm} />
-        ) : (
-          <Button type={'button'} text="취소하기" onClick={onClose} />
-        )}
-        {!readOnly && (
-          <Button
-            type={'submit'}
-            text="알림 생성하기"
-            disabled={isReadyToSubmit}
-            onClick={() => handleSubmit()}
-          />
-        )}
+        <Button type={'button'} text="취소하기" onClick={onClose} />
+        <Button
+          type={'submit'}
+          text="알림 생성하기"
+          disabled={isReadyToSubmit}
+          onClick={() => handleSubmit()}
+        />
       </ModalFooter>
     </StAlarmModalWrapper>
   );

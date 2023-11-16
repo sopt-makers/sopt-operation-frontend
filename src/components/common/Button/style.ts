@@ -17,6 +17,9 @@ export const StButton = styled.button<Pick<Props, 'type'>>`
     color: ${colors.gray400};
     cursor: default;
   }
+  &:hover {
+    background-color: ${colors.gray600};
+  }
   ${({ theme, type }) =>
     type === 'button'
       ? css`

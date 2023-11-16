@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 export const StSelectorWrapper = styled.div<{
-  isDisabledValue: boolean | undefined;
+  isDisabledValue: boolean;
+  readOnly: boolean;
 }>`
   display: flex;
   justify-content: space-between;
@@ -25,7 +26,8 @@ export const StSelectorWrapper = styled.div<{
   background-color: ${colors.gray700};
   border-radius: 0.8rem;
 
-  cursor: pointer;
+  cursor: ${({ isDisabledValue, readOnly }) =>
+    isDisabledValue || readOnly ? 'default' : 'pointer'};
 
   & > svg > path {
     fill: ${({ isDisabledValue }) =>

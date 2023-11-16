@@ -14,7 +14,7 @@ import { currentGenerationState } from '@/recoil/atom';
 import { sendAlarm } from '@/services/api/alarm';
 import { useGetAlarmList } from '@/services/api/alarm/query';
 
-import CreateAlarmModal from '../CreateAlarmModal';
+import ShowAlarmModal from '../ShowAlarmModal';
 import { StListItem, StPageHeader } from './style';
 
 const sendStatusList: ALARM_STATUS[] = ['전체', '발송 전', '발송 후'];
@@ -109,9 +109,8 @@ function AlarmList() {
 
       {showAlarmDetail && (
         <Modal>
-          <CreateAlarmModal
+          <ShowAlarmModal
             onClose={onCloseAlarmDetail}
-            readOnly
             alarmId={showAlarmDetail}
           />
         </Modal>

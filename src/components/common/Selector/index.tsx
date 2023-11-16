@@ -6,13 +6,17 @@ interface Props {
   content: string | null;
   onClick?: () => void;
   isDisabledValue?: boolean;
+  readOnly?: boolean;
 }
 
 function Selector(props: Props) {
-  const { content, onClick, isDisabledValue } = props;
+  const { content, onClick, isDisabledValue = false, readOnly = false } = props;
 
   return (
-    <StSelectorWrapper onClick={onClick} isDisabledValue={isDisabledValue}>
+    <StSelectorWrapper
+      onClick={onClick}
+      isDisabledValue={isDisabledValue}
+      readOnly={readOnly}>
       {content}
       <IcNewDropdown />
     </StSelectorWrapper>
