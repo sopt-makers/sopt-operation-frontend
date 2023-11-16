@@ -65,6 +65,58 @@ export const StListItem = styled.li`
         gap: 8px;
       }
     }
+
+    & > div:last-of-type {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      & > div.delete_dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0.001%; // 요소의 왼쪽 경계를 부모의 중앙에 위치시킵니다.
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        width: 9.3rem;
+
+        margin-top: 1rem;
+        padding: 0.8rem 0.7rem;
+
+        background-color: ${colors.gray700};
+        border-radius: 1rem;
+
+        animation: appearDropdown 0.6s;
+
+        & > p {
+          width: 100%;
+          height: 100%;
+
+          padding: 0.5rem 0.9rem;
+
+          color: ${colors.error};
+
+          border-radius: 0.6rem;
+
+          &:hover {
+            background-color: ${colors.gray600};
+          }
+        }
+
+        @keyframes appearDropdown {
+          from {
+            opacity: 0;
+            transform: translateY(-1rem);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0rem);
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -77,6 +129,8 @@ export const StSessionName = styled.p`
 `;
 
 export const StActionButton = styled.button`
+  position: relative;
+
   width: 32px;
   height: 32px;
   border-radius: 8px;
