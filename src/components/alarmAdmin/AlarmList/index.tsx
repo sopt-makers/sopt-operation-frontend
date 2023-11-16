@@ -21,7 +21,6 @@ const sendStatusList: ALARM_STATUS[] = ['전체', '발송 전', '발송 후'];
 
 function AlarmList() {
   const [tab, setTab] = useState<ALARM_STATUS>('전체');
-  const [showDropdown, setShowDropdown] = useState(false);
   const [showAlarmDetail, setShowAlarmDetail] = useState<number | null>(null);
 
   const currentGeneration = useRecoilValue(currentGenerationState);
@@ -85,7 +84,10 @@ function AlarmList() {
                 <Chip text={alarm.attribute} />
               </div>
               <p className="alarm-sent-at">
-                발송 일자: {dayjs(alarm.sentAt).format('YYYY/MM/DD HH:mm')}
+                발송 일자:{' '}
+                {alarm.sentAt
+                  ? dayjs(alarm.sentAt).format('YYYY/MM/DD HH:mm')
+                  : ''}
               </p>
             </div>
             <p className="alarm-content">{alarm.content}</p>

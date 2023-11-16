@@ -8,7 +8,7 @@ import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import OptionTemplate from '@/components/common/OptionTemplate';
 import Selector from '@/components/common/Selector';
-import { deleteAlarm, getAlarm, postNewAlarm } from '@/services/api/alarm';
+import { deleteAlarm, postNewAlarm } from '@/services/api/alarm';
 import {
   readPlaygroundId,
   TARGET_GENERATION_LIST,

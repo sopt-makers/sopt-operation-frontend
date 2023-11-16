@@ -9,7 +9,7 @@ export const postNewAlarm = async (alarmData: PostAlarmData): Promise<void> => {
 export const getAlarmList = async (generation: number): Promise<Alarm[]> => {
   const { data }: AxiosResponse<{ data: { alarms: Alarm[] } }> =
     await client.get(
-      `/alarms?generation=${generation}`, // TODO:: 페이지네이션 적용
+      `/alarms?generation=${generation}&size=${100}`, // TODO:: 페이지네이션 적용
     );
 
   return data.data.alarms;

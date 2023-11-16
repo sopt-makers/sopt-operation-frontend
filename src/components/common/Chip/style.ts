@@ -45,11 +45,13 @@ const getChipColor = (text: string) => {
         color: ${colors.orange600};
       `;
     case '행사':
+    case '공지':
       return css`
         border-color: ${colors.blue400};
         color: ${colors.blue400};
       `;
     case '기타':
+    case '소식':
       return css`
         border-color: ${colors.yellow700};
         color: ${colors.yellow700};
