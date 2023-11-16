@@ -84,8 +84,8 @@ function AlarmList(props: Props) {
               </div>
               <p className="alarm-sent-at">
                 발송 일자:{' '}
-                {alarm.sentAt
-                  ? dayjs(alarm.sentAt).format('YYYY/MM/DD HH:mm')
+                {alarm.sendAt
+                  ? dayjs(alarm.sendAt).format('YYYY/MM/DD HH:mm')
                   : ''}
               </p>
             </div>

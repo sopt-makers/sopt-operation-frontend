@@ -201,13 +201,13 @@ declare global {
     attribute: string;
     title: string;
     content: string;
-    sentAt: string;
+    sendAt: string;
     status: string;
   }
   interface AlarmDetail
     extends Omit<PostAlarmData, 'generation' | 'targetList'> {
     createdAt: string;
-    sentAt: string;
+    sendAt: string;
   }
 }
 

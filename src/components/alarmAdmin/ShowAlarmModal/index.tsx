@@ -35,7 +35,7 @@ function ShowAlarmModal(props: Props) {
     content: '',
     link: null,
     createdAt: '',
-    sentAt: '',
+    sendAt: '',
   });
 
   useEffect(() => {
