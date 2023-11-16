@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { UseQueryResult } from 'react-query';
 
 import IcMore from '@/assets/icons/IcMore.svg';
 import { StActionButton } from '@/components/attendanceAdmin/session/SessionList/style';
@@ -10,24 +10,23 @@ import ListActionButton from '@/components/common/ListActionButton';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
-import { currentGenerationState } from '@/recoil/atom';
 import { sendAlarm } from '@/services/api/alarm';
-import { useGetAlarmList } from '@/services/api/alarm/query';
 
 import ShowAlarmModal from '../ShowAlarmModal';
 import { StListItem, StPageHeader } from './style';
 
 const sendStatusList: ALARM_STATUS[] = ['전체', '발송 전', '발송 후'];
 
-function AlarmList() {
+interface Props {
+  alarmListData: UseQueryResult<Alarm[], Error>;
+}
+
+function AlarmList(props: Props) {
+  const { alarmListData } = props;
+  const { data, isLoading, refetch } = alarmListData;
+
   const [tab, setTab] = useState<ALARM_STATUS>('전체');
   const [showAlarmDetail, setShowAlarmDetail] = useState<number | null>(null);
-
-  const currentGeneration = useRecoilValue(currentGenerationState);
-
-  const { data, isLoading, isError } = useGetAlarmList(
-    parseInt(currentGeneration),
-  );
 
   const onChangeTab = (value: ALARM_STATUS) => {
     setTab(value);
@@ -113,6 +112,7 @@ function AlarmList() {
         <Modal>
           <ShowAlarmModal
             onClose={onCloseAlarmDetail}
+            refetchList={refetch}
             alarmId={showAlarmDetail}
           />
         </Modal>

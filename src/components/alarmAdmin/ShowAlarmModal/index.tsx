@@ -18,11 +18,12 @@ import {
 
 interface Props {
   onClose: () => void;
+  refetchList: () => void;
   alarmId: number;
 }
 
 function ShowAlarmModal(props: Props) {
-  const { onClose, alarmId } = props;
+  const { onClose, alarmId, refetchList } = props;
 
   const generation = useRecoilValue(currentGenerationState);
 
@@ -60,7 +61,8 @@ function ShowAlarmModal(props: Props) {
       const response = window.confirm('알림을 삭제하시겠습니까?');
       if (response) {
         const result = await deleteAlarm(alarmId);
-        window.alert(result ? '삭제 완료되었습니다' : '삭제 실패했습니다');
+        result && refetchList();
+        onClose();
       }
     }
   };

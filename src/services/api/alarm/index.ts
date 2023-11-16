@@ -29,7 +29,8 @@ export const getAlarm = async (alarmId: number): Promise<AlarmDetail> => {
 };
 
 export const deleteAlarm = async (alarmId: number): Promise<boolean> => {
-  const { data }: AxiosResponse<{ data: { success: boolean } }> =
-    await client.delete(`/alarms/${alarmId}`);
-  return data.data.success;
+  const { data }: AxiosResponse<{ success: boolean }> = await client.delete(
+    `/alarms/${alarmId}`,
+  );
+  return data.success;
 };
