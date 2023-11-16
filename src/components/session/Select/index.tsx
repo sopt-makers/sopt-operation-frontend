@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import IcDropdownCheck from '@/assets/icons/IcDropdownCheck.svg';
-import { ACTIVITY_GENRATION } from '@/utils/generation';
+import { ACTIVITY_GENERATION } from '@/utils/generation';
 import { attendanceTranslator } from '@/utils/translator';
 
 import { StOptions, StSelect, StSelectWrap } from './style';
@@ -53,7 +53,7 @@ function Select(props: Props) {
           <IcDropdownCheck />
         </p>
       </StSelect>
-      {showOptions && generation === ACTIVITY_GENRATION && (
+      {showOptions && generation === ACTIVITY_GENERATION && (
         <StOptions ref={optionsRef}>
           {options.map((option) => (
             <li key={option.value} onClick={() => onClickOption(option.value)}>

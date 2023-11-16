@@ -14,6 +14,7 @@ import {
   TARGET_GENERATION_LIST,
   TARGET_USER_LIST,
 } from '@/utils/alarm';
+import { ACTIVITY_GENERATION } from '@/utils/generation';
 import { partList, partTranslator } from '@/utils/session';
 
 import {
@@ -35,7 +36,7 @@ function CreateAlarmModal(props: Props) {
     attribute: 'NOTICE',
     part: '발송 파트',
     isActive: true,
-    generation: 33,
+    generation: parseInt(ACTIVITY_GENERATION),
     targetList: null,
     title: '',
     content: '',
@@ -92,16 +93,6 @@ function CreateAlarmModal(props: Props) {
     selectedValue.title,
     uploadedFile,
   ]);
-
-  const getActiveUser = (isActive: boolean | null) => {
-    if (isActive) {
-      return '활동 회원';
-      // } else if (isActive === null) {
-      //   return '명예 회원';
-    } else {
-      return 'CSV 첨부';
-    }
-  };
 
   const handleSubmit = () => {
     let apiPartValue = selectedValue.part
@@ -160,16 +151,6 @@ function CreateAlarmModal(props: Props) {
         attribute: 'NEWS',
       }));
       setSelectedAlarmType({ notice: false, news: true });
-    }
-  };
-
-  const onDeleteAlarm = async () => {
-    if (alarmId) {
-      const response = window.confirm('알림을 삭제하시겠습니까?');
-      if (response) {
-        const result = await deleteAlarm(alarmId);
-        window.alert(result ? '삭제 완료되었습니다' : '삭제 실패했습니다');
-      }
     }
   };
 
@@ -244,7 +225,9 @@ function CreateAlarmModal(props: Props) {
                 {dropdownVisibility.generation && !selectedValue.isActive && (
                   <DropDown
                     type={'select'}
-                    list={TARGET_GENERATION_LIST}
+                    list={TARGET_GENERATION_LIST.filter(
+                      (item) => !item.includes(ACTIVITY_GENERATION),
+                    )}
                     onItemSelected={(value) => {
                       setSelectedValue((prev) => ({
                         ...prev,

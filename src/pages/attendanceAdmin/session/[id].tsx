@@ -28,7 +28,7 @@ import {
   useGetSessionDetail,
 } from '@/services/api/lecture/query';
 import { addPlus, precision } from '@/utils';
-import { ACTIVITY_GENRATION } from '@/utils/generation';
+import { ACTIVITY_GENERATION } from '@/utils/generation';
 import { attributeTranslator, partTranslator } from '@/utils/translator';
 
 function SessionDetailPage() {
@@ -266,7 +266,7 @@ function SessionDetailPage() {
                         !(
                           session.status === 'END' &&
                           isChangedMember(member) &&
-                          String(session.generation) === ACTIVITY_GENRATION
+                          String(session.generation) === ACTIVITY_GENERATION
                         )
                       }
                     />
