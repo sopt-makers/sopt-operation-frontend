@@ -69,9 +69,12 @@ export const StListItem = styled.li`
     & > div:last-of-type {
       display: flex;
       flex-direction: column;
+      position: relative;
 
       & > div.delete_dropdown {
         position: absolute;
+        top: 100%;
+        right: 0.001%; // 요소의 왼쪽 경계를 부모의 중앙에 위치시킵니다.
 
         display: flex;
         justify-content: flex-start;
@@ -85,6 +88,8 @@ export const StListItem = styled.li`
         background-color: ${colors.gray700};
         border-radius: 1rem;
 
+        animation: appearDropdown 0.6s;
+
         & > p {
           width: 100%;
           height: 100%;
@@ -97,6 +102,17 @@ export const StListItem = styled.li`
 
           &:hover {
             background-color: ${colors.gray600};
+          }
+        }
+
+        @keyframes appearDropdown {
+          from {
+            opacity: 0;
+            transform: translateY(-1rem);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0rem);
           }
         }
       }

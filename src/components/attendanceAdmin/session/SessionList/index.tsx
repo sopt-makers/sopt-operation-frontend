@@ -25,6 +25,7 @@ function SessionList() {
   const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
   const [selectedLecture, setSelectedLecture] = useState<number>(0);
   const currentGeneration = useRecoilValue(currentGenerationState);
+  const [activeDropdownId, setActiveDropdownId] = useState<number | null>(null);
 
   const { data, isLoading, isError, error } = useGetSessionList(
     parseInt(currentGeneration),
@@ -46,6 +47,15 @@ function SessionList() {
 
   const onChangePart = (part: PART) => {
     setSelectedPart(part);
+  };
+
+  const toggleDropdown = (e: any, lectureId: number) => {
+    e.stopPropagation();
+    if (activeDropdownId === lectureId) {
+      setActiveDropdownId(null);
+    } else {
+      setActiveDropdownId(lectureId);
+    }
   };
 
   const handleDeleteSession = (lectureId: number) => {
@@ -117,18 +127,16 @@ function SessionList() {
                   </p>
                 </div>
                 <div>
-                  <StActionButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedLecture(lectureId);
-                      setIsDetailOpen(true);
-                      console.log('눌렸습니다.');
-                    }}>
+                  <StActionButton onClick={(e) => toggleDropdown(e, lectureId)}>
                     <IcMore />
                   </StActionButton>
-                  <div className="delete_dropdown">
-                    <p>삭제하기</p>
-                  </div>
+                  {activeDropdownId === lectureId && (
+                    <div
+                      className="delete_dropdown"
+                      onClick={() => handleDeleteSession(lectureId)}>
+                      <p>삭제하기</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </StListItem>
