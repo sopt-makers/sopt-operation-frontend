@@ -41,15 +41,15 @@ function SessionList() {
     }
   }, [data, error, isError, router]);
 
-  const handleManageClick = (lectureId: number) => {
+  const handleManageClick = (lectureId: number): void => {
     router.push(`/attendanceAdmin/session/${lectureId}`);
   };
 
-  const onChangePart = (part: PART) => {
+  const onChangePart = (part: PART): void => {
     setSelectedPart(part);
   };
 
-  const toggleDropdown = (e: any, lectureId: number) => {
+  const toggleDropdown = (e: React.MouseEvent, lectureId: number): void => {
     e.stopPropagation();
     if (activeDropdownId === lectureId) {
       setActiveDropdownId(null);
@@ -58,7 +58,11 @@ function SessionList() {
     }
   };
 
-  const handleDeleteSession = (lectureId: number) => {
+  const handleDeleteSession = (
+    e: React.MouseEvent<HTMLDivElement>,
+    lectureId: number,
+  ): void => {
+    e.stopPropagation();
     const isConfirmed = confirm(
       '세션을 삭제하면 복구할 수 없습니다.\n정말 삭제할까요?',
     );
@@ -76,7 +80,7 @@ function SessionList() {
         <p>총 {lectureData.length}개</p>
       </StListHeader>
       <ListWrapper>
-        {lectureData?.map((lecture, index) => {
+        {lectureData?.map((lecture) => {
           const {
             lectureId,
             partValue,
@@ -133,7 +137,7 @@ function SessionList() {
                   {activeDropdownId === lectureId && (
                     <div
                       className="delete_dropdown"
-                      onClick={() => handleDeleteSession(lectureId)}>
+                      onClick={(e) => handleDeleteSession(e, lectureId)}>
                       <p>삭제하기</p>
                     </div>
                   )}
