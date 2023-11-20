@@ -51,7 +51,7 @@ export const StListItem = styled.li`
   .right {
     ${fonts.BODY_14_M}
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 55px;
 
     & > div:first-of-type {
