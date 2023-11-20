@@ -23,6 +23,7 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     font-weight: 400;
     font-style: normal;
 
+    overflow-y: scroll;
     overflow-x: hidden;
 
     &::-webkit-scrollbar {
@@ -33,6 +34,9 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
       border-radius: 5px;
       background-clip: padding-box;
       border: 3px solid transparent;
+    }
+    ::-webkit-scrollbar-corner {
+      display: none;
     }
   }
   #__next {
