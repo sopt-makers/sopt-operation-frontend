@@ -23,18 +23,25 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     font-weight: 400;
     font-style: normal;
 
-    ::-webkit-scrollbar {
-      width: 0.6rem;
-    }
+    overflow-x: hidden;
 
-    ::-webkit-scrollbar-thumb {
-      background-color: ${colors.gray300};
-      border-radius: 0.8rem;
+    &::-webkit-scrollbar {
+      width: 1.2rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: ${colors.gray500};
+      border-radius: 5px;
+      background-clip: padding-box;
+      border: 3px solid transparent;
     }
   }
   #__next {
     width: 100%;
     min-height: 100%;
+
+    div > .main-wrapper {
+      overflow: hidden;
+    }
   }
   button {
     border: none;
@@ -46,19 +53,6 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
   a {
     color: black;
     text-decoration: none;
-  }
-
-  &::-webkit-scrollbar {
-    width: 12px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: ${colors.gray500};
-    border-radius: 5px;
-    background-clip: padding-box;
-    border: 3px solid transparent;
-  }
-  &::-webkit-scrollbar-track {
-    background: ${colors.gray700};
   }
 
   @font-face {
