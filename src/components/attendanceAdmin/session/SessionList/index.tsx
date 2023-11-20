@@ -13,6 +13,7 @@ import PartFilter from '@/components/common/PartFilter';
 import { currentGenerationState } from '@/recoil/atom';
 import { deleteSession } from '@/services/api/lecture';
 import { useGetSessionList } from '@/services/api/lecture/query';
+import { transDate } from '@/utils/date';
 import { partTranslator } from '@/utils/translator';
 
 import { StActionButton, StListHeader, StListItem } from './style';
@@ -87,12 +88,15 @@ function SessionList() {
             attributeName,
             name,
             startDate,
+            endDate,
+            place,
             attendances,
           } = lecture;
           const { attendance, tardy, absent, unknown } = attendances;
           const part = partTranslator[partValue] || partValue;
-          const date = dayjs(startDate);
-          const formattedDate = date.format('YYYY년 MM월 DD일 HH:mm');
+          const date = dayjs(startDate).format('YYYY년 MM월 DD일');
+          const startTime = transDate(startDate, 'time');
+          const endTime = transDate(endDate, 'time');
 
           return (
             <StListItem
@@ -123,11 +127,11 @@ function SessionList() {
                 <div>
                   <p>
                     <IcDate />
-                    {formattedDate}
+                    {date} {startTime} - {endTime}
                   </p>
                   <p>
                     <IcPlace />
-                    장소
+                    {place}
                   </p>
                 </div>
                 <div>

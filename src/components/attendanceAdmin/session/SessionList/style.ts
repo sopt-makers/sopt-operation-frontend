@@ -51,13 +51,15 @@ export const StListItem = styled.li`
   .right {
     ${fonts.BODY_14_M}
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 55px;
 
     & > div:first-of-type {
       display: flex;
       flex-direction: column;
       gap: 4px;
+
+      width: 22rem;
 
       p {
         display: flex;

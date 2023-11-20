@@ -87,6 +87,8 @@ declare global {
     partValue: PART;
     partName: string;
     startDate: string; // yyyy/MM/dd
+    endDate: string;
+    place: string;
     attributeValue: SESSION_TYPE;
     attributeName: string;
     attendances: {
