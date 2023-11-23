@@ -189,7 +189,7 @@ declare global {
     attribute: string;
     part: string | null;
     isActive: boolean | null;
-    generation: number;
+    generationAt: number;
     targetList: string[] | null;
     title: string;
     content: string;

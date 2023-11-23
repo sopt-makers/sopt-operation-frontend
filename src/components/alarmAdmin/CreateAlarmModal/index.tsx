@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { IcDeleteFile, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
@@ -8,6 +9,7 @@ import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import OptionTemplate from '@/components/common/OptionTemplate';
 import Selector from '@/components/common/Selector';
+import { currentGenerationState } from '@/recoil/atom';
 import { deleteAlarm, postNewAlarm } from '@/services/api/alarm';
 import {
   readPlaygroundId,
@@ -36,7 +38,7 @@ function CreateAlarmModal(props: Props) {
     attribute: 'NOTICE',
     part: '발송 파트',
     isActive: true,
-    generation: parseInt(ACTIVITY_GENERATION),
+    generationAt: parseInt(ACTIVITY_GENERATION),
     targetList: null,
     title: '',
     content: '',
@@ -55,6 +57,7 @@ function CreateAlarmModal(props: Props) {
     news: false,
   });
   const [isReadyToSubmit, setIsReadyToSubmit] = useState<boolean>(true);
+  const currentGeneration = useRecoilValue(currentGenerationState);
   const [isSent, setIsSent] = useState(false);
 
   useEffect(() => {
@@ -112,10 +115,12 @@ function CreateAlarmModal(props: Props) {
 
     const payload = {
       ...selectedValue,
+      generation: parseInt(currentGeneration),
       part: apiPartValue,
       isActive: apiIsActive,
       targetList: targetListValue,
     };
+
     postNewAlarm(payload);
     onClose();
   };
@@ -218,7 +223,7 @@ function CreateAlarmModal(props: Props) {
               </OptionTemplate>
               <OptionTemplate title="발송 기수">
                 <Selector
-                  content={`${selectedValue.generation}기`}
+                  content={`${selectedValue.generationAt}기`}
                   onClick={() => toggleDropdown('generation')}
                   isDisabledValue={selectedValue.isActive == true}
                 />
