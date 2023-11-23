@@ -40,6 +40,12 @@ const getChipColor = (text: string) => {
         color: ${colors.gray200};
       `;
     default:
+      if (text.includes('-')) {
+        return css`
+          background-color: ${colors.red800};
+          color: ${colors.red300};
+        `;
+      }
       return css`
         background-color: ${colors.gray600};
         color: ${colors.gray10};

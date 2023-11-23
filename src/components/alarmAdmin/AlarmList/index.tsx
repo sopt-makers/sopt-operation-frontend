@@ -10,7 +10,7 @@ import ListActionButton from '@/components/common/ListActionButton';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
-import { sendAlarm } from '@/services/api/alarm';
+import { deleteAlarm, sendAlarm } from '@/services/api/alarm';
 
 import ShowAlarmModal from '../ShowAlarmModal';
 import { StListItem, StPageHeader } from './style';
@@ -26,17 +26,31 @@ function AlarmList(props: Props) {
   const { data, isLoading, refetch } = alarmListData;
 
   const [tab, setTab] = useState<ALARM_STATUS>('전체');
+  const [activeDropdownId, setActiveDropdownId] = useState<number | null>(null);
   const [showAlarmDetail, setShowAlarmDetail] = useState<number | null>(null);
+  const [isSending, setIsSending] = useState(false);
 
   const onChangeTab = (value: ALARM_STATUS) => {
     setTab(value);
   };
 
+  const toggleDropdown = (e: React.MouseEvent, alarmId: number): void => {
+    e.stopPropagation();
+    if (activeDropdownId === alarmId) {
+      setActiveDropdownId(null);
+    } else {
+      setActiveDropdownId(alarmId);
+    }
+  };
+
   const onSendAlarm = async (alarmId: number, title: string) => {
     const response = window.confirm(`${title} 알림을 전송하시겠습니까?`);
     if (response) {
+      setIsSending(true);
       const result = await sendAlarm(alarmId);
+      setIsSending(false);
       window.alert(result ? '전송에 성공했습니다' : '전송에 실패했습니다');
+      refetch();
     }
   };
 
@@ -46,6 +60,14 @@ function AlarmList(props: Props) {
 
   const onCloseAlarmDetail = () => {
     setShowAlarmDetail(null);
+  };
+
+  const handleDeleteAlarm = async (alarmId: number) => {
+    const response = window.confirm('알림을 삭제하시겠습니까?');
+    if (response) {
+      const result = await deleteAlarm(alarmId);
+      result && refetch();
+    }
   };
 
   const alarmList = data
@@ -67,7 +89,9 @@ function AlarmList(props: Props) {
 
       <ListWrapper>
         {alarmList.map((alarm) => (
-          <StListItem key={alarm.alarmId}>
+          <StListItem
+            key={alarm.alarmId}
+            onClick={() => onShowAlarmDetail(alarm.alarmId)}>
             <p
               className={
                 alarm.status === '발송 전'
@@ -93,17 +117,25 @@ function AlarmList(props: Props) {
             <div className="alarm-send">
               <ListActionButton
                 text="전송"
-                onClick={() => onSendAlarm(alarm.alarmId, alarm.title)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSendAlarm(alarm.alarmId, alarm.title);
+                }}
                 disabled={alarm.status === '발송 후'}
               />
             </div>
-            <StActionButton
-              onClick={(e) => {
-                e.stopPropagation();
-                onShowAlarmDetail(alarm.alarmId);
-              }}>
-              <IcMore />
-            </StActionButton>
+            <div>
+              <StActionButton onClick={(e) => toggleDropdown(e, alarm.alarmId)}>
+                <IcMore />
+              </StActionButton>
+              {activeDropdownId === alarm.alarmId && (
+                <div
+                  className="delete_dropdown"
+                  onClick={(e) => handleDeleteAlarm(alarm.alarmId)}>
+                  <p>삭제하기</p>
+                </div>
+              )}
+            </div>
           </StListItem>
         ))}
       </ListWrapper>
@@ -112,11 +144,12 @@ function AlarmList(props: Props) {
         <Modal>
           <ShowAlarmModal
             onClose={onCloseAlarmDetail}
-            refetchList={refetch}
             alarmId={showAlarmDetail}
           />
         </Modal>
       )}
+
+      {isSending && <Loading />}
     </>
   );
 }
