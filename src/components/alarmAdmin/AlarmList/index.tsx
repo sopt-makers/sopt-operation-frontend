@@ -18,12 +18,12 @@ import { StListItem, StPageHeader } from './style';
 const sendStatusList: ALARM_STATUS[] = ['전체', '발송 전', '발송 후'];
 
 interface Props {
-  alarmListData: UseQueryResult<Alarm[], Error>;
+  data: Alarm[];
+  refetch: () => void;
 }
 
 function AlarmList(props: Props) {
-  const { alarmListData } = props;
-  const { data, isLoading, refetch } = alarmListData;
+  const { data, refetch } = props;
 
   const [tab, setTab] = useState<ALARM_STATUS>('전체');
   const [activeDropdownId, setActiveDropdownId] = useState<number | null>(null);
@@ -62,7 +62,11 @@ function AlarmList(props: Props) {
     setShowAlarmDetail(null);
   };
 
-  const handleDeleteAlarm = async (alarmId: number) => {
+  const handleDeleteAlarm = async (
+    e: React.MouseEvent<HTMLDivElement>,
+    alarmId: number,
+  ) => {
+    e.stopPropagation();
     const response = window.confirm('알림을 삭제하시겠습니까?');
     if (response) {
       const result = await deleteAlarm(alarmId);
@@ -74,7 +78,6 @@ function AlarmList(props: Props) {
     ? data.filter((item) => (tab === '전체' ? true : item.status === tab))
     : [];
 
-  if (isLoading) return <Loading />;
   return (
     <>
       <StPageHeader>
@@ -131,7 +134,7 @@ function AlarmList(props: Props) {
               {activeDropdownId === alarm.alarmId && (
                 <div
                   className="delete_dropdown"
-                  onClick={(e) => handleDeleteAlarm(alarm.alarmId)}>
+                  onClick={(e) => handleDeleteAlarm(e, alarm.alarmId)}>
                   <p>삭제하기</p>
                 </div>
               )}

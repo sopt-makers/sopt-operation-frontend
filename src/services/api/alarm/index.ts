@@ -16,9 +16,11 @@ export const getAlarmList = async (generation: number): Promise<Alarm[]> => {
 };
 
 export const sendAlarm = async (alarmId: number): Promise<boolean> => {
-  const { data }: AxiosResponse<{ data: { success: boolean } }> =
-    await client.post('/alarms/send', { alarmId });
-  return data.data.success;
+  const { data }: AxiosResponse<{ success: boolean }> = await client.post(
+    '/alarms/send',
+    { alarmId },
+  );
+  return data.success;
 };
 
 export const getAlarm = async (alarmId: number): Promise<AlarmDetail> => {
