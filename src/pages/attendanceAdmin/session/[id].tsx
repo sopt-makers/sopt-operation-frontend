@@ -215,7 +215,7 @@ function SessionDetailPage() {
                     <div className="member-info">
                       <div>
                         <p className="member-name">{member.member.name}</p>
-                        <Chip text="파트" />
+                        <Chip text={member.member.part} />
                       </div>
                       <p className="member-university">
                         {member.member.university}

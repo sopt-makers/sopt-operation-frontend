@@ -36,6 +36,7 @@ declare global {
       memberId: number;
       name: string;
       university: string;
+      part: string;
     };
     updatedScore: number;
   }
@@ -87,8 +88,10 @@ declare global {
     partValue: PART;
     partName: string;
     startDate: string; // yyyy/MM/dd
+    endDate: string; // yyyy/MM/dd
     attributeValue: SESSION_TYPE;
     attributeName: string;
+    place: string;
     attendances: {
       attendance: number;
       absent: number;
@@ -205,7 +208,7 @@ declare global {
     status: string;
   }
   interface AlarmDetail
-    extends Omit<PostAlarmData, 'generation' | 'targetList'> {
+    extends Omit<PostAlarmData, 'generation' | 'generationAt' | 'targetList'> {
     createdAt: string;
     sendAt: string;
   }

@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import AlarmList from '@/components/alarmAdmin/AlarmList';
 import CreateAlarmModal from '@/components/alarmAdmin/CreateAlarmModal';
 import FloatingButton from '@/components/common/FloatingButton';
+import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import { currentGenerationState } from '@/recoil/atom';
 import { useGetAlarmList } from '@/services/api/alarm/query';
@@ -13,16 +14,23 @@ function AlarmAdminPage() {
 
   const currentGeneration = useRecoilValue(currentGenerationState);
 
-  const alarmListData = useGetAlarmList(parseInt(currentGeneration));
+  const { data, isLoading, refetch } = useGetAlarmList(
+    parseInt(currentGeneration),
+  );
 
-  const handleModalClose = () => {
+  const handleModalClose = async () => {
     setIsModalOpen(!isModalOpen);
-    alarmListData.refetch();
+    refetch();
   };
 
+  const refetchAlarmList = () => {
+    refetch();
+  };
+
+  if (isLoading || !data) return <Loading />;
   return (
     <>
-      <AlarmList alarmListData={alarmListData} />
+      <AlarmList data={data} refetch={refetchAlarmList} />
       <FloatingButton
         content={<>알림 생성하기</>}
         onClick={() => setIsModalOpen(!isModalOpen)}

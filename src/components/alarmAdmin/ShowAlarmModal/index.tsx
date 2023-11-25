@@ -8,7 +8,7 @@ import ModalHeader from '@/components/common/modal/ModalHeader';
 import OptionTemplate from '@/components/common/OptionTemplate';
 import Selector from '@/components/common/Selector';
 import { currentGenerationState } from '@/recoil/atom';
-import { deleteAlarm, getAlarm } from '@/services/api/alarm';
+import { getAlarm } from '@/services/api/alarm';
 
 import {
   StAlarmModalWrapper,
@@ -18,12 +18,11 @@ import {
 
 interface Props {
   onClose: () => void;
-  refetchList: () => void;
   alarmId: number;
 }
 
 function ShowAlarmModal(props: Props) {
-  const { onClose, alarmId, refetchList } = props;
+  const { onClose, alarmId } = props;
 
   const generation = useRecoilValue(currentGenerationState);
 
@@ -55,17 +54,6 @@ function ShowAlarmModal(props: Props) {
         return 'CSV 첨부';
     }
   }, [data.isActive]);
-
-  const handleDeleteAlarm = async () => {
-    if (alarmId) {
-      const response = window.confirm('알림을 삭제하시겠습니까?');
-      if (response) {
-        const result = await deleteAlarm(alarmId);
-        result && refetchList();
-        onClose();
-      }
-    }
-  };
 
   return (
     <StAlarmModalWrapper>
@@ -125,7 +113,7 @@ function ShowAlarmModal(props: Props) {
       </main>
 
       <ModalFooter>
-        <Button type="button" text="삭제하기" onClick={handleDeleteAlarm} />
+        <></>
       </ModalFooter>
     </StAlarmModalWrapper>
   );

@@ -40,18 +40,18 @@ export const StChip = styled(IndicatorStructure)<{ text: string }>`
 const getChipColor = (text: string) => {
   switch (text) {
     case '세미나':
+    case '공지':
       return css`
         border-color: ${colors.orange600};
         color: ${colors.orange600};
       `;
     case '행사':
-    case '공지':
+    case '소식':
       return css`
         border-color: ${colors.blue400};
         color: ${colors.blue400};
       `;
     case '기타':
-    case '소식':
       return css`
         border-color: ${colors.yellow700};
         color: ${colors.yellow700};

@@ -5,12 +5,13 @@ import { IcDeleteFile, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import Input from '@/components/common/Input';
+import Loading from '@/components/common/Loading';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import OptionTemplate from '@/components/common/OptionTemplate';
 import Selector from '@/components/common/Selector';
 import { currentGenerationState } from '@/recoil/atom';
-import { deleteAlarm, postNewAlarm } from '@/services/api/alarm';
+import { postNewAlarm } from '@/services/api/alarm';
 import {
   readPlaygroundId,
   TARGET_GENERATION_LIST,
@@ -58,7 +59,7 @@ function CreateAlarmModal(props: Props) {
   });
   const [isReadyToSubmit, setIsReadyToSubmit] = useState<boolean>(true);
   const currentGeneration = useRecoilValue(currentGenerationState);
-  const [isSent, setIsSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isActiveUser === '활동 회원') {
@@ -97,7 +98,9 @@ function CreateAlarmModal(props: Props) {
     uploadedFile,
   ]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+
     let apiPartValue = selectedValue.part
       ? partTranslator[selectedValue.part]
       : null;
@@ -121,8 +124,9 @@ function CreateAlarmModal(props: Props) {
       targetList: targetListValue,
     };
 
-    postNewAlarm(payload);
-    onClose();
+    await postNewAlarm(payload);
+    setIsSubmitting(false);
+    await onClose();
   };
 
   const toggleDropdown = (type: AlarmDropdownType) => {
@@ -159,6 +163,7 @@ function CreateAlarmModal(props: Props) {
     }
   };
 
+  if (isSubmitting) return <Loading />;
   return (
     <StAlarmModalWrapper>
       <ModalHeader

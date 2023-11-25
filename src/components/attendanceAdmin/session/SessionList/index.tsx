@@ -87,12 +87,16 @@ function SessionList() {
             attributeName,
             name,
             startDate,
+            endDate,
             attendances,
+            place,
           } = lecture;
           const { attendance, tardy, absent, unknown } = attendances;
           const part = partTranslator[partValue] || partValue;
-          const date = dayjs(startDate);
-          const formattedDate = date.format('YYYY년 MM월 DD일 HH:mm');
+          const formattedStartDate = dayjs(startDate).format(
+            'YYYY년 MM월 DD일 HH:mm',
+          );
+          const formattedEndDate = dayjs(endDate).format('HH:mm');
 
           return (
             <StListItem
@@ -123,11 +127,11 @@ function SessionList() {
                 <div>
                   <p>
                     <IcDate />
-                    {formattedDate}
+                    {formattedStartDate} - {formattedEndDate}
                   </p>
                   <p>
                     <IcPlace />
-                    장소
+                    {place}
                   </p>
                 </div>
                 <div>
