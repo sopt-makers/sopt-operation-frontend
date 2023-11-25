@@ -243,7 +243,7 @@ function CreateSessionModal(props: Props) {
         <Button type={'button'} text="취소하기" onClick={onClose} />
         <Button
           type={'submit'}
-          text="출석 생성하기"
+          text="세션 생성하기"
           disabled={buttonDisabled}
           onClick={() => handleSubmit()}
         />
