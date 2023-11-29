@@ -29,7 +29,7 @@ import {
 } from '@/services/api/lecture/query';
 import { addPlus, precision } from '@/utils';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
-import { attributeTranslator, partTranslator } from '@/utils/translator';
+import { allPartTranslator, attributeTranslator } from '@/utils/translator';
 
 interface ChangedUpdatedStatus {
   memberId: number;
@@ -249,7 +249,7 @@ function SessionDetailPage() {
         <StPageHeader>
           <div className="title">
             <h1>{session.name} 출석 관리</h1>
-            <Chip text={partTranslator[session.part]} />
+            <Chip text={allPartTranslator[session.part]} />
             <Chip text={attributeTranslator[session.attribute]} />
           </div>
           {session.part === 'ALL' && (
