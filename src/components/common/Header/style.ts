@@ -16,6 +16,11 @@ export const StHeader = styled.header`
   height: 8rem;
   padding: 0 2.6rem;
 
+  div.status_devtools {
+    width: fit-content;
+    padding: 2rem;
+  }
+
   button {
     width: 10.2rem;
     padding: 0.3rem 0.6rem;

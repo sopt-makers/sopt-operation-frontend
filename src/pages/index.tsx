@@ -8,9 +8,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { SoptMainLogo } from '@/assets/icons/SoptLogos';
 import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
-import OptionTemplate from '@/components/common/OptionTemplate';
 import useInput from '@/hooks/useInput';
 import { userLogin } from '@/services/api/auth';
 import { user as userState } from '@/store/globalStore';
@@ -44,6 +42,7 @@ function LoginPage() {
         setError({ status: true, message: result.message });
       } else {
         setUser(result);
+        console.log(result);
         router.replace('/attendanceAdmin/session');
       }
     }
