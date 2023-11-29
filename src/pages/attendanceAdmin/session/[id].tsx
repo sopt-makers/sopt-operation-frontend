@@ -31,6 +31,13 @@ import { addPlus, precision } from '@/utils';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 import { attributeTranslator, partTranslator } from '@/utils/translator';
 
+interface ChangedUpdatedStatus {
+  memberId: number;
+  firstRoundStatus: ATTEND_STATUS;
+  secondRoundStatus: ATTEND_STATUS;
+  updatedScore: number;
+}
+
 function SessionDetailPage() {
   const router = useRouter();
   const id =
@@ -38,6 +45,9 @@ function SessionDetailPage() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
+  const [changedUpdatedStatusList, setChangedUpdatedStatusList] = useState<
+    ChangedUpdatedStatus[]
+  >([]);
   const [modal, setModal] = useState<number | null>(null);
   const bottomRef: RefObject<HTMLDivElement> = useRef(null);
 
@@ -65,10 +75,75 @@ function SessionDetailPage() {
     setSelectedPart(part);
   };
 
+  const calcUpdatedScore = (
+    memberId: number,
+    attendances: Attendance[],
+    round: number,
+    status: ATTEND_STATUS,
+  ) => {
+    const attribute = session?.attribute;
+
+    const prevStatus = changedUpdatedStatusList.find(
+      (item) => item.memberId === memberId,
+    );
+    const anotherRound = round === 1 ? 2 : 1;
+    const anotherRoundStatus = prevStatus
+      ? round === 1
+        ? prevStatus.secondRoundStatus
+        : prevStatus.firstRoundStatus
+      : (attendances.find((attendance) => attendance.round === anotherRound)
+        ?.status as ATTEND_STATUS);
+
+    const firstRoundStatus = round === 1 ? status : anotherRoundStatus;
+    const secondRoundStatus = round === 2 ? status : anotherRoundStatus;
+    let updatedScore = 0;
+
+    switch (attribute) {
+      case 'SEMINAR':
+        if (
+          firstRoundStatus === 'ATTENDANCE' &&
+          secondRoundStatus === 'ATTENDANCE'
+        ) {
+          updatedScore = 0;
+        } else if (
+          firstRoundStatus === 'ABSENT' &&
+          secondRoundStatus === 'ATTENDANCE'
+        ) {
+          updatedScore = -0.5;
+        } else {
+          updatedScore = -1;
+        }
+        break;
+      case 'EVENT':
+        if (
+          (firstRoundStatus === 'ATTENDANCE' ||
+            firstRoundStatus === 'ABSENT') &&
+          secondRoundStatus === 'ATTENDANCE'
+        ) {
+          updatedScore = 0.5;
+        } else {
+          updatedScore = 0;
+        }
+        break;
+      case 'ETC':
+        updatedScore = 0;
+        break;
+    }
+
+    const newList = changedUpdatedStatusList.filter(
+      (item) => item.memberId !== memberId,
+    );
+    setChangedUpdatedStatusList([
+      ...newList,
+      { memberId, firstRoundStatus, secondRoundStatus, updatedScore },
+    ]);
+  };
+
   const onChangeStatus = async (
     status: ATTEND_STATUS,
     member: SessionMember,
     subAttendanceId: number,
+    round: number,
   ) => {
     if (session) {
       const result = await updateMemberAttendStatus(
@@ -80,7 +155,12 @@ function SessionDetailPage() {
         alert(result.error);
       } else {
         setChangedMembers([...changedMembers, member]);
-        // refetchMembers();
+        calcUpdatedScore(
+          member.member.memberId,
+          member.attendances,
+          round,
+          status,
+        );
       }
     }
   };
@@ -205,10 +285,17 @@ function SessionDetailPage() {
                 const secondRoundTime = dayjs(secondRound.updateAt).format(
                   'YYYY/MM/DD HH:mm',
                 );
+                const updatedScore =
+                  changedUpdatedStatusList.find(
+                    (item) => item.memberId === member.member.memberId,
+                  )?.updatedScore ?? member.updatedScore;
+
                 return (
                   <StListItem
                     key={member.member.memberId}
-                    className={isChangedMember(member) ? 'focused' : ''}>
+                    className={
+                      isChangedMember(member) ? 'focused' : 'no-pointer'
+                    }>
                     <p className="member-index">
                       {precision(pageIndex * PAGE_SIZE + index + 1, 2)}
                     </p>
@@ -230,6 +317,7 @@ function SessionDetailPage() {
                           value,
                           member,
                           firstRound.subAttendanceId,
+                          1,
                         )
                       }
                       generation={String(session.generation)}
@@ -244,6 +332,7 @@ function SessionDetailPage() {
                           value,
                           member,
                           secondRound.subAttendanceId,
+                          2,
                         )
                       }
                       generation={String(session.generation)}
@@ -252,11 +341,11 @@ function SessionDetailPage() {
                     <div className="member-score-wrap">
                       <p
                         className={
-                          member.updatedScore < 0
+                          updatedScore < 0
                             ? 'member-score minus-score'
                             : 'member-score'
                         }>
-                        {addPlus(member.updatedScore)}점
+                        {addPlus(updatedScore)}점
                       </p>
                     </div>
                     <ListActionButton
@@ -356,7 +445,6 @@ const StListItem = styled.li`
   padding: 18px 34px;
   display: flex;
   align-items: center;
-  pointer-events: none;
   color: ${colors.gray100};
 
   .member-index {
