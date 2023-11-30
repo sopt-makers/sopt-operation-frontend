@@ -37,10 +37,6 @@ function AdminStatusDevtools() {
     }
   };
 
-  useEffect(() => {
-    console.log('현재 계정 권한:', status);
-  }, [status]);
-
   return (
     <StAdminStatusContainer>
       <OptionTemplate title="권한">
