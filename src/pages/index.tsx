@@ -3,12 +3,13 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { SoptMainLogo } from '@/assets/icons/SoptLogos';
 import Button from '@/components/common/Button';
 import Loading from '@/components/common/Loading';
+import { adminStatusContext } from '@/components/devTools/AdminContextProvider';
 import useInput from '@/hooks/useInput';
 import { userLogin } from '@/services/api/auth';
 import { user as userState } from '@/store/globalStore';
@@ -18,6 +19,7 @@ function LoginPage() {
   const router = useRouter();
 
   const setUser = useSetRecoilState(userState);
+  const { status, setStatus } = useContext(adminStatusContext);
 
   const { state, onChange } = useInput<LoginData>({
     email: '',
@@ -42,8 +44,10 @@ function LoginPage() {
         setError({ status: true, message: result.message });
       } else {
         setUser(result);
-        console.log(result);
-        router.replace('/attendanceAdmin/session');
+        setStatus(result.adminStatus);
+        router.replace(
+          status !== 'MAKERS' ? '/attendanceAdmin/session' : '/alarmAdmin',
+        );
       }
     }
   };

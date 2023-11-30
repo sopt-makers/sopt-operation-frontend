@@ -3,6 +3,7 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useEffect,
   useState,
 } from 'react';
 
@@ -11,8 +12,8 @@ interface Props {
 }
 
 interface AdminStatusContextType {
-  status: string;
-  setStatus: Dispatch<SetStateAction<string>>;
+  status: string | null;
+  setStatus: Dispatch<SetStateAction<string | null>>;
 }
 
 const defaultContextValue: AdminStatusContextType = {
@@ -25,7 +26,15 @@ export const adminStatusContext =
 
 export const AdminStatusProvider = (props: Props) => {
   const { children } = props;
-  const [status, setStatus] = useState('DEVELOPER');
+  const [status, setStatus] = useState<string | null>('NOT_CERTIFIED');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedStatus =
+        sessionStorage.getItem('adminStatus') || 'NOT_CERTIFIED';
+      setStatus(savedStatus);
+    }
+  }, []);
 
   return (
     <adminStatusContext.Provider value={{ status, setStatus }}>
