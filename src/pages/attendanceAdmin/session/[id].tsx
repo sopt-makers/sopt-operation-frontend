@@ -142,38 +142,45 @@ function SessionDetailPage() {
   const onChangeStatus = async (
     status: ATTEND_STATUS,
     member: SessionMember,
-    subAttendanceId: number,
     round: number,
   ) => {
-    if (session) {
-      const result = await updateMemberAttendStatus(
-        subAttendanceId,
-        status,
-        session.attribute,
-      );
-      if (result) {
-        alert(result.error);
-      } else {
-        setChangedMembers([...changedMembers, member]);
-        calcUpdatedScore(
-          member.member.memberId,
-          member.attendances,
-          round,
-          status,
-        );
-      }
-    }
+    setChangedMembers([...changedMembers, member]);
+    calcUpdatedScore(member.member.memberId, member.attendances, round, status);
   };
 
-  const onUpdateScore = async (memberId: number) => {
-    const result = await updateMemberScore(memberId);
-    if (result) {
-      alert(result.error);
-    } else {
-      setChangedMembers(
-        changedMembers.filter((member) => member.member.memberId !== memberId),
+  const onUpdateScore = async (
+    memberId: number,
+    firstSubAttendanceId: number,
+    secondSubAttendanceId: number,
+  ) => {
+    if (session) {
+      const { firstRoundStatus, secondRoundStatus, updatedScore } =
+        changedUpdatedStatusList.find(
+          (item) => item.memberId === memberId,
+        ) as ChangedUpdatedStatus;
+
+      const firstRoundError = await updateMemberAttendStatus(
+        firstSubAttendanceId,
+        firstRoundStatus,
+        session.attribute,
       );
-      refetchSession();
+      const secondRoundError = await updateMemberAttendStatus(
+        secondSubAttendanceId,
+        secondRoundStatus,
+        session.attribute,
+      );
+      const updateScoreError = await updateMemberScore(memberId);
+
+      if (firstRoundError || secondRoundError || updateScoreError) {
+        alert('출석 점수를 갱신하는데 실패했어요');
+      } else {
+        setChangedMembers(
+          changedMembers.filter(
+            (member) => member.member.memberId !== memberId,
+          ),
+        );
+        refetchSession();
+      }
     }
   };
 
@@ -312,14 +319,7 @@ function SessionDetailPage() {
                       selected={firstRound.status}
                       options={attendanceOptions.first}
                       round="1차"
-                      onChange={(value) =>
-                        onChangeStatus(
-                          value,
-                          member,
-                          firstRound.subAttendanceId,
-                          1,
-                        )
-                      }
+                      onChange={(value) => onChangeStatus(value, member, 1)}
                       generation={String(session.generation)}
                     />
                     <p className="member-date">{firstRoundTime}</p>
@@ -327,14 +327,7 @@ function SessionDetailPage() {
                       selected={secondRound.status}
                       options={attendanceOptions.second}
                       round="2차"
-                      onChange={(value) =>
-                        onChangeStatus(
-                          value,
-                          member,
-                          secondRound.subAttendanceId,
-                          2,
-                        )
-                      }
+                      onChange={(value) => onChangeStatus(value, member, 2)}
                       generation={String(session.generation)}
                     />
                     <p className="member-date">{secondRoundTime}</p>
@@ -349,7 +342,13 @@ function SessionDetailPage() {
                       </p>
                     </div>
                     <ListActionButton
-                      onClick={() => onUpdateScore(member.member.memberId)}
+                      onClick={() =>
+                        onUpdateScore(
+                          member.member.memberId,
+                          firstRound.subAttendanceId,
+                          secondRound.subAttendanceId,
+                        )
+                      }
                       text="갱신"
                       disabled={
                         !(

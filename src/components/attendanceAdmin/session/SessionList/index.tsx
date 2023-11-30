@@ -68,7 +68,7 @@ function SessionList() {
     );
     if (isConfirmed) {
       deleteSession(lectureId);
-      alert('세션이 삭제되었습니다.');
+      alert('세션이 삭제되었어요');
     }
   };
 
