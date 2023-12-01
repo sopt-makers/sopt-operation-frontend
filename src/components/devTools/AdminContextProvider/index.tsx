@@ -31,7 +31,7 @@ export const AdminStatusProvider = (props: Props) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedStatus =
-        sessionStorage.getItem('adminStatus') || 'NOT_CERTIFIED';
+        sessionStorage.getItem('adminStatus') ?? 'NOT_CERTIFIED';
       setStatus(savedStatus);
     }
   }, []);
