@@ -46,7 +46,9 @@ function LoginPage() {
         setUser(result);
         setStatus(result.adminStatus);
         router.replace(
-          status !== 'MAKERS' ? '/attendanceAdmin/session' : '/alarmAdmin',
+          result.adminStatus !== 'MAKERS'
+            ? '/attendanceAdmin/session'
+            : '/alarmAdmin',
         );
       }
     }
