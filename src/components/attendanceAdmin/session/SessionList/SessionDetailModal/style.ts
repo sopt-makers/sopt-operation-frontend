@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { display1 } from '@/styles/fonts';
-
 export const StWrapper = styled.div`
   padding: 0 4rem;
 `;
@@ -25,7 +23,9 @@ export const StTitle = styled.div`
   margin-bottom: 0.8rem;
 
   & > h1 {
-    ${display1}
+    font-size: 2.4rem;
+    line-height: 3rem;
+    font-weight: 700;
     color: ${({ theme }) => theme.color.grayscale.black40};
   }
 

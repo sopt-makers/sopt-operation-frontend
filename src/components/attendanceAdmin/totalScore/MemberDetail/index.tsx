@@ -2,32 +2,20 @@ import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 import { IcModalClose } from '@/assets/icons';
+import AttendanceChip from '@/components/common/AttendanceChip';
 import ListWrapper from '@/components/common/ListWrapper';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
 import { scoreDetailAttendanceInit } from '@/data/sessionData';
 import { useGetMemberAttendance } from '@/services/api/attendance/query';
-import { precision } from '@/utils';
-import { getAttendanceColor } from '@/utils/translator';
+import { addPlus } from '@/utils';
 
-import { StModalWrap, StSessionName } from './style';
+import { StListItem, StModalWrap, StSessionName } from './style';
 
 interface Props {
   memberId: number;
   onClose: () => void;
 }
-
-const HEADER_LABELS = [
-  '순번',
-  '세션명',
-  '1차 출석 상태',
-  '1차 출석 일시',
-  '2차 출석 상태',
-  '2차 출석 일시',
-  '출석 결과',
-  '점수',
-];
-const TABLE_WIDTH = ['10%', '20%', '10%', '15%', '10%', '15%', '10%', '10%'];
 
 function MemberDetail(props: Props) {
   const { memberId, onClose } = props;
@@ -58,86 +46,73 @@ function MemberDetail(props: Props) {
     <Modal>
       <StModalWrap>
         <header>
-          <p className="member-name">
-            {member.name}
-            <span>{member.score}점</span>
-          </p>
-          <p className="member-part">{member.part}파트</p>
-          <p className="member-university">{member.university}</p>
-          <p className="member-phone">{member.phone}</p>
-          <button className="close-btn" onClick={() => onClose()}>
-            <IcModalClose />
-          </button>
+          <p className="member-name">{member.name}</p>
+          <p className="member-score">{member.score}점</p>
+          <p className="chip">{member.part}</p>
+          <p className="chip">{member.university}</p>
+          <p className="chip">{member.phone}</p>
         </header>
-        <div className="list-head">
+        <div className="score-list">
           <ListWrapper>
-            <thead>
-              <tr>
-                {HEADER_LABELS.map((label, index) => (
-                  <th key={label} style={{ width: TABLE_WIDTH[index] }}>
-                    {label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-          </ListWrapper>
-        </div>
-        <div className="list-body">
-          <ListWrapper>
-            <tbody>
-              {member.lectures.map((lecture, index) => {
-                const firstRound =
-                  lecture.attendances.find((item) => item.round === 1) ??
-                  scoreDetailAttendanceInit;
-                const secondRound =
-                  lecture.attendances.find((item) => item.round === 2) ??
-                  scoreDetailAttendanceInit;
-                const firstRoundDate = dayjs(firstRound.date).format(
-                  'YYYY/MM/DD HH:mm',
-                );
-                const secondRoundDate = dayjs(secondRound.date).format(
-                  'YYYY/MM/DD HH:mm',
-                );
-                return (
-                  <tr key={lecture.lecture}>
-                    <td style={{ width: TABLE_WIDTH[0] }}>
-                      {precision(index + 1, 2)}
-                    </td>
-                    <td style={{ width: TABLE_WIDTH[1] }}>
+            {member.lectures.map((lecture) => {
+              const firstRound =
+                lecture.attendances.find((item) => item.round === 1) ??
+                scoreDetailAttendanceInit;
+              const secondRound =
+                lecture.attendances.find((item) => item.round === 2) ??
+                scoreDetailAttendanceInit;
+              const firstRoundDate = dayjs(firstRound.date).format(
+                'YYYY/MM/DD HH:mm',
+              );
+              const secondRoundDate = dayjs(secondRound.date).format(
+                'YYYY/MM/DD HH:mm',
+              );
+              return (
+                <StListItem key={lecture.lecture}>
+                  <div className="session-info">
+                    <div className="session-score">
                       <StSessionName>{lecture.lecture}</StSessionName>
-                    </td>
-                    <td
-                      style={{
-                        width: TABLE_WIDTH[2],
-                        color: getAttendanceColor(firstRound.status),
-                      }}>
-                      {firstRound.status}
-                    </td>
-                    <td style={{ width: TABLE_WIDTH[3] }}>{firstRoundDate}</td>
-                    <td
-                      style={{
-                        width: TABLE_WIDTH[4],
-                        color: getAttendanceColor(secondRound.status),
-                      }}>
-                      {secondRound.status}
-                    </td>
-                    <td style={{ width: TABLE_WIDTH[5] }}>{secondRoundDate}</td>
-                    <td
-                      style={{
-                        width: TABLE_WIDTH[6],
-                        color: getAttendanceColor(lecture.status),
-                      }}>
-                      {lecture.status}
-                    </td>
-                    <td style={{ width: TABLE_WIDTH[7] }}>
-                      {lecture.additiveScore}점
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+                      <AttendanceChip text={lecture.status} />
+                      <AttendanceChip
+                        text={`${addPlus(lecture.additiveScore)}점`}
+                      />
+                    </div>
+                    <p className="session-date">
+                      2023년 00월 00일 14:00 - 18:00
+                    </p>
+                  </div>
+                  <div className="attendance-info">
+                    <p>
+                      <span
+                        className={
+                          firstRound.status === '결석'
+                            ? 'absent attendance'
+                            : 'attendance'
+                        }>
+                        1차 {firstRound.status}
+                      </span>
+                      <span>{firstRoundDate}</span>
+                    </p>
+                    <p>
+                      <span
+                        className={
+                          secondRound.status === '결석'
+                            ? 'absent attendance'
+                            : 'attendance'
+                        }>
+                        2차 {secondRound.status}
+                      </span>
+                      <span>{secondRoundDate}</span>
+                    </p>
+                  </div>
+                </StListItem>
+              );
+            })}
           </ListWrapper>
         </div>
+        <button className="close-btn" onClick={() => onClose()}>
+          <IcModalClose />
+        </button>
       </StModalWrap>
     </Modal>
   );

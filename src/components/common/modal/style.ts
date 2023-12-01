@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import zIndex from '@/utils/zIndex';
 
@@ -8,7 +9,7 @@ export const StModalBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(15, 15, 18, 0.8);
   z-index: ${zIndex.dim};
   display: flex;
   justify-content: center;
@@ -16,10 +17,10 @@ export const StModalBackground = styled.div`
 `;
 
 export const StModalWrapper = styled.div`
-  width: 90rem;
+  width: auto;
   height: auto;
 
-  background-color: ${({ theme }) => theme.color.grayscale.white100};
+  background-color: ${colors.gray800};
   box-shadow: 0px 0px 40px rgba(16, 24, 40, 0.06);
   border-radius: 1.2rem;
 

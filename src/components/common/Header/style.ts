@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import zIndex from '@/utils/zIndex';
 
 export const StHeader = styled.header`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 
   position: fixed;
@@ -12,44 +13,41 @@ export const StHeader = styled.header`
   top: 0;
   left: 22rem;
   width: calc(100% - 22rem);
-  height: 6rem;
+  height: 8rem;
   padding: 0 2.6rem;
 
-  background-color: ${({ theme }) => theme.color.grayscale.gray10};
+  div.status_devtools {
+    width: fit-content;
+    padding: 2rem;
+  }
 
   button {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    background: none;
+    width: 10.2rem;
+    padding: 0.3rem 0.6rem;
+
+    color: ${colors.gray200};
+    background-color: ${colors.gray800};
+
+    border-radius: 1.9rem;
 
     cursor: pointer;
 
+    &:hover {
+      color: ${colors.gray10};
+      background-color: ${colors.gray700};
+    }
+    &:active {
+      background-color: ${colors.gray600};
+    }
+
     & > p {
-      font-weight: 400;
-      font-size: 1.6rem;
-      line-height: 100%;
-      letter-spacing: -0.02em;
-      color: ${({ theme }) => theme.color.grayscale.black40};
-    }
-    &.logout > p {
-      padding: 1.1rem 2.3rem;
-
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 100%;
       text-align: center;
-      letter-spacing: -0.02em;
-
-      background: ${({ theme }) => theme.color.grayscale.white100};
-      color: ${({ theme }) => theme.color.grayscale.gray60};
-      border: 0.1rem solid ${({ theme }) => theme.color.grayscale.gray20};
-      border-radius: 4rem;
-    }
-    &.logout > p:hover {
-      color: ${({ theme }) => theme.color.grayscale.black40};
-      background: ${({ theme }) => theme.color.grayscale.gray20};
-      border: 0.1rem solid ${({ theme }) => theme.color.grayscale.gray60};
+      font-family: SUIT;
+      font-size: 1.6rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 150%; /* 2.4rem */
+      letter-spacing: -0.024rem;
     }
   }
 `;

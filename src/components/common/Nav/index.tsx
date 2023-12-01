@@ -1,77 +1,33 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import { Fragment, useContext } from 'react';
 
-import { IcNavMenu } from '@/assets/icons';
-import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
-import { GENERATION_LIST } from '@/utils/generation';
+import { adminStatusContext } from '@/components/devTools/AdminContextProvider';
 import { MENU_LIST } from '@/utils/nav';
 
-import DropDown from '../DropDown';
-import IcDropDown from '../icons/IcDropDown';
-import {
-  StGenerationDropdown,
-  StMenu,
-  StNavWrapper,
-  StSoptLogo,
-  StSubMenu,
-} from './style';
+import GenerationDropDown from './GenerationDropDown';
+import { StMenu, StNavWrapper, StSoptLogo, StSubMenu } from './style';
 
 function Nav() {
   const router = useRouter();
-  const [currentGeneration, setCurrentGeneration] = useRecoilGenerationSSR();
-  const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
+  const { status } = useContext(adminStatusContext);
 
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-
-  const handleSelectedGeneration = (selectedGeneration: string) => {
-    setCurrentGeneration(selectedGeneration);
-    setIsDropdownOn(false);
-    const pathSegments = router.asPath.split('/');
-    if (pathSegments[pathSegments.length - 1].match(/^\d+$/)) {
-      router.push('/attendanceAdmin/session');
-    }
-  };
+  const filteredMenuList =
+    status === 'MAKERS'
+      ? MENU_LIST.filter((menu) => menu.title === '알림 관리')
+      : MENU_LIST;
 
   const handleSubMenuClick = (path: string) => {
     router.push(path);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsDropdownOn(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
     <StNavWrapper>
       <header>
-        <StSoptLogo>SOPT</StSoptLogo>
-        <StGenerationDropdown ref={dropdownRef}>
-          <div onClick={() => setIsDropdownOn(!isDropdownOn)}>
-            <span>{currentGeneration}기</span>
-            <IcDropDown />
-          </div>
-          {isDropdownOn && (
-            <DropDown
-              list={GENERATION_LIST}
-              type={'select'}
-              onItemSelected={handleSelectedGeneration}
-            />
-          )}
-        </StGenerationDropdown>
+        <StSoptLogo>SOPT ADMIN</StSoptLogo>
       </header>
-      {MENU_LIST.map((menu) => (
-        <React.Fragment key={menu.title}>
+      <GenerationDropDown />
+      {filteredMenuList.map((menu) => (
+        <Fragment key={menu.title}>
           <StMenu
             currentPage={
               menu.path &&
@@ -79,7 +35,7 @@ function Nav() {
             }
             onClick={() => menu.path && handleSubMenuClick(menu.path[0])}>
             <p>
-              <IcNavMenu />
+              <menu.MenuIcon />
               <span>{menu.title}</span>
             </p>
           </StMenu>
@@ -95,7 +51,7 @@ function Nav() {
                 {subMenu}
               </StSubMenu>
             ))}
-        </React.Fragment>
+        </Fragment>
       ))}
     </StNavWrapper>
   );

@@ -1,4 +1,4 @@
-import theme from '@/styles/theme';
+import { colors } from '@sopt-makers/colors';
 
 export const partList: PART[] = [
   'ALL',
@@ -9,34 +9,31 @@ export const partList: PART[] = [
   'ANDROID',
   'WEB',
 ];
+export const allPartTranslator: Record<PART, string> = {
+  ALL: '전체 파트',
+  PLAN: '기획',
+  DESIGN: '디자인',
+  SERVER: '서버',
+  IOS: 'iOS',
+  ANDROID: '안드로이드',
+  WEB: '웹',
+};
 export const partTranslator: Record<PART, string> = {
   ALL: '전체',
   PLAN: '기획',
   DESIGN: '디자인',
   SERVER: '서버',
   IOS: 'iOS',
-  ANDROID: 'AOS',
+  ANDROID: '안드로이드',
   WEB: '웹',
+};
+export const attributeTranslator: Record<SESSION_TYPE, string> = {
+  SEMINAR: '세미나',
+  EVENT: '행사',
+  ETC: '기타',
 };
 export const attendanceTranslator: Record<ATTEND_STATUS, string> = {
   ATTENDANCE: '출석',
   TARDY: '지각',
   ABSENT: '결석',
-};
-export const getAttendanceColor = (
-  selected: ATTEND_STATUS | ATTEND_STATUS_KR,
-) => {
-  switch (selected) {
-    case 'ABSENT':
-    case '결석':
-      return theme.color.sub.red;
-    case 'TARDY':
-    case '지각':
-      return theme.color.sub.yellow;
-    case 'ATTENDANCE':
-    case '출석':
-      return theme.color.sub.green;
-    default:
-      return theme.color.grayscale.black40;
-  }
 };

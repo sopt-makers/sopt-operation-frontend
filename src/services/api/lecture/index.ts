@@ -19,8 +19,11 @@ export const startAttendance = async (
   lectureId: number,
   round: number,
 ): Promise<boolean> => {
-  await client.patch('/lectures/attendance', { code, lectureId, round });
-  return true;
+  const { data }: AxiosResponse<{ success: boolean }> = await client.patch(
+    '/lectures/attendance',
+    { code, lectureId, round },
+  );
+  return data?.success;
 };
 
 export const updateAttendance = async (lectureId: number): Promise<boolean> => {

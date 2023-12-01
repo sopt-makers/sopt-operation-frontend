@@ -1,58 +1,31 @@
 import styled from '@emotion/styled';
-import css from 'styled-jsx/css';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 
-import { body2, caption1 } from '@/styles/fonts';
-
-export const StList = styled.table<{ tableWidth: string[] }>`
+export const StList = styled.ul`
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 1.6rem;
-  thead > tr {
-    ${caption1}
-    font-weight: 400;
-    color: ${({ theme }) => theme.color.grayscale.black40};
-    opacity: 0.7;
-    & > th {
-      padding-bottom: 2.4rem;
-    }
-    ${({ tableWidth }) =>
-      tableWidth &&
-      tableWidth
-        .map(
-          (width, index) => `th:nth-of-type(${index + 1}) { width: ${width} }`,
-        )
-        .join('')}
-  }
-  tbody > tr {
-    ${body2}
-    height: 7rem;
-    color: ${({ theme }) => theme.color.grayscale.black40};
-    & > td {
-      height: inherit;
-      text-align: center;
-      vertical-align: middle;
-      background-color: ${({ theme }) => theme.color.grayscale.white100};
-      border-top: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
-      border-bottom: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 120px;
 
-    & > td:first-of-type {
-      border-top-left-radius: 1rem;
-      border-bottom-left-radius: 1rem;
-      border: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
-      border-right: none;
+  & > li {
+    border-radius: 10px;
+    border: 1px solid ${colors.gray800};
+    color: ${colors.gray300};
+
+    &:not(.no-pointer):hover {
+      border: 1px solid ${colors.gray600};
+      background-color: ${colors.gray900};
+      cursor: pointer;
     }
-    & > td:last-of-type {
-      border-top-right-radius: 1rem;
-      border-bottom-right-radius: 1rem;
-      border: 0.5px solid ${({ theme }) => theme.color.grayscale.gray30};
-      border-left: none;
+    &.focused {
+      border: 1px solid ${colors.gray600};
+      background-color: ${colors.gray900};
+
+      &:hover {
+        cursor: default;
+      }
     }
-  }
-  .focused > td,
-  .focused > td:first-of-type,
-  .focused > td:last-of-type {
-    border-color: ${({ theme }) => theme.color.grayscale.black40};
-    border-width: 1px;
   }
 `;

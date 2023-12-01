@@ -6,34 +6,25 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import { useRecoilValue } from 'recoil';
 
-import { IcCheckBox, IcModalClose } from '@/assets/icons';
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import IcDropdown from '@/components/common/icons/IcDropDown';
-import InputContainer from '@/components/common/inputContainer';
+import Input from '@/components/common/Input';
+import ModalFooter from '@/components/common/modal/ModalFooter';
+import ModalHeader from '@/components/common/modal/ModalHeader';
+import OptionTemplate from '@/components/common/OptionTemplate';
+import Selector from '@/components/common/Selector';
 import { useCreateSession } from '@/hooks/useCreateSession';
 import { currentGenerationState } from '@/recoil/atom';
 import {
+  attributeList,
   partList,
   partTranslator,
   sessionTranslator,
-  sessionType,
   times,
 } from '@/utils/session';
 
-import {
-  StDatePickerInput,
-  StDropDownInput,
-  StFooter,
-  StHeader,
-  StInformationSection,
-  StInput,
-  StPartSelector,
-  StSelectedPart,
-  StSessionSelector,
-  StTitle,
-  StWrapper,
-} from './style';
+import { StDatePickerInput, StSessionModalWrapper } from './style';
 
 interface Props {
   onClose: () => void;
@@ -43,16 +34,17 @@ function CreateSessionModal(props: Props) {
   const { onClose } = props;
 
   // 세션 생성에 필요한 State
-  const [part, setPart] = useState<string>('파트선택');
+  const [part, setPart] = useState<string>('파트 선택');
   const [sessionName, setSessionName] = useState<string>();
   const [sessionLocation, setSessionLocation] = useState<string>();
   const [date, setDate] = useState<string>();
   const [startTime, setStartTime] = useState<string>('14:00');
   const [endTime, setEndTime] = useState<string>('18:00');
-  const [selectedSessionIndex, setSelectedSessionIndex] = useState<number>(-1);
+  const [attribute, setAttribute] = useState<string>('세션 선택');
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isPartOpen, setIsPartOpen] = useState<boolean>(false);
+  const [isAttributeOpen, setIsAttributeOpen] = useState<boolean>(false);
   const [isStartTimeOpen, setIsStartTimeOpen] = useState<boolean>(false);
   const [isEndTimeOpen, setIsEndTimeOpen] = useState<boolean>(false);
 
@@ -71,21 +63,13 @@ function CreateSessionModal(props: Props) {
       date &&
       startTime &&
       endTime &&
-      selectedSessionIndex !== -1
+      attribute !== '세션 선택'
     ) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
     }
-  }, [
-    part,
-    sessionName,
-    sessionLocation,
-    date,
-    startTime,
-    endTime,
-    selectedSessionIndex,
-  ]);
+  }, [part, sessionName, sessionLocation, date, startTime, endTime, attribute]);
 
   /** 각각의 State 에 담아준 상태들을 객체화 시켜 post 하는 함수 */
   const handleSubmit = async () => {
@@ -93,8 +77,7 @@ function CreateSessionModal(props: Props) {
       setButtonClicked(true);
 
       const translatedPart = partTranslator[part];
-      const translatedAttribute =
-        sessionTranslator[sessionType[selectedSessionIndex].session];
+      const translatedAttribute = sessionTranslator[attribute];
 
       const submitContents = {
         part: translatedPart,
@@ -115,6 +98,11 @@ function CreateSessionModal(props: Props) {
   const handleSelectedPart = (selectedPart: string) => {
     setPart(selectedPart);
     setIsPartOpen(false);
+  };
+
+  const handleSelectedAttribute = (selectedAttribute: string): void => {
+    setAttribute(selectedAttribute);
+    setIsAttributeOpen(false);
   };
 
   /** 시간 선택 핸들러 */
@@ -154,22 +142,34 @@ function CreateSessionModal(props: Props) {
   };
 
   return (
-    <>
-      <StWrapper>
-        <StHeader>
-          <StTitle>
-            <h1>세션 생성</h1>
-            <IcModalClose onClick={onClose} />
-          </StTitle>
-          <h2>새로운 SOPT 세션을 생성합니다. 대상 파트를 선택해주세요.</h2>
-        </StHeader>
-        <StInformationSection>
-          <StPartSelector onClick={() => setIsPartOpen(!isPartOpen)}>
-            <StSelectedPart
-              textColor={part === '파트선택' ? '#606265' : '#0F1010'}>
-              {part}
-              <IcDropdown color={part === '파트선택' ? '#606265' : '#0F1010'} />
-            </StSelectedPart>
+    <StSessionModalWrapper>
+      <ModalHeader
+        title="세션 생성"
+        desc="대상 파트를 선택해주세요."
+        onClose={onClose}
+      />
+      <main>
+        <div className="dropdowns">
+          <OptionTemplate title="세션 종류">
+            <Selector
+              content={attribute}
+              onClick={() => setIsAttributeOpen(!isAttributeOpen)}
+              isDisabledValue={attribute === '세션 선택'}
+            />
+            {isAttributeOpen && (
+              <DropDown
+                list={attributeList}
+                onItemSelected={handleSelectedAttribute}
+                type={'select'}
+              />
+            )}
+          </OptionTemplate>
+          <OptionTemplate title="파트">
+            <Selector
+              content={part}
+              onClick={() => setIsPartOpen(!isPartOpen)}
+              isDisabledValue={part === '파트 선택'}
+            />
             {isPartOpen && (
               <DropDown
                 list={partList}
@@ -177,111 +177,78 @@ function CreateSessionModal(props: Props) {
                 type={'select'}
               />
             )}
-          </StPartSelector>
-          <div>
-            <InputContainer title="세션명">
-              <StInput
-                hasValue={sessionName ? true : false}
-                placeholder="세션 이름을 입력해주세요"
-                onChange={(e) => handleSessionInfo(e, '세션 이름')}
+          </OptionTemplate>
+        </div>
+        <div className="inputs">
+          <OptionTemplate title="세션명">
+            <Input
+              type="text"
+              placeholder="세션명을 입력하세요."
+              onChange={(e) => handleSessionInfo(e, '세션 이름')}
+            />
+          </OptionTemplate>
+          <OptionTemplate title="세션 장소">
+            <Input
+              type="text"
+              placeholder="세션이 열리는 장소를 입력하세요."
+              onChange={(e) => handleSessionInfo(e, '세션 장소')}
+            />
+          </OptionTemplate>
+          <OptionTemplate title="세션 날짜">
+            <StDatePickerInput>
+              <DatePicker
+                placeholderText="세션 날짜를 선택해주세요"
+                dateFormat="yyyy.MM.dd"
+                selected={selectedDate}
+                onChange={handleSessionDate}>
+                <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
+              </DatePicker>
+            </StDatePickerInput>
+          </OptionTemplate>
+          <div className="time">
+            <OptionTemplate title="시작 시각">
+              <Selector
+                content={startTime}
+                onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}
               />
-            </InputContainer>
-            <InputContainer title="세션 장소">
-              <StInput
-                hasValue={sessionLocation ? true : false}
-                placeholder="세션이 열리는 장소를 입력해주세요"
-                onChange={(e) => handleSessionInfo(e, '세션 장소')}
+              {isStartTimeOpen && (
+                <DropDown
+                  list={times}
+                  type={'times'}
+                  onItemSelected={(time: string) =>
+                    handleSelectedTime(time, 'startTime')
+                  }
+                />
+              )}
+            </OptionTemplate>
+            <OptionTemplate title="종료 시각">
+              <Selector
+                content={endTime}
+                onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}
               />
-            </InputContainer>
+              {isEndTimeOpen && (
+                <DropDown
+                  list={times}
+                  type={'times'}
+                  onItemSelected={(time: string) =>
+                    handleSelectedTime(time, 'endTime')
+                  }
+                />
+              )}
+            </OptionTemplate>
           </div>
-          <div>
-            <InputContainer title="세션 날짜">
-              <StDatePickerInput>
-                <DatePicker
-                  placeholderText="세션 날짜를 선택해주세요"
-                  dateFormat="yyyy/MM/dd"
-                  selected={selectedDate}
-                  onChange={handleSessionDate}>
-                  <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
-                </DatePicker>
-              </StDatePickerInput>
-            </InputContainer>
-            <div className="time">
-              <div>
-                <InputContainer
-                  title="시작 시각"
-                  onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}>
-                  <StDropDownInput>
-                    {startTime} <IcDropdown color="#3C3D40" />
-                  </StDropDownInput>
-                </InputContainer>
-                {isStartTimeOpen && (
-                  <DropDown
-                    list={times}
-                    type={'times'}
-                    onItemSelected={(time: string) =>
-                      handleSelectedTime(time, 'startTime')
-                    }
-                  />
-                )}
-              </div>
-              <div>
-                <InputContainer
-                  title="종료 시각"
-                  onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}>
-                  <StDropDownInput>
-                    {endTime} <IcDropdown color="#3C3D40" />
-                  </StDropDownInput>
-                </InputContainer>
-                {isEndTimeOpen && (
-                  <DropDown
-                    list={times}
-                    type={'times'}
-                    onItemSelected={(time: string) =>
-                      handleSelectedTime(time, 'endTime')
-                    }
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </StInformationSection>
-      </StWrapper>
-      <StFooter>
-        <StSessionSelector>
-          {sessionType.map((type, index) => (
-            <React.Fragment key={index}>
-              <IcCheckBox
-                isChecked={selectedSessionIndex === index}
-                onClick={() =>
-                  setSelectedSessionIndex(
-                    selectedSessionIndex === index ? -1 : index,
-                  )
-                }
-              />
-              <label
-                onClick={() =>
-                  setSelectedSessionIndex(
-                    selectedSessionIndex === index ? -1 : index,
-                  )
-                }>
-                <h3>{type.session}</h3>
-                <p>{type.desc}</p>
-              </label>
-            </React.Fragment>
-          ))}
-        </StSessionSelector>
-        <article>
-          <Button type={'button'} text="취소하기" onClick={onClose} />
-          <Button
-            type={'submit'}
-            text="세션 생성하기"
-            onClick={handleSubmit}
-            disabled={buttonDisabled}
-          />
-        </article>
-      </StFooter>
-    </>
+        </div>
+      </main>
+      <ModalFooter>
+        <Button type={'button'} text="취소하기" onClick={onClose} />
+        <Button
+          type={'submit'}
+          text="세션 생성하기"
+          disabled={buttonDisabled}
+          onClick={() => handleSubmit()}
+        />
+      </ModalFooter>
+    </StSessionModalWrapper>
   );
 }
 

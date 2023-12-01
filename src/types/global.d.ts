@@ -4,6 +4,14 @@ declare global {
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
+  type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
+  type ALARM_STATUS = '전체' | '발송 전' | '발송 후';
+  type ADMIN_STATUS =
+    | 'SUPER_USER'
+    | 'SOPT'
+    | 'MAKERS'
+    | 'NOT_CERTIFIED'
+    | 'DEVELOPER';
 
   /* 에러 */
   interface LoginError {
@@ -34,6 +42,7 @@ declare global {
       memberId: number;
       name: string;
       university: string;
+      part: string;
     };
     updatedScore: number;
   }
@@ -85,8 +94,10 @@ declare global {
     partValue: PART;
     partName: string;
     startDate: string; // yyyy/MM/dd
+    endDate: string; // yyyy/MM/dd
     attributeValue: SESSION_TYPE;
     attributeName: string;
+    place: string;
     attendances: {
       attendance: number;
       absent: number;
@@ -136,6 +147,7 @@ declare global {
   /* 어드민 */
   interface User {
     id: number;
+    adminStatus: ADMIN_STATUS;
     name: string;
   }
 
@@ -181,5 +193,32 @@ declare global {
   interface ResponsePresignedUrl {
     presignedUrl: string;
   }
+
+  /* 알림 */
+  interface PostAlarmData {
+    attribute: string;
+    part: string | null;
+    isActive: boolean | null;
+    generationAt: number;
+    targetList: string[] | null;
+    title: string;
+    content: string;
+    link?: string | null;
+  }
+  interface Alarm {
+    alarmId: number;
+    part: string | null;
+    attribute: string;
+    title: string;
+    content: string;
+    sendAt: string;
+    status: string;
+  }
+  interface AlarmDetail
+    extends Omit<PostAlarmData, 'generation' | 'generationAt' | 'targetList'> {
+    createdAt: string;
+    sendAt: string;
+  }
 }
+
 export default global;

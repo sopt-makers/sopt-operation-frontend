@@ -1,29 +1,36 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 
-export const StWrapper = styled.div`
-  padding: 0.8rem 1rem;
-  background-color: ${({ theme }) => theme.color.grayscale.gray10};
-  border-radius: 4rem;
-  width: fit-content;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.02);
+export const FilterWrapper = styled.div`
+  display: flex;
+  gap: 26px;
+`;
+export const StUnderline = styled.div`
+  width: calc(100vw - 212px);
+  margin-left: calc((100vw - 212px - 100%) / -2);
+  height: 1px;
+  background-color: ${colors.gray800};
 `;
 export const FilterButtonItem = styled.button<{ selected: boolean }>`
-  font-size: 1.4rem;
-  line-height: 1.7rem;
-  padding: 1.1rem 3.6rem;
-  border-radius: 4rem;
+  ${fonts.TITLE_20_SB}
+
+  padding-bottom: 13px;
   transition: all 0.2s;
-  ${({ theme, selected }) =>
+
+  ${({ selected }) =>
     selected
       ? css`
-          font-weight: 600;
-          color: ${theme.color.grayscale.gray10};
-          background-color: ${theme.color.grayscale.black60};
+          color: ${colors.gray30};
+          border-bottom: 3px solid ${colors.gray30};
         `
       : css`
-          font-weight: 400;
-          color: ${theme.color.grayscale.gray80};
-          background-color: ${theme.color.grayscale.gray10};
+          color: ${colors.gray400};
+          border-bottom: 3px solid transparent;
         `}
+
+  &:hover {
+    color: ${colors.gray100};
+  }
 `;
