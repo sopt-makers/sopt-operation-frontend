@@ -45,6 +45,7 @@ function LoginPage() {
       } else {
         setUser(result);
         setStatus(result.adminStatus);
+        sessionStorage.setItem('adminStatus', result.adminStatus);
         router.replace(
           result.adminStatus !== 'MAKERS'
             ? '/attendanceAdmin/session'
