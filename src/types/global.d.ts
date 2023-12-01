@@ -6,6 +6,12 @@ declare global {
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
   type ALARM_STATUS = '전체' | '발송 전' | '발송 후';
+  type ADMIN_STATUS =
+    | 'SUPER_USER'
+    | 'SOPT'
+    | 'MAKERS'
+    | 'NOT_CERTIFIED'
+    | 'DEVELOPER';
 
   /* 에러 */
   interface LoginError {
@@ -141,6 +147,7 @@ declare global {
   /* 어드민 */
   interface User {
     id: number;
+    adminStatus: ADMIN_STATUS;
     name: string;
   }
 

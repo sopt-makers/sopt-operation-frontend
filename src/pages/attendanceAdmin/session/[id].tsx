@@ -18,6 +18,7 @@ import Select from '@/components/session/Select';
 import { PAGE_SIZE } from '@/data/queryData';
 import { attendanceInit, attendanceOptions } from '@/data/sessionData';
 import useObserver from '@/hooks/useObserver';
+import { useUnauthorizedStatus } from '@/hooks/useUnauthorizedStatus';
 import {
   updateMemberAttendStatus,
   updateMemberScore,
@@ -50,6 +51,8 @@ function SessionDetailPage() {
   >([]);
   const [modal, setModal] = useState<number | null>(null);
   const bottomRef: RefObject<HTMLDivElement> = useRef(null);
+
+  useUnauthorizedStatus('MAKERS');
 
   const {
     data: session,
@@ -246,7 +249,7 @@ function SessionDetailPage() {
         return () => closeAttendance();
       default:
         // eslint-disable-next-line prettier/prettier
-        return () => { };
+        return () => {};
     }
   };
 

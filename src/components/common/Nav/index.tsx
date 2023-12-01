@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 
+import { adminStatusContext } from '@/components/devTools/AdminContextProvider';
 import { MENU_LIST } from '@/utils/nav';
 
 import GenerationDropDown from './GenerationDropDown';
@@ -8,6 +9,12 @@ import { StMenu, StNavWrapper, StSoptLogo, StSubMenu } from './style';
 
 function Nav() {
   const router = useRouter();
+  const { status } = useContext(adminStatusContext);
+
+  const filteredMenuList =
+    status === 'MAKERS'
+      ? MENU_LIST.filter((menu) => menu.title === '알림 관리')
+      : MENU_LIST;
 
   const handleSubMenuClick = (path: string) => {
     router.push(path);
@@ -19,7 +26,7 @@ function Nav() {
         <StSoptLogo>SOPT ADMIN</StSoptLogo>
       </header>
       <GenerationDropDown />
-      {MENU_LIST.map((menu) => (
+      {filteredMenuList.map((menu) => (
         <Fragment key={menu.title}>
           <StMenu
             currentPage={

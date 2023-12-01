@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 
 import Layout from '@/components/common/Layout';
+import { AdminStatusProvider } from '@/components/devTools/AdminContextProvider';
 import global from '@/styles/global';
 import theme from '@/styles/theme';
 import { getToken } from '@/utils/auth';
@@ -35,17 +36,19 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>SOPT Admin</title>
       </Head>
       <QueryClientProvider client={client}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <RecoilRoot>
-            <ThemeProvider theme={theme}>
-              <Global styles={global} />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </ThemeProvider>
-          </RecoilRoot>
-        </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
+        <AdminStatusProvider>
+          <Hydrate state={pageProps.dehydratedState}>
+            <RecoilRoot>
+              <ThemeProvider theme={theme}>
+                <Global styles={global} />
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ThemeProvider>
+            </RecoilRoot>
+          </Hydrate>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </AdminStatusProvider>
       </QueryClientProvider>
     </>
   );
