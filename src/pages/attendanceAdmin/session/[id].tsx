@@ -29,7 +29,14 @@ import {
 } from '@/services/api/lecture/query';
 import { addPlus, precision } from '@/utils';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
-import { attributeTranslator, partTranslator } from '@/utils/translator';
+import { allPartTranslator, attributeTranslator } from '@/utils/translator';
+
+interface ChangedUpdatedStatus {
+  memberId: number;
+  firstRoundStatus: ATTEND_STATUS;
+  secondRoundStatus: ATTEND_STATUS;
+  updatedScore: number;
+}
 
 function SessionDetailPage() {
   const router = useRouter();
@@ -38,6 +45,9 @@ function SessionDetailPage() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
+  const [changedUpdatedStatusList, setChangedUpdatedStatusList] = useState<
+    ChangedUpdatedStatus[]
+  >([]);
   const [modal, setModal] = useState<number | null>(null);
   const bottomRef: RefObject<HTMLDivElement> = useRef(null);
 
@@ -65,35 +75,112 @@ function SessionDetailPage() {
     setSelectedPart(part);
   };
 
+  const calcUpdatedScore = (
+    memberId: number,
+    attendances: Attendance[],
+    round: number,
+    status: ATTEND_STATUS,
+  ) => {
+    const attribute = session?.attribute;
+
+    const prevStatus = changedUpdatedStatusList.find(
+      (item) => item.memberId === memberId,
+    );
+    const anotherRound = round === 1 ? 2 : 1;
+    const anotherRoundStatus = prevStatus
+      ? round === 1
+        ? prevStatus.secondRoundStatus
+        : prevStatus.firstRoundStatus
+      : (attendances.find((attendance) => attendance.round === anotherRound)
+        ?.status as ATTEND_STATUS);
+
+    const firstRoundStatus = round === 1 ? status : anotherRoundStatus;
+    const secondRoundStatus = round === 2 ? status : anotherRoundStatus;
+    let updatedScore = 0;
+
+    switch (attribute) {
+      case 'SEMINAR':
+        if (
+          firstRoundStatus === 'ATTENDANCE' &&
+          secondRoundStatus === 'ATTENDANCE'
+        ) {
+          updatedScore = 0;
+        } else if (
+          firstRoundStatus === 'ABSENT' &&
+          secondRoundStatus === 'ATTENDANCE'
+        ) {
+          updatedScore = -0.5;
+        } else {
+          updatedScore = -1;
+        }
+        break;
+      case 'EVENT':
+        if (
+          (firstRoundStatus === 'ATTENDANCE' ||
+            firstRoundStatus === 'ABSENT') &&
+          secondRoundStatus === 'ATTENDANCE'
+        ) {
+          updatedScore = 0.5;
+        } else {
+          updatedScore = 0;
+        }
+        break;
+      case 'ETC':
+        updatedScore = 0;
+        break;
+    }
+
+    const newList = changedUpdatedStatusList.filter(
+      (item) => item.memberId !== memberId,
+    );
+    setChangedUpdatedStatusList([
+      ...newList,
+      { memberId, firstRoundStatus, secondRoundStatus, updatedScore },
+    ]);
+  };
+
   const onChangeStatus = async (
     status: ATTEND_STATUS,
     member: SessionMember,
-    subAttendanceId: number,
+    round: number,
   ) => {
-    if (session) {
-      const result = await updateMemberAttendStatus(
-        subAttendanceId,
-        status,
-        session.attribute,
-      );
-      if (result) {
-        alert(result.error);
-      } else {
-        setChangedMembers([...changedMembers, member]);
-        // refetchMembers();
-      }
-    }
+    setChangedMembers([...changedMembers, member]);
+    calcUpdatedScore(member.member.memberId, member.attendances, round, status);
   };
 
-  const onUpdateScore = async (memberId: number) => {
-    const result = await updateMemberScore(memberId);
-    if (result) {
-      alert(result.error);
-    } else {
-      setChangedMembers(
-        changedMembers.filter((member) => member.member.memberId !== memberId),
+  const onUpdateScore = async (
+    memberId: number,
+    firstSubAttendanceId: number,
+    secondSubAttendanceId: number,
+  ) => {
+    if (session) {
+      const { firstRoundStatus, secondRoundStatus, updatedScore } =
+        changedUpdatedStatusList.find(
+          (item) => item.memberId === memberId,
+        ) as ChangedUpdatedStatus;
+
+      const firstRoundError = await updateMemberAttendStatus(
+        firstSubAttendanceId,
+        firstRoundStatus,
+        session.attribute,
       );
-      refetchSession();
+      const secondRoundError = await updateMemberAttendStatus(
+        secondSubAttendanceId,
+        secondRoundStatus,
+        session.attribute,
+      );
+      const updateScoreError = await updateMemberScore(memberId);
+
+      if (firstRoundError || secondRoundError || updateScoreError) {
+        alert('출석 점수를 갱신하는데 실패했어요');
+      } else {
+        setChangedMembers(
+          changedMembers.filter(
+            (member) => member.member.memberId !== memberId,
+          ),
+        );
+        refetchSession();
+      }
     }
   };
 
@@ -169,7 +256,7 @@ function SessionDetailPage() {
         <StPageHeader>
           <div className="title">
             <h1>{session.name} 출석 관리</h1>
-            <Chip text={partTranslator[session.part]} />
+            <Chip text={allPartTranslator[session.part]} />
             <Chip text={attributeTranslator[session.attribute]} />
           </div>
           {session.part === 'ALL' && (
@@ -205,10 +292,17 @@ function SessionDetailPage() {
                 const secondRoundTime = dayjs(secondRound.updateAt).format(
                   'YYYY/MM/DD HH:mm',
                 );
+                const updatedScore =
+                  changedUpdatedStatusList.find(
+                    (item) => item.memberId === member.member.memberId,
+                  )?.updatedScore ?? member.updatedScore;
+
                 return (
                   <StListItem
                     key={member.member.memberId}
-                    className={isChangedMember(member) ? 'focused' : ''}>
+                    className={
+                      isChangedMember(member) ? 'focused' : 'no-pointer'
+                    }>
                     <p className="member-index">
                       {precision(pageIndex * PAGE_SIZE + index + 1, 2)}
                     </p>
@@ -225,13 +319,7 @@ function SessionDetailPage() {
                       selected={firstRound.status}
                       options={attendanceOptions.first}
                       round="1차"
-                      onChange={(value) =>
-                        onChangeStatus(
-                          value,
-                          member,
-                          firstRound.subAttendanceId,
-                        )
-                      }
+                      onChange={(value) => onChangeStatus(value, member, 1)}
                       generation={String(session.generation)}
                     />
                     <p className="member-date">{firstRoundTime}</p>
@@ -239,28 +327,28 @@ function SessionDetailPage() {
                       selected={secondRound.status}
                       options={attendanceOptions.second}
                       round="2차"
-                      onChange={(value) =>
-                        onChangeStatus(
-                          value,
-                          member,
-                          secondRound.subAttendanceId,
-                        )
-                      }
+                      onChange={(value) => onChangeStatus(value, member, 2)}
                       generation={String(session.generation)}
                     />
                     <p className="member-date">{secondRoundTime}</p>
                     <div className="member-score-wrap">
                       <p
                         className={
-                          member.updatedScore < 0
+                          updatedScore < 0
                             ? 'member-score minus-score'
                             : 'member-score'
                         }>
-                        {addPlus(member.updatedScore)}점
+                        {addPlus(updatedScore)}점
                       </p>
                     </div>
                     <ListActionButton
-                      onClick={() => onUpdateScore(member.member.memberId)}
+                      onClick={() =>
+                        onUpdateScore(
+                          member.member.memberId,
+                          firstRound.subAttendanceId,
+                          secondRound.subAttendanceId,
+                        )
+                      }
                       text="갱신"
                       disabled={
                         !(
@@ -356,7 +444,6 @@ const StListItem = styled.li`
   padding: 18px 34px;
   display: flex;
   align-items: center;
-  pointer-events: none;
   color: ${colors.gray100};
 
   .member-index {

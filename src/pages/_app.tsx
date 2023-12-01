@@ -1,5 +1,6 @@
 import { Global, ThemeProvider } from '@emotion/react';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
@@ -29,18 +30,23 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <QueryClientProvider client={client}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <RecoilRoot>
-          <ThemeProvider theme={theme}>
-            <Global styles={global} />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
-        </RecoilRoot>
-      </Hydrate>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <>
+      <Head>
+        <title>SOPT Admin</title>
+      </Head>
+      <QueryClientProvider client={client}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <RecoilRoot>
+            <ThemeProvider theme={theme}>
+              <Global styles={global} />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </RecoilRoot>
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </>
   );
 }

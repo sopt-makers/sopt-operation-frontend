@@ -23,8 +23,8 @@ function Select(props: Props) {
   const [showOptions, setShowOptions] = useState(false);
 
   const toggleOptions = useCallback(() => {
-    setShowOptions(!showOptions);
-  }, [showOptions]);
+    setShowOptions((prevShowOptions) => !prevShowOptions);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {

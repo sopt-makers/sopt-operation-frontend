@@ -32,19 +32,27 @@ export const StSelect = styled.button<{
   }
 `;
 export const StOptions = styled.ul`
+  ${fonts.BODY_14_M}
+
   z-index: ${zIndex.select};
   position: absolute;
-  transform: translateY(6.5rem);
-  background-color: ${({ theme }) => theme.color.grayscale.realwhite};
-  border-radius: 1rem;
-  padding: 0.7rem;
-  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1);
+  transform: translate(-1rem, 6.2rem);
+
+  background-color: ${colors.gray600};
+  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 13px;
+  padding: 8px 6px;
   animation: appear 0.6s;
+
   li {
+    padding: 5px 21px 5px 9px;
+    border: none;
     border-radius: 0.6rem;
-    padding: 0.9rem 1.7rem;
+    color: ${colors.gray10};
+    background-color: ${colors.gray600};
+
     &:hover {
-      background-color: ${({ theme }) => theme.color.grayscale.gray20};
+      background-color: ${colors.gray500};
       cursor: pointer;
     }
   }
@@ -52,11 +60,11 @@ export const StOptions = styled.ul`
   @keyframes appear {
     from {
       opacity: 0;
-      transform: translateY(5.5rem);
+      transform: translate(-1rem, 5.2rem);
     }
     to {
       opacity: 1;
-      transform: translateY(6.5rem);
+      transform: translate(-1rem, 6.2rem);
     }
   }
 `;
