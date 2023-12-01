@@ -15,12 +15,10 @@ function Header() {
 
   return (
     <StHeader>
-      {process.env.NEXT_PUBLIC_API_URL !== 'PRODUCTION' ? (
+      {process.env.NEXT_PUBLIC_API_URL !== 'PRODUCTION' && (
         <div className="status_devtools">
           <AdminStatusDevtools />
         </div>
-      ) : (
-        <></>
       )}
 
       <button onClick={logout}>
