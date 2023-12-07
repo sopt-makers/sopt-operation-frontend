@@ -88,7 +88,7 @@ function AttendanceModal(props: Props) {
     }
   };
 
-  if (status === 'LOADING') return <Loading />;
+  if (status === 'LOADING') return <Loading full />;
   return (
     <StAttendanceModal>
       <ModalHeader

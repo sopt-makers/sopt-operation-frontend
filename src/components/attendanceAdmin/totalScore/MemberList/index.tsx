@@ -24,11 +24,14 @@ function MemberList() {
   const currentGeneration = useRecoilValue(currentGenerationState);
 
   const {
-    data: members,
+    data: membersData,
     fetchNextPage,
     isFetchingNextPage,
     status,
   } = useGetInfiniteMemberList(parseInt(currentGeneration), selectedPart);
+
+  const members = membersData?.pages.map((item) => item.members) ?? [];
+  const totalCount = membersData?.pages[0].totalCount ?? 0;
 
   useObserver({
     target: bottomRef,
@@ -52,10 +55,10 @@ function MemberList() {
       <StPageHeader>
         <h1>출석 총점</h1>
         <PartFilter selected={selectedPart} onChangePart={onChangePart} />
-        <p>총 0명</p>
+        <p>총 {totalCount}명</p>
       </StPageHeader>
       <ListWrapper>
-        {members?.pages.map(
+        {members.map(
           (pageMembers, pageIndex) =>
             pageMembers &&
             pageMembers.map((member, index) => {

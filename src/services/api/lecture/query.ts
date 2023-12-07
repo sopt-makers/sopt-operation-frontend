@@ -40,7 +40,10 @@ export const useGetSessionDetail = (lectureId: number | null) => {
 export const useGetInfiniteSessionMembers = (
   lectureId: number | null,
   part?: PART,
-): UseInfiniteQueryResult<SessionMember[]> => {
+): UseInfiniteQueryResult<{
+  attendances: SessionMember[];
+  totalCount: number;
+}> => {
   return useInfiniteQuery(
     ['sessionMembers', lectureId, part],
     async ({ pageParam = 0 }) =>
@@ -48,7 +51,9 @@ export const useGetInfiniteSessionMembers = (
       (await getSessionMembers(pageParam, lectureId ?? 0, part)),
     {
       getNextPageParam: (lastPage, pages) =>
-        lastPage && lastPage.length < PAGE_SIZE ? null : pages.length,
+        lastPage && lastPage.attendances.length < PAGE_SIZE
+          ? null
+          : pages.length,
     },
   );
 };
