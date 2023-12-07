@@ -35,15 +35,22 @@ function AttendanceModal(props: Props) {
     const code = createCode();
     setCode(code);
 
-    (async () => {
+    const start = async () => {
       const isStarted = await startAttendance(code, lectureId, round);
       if (isStarted) {
         setStatus('STARTED');
       } else {
-        alert('출석이 정상적으로 시작되지 않았어요');
-        finishAttendance();
+        const isRetry = confirm(
+          '출석이 정상적으로 시작되지 않았어요. 다시 시도하시겠어요?',
+        );
+        if (isRetry) {
+          start();
+        } else {
+          finishAttendance();
+        }
       }
-    })();
+    };
+    start();
   }, [lectureId, round, finishAttendance]);
 
   useEffect(() => {
@@ -81,7 +88,7 @@ function AttendanceModal(props: Props) {
     }
   };
 
-  if (status === 'LOADING') return <Loading />;
+  if (status === 'LOADING') return <Loading full />;
   return (
     <StAttendanceModal>
       <ModalHeader

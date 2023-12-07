@@ -62,12 +62,15 @@ function SessionDetailPage() {
   } = useGetSessionDetail(id);
 
   const {
-    data: members,
+    data: membersData,
     fetchNextPage,
     isFetchingNextPage,
     status,
     refetch: refetchMembers,
   } = useGetInfiniteSessionMembers(id, selectedPart);
+
+  const members = membersData?.pages.map((item) => item.attendances) ?? [];
+  const totalCount = membersData?.pages[0].totalCount ?? 0;
 
   useObserver({
     target: bottomRef,
@@ -220,12 +223,6 @@ function SessionDetailPage() {
     }
   };
 
-  const getMemberCount = (attendances: Record<string, number>) => {
-    let sum = 0;
-    Object.keys(attendances).map((key) => (sum += attendances[key]));
-    return sum;
-  };
-
   const getButtonContent = (status: SESSION_STATUS): ReactNode => {
     switch (status) {
       case 'BEFORE':
@@ -249,7 +246,7 @@ function SessionDetailPage() {
         return () => closeAttendance();
       default:
         // eslint-disable-next-line prettier/prettier
-        return () => {};
+        return () => { };
     }
   };
 
@@ -266,7 +263,7 @@ function SessionDetailPage() {
             <PartFilter selected={selectedPart} onChangePart={onChangePart} />
           )}
           <div className="attendances">
-            <p>총 {getMemberCount(session.attendances)}명</p>
+            <p>총 {totalCount}명</p>
             <div>
               <p>출석 {session.attendances.attendance}</p>
               <p>지각 {session.attendances.tardy}</p>
@@ -279,7 +276,7 @@ function SessionDetailPage() {
 
       {session && members ? (
         <ListWrapper>
-          {members?.pages.map(
+          {members.map(
             (pageMembers, pageIndex) =>
               pageMembers &&
               pageMembers.map((member, index) => {
@@ -355,7 +352,6 @@ function SessionDetailPage() {
                       text="갱신"
                       disabled={
                         !(
-                          session.status === 'END' &&
                           isChangedMember(member) &&
                           String(session.generation) === ACTIVITY_GENERATION
                         )

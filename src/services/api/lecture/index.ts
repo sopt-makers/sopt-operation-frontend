@@ -60,9 +60,14 @@ export const getSessionMembers = async (
   lectureId: number,
   part?: PART,
 ) => {
-  const query = buildQuery({ part, page: `${page}` });
-  const { data }: AxiosResponse<{ data: SessionMember[] }> = await client.get(
-    `/attendances/lecture/${lectureId}${query}`,
+  const query = buildQuery({ page: `${page}` });
+  const partQuery = part && part !== 'ALL' ? `&part=${part}` : '';
+  const {
+    data,
+  }: AxiosResponse<{
+    data: { attendances: SessionMember[]; totalCount: number };
+  }> = await client.get(
+    `/attendances/lecture/${lectureId}${query}${partQuery}`,
   );
   return data.data;
 };

@@ -13,8 +13,9 @@ export const getMemberList = async (
     generation: `${generation}`,
     page: `${page}`,
   });
-  const { data }: AxiosResponse<{ data: ScoreMember[] }> = await client.get(
-    `/members/list${query}`,
-  );
+  const {
+    data,
+  }: AxiosResponse<{ data: { members: ScoreMember[]; totalCount: number } }> =
+    await client.get(`/members/list${query}`);
   return data.data;
 };
