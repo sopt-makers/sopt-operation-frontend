@@ -352,7 +352,6 @@ function SessionDetailPage() {
                       text="갱신"
                       disabled={
                         !(
-                          session.status === 'END' &&
                           isChangedMember(member) &&
                           String(session.generation) === ACTIVITY_GENERATION
                         )
