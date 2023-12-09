@@ -22,8 +22,6 @@ function SessionList() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
-  const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
-  const [selectedLecture, setSelectedLecture] = useState<number>(0);
   const currentGeneration = useRecoilValue(currentGenerationState);
   const [activeDropdownId, setActiveDropdownId] = useState<number | null>(null);
 
