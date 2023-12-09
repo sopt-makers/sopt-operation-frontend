@@ -27,7 +27,7 @@ function SessionList() {
   const currentGeneration = useRecoilValue(currentGenerationState);
   const [activeDropdownId, setActiveDropdownId] = useState<number | null>(null);
 
-  const { data, isLoading, isError, error } = useGetSessionList(
+  const { data, isLoading, isError, error, refetch } = useGetSessionList(
     parseInt(currentGeneration),
     selectedPart,
   );
@@ -58,17 +58,17 @@ function SessionList() {
     }
   };
 
-  const handleDeleteSession = (
+  const handleDeleteSession = async (
     e: React.MouseEvent<HTMLDivElement>,
     lectureId: number,
-  ): void => {
+  ) => {
     e.stopPropagation();
     const isConfirmed = confirm(
       '세션을 삭제하면 복구할 수 없습니다.\n정말 삭제할까요?',
     );
     if (isConfirmed) {
-      deleteSession(lectureId);
-      alert('세션이 삭제되었어요');
+      const result = await deleteSession(lectureId);
+      result && refetch();
     }
   };
 
