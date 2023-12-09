@@ -4,7 +4,12 @@ declare global {
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
-  type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
+  type AlarmDropdownType =
+    | 'part'
+    | 'target'
+    | 'generation'
+    | 'targetSelector'
+    | 'link';
   type ALARM_STATUS = '전체' | '발송 전' | '발송 후';
   type ADMIN_STATUS =
     | 'SUPER_USER'
@@ -203,7 +208,7 @@ declare global {
     targetList: string[] | null;
     title: string;
     content: string;
-    link?: string | null;
+    link: string;
   }
   interface Alarm {
     alarmId: number;
