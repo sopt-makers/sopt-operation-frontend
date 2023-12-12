@@ -95,7 +95,7 @@ function SessionDetailPage() {
         ? prevStatus.secondRoundStatus
         : prevStatus.firstRoundStatus
       : (attendances.find((attendance) => attendance.round === anotherRound)
-        ?.status as ATTEND_STATUS);
+          ?.status as ATTEND_STATUS);
 
     const firstRoundStatus = round === 1 ? status : anotherRoundStatus;
     const secondRoundStatus = round === 2 ? status : anotherRoundStatus;
