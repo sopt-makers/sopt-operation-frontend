@@ -33,7 +33,7 @@ interface Props {
 }
 
 function CreateAlarmModal(props: Props) {
-  const { onClose, alarmId } = props;
+  const { onClose } = props;
 
   const [selectedValue, setSelectedValue] = useState<PostAlarmData>({
     attribute: 'NOTICE',
@@ -50,6 +50,7 @@ function CreateAlarmModal(props: Props) {
     target: false,
     generation: false,
     targetSelector: false,
+    link: false,
   });
   const [isActiveUser, setIsActiveUser] = useState<string>('활동 회원');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
