@@ -208,7 +208,7 @@ declare global {
     targetList: string[] | null;
     title: string;
     content: string;
-    link?: string | null;
+    link: string | null;
   }
   interface Alarm {
     alarmId: number;
