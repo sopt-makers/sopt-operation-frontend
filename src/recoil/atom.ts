@@ -11,6 +11,6 @@ const { persistAtom } = recoilPersist({
 
 export const currentGenerationState = atom<string>({
   key: 'currentGenerationState',
-  default: '33',
+  default: '34',
   effects_UNSTABLE: [persistAtom],
 });
