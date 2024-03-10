@@ -1,7 +1,12 @@
 import { IcAlarmMenu, IcAttendanceMenu, IcOrgMenu } from '@/assets/icons';
-import { DoSoptLogo, GoSoptLogo } from '@/assets/icons/SoptLogos';
+import { DoSoptLogo, GoSoptLogo, NowSoptLogo } from '@/assets/icons/SoptLogos';
 
 export const GENERATION_INFO = [
+  {
+    generation: '34',
+    Logo: NowSoptLogo,
+    slogan: 'NOW',
+  },
   {
     generation: '33',
     Logo: DoSoptLogo,

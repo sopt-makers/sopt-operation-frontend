@@ -41,6 +41,10 @@ export const StSelectedGeneration = styled(GenerationContainer)`
   &:active {
     background-color: ${colors.gray700};
   }
+
+  & > svg > path > fill {
+    border-radius: 0.7rem;
+  }
 `;
 
 export const StDropdownGeneration = styled(GenerationContainer)`
