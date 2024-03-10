@@ -1,6 +1,8 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
+import { ACTIVITY_GENERATION } from '@/utils/generation';
+
 const sessionStorage =
   typeof window !== 'undefined' ? window.sessionStorage : undefined;
 
@@ -11,6 +13,6 @@ const { persistAtom } = recoilPersist({
 
 export const currentGenerationState = atom<string>({
   key: 'currentGenerationState',
-  default: '34',
+  default: ACTIVITY_GENERATION,
   effects_UNSTABLE: [persistAtom],
 });
