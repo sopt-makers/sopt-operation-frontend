@@ -311,7 +311,9 @@ function CreateAlarmModal(props: Props) {
             <Selector
               content={selectedValue.link}
               onClick={() => toggleDropdown('link')}
-              isDisabledValue={selectedValue.part === '발송 파트'}
+              isDisabledValue={
+                selectedValue.link === '이동할 링크를 선택하세요'
+              }
             />
             {dropdownVisibility.link && (
               <DropDown
@@ -322,7 +324,7 @@ function CreateAlarmModal(props: Props) {
                     ...prev,
                     link: value,
                   }));
-                  toggleDropdown('part');
+                  toggleDropdown('link');
                 }}
               />
             )}
