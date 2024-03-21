@@ -1,3 +1,3 @@
-export const ACTIVITY_GENERATION: string = '33';
+export const ACTIVITY_GENERATION: string = '34';
 
-export const GENERATION_LIST: string[] = ['33', '32'];
+export const GENERATION_LIST: string[] = ['34', '33', '32'];

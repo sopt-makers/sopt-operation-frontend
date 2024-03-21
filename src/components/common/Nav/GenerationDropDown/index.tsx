@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { IcNewDropdown } from '@/assets/icons';
-import { DoSoptLogo } from '@/assets/icons/SoptLogos';
+import { NowSoptLogo } from '@/assets/icons/SoptLogos';
 import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
 import { GENERATION_INFO } from '@/utils/nav';
 
@@ -21,8 +21,8 @@ function GenerationDropDown() {
   const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
   const [selectedGenerationInfo, setSelectedGenerationInfo] = useState({
-    logo: <DoSoptLogo />,
-    slogan: 'DO',
+    logo: <NowSoptLogo />,
+    slogan: GENERATION_INFO[0].slogan,
   });
 
   const handleSelectedGeneration = (
