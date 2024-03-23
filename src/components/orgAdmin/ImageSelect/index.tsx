@@ -1,4 +1,4 @@
-import Image from 'next/image';
+// import Image from 'next/image';
 import React, { useRef } from 'react';
 
 import { StImageSelect } from '@/components/orgAdmin/ImageSelect/style';
@@ -31,14 +31,15 @@ function ImageSelect({
     <StImageSelect hasImage={!!image} onClick={handleClick}>
       {image ? (
         <>
-          <Image
+          <img src={image} alt="Uploaded image" width={width} height={height} />
+          {/* <Image
             src={image}
             alt="Uploaded image"
             style={{ maxWidth: '100%', maxHeight: '100%' }}
             width={width}
             height={height}
             priority={priority}
-          />
+          /> */}
           <button onClick={onRemoveImage}> X </button>
         </>
       ) : (
