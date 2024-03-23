@@ -8,7 +8,6 @@ import { useRecoilValue } from 'recoil';
 
 import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
-import IcDropdown from '@/components/common/icons/IcDropDown';
 import Input from '@/components/common/Input';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
@@ -200,9 +199,8 @@ function CreateSessionModal(props: Props) {
                 placeholderText="세션 날짜를 선택해주세요"
                 dateFormat="yyyy.MM.dd"
                 selected={selectedDate}
-                onChange={handleSessionDate}>
-                {/* <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} /> */}
-              </DatePicker>
+                onChange={handleSessionDate}
+              />
             </StDatePickerInput>
           </OptionTemplate>
           <div className="time">
