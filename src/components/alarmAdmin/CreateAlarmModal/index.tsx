@@ -13,6 +13,7 @@ import Selector from '@/components/common/Selector';
 import { currentGenerationState } from '@/recoil/atom';
 import { postNewAlarm } from '@/services/api/alarm';
 import {
+  LINK_TYPE_LIST,
   readPlaygroundId,
   TARGET_GENERATION_LIST,
   TARGET_USER_LIST,
@@ -33,7 +34,7 @@ interface Props {
 }
 
 function CreateAlarmModal(props: Props) {
-  const { onClose, alarmId } = props;
+  const { onClose } = props;
 
   const [selectedValue, setSelectedValue] = useState<PostAlarmData>({
     attribute: 'NOTICE',
@@ -43,13 +44,14 @@ function CreateAlarmModal(props: Props) {
     targetList: null,
     title: '',
     content: '',
-    link: null,
+    link: '이동할 링크를 선택하세요',
   });
   const [dropdownVisibility, setDropdownVisibility] = useState({
     part: false,
     target: false,
     generation: false,
     targetSelector: false,
+    link: false,
   });
   const [isActiveUser, setIsActiveUser] = useState<string>('활동 회원');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -306,7 +308,26 @@ function CreateAlarmModal(props: Props) {
             />
           </OptionTemplate>
           <OptionTemplate title="링크 첨부">
-            <Selector content="기능 추가 예정입니다." isDisabledValue={true} />
+            <Selector
+              content={selectedValue.link}
+              onClick={() => toggleDropdown('link')}
+              isDisabledValue={
+                selectedValue.link === '이동할 링크를 선택하세요'
+              }
+            />
+            {dropdownVisibility.link && (
+              <DropDown
+                type={'select'}
+                list={LINK_TYPE_LIST}
+                onItemSelected={(value) => {
+                  setSelectedValue((prev) => ({
+                    ...prev,
+                    link: value,
+                  }));
+                  toggleDropdown('link');
+                }}
+              />
+            )}
           </OptionTemplate>
         </div>
       </main>
