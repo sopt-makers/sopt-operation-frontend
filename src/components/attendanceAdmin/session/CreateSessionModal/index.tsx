@@ -201,7 +201,7 @@ function CreateSessionModal(props: Props) {
                 dateFormat="yyyy.MM.dd"
                 selected={selectedDate}
                 onChange={handleSessionDate}>
-                <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} />
+                {/* <IcDropdown color={date ? '#3C3D40' : '#C0C5C9'} /> */}
               </DatePicker>
             </StDatePickerInput>
           </OptionTemplate>
