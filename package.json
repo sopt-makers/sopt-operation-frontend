@@ -12,8 +12,7 @@
     "test": "jest --watch"
   },
   "engines": {
-    "node": "^21.5.0",
-    "yarn": "^1.22.19"
+    "node": "^21.5.0"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -66,5 +65,6 @@
     "storybook": "8.0.4",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
