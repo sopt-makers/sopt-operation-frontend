@@ -1,4 +1,4 @@
-import { Config } from '@jest/types';
+import type { Config } from '@types/jest';
 import nextJest from 'next/jest';
 
 const createJestConfig = nextJest({
