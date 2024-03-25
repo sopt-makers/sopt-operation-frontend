@@ -13,7 +13,7 @@
   },
   "engines": {
     "node": "^21.5.0",
-    "yarn": "^4.1.1"
+    "yarn": "^3.6.4"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -67,5 +67,5 @@
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1"
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@3.6.4"
 }
