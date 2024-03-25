@@ -1,11 +1,10 @@
-import type { Config } from '@types/jest';
 import nextJest from 'next/jest';
 
 const createJestConfig = nextJest({
   dir: './',
 });
 
-const customJestConfig: Config = {
+const customJestConfig = {
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 
   // if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
