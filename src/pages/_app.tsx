@@ -33,7 +33,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>SOPT Admin</title>
+        <title>
+          {process.env.NEXT_PUBLIC_API_URL !== 'PRODUCTION'
+            ? '[DEV] SOPT Admin'
+            : 'SOPT Admin'}
+        </title>
       </Head>
       <QueryClientProvider client={client}>
         <AdminStatusProvider>
