@@ -112,7 +112,7 @@ function SessionDetailPage() {
         ) {
           updatedScore = 0;
         } else if (
-          firstRoundStatus === 'ABSENT' &&
+          firstRoundStatus === 'ATTENDANCE' ||
           secondRoundStatus === 'ATTENDANCE'
         ) {
           updatedScore = -0.5;
