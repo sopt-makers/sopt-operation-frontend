@@ -33,9 +33,10 @@
     "react-query": "^3.39.3",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.4"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240404.0",
     "@emotion/jest": "^11.10.5",
     "@storybook/addon-essentials": "8.0.4",
     "@storybook/addon-interactions": "8.0.4",
