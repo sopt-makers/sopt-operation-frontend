@@ -58,7 +58,10 @@ function LoginPage() {
   return (
     <>
       <Head>
-        <title>SOPT Admin :: 로그인</title>
+        <title>
+          {process.env.NODE_ENV === 'development' ? '[DEV]' : ''} SOPT Admin ::
+          로그인
+        </title>
       </Head>
       <StyledLogin>
         <h1>
