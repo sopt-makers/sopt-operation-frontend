@@ -126,7 +126,7 @@ const StyledLogin = styled.div`
     margin-top: 1.6rem;
     margin-bottom: 0.6rem;
 
-    ${fontsObject.LABEL_1_18_SB}
+    ${fontsObject.LABEL_3_14_SB}
 
     color: ${colors.gray300};
   }
