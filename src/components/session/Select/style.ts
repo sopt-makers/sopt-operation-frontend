@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 import zIndex from '@/utils/zIndex';
 
@@ -12,7 +12,7 @@ export const StSelectWrap = styled.div`
 export const StSelect = styled.button<{
   value: ATTEND_STATUS | ATTEND_STATUS_KR;
 }>`
-  ${fonts.BODY_14_M}
+  ${fontsObject.BODY_3_14_M}
   display: flex;
   align-items: center;
   padding: 3.5px 8px 3.5px 12px;
@@ -32,7 +32,7 @@ export const StSelect = styled.button<{
   }
 `;
 export const StOptions = styled.ul`
-  ${fonts.BODY_14_M}
+  ${fontsObject.BODY_3_14_M}
 
   z-index: ${zIndex.select};
   position: absolute;

@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const IndicatorStructure = styled.span`
-  ${fonts.LABEL_12_SB}
+  ${fontsObject.LABEL_4_12_SB}
   display: inline-block;
   color: ${colors.gray200};
   border: 1px solid ${colors.gray500};
@@ -23,14 +23,14 @@ export const StSessionIndicator = styled(IndicatorStructure)<{
           color: ${colors.orange600};
         `
       : attributeName === '행사'
-      ? css`
-          border-color: ${colors.blue400};
-          color: ${colors.blue400};
-        `
-      : css`
-          border-color: ${colors.yellow700};
-          color: ${colors.yellow700};
-        `}
+        ? css`
+            border-color: ${colors.blue400};
+            color: ${colors.blue400};
+          `
+        : css`
+            border-color: ${colors.yellow700};
+            color: ${colors.yellow700};
+          `}
 `;
 
 export const StChip = styled(IndicatorStructure)<{ text: string }>`

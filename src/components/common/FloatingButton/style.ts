@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 import zIndex from '@/utils/zIndex';
 
@@ -13,5 +13,5 @@ export const StFloatingButton = styled.button`
   z-index: ${zIndex.footer};
   background-color: ${colors.gray10};
   color: ${colors.gray900};
-  ${fonts.TITLE_20_SB}
+  ${fontsObject.TITLE_4_20_SB}
 `;

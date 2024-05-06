@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const FilterWrapper = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const StUnderline = styled.div`
   background-color: ${colors.gray800};
 `;
 export const FilterButtonItem = styled.button<{ selected: boolean }>`
-  ${fonts.TITLE_20_SB}
+  ${fontsObject.TITLE_4_20_SB}
 
   padding-bottom: 13px;
   transition: all 0.2s;

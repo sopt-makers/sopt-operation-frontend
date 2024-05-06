@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StButton = styled.button`
-  ${fonts.BODY_14_M}
+  ${fontsObject.BODY_3_14_M}
   color: ${colors.gray10};
   transition: transform 0.1s;
 

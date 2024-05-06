@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StPageHeader = styled.div`
   h1 {
-    ${fonts.TITLE_32_SB}
+    ${fontsObject.TITLE_1_32_SB}
     color: ${colors.gray10};
     margin-bottom: 41px;
   }
   p {
-    ${fonts.TITLE_16_SB}
+    ${fontsObject.TITLE_6_16_SB}
     color: ${colors.gray200};
     margin-top: 55px;
     margin-bottom: 18px;
@@ -22,7 +22,7 @@ export const StListItem = styled.li`
   padding: 18px 30px 18px 33px;
 
   .alarm-status {
-    ${fonts.BODY_14_M}
+    ${fontsObject.BODY_3_14_M}
     width: 52px;
     height: 48px;
     margin-right: 34px;
@@ -42,7 +42,7 @@ export const StListItem = styled.li`
       align-items: flex-start;
     }
     .alarm-title {
-      ${fonts.TITLE_18_SB}
+      ${fontsObject.TITLE_5_18_SB}
       color: ${colors.gray10};
       max-width: 146px;
       overflow: hidden;
@@ -52,12 +52,12 @@ export const StListItem = styled.li`
       margin-bottom: 4px;
     }
     .alarm-sent-at {
-      ${fonts.BODY_14_M}
+      ${fontsObject.BODY_3_14_M}
       color: ${colors.gray400};
     }
   }
   .alarm-content {
-    ${fonts.BODY_14_M}
+    ${fontsObject.BODY_3_14_M}
     color: ${colors.gray100};
     margin-right: 64px;
     width: 331px;
@@ -77,7 +77,7 @@ export const StListItem = styled.li`
     flex-direction: column;
     position: relative;
     .delete_dropdown {
-      ${fonts.BODY_14_M}
+      ${fontsObject.BODY_3_14_M}
 
       position: absolute;
       top: 100%;

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StWrapper = styled.div`
   padding: 0 1.8rem 3.3rem 1.8rem;
@@ -24,11 +24,11 @@ const GenerationContainer = styled.div`
       align-items: center;
       gap: 0.6rem;
 
-      ${fonts.HEADING_16_B}
+      ${fontsObject.HEADING_7_16_B}
       color: ${colors.gray10};
     }
     & > h2 {
-      ${fonts.LABEL_12_SB}
+      ${fontsObject.LABEL_4_12_SB}
       color: ${colors.gray300};
     }
   }

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StModalWrap = styled.div`
   padding: 41px 34px 30px 34px;
@@ -9,16 +9,16 @@ export const StModalWrap = styled.div`
 
   header {
     .member-name {
-      ${fonts.TITLE_28_SB}
+      ${fontsObject.TITLE_2_28_SB}
       color: ${colors.gray10};
     }
     .member-score {
-      ${fonts.TITLE_28_SB}
+      ${fontsObject.TITLE_2_28_SB}
       color: ${colors.orange400};
       margin-bottom: 16px;
     }
     .chip {
-      ${fonts.BODY_14_M}
+      ${fontsObject.BODY_3_14_M}
       color: ${colors.gray100};
       background-color: ${colors.gray700};
       padding: 5px 8px;
@@ -47,7 +47,7 @@ export const StModalWrap = styled.div`
 `;
 
 export const StSessionName = styled.p`
-  ${fonts.TITLE_18_SB}
+  ${fontsObject.TITLE_5_18_SB}
   color: ${colors.gray10};
   max-width: 320px;
   overflow: hidden;
@@ -70,11 +70,11 @@ export const StListItem = styled.li`
     margin-bottom: 4px;
   }
   .session-date {
-    ${fonts.BODY_14_M}
+    ${fontsObject.BODY_3_14_M}
     color: ${colors.gray300};
   }
   .attendance-info {
-    ${fonts.BODY_14_M}
+    ${fontsObject.BODY_3_14_M}
     color: ${colors.gray300};
     display: flex;
     flex-direction: column;

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StInput = styled.input`
   padding: 1rem 1.4rem;
 
-  ${fonts.LABEL_18_SB}
+  ${fontsObject.LABEL_1_18_SB}
 
   color: ${colors.gray10};
   background-color: ${colors.gray700};
