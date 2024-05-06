@@ -1,19 +1,15 @@
-import { Interpolation } from '@emotion/react';
-import { css, Theme } from '@emotion/react';
+import { css, Interpolation, Theme } from '@emotion/react';
 import { colors } from '@sopt-makers/colors';
-import { fontBase } from '@sopt-makers/fonts';
 import emotionReset from 'emotion-reset';
 
 const global: Interpolation<Theme> = (theme: Theme) => css`
   ${emotionReset}
 
   * {
-    ${fontBase}
     box-sizing: border-box;
   }
   html,
   body {
-    ${fontBase}
     font-size: 10px;
     width: 100%;
     min-height: 100%;
