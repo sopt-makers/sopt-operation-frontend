@@ -1,5 +1,3 @@
-import { partList } from './session';
-
 export const ALARM_TYPE = ['공지', '소식'];
 
 export const TARGET_USER_LIST = ['활동 회원', 'CSV 첨부'];
@@ -36,7 +34,7 @@ export const readPlaygroundId = async (file: File): Promise<string[]> => {
         const lines = csv.split('\n');
 
         for (let i = 0; i < lines.length; i++) {
-          if (lines[i].includes('[Amplitude] User ID')) {
+          if (lines[i].includes('user_id')) {
             foundColumn = true;
             continue;
           }
