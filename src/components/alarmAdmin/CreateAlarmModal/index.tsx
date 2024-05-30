@@ -1,5 +1,7 @@
+import { Draft } from 'immer';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useImmerReducer } from 'use-immer';
 
 import { IcDeleteFile, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
@@ -32,8 +34,58 @@ interface Props {
   alarmId?: number;
 }
 
+type Action =
+  | { type: 'SET_ATTRIBUTE'; payload: string }
+  | { type: 'SET_PART'; payload: string }
+  | { type: 'TOGGLE_ACTIVE' }
+  | { type: 'SET_GENERATION_AT'; payload: number }
+  | { type: 'SET_TARGET_LIST'; payload: string[] | null }
+  | { type: 'SET_TITLE'; payload: string }
+  | { type: 'SET_CONTENT'; payload: string }
+  | { type: 'SET_LINK'; payload: string | null };
+
+const reducer = (draft: Draft<PostAlarmData>, action: Action) => {
+  switch (action.type) {
+    case 'SET_ATTRIBUTE':
+      draft.attribute = action.payload;
+      break;
+    case 'SET_PART':
+      draft.part = action.payload;
+      break;
+    case 'TOGGLE_ACTIVE':
+      draft.isActive = !draft.isActive;
+      break;
+    case 'SET_GENERATION_AT':
+      draft.generationAt = action.payload;
+      break;
+    case 'SET_TARGET_LIST':
+      draft.targetList = action.payload;
+      break;
+    case 'SET_TITLE':
+      draft.title = action.payload;
+      break;
+    case 'SET_CONTENT':
+      draft.content = action.payload;
+      break;
+    case 'SET_LINK':
+      draft.link = action.payload;
+      break;
+  }
+};
+
 function CreateAlarmModal(props: Props) {
   const { onClose, alarmId } = props;
+
+  const [state, dispatch] = useImmerReducer<PostAlarmData, Action>(reducer, {
+    attribute: 'NOTICE',
+    part: '발송 파트',
+    isActive: true,
+    generationAt: parseInt(ACTIVITY_GENERATION),
+    targetList: null,
+    title: '',
+    content: '',
+    link: null,
+  });
 
   const [selectedValue, setSelectedValue] = useState<PostAlarmData>({
     attribute: 'NOTICE',
@@ -45,6 +97,7 @@ function CreateAlarmModal(props: Props) {
     content: '',
     link: null,
   });
+
   const [dropdownVisibility, setDropdownVisibility] = useState({
     part: false,
     target: false,
@@ -137,9 +190,9 @@ function CreateAlarmModal(props: Props) {
     const file = e.target.files?.[0];
     if (file) {
       try {
-        const userIds = await readPlaygroundId(file);
-        setUploadedFile(file);
-        setSelectedValue((prev) => ({ ...prev, targetList: userIds }));
+        const userIds = await readPlaygroundId(file); // CSV 파일에서 사용자 ID 읽기
+        setUploadedFile(file); // 파일 상태 업데이트 (별도의 상태 관리가 필요하면 유지)
+        dispatch({ type: 'SET_TARGET_LIST', payload: userIds }); // Immer를 사용한 상태 업데이트
       } catch (error) {
         console.error('파일을 읽는데 실패했습니다.', error);
       }
@@ -148,17 +201,11 @@ function CreateAlarmModal(props: Props) {
 
   const handleAlarmType = (type: string): void => {
     if (type === 'NOTICE') {
-      setSelectedValue((prev) => ({
-        ...prev,
-        attribute: 'NOTICE',
-      }));
+      dispatch({ type: 'SET_ATTRIBUTE', payload: 'NOTICE' });
       setSelectedAlarmType({ notice: true, news: false });
     }
     if (type === 'NEWS') {
-      setSelectedValue((prev) => ({
-        ...prev,
-        attribute: 'NEWS',
-      }));
+      dispatch({ type: 'SET_ATTRIBUTE', payload: 'NEWS' });
       setSelectedAlarmType({ notice: false, news: true });
     }
   };
