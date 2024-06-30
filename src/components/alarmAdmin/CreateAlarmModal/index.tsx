@@ -1,3 +1,4 @@
+import { Select } from '@sopt-makers/ui';
 import { Draft } from 'immer';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -37,7 +38,7 @@ interface Props {
 type Action =
   | { type: 'SET_ATTRIBUTE'; payload: string }
   | { type: 'SET_PART'; payload: string }
-  | { type: 'TOGGLE_ACTIVE' }
+  | { type: 'TOGGLE_ACTIVE'; payload?: boolean | null }
   | { type: 'SET_GENERATION_AT'; payload: number }
   | { type: 'SET_TARGET_LIST'; payload: string[] | null }
   | { type: 'SET_TITLE'; payload: string }
@@ -53,7 +54,7 @@ const reducer = (draft: Draft<PostAlarmData>, action: Action) => {
       draft.part = action.payload;
       break;
     case 'TOGGLE_ACTIVE':
-      draft.isActive = !draft.isActive;
+      draft.isActive = action.payload ?? !draft.isActive;
       break;
     case 'SET_GENERATION_AT':
       draft.generationAt = action.payload;
@@ -73,21 +74,8 @@ const reducer = (draft: Draft<PostAlarmData>, action: Action) => {
   }
 };
 
-function CreateAlarmModal(props: Props) {
-  const { onClose, alarmId } = props;
-
-  const [state, dispatch] = useImmerReducer<PostAlarmData, Action>(reducer, {
-    attribute: 'NOTICE',
-    part: '발송 파트',
-    isActive: true,
-    generationAt: parseInt(ACTIVITY_GENERATION),
-    targetList: null,
-    title: '',
-    content: '',
-    link: null,
-  });
-
-  const [selectedValue, setSelectedValue] = useState<PostAlarmData>({
+const CreateAlarmModal: React.FC<Props> = ({ onClose, alarmId }) => {
+  const [state, dispatch] = useImmerReducer(reducer, {
     attribute: 'NOTICE',
     part: '발송 파트',
     isActive: true,
@@ -116,53 +104,40 @@ function CreateAlarmModal(props: Props) {
 
   useEffect(() => {
     if (isActiveUser === '활동 회원') {
-      setSelectedValue((prev) => ({ ...prev, isActive: true }));
+      dispatch({ type: 'TOGGLE_ACTIVE', payload: true });
+    } else if (isActiveUser === '특정 유저 지정') {
+      dispatch({ type: 'SET_PART', payload: '발송 파트' });
+      dispatch({ type: 'TOGGLE_ACTIVE', payload: null });
     } else {
-      setSelectedValue((prev) => ({ ...prev, isActive: false }));
+      dispatch({ type: 'TOGGLE_ACTIVE', payload: false });
     }
-    if (isActiveUser === '특정 유저 지정') {
-      setSelectedValue((prev) => ({
-        ...prev,
-        part: '발송 파트',
-        isActive: null,
-      }));
-    }
-  }, [isActiveUser]);
+  }, [dispatch, isActiveUser]);
 
   useEffect(() => {
     if (
-      (selectedValue.part !== '발송 파트' &&
-        selectedValue.title !== '' &&
-        selectedValue.content !== '') ||
+      (state.part !== '발송 파트' &&
+        state.title !== '' &&
+        state.content !== '') ||
       (uploadedFile !== null &&
         isActiveUser === 'CSV 첨부' &&
-        selectedValue.content !== '' &&
-        selectedValue.title !== '')
+        state.content !== '' &&
+        state.title !== '')
     ) {
       setIsReadyToSubmit(false);
     } else {
       setIsReadyToSubmit(true);
     }
-  }, [
-    isActiveUser,
-    selectedValue.content,
-    selectedValue.part,
-    selectedValue.title,
-    uploadedFile,
-  ]);
+  }, [isActiveUser, state.content, state.part, state.title, uploadedFile]);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    let apiPartValue = selectedValue.part
-      ? partTranslator[selectedValue.part]
-      : null;
-    let apiIsActive = selectedValue.isActive;
-    let targetListValue = selectedValue.targetList;
+    let apiPartValue = state.part ? partTranslator[state.part] : null;
+    let apiIsActive = state.isActive;
+    let targetListValue = state.targetList;
 
     if (isActiveUser === 'CSV 첨부') {
       apiPartValue = null;
-      apiIsActive = null;
     }
 
     if (isActiveUser !== 'CSV 첨부') {
@@ -170,19 +145,20 @@ function CreateAlarmModal(props: Props) {
     }
 
     const payload = {
-      ...selectedValue,
+      ...state,
       generation: parseInt(currentGeneration),
       part: apiPartValue,
       isActive: apiIsActive,
       targetList: targetListValue,
     };
 
-    await postNewAlarm(payload);
+    console.log(payload);
+    // await postNewAlarm(payload);
     setIsSubmitting(false);
-    onClose();
+    // onClose();
   };
 
-  const toggleDropdown = (type: AlarmDropdownType) => {
+  const toggleDropdown = (type: keyof typeof dropdownVisibility) => {
     setDropdownVisibility((prev) => ({ ...prev, [type]: !prev[type] }));
   };
 
@@ -235,39 +211,30 @@ function CreateAlarmModal(props: Props) {
         </div>
         <div className="dropdowns">
           <OptionTemplate title="발송 대상">
-            <Selector
-              content={isActiveUser}
-              onClick={() => toggleDropdown('target')}
-              isDisabledValue={false}
+            <Select
+              type="text"
+              defaultValue={'활동 회원'}
+              options={[
+                { label: '활동 회원', value: '활동 회원' },
+                { label: '34기', value: '34기' },
+              ]}
+              onChange={() => console.log('CHANGED!!')}
             />
-            {dropdownVisibility.target && (
-              <DropDown
-                type={'select'}
-                list={TARGET_USER_LIST}
-                onItemSelected={(value) => {
-                  setIsActiveUser(value);
-                  toggleDropdown('target');
-                }}
-              />
-            )}
           </OptionTemplate>
           {isActiveUser !== 'CSV 첨부' && (
             <>
               <OptionTemplate title="파트">
                 <Selector
-                  content={selectedValue.part}
+                  content={state.part}
                   onClick={() => toggleDropdown('part')}
-                  isDisabledValue={selectedValue.part === '발송 파트'}
+                  isDisabledValue={state.part === '발송 파트'}
                 />
                 {dropdownVisibility.part && (
                   <DropDown
                     type={'select'}
                     list={partList}
                     onItemSelected={(value) => {
-                      setSelectedValue((prev) => ({
-                        ...prev,
-                        part: value,
-                      }));
+                      dispatch({ type: 'SET_PART', payload: value });
                       toggleDropdown('part');
                     }}
                   />
@@ -275,21 +242,21 @@ function CreateAlarmModal(props: Props) {
               </OptionTemplate>
               <OptionTemplate title="발송 기수">
                 <Selector
-                  content={`${selectedValue.generationAt}기`}
+                  content={`${state.generationAt}기`}
                   onClick={() => toggleDropdown('generation')}
-                  isDisabledValue={selectedValue.isActive == true}
+                  isDisabledValue={state.isActive === true}
                 />
-                {dropdownVisibility.generation && !selectedValue.isActive && (
+                {dropdownVisibility.generation && state.isActive === false && (
                   <DropDown
                     type={'select'}
                     list={TARGET_GENERATION_LIST.filter(
                       (item) => !item.includes(ACTIVITY_GENERATION),
                     )}
                     onItemSelected={(value) => {
-                      setSelectedValue((prev) => ({
-                        ...prev,
-                        generation: parseInt(value),
-                      }));
+                      dispatch({
+                        type: 'SET_GENERATION_AT',
+                        payload: parseInt(value),
+                      });
                       toggleDropdown('generation');
                     }}
                   />
@@ -331,25 +298,19 @@ function CreateAlarmModal(props: Props) {
             <Input
               type="text"
               placeholder="발송할 알림의 제목을 입력하세요."
-              value={selectedValue.title}
-              onChange={(e) => {
-                setSelectedValue((prev) => ({
-                  ...prev,
-                  title: e.target.value,
-                }));
-              }}
+              value={state.title}
+              onChange={(e) =>
+                dispatch({ type: 'SET_TITLE', payload: e.target.value })
+              }
             />
           </OptionTemplate>
           <OptionTemplate title="알림 내용">
             <StTextArea
               placeholder="발송할 알림의 내용을 입력하세요."
-              value={selectedValue.content}
-              onChange={(e) => {
-                setSelectedValue((prev) => ({
-                  ...prev,
-                  content: e.target.value,
-                }));
-              }}
+              value={state.content}
+              onChange={(e) =>
+                dispatch({ type: 'SET_CONTENT', payload: e.target.value })
+              }
             />
           </OptionTemplate>
           <OptionTemplate title="링크 첨부">
@@ -363,11 +324,11 @@ function CreateAlarmModal(props: Props) {
           type={'submit'}
           text="알림 생성하기"
           disabled={isReadyToSubmit}
-          onClick={() => handleSubmit()}
+          onClick={handleSubmit}
         />
       </ModalFooter>
     </StAlarmModalWrapper>
   );
-}
+};
 
 export default CreateAlarmModal;
