@@ -1,11 +1,10 @@
-import { Select } from '@sopt-makers/ui';
+import { Button as MDSButton, Select } from '@sopt-makers/ui';
 import { Draft } from 'immer';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useImmerReducer } from 'use-immer';
 
 import { IcDeleteFile, IcUpload } from '@/assets/icons';
-import Button from '@/components/common/Button';
 import DropDown from '@/components/common/DropDown';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
@@ -166,9 +165,9 @@ const CreateAlarmModal: React.FC<Props> = ({ onClose, alarmId }) => {
     const file = e.target.files?.[0];
     if (file) {
       try {
-        const userIds = await readPlaygroundId(file); // CSV 파일에서 사용자 ID 읽기
-        setUploadedFile(file); // 파일 상태 업데이트 (별도의 상태 관리가 필요하면 유지)
-        dispatch({ type: 'SET_TARGET_LIST', payload: userIds }); // Immer를 사용한 상태 업데이트
+        const userIds = await readPlaygroundId(file);
+        setUploadedFile(file);
+        dispatch({ type: 'SET_TARGET_LIST', payload: userIds });
       } catch (error) {
         console.error('파일을 읽는데 실패했습니다.', error);
       }
@@ -319,13 +318,16 @@ const CreateAlarmModal: React.FC<Props> = ({ onClose, alarmId }) => {
         </div>
       </main>
       <ModalFooter>
-        <Button type={'button'} text="취소하기" onClick={onClose} />
-        <Button
+        <MDSButton size="lg" theme="black" onClick={onClose}>
+          취소하기
+        </MDSButton>
+        <MDSButton
           type={'submit'}
-          text="알림 생성하기"
+          size="lg"
           disabled={isReadyToSubmit}
-          onClick={handleSubmit}
-        />
+          onClick={handleSubmit}>
+          알림 생성하기
+        </MDSButton>
       </ModalFooter>
     </StAlarmModalWrapper>
   );

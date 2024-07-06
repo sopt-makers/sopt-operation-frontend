@@ -2314,10 +2314,10 @@
   resolved "https://registry.yarnpkg.com/@sopt-makers/icons/-/icons-1.0.4.tgz#ad4ea15f31d3202988c2db315c94ae42505165af"
   integrity sha512-MnEiiSA8lQGBIVL0R8G/Ojpq7IjOLEw05x2s0yscHwSCFIUuaCkbZ651i3woZjJ9wj677iGlzDW3BHekzX78uw==
 
-"@sopt-makers/ui@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@sopt-makers/ui/-/ui-2.0.0.tgz#9ec91b7a7128de781f6bea3bdad538bfa4542bc2"
-  integrity sha512-7XSjifgafGFaGNVEAAp1E8Ei66ru96OgMLQHVO3SsxhxS4q7qb7szWiDZi1qsKxurii/jBiw5yBTmLxvK1mBqA==
+"@sopt-makers/ui@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@sopt-makers/ui/-/ui-2.0.1.tgz#a9beb52327c6befabd9c1efae20e27490da781f2"
+  integrity sha512-gDNuXfyg5/UnWUDzeuNYAtjesPtGZam0qmfg2urHmQpAzrI2uFzYqp+1At+SzJXDCsvYXD2YqIgJHdI4GlR+/g==
   dependencies:
     "@radix-ui/react-dialog" "^1.0.5"
     "@radix-ui/react-switch" "^1.0.3"
