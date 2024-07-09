@@ -1,32 +1,25 @@
-import { Button as MDSButton, Select } from '@sopt-makers/ui';
+import { Button as MDSButton } from '@sopt-makers/ui';
 import { Draft } from 'immer';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useImmerReducer } from 'use-immer';
 
 import { IcDeleteFile, IcUpload } from '@/assets/icons';
-import DropDown from '@/components/common/DropDown';
-import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import OptionTemplate from '@/components/common/OptionTemplate';
-import Selector from '@/components/common/Selector';
 import { currentGenerationState } from '@/recoil/atom';
 import { postNewAlarm } from '@/services/api/alarm';
-import {
-  readPlaygroundId,
-  TARGET_GENERATION_LIST,
-  TARGET_USER_LIST,
-} from '@/utils/alarm';
+import { readPlaygroundId, TARGET_GENERATION_LIST } from '@/utils/alarm';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 import { partList, partTranslator } from '@/utils/session';
 
 import {
   StAlarmModalWrapper,
-  StAlarmTypeButton,
   StCsvUploader,
-  StTextArea,
+  StSelect,
+  StTextField,
 } from './style';
 
 interface Props {
@@ -38,7 +31,6 @@ type Action =
   | { type: 'SET_ATTRIBUTE'; payload: string }
   | { type: 'SET_PART'; payload: string }
   | { type: 'TOGGLE_ACTIVE'; payload?: boolean | null }
-  | { type: 'SET_GENERATION_AT'; payload: number }
   | { type: 'SET_TARGET_LIST'; payload: string[] | null }
   | { type: 'SET_TITLE'; payload: string }
   | { type: 'SET_CONTENT'; payload: string }
@@ -55,9 +47,6 @@ const reducer = (draft: Draft<PostAlarmData>, action: Action) => {
     case 'TOGGLE_ACTIVE':
       draft.isActive = action.payload ?? !draft.isActive;
       break;
-    case 'SET_GENERATION_AT':
-      draft.generationAt = action.payload;
-      break;
     case 'SET_TARGET_LIST':
       draft.targetList = action.payload;
       break;
@@ -73,12 +62,26 @@ const reducer = (draft: Draft<PostAlarmData>, action: Action) => {
   }
 };
 
-const CreateAlarmModal: React.FC<Props> = ({ onClose, alarmId }) => {
+const TARGET_USER_LIST = [
+  { label: '활동 회원', value: '활동 회원' },
+  { label: 'CSV 첨부', value: 'CSV 첨부' },
+];
+
+export const PART_LIST = [
+  { label: '전체', value: '전체' },
+  { label: '기획', value: '기획' },
+  { label: '디자인', value: '디자인' },
+  { label: '서버', value: '서버' },
+  { label: 'iOS', value: 'iOS' },
+  { label: '안드로이드', value: '안드로이드' },
+  { label: '웹', value: '웹' },
+];
+
+const CreateAlarmModal = ({ onClose, alarmId }: Props) => {
   const [state, dispatch] = useImmerReducer(reducer, {
     attribute: 'NOTICE',
     part: '발송 파트',
     isActive: true,
-    generationAt: parseInt(ACTIVITY_GENERATION),
     targetList: null,
     title: '',
     content: '',
@@ -88,7 +91,6 @@ const CreateAlarmModal: React.FC<Props> = ({ onClose, alarmId }) => {
   const [dropdownVisibility, setDropdownVisibility] = useState({
     part: false,
     target: false,
-    generation: false,
     targetSelector: false,
   });
   const [isActiveUser, setIsActiveUser] = useState<string>('활동 회원');
@@ -145,7 +147,6 @@ const CreateAlarmModal: React.FC<Props> = ({ onClose, alarmId }) => {
 
     const payload = {
       ...state,
-      generation: parseInt(currentGeneration),
       part: apiPartValue,
       isActive: apiIsActive,
       targetList: targetListValue,
@@ -169,7 +170,7 @@ const CreateAlarmModal: React.FC<Props> = ({ onClose, alarmId }) => {
         setUploadedFile(file);
         dispatch({ type: 'SET_TARGET_LIST', payload: userIds });
       } catch (error) {
-        console.error('파일을 읽는데 실패했습니다.', error);
+        alert('파일을 읽는데 실패했습니다.');
       }
     }
   };
@@ -189,133 +190,83 @@ const CreateAlarmModal: React.FC<Props> = ({ onClose, alarmId }) => {
   return (
     <StAlarmModalWrapper>
       <ModalHeader
-        title="알림 생성"
-        desc="APP으로 발송할 알림을 생성합니다."
+        title="알림 즉시 발송"
         onClose={onClose}
+        desc="APP으로 알림을 즉시 발송합니다."
       />
       <main>
-        <div className="type_selector">
-          <StAlarmTypeButton
-            type="button"
-            onClick={() => handleAlarmType('NOTICE')}
-            isSelected={selectedAlarmType.notice}>
-            공지
-          </StAlarmTypeButton>
-          <StAlarmTypeButton
-            type="button"
-            onClick={() => handleAlarmType('NEWS')}
-            isSelected={selectedAlarmType.news}>
-            소식
-          </StAlarmTypeButton>
-        </div>
         <div className="dropdowns">
           <OptionTemplate title="발송 대상">
-            <Select
+            <StSelect
               type="text"
               defaultValue={'활동 회원'}
-              options={[
-                { label: '활동 회원', value: '활동 회원' },
-                { label: '34기', value: '34기' },
-              ]}
-              onChange={() => console.log('CHANGED!!')}
+              options={TARGET_USER_LIST}
+              onChange={(value) => {
+                dispatch({ type: 'SET_ATTRIBUTE', payload: value });
+              }}
             />
           </OptionTemplate>
           {isActiveUser !== 'CSV 첨부' && (
             <>
               <OptionTemplate title="파트">
-                <Selector
-                  content={state.part}
-                  onClick={() => toggleDropdown('part')}
-                  isDisabledValue={state.part === '발송 파트'}
+                <StSelect
+                  type="text"
+                  defaultValue={'전체'}
+                  options={PART_LIST}
+                  onChange={(value) => {
+                    dispatch({ type: 'SET_PART', payload: value });
+                  }}
                 />
-                {dropdownVisibility.part && (
-                  <DropDown
-                    type={'select'}
-                    list={partList}
-                    onItemSelected={(value) => {
-                      dispatch({ type: 'SET_PART', payload: value });
-                      toggleDropdown('part');
-                    }}
-                  />
-                )}
-              </OptionTemplate>
-              <OptionTemplate title="발송 기수">
-                <Selector
-                  content={`${state.generationAt}기`}
-                  onClick={() => toggleDropdown('generation')}
-                  isDisabledValue={state.isActive === true}
-                />
-                {dropdownVisibility.generation && state.isActive === false && (
-                  <DropDown
-                    type={'select'}
-                    list={TARGET_GENERATION_LIST.filter(
-                      (item) => !item.includes(ACTIVITY_GENERATION),
-                    )}
-                    onItemSelected={(value) => {
-                      dispatch({
-                        type: 'SET_GENERATION_AT',
-                        payload: parseInt(value),
-                      });
-                      toggleDropdown('generation');
-                    }}
-                  />
-                )}
               </OptionTemplate>
             </>
           )}
         </div>
-        <div className="inputs">
-          {isActiveUser === 'CSV 첨부' && (
-            <OptionTemplate title="CSV 파일 첨부">
-              <StCsvUploader>
-                {uploadedFile ? (
-                  <div className="uploaded">
-                    <span>{uploadedFile.name}</span>
-                    <IcDeleteFile onClick={() => setUploadedFile(null)} />
-                  </div>
-                ) : (
-                  <div
-                    className="pre_upload"
-                    onClick={() =>
-                      document.getElementById('csvUploaderInput')?.click()
-                    }>
-                    <input
-                      type="file"
-                      accept=".csv"
-                      onChange={handleCSVUpload}
-                      style={{ display: 'none' }}
-                      id="csvUploaderInput"
-                    />
-                    <IcUpload />
-                    눌러서 첨부하기
-                  </div>
-                )}
-              </StCsvUploader>
-            </OptionTemplate>
-          )}
-          <OptionTemplate title="알림 제목">
-            <Input
-              type="text"
-              placeholder="발송할 알림의 제목을 입력하세요."
-              value={state.title}
-              onChange={(e) =>
-                dispatch({ type: 'SET_TITLE', payload: e.target.value })
-              }
-            />
+        {isActiveUser === 'CSV 첨부' && (
+          <OptionTemplate title="CSV 파일 첨부">
+            <StCsvUploader>
+              {uploadedFile ? (
+                <div className="uploaded">
+                  <span>{uploadedFile.name}</span>
+                  <IcDeleteFile onClick={() => setUploadedFile(null)} />
+                </div>
+              ) : (
+                <div
+                  className="pre_upload"
+                  onClick={() =>
+                    document.getElementById('csvUploaderInput')?.click()
+                  }>
+                  <input
+                    type="file"
+                    accept=".csv"
+                    onChange={handleCSVUpload}
+                    style={{ display: 'none' }}
+                    id="csvUploaderInput"
+                  />
+                  <IcUpload />
+                  눌러서 첨부하기
+                </div>
+              )}
+            </StCsvUploader>
           </OptionTemplate>
-          <OptionTemplate title="알림 내용">
-            <StTextArea
-              placeholder="발송할 알림의 내용을 입력하세요."
-              value={state.content}
-              onChange={(e) =>
-                dispatch({ type: 'SET_CONTENT', payload: e.target.value })
-              }
-            />
-          </OptionTemplate>
-          <OptionTemplate title="링크 첨부">
-            <Selector content="기능 추가 예정입니다." isDisabledValue={true} />
-          </OptionTemplate>
-        </div>
+        )}
+        <StTextField
+          placeholder="발송할 알림의 제목을 입력하세요."
+          labelText="알림 제목"
+          value={state.title}
+          onChange={(e) =>
+            dispatch({ type: 'SET_TITLE', payload: e.target.value })
+          }
+          required
+        />
+        <StTextField
+          placeholder="발송할 알림의 내용을 입력하세요."
+          labelText="알림 내용"
+          value={state.content}
+          onChange={(e) =>
+            dispatch({ type: 'SET_CONTENT', payload: e.target.value })
+          }
+          required
+        />
       </main>
       <ModalFooter>
         <MDSButton size="lg" theme="black" onClick={onClose}>

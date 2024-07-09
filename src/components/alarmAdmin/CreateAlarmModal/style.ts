@@ -1,11 +1,16 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Select, TextField } from '@sopt-makers/ui';
 
 export const StAlarmModalWrapper = styled.section`
-  width: 50.4rem;
+  width: 64rem;
 
   & > main {
     padding: 1.6rem 3rem 3.2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
 
     & > .type_selector {
       display: flex;
@@ -139,5 +144,17 @@ export const StTextArea = styled.textarea`
   }
   &:focus {
     cursor: default;
+  }
+`;
+
+export const StSelect = styled(Select)`
+  & > button {
+    background-color: ${colors.gray700};
+  }
+`;
+
+export const StTextField = styled(TextField)`
+  & > label > input {
+    background-color: ${colors.gray700};
   }
 `;

@@ -9,7 +9,7 @@ export const StModalFooterWrapper = styled.footer`
 
   padding: 2.4rem 4rem;
 
-  background-color: ${colors.gray700};
+  background-color: ${colors.gray800};
 
   border-radius: 0 0 1.2rem 1.2rem;
 `;
