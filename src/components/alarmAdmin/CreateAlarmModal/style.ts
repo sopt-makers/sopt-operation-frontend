@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { Select, TextField } from '@sopt-makers/ui';
+import { fontsObject } from '@sopt-makers/fonts';
+import { Select, TextArea, TextField } from '@sopt-makers/ui';
 
 export const StAlarmModalWrapper = styled.section`
   width: 64rem;
@@ -32,35 +33,6 @@ export const StAlarmModalWrapper = styled.section`
     display: flex;
     justify-content: flex-end;
     gap: 1.2rem;
-  }
-`;
-
-export const StAlarmTypeButton = styled.button<{
-  isSelected: boolean;
-  readOnly?: boolean;
-}>`
-  padding: 0.8rem 2rem;
-
-  border-radius: 11.8rem;
-
-  text-align: center;
-  font-size: 2rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-
-  color: ${({ isSelected }) => (isSelected ? colors.gray950 : colors.gray100)};
-
-  background: ${({ isSelected }) => (isSelected ? colors.gray10 : 'none')};
-
-  pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'auto')};
-
-  &:hover {
-    background: ${({ isSelected }) =>
-      isSelected ? colors.gray10 : colors.gray700};
-  }
-  &:active {
-    background: ${colors.gray600};
   }
 `;
 
@@ -115,38 +87,6 @@ export const StCsvUploader = styled.div`
   }
 `;
 
-export const StTextArea = styled.textarea`
-  height: 12.8rem;
-
-  padding: 1rem 1.4rem;
-
-  font-size: 1.8rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 100%; /* 1.8rem */
-  letter-spacing: -0.018rem;
-
-  color: ${colors.gray10};
-  background-color: ${colors.gray700};
-  border: none;
-  outline: none;
-  resize: none;
-
-  border-radius: 0.8rem;
-
-  &::placeholder {
-    color: ${colors.gray400};
-  }
-
-  &:not(:read-only):focus {
-    background-color: ${colors.gray600};
-    outline: 0.1rem solid ${colors.gray300};
-  }
-  &:focus {
-    cursor: default;
-  }
-`;
-
 export const StSelect = styled(Select)`
   & > button {
     background-color: ${colors.gray700};
@@ -158,3 +98,24 @@ export const StTextField = styled(TextField)`
     background-color: ${colors.gray700};
   }
 `;
+
+export const StTextArea = styled(TextArea)`
+  & > label > input {
+    background-color: ${colors.gray700};
+  }
+`;
+
+export const StLabel = styled.label`
+  ${fontsObject.LABEL_3_14_SB};
+  color: ${colors.white};
+
+  & > .required {
+    color: ${colors.secondary};
+    margin-left: 4px;
+  }
+`;
+
+export const LinkChipsCss = css({
+  display: 'flex',
+  gap: '6px',
+});
