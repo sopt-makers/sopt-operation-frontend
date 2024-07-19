@@ -12,6 +12,7 @@ declare global {
     | 'MAKERS'
     | 'NOT_CERTIFIED'
     | 'DEVELOPER';
+  type ALARM_SEND_TYPE = 'reserved' | 'immediate';
 
   /* 에러 */
   interface LoginError {
@@ -196,7 +197,7 @@ declare global {
 
   /* 알림 */
   interface PostAlarmData {
-    attribute: string;
+    target: '활동 회원' | 'CSV 첨부';
     part: string | null;
     isActive: boolean | null;
     targetList: string[] | null;
