@@ -36,57 +36,6 @@ export const StAlarmModalWrapper = styled.section`
   }
 `;
 
-export const StCsvUploader = styled.div`
-  display: flex;
-  align-items: center;
-
-  width: 100%;
-
-  padding: 1rem 1.4rem;
-
-  font-size: 1.6rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 2.4rem; /* 150% */
-  letter-spacing: -0.032rem;
-
-  color: ${colors.gray400};
-  background-color: ${colors.gray700};
-
-  border-radius: 0.8rem;
-
-  cursor: pointer;
-
-  & > div.uploaded {
-    width: 100%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    color: ${colors.gray10};
-
-    & > svg {
-      &:hover {
-        fill: ${colors.gray600};
-      }
-      &:active {
-        fill: ${colors.gray500};
-      }
-    }
-  }
-
-  & > div.pre_upload {
-    width: 100%;
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    gap: 1rem;
-  }
-`;
-
 export const StSelect = styled(Select)`
   & > button {
     background-color: ${colors.gray700};
@@ -99,11 +48,46 @@ export const StTextField = styled(TextField)`
   }
 `;
 
-export const StTextArea = styled(TextArea)`
-  & > label > input {
-    background-color: ${colors.gray700};
-  }
-`;
+export const textAreaCss = css({
+  ...fontsObject.TITLE_6_16_SB,
+  background: colors.gray700,
+  border: '1px solid transparent',
+  borderRadius: '10px',
+  width: '100%',
+  height: '128px',
+  padding: '10px 16px',
+  color: colors.white,
+  boxSizing: 'border-box',
+
+  '::placeholder': {
+    color: colors.gray300,
+  },
+  ':focus': {
+    border: `1px solid ${colors.gray200}`,
+    outline: 'none',
+  },
+  ':disabled': {
+    color: colors.gray500,
+  },
+  ':read-only': {
+    cursor: 'default',
+  },
+  resize: 'none',
+});
+
+export const fileUploaderCss = css({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+  height: '48px',
+  padding: '10px 16px',
+  ...fontsObject.TITLE_6_16_SB,
+  color: colors.gray300,
+  background: colors.gray700,
+  borderRadius: '10px',
+  cursor: 'pointer',
+});
 
 export const StLabel = styled.label`
   ${fontsObject.LABEL_3_14_SB};

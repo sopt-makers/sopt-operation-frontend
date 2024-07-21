@@ -1,47 +1,46 @@
 import { colors } from '@sopt-makers/colors';
-import { fontsObject } from '@sopt-makers/fonts';
-import { Button as MDSButton, Chip } from '@sopt-makers/ui';
-import { Draft } from 'immer';
-import { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { useImmerReducer } from 'use-immer';
+import { IconAttachment, IconXClose } from '@sopt-makers/icons';
+import { Button as MDSButton, Chip, TextField } from '@sopt-makers/ui';
+import { ReactNode, useEffect, useState } from 'react';
+import { ImmerReducer, useImmerReducer } from 'use-immer';
 
-import { IcDeleteFile, IcUpload } from '@/assets/icons';
 import Loading from '@/components/common/Loading';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
-import OptionTemplate from '@/components/common/OptionTemplate';
 import { postNewAlarm } from '@/services/api/alarm';
 import { readPlaygroundId, TARGET_GENERATION_LIST } from '@/utils/alarm';
 import { partList, partTranslator } from '@/utils/session';
 
 import {
+  fileUploaderCss,
   LinkChipsCss,
   StAlarmModalWrapper,
-  StCsvUploader,
   StLabel,
   StSelect,
-  StTextArea,
   StTextField,
+  textAreaCss,
 } from './style';
 
 interface Props {
+  sendType: ALARM_SEND_TYPE;
   onClose: () => void;
   alarmId?: number;
 }
 
 type Action =
-  | { type: 'SET_ATTRIBUTE'; payload: string }
+  | { type: 'SET_TARGET'; payload: '활동 회원' | 'CSV 첨부' }
   | { type: 'SET_PART'; payload: string }
   | { type: 'TOGGLE_ACTIVE'; payload?: boolean | null }
   | { type: 'SET_TARGET_LIST'; payload: string[] | null }
   | { type: 'SET_TITLE'; payload: string }
   | { type: 'SET_CONTENT'; payload: string }
+  | { type: 'SET_LINK_TYPE'; payload: '첨부 안함' | '웹링크' | '앱 내 딥링크' }
   | { type: 'SET_LINK'; payload: string | null };
 
-const reducer = (draft: Draft<PostAlarmData>, action: Action) => {
+const reducer: ImmerReducer<PostAlarmData, Action> = (draft, action) => {
   switch (action.type) {
-    case 'SET_ATTRIBUTE':
-      draft.attribute = action.payload;
+    case 'SET_TARGET':
+      draft.target = action.payload;
       break;
     case 'SET_PART':
       draft.part = action.payload;
@@ -57,6 +56,9 @@ const reducer = (draft: Draft<PostAlarmData>, action: Action) => {
       break;
     case 'SET_CONTENT':
       draft.content = action.payload;
+      break;
+    case 'SET_LINK_TYPE':
+      draft.linkType = action.payload;
       break;
     case 'SET_LINK':
       draft.link = action.payload;
@@ -79,34 +81,27 @@ export const PART_LIST = [
   { label: '웹', value: '웹' },
 ];
 
-const LINK_TYPE = ['첨부 안함', '웹링크', '앱 내 딥링크'];
+const linkTypes: PostAlarmData['linkType'][] = [
+  '첨부 안함',
+  '웹링크',
+  '앱 내 딥링크',
+];
 
 const CreateAlarmModal = ({ onClose, alarmId }: Props) => {
   const [state, dispatch] = useImmerReducer(reducer, {
-    attribute: 'NOTICE',
-    part: '발송 파트',
+    target: '활동 회원',
+    part: '전체',
     isActive: true,
     targetList: null,
     title: '',
     content: '',
+    linkType: '첨부 안함',
     link: null,
   });
 
-  const [isActiveUser, setIsActiveUser] = useState<string>('활동 회원');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [isReadyToSubmit, setIsReadyToSubmit] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    if (isActiveUser === '활동 회원') {
-      dispatch({ type: 'TOGGLE_ACTIVE', payload: true });
-    } else if (isActiveUser === '특정 유저 지정') {
-      dispatch({ type: 'SET_PART', payload: '발송 파트' });
-      dispatch({ type: 'TOGGLE_ACTIVE', payload: null });
-    } else {
-      dispatch({ type: 'TOGGLE_ACTIVE', payload: false });
-    }
-  }, [dispatch, isActiveUser]);
 
   useEffect(() => {
     if (
@@ -114,7 +109,7 @@ const CreateAlarmModal = ({ onClose, alarmId }: Props) => {
         state.title !== '' &&
         state.content !== '') ||
       (uploadedFile !== null &&
-        isActiveUser === 'CSV 첨부' &&
+        state.target === 'CSV 첨부' &&
         state.content !== '' &&
         state.title !== '')
     ) {
@@ -122,7 +117,7 @@ const CreateAlarmModal = ({ onClose, alarmId }: Props) => {
     } else {
       setIsReadyToSubmit(true);
     }
-  }, [isActiveUser, state.content, state.part, state.title, uploadedFile]);
+  }, [state.content, state.part, state.target, state.title, uploadedFile]);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
@@ -131,11 +126,11 @@ const CreateAlarmModal = ({ onClose, alarmId }: Props) => {
     let apiIsActive = state.isActive;
     let targetListValue = state.targetList;
 
-    if (isActiveUser === 'CSV 첨부') {
+    if (state.target === 'CSV 첨부') {
       apiPartValue = null;
     }
 
-    if (isActiveUser !== 'CSV 첨부') {
+    if (state.target !== 'CSV 첨부') {
       targetListValue = null;
     }
 
@@ -186,20 +181,19 @@ const CreateAlarmModal = ({ onClose, alarmId }: Props) => {
             <Label>발송 대상</Label>
             <StSelect
               type="text"
-              defaultValue={'활동 회원'}
+              defaultValue={state.target}
               options={TARGET_USER_LIST}
               onChange={(value) => {
-                console.log(value);
-                dispatch({ type: 'SET_ATTRIBUTE', payload: value });
+                dispatch({ type: 'SET_TARGET', payload: value });
               }}
             />
           </div>
-          {isActiveUser !== 'CSV 첨부' && (
+          {state.target !== 'CSV 첨부' && (
             <div css={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <Label>발송 파트</Label>
               <StSelect
                 type="text"
-                defaultValue={'전체'}
+                defaultValue={state.part ?? '발송 파트'}
                 options={PART_LIST}
                 onChange={(value) => {
                   dispatch({ type: 'SET_PART', payload: value });
@@ -208,34 +202,32 @@ const CreateAlarmModal = ({ onClose, alarmId }: Props) => {
             </div>
           )}
         </section>
-        {isActiveUser === 'CSV 첨부' && (
-          <OptionTemplate title="CSV 파일 첨부">
-            <StCsvUploader>
-              {uploadedFile ? (
-                <div className="uploaded">
-                  <span>{uploadedFile.name}</span>
-                  <IcDeleteFile onClick={() => setUploadedFile(null)} />
-                </div>
-              ) : (
-                <div
-                  className="pre_upload"
-                  onClick={() =>
-                    document.getElementById('csvUploaderInput')?.click()
-                  }>
-                  <input
-                    type="file"
-                    accept=".csv"
-                    onChange={handleCSVUpload}
-                    style={{ display: 'none' }}
-                    id="csvUploaderInput"
-                  />
-                  <IcUpload />
-                  눌러서 첨부하기
-                </div>
-              )}
-            </StCsvUploader>
-          </OptionTemplate>
-        )}
+        {state.target === 'CSV 첨부' &&
+          (uploadedFile ? (
+            <div css={fileUploaderCss}>
+              <span>{uploadedFile.name}</span>
+              <IconXClose
+                onClick={() => setUploadedFile(null)}
+                css={{ height: '24px', width: '24px' }}
+              />
+            </div>
+          ) : (
+            <div
+              css={fileUploaderCss}
+              onClick={() =>
+                document.getElementById('csvUploaderInput')?.click()
+              }>
+              <span>눌러서 CSV 파일 첨부하기</span>
+              <IconAttachment css={{ height: '24px', width: '24px' }} />
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleCSVUpload}
+                style={{ display: 'none' }}
+                id="csvUploaderInput"
+              />
+            </div>
+          ))}
         <StTextField
           placeholder="발송할 알림의 제목을 입력하세요."
           labelText="알림 제목"
@@ -245,28 +237,50 @@ const CreateAlarmModal = ({ onClose, alarmId }: Props) => {
           }
           required
         />
-        <StTextArea
-          placeholder="발송할 알림의 내용을 입력하세요."
-          labelText="알림 내용"
-          value={state.content}
-          onChange={(e) =>
-            dispatch({ type: 'SET_CONTENT', payload: e.target.value })
-          }
-          required
-          maxLength={0}
-          onSubmit={function (): void {
-            console.log('입력완료');
-          }}
-        />
+        <div css={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Label>알림 내용</Label>
+          <textarea
+            placeholder="발송할 알림의 내용을 입력하세요."
+            value={state.content}
+            onChange={(e) =>
+              dispatch({ type: 'SET_CONTENT', payload: e.target.value })
+            }
+            required
+            css={textAreaCss}
+          />
+        </div>
         <Label>링크 첨부</Label>
-        <p css={{ color: colors.gray100 }}>첨부 가능한 링크 확인하기</p>
+        {/* <p
+          css={{
+            color: colors.gray100,
+            ...fontsObject.LABEL_5_11_SB,
+            textDecoration: 'underline',
+          }}>
+          첨부 가능한 링크 확인하기
+        </p> */}
         <div css={LinkChipsCss}>
-          {LINK_TYPE.map((label) => (
-            <Chip key={label} size="sm">
+          {linkTypes.map((label) => (
+            <Chip
+              key={label}
+              onClick={() =>
+                dispatch({ type: 'SET_LINK_TYPE', payload: label })
+              }
+              size="sm"
+              active={state.linkType === label}>
               {label}
             </Chip>
           ))}
         </div>
+        {state.linkType === '웹링크' && (
+          <TextField
+            placeholder="이동할 링크를 입력하세요."
+            value={state.link ?? ''}
+            onChange={(e) =>
+              dispatch({ type: 'SET_LINK', payload: e.target.value })
+            }
+            css={{ '& > div > input': { backgroundColor: colors.gray700 } }}
+          />
+        )}
       </main>
       <ModalFooter>
         <MDSButton size="lg" theme="black" onClick={onClose}>
