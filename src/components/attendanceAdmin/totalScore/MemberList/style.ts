@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StPageHeader = styled.header`
   h1 {
-    ${fonts.TITLE_32_SB}
+    ${fontsObject.TITLE_1_32_SB}
     color: ${colors.gray10};
     margin-bottom: 41px;
   }
   p {
-    ${fonts.TITLE_16_SB}
+    ${fontsObject.TITLE_6_16_SB}
     color: ${colors.gray200};
     margin: 56px 0 18px 12px;
   }
@@ -25,7 +25,7 @@ export const StListItem = styled.li`
     display: flex;
 
     .index {
-      ${fonts.BODY_14_M}
+      ${fontsObject.BODY_3_14_M}
       width: 26px;
       margin-right: 33px;
     }
@@ -35,12 +35,12 @@ export const StListItem = styled.li`
       gap: 15px;
     }
     .member-name {
-      ${fonts.TITLE_18_SB}
+      ${fontsObject.TITLE_5_18_SB}
       color: ${colors.gray30};
       margin-bottom: 4px;
     }
     .member-university {
-      ${fonts.BODY_14_M}
+      ${fontsObject.BODY_3_14_M}
       color: ${colors.gray400};
     }
   }
@@ -49,7 +49,7 @@ export const StListItem = styled.li`
     align-items: center;
 
     .attendance {
-      ${fonts.BODY_16_M}
+      ${fontsObject.BODY_2_16_M}
       color: ${colors.gray100};
       margin-right: 38px;
 
@@ -59,7 +59,7 @@ export const StListItem = styled.li`
       }
     }
     .member-score {
-      ${fonts.BODY_16_M}
+      ${fontsObject.BODY_2_16_M}
       color: ${colors.gray50};
       background-color: ${colors.gray700};
       padding: 5px 13px;

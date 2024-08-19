@@ -126,7 +126,7 @@ function CreateAlarmModal(props: Props) {
 
     await postNewAlarm(payload);
     setIsSubmitting(false);
-    await onClose();
+    onClose();
   };
 
   const toggleDropdown = (type: AlarmDropdownType) => {

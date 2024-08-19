@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
@@ -110,7 +110,7 @@ const StyledLogin = styled.div`
     align-items: center;
     gap: 1.7rem;
 
-    ${fonts.TITLE_28_SB}
+    ${fontsObject.LABEL_1_18_SB}
     color: ${colors.white};
 
     margin-bottom: 3.1rem;
@@ -126,7 +126,7 @@ const StyledLogin = styled.div`
     margin-top: 1.6rem;
     margin-bottom: 0.6rem;
 
-    ${fonts.LABEL_14_SB}
+    ${fontsObject.LABEL_3_14_SB}
 
     color: ${colors.gray300};
   }
@@ -136,7 +136,7 @@ const StyledLogin = styled.div`
 
     padding: 1rem 1.4rem;
 
-    ${fonts.LABEL_18_SB}
+    ${fontsObject.LABEL_1_18_SB}
 
     color: ${colors.gray10};
     background-color: ${colors.gray700};

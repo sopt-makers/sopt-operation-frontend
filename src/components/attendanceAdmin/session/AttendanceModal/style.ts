@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StAttendanceModal = styled.div`
   & > div {
@@ -36,7 +36,9 @@ export const StAttendanceModal = styled.div`
       & > p {
         color: ${colors.gray10};
         text-align: center;
-        font-feature-settings: 'clig' off, 'liga' off;
+        font-feature-settings:
+          'clig' off,
+          'liga' off;
         font-family: SUIT;
         font-size: 4rem;
         font-style: normal;
@@ -51,7 +53,7 @@ export const StAttendanceModal = styled.div`
     justify-content: space-between;
     align-items: center;
     p {
-      ${fonts.TITLE_14_SB}
+      ${fontsObject.TITLE_7_14_SB}
       color: ${colors.error};
     }
   }

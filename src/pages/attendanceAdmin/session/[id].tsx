@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { ReactNode, RefObject, useRef, useState } from 'react';
@@ -411,7 +411,7 @@ const StPageWrapper = styled.div`
 `;
 const StPageHeader = styled.div`
   h1 {
-    ${fonts.TITLE_32_SB}
+    ${fontsObject.TITLE_1_32_SB}
     color: ${colors.gray10};
     margin-right: 20px;
   }
@@ -428,11 +428,11 @@ const StPageHeader = styled.div`
     margin-bottom: 18px;
 
     & > p {
-      ${fonts.TITLE_16_SB}
+      ${fontsObject.TITLE_6_16_SB}
       color: ${colors.gray200};
     }
     & > div {
-      ${fonts.TITLE_14_SB}
+      ${fontsObject.TITLE_7_14_SB}
       color: ${colors.gray400};
       display: flex;
       gap: 11px;
@@ -446,7 +446,7 @@ const StListItem = styled.li`
   color: ${colors.gray100};
 
   .member-index {
-    ${fonts.BODY_14_M}
+    ${fontsObject.BODY_3_14_M}
     width: 26px;
     margin-right: 33px;
   }
@@ -460,13 +460,13 @@ const StListItem = styled.li`
     width: 144px;
   }
   .member-name {
-    ${fonts.TITLE_18_SB}
+    ${fontsObject.TITLE_5_18_SB}
     color: ${colors.gray30};
     margin-right: 15px;
     max-width: 80px;
   }
   .member-university {
-    ${fonts.BODY_14_M}
+    ${fontsObject.BODY_3_14_M}
     color: ${colors.gray400};
     max-width: 140px;
   }
@@ -477,7 +477,7 @@ const StListItem = styled.li`
     white-space: nowrap;
   }
   .member-date {
-    ${fonts.BODY_14_M}
+    ${fontsObject.BODY_3_14_M}
     color: ${colors.gray200};
     width: 122px;
     margin-right: 36px;
@@ -487,7 +487,7 @@ const StListItem = styled.li`
     margin-right: 22px;
   }
   .member-score {
-    ${fonts.BODY_16_M}
+    ${fontsObject.BODY_2_16_M}
     color: ${colors.gray50};
     background-color: ${colors.gray700};
     padding: 5px 13px;

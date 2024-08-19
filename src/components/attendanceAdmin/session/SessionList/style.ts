@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StListHeader = styled.header`
   h1 {
-    ${fonts.TITLE_32_SB}
+    ${fontsObject.TITLE_1_32_SB}
     color: ${colors.gray10};
     margin-bottom: 41px;
   }
   & > p {
-    ${fonts.TITLE_16_SB}
+    ${fontsObject.TITLE_6_16_SB}
     color: ${colors.gray200};
     margin-top: 55px;
     margin-bottom: 18px;
@@ -27,7 +27,7 @@ export const StListItem = styled.li`
     margin-bottom: 7px;
 
     & > p:first-of-type {
-      ${fonts.TITLE_20_SB}
+      ${fontsObject.TITLE_4_20_SB}
       color: ${colors.gray10};
       margin-right: 15px;
     }
@@ -38,18 +38,18 @@ export const StListItem = styled.li`
     gap: 14px;
 
     p {
-      ${fonts.LABEL_12_SB}
+      ${fontsObject.LABEL_4_12_SB}
       color: ${colors.gray500};
 
       span {
-        ${fonts.BODY_14_M}
+        ${fontsObject.BODY_3_14_R}
         color: ${colors.gray300};
         margin-left: 6px;
       }
     }
   }
   .right {
-    ${fonts.BODY_14_M}
+    ${fontsObject.BODY_3_14_M}
     display: flex;
     align-items: center;
     gap: 55px;

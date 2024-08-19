@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StTemplateWrapper = styled.div`
   position: relative;
@@ -11,7 +11,7 @@ export const StTemplateWrapper = styled.div`
   & > p {
     margin-top: 1.6rem;
 
-    ${fonts.LABEL_14_SB}
+    ${fontsObject.LABEL_3_14_SB}
 
     color: ${colors.gray300};
   }
