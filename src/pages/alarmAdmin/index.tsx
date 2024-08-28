@@ -33,7 +33,7 @@ function AlarmAdminPage() {
     refetch();
   };
 
-  // if (isLoading || !data) return <Loading />;
+  if (isLoading || !data) return <Loading />;
   return (
     <>
       <AlarmList data={data} refetch={refetchAlarmList} />
