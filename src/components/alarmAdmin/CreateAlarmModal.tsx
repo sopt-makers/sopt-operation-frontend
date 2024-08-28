@@ -15,12 +15,7 @@ import OptionTemplate from '@/components/common/OptionTemplate';
 import Selector from '@/components/common/Selector';
 import { currentGenerationState } from '@/recoil/atom';
 import { postNewAlarm } from '@/services/api/alarm';
-import {
-  readPlaygroundId,
-  TARGET_GENERATION_LIST,
-  TARGET_USER_LIST,
-} from '@/utils/alarm';
-import { ACTIVITY_GENERATION } from '@/utils/generation';
+import { readPlaygroundId, TARGET_USER_LIST } from '@/utils/alarm';
 import { partList, partTranslator } from '@/utils/session';
 
 interface Props {
@@ -30,10 +25,8 @@ interface Props {
 
 // 액션 타입 정의
 type Action =
-  | { type: 'SET_ATTRIBUTE'; payload: string }
   | { type: 'SET_PART'; payload: string | null }
   | { type: 'SET_IS_ACTIVE'; payload: boolean | null }
-  | { type: 'SET_GENERATION_AT'; payload: number }
   | { type: 'SET_TARGET_LIST'; payload: string[] | null }
   | { type: 'SET_TITLE'; payload: string }
   | { type: 'SET_CONTENT'; payload: string }
@@ -42,17 +35,11 @@ type Action =
 // 리듀서 함수 정의
 const postAlarmReducer = (draft: PostAlarmData, action: Action): void => {
   switch (action.type) {
-    case 'SET_ATTRIBUTE':
-      draft.attribute = action.payload;
-      break;
     case 'SET_PART':
       draft.part = action.payload;
       break;
     case 'SET_IS_ACTIVE':
       draft.isActive = action.payload;
-      break;
-    case 'SET_GENERATION_AT':
-      draft.generationAt = action.payload;
       break;
     case 'SET_TARGET_LIST':
       draft.targetList = action.payload;
@@ -72,13 +59,13 @@ const postAlarmReducer = (draft: PostAlarmData, action: Action): void => {
 };
 
 const initialState: PostAlarmData = {
-  attribute: 'NOTICE',
+  target: '활동 회원',
   part: '발송 파트',
   isActive: true,
-  generationAt: parseInt(ACTIVITY_GENERATION),
   targetList: null,
   title: '',
   content: '',
+  linkType: '첨부 안함',
   link: null,
 };
 
@@ -177,17 +164,6 @@ function CreateAlarmModal(props: Props) {
     }
   };
 
-  const handleAlarmType = (type: string): void => {
-    if (type === 'NOTICE') {
-      dispatch({ type: 'SET_ATTRIBUTE', payload: 'NOTICE' });
-      setSelectedAlarmType({ notice: true, news: false });
-    }
-    if (type === 'NEWS') {
-      dispatch({ type: 'SET_ATTRIBUTE', payload: 'NEWS' });
-      setSelectedAlarmType({ notice: false, news: true });
-    }
-  };
-
   if (isSubmitting) return <Loading />;
   return (
     <StAlarmModalWrapper>
@@ -197,20 +173,6 @@ function CreateAlarmModal(props: Props) {
         onClose={onClose}
       />
       <main>
-        <div className="type_selector">
-          <StAlarmTypeButton
-            type="button"
-            onClick={() => handleAlarmType('NOTICE')}
-            isSelected={selectedAlarmType.notice}>
-            공지
-          </StAlarmTypeButton>
-          <StAlarmTypeButton
-            type="button"
-            onClick={() => handleAlarmType('NEWS')}
-            isSelected={selectedAlarmType.news}>
-            소식
-          </StAlarmTypeButton>
-        </div>
         <div className="dropdowns">
           <OptionTemplate title="발송 대상">
             <Selector
@@ -230,43 +192,23 @@ function CreateAlarmModal(props: Props) {
             )}
           </OptionTemplate>
           {isActiveUser !== 'CSV 첨부' && (
-            <>
-              <OptionTemplate title="파트">
-                <Selector
-                  content={state.part}
-                  onClick={() => toggleDropdown('part')}
-                  isDisabledValue={state.part === '발송 파트'}
+            <OptionTemplate title="파트">
+              <Selector
+                content={state.part}
+                onClick={() => toggleDropdown('part')}
+                isDisabledValue={state.part === '발송 파트'}
+              />
+              {dropdownVisibility.part && (
+                <DropDown
+                  type={'select'}
+                  list={partList}
+                  onItemSelected={(value) => {
+                    dispatch({ type: 'SET_PART', payload: value });
+                    toggleDropdown('part');
+                  }}
                 />
-                {dropdownVisibility.part && (
-                  <DropDown
-                    type={'select'}
-                    list={partList}
-                    onItemSelected={(value) => {
-                      dispatch({ type: 'SET_PART', payload: value });
-                      toggleDropdown('part');
-                    }}
-                  />
-                )}
-              </OptionTemplate>
-              <OptionTemplate title="발송 기수">
-                <Selector
-                  content={`${state.generationAt}기`}
-                  onClick={() => toggleDropdown('generation')}
-                  isDisabledValue={state.isActive == true}
-                />
-                {dropdownVisibility.generation && !state.isActive && (
-                  <DropDown
-                    type={'select'}
-                    list={TARGET_GENERATION_LIST.filter(
-                      (item) => !item.includes(ACTIVITY_GENERATION),
-                    )}
-                    onItemSelected={(value) => {
-                      toggleDropdown('generation');
-                    }}
-                  />
-                )}
-              </OptionTemplate>
-            </>
+              )}
+            </OptionTemplate>
           )}
         </div>
         <div className="inputs">
