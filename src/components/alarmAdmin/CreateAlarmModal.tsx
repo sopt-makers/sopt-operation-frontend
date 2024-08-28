@@ -23,7 +23,6 @@ interface Props {
   alarmId?: number;
 }
 
-// 액션 타입 정의
 type Action =
   | { type: 'SET_PART'; payload: string | null }
   | { type: 'SET_IS_ACTIVE'; payload: boolean | null }
@@ -32,7 +31,6 @@ type Action =
   | { type: 'SET_CONTENT'; payload: string }
   | { type: 'SET_LINK'; payload: string | null };
 
-// 리듀서 함수 정의
 const postAlarmReducer = (draft: PostAlarmData, action: Action): void => {
   switch (action.type) {
     case 'SET_PART':
@@ -82,10 +80,7 @@ function CreateAlarmModal(props: Props) {
   });
   const [isActiveUser, setIsActiveUser] = useState<string>('활동 회원');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [selectedAlarmType, setSelectedAlarmType] = useState({
-    notice: true,
-    news: false,
-  });
+
   const [isReadyToSubmit, setIsReadyToSubmit] = useState<boolean>(true);
   const currentGeneration = useRecoilValue(currentGenerationState);
   const [isSubmitting, setIsSubmitting] = useState(false);
