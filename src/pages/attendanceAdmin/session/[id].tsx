@@ -392,6 +392,7 @@ function SessionDetailPage() {
             round={modal}
             lectureId={session.lectureId}
             finishAttendance={finishAttendance}
+            onClose={() => setModal(null)}
           />
         </Modal>
       )}

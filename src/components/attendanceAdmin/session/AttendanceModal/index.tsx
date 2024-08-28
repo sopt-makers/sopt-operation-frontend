@@ -15,13 +15,14 @@ interface Props {
   round: number;
   lectureId: number;
   finishAttendance: () => void;
+  onClose: () => void;
 }
 
 const MINUTES = 10;
 const SECONDS = 0;
 
 function AttendanceModal(props: Props) {
-  const { round, lectureId, finishAttendance } = props;
+  const { round, lectureId, finishAttendance, onClose } = props;
 
   const [timer, setTimer] = useState({ minutes: MINUTES, seconds: SECONDS });
   const [code, setCode] = useState('');
@@ -46,12 +47,12 @@ function AttendanceModal(props: Props) {
         if (isRetry) {
           start();
         } else {
-          finishAttendance();
+          onClose();
         }
       }
     };
     start();
-  }, [lectureId, round, finishAttendance]);
+  }, [lectureId, round, onClose]);
 
   useEffect(() => {
     if (status !== 'STARTED') return;
