@@ -198,13 +198,13 @@ declare global {
 
   /* 알림 */
   interface PostAlarmData {
-    target: '활동 회원' | 'CSV 첨부';
+    target?: '활동 회원' | 'CSV 첨부';
     part: string | null;
     isActive: boolean | null;
     targetList: string[] | null;
     title: string;
     content: string;
-    linkType: '첨부 안함' | '웹링크' | '앱 내 딥링크';
+    linkType?: '첨부 안함' | '웹링크' | '앱 내 딥링크';
     link?: string | null;
   }
   interface Alarm {

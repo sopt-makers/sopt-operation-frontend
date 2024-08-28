@@ -1,7 +1,8 @@
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
@@ -9,12 +10,6 @@ import OptionTemplate from '@/components/common/OptionTemplate';
 import Selector from '@/components/common/Selector';
 import { currentGenerationState } from '@/recoil/atom';
 import { getAlarm } from '@/services/api/alarm';
-
-import {
-  StAlarmModalWrapper,
-  StAlarmTypeButton,
-  StTextArea,
-} from '../CreateAlarmModal/style';
 
 interface Props {
   onClose: () => void;
@@ -27,7 +22,6 @@ function ShowAlarmModal(props: Props) {
   const generation = useRecoilValue(currentGenerationState);
 
   const [data, setData] = useState<AlarmDetail>({
-    attribute: '',
     part: null,
     isActive: null,
     title: '',
@@ -59,21 +53,6 @@ function ShowAlarmModal(props: Props) {
     <StAlarmModalWrapper>
       <ModalHeader title="알림 조회" desc="" onClose={onClose} />
       <main>
-        <div className="type_selector">
-          <StAlarmTypeButton
-            type="button"
-            isSelected={data.attribute === '공지'}
-            readOnly>
-            공지
-          </StAlarmTypeButton>
-          <StAlarmTypeButton
-            type="button"
-            isSelected={data.attribute === '소식'}
-            readOnly>
-            소식
-          </StAlarmTypeButton>
-        </div>
-
         <div className="dropdowns">
           <OptionTemplate title="발송 대상">
             <Selector content={activeStatus} readOnly />
@@ -120,3 +99,93 @@ function ShowAlarmModal(props: Props) {
 }
 
 export default ShowAlarmModal;
+
+const StAlarmModalWrapper = styled.section`
+  width: 50.4rem;
+
+  & > main {
+    padding: 1.6rem 3rem 3.2rem 3rem;
+
+    & > .type_selector {
+      display: flex;
+      gap: 2rem;
+    }
+
+    & > .dropdowns {
+      display: flex;
+      gap: 1.6rem;
+    }
+
+    & > .inputs {
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+    }
+  }
+  & > footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+  }
+`;
+
+const StAlarmTypeButton = styled.button<{
+  isSelected: boolean;
+  readOnly?: boolean;
+}>`
+  padding: 0.8rem 2rem;
+
+  border-radius: 11.8rem;
+
+  text-align: center;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  color: ${({ isSelected }) => (isSelected ? colors.gray950 : colors.gray100)};
+
+  background: ${({ isSelected }) => (isSelected ? colors.gray10 : 'none')};
+
+  pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'auto')};
+
+  &:hover {
+    background: ${({ isSelected }) =>
+      isSelected ? colors.gray10 : colors.gray700};
+  }
+  &:active {
+    background: ${colors.gray600};
+  }
+`;
+
+const StTextArea = styled.textarea`
+  height: 12.8rem;
+
+  padding: 1rem 1.4rem;
+
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 1.8rem */
+  letter-spacing: -0.018rem;
+
+  color: ${colors.gray10};
+  background-color: ${colors.gray700};
+  border: none;
+  outline: none;
+  resize: none;
+
+  border-radius: 0.8rem;
+
+  &::placeholder {
+    color: ${colors.gray400};
+  }
+
+  &:not(:read-only):focus {
+    background-color: ${colors.gray600};
+    outline: 0.1rem solid ${colors.gray300};
+  }
+  &:focus {
+    cursor: default;
+  }
+`;
