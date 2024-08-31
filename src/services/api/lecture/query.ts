@@ -33,7 +33,7 @@ export const useGetSessionDetail = (lectureId: number | null) => {
   return useQuery<SessionDetail | null, Error>(
     ['sessionDetail', lectureId],
     () => (lectureId ? getSessionDetail(lectureId) : null),
-    { staleTime: 10 * 60 * 1000 },
+    { staleTime: 10 * 60 * 1000, refetchOnReconnect: false },
   );
 };
 
@@ -54,6 +54,7 @@ export const useGetInfiniteSessionMembers = (
         lastPage && lastPage.attendances.length < PAGE_SIZE
           ? null
           : pages.length,
+      refetchOnReconnect: false,
     },
   );
 };
