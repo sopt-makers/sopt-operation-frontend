@@ -1,5 +1,8 @@
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useImmerReducer } from 'use-immer';
 
 import { IcDeleteFile, IcUpload } from '@/assets/icons';
 import Button from '@/components/common/Button';
@@ -10,22 +13,11 @@ import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import OptionTemplate from '@/components/common/OptionTemplate';
 import Selector from '@/components/common/Selector';
+import { useCreateAlarmReducer } from '@/hooks/useCreateAlarmReducer';
 import { currentGenerationState } from '@/recoil/atom';
 import { postNewAlarm } from '@/services/api/alarm';
-import {
-  readPlaygroundId,
-  TARGET_GENERATION_LIST,
-  TARGET_USER_LIST,
-} from '@/utils/alarm';
-import { ACTIVITY_GENERATION } from '@/utils/generation';
+import { readPlaygroundId, TARGET_USER_LIST } from '@/utils/alarm';
 import { partList, partTranslator } from '@/utils/session';
-
-import {
-  StAlarmModalWrapper,
-  StAlarmTypeButton,
-  StCsvUploader,
-  StTextArea,
-} from './style';
 
 interface Props {
   onClose: () => void;
@@ -35,16 +27,8 @@ interface Props {
 function CreateAlarmModal(props: Props) {
   const { onClose, alarmId } = props;
 
-  const [selectedValue, setSelectedValue] = useState<PostAlarmData>({
-    attribute: 'NOTICE',
-    part: '발송 파트',
-    isActive: true,
-    generationAt: parseInt(ACTIVITY_GENERATION),
-    targetList: null,
-    title: '',
-    content: '',
-    link: null,
-  });
+  const { state, dispatch } = useCreateAlarmReducer();
+
   const [dropdownVisibility, setDropdownVisibility] = useState({
     part: false,
     target: false,
@@ -53,59 +37,45 @@ function CreateAlarmModal(props: Props) {
   });
   const [isActiveUser, setIsActiveUser] = useState<string>('활동 회원');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [selectedAlarmType, setSelectedAlarmType] = useState({
-    notice: true,
-    news: false,
-  });
+
   const [isReadyToSubmit, setIsReadyToSubmit] = useState<boolean>(true);
   const currentGeneration = useRecoilValue(currentGenerationState);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isActiveUser === '활동 회원') {
-      setSelectedValue((prev) => ({ ...prev, isActive: true }));
+      dispatch({ type: 'SET_IS_ACTIVE', payload: true });
     } else {
-      setSelectedValue((prev) => ({ ...prev, isActive: false }));
+      dispatch({ type: 'SET_IS_ACTIVE', payload: false });
     }
     if (isActiveUser === '특정 유저 지정') {
-      setSelectedValue((prev) => ({
-        ...prev,
-        part: '발송 파트',
-        isActive: null,
-      }));
+      dispatch({ type: 'SET_PART', payload: '발송 파트' });
+      dispatch({ type: 'SET_IS_ACTIVE', payload: null });
     }
-  }, [isActiveUser]);
+  }, [dispatch, isActiveUser]);
 
   useEffect(() => {
     if (
-      (selectedValue.part !== '발송 파트' &&
-        selectedValue.title !== '' &&
-        selectedValue.content !== '') ||
+      (state.part !== '발송 파트' &&
+        state.title !== '' &&
+        state.content !== '') ||
       (uploadedFile !== null &&
         isActiveUser === 'CSV 첨부' &&
-        selectedValue.content !== '' &&
-        selectedValue.title !== '')
+        state.content !== '' &&
+        state.title !== '')
     ) {
       setIsReadyToSubmit(false);
     } else {
       setIsReadyToSubmit(true);
     }
-  }, [
-    isActiveUser,
-    selectedValue.content,
-    selectedValue.part,
-    selectedValue.title,
-    uploadedFile,
-  ]);
+  }, [isActiveUser, state.content, state.part, state.title, uploadedFile]);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    let apiPartValue = selectedValue.part
-      ? partTranslator[selectedValue.part]
-      : null;
-    let apiIsActive = selectedValue.isActive;
-    let targetListValue = selectedValue.targetList;
+    let apiPartValue = state.part ? partTranslator[state.part] : null;
+    let apiIsActive = state.isActive;
+    let targetListValue = state.targetList;
 
     if (isActiveUser === 'CSV 첨부') {
       apiPartValue = null;
@@ -117,7 +87,7 @@ function CreateAlarmModal(props: Props) {
     }
 
     const payload = {
-      ...selectedValue,
+      ...state,
       generation: parseInt(currentGeneration),
       part: apiPartValue,
       isActive: apiIsActive,
@@ -139,27 +109,10 @@ function CreateAlarmModal(props: Props) {
       try {
         const userIds = await readPlaygroundId(file);
         setUploadedFile(file);
-        setSelectedValue((prev) => ({ ...prev, targetList: userIds }));
+        dispatch({ type: 'SET_TARGET_LIST', payload: userIds });
       } catch (error) {
         console.error('파일을 읽는데 실패했습니다.', error);
       }
-    }
-  };
-
-  const handleAlarmType = (type: string): void => {
-    if (type === 'NOTICE') {
-      setSelectedValue((prev) => ({
-        ...prev,
-        attribute: 'NOTICE',
-      }));
-      setSelectedAlarmType({ notice: true, news: false });
-    }
-    if (type === 'NEWS') {
-      setSelectedValue((prev) => ({
-        ...prev,
-        attribute: 'NEWS',
-      }));
-      setSelectedAlarmType({ notice: false, news: true });
     }
   };
 
@@ -172,20 +125,6 @@ function CreateAlarmModal(props: Props) {
         onClose={onClose}
       />
       <main>
-        <div className="type_selector">
-          <StAlarmTypeButton
-            type="button"
-            onClick={() => handleAlarmType('NOTICE')}
-            isSelected={selectedAlarmType.notice}>
-            공지
-          </StAlarmTypeButton>
-          <StAlarmTypeButton
-            type="button"
-            onClick={() => handleAlarmType('NEWS')}
-            isSelected={selectedAlarmType.news}>
-            소식
-          </StAlarmTypeButton>
-        </div>
         <div className="dropdowns">
           <OptionTemplate title="발송 대상">
             <Selector
@@ -205,50 +144,23 @@ function CreateAlarmModal(props: Props) {
             )}
           </OptionTemplate>
           {isActiveUser !== 'CSV 첨부' && (
-            <>
-              <OptionTemplate title="파트">
-                <Selector
-                  content={selectedValue.part}
-                  onClick={() => toggleDropdown('part')}
-                  isDisabledValue={selectedValue.part === '발송 파트'}
+            <OptionTemplate title="파트">
+              <Selector
+                content={state.part}
+                onClick={() => toggleDropdown('part')}
+                isDisabledValue={state.part === '발송 파트'}
+              />
+              {dropdownVisibility.part && (
+                <DropDown
+                  type={'select'}
+                  list={partList}
+                  onItemSelected={(value) => {
+                    dispatch({ type: 'SET_PART', payload: value });
+                    toggleDropdown('part');
+                  }}
                 />
-                {dropdownVisibility.part && (
-                  <DropDown
-                    type={'select'}
-                    list={partList}
-                    onItemSelected={(value) => {
-                      setSelectedValue((prev) => ({
-                        ...prev,
-                        part: value,
-                      }));
-                      toggleDropdown('part');
-                    }}
-                  />
-                )}
-              </OptionTemplate>
-              <OptionTemplate title="발송 기수">
-                <Selector
-                  content={`${selectedValue.generationAt}기`}
-                  onClick={() => toggleDropdown('generation')}
-                  isDisabledValue={selectedValue.isActive == true}
-                />
-                {dropdownVisibility.generation && !selectedValue.isActive && (
-                  <DropDown
-                    type={'select'}
-                    list={TARGET_GENERATION_LIST.filter(
-                      (item) => !item.includes(ACTIVITY_GENERATION),
-                    )}
-                    onItemSelected={(value) => {
-                      setSelectedValue((prev) => ({
-                        ...prev,
-                        generation: parseInt(value),
-                      }));
-                      toggleDropdown('generation');
-                    }}
-                  />
-                )}
-              </OptionTemplate>
-            </>
+              )}
+            </OptionTemplate>
           )}
         </div>
         <div className="inputs">
@@ -284,24 +196,18 @@ function CreateAlarmModal(props: Props) {
             <Input
               type="text"
               placeholder="발송할 알림의 제목을 입력하세요."
-              value={selectedValue.title}
+              value={state.title}
               onChange={(e) => {
-                setSelectedValue((prev) => ({
-                  ...prev,
-                  title: e.target.value,
-                }));
+                dispatch({ type: 'SET_TITLE', payload: e.target.value });
               }}
             />
           </OptionTemplate>
           <OptionTemplate title="알림 내용">
             <StTextArea
               placeholder="발송할 알림의 내용을 입력하세요."
-              value={selectedValue.content}
+              value={state.content}
               onChange={(e) => {
-                setSelectedValue((prev) => ({
-                  ...prev,
-                  content: e.target.value,
-                }));
+                dispatch({ type: 'SET_CONTENT', payload: e.target.value });
               }}
             />
           </OptionTemplate>
@@ -324,3 +230,144 @@ function CreateAlarmModal(props: Props) {
 }
 
 export default CreateAlarmModal;
+
+const StAlarmModalWrapper = styled.section`
+  width: 50.4rem;
+
+  & > main {
+    padding: 1.6rem 3rem 3.2rem 3rem;
+
+    & > .type_selector {
+      display: flex;
+      gap: 2rem;
+    }
+
+    & > .dropdowns {
+      display: flex;
+      gap: 1.6rem;
+    }
+
+    & > .inputs {
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+    }
+  }
+  & > footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+  }
+`;
+
+const StAlarmTypeButton = styled.button<{
+  isSelected: boolean;
+  readOnly?: boolean;
+}>`
+  padding: 0.8rem 2rem;
+
+  border-radius: 11.8rem;
+
+  text-align: center;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  color: ${({ isSelected }) => (isSelected ? colors.gray950 : colors.gray100)};
+
+  background: ${({ isSelected }) => (isSelected ? colors.gray10 : 'none')};
+
+  pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'auto')};
+
+  &:hover {
+    background: ${({ isSelected }) =>
+      isSelected ? colors.gray10 : colors.gray700};
+  }
+  &:active {
+    background: ${colors.gray600};
+  }
+`;
+
+const StCsvUploader = styled.div`
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  padding: 1rem 1.4rem;
+
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2.4rem; /* 150% */
+  letter-spacing: -0.032rem;
+
+  color: ${colors.gray400};
+  background-color: ${colors.gray700};
+
+  border-radius: 0.8rem;
+
+  cursor: pointer;
+
+  & > div.uploaded {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: ${colors.gray10};
+
+    & > svg {
+      &:hover {
+        fill: ${colors.gray600};
+      }
+      &:active {
+        fill: ${colors.gray500};
+      }
+    }
+  }
+
+  & > div.pre_upload {
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 1rem;
+  }
+`;
+
+const StTextArea = styled.textarea`
+  height: 12.8rem;
+
+  padding: 1rem 1.4rem;
+
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 1.8rem */
+  letter-spacing: -0.018rem;
+
+  color: ${colors.gray10};
+  background-color: ${colors.gray700};
+  border: none;
+  outline: none;
+  resize: none;
+
+  border-radius: 0.8rem;
+
+  &::placeholder {
+    color: ${colors.gray400};
+  }
+
+  &:not(:read-only):focus {
+    background-color: ${colors.gray600};
+    outline: 0.1rem solid ${colors.gray300};
+  }
+  &:focus {
+    cursor: default;
+  }
+`;

@@ -12,6 +12,8 @@ declare global {
     | 'MAKERS'
     | 'NOT_CERTIFIED'
     | 'DEVELOPER';
+  type ALARM_SEND_TYPE = 'reserved' | 'immediate';
+  type LINK_TYPE = '첨부 안함' | '웹링크' | '앱 내 딥링크';
 
   /* 에러 */
   interface LoginError {
@@ -196,13 +198,13 @@ declare global {
 
   /* 알림 */
   interface PostAlarmData {
-    attribute: string;
+    target?: '활동 회원' | 'CSV 첨부';
     part: string | null;
     isActive: boolean | null;
-    generationAt: number;
     targetList: string[] | null;
     title: string;
     content: string;
+    linkType?: '첨부 안함' | '웹링크' | '앱 내 딥링크';
     link?: string | null;
   }
   interface Alarm {
