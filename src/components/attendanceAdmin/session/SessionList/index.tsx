@@ -22,15 +22,16 @@ function SessionList() {
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
   const [lectureData, setLectureData] = useState<LectureList[]>([]);
-  const [isDetailOpen, setIsDetailOpen] = useState<Boolean>(false);
-  const [selectedLecture, setSelectedLecture] = useState<number>(0);
   const currentGeneration = useRecoilValue(currentGenerationState);
   const [activeDropdownId, setActiveDropdownId] = useState<number | null>(null);
 
-  const { data, isLoading, isError, error } = useGetSessionList(
-    parseInt(currentGeneration),
-    selectedPart,
-  );
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    refetch: refetchSession,
+  } = useGetSessionList(parseInt(currentGeneration), selectedPart);
 
   useEffect(() => {
     if (data && 'lectures' in data) {
@@ -68,6 +69,7 @@ function SessionList() {
     );
     if (isConfirmed) {
       deleteSession(lectureId);
+      refetchSession();
       alert('세션이 삭제되었어요');
     }
   };
