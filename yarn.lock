@@ -2241,10 +2241,10 @@
   resolved "https://registry.yarnpkg.com/@sopt-makers/icons/-/icons-1.0.4.tgz#ad4ea15f31d3202988c2db315c94ae42505165af"
   integrity sha512-MnEiiSA8lQGBIVL0R8G/Ojpq7IjOLEw05x2s0yscHwSCFIUuaCkbZ651i3woZjJ9wj677iGlzDW3BHekzX78uw==
 
-"@sopt-makers/ui@^2.0.0":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@sopt-makers/ui/-/ui-2.0.2.tgz#1af794db5b25501d508b1bea386d5f61b0b7e4a1"
-  integrity sha512-3G+dSCT0zC+wW1EdUR2gEHEtYBDAdvotbzYhlrT5OGsmWI90VJU/JXEdVde1YJ716B2Kl8oNjrzbsbZ//NL9Bg==
+"@sopt-makers/ui@^2.0.1":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@sopt-makers/ui/-/ui-2.0.6.tgz#733184ccf5409ebf912b55f6ed7395d7eee5f8d5"
+  integrity sha512-lMCKcA7mhByVAjrT1TsdCLHyGvX8jrn1BoDjdRgqFIXMDl4mYUDKJYZZ3O4AvE7IF4jEQeP/JjdKrJ5pKG5mjQ==
   dependencies:
     "@radix-ui/react-dialog" "^1.0.5"
     "@radix-ui/react-switch" "^1.0.3"
@@ -3158,6 +3158,11 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
+
+"@toss/use-overlay@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@toss/use-overlay/-/use-overlay-1.4.0.tgz#0bcd3e60159411f1651b8cb34a91a629fc2931ae"
+  integrity sha512-1fkKRwUWaPn1fPTHeYiOdnQu4j6sHLDfJZS1smsarPxWxUlr1+FikNIjzYQGAVXgNjxw0cqNfKR4HvVSsM5w3A==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
@@ -11438,6 +11443,7 @@ string-length@^4.0.1:
     strip-ansi "^6.0.0"
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -11532,6 +11538,7 @@ string_decoder@~1.1.1:
     safe-buffer "~5.1.0"
 
 "strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -12694,6 +12701,7 @@ wordwrap@^1.0.0:
   integrity sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
