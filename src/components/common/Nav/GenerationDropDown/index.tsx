@@ -20,18 +20,8 @@ function GenerationDropDown() {
   const [currentGeneration, setCurrentGeneration] = useRecoilGenerationSSR();
   const [isDropdownOn, setIsDropdownOn] = useState<boolean>(false);
 
-  const [selectedGenerationInfo, setSelectedGenerationInfo] = useState({
-    logo: <AndSoptLogo />,
-    slogan: GENERATION_INFO[0].slogan,
-  });
-
-  const handleSelectedGeneration = (
-    selectedGeneration: string,
-    logo: EmotionJSX.Element,
-    slogan: string,
-  ) => {
+  const handleSelectedGeneration = (selectedGeneration: string) => {
     setCurrentGeneration(selectedGeneration);
-    setSelectedGenerationInfo({ logo: logo, slogan: slogan });
     setIsDropdownOn(false);
     const pathSegments = router.asPath.split('/');
     if (pathSegments[pathSegments.length - 1].match(/^\d+$/)) {
@@ -41,28 +31,25 @@ function GenerationDropDown() {
 
   return (
     <StWrapper>
-      <StSelectedGeneration onClick={() => setIsDropdownOn(!isDropdownOn)}>
-        {selectedGenerationInfo.logo}
+      <StSelectedGeneration
+        onClick={() => setIsDropdownOn(!isDropdownOn)}
+        onBlur={() => setIsDropdownOn(false)}>
         <div>
           <h1>
             {currentGeneration}기 <IcNewDropdown />
           </h1>
-          <h2>{selectedGenerationInfo.slogan} SOPT</h2>
         </div>
       </StSelectedGeneration>
       {isDropdownOn && (
         <StGenerationDropdown>
           <div>
             {GENERATION_INFO.map((info) => {
-              const { generation, Logo, slogan } = info;
+              const { generation, slogan } = info;
 
               return (
                 <StDropdownGeneration
                   key={generation}
-                  onClick={() =>
-                    handleSelectedGeneration(generation, <Logo />, slogan)
-                  }>
-                  <Logo />
+                  onClick={() => handleSelectedGeneration(generation)}>
                   <div>
                     <h1>{generation}기</h1>
                     <h2>{slogan} SOPT</h2>
