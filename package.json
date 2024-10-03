@@ -11,10 +11,6 @@
     "build-storybook": "storybook build",
     "test": "jest --watch"
   },
-  "engines": {
-    "node": "^21.5.0",
-    "yarn": "^1.22.19"
-  },
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
@@ -70,6 +66,8 @@
     "prettier": "^3.2.5",
     "storybook": "8.0.4",
     "ts-jest": "^29.0.5",
-    "ts-node": "^10.9.1"
-  }
+    "ts-node": "^10.9.1",
+    "webpack": "^5.95.0"
+  },
+  "packageManager": "yarn@4.5.0"
 }
