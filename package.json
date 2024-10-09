@@ -11,6 +11,9 @@
     "build-storybook": "storybook build",
     "test": "jest --watch"
   },
+  "engines": {
+    "node": ">=20.18.0 <21"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
