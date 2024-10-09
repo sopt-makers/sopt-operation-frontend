@@ -37,3 +37,15 @@ next-env.d.ts
 
 # webstorm
 .idea
+
+# env
+.env
+
+# yarn berry
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
