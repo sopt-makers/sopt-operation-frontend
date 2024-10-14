@@ -11,12 +11,6 @@ import { ACTIVITY_GENERATION } from '@/utils/generation';
 
 import LabeledComponent from './LabeledComponent';
 import {
-  deepLinkOptions,
-  partOptions,
-  targetOptions,
-  timeOptions,
-} from './selectOptions';
-import {
   AttachOptionButtonList,
   AttachWrapper,
   AvailableCheckLink,
@@ -40,7 +34,15 @@ import {
   textAreaCSS,
 } from './style';
 import { AttachOptionType, SendPartType, SendTargetType } from './type';
-import { linkTypeMap, partMap, targetTypeMap } from './utils';
+import {
+  deepLinkOptions,
+  linkTypeMap,
+  partMap,
+  partOptions,
+  targetOptions,
+  targetTypeMap,
+  timeOptions,
+} from './utils';
 
 interface Props {
   onClose: () => void;
