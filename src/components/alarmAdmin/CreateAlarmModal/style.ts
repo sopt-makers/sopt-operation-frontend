@@ -207,7 +207,7 @@ export const AttachOptionButtonList = styled.ul`
 
 export const OptionalInputWrapper = styled.div<{ attachOption: string }>`
   width: 100%;
-  margin-top: ${({ attachOption }) => attachOption !== '첨부 안함' && `0.8rem`};
+  margin-top: ${({ attachOption }) => attachOption !== '첨부 안함' && '0.8rem'};
 `;
 
 export const triggerCSS = css`
