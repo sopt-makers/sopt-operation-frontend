@@ -69,12 +69,9 @@ export const StCsvUploader = styled.div`
   width: 100%;
 
   padding: 1rem 1.4rem;
+  margin-top: 0.8rem;
 
-  font-size: 1.6rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 2.4rem; /* 150% */
-  letter-spacing: -0.032rem;
+  ${fontsObject.BODY_2_16_M};
 
   color: ${colors.gray400};
   background-color: ${colors.gray700};

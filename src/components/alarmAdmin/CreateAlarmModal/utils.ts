@@ -124,3 +124,36 @@ export const timeOptions = [
   { label: '20:30', value: '20:30' },
   { label: '21:00', value: '21:00' },
 ];
+
+export const bannedTimeList = [
+  '21:30',
+  '22:00',
+  '22:30',
+  '23:00',
+  '23:30',
+  '00:00',
+  '00:30',
+  '01:00',
+  '01:30',
+  '02:00',
+  '02:30',
+  '03:00',
+  '03:30',
+  '04:00',
+  '04:30',
+  '05:00',
+  '05:30',
+  '06:00',
+  '06:30',
+  '07:00',
+  '07:30',
+];
+
+// 예약 날짜 포맷 변환 함수 (Date 객체에서 연월일 파싱해서 문자열로 반환)
+export const formatDate = (date: Date | null) => {
+  if (!date) return '알림 발송 날짜';
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};

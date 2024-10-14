@@ -1,12 +1,16 @@
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { IconLink } from '@sopt-makers/icons';
 import { Button, Chip, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
+import loadConfig from 'next/dist/server/config';
 import { ChangeEvent, useState } from 'react';
 import DatePicker from 'react-datepicker';
 
+import { IcDeleteFile, IcUpload } from '@/assets/icons';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import { createReserveAlarm, sendAlarm } from '@/services/api/alarm';
+import { readPlaygroundId } from '@/utils/alarm';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 
 import LabeledComponent from './LabeledComponent';
@@ -30,12 +34,15 @@ import {
   SendTimeWrapper,
   sendTriggerCSS,
   StAlarmModalWrapper,
+  StCsvUploader,
   StyledIconArrowUpRight,
   textAreaCSS,
 } from './style';
 import { AttachOptionType, SendPartType, SendTargetType } from './type';
 import {
+  bannedTimeList,
   deepLinkOptions,
+  formatDate,
   linkTypeMap,
   partMap,
   partOptions,
@@ -66,29 +73,8 @@ function CreateAlarmModal(props: Props) {
   const [selectedTime, setSelectedTime] = useState<string>(''); // 예약 시간(HH:MM 포맷 string)
   const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false); // 달력 오픈 여부 관리하는 state
 
-  const bannedTimeList = [
-    '21:30',
-    '22:00',
-    '22:30',
-    '23:00',
-    '23:30',
-    '00:00',
-    '00:30',
-    '01:00',
-    '01:30',
-    '02:00',
-    '02:30',
-    '03:00',
-    '03:30',
-    '04:00',
-    '04:30',
-    '05:00',
-    '05:30',
-    '06:00',
-    '06:30',
-    '07:00',
-    '07:30',
-  ];
+  const [targetList, setTargetList] = useState<Array<string>>([]);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null); // CSV 파일을 관리하는 state
 
   const modalTitle = sendType === 'NOW' ? '알림 즉시 발송' : '알림 예약 발송';
   const modalDesc =
@@ -163,17 +149,21 @@ function CreateAlarmModal(props: Props) {
     setDatePickerOpen(false);
   };
 
-  // 예약 날짜 포맷 변환 함수 (Date 객체에서 연월일 파싱해서 문자열로 반환)
-  const formatDate = (date: Date | null) => {
-    if (!date) return '알림 발송 날짜';
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
   const handleClickAttachOptionButton = (option: AttachOptionType) => {
     setAttachOption(option);
+  };
+
+  const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const userIds = await readPlaygroundId(file);
+        setUploadedFile(file);
+        setTargetList(userIds);
+      } catch (error) {
+        console.error('파일을 읽는데 실패했습니다.', error);
+      }
+    }
   };
 
   // 발송 / 예약하기 버튼 눌렀을 때 API 요청 쏘는 함수
@@ -185,6 +175,8 @@ function CreateAlarmModal(props: Props) {
       category: 'NOTICE',
       title: alarmTitle,
       content: alarmDetail,
+      targetList: targetList,
+      // targetList: ['357'],
       linkType: linkTypeMap[attachOption],
       link:
         attachOption === '첨부 안함'
@@ -258,7 +250,32 @@ function CreateAlarmModal(props: Props) {
         <InputWrapper>
           {selectedTarget === 'CSV 첨부' && (
             <LabeledComponent labelText="CSV 파일 첨부">
-              {/* {여기에 CSV 파일 첨부 컴포넌트 추가} */}
+              <StCsvUploader>
+                {uploadedFile ? (
+                  <div className="uploaded">
+                    <span>{uploadedFile.name}</span>
+                    <IcDeleteFile onClick={() => setUploadedFile(null)} />
+                  </div>
+                ) : (
+                  <>
+                    <div
+                      className="pre_upload"
+                      onClick={() =>
+                        document.getElementById('csvUploaderInput')?.click()
+                      }>
+                      <input
+                        type="file"
+                        accept=".csv"
+                        onChange={handleCSVUpload}
+                        style={{ display: 'none' }}
+                        id="csvUploaderInput"
+                      />
+                      눌러서 CSV 파일 첨부하기
+                    </div>
+                    <IconLink style={{ width: '24px', height: '24px' }} />
+                  </>
+                )}
+              </StCsvUploader>
             </LabeledComponent>
           )}
           <TextField
