@@ -6,7 +6,7 @@ export const StModalHeader = styled.header`
   justify-content: space-between;
   align-items: center;
 
-  padding: 2.2rem 3.2rem 0.8rem 3.2rem;
+  padding: 2.2rem 2.8rem 2.2rem 3.2rem;
 
   & > div.title {
     display: flex;
@@ -27,7 +27,7 @@ export const StModalHeader = styled.header`
     & > h2 {
       font-size: 1.4rem;
       font-style: normal;
-      font-weight: 400;
+      font-weight: 300;
       line-height: 160%;
       letter-spacing: -0.021rem;
 
