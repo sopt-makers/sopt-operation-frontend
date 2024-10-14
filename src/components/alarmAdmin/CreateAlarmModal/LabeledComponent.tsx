@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+import { ReactNode } from 'react';
 
 interface LabelProps {
   labelText: string;

@@ -1,23 +1,22 @@
-import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-
-import AlarmList from '@/components/alarmAdmin/AlarmList';
-import CreateNewAlarmModal from '@/components/alarmAdmin/CreateNewAlarmModal';
-import Loading from '@/components/common/Loading';
-import Modal from '@/components/common/modal';
-import { currentGenerationState } from '@/recoil/atom';
-import { useGetAlarmList } from '@/services/api/alarm/query';
-
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
 import {
   IconArrowUpRight,
   IconClock,
   IconPlus,
   IconXClose,
 } from '@sopt-makers/icons';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
-import { fontsObject } from '@sopt-makers/fonts';
+import AlarmList from '@/components/alarmAdmin/AlarmList';
+import CreateNewAlarmModal from '@/components/alarmAdmin/CreateAlarmModal';
+import CreateAlarmModal from '@/components/alarmAdmin/CreateAlarmModal';
+import Loading from '@/components/common/Loading';
+import Modal from '@/components/common/modal';
+import { currentGenerationState } from '@/recoil/atom';
+import { useGetAlarmList } from '@/services/api/alarm/query';
 
 function AlarmAdminPage() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -86,12 +85,12 @@ function AlarmAdminPage() {
       )}
       {selectedSendType === 'NOW' && (
         <Modal>
-          <CreateNewAlarmModal sendType="NOW" onClose={handleModalClose} />
+          <CreateAlarmModal sendType="NOW" onClose={handleModalClose} />
         </Modal>
       )}
       {selectedSendType === 'RESERVE' && (
         <Modal>
-          <CreateNewAlarmModal sendType="RESERVE" onClose={handleModalClose} />
+          <CreateAlarmModal sendType="RESERVE" onClose={handleModalClose} />
         </Modal>
       )}
     </>
