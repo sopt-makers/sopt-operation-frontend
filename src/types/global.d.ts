@@ -205,6 +205,23 @@ declare global {
     content: string;
     link?: string | null;
   }
+
+  interface AlarmData {
+    createdGeneration: number;
+    title: string;
+    content: string;
+    category: 'NOTICE' | 'NEWS';
+    targetType: 'ALL' | 'ACTIVE' | 'CSV';
+    targetList?: Array<string>;
+    part?: PART;
+    linkType?: 'WEB' | 'APP' | null;
+    link?: string;
+  }
+
+  interface ReserveAlarmData extends AlarmData {
+    postDate: string;
+    postTime: string;
+  }
   interface Alarm {
     alarmId: number;
     part: string | null;
