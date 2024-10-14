@@ -43,17 +43,6 @@ function AlarmList(props: Props) {
     }
   };
 
-  const onSendAlarm = async (alarmId: number, title: string) => {
-    const response = window.confirm(`${title} 알림을 전송하시겠습니까?`);
-    if (response) {
-      setIsSending(true);
-      const result = await sendAlarm(alarmId);
-      setIsSending(false);
-      window.alert(result ? '전송에 성공했습니다' : '전송에 실패했습니다');
-      refetch();
-    }
-  };
-
   const onShowAlarmDetail = (alarmId: number) => {
     setShowAlarmDetail(alarmId);
   };
@@ -122,7 +111,6 @@ function AlarmList(props: Props) {
                 text="전송"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onSendAlarm(alarm.alarmId, alarm.title);
                 }}
                 disabled={alarm.status === '발송 후'}
               />
