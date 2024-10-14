@@ -184,7 +184,12 @@ function CreateAlarmModal(props: Props) {
       title: alarmTitle,
       content: alarmDetail,
       linkType: linkTypeMap[attachOption],
-      link: 'https://www.linkedin.com/in/brokyeom/',
+      link:
+        attachOption === '첨부 안함'
+          ? null
+          : attachOption === '웹 링크'
+            ? webLink
+            : deepLink,
     };
 
     console.log(commonPayload);

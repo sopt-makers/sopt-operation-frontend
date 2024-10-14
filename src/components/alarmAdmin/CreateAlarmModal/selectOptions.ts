@@ -44,28 +44,24 @@ export const partOptions: ISendPartOptions[] = [
 
 export const deepLinkOptions = [
   {
-    label: '딥링크 1',
-    value: 'https://test.com',
+    label: '홈',
+    value: 'home',
   },
   {
-    label: '딥링크 2',
-    value: 'https://test.com',
+    label: '홈-알림 리스트',
+    value: 'home/notification',
   },
   {
-    label: '딥링크 3',
-    value: 'https://test.com',
+    label: '홈-출석',
+    value: 'home/attendance',
   },
   {
-    label: '딥링크 4',
-    value: 'https://test.com',
+    label: '플레이그라운드',
+    value: 'https://playground.sopt.org/',
   },
   {
-    label: '딥링크 5',
-    value: 'https://test.com',
-  },
-  {
-    label: '딥링크 6',
-    value: 'https://test.com',
+    label: '크루',
+    value: 'https://playground.sopt.org/group',
   },
 ];
 

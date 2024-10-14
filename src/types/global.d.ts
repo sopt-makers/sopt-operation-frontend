@@ -215,7 +215,7 @@ declare global {
     targetList?: Array<string>;
     part?: PART;
     linkType?: 'WEB' | 'APP' | null;
-    link?: string;
+    link?: string | null;
   }
 
   interface ReserveAlarmData extends AlarmData {
