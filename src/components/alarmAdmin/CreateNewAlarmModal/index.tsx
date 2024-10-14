@@ -1,21 +1,12 @@
-import 'react-datepicker/dist/react-datepicker.css';
-
+import { useState, ChangeEvent } from 'react';
 import { Button, Chip, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
-import { ChangeEvent, useState } from 'react';
+
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
-import { createReserveAlarm, sendAlarm } from '@/services/api/alarm';
-import { ACTIVITY_GENERATION } from '@/utils/generation';
 
-import LabeledComponent from './LabeledComponent';
-import {
-  deepLinkOptions,
-  partOptions,
-  targetOptions,
-  timeOptions,
-} from './selectOptions';
 import {
   AttachOptionButtonList,
   AttachWrapper,
@@ -39,8 +30,14 @@ import {
   StyledIconArrowUpRight,
   textAreaCSS,
 } from './style';
+import {
+  deepLinkOptions,
+  partOptions,
+  targetOptions,
+  timeOptions,
+} from './selectOptions';
+import LabeledComponent from './LabeledComponent';
 import { AttachOptionType, SendPartType, SendTargetType } from './type';
-import { linkTypeMap, partMap, targetTypeMap } from './utils';
 
 interface Props {
   onClose: () => void;
@@ -175,36 +172,7 @@ function CreateNewAlarmModal(props: Props) {
   };
 
   // 발송 / 예약하기 버튼 눌렀을 때 API 요청 쏘는 함수
-  const handleClickCompleteButton = async () => {
-    const commonPayload: AlarmData = {
-      createdGeneration: parseInt(ACTIVITY_GENERATION),
-      targetType: targetTypeMap[selectedTarget],
-      part: partMap[selectedPart],
-      category: 'NOTICE',
-      title: alarmTitle,
-      content: alarmDetail,
-      linkType: linkTypeMap[attachOption],
-      link: 'https://www.linkedin.com/in/brokyeom/',
-    };
-
-    console.log(commonPayload);
-
-    switch (sendType) {
-      case 'NOW':
-        await sendAlarm(commonPayload);
-        break;
-
-      case 'RESERVE':
-        const reservePayload: ReserveAlarmData = {
-          ...commonPayload,
-          postDate: formatDate(selectedDate),
-          postTime: selectedTime,
-        };
-
-        await createReserveAlarm(reservePayload);
-        break;
-    }
-  };
+  const handleClickCompleteButton = () => {};
 
   return (
     <StAlarmModalWrapper>
