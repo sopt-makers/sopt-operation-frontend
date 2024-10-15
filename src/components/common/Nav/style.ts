@@ -78,7 +78,7 @@ export const StSubMenu = styled.p<{
   currentPage: boolean | undefined;
   isLast: boolean;
 }>`
-  padding: 1.3rem 6.7rem 1.3rem 2.4rem;
+  padding: 1.3rem 2.4rem 1.3rem 2.4rem;
   margin: 0.6rem 1.8rem 0.6rem 4.4rem;
   margin-bottom: ${({ isLast }) => (isLast ? '1.6rem' : '0')};
 

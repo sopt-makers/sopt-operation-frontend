@@ -1,4 +1,4 @@
-import { IcAlarmMenu, IcAttendanceMenu } from '@/assets/icons';
+import { IcAlarmMenu, IcAttendanceMenu, IcOrgMenu } from '@/assets/icons';
 
 export const GENERATION_INFO = [
   {
@@ -27,11 +27,12 @@ export const MENU_LIST = [
     subMenu: ['출석 세션', '출석 총점'],
     path: ['/attendanceAdmin/session', '/attendanceAdmin/totalScore'],
   },
-  // {
-  //   title: '공홈 관리',
-  //   MenuIcon: IcOrgMenu,
-  //   path: ['/orgAdmin/aboutTabManagement'],
-  // },
+  {
+    title: '공홈 관리',
+    MenuIcon: IcOrgMenu,
+    subMenu: ['공식홈페이지', '지원서'],
+    path: ['/orgAdmin/aboutTabManagement'],
+  },
   {
     title: '알림 관리',
     MenuIcon: IcAlarmMenu,
