@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { fontsObject } from '@sopt-makers/fonts';
 
 import theme from '@/styles/theme';
+import zIndex from '@/utils/zIndex';
 
 export const StContainer = styled.section`
   padding: 50px 0;
@@ -114,7 +115,11 @@ export const StInfoButton = styled.button`
   color: ${theme.color.grayscale.realwhite};
 `;
 
-export const StInfoWrapper = styled.article`
+interface StInfoWrapperProps {
+  isVisible: boolean;
+}
+
+export const StInfoWrapper = styled.article<StInfoWrapperProps>`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -123,6 +128,11 @@ export const StInfoWrapper = styled.article`
   height: 457px;
   padding: 22px 33px 28px;
   background-color: ${theme.color.grayscale.gray900};
+  transform: ${({ isVisible }) =>
+    isVisible ? 'translateX(0)' : 'translateX(100%)'};
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  transition: all 0.5s ease-in-out;
+  z-index: ${zIndex.modal};
 `;
 
 export const StInfoTitle = styled.h2`

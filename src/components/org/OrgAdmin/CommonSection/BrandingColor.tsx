@@ -26,6 +26,11 @@ const BrandingColor = () => {
   const [lowColor, setLowColor] = useState('');
   const [highColor, setHighColor] = useState('');
   const [subGrayColor, setSubGrayColor] = useState('');
+  const [isInfoVisible, setIsInfoVisible] = useState(false);
+
+  const handleInfoToggle = () => {
+    setIsInfoVisible((prev) => !prev);
+  };
 
   return (
     <StWrapper>
@@ -76,7 +81,9 @@ const BrandingColor = () => {
         <StInputBox>
           <StInputLabel as={'p'}>
             <label htmlFor="sub-color">서브 컬러 (강조 그레이 컬러)</label>
-            <StInfoButton>&nbsp;&#9432;</StInfoButton>
+            <StInfoButton onClick={handleInfoToggle}>
+              &nbsp;&#9432;
+            </StInfoButton>
           </StInputLabel>
           <StDescription>
             강조하고 싶은 박스의 그레이 컬러를 지정해주세요.
@@ -90,10 +97,12 @@ const BrandingColor = () => {
               onChange={(e) => setSubGrayColor(e.target.value)}
             />
             <StColorPreview style={{ backgroundColor: subGrayColor }} />
-            <StInfoWrapper>
+            <StInfoWrapper isVisible={isInfoVisible}>
               <StInfoTitle>
                 <span>&#9432; 서브컬러 (강조 그레이 컬러) 예시</span>
-                <StInfoCloseButton>&#10005;</StInfoCloseButton>
+                <StInfoCloseButton onClick={handleInfoToggle}>
+                  &#10005;
+                </StInfoCloseButton>
               </StInfoTitle>
               <StInfoDescription>
                 &#39;지원하기 &#39; 탭 속 파트별 소개 &#39;👍이런 분이면
