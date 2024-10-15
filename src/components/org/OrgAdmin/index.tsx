@@ -4,6 +4,8 @@ import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/s
 import FilterButton from '@/components/common/FilterButton';
 import { orgAdminList } from '@/utils/translator';
 
+import CommonSection from './CommonSection';
+
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
 
@@ -21,6 +23,7 @@ function OrgAdmin() {
           onChange={onChangePart}
         />
       </StListHeader>
+      <CommonSection />
     </>
   );
 }
