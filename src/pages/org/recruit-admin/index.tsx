@@ -1,7 +1,7 @@
-import OrgAdmin from '@/components/org/OrgAdmin';
+import RecruitAdmin from '@/components/org/RecruitAdmin';
 
 function RecruitAdminPage() {
-  return <OrgAdmin />;
+  return <RecruitAdmin />;
 }
 
 export default RecruitAdminPage;
