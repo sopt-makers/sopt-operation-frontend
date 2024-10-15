@@ -4,6 +4,7 @@ import {
   StColorPreview,
   StColorWrapper,
   StDescription,
+  StInfoButton,
   StInput,
   StInputBox,
   StInputLabel,
@@ -66,8 +67,9 @@ const BrandingColor = () => {
           </StColorWrapper>
         </StInputBox>
         <StInputBox>
-          <StInputLabel htmlFor="sub-color">
-            서브 컬러 (강조 그레이 컬러)
+          <StInputLabel as={'p'}>
+            <label htmlFor="sub-color">서브 컬러 (강조 그레이 컬러)</label>
+            <StInfoButton>&nbsp;&#9432;</StInfoButton>
           </StInputLabel>
           <StDescription>
             강조하고 싶은 박스의 그레이 컬러를 지정해주세요.

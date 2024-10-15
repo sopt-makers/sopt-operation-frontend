@@ -106,3 +106,7 @@ export const StColorPreview = styled.div`
   border-radius: 10px;
   background-color: white;
 `;
+
+export const StInfoButton = styled.span`
+  cursor: pointer;
+`;
