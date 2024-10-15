@@ -20,12 +20,12 @@ const GenerationInformation = () => {
       </StTitleWrapper>
       <StInputWrapper>
         <StInputBox>
-          <StInputLabel>기수</StInputLabel>
-          <StInput type="text" placeholder="ex. 35" />
+          <StInputLabel htmlFor="generation">기수</StInputLabel>
+          <StInput id="generation" type="text" placeholder="ex. 35" />
         </StInputBox>
         <StInputBox>
-          <StInputLabel>기수명</StInputLabel>
-          <StInput type="text" placeholder="ex. 00 SOPT" />
+          <StInputLabel htmlFor="sopt-name">기수명</StInputLabel>
+          <StInput id="sopt-name" type="text" placeholder="ex. 00 SOPT" />
         </StInputBox>
       </StInputWrapper>
     </StWrapper>

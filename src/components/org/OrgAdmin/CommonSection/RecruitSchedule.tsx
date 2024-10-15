@@ -34,40 +34,63 @@ const RecruitSchedule = () => {
       <StDateWrapper>
         <StInputWrapper>
           <StInputBox>
-            <StInputLabel>서류 접수 시작</StInputLabel>
+            <StInputLabel htmlFor="application-start">
+              서류 접수 시작
+            </StInputLabel>
             <StInput
+              id="application-start"
               type="datetime-local"
               value={'2022-10-12T12:00'}
               hasValue={true}
             />
           </StInputBox>
           <StInputBox>
-            <StInputLabel>서류 접수 마감</StInputLabel>
-            <StInput type="datetime-local" hasValue={false} />
+            <StInputLabel htmlFor="application-end">
+              서류 접수 마감
+            </StInputLabel>
+            <StInput
+              id="application-end"
+              type="datetime-local"
+              hasValue={false}
+            />
           </StInputBox>
           <StInputBox>
-            <StInputLabel>서류 결과 발표</StInputLabel>
-            <StInput type="datetime-local" hasValue={false} />
+            <StInputLabel htmlFor="application-result">
+              서류 결과 발표
+            </StInputLabel>
+            <StInput
+              id="application-result"
+              type="datetime-local"
+              hasValue={false}
+            />
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>
       <StDateWrapper>
         <StInputWrapper>
           <StInputBox>
-            <StInputLabel>면접 시작</StInputLabel>
-            <StInput type="datetime-local" hasValue={false} />
+            <StInputLabel htmlFor="interview-start">면접 시작</StInputLabel>
+            <StInput
+              id="interview-start"
+              type="datetime-local"
+              hasValue={false}
+            />
           </StInputBox>
           <StInputBox>
-            <StInputLabel>면접 마감</StInputLabel>
-            <StInput type="datetime-local" hasValue={false} />
+            <StInputLabel htmlFor="interview-end">면접 마감</StInputLabel>
+            <StInput
+              id="interview-end"
+              type="datetime-local"
+              hasValue={false}
+            />
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>
       <StDateWrapper>
         <StInputWrapper>
           <StInputBox>
-            <StInputLabel>최종 결과 발표</StInputLabel>
-            <StInput type="datetime-local" hasValue={false} />
+            <StInputLabel htmlFor="final-result">최종 결과 발표</StInputLabel>
+            <StInput id="final-result" type="datetime-local" hasValue={false} />
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>

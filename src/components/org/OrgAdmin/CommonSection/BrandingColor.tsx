@@ -27,9 +27,10 @@ const BrandingColor = () => {
       </StTitleWrapper>
       <StInputWrapper>
         <StInputBox>
-          <StInputLabel>키컬러 (메인)</StInputLabel>
+          <StInputLabel htmlFor="key-color-main">키컬러 (메인)</StInputLabel>
           <StColorWrapper>
             <StInput
+              id="key-color-main"
               type="text"
               placeholder="ex. #ffffff"
               value={mainColor}
@@ -39,9 +40,10 @@ const BrandingColor = () => {
           </StColorWrapper>
         </StInputBox>
         <StInputBox>
-          <StInputLabel>키컬러 (저명도)</StInputLabel>
+          <StInputLabel htmlFor="key-color-low">키컬러 (저명도)</StInputLabel>
           <StColorWrapper>
             <StInput
+              id="key-color-low"
               type="text"
               placeholder="ex. #ffffff"
               value={lowColor}
@@ -51,9 +53,10 @@ const BrandingColor = () => {
           </StColorWrapper>
         </StInputBox>
         <StInputBox>
-          <StInputLabel>키컬러 (고명도)</StInputLabel>
+          <StInputLabel htmlFor="key-color-high">키컬러 (고명도)</StInputLabel>
           <StColorWrapper>
             <StInput
+              id="key-color-high"
               type="text"
               placeholder="ex. #ffffff"
               value={highColor}
@@ -63,10 +66,15 @@ const BrandingColor = () => {
           </StColorWrapper>
         </StInputBox>
         <StInputBox>
-          <StInputLabel>서브 컬러 (강조 그레이 컬러)</StInputLabel>
-          <StDescription></StDescription>
+          <StInputLabel htmlFor="sub-color">
+            서브 컬러 (강조 그레이 컬러)
+          </StInputLabel>
+          <StDescription>
+            강조하고 싶은 박스의 그레이 컬러를 지정해주세요.
+          </StDescription>
           <StColorWrapper>
             <StInput
+              id="sub-color"
               type="text"
               placeholder="ex. #ffffff"
               value={subGrayColor}

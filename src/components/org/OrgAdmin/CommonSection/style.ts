@@ -40,7 +40,7 @@ export const StInputBox = styled.div`
   gap: 8px;
 `;
 
-export const StInputLabel = styled.p`
+export const StInputLabel = styled.label`
   ${fontsObject.LABEL_3_14_SB};
 
   margin-bottom: 8px;
