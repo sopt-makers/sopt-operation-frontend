@@ -1,4 +1,6 @@
 import {
+  StColorPreview,
+  StColorWrapper,
   StContainer,
   StDateWrapper,
   StDescription,
@@ -92,6 +94,43 @@ const CommonSection = () => {
             </StInputBox>
           </StInputWrapper>
         </StDateWrapper>
+      </StWrapper>
+      <StWrapper>
+        <StTitleWrapper>
+          <StTitle>브랜딩 컬러</StTitle>
+          <StDescription>다크 모드를 고려하여 선정해주세요.</StDescription>
+        </StTitleWrapper>
+        <StInputWrapper>
+          <StInputBox>
+            <StInputLabel>키컬러 (메인)</StInputLabel>
+            <StColorWrapper>
+              <StInput type="text" placeholder="ex. #ffffff" />
+              <StColorPreview />
+            </StColorWrapper>
+          </StInputBox>
+          <StInputBox>
+            <StInputLabel>키컬러 (저명도)</StInputLabel>
+            <StColorWrapper>
+              <StInput type="text" placeholder="ex. #ffffff" />
+              <StColorPreview />
+            </StColorWrapper>
+          </StInputBox>
+          <StInputBox>
+            <StInputLabel>키컬러 (고명도)</StInputLabel>
+            <StColorWrapper>
+              <StInput type="text" placeholder="ex. #ffffff" />
+              <StColorPreview />
+            </StColorWrapper>
+          </StInputBox>
+          <StInputBox>
+            <StInputLabel>서브 컬러 (강조 그레이 컬러)</StInputLabel>
+            <StDescription></StDescription>
+            <StColorWrapper>
+              <StInput type="text" placeholder="ex. #ffffff" />
+              <StColorPreview />
+            </StColorWrapper>
+          </StInputBox>
+        </StInputWrapper>
       </StWrapper>
     </StContainer>
   );

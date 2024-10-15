@@ -94,3 +94,15 @@ export const StRadioLabel = styled.span`
 export const StDateWrapper = styled.div`
   margin-bottom: 40px;
 `;
+
+export const StColorWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+export const StColorPreview = styled.div`
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background-color: white;
+`;
