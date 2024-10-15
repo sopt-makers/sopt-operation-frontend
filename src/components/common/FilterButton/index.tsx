@@ -13,7 +13,6 @@ interface Props<T extends string | number> {
 
 function FilterButton<T extends string | number>(props: Props<T>) {
   const { list, translator, selected, onChange } = props;
-  console.log(list);
   return (
     <>
       <FilterWrapper>
