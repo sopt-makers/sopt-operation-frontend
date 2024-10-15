@@ -31,7 +31,7 @@ export const MENU_LIST = [
     title: '공홈 관리',
     MenuIcon: IcOrgMenu,
     subMenu: ['공식홈페이지', '지원서'],
-    path: ['/orgAdmin/aboutTabManagement'],
+    path: ['/org/org-admin', '/org/recruit-admin'],
   },
   {
     title: '알림 관리',
