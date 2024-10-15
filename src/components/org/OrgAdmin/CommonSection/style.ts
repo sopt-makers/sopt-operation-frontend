@@ -8,6 +8,7 @@ export const StContainer = styled.section`
 `;
 
 export const StWrapper = styled.div`
+  position: relative;
   margin-bottom: 80px;
 `;
 
@@ -107,6 +108,49 @@ export const StColorPreview = styled.div`
   background-color: white;
 `;
 
-export const StInfoButton = styled.span`
-  cursor: pointer;
+export const StInfoButton = styled.button`
+  ${fontsObject.LABEL_3_14_SB};
+
+  color: ${theme.color.grayscale.realwhite};
+`;
+
+export const StInfoWrapper = styled.article`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 12px;
+  width: 500px;
+  height: 457px;
+  padding: 22px 33px 28px;
+  background-color: ${theme.color.grayscale.gray900};
+`;
+
+export const StInfoTitle = styled.h2`
+  ${fontsObject.HEADING_4_24_B};
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  color: ${theme.color.grayscale.gray10};
+`;
+
+export const StInfoCloseButton = styled.button`
+  ${fontsObject.HEADING_4_24_B};
+
+  color: ${theme.color.grayscale.gray10};
+`;
+
+export const StInfoDescription = styled.p`
+  ${fontsObject.LABEL_3_14_SB};
+
+  margin-bottom: 8px;
+  color: ${theme.color.grayscale.realwhite};
+`;
+
+export const StInfoSubDescription = styled.p`
+  ${fontsObject.LABEL_4_12_SB};
+
+  margin-bottom: 14px;
+  color: ${theme.color.grayscale.gray300};
 `;
