@@ -1,7 +1,9 @@
 import { useFormContext } from 'react-hook-form';
 
+import { VALIDATION_CHECK } from '../constants/validationCheck';
 import {
   StDateWrapper,
+  StErrorMessage,
   StInput,
   StInputBox,
   StInputLabel,
@@ -15,7 +17,10 @@ import {
 } from './style';
 
 const RecruitSchedule = () => {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <StWrapper>
@@ -28,7 +33,7 @@ const RecruitSchedule = () => {
           <StRadioBox>
             <StInput
               {...register('group', {
-                required: true,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               type="radio"
               name="group"
@@ -39,7 +44,7 @@ const RecruitSchedule = () => {
           <StRadioBox>
             <StInput
               {...register('group', {
-                required: true,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               type="radio"
               name="group"
@@ -47,6 +52,9 @@ const RecruitSchedule = () => {
             />
             <StRadioLabel>YB</StRadioLabel>
           </StRadioBox>
+          <StErrorMessage>
+            <>{errors.group?.message}</>
+          </StErrorMessage>
         </StRadioWrapper>
       </StInputWrapper>
       <StDateWrapper>
@@ -57,13 +65,16 @@ const RecruitSchedule = () => {
             </StInputLabel>
             <StInput
               {...register('applicationStart', {
-                required: true,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               id="application-start"
               type="datetime-local"
               value={'2022-10-12T12:00'}
               hasValue={true}
             />
+            <StErrorMessage>
+              <>{errors.applicationStart?.message}</>
+            </StErrorMessage>
           </StInputBox>
           <StInputBox>
             <StInputLabel htmlFor="application-end">
@@ -71,12 +82,15 @@ const RecruitSchedule = () => {
             </StInputLabel>
             <StInput
               {...register('applicationEnd', {
-                required: true,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               id="application-end"
               type="datetime-local"
               hasValue={false}
             />
+            <StErrorMessage>
+              <>{errors.applicationEnd?.message}</>
+            </StErrorMessage>
           </StInputBox>
           <StInputBox>
             <StInputLabel htmlFor="application-result">
@@ -84,12 +98,15 @@ const RecruitSchedule = () => {
             </StInputLabel>
             <StInput
               {...register('applicationResult', {
-                required: true,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               id="application-result"
               type="datetime-local"
               hasValue={false}
             />
+            <StErrorMessage>
+              <>{errors.applicationResult?.message}</>
+            </StErrorMessage>
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>
@@ -99,23 +116,29 @@ const RecruitSchedule = () => {
             <StInputLabel htmlFor="interview-start">면접 시작</StInputLabel>
             <StInput
               {...register('interviewStart', {
-                required: true,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               id="interview-start"
               type="datetime-local"
               hasValue={false}
             />
+            <StErrorMessage>
+              <>{errors.interviewStart?.message}</>
+            </StErrorMessage>
           </StInputBox>
           <StInputBox>
             <StInputLabel htmlFor="interview-end">면접 마감</StInputLabel>
             <StInput
               {...register('interviewEnd', {
-                required: true,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               id="interview-end"
               type="datetime-local"
               hasValue={false}
             />
+            <StErrorMessage>
+              <>{errors.interviewEnd?.message}</>
+            </StErrorMessage>
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>
@@ -125,12 +148,15 @@ const RecruitSchedule = () => {
             <StInputLabel htmlFor="final-result">최종 결과 발표</StInputLabel>
             <StInput
               {...register('finalResult', {
-                required: true,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               id="final-result"
               type="datetime-local"
               hasValue={false}
             />
+            <StErrorMessage>
+              <>{errors.finalResult?.message}</>
+            </StErrorMessage>
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>

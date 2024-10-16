@@ -72,6 +72,7 @@ export const StInput = styled.input<StInputProps>`
 
 export const StRadioWrapper = styled.div`
   display: flex;
+  align-items: center;
   gap: 20px;
   margin-bottom: 40px;
 
@@ -163,4 +164,10 @@ export const StInfoSubDescription = styled.p`
 
   margin-bottom: 14px;
   color: ${theme.color.grayscale.gray300};
+`;
+
+export const StErrorMessage = styled.p`
+  ${fontsObject.LABEL_3_14_SB};
+
+  color: ${theme.color.sub.red};
 `;
