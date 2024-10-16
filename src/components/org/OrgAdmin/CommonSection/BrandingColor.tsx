@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import BrandingSubColor from './BrandingSubColor';
 import {
   StColorPreview,
   StColorWrapper,
@@ -65,24 +66,10 @@ const BrandingColor = () => {
             <StColorPreview style={{ backgroundColor: highColor }} />
           </StColorWrapper>
         </StInputBox>
-        <StInputBox>
-          <StInputLabel htmlFor="sub-color">
-            서브 컬러 (강조 그레이 컬러)
-          </StInputLabel>
-          <StDescription>
-            강조하고 싶은 박스의 그레이 컬러를 지정해주세요.
-          </StDescription>
-          <StColorWrapper>
-            <StInput
-              id="sub-color"
-              type="text"
-              placeholder="ex. #ffffff"
-              value={subGrayColor}
-              onChange={(e) => setSubGrayColor(e.target.value)}
-            />
-            <StColorPreview style={{ backgroundColor: subGrayColor }} />
-          </StColorWrapper>
-        </StInputBox>
+        <BrandingSubColor
+          subGrayColor={subGrayColor}
+          onSetSubGrayColor={(color) => setSubGrayColor(color)}
+        />
       </StInputWrapper>
     </StWrapper>
   );
