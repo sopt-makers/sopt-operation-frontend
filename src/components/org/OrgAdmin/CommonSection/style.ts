@@ -88,10 +88,11 @@ export const StRadioBox = styled.div`
   align-items: center;
 `;
 
-export const StRadioLabel = styled.span`
+export const StRadioLabel = styled.label`
   ${fontsObject.BODY_2_16_M};
 
   color: ${theme.color.grayscale.realwhite};
+  cursor: pointer;
 `;
 
 export const StDateWrapper = styled.div`

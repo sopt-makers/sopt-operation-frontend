@@ -39,7 +39,7 @@ const RecruitSchedule = () => {
               name="group"
               id="ob"
             />
-            <StRadioLabel>OB</StRadioLabel>
+            <StRadioLabel htmlFor="ob">OB</StRadioLabel>
           </StRadioBox>
           <StRadioBox>
             <StInput
@@ -50,7 +50,7 @@ const RecruitSchedule = () => {
               name="group"
               id="yb"
             />
-            <StRadioLabel>YB</StRadioLabel>
+            <StRadioLabel htmlFor="yb">YB</StRadioLabel>
           </StRadioBox>
           <StErrorMessage>
             <>{errors.group?.message}</>
