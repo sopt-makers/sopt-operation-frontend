@@ -2,7 +2,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { VALIDATION_CHECK } from '../constants/validationCheck';
+import { VALIDATION_CHECK } from '@/utils/org';
+
 import {
   StColorPreview,
   StColorWrapper,

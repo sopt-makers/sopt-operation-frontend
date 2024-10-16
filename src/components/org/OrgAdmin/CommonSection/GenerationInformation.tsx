@@ -1,6 +1,7 @@
 import { useFormContext } from 'react-hook-form';
 
-import { VALIDATION_CHECK } from '../constants/validationCheck';
+import { VALIDATION_CHECK } from '@/utils/org';
+
 import {
   StDescription,
   StErrorMessage,
