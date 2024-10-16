@@ -5,7 +5,9 @@ import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/s
 import FilterButton from '@/components/common/FilterButton';
 import { orgAdminList } from '@/utils/translator';
 
+import SubmitIcon from './assets/SubmitIcon';
 import CommonSection from './CommonSection';
+import { StSubmitButton, StSubmitText } from './style';
 
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
@@ -29,6 +31,10 @@ function OrgAdmin() {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(() => {})}>
           <CommonSection />
+          <StSubmitButton>
+            <SubmitIcon />
+            <StSubmitText>배포</StSubmitText>
+          </StSubmitButton>
         </form>
       </FormProvider>
     </>
