@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import ImgSubColorInfo from '../assets/imgSubColorInfo.png';
 import { VALIDATION_CHECK } from '../constants/validationCheck';
 import {
   StColorPreview,
@@ -75,8 +74,8 @@ const BrandingSubColor = ({
           <StInfoSubDescription>
             키컬러 저명도와 그레이 컬러 사이, 컬러를 지정해주세요.
           </StInfoSubDescription>
-          <Image
-            src={ImgSubColorInfo}
+          <img
+            src="../assets/imgSubColorInfo.png"
             alt="서브 컬러가 적용되는 예시 이미지"
             width={434}
             height={293}
