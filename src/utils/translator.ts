@@ -1,5 +1,3 @@
-import { colors } from '@sopt-makers/colors';
-
 export const partList: PART[] = [
   'ALL',
   'PLAN',
@@ -9,7 +7,6 @@ export const partList: PART[] = [
   'ANDROID',
   'WEB',
 ];
-export const orgAdminList: ORG_ADMIN[] = ['공통', '홈', '소개', '지원하기'];
 export const allPartTranslator: Record<PART, string> = {
   ALL: '전체 파트',
   PLAN: '기획',
