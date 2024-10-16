@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
@@ -8,6 +9,8 @@ import CommonSection from './CommonSection';
 
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
+  const methods = useForm({ mode: 'onBlur' });
+  const { handleSubmit } = methods;
 
   const onChangePart = (part: ORG_ADMIN): void => {
     setSelectedPart(part);
@@ -23,7 +26,11 @@ function OrgAdmin() {
           onChange={onChangePart}
         />
       </StListHeader>
-      <CommonSection />
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(() => {})}>
+          <CommonSection />
+        </form>
+      </FormProvider>
     </>
   );
 }
