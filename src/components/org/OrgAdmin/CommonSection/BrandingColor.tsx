@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import BrandingSubColor from './BrandingSubColor';
 import {
@@ -20,6 +21,8 @@ const BrandingColor = () => {
   const [highColor, setHighColor] = useState('');
   const [subGrayColor, setSubGrayColor] = useState('');
 
+  const { register } = useFormContext();
+
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -31,6 +34,9 @@ const BrandingColor = () => {
           <StInputLabel htmlFor="key-color-main">키컬러 (메인)</StInputLabel>
           <StColorWrapper>
             <StInput
+              {...register('keyColorMain', {
+                required: true,
+              })}
               id="key-color-main"
               type="text"
               placeholder="ex. #ffffff"
@@ -44,6 +50,9 @@ const BrandingColor = () => {
           <StInputLabel htmlFor="key-color-low">키컬러 (저명도)</StInputLabel>
           <StColorWrapper>
             <StInput
+              {...register('keyColorLow', {
+                required: true,
+              })}
               id="key-color-low"
               type="text"
               placeholder="ex. #ffffff"
@@ -57,6 +66,9 @@ const BrandingColor = () => {
           <StInputLabel htmlFor="key-color-high">키컬러 (고명도)</StInputLabel>
           <StColorWrapper>
             <StInput
+              {...register('keyColorHigh', {
+                required: true,
+              })}
               id="key-color-high"
               type="text"
               placeholder="ex. #ffffff"

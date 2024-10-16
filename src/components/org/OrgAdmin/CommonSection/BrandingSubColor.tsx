@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import ImgSubColorInfo from '../assets/imgSubColorInfo.png';
 import {
@@ -28,6 +29,8 @@ const BrandingSubColor = ({
 }: BrandingSubColorProps) => {
   const [isInfoVisible, setIsInfoVisible] = useState(false);
 
+  const { register } = useFormContext();
+
   const handleInfoToggle = () => {
     setIsInfoVisible((prev) => !prev);
   };
@@ -43,6 +46,9 @@ const BrandingSubColor = ({
       </StDescription>
       <StColorWrapper>
         <StInput
+          {...register('subColor', {
+            required: true,
+          })}
           id="sub-color"
           type="text"
           placeholder="ex. #ffffff"

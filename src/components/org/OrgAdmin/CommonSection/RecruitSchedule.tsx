@@ -1,3 +1,5 @@
+import { useFormContext } from 'react-hook-form';
+
 import {
   StDateWrapper,
   StInput,
@@ -13,6 +15,8 @@ import {
 } from './style';
 
 const RecruitSchedule = () => {
+  const { register } = useFormContext();
+
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -22,11 +26,25 @@ const RecruitSchedule = () => {
         <StInputLabel>모집유형</StInputLabel>
         <StRadioWrapper>
           <StRadioBox>
-            <StInput type="radio" name="group" id="ob" />
+            <StInput
+              {...register('group', {
+                required: true,
+              })}
+              type="radio"
+              name="group"
+              id="ob"
+            />
             <StRadioLabel>OB</StRadioLabel>
           </StRadioBox>
           <StRadioBox>
-            <StInput type="radio" name="group" id="yb" />
+            <StInput
+              {...register('group', {
+                required: true,
+              })}
+              type="radio"
+              name="group"
+              id="yb"
+            />
             <StRadioLabel>YB</StRadioLabel>
           </StRadioBox>
         </StRadioWrapper>
@@ -38,6 +56,9 @@ const RecruitSchedule = () => {
               서류 접수 시작
             </StInputLabel>
             <StInput
+              {...register('applicationStart', {
+                required: true,
+              })}
               id="application-start"
               type="datetime-local"
               value={'2022-10-12T12:00'}
@@ -49,6 +70,9 @@ const RecruitSchedule = () => {
               서류 접수 마감
             </StInputLabel>
             <StInput
+              {...register('applicationEnd', {
+                required: true,
+              })}
               id="application-end"
               type="datetime-local"
               hasValue={false}
@@ -59,6 +83,9 @@ const RecruitSchedule = () => {
               서류 결과 발표
             </StInputLabel>
             <StInput
+              {...register('applicationResult', {
+                required: true,
+              })}
               id="application-result"
               type="datetime-local"
               hasValue={false}
@@ -71,6 +98,9 @@ const RecruitSchedule = () => {
           <StInputBox>
             <StInputLabel htmlFor="interview-start">면접 시작</StInputLabel>
             <StInput
+              {...register('interviewStart', {
+                required: true,
+              })}
               id="interview-start"
               type="datetime-local"
               hasValue={false}
@@ -79,6 +109,9 @@ const RecruitSchedule = () => {
           <StInputBox>
             <StInputLabel htmlFor="interview-end">면접 마감</StInputLabel>
             <StInput
+              {...register('interviewEnd', {
+                required: true,
+              })}
               id="interview-end"
               type="datetime-local"
               hasValue={false}
@@ -90,7 +123,14 @@ const RecruitSchedule = () => {
         <StInputWrapper>
           <StInputBox>
             <StInputLabel htmlFor="final-result">최종 결과 발표</StInputLabel>
-            <StInput id="final-result" type="datetime-local" hasValue={false} />
+            <StInput
+              {...register('finalResult', {
+                required: true,
+              })}
+              id="final-result"
+              type="datetime-local"
+              hasValue={false}
+            />
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>

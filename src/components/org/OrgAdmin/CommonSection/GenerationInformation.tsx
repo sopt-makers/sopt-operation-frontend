@@ -1,3 +1,5 @@
+import { useFormContext } from 'react-hook-form';
+
 import {
   StDescription,
   StInput,
@@ -10,6 +12,8 @@ import {
 } from './style';
 
 const GenerationInformation = () => {
+  const { register } = useFormContext();
+
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -21,11 +25,25 @@ const GenerationInformation = () => {
       <StInputWrapper>
         <StInputBox>
           <StInputLabel htmlFor="generation">기수</StInputLabel>
-          <StInput id="generation" type="text" placeholder="ex. 35" />
+          <StInput
+            {...register('generation', {
+              required: true,
+            })}
+            id="generation"
+            type="text"
+            placeholder="ex. 35"
+          />
         </StInputBox>
         <StInputBox>
           <StInputLabel htmlFor="sopt-name">기수명</StInputLabel>
-          <StInput id="sopt-name" type="text" placeholder="ex. 00 SOPT" />
+          <StInput
+            {...register('soptName', {
+              required: true,
+            })}
+            id="sopt-name"
+            type="text"
+            placeholder="ex. 00 SOPT"
+          />
         </StInputBox>
       </StInputWrapper>
     </StWrapper>
