@@ -1,5 +1,10 @@
+import { useFormContext } from 'react-hook-form';
+
+import { VALIDATION_CHECK } from '@/utils/org';
+
 import {
   StDescription,
+  StErrorMessage,
   StInput,
   StInputBox,
   StInputLabel,
@@ -10,6 +15,11 @@ import {
 } from './style';
 
 const GenerationInformation = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -21,11 +31,47 @@ const GenerationInformation = () => {
       <StInputWrapper>
         <StInputBox>
           <StInputLabel htmlFor="generation">기수</StInputLabel>
-          <StInput id="generation" type="text" placeholder="ex. 35" />
+          <StInput
+            {...register('generation', {
+              required: true && VALIDATION_CHECK.required.errorText,
+              pattern: {
+                value: VALIDATION_CHECK.generation.pattern,
+                message: VALIDATION_CHECK.generation.errorText,
+              },
+              maxLength: {
+                value: VALIDATION_CHECK.generation.maxLength,
+                message: VALIDATION_CHECK.generation.wrongLengthErrorText,
+              },
+              minLength: {
+                value: VALIDATION_CHECK.generation.minLength,
+                message: VALIDATION_CHECK.generation.wrongLengthErrorText,
+              },
+            })}
+            id="generation"
+            type="text"
+            placeholder="ex. 35"
+          />
+          <StErrorMessage>
+            <>{errors.generation?.message}</>
+          </StErrorMessage>
         </StInputBox>
         <StInputBox>
           <StInputLabel htmlFor="sopt-name">기수명</StInputLabel>
-          <StInput id="sopt-name" type="text" placeholder="ex. 00 SOPT" />
+          <StInput
+            {...register('soptName', {
+              required: true && VALIDATION_CHECK.required.errorText,
+              maxLength: {
+                value: VALIDATION_CHECK.soptName.maxLength,
+                message: VALIDATION_CHECK.soptName.wrongLengthErrorText(),
+              },
+            })}
+            id="sopt-name"
+            type="text"
+            placeholder="ex. 00 SOPT"
+          />
+          <StErrorMessage>
+            <>{errors.soptName?.message}</>
+          </StErrorMessage>
         </StInputBox>
       </StInputWrapper>
     </StWrapper>
