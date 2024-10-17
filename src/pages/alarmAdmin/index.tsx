@@ -10,12 +10,14 @@ import { currentGenerationState } from '@/recoil/atom';
 import { useGetAlarmList } from '@/services/api/alarm/query';
 
 function AlarmAdminPage() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   const currentGeneration = useRecoilValue(currentGenerationState);
+
+  const [tab, setTab] = useState<ALARM_STATUS>('ALL');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const { data, isLoading, refetch } = useGetAlarmList(
     parseInt(currentGeneration),
+    tab,
   );
 
   const handleModalClose = async () => {
@@ -23,14 +25,20 @@ function AlarmAdminPage() {
     refetch();
   };
 
-  const refetchAlarmList = () => {
-    refetch();
+  const handleChangeTab = (value: ALARM_STATUS) => {
+    setTab(value);
   };
 
   if (isLoading || !data) return <Loading />;
   return (
     <>
-      <AlarmList data={data} refetch={refetchAlarmList} />
+      <AlarmList
+        alarmList={data.alarms}
+        totalCount={data.totalCount}
+        tab={tab}
+        refetch={refetch}
+        onChangeTab={handleChangeTab}
+      />
       <FloatingButton
         content={<>알림 생성하기</>}
         onClick={() => setIsModalOpen(!isModalOpen)}

@@ -6,13 +6,20 @@ export const StPageHeader = styled.div`
   h1 {
     ${fontsObject.TITLE_1_32_SB}
     color: ${colors.gray10};
-    margin-bottom: 41px;
+    margin: 8px 0 49px 0;
+  }
+  hr {
+    border: none;
+    margin: 0;
+    border-top: 1px solid ${colors.gray800};
+    position: absolute;
+    left: 0;
+    width: 100vw;
   }
   p {
     ${fontsObject.TITLE_6_16_SB}
     color: ${colors.gray200};
-    margin-top: 55px;
-    margin-bottom: 18px;
+    margin: 56px 0 18px 18px;
   }
 `;
 
@@ -23,9 +30,10 @@ export const StListItem = styled.li`
 
   .alarm-status {
     ${fontsObject.BODY_3_14_M}
-    width: 52px;
-    height: 48px;
-    margin-right: 34px;
+    line-height: 25px;
+    width: fit-content;
+    margin-bottom: 29px;
+    margin-right: 38px;
   }
   .before {
     color: ${colors.error};
@@ -34,8 +42,8 @@ export const StListItem = styled.li`
     color: ${colors.information};
   }
   .alarm-info-wrap {
-    width: 290px;
-    margin-right: 36px;
+    width: 265px;
+    margin-right: 62px;
 
     & > div:first-of-type {
       display: flex;
@@ -43,7 +51,7 @@ export const StListItem = styled.li`
     }
     .alarm-title {
       ${fontsObject.TITLE_5_18_SB}
-      color: ${colors.gray10};
+      color: ${colors.gray30};
       max-width: 146px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -58,9 +66,10 @@ export const StListItem = styled.li`
   }
   .alarm-content {
     ${fontsObject.BODY_3_14_M}
+    line-height: 24px;
     color: ${colors.gray100};
-    margin-right: 64px;
-    width: 331px;
+    margin-right: 74px;
+    flex: 1;
     height: 48px;
     text-overflow: ellipsis;
     overflow: hidden;
