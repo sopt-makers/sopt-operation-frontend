@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
 import theme from '@/styles/theme';
@@ -25,7 +26,7 @@ export const StTitle = styled.h2`
 export const StDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
-  color: ${theme.color.grayscale.gray300};
+  color: ${colors.gray300};
 `;
 
 export const StInputWrapper = styled.div`
@@ -58,13 +59,11 @@ export const StInput = styled.input<StInputProps>`
   border: none;
   border-radius: 10px;
   color: ${({ hasValue = true }) =>
-    hasValue
-      ? `${theme.color.grayscale.realwhite}`
-      : `${theme.color.grayscale.gray300}`};
-  background-color: ${theme.color.grayscale.gray800};
+    hasValue ? `${theme.color.grayscale.realwhite}` : `${colors.gray300}`};
+  background-color: ${colors.gray800};
 
   &::placeholder {
-    color: ${theme.color.grayscale.gray300};
+    color: ${colors.gray300};
   }
 `;
 
