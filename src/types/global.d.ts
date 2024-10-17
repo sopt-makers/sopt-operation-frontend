@@ -13,6 +13,7 @@ declare global {
     | 'MAKERS'
     | 'NOT_CERTIFIED'
     | 'DEVELOPER';
+  type TARGET_TYPE = 'ACTIVE' | 'INACTIVE' | 'CSV';
 
   /* 에러 */
   interface LoginError {
@@ -233,9 +234,13 @@ declare global {
     status: ALARM_STATUS;
   }
   interface AlarmDetail
-    extends Omit<PostAlarmData, 'generation' | 'generationAt' | 'targetList'> {
+    extends Omit<
+      PostAlarmData,
+      'generation' | 'generationAt' | 'targetList' | 'isActive'
+    > {
     createdAt: string;
     sendAt: string;
+    targetType: TARGET_TYPE;
   }
 }
 
