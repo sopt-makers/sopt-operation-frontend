@@ -25,14 +25,6 @@ export const getAlarmList = async (
   return data.data;
 };
 
-export const sendAlarm = async (alarmId: number): Promise<boolean> => {
-  const { data }: AxiosResponse<{ success: boolean }> = await client.post(
-    '/alarms/send',
-    { alarmId },
-  );
-  return data.success;
-};
-
 export const getAlarm = async (alarmId: number): Promise<AlarmDetail> => {
   const { data }: AxiosResponse<{ data: AlarmDetail }> = await client.get(
     `/alarms/${alarmId}`,
