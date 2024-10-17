@@ -276,6 +276,10 @@ export const reserveDateSelectCSS = css`
 `;
 
 export const datePickerWrapperCSS = css`
+  position: relative;
+  display: inline-block;
+
+  width: 28rem;
   height: 4.8rem;
 `;
 

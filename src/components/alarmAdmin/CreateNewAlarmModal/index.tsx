@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useRef, useEffect, useState, ChangeEvent } from 'react';
 import { Button, Chip, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
 
 import DatePicker from 'react-datepicker';
@@ -38,6 +38,7 @@ import {
 } from './selectOptions';
 import LabeledComponent from './LabeledComponent';
 import { AttachOptionType, SendPartType, SendTargetType } from './type';
+import DatePickerSelect from './DatePickerSelect';
 
 interface Props {
   onClose: () => void;
@@ -160,7 +161,7 @@ function CreateNewAlarmModal(props: Props) {
 
   // 예약 날짜 포맷 변환 함수 (Date 객체에서 연월일 파싱해서 문자열로 반환)
   const formatDate = (date: Date | null) => {
-    if (!date) return '알림 발송 날짜';
+    if (!date) return null;
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
@@ -247,24 +248,28 @@ function CreateNewAlarmModal(props: Props) {
               labelText="알림 발송 날짜"
               desc="이미 지나간 날짜는 선택되지 않아요.">
               <div onClick={handleDatePickerToggle} css={datePickerWrapperCSS}>
-                <SelectV2.Root css={reserveDateSelectCSS} type="text">
+                {/* <SelectV2.Root css={reserveDateSelectCSS} type="text">
                   <SelectV2.Trigger>
                     <SelectV2.TriggerContent
                       css={reserveDateTriggerCSS(selectedDate)}
                       placeholder={formatDate(selectedDate)}
                     />
                   </SelectV2.Trigger>
-                  <SelectV2.Trigger>
-                    <DatePicker
-                      selected={selectedDate}
-                      onChange={handleChangeDate}
-                      open={datePickerOpen}
-                      onSelect={handleDatePickerToggle}
-                      customInput={<></>}
-                    />
-                  </SelectV2.Trigger>
-                </SelectV2.Root>
+                </SelectV2.Root> */}
+                <DatePickerSelect
+                  css={reserveDateTriggerCSS(selectedDate)}
+                  open={datePickerOpen}
+                  placeholder="날짜를 선택해주세요"
+                  selectedDate={formatDate(selectedDate)}
+                />
               </div>
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleChangeDate}
+                open={datePickerOpen}
+                onSelect={handleDatePickerToggle}
+                customInput={<></>}
+              />
             </LabeledComponent>
             <LabeledComponent
               labelText="알림 발송 시간"
