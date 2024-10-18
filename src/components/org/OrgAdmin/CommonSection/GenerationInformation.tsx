@@ -1,8 +1,6 @@
 import {
   StDescription,
   StInput,
-  StInputBox,
-  StInputLabel,
   StInputWrapper,
   StTitle,
   StTitleWrapper,
@@ -19,14 +17,20 @@ const GenerationInformation = () => {
         </StDescription>
       </StTitleWrapper>
       <StInputWrapper>
-        <StInputBox>
-          <StInputLabel htmlFor="generation">기수</StInputLabel>
-          <StInput id="generation" type="text" placeholder="ex. 35" />
-        </StInputBox>
-        <StInputBox>
-          <StInputLabel htmlFor="sopt-name">기수명</StInputLabel>
-          <StInput id="sopt-name" type="text" placeholder="ex. 00 SOPT" />
-        </StInputBox>
+        <StInput
+          value={35}
+          labelText="기수"
+          id="generation"
+          type="text"
+          placeholder="ex. 35"
+        />
+        <StInput
+          value={'AND SOPT'}
+          labelText="기수명"
+          id="sopt-name"
+          type="text"
+          placeholder="ex. 00 SOPT"
+        />
       </StInputWrapper>
     </StWrapper>
   );

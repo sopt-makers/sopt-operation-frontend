@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 export const StLayout = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ export const StLayout = styled.div`
     line-height: 20px;
     letter-spacing: -0.02em;
 
-    color: ${({ theme }) => theme.color.grayscale.gray100};
+    color: ${colors.gray100};
   }
   & > div {
     display: flex;
