@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
-import { orgAdminList } from '@/utils/translator';
+import { ORG_ADMIN_LIST } from '@/utils/org';
 
 import SubmitIcon from './assets/SubmitIcon';
 import CommonSection from './CommonSection';
@@ -23,7 +23,7 @@ function OrgAdmin() {
       <StListHeader>
         <h1>공홈 관리</h1>
         <FilterButton
-          list={orgAdminList}
+          list={ORG_ADMIN_LIST}
           selected={selectedPart}
           onChange={onChangePart}
         />
