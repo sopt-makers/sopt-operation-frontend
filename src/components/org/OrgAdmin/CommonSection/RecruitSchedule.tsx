@@ -22,11 +22,11 @@ const RecruitSchedule = () => {
         <StInputLabel>모집유형</StInputLabel>
         <StRadioWrapper>
           <StRadioBox>
-            <StInput type="radio" name="group" id="ob" />
+            <input type="radio" name="group" id="ob" />
             <StRadioLabel>OB</StRadioLabel>
           </StRadioBox>
           <StRadioBox>
-            <StInput type="radio" name="group" id="yb" />
+            <input type="radio" name="group" id="yb" />
             <StRadioLabel>YB</StRadioLabel>
           </StRadioBox>
         </StRadioWrapper>
@@ -49,6 +49,7 @@ const RecruitSchedule = () => {
               서류 접수 마감
             </StInputLabel>
             <StInput
+              value={'2022-10-12T12:00'}
               id="application-end"
               type="datetime-local"
               hasValue={false}
@@ -59,6 +60,7 @@ const RecruitSchedule = () => {
               서류 결과 발표
             </StInputLabel>
             <StInput
+              value={'2022-10-12T12:00'}
               id="application-result"
               type="datetime-local"
               hasValue={false}
@@ -71,6 +73,7 @@ const RecruitSchedule = () => {
           <StInputBox>
             <StInputLabel htmlFor="interview-start">면접 시작</StInputLabel>
             <StInput
+              value={'2022-10-12T12:00'}
               id="interview-start"
               type="datetime-local"
               hasValue={false}
@@ -79,6 +82,7 @@ const RecruitSchedule = () => {
           <StInputBox>
             <StInputLabel htmlFor="interview-end">면접 마감</StInputLabel>
             <StInput
+              value={'2022-10-12T12:00'}
               id="interview-end"
               type="datetime-local"
               hasValue={false}
@@ -90,7 +94,12 @@ const RecruitSchedule = () => {
         <StInputWrapper>
           <StInputBox>
             <StInputLabel htmlFor="final-result">최종 결과 발표</StInputLabel>
-            <StInput id="final-result" type="datetime-local" hasValue={false} />
+            <StInput
+              value={'2022-10-12T12:00'}
+              id="final-result"
+              type="datetime-local"
+              hasValue={false}
+            />
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>

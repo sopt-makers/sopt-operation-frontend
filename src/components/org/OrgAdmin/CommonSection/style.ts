@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-
-import theme from '@/styles/theme';
+import { TextField } from '@sopt-makers/ui';
 
 export const StContainer = styled.section`
   padding: 50px 0;
@@ -52,19 +51,10 @@ interface StInputProps {
   hasValue?: boolean;
 }
 
-export const StInput = styled.input<StInputProps>`
+export const StInput = styled(TextField)<StInputProps>`
   width: 338px;
-  height: 48px;
-  padding: 11px 16px;
-  border: none;
-  border-radius: 10px;
   color: ${({ hasValue = true }) =>
     hasValue ? `${colors.white}` : `${colors.gray300}`};
-  background-color: ${colors.gray800};
-
-  &::placeholder {
-    color: ${colors.gray300};
-  }
 `;
 
 export const StRadioWrapper = styled.div`
