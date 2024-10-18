@@ -62,6 +62,7 @@ export const StInput = styled(TextField)<StInputProps>`
 
 export const StRadioWrapper = styled.div`
   display: flex;
+  align-items: center;
   gap: 20px;
   margin-bottom: 40px;
 
@@ -77,10 +78,11 @@ export const StRadioBox = styled.div`
   align-items: center;
 `;
 
-export const StRadioLabel = styled.span`
+export const StRadioLabel = styled.label`
   ${fontsObject.BODY_2_16_M};
 
   color: ${colors.white};
+  cursor: pointer;
 `;
 
 export const StDateWrapper = styled.div`
@@ -153,4 +155,10 @@ export const StInfoSubDescription = styled.p`
 
   margin-bottom: 14px;
   color: ${colors.gray300};
+`;
+
+export const StErrorMessage = styled.p`
+  ${fontsObject.LABEL_3_14_SB};
+
+  color: ${colors.error};
 `;

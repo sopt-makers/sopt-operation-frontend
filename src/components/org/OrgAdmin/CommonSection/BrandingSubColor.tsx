@@ -1,10 +1,14 @@
 import Image from 'next/image';
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+
+import { VALIDATION_CHECK } from '@/utils/org';
 
 import {
   StColorPreview,
   StColorWrapper,
   StDescription,
+  StErrorMessage,
   StInfoButton,
   StInfoCloseButton,
   StInfoDescription,
@@ -27,6 +31,11 @@ const BrandingSubColor = ({
 }: BrandingSubColorProps) => {
   const [isInfoVisible, setIsInfoVisible] = useState(false);
 
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   const handleInfoToggle = () => {
     setIsInfoVisible((prev) => !prev);
   };
@@ -42,6 +51,9 @@ const BrandingSubColor = ({
       </StDescription>
       <StColorWrapper>
         <StInput
+          {...register('subColor', {
+            required: true && VALIDATION_CHECK.required.errorText,
+          })}
           id="sub-color"
           type="text"
           placeholder="ex. #ffffff"
@@ -71,6 +83,9 @@ const BrandingSubColor = ({
           />
         </StInfoWrapper>
       </StColorWrapper>
+      <StErrorMessage>
+        <>{errors.subColor?.message}</>
+      </StErrorMessage>
     </StInputBox>
   );
 };

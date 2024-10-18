@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+
+import { VALIDATION_CHECK } from '@/utils/org';
 
 import BrandingSubColor from './BrandingSubColor';
 import {
   StColorPreview,
   StColorWrapper,
   StDescription,
+  StErrorMessage,
   StInput,
   StInputBox,
   StInputLabel,
@@ -20,6 +24,11 @@ const BrandingColor = () => {
   const [highColor, setHighColor] = useState('');
   const [subGrayColor, setSubGrayColor] = useState('');
 
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -31,6 +40,9 @@ const BrandingColor = () => {
           <StInputLabel htmlFor="key-color-main">키컬러 (메인)</StInputLabel>
           <StColorWrapper>
             <StInput
+              {...register('keyColorMain', {
+                required: true && VALIDATION_CHECK.required.errorText,
+              })}
               id="key-color-main"
               type="text"
               placeholder="ex. #ffffff"
@@ -39,11 +51,17 @@ const BrandingColor = () => {
             />
             <StColorPreview style={{ backgroundColor: mainColor }} />
           </StColorWrapper>
+          <StErrorMessage>
+            <>{errors.keyColorMain?.message}</>
+          </StErrorMessage>
         </StInputBox>
         <StInputBox>
           <StInputLabel htmlFor="key-color-low">키컬러 (저명도)</StInputLabel>
           <StColorWrapper>
             <StInput
+              {...register('keyColorLow', {
+                required: true && VALIDATION_CHECK.required.errorText,
+              })}
               id="key-color-low"
               type="text"
               placeholder="ex. #ffffff"
@@ -52,11 +70,17 @@ const BrandingColor = () => {
             />
             <StColorPreview style={{ backgroundColor: lowColor }} />
           </StColorWrapper>
+          <StErrorMessage>
+            <>{errors.keyColorLow?.message}</>
+          </StErrorMessage>
         </StInputBox>
         <StInputBox>
           <StInputLabel htmlFor="key-color-high">키컬러 (고명도)</StInputLabel>
           <StColorWrapper>
             <StInput
+              {...register('keyColorHigh', {
+                required: true && VALIDATION_CHECK.required.errorText,
+              })}
               id="key-color-high"
               type="text"
               placeholder="ex. #ffffff"
@@ -65,6 +89,9 @@ const BrandingColor = () => {
             />
             <StColorPreview style={{ backgroundColor: highColor }} />
           </StColorWrapper>
+          <StErrorMessage>
+            <>{errors.keyColorHigh?.message}</>
+          </StErrorMessage>
         </StInputBox>
         <BrandingSubColor
           subGrayColor={subGrayColor}
