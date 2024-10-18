@@ -20,7 +20,7 @@ export const StTitle = styled.h2`
   ${fontsObject.TITLE_3_24_SB}
 
   margin-bottom: 6px;
-  color: ${theme.color.grayscale.realwhite};
+  color: ${colors.white};
 `;
 
 export const StDescription = styled.p`
@@ -45,7 +45,7 @@ export const StInputLabel = styled.label`
   ${fontsObject.LABEL_3_14_SB};
 
   margin-bottom: 8px;
-  color: ${theme.color.grayscale.realwhite};
+  color: ${colors.white};
 `;
 
 interface StInputProps {
@@ -59,7 +59,7 @@ export const StInput = styled.input<StInputProps>`
   border: none;
   border-radius: 10px;
   color: ${({ hasValue = true }) =>
-    hasValue ? `${theme.color.grayscale.realwhite}` : `${colors.gray300}`};
+    hasValue ? `${colors.white}` : `${colors.gray300}`};
   background-color: ${colors.gray800};
 
   &::placeholder {
@@ -87,7 +87,7 @@ export const StRadioBox = styled.div`
 export const StRadioLabel = styled.span`
   ${fontsObject.BODY_2_16_M};
 
-  color: ${theme.color.grayscale.realwhite};
+  color: ${colors.white};
 `;
 
 export const StDateWrapper = styled.div`
