@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+import { TextField } from '@sopt-makers/ui';
 
-import theme from '@/styles/theme';
 import zIndex from '@/utils/zIndex';
 
 export const StContainer = styled.section`
@@ -21,13 +22,13 @@ export const StTitle = styled.h2`
   ${fontsObject.TITLE_3_24_SB}
 
   margin-bottom: 6px;
-  color: ${theme.color.grayscale.realwhite};
+  color: ${colors.white};
 `;
 
 export const StDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
-  color: ${theme.color.grayscale.gray300};
+  color: ${colors.gray300};
 `;
 
 export const StInputWrapper = styled.div`
@@ -46,28 +47,17 @@ export const StInputLabel = styled.label`
   ${fontsObject.LABEL_3_14_SB};
 
   margin-bottom: 8px;
-  color: ${theme.color.grayscale.realwhite};
+  color: ${colors.white};
 `;
 
 interface StInputProps {
   hasValue?: boolean;
 }
 
-export const StInput = styled.input<StInputProps>`
+export const StInput = styled(TextField)<StInputProps>`
   width: 338px;
-  height: 48px;
-  padding: 11px 16px;
-  border: none;
-  border-radius: 10px;
   color: ${({ hasValue = true }) =>
-    hasValue
-      ? `${theme.color.grayscale.realwhite}`
-      : `${theme.color.grayscale.gray300}`};
-  background-color: ${theme.color.grayscale.gray800};
-
-  &::placeholder {
-    color: ${theme.color.grayscale.gray300};
-  }
+    hasValue ? `${colors.white}` : `${colors.gray300}`};
 `;
 
 export const StRadioWrapper = styled.div`
@@ -91,7 +81,7 @@ export const StRadioBox = styled.div`
 export const StRadioLabel = styled.label`
   ${fontsObject.BODY_2_16_M};
 
-  color: ${theme.color.grayscale.realwhite};
+  color: ${colors.white};
   cursor: pointer;
 `;
 
@@ -114,7 +104,7 @@ export const StColorPreview = styled.div`
 export const StInfoButton = styled.button`
   ${fontsObject.LABEL_3_14_SB};
 
-  color: ${theme.color.grayscale.realwhite};
+  color: ${colors.white};
 `;
 
 interface StInfoWrapperProps {
@@ -129,7 +119,7 @@ export const StInfoWrapper = styled.article<StInfoWrapperProps>`
   width: 500px;
   height: 457px;
   padding: 22px 33px 28px;
-  background-color: ${theme.color.grayscale.gray900};
+  background-color: ${colors.gray900};
   transform: ${({ isVisible }) =>
     isVisible ? 'translateX(0)' : 'translateX(100%)'};
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
@@ -144,31 +134,31 @@ export const StInfoTitle = styled.h2`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 22px;
-  color: ${theme.color.grayscale.gray10};
+  color: ${colors.gray10};
 `;
 
 export const StInfoCloseButton = styled.button`
   ${fontsObject.HEADING_4_24_B};
 
-  color: ${theme.color.grayscale.gray10};
+  color: ${colors.gray10};
 `;
 
 export const StInfoDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
   margin-bottom: 8px;
-  color: ${theme.color.grayscale.realwhite};
+  color: ${colors.white};
 `;
 
 export const StInfoSubDescription = styled.p`
   ${fontsObject.LABEL_4_12_SB};
 
   margin-bottom: 14px;
-  color: ${theme.color.grayscale.gray300};
+  color: ${colors.gray300};
 `;
 
 export const StErrorMessage = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
-  color: ${theme.color.sub.red};
+  color: ${colors.error};
 `;

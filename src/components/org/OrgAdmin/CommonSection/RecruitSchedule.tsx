@@ -32,7 +32,7 @@ const RecruitSchedule = () => {
         <StInputLabel>모집유형</StInputLabel>
         <StRadioWrapper>
           <StRadioBox>
-            <StInput
+            <input
               {...register('group', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
@@ -43,7 +43,7 @@ const RecruitSchedule = () => {
             <StRadioLabel htmlFor="ob">OB</StRadioLabel>
           </StRadioBox>
           <StRadioBox>
-            <StInput
+            <input
               {...register('group', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
@@ -85,6 +85,7 @@ const RecruitSchedule = () => {
               {...register('applicationEnd', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
+              value={'2022-10-12T12:00'}
               id="application-end"
               type="datetime-local"
               hasValue={false}
@@ -101,6 +102,7 @@ const RecruitSchedule = () => {
               {...register('applicationResult', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
+              value={'2022-10-12T12:00'}
               id="application-result"
               type="datetime-local"
               hasValue={false}
@@ -119,6 +121,7 @@ const RecruitSchedule = () => {
               {...register('interviewStart', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
+              value={'2022-10-12T12:00'}
               id="interview-start"
               type="datetime-local"
               hasValue={false}
@@ -133,6 +136,7 @@ const RecruitSchedule = () => {
               {...register('interviewEnd', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
+              value={'2022-10-12T12:00'}
               id="interview-end"
               type="datetime-local"
               hasValue={false}
@@ -151,6 +155,7 @@ const RecruitSchedule = () => {
               {...register('finalResult', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
+              value={'2022-10-12T12:00'}
               id="final-result"
               type="datetime-local"
               hasValue={false}
