@@ -28,6 +28,8 @@ export const StInputLabel = styled.label`
   ${fontsObject.LABEL_3_14_SB};
   margin-bottom: 8px;
   color: ${colors.white};
+
+  cursor: pointer;
 `;
 
 export const StDescription = styled.p`
