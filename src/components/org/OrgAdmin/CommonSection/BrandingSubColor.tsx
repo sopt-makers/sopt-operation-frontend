@@ -78,7 +78,7 @@ const BrandingSubColor = ({
             </StInfoCloseButton>
           </StInfoTitle>
           <StInfoDescription>
-            &#39;지원하기 &#39; 탭 속 파트별 소개 &#39;👍이런 분이면
+            &#39;지원하기&#39; 탭 속 파트별 소개 &#39;👍이런 분이면
             좋아요!&#39;의 백그라운 컬러예요.
           </StInfoDescription>
           <StInfoSubDescription>
