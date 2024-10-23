@@ -1,9 +1,9 @@
 const IcGithubLogo = () => {
   return (
     <svg
-      width="18"
-      height="18"
-      viewBox="0 0 18 18"
+      width="26"
+      height="26"
+      viewBox="-4 -4 26 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
       <g id="brand-github-filled">

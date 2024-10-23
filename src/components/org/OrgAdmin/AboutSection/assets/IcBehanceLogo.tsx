@@ -1,9 +1,9 @@
 const IcBehanceLogo = () => {
   return (
     <svg
-      width="18"
-      height="12"
-      viewBox="0 0 18 12"
+      width="26"
+      height="26"
+      viewBox="-5 -7 26 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
       <g id="behance_logo" clip-path="url(#clip0_492_2432)">
