@@ -1,5 +1,5 @@
 import { IconInfoCircle } from '@sopt-makers/icons';
-import { useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
@@ -35,7 +35,8 @@ const BrandingSubColor = ({
     formState: { errors },
   } = useFormContext();
 
-  const handleInfoToggle = () => {
+  const handleInfoToggle = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setIsInfoVisible((prev) => !prev);
   };
 
