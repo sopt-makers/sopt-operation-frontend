@@ -1,5 +1,7 @@
 import { Chip } from '@sopt-makers/ui';
 
+import { PART_LIST } from '@/utils/org';
+
 import { StInput, StTitle, StWrapper } from '../style';
 import {
   StChipWrapper,
@@ -10,8 +12,6 @@ import {
 } from './style';
 
 const Curriculum = () => {
-  // utils/session/partList와 순서 달라서 분리
-  const PART_LIST = ['기획', '디자인', '안드로이드', 'iOS', '웹', '서버'];
   const CURRICULUM = ['', '2주차', '3주차', '4주차', '', '', '', ''];
 
   return (
