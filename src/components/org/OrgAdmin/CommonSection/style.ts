@@ -61,6 +61,11 @@ export const StInput = styled(TextField)<StInputProps>`
 
   input[type='datetime-local'] {
     color-scheme: dark;
+    cursor: pointer; /* 텍스트 부분에만 커서 pointer 적용 */
+  }
+
+  input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
   }
 `;
 
@@ -103,6 +108,7 @@ export const StColorPreview = styled.div`
   height: 48px;
   border-radius: 10px;
   background-color: white;
+  cursor: pointer;
 `;
 
 export const StInfoButton = styled.button`
