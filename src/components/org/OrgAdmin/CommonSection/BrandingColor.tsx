@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import BrandingSubColor from './BrandingSubColor';
-import ColorInputField from './ColorInputField';
 import {
   StDescription,
   StInputWrapper,
   StTitle,
   StTitleWrapper,
   StWrapper,
-} from './style';
+} from '../style';
+import BrandingSubColor from './BrandingSubColor';
+import ColorInputField from './ColorInputField';
 
 const BrandingColor = () => {
   const [mainColor, setMainColor] = useState('');

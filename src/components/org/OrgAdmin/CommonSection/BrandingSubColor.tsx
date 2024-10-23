@@ -3,19 +3,16 @@ import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
+import { StDescription, StInput, StInputBox, StInputLabel } from '../style';
 import {
   StColorPreview,
   StColorWrapper,
-  StDescription,
   StInfoButton,
   StInfoCloseButton,
   StInfoDescription,
   StInfoSubDescription,
   StInfoTitle,
   StInfoWrapper,
-  StInput,
-  StInputBox,
-  StInputLabel,
 } from './style';
 import { expandHexColor } from './utils';
 

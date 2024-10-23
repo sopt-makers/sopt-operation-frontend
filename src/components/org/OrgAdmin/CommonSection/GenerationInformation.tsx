@@ -9,7 +9,7 @@ import {
   StTitle,
   StTitleWrapper,
   StWrapper,
-} from './style';
+} from '../style';
 
 const GenerationInformation = () => {
   const {

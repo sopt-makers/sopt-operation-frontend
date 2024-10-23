@@ -2,13 +2,8 @@ import type { FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
-import {
-  StColorPreview,
-  StColorWrapper,
-  StInput,
-  StInputBox,
-  StInputLabel,
-} from './style';
+import { StInput, StInputBox, StInputLabel } from '../style';
+import { StColorPreview, StColorWrapper } from './style';
 import { expandHexColor } from './utils';
 
 interface ColorInputFieldProps {

@@ -4,18 +4,20 @@ import { useFormContext } from 'react-hook-form';
 import { VALIDATION_CHECK } from '@/utils/org';
 
 import {
-  StDateWrapper,
-  StErrorMessage,
   StInput,
   StInputBox,
   StInputLabel,
   StInputWrapper,
-  StRadioBox,
-  StRadioLabel,
-  StRadioWrapper,
   StTitle,
   StTitleWrapper,
   StWrapper,
+} from '../style';
+import {
+  StDateWrapper,
+  StErrorMessage,
+  StRadioBox,
+  StRadioLabel,
+  StRadioWrapper,
 } from './style';
 
 const RecruitSchedule = () => {
