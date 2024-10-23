@@ -58,6 +58,10 @@ export const StInput = styled(TextField)<StInputProps>`
   width: 338px;
   color: ${({ hasValue = true }) =>
     hasValue ? `${colors.white}` : `${colors.gray300}`};
+
+  input[type='datetime-local'] {
+    color-scheme: dark;
+  }
 `;
 
 export const StRadioWrapper = styled.div`
