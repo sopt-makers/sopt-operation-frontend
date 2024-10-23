@@ -103,12 +103,23 @@ export const StColorWrapper = styled.div`
   gap: 10px;
 `;
 
-export const StColorPreview = styled.div`
+export const StColorPreview = styled.input`
   width: 48px;
   height: 48px;
+  padding: 0;
+  border: none;
   border-radius: 10px;
-  background-color: white;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+
+  ::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  ::-webkit-color-swatch {
+    border: none;
+  }
 `;
 
 export const StInfoButton = styled.button`

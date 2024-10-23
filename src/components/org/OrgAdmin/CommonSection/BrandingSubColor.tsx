@@ -17,6 +17,7 @@ import {
   StInputBox,
   StInputLabel,
 } from './style';
+import { expandHexColor } from './utils';
 
 interface BrandingSubColorProps {
   subGrayColor: string;
@@ -60,7 +61,11 @@ const BrandingSubColor = ({
           isError={errors.subColor?.message != undefined}
           errorMessage={errors.subColor?.message as string}
         />
-        <StColorPreview style={{ backgroundColor: subGrayColor }} />
+        <StColorPreview
+          type="color"
+          value={expandHexColor(subGrayColor)}
+          onChange={(e) => onSetSubGrayColor(e.target.value)}
+        />
         <StInfoWrapper isVisible={isInfoVisible}>
           <StInfoTitle>
             <span>&#9432; 서브컬러 (강조 그레이 컬러) 예시</span>
