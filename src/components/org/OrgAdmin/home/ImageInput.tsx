@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconImagePlus } from '@sopt-makers/icons';
-import { HTMLAttributes, useRef } from 'react';
+import { HTMLAttributes } from 'react';
 
 interface ImageInputProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -10,14 +10,6 @@ interface ImageInputProps extends HTMLAttributes<HTMLInputElement> {
 }
 
 const ImageInput = ({ label, description }: ImageInputProps) => {
-  const ref = useRef<HTMLInputElement | null>(null);
-
-  const handleImageClick = () => {
-    if (!ref.current) return;
-
-    ref.current.onchange;
-  };
-
   return (
     <StInputContainer>
       <StLabel aria-labelledby={label}>
@@ -29,7 +21,7 @@ const ImageInput = ({ label, description }: ImageInputProps) => {
       <StImageLabel htmlFor={label}>
         <IconImagePlus color={colors.white} />
       </StImageLabel>
-      <StImageInput type="file" accept="image/*" ref={ref} id={label} />
+      <StImageInput type="file" accept="image/*" id={label} />
     </StInputContainer>
   );
 };
