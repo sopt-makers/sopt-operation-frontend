@@ -8,7 +8,6 @@ import {
   StColorPreview,
   StColorWrapper,
   StDescription,
-  StErrorMessage,
   StInput,
   StInputBox,
   StInputLabel,
@@ -48,12 +47,11 @@ const BrandingColor = () => {
               placeholder="ex. #ffffff"
               value={mainColor}
               onChange={(e) => setMainColor(e.target.value)}
+              isError={errors.keyColorMain?.message != undefined}
+              errorMessage={errors.keyColorMain?.message as string}
             />
             <StColorPreview style={{ backgroundColor: mainColor }} />
           </StColorWrapper>
-          <StErrorMessage>
-            <>{errors.keyColorMain?.message}</>
-          </StErrorMessage>
         </StInputBox>
         <StInputBox>
           <StInputLabel htmlFor="key-color-low">키컬러 (저명도)</StInputLabel>
@@ -67,12 +65,11 @@ const BrandingColor = () => {
               placeholder="ex. #ffffff"
               value={lowColor}
               onChange={(e) => setLowColor(e.target.value)}
+              isError={errors.keyColorLow?.message != undefined}
+              errorMessage={errors.keyColorLow?.message as string}
             />
             <StColorPreview style={{ backgroundColor: lowColor }} />
           </StColorWrapper>
-          <StErrorMessage>
-            <>{errors.keyColorLow?.message}</>
-          </StErrorMessage>
         </StInputBox>
         <StInputBox>
           <StInputLabel htmlFor="key-color-high">키컬러 (고명도)</StInputLabel>
@@ -86,12 +83,11 @@ const BrandingColor = () => {
               placeholder="ex. #ffffff"
               value={highColor}
               onChange={(e) => setHighColor(e.target.value)}
+              isError={errors.keyColorHigh?.message != undefined}
+              errorMessage={errors.keyColorHigh?.message as string}
             />
             <StColorPreview style={{ backgroundColor: highColor }} />
           </StColorWrapper>
-          <StErrorMessage>
-            <>{errors.keyColorHigh?.message}</>
-          </StErrorMessage>
         </StInputBox>
         <BrandingSubColor
           subGrayColor={subGrayColor}

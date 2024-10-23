@@ -4,7 +4,6 @@ import { VALIDATION_CHECK } from '@/utils/org';
 
 import {
   StDescription,
-  StErrorMessage,
   StInput,
   StInputWrapper,
   StTitle,
@@ -27,7 +26,6 @@ const GenerationInformation = () => {
         </StDescription>
       </StTitleWrapper>
       <StInputWrapper>
-        {/* <StInputBox></StInputBox> */}
         <StInput
           {...register('generation', {
             required: true && VALIDATION_CHECK.required.errorText,
@@ -49,10 +47,9 @@ const GenerationInformation = () => {
           id="generation"
           type="text"
           placeholder="ex. 35"
+          isError={errors.generation?.message != undefined}
+          errorMessage={errors.generation?.message as string}
         />
-        <StErrorMessage>
-          <>{errors.generation?.message}</>
-        </StErrorMessage>
         <StInput
           {...register('soptName', {
             required: true && VALIDATION_CHECK.required.errorText,
@@ -66,10 +63,9 @@ const GenerationInformation = () => {
           id="sopt-name"
           type="text"
           placeholder="ex. 00 SOPT"
+          isError={errors.soptName?.message != undefined}
+          errorMessage={errors.soptName?.message as string}
         />
-        <StErrorMessage>
-          <>{errors.soptName?.message}</>
-        </StErrorMessage>
       </StInputWrapper>
     </StWrapper>
   );

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -8,7 +7,6 @@ import {
   StColorPreview,
   StColorWrapper,
   StDescription,
-  StErrorMessage,
   StInfoButton,
   StInfoCloseButton,
   StInfoDescription,
@@ -59,6 +57,8 @@ const BrandingSubColor = ({
           placeholder="ex. #ffffff"
           value={subGrayColor}
           onChange={(e) => onSetSubGrayColor(e.target.value)}
+          isError={errors.subColor?.message != undefined}
+          errorMessage={errors.subColor?.message as string}
         />
         <StColorPreview style={{ backgroundColor: subGrayColor }} />
         <StInfoWrapper isVisible={isInfoVisible}>
@@ -83,9 +83,6 @@ const BrandingSubColor = ({
           />
         </StInfoWrapper>
       </StColorWrapper>
-      <StErrorMessage>
-        <>{errors.subColor?.message}</>
-      </StErrorMessage>
     </StInputBox>
   );
 };

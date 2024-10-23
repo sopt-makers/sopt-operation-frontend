@@ -39,6 +39,7 @@ const RecruitSchedule = () => {
               type="radio"
               name="group"
               id="ob"
+              checked
             />
             <StRadioLabel htmlFor="ob">OB</StRadioLabel>
           </StRadioBox>
@@ -72,10 +73,9 @@ const RecruitSchedule = () => {
               type="datetime-local"
               value={'2022-10-12T12:00'}
               hasValue={true}
+              isError={errors.applicationStart?.message != undefined}
+              errorMessage={errors.applicationStart?.message as string}
             />
-            <StErrorMessage>
-              <>{errors.applicationStart?.message}</>
-            </StErrorMessage>
           </StInputBox>
           <StInputBox>
             <StInputLabel htmlFor="application-end">
@@ -89,10 +89,9 @@ const RecruitSchedule = () => {
               id="application-end"
               type="datetime-local"
               hasValue={false}
+              isError={errors.applicationEnd?.message != undefined}
+              errorMessage={errors.applicationEnd?.message as string}
             />
-            <StErrorMessage>
-              <>{errors.applicationEnd?.message}</>
-            </StErrorMessage>
           </StInputBox>
           <StInputBox>
             <StInputLabel htmlFor="application-result">
@@ -106,10 +105,9 @@ const RecruitSchedule = () => {
               id="application-result"
               type="datetime-local"
               hasValue={false}
+              isError={errors.applicationResult?.message != undefined}
+              errorMessage={errors.applicationResult?.message as string}
             />
-            <StErrorMessage>
-              <>{errors.applicationResult?.message}</>
-            </StErrorMessage>
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>
@@ -125,10 +123,9 @@ const RecruitSchedule = () => {
               id="interview-start"
               type="datetime-local"
               hasValue={false}
+              isError={errors.interviewStart?.message != undefined}
+              errorMessage={errors.interviewStart?.message as string}
             />
-            <StErrorMessage>
-              <>{errors.interviewStart?.message}</>
-            </StErrorMessage>
           </StInputBox>
           <StInputBox>
             <StInputLabel htmlFor="interview-end">면접 마감</StInputLabel>
@@ -140,10 +137,9 @@ const RecruitSchedule = () => {
               id="interview-end"
               type="datetime-local"
               hasValue={false}
+              isError={errors.interviewEnd?.message != undefined}
+              errorMessage={errors.interviewEnd?.message as string}
             />
-            <StErrorMessage>
-              <>{errors.interviewEnd?.message}</>
-            </StErrorMessage>
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>
@@ -159,10 +155,9 @@ const RecruitSchedule = () => {
               id="final-result"
               type="datetime-local"
               hasValue={false}
+              isError={errors.finalResult?.message != undefined}
+              errorMessage={errors.finalResult?.message as string}
             />
-            <StErrorMessage>
-              <>{errors.finalResult?.message}</>
-            </StErrorMessage>
           </StInputBox>
         </StInputWrapper>
       </StDateWrapper>
