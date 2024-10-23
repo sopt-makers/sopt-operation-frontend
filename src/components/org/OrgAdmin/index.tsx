@@ -29,10 +29,7 @@ function OrgAdmin() {
         />
       </StListHeader>
       <FormProvider {...methods}>
-        <form
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
-          })}>
+        <form onSubmit={handleSubmit((data) => {})}>
           <CommonSection />
           <StSubmitButton>
             <SubmitIcon />
