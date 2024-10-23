@@ -117,6 +117,10 @@ export const StInfoSubDescription = styled.p`
   color: ${colors.gray300};
 `;
 
+export const StInfoImg = styled.img`
+  color: ${colors.white};
+`;
+
 export const StErrorMessage = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 

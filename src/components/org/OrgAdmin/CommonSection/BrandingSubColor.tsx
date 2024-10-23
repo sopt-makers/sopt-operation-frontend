@@ -11,6 +11,7 @@ import {
   StInfoButton,
   StInfoCloseButton,
   StInfoDescription,
+  StInfoImg,
   StInfoSubDescription,
   StInfoTitle,
   StInfoWrapper,
@@ -83,7 +84,7 @@ const BrandingSubColor = ({
           <StInfoSubDescription>
             키컬러 저명도와 그레이 컬러 사이, 컬러를 지정해주세요.
           </StInfoSubDescription>
-          <img
+          <StInfoImg
             src="../assets/imgSubColorInfo.png"
             alt="서브 컬러가 적용되는 예시 이미지"
             width={434}
