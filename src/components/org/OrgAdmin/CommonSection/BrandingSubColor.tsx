@@ -1,9 +1,10 @@
+import { IconInfoCircle } from '@sopt-makers/icons';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
-import { StInput, StInputBox, StInputLabel } from '../style';
+import { StInput, StInputBox } from '../style';
 import {
   StColorPreview,
   StColorWrapper,
@@ -14,6 +15,7 @@ import {
   StInfoTitle,
   StInfoWrapper,
   StSubColorDescription,
+  StSubColorTitle,
 } from './style';
 import { expandHexColor } from './utils';
 
@@ -39,10 +41,12 @@ const BrandingSubColor = ({
 
   return (
     <StInputBox>
-      <StInputLabel as={'p'}>
+      <StSubColorTitle as={'p'}>
         <label htmlFor="sub-color">서브 컬러 (강조 그레이 컬러)</label>
-        <StInfoButton onClick={handleInfoToggle}>&nbsp;&#9432;</StInfoButton>
-      </StInputLabel>
+        <StInfoButton onClick={handleInfoToggle}>
+          <IconInfoCircle />
+        </StInfoButton>
+      </StSubColorTitle>
       <StSubColorDescription>
         강조하고 싶은 박스의 그레이 컬러를 지정해주세요.
       </StSubColorDescription>

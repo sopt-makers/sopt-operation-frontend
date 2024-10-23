@@ -4,6 +4,8 @@ import { fontsObject } from '@sopt-makers/fonts';
 
 import zIndex from '@/utils/zIndex';
 
+import { StInputLabel } from '../style';
+
 export const StRadioWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -59,7 +61,9 @@ export const StColorPreview = styled.input`
 
 export const StInfoButton = styled.button`
   ${fontsObject.LABEL_3_14_SB};
-
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
   color: ${colors.white};
 `;
 
@@ -117,6 +121,12 @@ export const StErrorMessage = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
   color: ${colors.error};
+`;
+
+export const StSubColorTitle = styled(StInputLabel)`
+  display: flex;
+  gap: 5px;
+  align-items: center;
 `;
 
 export const StSubColorDescription = styled.p`
