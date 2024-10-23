@@ -23,7 +23,6 @@ export const putObject = async (file: File): Promise<string | null> => {
       }
       return data.presignedUrl.replace(REMOVE_QUERY_STRING_REGEX, '');
     } catch (e) {
-      console.log(e);
       return null;
     }
   }
