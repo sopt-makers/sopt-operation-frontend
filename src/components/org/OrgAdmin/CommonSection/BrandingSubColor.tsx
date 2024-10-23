@@ -85,7 +85,7 @@ const BrandingSubColor = ({
             키컬러 저명도와 그레이 컬러 사이, 컬러를 지정해주세요.
           </StInfoSubDescription>
           <StInfoImg
-            src="../assets/imgSubColorInfo.png"
+            src="/images/org/imgSubColorInfo.png"
             alt="서브 컬러가 적용되는 예시 이미지"
             width={434}
             height={293}
