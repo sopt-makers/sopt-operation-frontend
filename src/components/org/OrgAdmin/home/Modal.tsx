@@ -40,31 +40,43 @@ export const DeleteModal = ({
   );
 };
 
-export const AddNewsModal = () => {
-  return (
-    <Modal>
-      <StAddModalContainer>
-        <ImageInput
-          label="이미지"
-          description="이미지는 00x00 비율로 올려주세요."
-        />
-        <TextField
-          value=""
-          required
-          labelText="최신 소식 제목"
-          placeholder="최신 소식의 제목을 입력하세요."
-        />
-        <TextField
-          value=""
-          labelText="링크 첨부"
-          placeholder="링크를 입력하세요."
-        />
+type AddNewsModalProps = {
+  isOpen: boolean;
+  onCancel?: () => void;
+  onAdd?: () => void;
+};
 
-        <StAddModalBtnWrapper>
-          <StCancelButton>취소</StCancelButton>
-          <StDeleteButton>추가</StDeleteButton>
-        </StAddModalBtnWrapper>
-      </StAddModalContainer>
-    </Modal>
+export const AddNewsModal = ({
+  isOpen,
+  onCancel,
+  onAdd,
+}: AddNewsModalProps) => {
+  return (
+    isOpen && (
+      <Modal>
+        <StAddModalContainer>
+          <ImageInput
+            label="이미지"
+            description="이미지는 00x00 비율로 올려주세요."
+          />
+          <TextField
+            value=""
+            required
+            labelText="최신 소식 제목"
+            placeholder="최신 소식의 제목을 입력하세요."
+          />
+          <TextField
+            value=""
+            labelText="링크 첨부"
+            placeholder="링크를 입력하세요."
+          />
+
+          <StAddModalBtnWrapper>
+            <StCancelButton onClick={onCancel}>취소</StCancelButton>
+            <StDeleteButton onClick={onAdd}>추가</StDeleteButton>
+          </StAddModalBtnWrapper>
+        </StAddModalContainer>
+      </Modal>
+    )
   );
 };

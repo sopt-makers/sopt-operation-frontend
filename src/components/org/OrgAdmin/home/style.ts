@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+import { TextArea } from '@sopt-makers/ui';
 
 export const StContainer = styled.section`
   display: flex;
@@ -79,12 +80,26 @@ export const StPartIntroDescription2 = styled.p`
   padding-bottom: 14px;
 `;
 
+export const StPartIntroTextArea = styled(TextArea)``;
+
+export const StPartIntroTitle = styled(StTitle)`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  & > svg {
+    width: 28px;
+    height: 28px;
+  }
+`;
+
 export const StChipsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
 
   margin-bottom: 18px;
+  margin-top: 24px;
 
   & > button {
     white-space: nowrap;

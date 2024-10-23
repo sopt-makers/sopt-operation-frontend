@@ -3262,6 +3262,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sopt-makers/colors@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@sopt-makers/colors@npm:3.0.2"
+  checksum: 10c0/f055a3f9f1b61601b0819751f3153f77f23013d5c388156267d0f87816810c48570058c335be56bb35c6907ad6cbcbe98c882da6778b8f30a9dc59aa2d9912d5
+  languageName: node
+  linkType: hard
+
 "@sopt-makers/fonts@npm:^2.0.1":
   version: 2.0.1
   resolution: "@sopt-makers/fonts@npm:2.0.1"
@@ -3269,7 +3276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/icons@npm:^1.0.3, @sopt-makers/icons@npm:^1.0.4":
+"@sopt-makers/icons@npm:^1.0.4":
   version: 1.0.4
   resolution: "@sopt-makers/icons@npm:1.0.4"
   peerDependencies:
@@ -3278,21 +3285,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/ui@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "@sopt-makers/ui@npm:2.0.2"
+"@sopt-makers/icons@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@sopt-makers/icons@npm:1.0.5"
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 10c0/9a7a6b42980958c0c8ed492cee0a1427a5dc3d0714fa9c6b9f7d1a763d2aba474a57e4e39180485c36ae5a0d60adc1e58f2122bde93738cf90b4f45891ec27df
+  languageName: node
+  linkType: hard
+
+"@sopt-makers/ui@npm:^2.4.4":
+  version: 2.4.4
+  resolution: "@sopt-makers/ui@npm:2.4.4"
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-switch": "npm:^1.0.3"
-    "@sopt-makers/colors": "npm:^3.0.1"
+    "@sopt-makers/colors": "npm:^3.0.2"
     "@sopt-makers/fonts": "npm:^2.0.1"
-    "@sopt-makers/icons": "npm:^1.0.3"
+    "@sopt-makers/icons": "npm:^1.0.5"
     "@vanilla-extract/css": "npm:^1.14.0"
     "@vanilla-extract/sprinkles": "npm:1.6.1"
     tsup: "npm:^8.0.2"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10c0/50d564e1c2dbe31a5302a9b65074d871766d6b4d533e5830ace55e78ed409bfc0041955388648076ad90349dbb842a888e41aec8575b12d357d462328a55035a
+    react-dom: ^18.2.0
+  checksum: 10c0/bb5fa03a300a674b564459393cdef9e5a9bd07bd99521f710a2cbcabe870794bfb9f9348d060edf2304a118e75248d3b5ec3294898778028c56e25ce47fe3907
   languageName: node
   linkType: hard
 
@@ -15022,7 +15039,7 @@ __metadata:
     "@sopt-makers/colors": "npm:^3.0.1"
     "@sopt-makers/fonts": "npm:^2.0.1"
     "@sopt-makers/icons": "npm:^1.0.4"
-    "@sopt-makers/ui": "npm:^2.0.0"
+    "@sopt-makers/ui": "npm:^2.4.4"
     "@storybook/addon-essentials": "npm:8.0.4"
     "@storybook/addon-interactions": "npm:8.0.4"
     "@storybook/addon-links": "npm:8.0.4"
