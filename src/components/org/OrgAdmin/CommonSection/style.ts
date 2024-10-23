@@ -118,3 +118,9 @@ export const StErrorMessage = styled.p`
 
   color: ${colors.error};
 `;
+
+export const StSubColorDescription = styled.p`
+  ${fontsObject.LABEL_4_12_SB}
+
+  color: ${colors.gray300};
+`;

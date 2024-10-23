@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
-import { StDescription, StInput, StInputBox, StInputLabel } from '../style';
+import { StInput, StInputBox, StInputLabel } from '../style';
 import {
   StColorPreview,
   StColorWrapper,
@@ -13,6 +13,7 @@ import {
   StInfoSubDescription,
   StInfoTitle,
   StInfoWrapper,
+  StSubColorDescription,
 } from './style';
 import { expandHexColor } from './utils';
 
@@ -42,9 +43,9 @@ const BrandingSubColor = ({
         <label htmlFor="sub-color">서브 컬러 (강조 그레이 컬러)</label>
         <StInfoButton onClick={handleInfoToggle}>&nbsp;&#9432;</StInfoButton>
       </StInputLabel>
-      <StDescription>
+      <StSubColorDescription>
         강조하고 싶은 박스의 그레이 컬러를 지정해주세요.
-      </StDescription>
+      </StSubColorDescription>
       <StColorWrapper>
         <StInput
           {...register('subColor', {
