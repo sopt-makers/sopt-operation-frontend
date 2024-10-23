@@ -56,10 +56,11 @@ interface StInputProps {
 
 export const StInput = styled(TextField)<StInputProps>`
   width: 338px;
-  color: ${({ hasValue = true }) =>
-    hasValue ? `${colors.white}` : `${colors.gray300}`};
+  color: ${colors.white};
 
   input[type='datetime-local'] {
+    color: ${({ hasValue = true }) =>
+      hasValue ? `${colors.white}` : `${colors.gray300}`};
     color-scheme: dark;
     cursor: pointer; /* 텍스트 부분에만 커서 pointer 적용 */
   }

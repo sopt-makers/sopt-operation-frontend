@@ -74,8 +74,9 @@ const RecruitSchedule = () => {
               })}
               id="application-start"
               type="datetime-local"
-              value={'2022-10-12T12:00'}
-              hasValue={true}
+              value={''}
+              // value={'2022-10-12T12:00'}
+              hasValue={false}
               isError={errors.applicationStart?.message != undefined}
               errorMessage={errors.applicationStart?.message as string}
             />
@@ -91,7 +92,7 @@ const RecruitSchedule = () => {
               value={'2022-10-12T12:00'}
               id="application-end"
               type="datetime-local"
-              hasValue={false}
+              hasValue={true}
               isError={errors.applicationEnd?.message != undefined}
               errorMessage={errors.applicationEnd?.message as string}
             />
