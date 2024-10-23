@@ -1,3 +1,8 @@
+import { colors } from '@sopt-makers/colors';
+import { IconInfoCircle } from '@sopt-makers/icons';
+import { Chip } from '@sopt-makers/ui';
+import Image from 'next/image';
+
 import { IcModalClose } from '@/assets/icons';
 import sampleImg from '@/assets/img/partIntroduceSample.png';
 import {
@@ -12,10 +17,6 @@ import {
   StTextAreaContainer,
   StTitle,
 } from '@/components/org/OrgAdmin/home/style';
-import { colors } from '@sopt-makers/colors';
-import { IconInfoCircle } from '@sopt-makers/icons';
-import { Chip } from '@sopt-makers/ui';
-import Image from 'next/image';
 
 const PartIntroSection = () => {
   return (

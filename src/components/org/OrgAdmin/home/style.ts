@@ -23,6 +23,11 @@ export const StTitle = styled.h2`
   color: ${colors.white};
 `;
 
+export const StContentContainer = styled.div`
+  display: flex;
+  gap: 87px;
+`;
+
 export const StButtonFormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -35,6 +40,8 @@ export const StButtonFormContainer = styled.div`
 
 export const StFirstSectionContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 24px;
 
   width: 100%;
 `;

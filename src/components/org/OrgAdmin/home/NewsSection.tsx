@@ -1,11 +1,12 @@
+import { IconPlus, IconTrash } from '@sopt-makers/icons';
+import { Button } from '@sopt-makers/ui';
+
 import {
   StNewsHeader,
   StNewsHeaderText,
   StNewsItem,
   StNewsList,
 } from '@/components/org/OrgAdmin/home/style';
-import { IconPlus, IconTrash } from '@sopt-makers/icons';
-import { Button } from '@sopt-makers/ui';
 
 const NewsSection = () => {
   return (
