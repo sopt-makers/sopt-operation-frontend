@@ -1,3 +1,4 @@
+import { Radio } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
@@ -32,7 +33,7 @@ const RecruitSchedule = () => {
         <StInputLabel>모집유형</StInputLabel>
         <StRadioWrapper>
           <StRadioBox>
-            <input
+            <Radio
               {...register('group', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
@@ -44,7 +45,7 @@ const RecruitSchedule = () => {
             <StRadioLabel htmlFor="ob">OB</StRadioLabel>
           </StRadioBox>
           <StRadioBox>
-            <input
+            <Radio
               {...register('group', {
                 required: true && VALIDATION_CHECK.required.errorText,
               })}
