@@ -21,7 +21,7 @@ function OrgAdmin() {
           selected={selectedPart}
           onChange={onChangePart}
         />
-        <HomeSection />
+        {selectedPart === '홈' && <HomeSection />}
       </StListHeader>
     </>
   );
