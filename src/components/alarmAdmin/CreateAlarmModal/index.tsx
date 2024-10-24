@@ -201,6 +201,8 @@ function CreateAlarmModal(props: Props) {
         await createReserveAlarm(reservePayload);
         break;
     }
+
+    onClose();
   };
 
   return (
