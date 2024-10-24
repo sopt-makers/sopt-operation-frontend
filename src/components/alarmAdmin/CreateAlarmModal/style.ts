@@ -268,8 +268,6 @@ export const reserveDateSelectCSS = css`
       background-color: ${colors.gray500};
     }
   }
-  & svg {
-  }
 `;
 
 export const datePickerWrapperCSS = css`

@@ -186,8 +186,6 @@ function CreateAlarmModal(props: Props) {
             : deepLink,
     };
 
-    console.log(commonPayload);
-
     switch (sendType) {
       case 'NOW':
         await sendAlarm(commonPayload);
