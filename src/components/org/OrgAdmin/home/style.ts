@@ -56,7 +56,7 @@ export const StTextAreaContainer = styled.div`
   width: 582px;
 `;
 
-export const StPartIntroImgWrapper = styled.div`
+export const StImgWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -66,21 +66,21 @@ export const StPartIntroImgWrapper = styled.div`
   background-color: ${colors.gray900};
 `;
 
-export const StPartIntroImgWrapperTitle = styled.div`
+export const StImgWrapperTitle = styled.div`
   display: flex;
   justify-content: space-between;
 
   padding-bottom: 16px;
 `;
 
-export const StPartIntroDescription = styled.p`
+export const StDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
   color: ${colors.white};
 
   padding-bottom: 8px;
 `;
 
-export const StPartIntroDescription2 = styled.p`
+export const StDescription2 = styled.p`
   ${fontsObject.LABEL_4_12_SB};
   color: ${colors.gray300};
 
@@ -89,7 +89,7 @@ export const StPartIntroDescription2 = styled.p`
 
 export const StPartIntroTextArea = styled(TextArea)``;
 
-export const StPartIntroTitle = styled(StTitle)`
+export const StImgTitle = styled(StTitle)`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -117,6 +117,7 @@ export const StNewsHeader = styled.div`
   display: flex;
   align-items: start;
   justify-content: space-between;
+  gap: 44px;
 
   & p {
     ${fontsObject.LABEL_3_14_SB};
@@ -163,4 +164,10 @@ export const StNewsItem = styled.li`
     width: 24px;
     height: 24px;
   }
+`;
+
+export const StNewsSectionContainer = styled.div`
+  display: flex;
+  align-items: end;
+  gap: 31px;
 `;

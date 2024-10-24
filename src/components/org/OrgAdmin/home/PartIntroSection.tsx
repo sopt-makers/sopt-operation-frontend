@@ -7,12 +7,12 @@ import { IcModalClose } from '@/assets/icons';
 import sampleImg from '@/assets/img/partIntroduceSample.png';
 import {
   StChipsContainer,
-  StPartIntroDescription,
-  StPartIntroDescription2,
-  StPartIntroImgWrapper,
-  StPartIntroImgWrapperTitle,
+  StDescription,
+  StDescription2,
+  StImgTitle,
+  StImgWrapper,
+  StImgWrapperTitle,
   StPartIntroTextArea,
-  StPartIntroTitle,
   StSecondSectionContainer,
   StTextAreaContainer,
   StTitle,
@@ -43,22 +43,18 @@ const PartIntroSection = () => {
           }
         />
       </StTextAreaContainer>
-      <StPartIntroImgWrapper>
-        <StPartIntroImgWrapperTitle>
-          <StPartIntroTitle>
+      <StImgWrapper>
+        <StImgWrapperTitle>
+          <StImgTitle>
             <IconInfoCircle color={colors.white} />
             파트별 소개
-          </StPartIntroTitle>
+          </StImgTitle>
           <IcModalClose />
-        </StPartIntroImgWrapperTitle>
-        <StPartIntroDescription>
-          메인 홈 &quotPart&quot 속 파트별 소개에요
-        </StPartIntroDescription>
-        <StPartIntroDescription2>
-          파트의 간략한 소개를 작성해주세요.
-        </StPartIntroDescription2>
+        </StImgWrapperTitle>
+        <StDescription>메인 홈 &quotPart&quot 속 파트별 소개에요</StDescription>
+        <StDescription2>파트의 간략한 소개를 작성해주세요.</StDescription2>
         <Image src={sampleImg} alt="파트별 소개 이미지" />
-      </StPartIntroImgWrapper>
+      </StImgWrapper>
     </StSecondSectionContainer>
   );
 };
