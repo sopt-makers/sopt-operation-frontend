@@ -114,8 +114,6 @@ function CreateAlarmModal(props: Props) {
 
   // 발송하기 버튼 활성화 검증 로직 함수
   const checkDisabled = () => {
-    // 여기 CSV 파일 업로드 관련 검증 로직 추가 필요
-
     // 활동 회원 선택했는데 파트를 선택 안 하면 비활성화
     if (selectedTarget === '활동 회원' && selectedPart === '') return true;
     // 알림 제목 안 적으면 비활성화
@@ -136,6 +134,8 @@ function CreateAlarmModal(props: Props) {
     // 예약 시간이 금지 시간대면 비활성화
     if (sendType === 'RESERVE' && bannedTimeList.includes(selectedTime))
       return true;
+
+    if (targetList.length > 0) return true;
 
     return false;
   };
