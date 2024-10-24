@@ -1,6 +1,6 @@
 import { colors } from '@sopt-makers/colors';
 import { IconInfoCircle } from '@sopt-makers/icons';
-import { Chip } from '@sopt-makers/ui';
+import { Chip, TextArea } from '@sopt-makers/ui';
 import Image from 'next/image';
 
 import { IcModalClose } from '@/assets/icons';
@@ -12,7 +12,6 @@ import {
   StImgTitle,
   StImgWrapper,
   StImgWrapperTitle,
-  StPartIntroTextArea,
   StSecondSectionContainer,
   StTextAreaContainer,
   StTitle,
@@ -33,7 +32,7 @@ const PartIntroSection = () => {
           <Chip>서버</Chip>
         </StChipsContainer>
 
-        <StPartIntroTextArea
+        <TextArea
           value=""
           fixedHeight={230}
           maxHeight={230}

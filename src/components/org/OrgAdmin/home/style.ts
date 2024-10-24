@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { TextArea } from '@sopt-makers/ui';
 
 export const StContainer = styled.section`
   display: flex;
@@ -86,8 +85,6 @@ export const StDescription2 = styled.p`
 
   padding-bottom: 14px;
 `;
-
-export const StPartIntroTextArea = styled(TextArea)``;
 
 export const StImgTitle = styled(StTitle)`
   display: flex;

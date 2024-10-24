@@ -39,13 +39,16 @@ export const StCancelButton = styled(Button)`
   }
 `;
 
-export const StDeleteButton = styled(Button)`
-  background-color: ${colors.error};
-  color: ${colors.white};
+export const StActionButton = styled(Button)<{ btnType: 'add' | 'delete' }>`
+  color: ${(props) => (props.btnType === 'add' ? colors.black : colors.white)};
 
-  &:hover {
-    color: ${colors.black};
-  }
+  background-color: ${(props) =>
+    props.btnType === 'add' ? colors.white : colors.error};
+`;
+
+export const StAddButton = styled(Button)`
+  background-color: ${colors.white};
+  color: ${colors.black};
 `;
 
 export const StAddModalContainer = styled.div`

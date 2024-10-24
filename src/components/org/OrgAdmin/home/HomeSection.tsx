@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import ButtonSection from '@/components/org/OrgAdmin/home/ButtonSection';
 import {
+  ActionModal,
   AddNewsModal,
-  DeleteModal,
 } from '@/components/org/OrgAdmin/home/Modal';
 import NewsSection from '@/components/org/OrgAdmin/home/NewsSection';
 import PartIntroSection from '@/components/org/OrgAdmin/home/PartIntroSection';
@@ -29,7 +29,8 @@ const HomeSection = () => {
   const [_btnValues, _setBtnValues] = useState<ButtonInputValue>();
   const [_partValues, _setPartValues] = useState<PartIntroduceInputValue>();
 
-  const { flag: isDeleteModalOpen } = useBooleanState();
+  const { flag: isDeleteModalOpen, setFalse: closeDeleteModal } =
+    useBooleanState();
   const { flag: isAddNewsModalOpen } = useBooleanState();
 
   return (
@@ -39,8 +40,15 @@ const HomeSection = () => {
         <PartIntroSection />
       </StForm>
       <NewsSection />
-      <DeleteModal isOpen={isDeleteModalOpen} />
-      <AddNewsModal isOpen={isAddNewsModalOpen} />
+      <ActionModal
+        type="delete"
+        isOpen={isDeleteModalOpen}
+        onCancel={closeDeleteModal}
+        onAction={() => {}}
+        alertText="삭제하시겠습니까?"
+        description="최신 소식은 ‘배포’버튼을 거치지 않고 즉시 배포가 돼요."
+      />
+      <AddNewsModal isOpen={true} />
     </StContainer>
   );
 };

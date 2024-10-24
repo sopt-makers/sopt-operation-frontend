@@ -1,45 +1,22 @@
 'use client';
 
-import { TextField } from '@sopt-makers/ui';
+import { CheckBox, TextField } from '@sopt-makers/ui';
+import { useState } from 'react';
 
 import Modal from '@/components/common/modal';
 import ImageInput from '@/components/org/OrgAdmin/home/ImageInput';
 import {
+  StActionButton,
+  StAddButton,
   StAddModalBtnWrapper,
   StAddModalContainer,
   StCancelButton,
-  StDeleteButton,
   StModalBtnWrapper,
   StModalContainer,
 } from '@/components/org/OrgAdmin/home/Modal.style';
+import { useBooleanState } from '@/hooks/useBooleanState';
 
-type DeleteModalProps = {
-  isOpen: boolean;
-  onCancel?: () => void;
-  onDelete?: () => void;
-};
-
-export const DeleteModal = ({
-  isOpen,
-  onCancel,
-  onDelete,
-}: DeleteModalProps) => {
-  return (
-    isOpen && (
-      <Modal>
-        <StModalContainer>
-          <h2>삭제하시겠습니까?</h2>
-          <p>삭제한 최신 소식은 복구되지 않아요.</p>
-          <StModalBtnWrapper>
-            <StCancelButton onClick={onCancel}>취소</StCancelButton>
-            <StDeleteButton onClick={onDelete}>삭제</StDeleteButton>
-          </StModalBtnWrapper>
-        </StModalContainer>
-      </Modal>
-    )
-  );
-};
-
+/** 최신 소식 추가 모달 */
 type AddNewsModalProps = {
   isOpen: boolean;
   onCancel?: () => void;
@@ -51,6 +28,12 @@ export const AddNewsModal = ({
   onCancel,
   onAdd,
 }: AddNewsModalProps) => {
+  const {
+    flag: isConfirmModalOpen,
+    setTrue: openConfirmModal,
+    setFalse: closeConfirmModal,
+  } = useBooleanState();
+
   return (
     isOpen && (
       <Modal>
@@ -73,9 +56,67 @@ export const AddNewsModal = ({
 
           <StAddModalBtnWrapper>
             <StCancelButton onClick={onCancel}>취소</StCancelButton>
-            <StDeleteButton onClick={onAdd}>추가</StDeleteButton>
+            <StAddButton onClick={openConfirmModal}>추가</StAddButton>
           </StAddModalBtnWrapper>
         </StAddModalContainer>
+
+        {isConfirmModalOpen && (
+          <ActionModal
+            type="add"
+            isOpen={isConfirmModalOpen}
+            onCancel={closeConfirmModal}
+            onAction={() => {}}
+            alertText="추가하시겠습니까?"
+            description="최신 소식은 '배포'버튼을 거치지 않고 즉시 배포가 돼요."
+          />
+        )}
+      </Modal>
+    )
+  );
+};
+
+type ActionModalProps = {
+  isOpen: boolean;
+  onCancel?: () => void;
+  onAction?: () => void;
+  type: 'delete' | 'add';
+
+  alertText: string;
+  description?: string;
+};
+
+export const ActionModal = ({
+  isOpen,
+  onCancel,
+  onAction,
+  type,
+  alertText,
+  description,
+}: ActionModalProps) => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    isOpen && (
+      <Modal>
+        <StModalContainer>
+          <h2>{alertText}</h2>
+          <p>{description}</p>
+
+          <CheckBox
+            label="확인했어요."
+            checked={checked}
+            onChange={() => setChecked((prev) => !prev)}
+          />
+          <StModalBtnWrapper>
+            <StCancelButton onClick={onCancel}>취소</StCancelButton>
+            <StActionButton
+              btnType={type}
+              disabled={!checked}
+              onClick={onAction}>
+              {type === 'add' ? '추가' : '삭제'}
+            </StActionButton>
+          </StModalBtnWrapper>
+        </StModalContainer>
       </Modal>
     )
   );
