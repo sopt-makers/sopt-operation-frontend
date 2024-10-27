@@ -25,4 +25,5 @@ export const StWeek = styled.label`
   color: ${colors.gray300};
   ${fontsObject.BODY_1_18_M}
   line-height: 48px;
+  width: 24px;
 `;

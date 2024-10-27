@@ -26,7 +26,7 @@ const Curriculum = () => {
         <StList>
           {CURRICULUM.map((curr, idx) => (
             <StItem key={curr}>
-              <StWeek htmlFor={`week${idx + 1}`}>0{idx}</StWeek>
+              <StWeek htmlFor={`week${idx + 1}`}>0{idx + 1}</StWeek>
               <StInput
                 id={`week${idx}`}
                 value={curr}
