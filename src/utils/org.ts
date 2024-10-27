@@ -19,3 +19,5 @@ export const VALIDATION_CHECK = {
 };
 
 export const ORG_ADMIN_LIST: ORG_ADMIN[] = ['공통', '홈', '소개', '지원하기'];
+
+export const PART_LIST = ['기획', '디자인', '안드로이드', 'IOS', '웹', '서버'];
