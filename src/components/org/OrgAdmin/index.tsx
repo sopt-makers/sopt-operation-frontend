@@ -7,6 +7,7 @@ import { ORG_ADMIN_LIST } from '@/utils/org';
 
 import SubmitIcon from './assets/SubmitIcon';
 import CommonSection from './CommonSection';
+import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';
 
 function OrgAdmin() {
@@ -29,8 +30,12 @@ function OrgAdmin() {
         />
       </StListHeader>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit((data) => {})}>
-          <CommonSection />
+        <form
+          onSubmit={handleSubmit((data) => {
+            console.log(data);
+          })}>
+          {/* <CommonSection /> */}
+          <RecruitSection />
           <StSubmitButton>
             <SubmitIcon />
             <StSubmitText>배포</StSubmitText>
