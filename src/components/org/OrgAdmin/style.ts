@@ -25,6 +25,12 @@ export const StTitle = styled.h2`
   color: ${colors.white};
 `;
 
+export const StLabel = styled.label`
+  ${fontsObject.LABEL_3_14_SB};
+
+  color: ${colors.white};
+`;
+
 export const StDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
