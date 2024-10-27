@@ -1,10 +1,20 @@
 import ModalHeader from '@/components/common/modal/ModalHeader';
 
-import { StAlarmModalWrapper } from '../CreateAlarmModal/style';
+import {
+  StAlarmModalWrapper,
+  StAlarmModalFooter,
+  StAlarmModalBody,
+  StTextField,
+  StRadioWrap,
+  StRadio,
+  StLink,
+} from './style';
 import { useGetAlarm } from '@/services/api/alarm/query';
 import Loading from '@/components/common/Loading';
-import { StModalBody, StTextField } from './style';
 import dayjs from 'dayjs';
+import { Button } from '@sopt-makers/ui';
+import { IconLink } from '@sopt-makers/icons';
+import { colors } from '@sopt-makers/colors';
 
 interface Props {
   onClose: () => void;
@@ -26,7 +36,8 @@ function ShowAlarmModal(props: Props) {
   return (
     <StAlarmModalWrapper>
       <ModalHeader title="알림 조회" desc="" onClose={onClose} />
-      <StModalBody>
+
+      <StAlarmModalBody>
         <div>
           <StTextField>
             <label>발송 대상</label>
@@ -63,22 +74,32 @@ function ShowAlarmModal(props: Props) {
           </StTextField>
         </div>
 
-        {/* <div className="dropdowns">
-          <OptionTemplate title="발송 대상">
-            <Selector content={activeStatus} readOnly />
-          </OptionTemplate>
-          {activeStatus !== 'CSV 첨부' && (
-            <>
-              <OptionTemplate title="파트">
-                <Selector content={data.part} readOnly />
-              </OptionTemplate>
-              <OptionTemplate title="발송 기수">
-                <Selector content={`${generation}기`} readOnly />
-              </OptionTemplate>
-            </>
-          )}
-        </div> */}
-      </StModalBody>
+        <div>
+          <StRadioWrap>
+            <label>링크 첨부</label>
+            <div>
+              <StRadio checked={!data.linkType}>첨부 안함</StRadio>
+              <StRadio checked={data.linkType === 'WEB'}>웹링크</StRadio>
+              <StRadio checked={data.linkType === 'APP'}>앱 내 딥링크</StRadio>
+            </div>
+            {data.link && data.linkType && (
+              <StLink linkType={data.linkType} href={data.link} target="_blank">
+                <IconLink
+                  style={{ width: '16px', height: '16px' }}
+                  color={colors.gray200}
+                />
+                {data.link}
+              </StLink>
+            )}
+          </StRadioWrap>
+        </div>
+      </StAlarmModalBody>
+
+      <StAlarmModalFooter>
+        <Button size="lg" theme="white" rounded="md" onClick={onClose}>
+          확인
+        </Button>
+      </StAlarmModalFooter>
     </StAlarmModalWrapper>
   );
 }

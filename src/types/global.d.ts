@@ -14,6 +14,7 @@ declare global {
     | 'NOT_CERTIFIED'
     | 'DEVELOPER';
   type TARGET_TYPE = 'ACTIVE' | 'INACTIVE' | 'CSV';
+  type LINK_TYPE = 'WEB' | 'APP';
 
   /* 에러 */
   interface LoginError {
@@ -233,14 +234,15 @@ declare global {
     sendAt: string;
     status: ALARM_STATUS;
   }
-  interface AlarmDetail
-    extends Omit<
-      PostAlarmData,
-      'generation' | 'generationAt' | 'targetList' | 'isActive'
-    > {
-    createdAt: string;
-    sendAt: string;
+  interface AlarmDetail {
+    part: string | null;
     targetType: TARGET_TYPE;
+    title: string;
+    content: string;
+    link: string | null;
+    linkType: LINK_TYPE | null;
+    createdAt: string;
+    sendAt: string | null;
   }
 }
 
