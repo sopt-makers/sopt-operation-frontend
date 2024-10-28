@@ -9,15 +9,24 @@ export const StImgButtonWrapper = styled.div`
   gap: 10px;
 `;
 
-export const StImgButton = styled.button`
+interface StImgButtonProps {
+  isError: boolean;
+}
+
+export const StImgButton = styled.div<StImgButtonProps>`
   ${fontsObject.BODY_2_16_M}
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 547px;
   height: 166px;
   margin-top: 13px;
   color: ${colors.white};
   background-color: ${colors.gray800};
+  border: ${({ isError }) => (isError ? `1px solid ${colors.error}` : 'none')};
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 export const StImgIcon = styled(IconImage)`

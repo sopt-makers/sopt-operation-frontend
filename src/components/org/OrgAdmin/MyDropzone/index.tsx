@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { type MouseEvent, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import type { UseFormReturn } from 'react-hook-form';
 
@@ -42,6 +42,10 @@ const MyDropzone = ({ method, label }: MyDropzoneProps) => {
     [label, setValue],
   );
 
+  const handleClick = (e: MouseEvent<HTMLInputElement>) => {
+    e.preventDefault();
+  };
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
@@ -53,8 +57,13 @@ const MyDropzone = ({ method, label }: MyDropzoneProps) => {
 
   return (
     <StImgButtonWrapper>
-      <StImgButton {...getRootProps()}>
+      <StImgButton
+        {...getRootProps({
+          onClick: handleClick, // input의 클릭 이벤트 핸들링
+        })}
+        isError={errors[label]?.message != undefined}>
         <input
+          {...getInputProps({})}
           {...register(label, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
