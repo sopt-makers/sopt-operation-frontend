@@ -3,6 +3,12 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconImage } from '@sopt-makers/icons';
 
+export const StImgButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 export const StImgButton = styled.button`
   ${fontsObject.BODY_2_16_M}
 

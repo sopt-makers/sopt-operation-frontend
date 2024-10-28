@@ -93,3 +93,9 @@ export const StSubmitButton = styled.button`
 export const StSubmitText = styled.span`
   ${fontsObject.LABEL_1_18_SB}
 `;
+
+export const StErrorMessage = styled.p`
+  ${fontsObject.LABEL_3_14_SB};
+
+  color: ${colors.error};
+`;
