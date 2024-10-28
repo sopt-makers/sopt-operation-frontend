@@ -1,4 +1,4 @@
-import type { FieldValues, UseFormRegister } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
@@ -11,7 +11,6 @@ interface ColorInputFieldProps {
   id: string;
   colorValue: string;
   onSetColorValue: (value: string) => void;
-  register: UseFormRegister<FieldValues>;
   error?: string;
 }
 
@@ -20,9 +19,13 @@ const ColorInputField = ({
   id,
   colorValue,
   onSetColorValue,
-  register,
   error,
 }: ColorInputFieldProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <StInputBox>
       <StInputLabel htmlFor={id}>{label}</StInputLabel>
@@ -36,8 +39,8 @@ const ColorInputField = ({
           placeholder="ex. #ffffff"
           value={colorValue}
           onChange={(e) => onSetColorValue(e.target.value)}
-          isError={error != undefined}
-          errorMessage={error as string}
+          isError={errors[id]?.message != undefined}
+          errorMessage={errors[id]?.message as string}
         />
         <StColorPreview
           type="color"

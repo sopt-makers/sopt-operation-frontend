@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import {
   StDescription,
@@ -17,11 +16,6 @@ const BrandingColor = () => {
   const [highColor, setHighColor] = useState('');
   const [subGrayColor, setSubGrayColor] = useState('');
 
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
-
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -34,24 +28,18 @@ const BrandingColor = () => {
           id="keyColorMain"
           colorValue={mainColor}
           onSetColorValue={(val: string) => setMainColor(val)}
-          register={register}
-          error={errors.keyColorMain?.message as string}
         />
         <ColorInputField
           label="키컬러 (저명도)"
           id="keyColorLow"
           colorValue={lowColor}
           onSetColorValue={(val: string) => setLowColor(val)}
-          register={register}
-          error={errors.keyColorLow?.message as string}
         />
         <ColorInputField
           label="키컬러 (고명도)"
           id="keyColorHigh"
           colorValue={highColor}
           onSetColorValue={(val: string) => setHighColor(val)}
-          register={register}
-          error={errors.keyColorHigh?.message as string}
         />
         <BrandingSubColor
           subGrayColor={subGrayColor}
