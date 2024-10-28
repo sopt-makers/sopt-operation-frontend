@@ -16,10 +16,11 @@ export const StTextAreaWrapper = styled.div`
 `;
 
 export const StTextArea = styled(TextArea)`
-  width: 547px;
-  margin-top: 18px;
+  max-width: 547px;
+`;
 
-  input {
-    height: 178px;
-  }
+export const StFnaWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;

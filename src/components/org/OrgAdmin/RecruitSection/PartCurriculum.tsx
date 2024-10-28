@@ -1,8 +1,6 @@
-import { TextArea } from '@sopt-makers/ui';
-
 import PartCategory from '../PartCategory';
 import { StTitle, StTitleWrapper, StWrapper } from '../style';
-import { StTextAreaWrapper } from './style';
+import { StTextArea, StTextAreaWrapper } from './style';
 
 const PartCurriculum = () => {
   return (
@@ -12,7 +10,7 @@ const PartCurriculum = () => {
       </StTitleWrapper>
       <PartCategory />
       <StTextAreaWrapper>
-        <TextArea
+        <StTextArea
           topAddon={{
             labelText: '기획 파트는 이런 걸 배워요.',
           }}
@@ -21,7 +19,7 @@ const PartCurriculum = () => {
           maxHeight={230}
           placeholder="파트별 설명을 작성해주세요."
         />
-        <TextArea
+        <StTextArea
           topAddon={{
             labelText: '이런 분이면 좋아요!',
           }}
