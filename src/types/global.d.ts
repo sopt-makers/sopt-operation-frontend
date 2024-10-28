@@ -2,6 +2,7 @@ declare global {
   type ATTEND_STATUS = 'ATTENDANCE' | 'ABSENT' | 'TARDY';
   type ATTEND_STATUS_KR = '출석' | '결석' | '지각';
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
+  type ORG_ADMIN = '공통' | '홈' | '소개' | '지원하기';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';

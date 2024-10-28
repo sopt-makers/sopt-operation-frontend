@@ -1,5 +1,3 @@
-import { colors } from '@sopt-makers/colors';
-
 export const partList: PART[] = [
   'ALL',
   'PLAN',
