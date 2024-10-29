@@ -44,6 +44,10 @@ export const StActionButton = styled(Button)<{ btnType: 'add' | 'delete' }>`
 
   background-color: ${(props) =>
     props.btnType === 'add' ? colors.white : colors.error};
+
+  &:disabled {
+    cursor: default;
+  }
 `;
 
 export const StAddButton = styled(Button)`

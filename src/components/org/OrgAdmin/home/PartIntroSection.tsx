@@ -1,27 +1,23 @@
-import { colors } from '@sopt-makers/colors';
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { Chip, TextArea } from '@sopt-makers/ui';
-import Image from 'next/image';
 
-import { IcModalClose } from '@/assets/icons';
 import sampleImg from '@/assets/img/partIntroduceSample.png';
+import SampleView from '@/components/org/OrgAdmin/home/SampleView';
 import {
   StChipsContainer,
-  StDescription,
-  StDescription2,
-  StImgTitle,
-  StImgWrapper,
-  StImgWrapperTitle,
   StSecondSectionContainer,
   StTextAreaContainer,
-  StTitle,
+  StTitleWithIcon,
 } from '@/components/org/OrgAdmin/home/style';
 
 const PartIntroSection = () => {
   return (
     <StSecondSectionContainer>
       <StTextAreaContainer>
-        <StTitle>파트별 소개</StTitle>
+        <StTitleWithIcon>
+          파트별 소개
+          <IconInfoCircle />
+        </StTitleWithIcon>
 
         <StChipsContainer>
           <Chip>기획</Chip>
@@ -42,18 +38,12 @@ const PartIntroSection = () => {
           }
         />
       </StTextAreaContainer>
-      <StImgWrapper>
-        <StImgWrapperTitle>
-          <StImgTitle>
-            <IconInfoCircle color={colors.white} />
-            파트별 소개
-          </StImgTitle>
-          <IcModalClose />
-        </StImgWrapperTitle>
-        <StDescription>메인 홈 &quotPart&quot 속 파트별 소개에요</StDescription>
-        <StDescription2>파트의 간략한 소개를 작성해주세요.</StDescription2>
-        <Image src={sampleImg} alt="파트별 소개 이미지" />
-      </StImgWrapper>
+      <SampleView
+        src={sampleImg}
+        category="파트별 소개"
+        title="메인 홈 'Part' 속 파트별 소개에요"
+        description="파트의 간략한 소개를 작성해주세요."
+      />
     </StSecondSectionContainer>
   );
 };

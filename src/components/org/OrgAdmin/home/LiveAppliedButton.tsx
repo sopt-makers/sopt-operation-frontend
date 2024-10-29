@@ -86,8 +86,8 @@ export const StOrgButtonWrapper = styled.button<{
   color: ${colors.gray800};
   text-align: center;
 
+  ${fontsObject.BODY_1_18_M};
   font-size: 17.54px;
-  font-style: normal;
   font-weight: 600;
   line-height: 26.31px;
 

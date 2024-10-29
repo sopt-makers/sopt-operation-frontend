@@ -1,9 +1,6 @@
-import { colors } from '@sopt-makers/colors';
 import { IconInfoCircle, IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
-import Image from 'next/image';
 
-import { IcModalClose } from '@/assets/icons';
 import sampleImg from '@/assets/img/latestNewsSample.png';
 import { NEWS } from '@/components/org/OrgAdmin/home/constant';
 import {
@@ -11,16 +8,14 @@ import {
   AddNewsModal,
 } from '@/components/org/OrgAdmin/home/Modal';
 import NewsItem from '@/components/org/OrgAdmin/home/NewsItem';
+import SampleView from '@/components/org/OrgAdmin/home/SampleView';
 import {
-  StDescription,
-  StDescription2,
-  StImgTitle,
-  StImgWrapper,
-  StImgWrapperTitle,
+  StLeftColumnSection,
   StNewsHeader,
   StNewsHeaderText,
   StNewsList,
   StNewsSectionContainer,
+  StTitleWithIcon,
 } from '@/components/org/OrgAdmin/home/style';
 import { useBooleanState } from '@/hooks/useBooleanState';
 
@@ -38,10 +33,13 @@ const NewsSection = () => {
 
   return (
     <StNewsSectionContainer>
-      <div>
+      <StLeftColumnSection>
         <StNewsHeader>
           <StNewsHeaderText>
-            <h2>최신 소식</h2>
+            <StTitleWithIcon>
+              최신 소식
+              <IconInfoCircle />
+            </StTitleWithIcon>
             <p>
               &apos;최신 소식&apos;은 배포 버튼을 거치지 않아도 바로 저장되니,
               신중하게 작성해주세요!
@@ -65,21 +63,13 @@ const NewsSection = () => {
             />
           ))}
         </StNewsList>
-      </div>
-      <StImgWrapper>
-        <StImgWrapperTitle>
-          <StImgTitle>
-            <IconInfoCircle color={colors.white} />
-            파트별 소개
-          </StImgTitle>
-          <IcModalClose />
-        </StImgWrapperTitle>
-        <StDescription>
-          메인 홈 &apos;Part&apos; 속 파트별 소개에요
-        </StDescription>
-        <StDescription2>파트의 간략한 소개를 작성해주세요.</StDescription2>
-        <Image src={sampleImg} alt="파트별 소개 이미지" />
-      </StImgWrapper>
+      </StLeftColumnSection>
+      <SampleView
+        src={sampleImg}
+        category="최신 소식"
+        title="메인 홈 '솝트의 최신 소식이 궁금하다면!' 입니다."
+        description="리스트 순서대로 배치돼요. 행사 포스터와 이름, 링크를 추가해주세요."
+      />
 
       <ActionModal
         type="delete"

@@ -22,6 +22,17 @@ export const StTitle = styled.h2`
   color: ${colors.white};
 `;
 
+export const StTitleWithIcon = styled(StTitle)`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  & > svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
 export const StContentContainer = styled.div`
   display: flex;
   gap: 87px;
@@ -167,4 +178,8 @@ export const StNewsSectionContainer = styled.div`
   display: flex;
   align-items: end;
   gap: 31px;
+`;
+
+export const StLeftColumnSection = styled.div`
+  width: 582px;
 `;
