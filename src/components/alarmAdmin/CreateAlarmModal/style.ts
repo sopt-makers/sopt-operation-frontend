@@ -279,7 +279,7 @@ export const reserveTimeSelectCSS = (isBannedTime: boolean) => css`
   & button {
     width: 100%;
     & > div:not(ul div) {
-      border: ${isBannedTime && `1px solid ${colors.error}`};
+      border: ${isBannedTime && `1px solid ${colors.attention}`};
     }
   }
   & ul {
@@ -298,7 +298,7 @@ export const reserveTimeTriggerCSS = (isBannedTime: boolean) => css`
   background-color: ${colors.gray700};
   width: 100%;
   & p {
-    color: ${isBannedTime && colors.error};
+    color: ${isBannedTime && colors.attention};
   }
 `;
 
