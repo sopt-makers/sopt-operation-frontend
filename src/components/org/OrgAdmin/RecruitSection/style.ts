@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { TextArea } from '@sopt-makers/ui';
 
 import { StLabel } from '../style';
 
@@ -13,10 +12,6 @@ export const StTextAreaWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   margin-top: 18px;
-`;
-
-export const StTextArea = styled(TextArea)`
-  max-width: 547px;
 `;
 
 export const StFnaWrapper = styled.div`

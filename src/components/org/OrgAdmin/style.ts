@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { TextField } from '@sopt-makers/ui';
+import { TextArea, TextField } from '@sopt-makers/ui';
 
 import theme from '@/styles/theme';
 
@@ -98,4 +98,13 @@ export const StErrorMessage = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
   color: ${colors.error};
+`;
+
+export const StTextArea = styled(TextArea)`
+  max-width: 547px;
+
+  textarea {
+    padding: 8px 14px;
+    margin: 0px;
+  }
 `;

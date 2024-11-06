@@ -3,8 +3,8 @@ import { useFormContext } from 'react-hook-form';
 import { VALIDATION_CHECK } from '@/utils/org';
 
 import PartCategory from '../PartCategory';
-import { StTitle, StTitleWrapper, StWrapper } from '../style';
-import { StTextArea, StTextAreaWrapper } from './style';
+import { StTextArea, StTitle, StTitleWrapper, StWrapper } from '../style';
+import { StTextAreaWrapper } from './style';
 
 const PartCurriculum = () => {
   const {
