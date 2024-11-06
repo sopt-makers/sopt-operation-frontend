@@ -10,6 +10,8 @@ import CommonSection from './CommonSection';
 import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';
 
+import AboutSection from './AboutSection';
+
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
   const methods = useForm({ mode: 'onBlur' });
@@ -28,6 +30,7 @@ function OrgAdmin() {
           selected={selectedPart}
           onChange={onChangePart}
         />
+        {selectedPart === '소개' && <AboutSection />}
       </StListHeader>
       <FormProvider {...methods}>
         <form

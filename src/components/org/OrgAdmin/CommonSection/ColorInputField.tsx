@@ -36,6 +36,7 @@ const ColorInputField = ({
           })}
           id={id}
           type="text"
+          maxLength={9}
           placeholder="ex. #ffffff"
           value={colorValue}
           onChange={(e) => onSetColorValue(e.target.value)}

@@ -59,6 +59,7 @@ const BrandingSubColor = ({
           })}
           id="sub-color"
           type="text"
+          maxLength={9}
           placeholder="ex. #ffffff"
           value={subGrayColor}
           onChange={(e) => onSetSubGrayColor(e.target.value)}
