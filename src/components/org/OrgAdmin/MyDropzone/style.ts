@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { IconImage } from '@sopt-makers/icons';
+import { IconImagePlus } from '@sopt-makers/icons';
 
 export const StImgButtonWrapper = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ export const StImgButton = styled.div<StImgButtonProps>`
   cursor: pointer;
 `;
 
-export const StImgIcon = styled(IconImage)`
+export const StImgIcon = styled(IconImagePlus)`
   width: 24px;
   height: 24px;
   color: ${colors.white};
