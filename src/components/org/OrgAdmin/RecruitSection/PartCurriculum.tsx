@@ -27,8 +27,8 @@ const PartCurriculum = () => {
             labelText: '기획 파트는 이런 걸 배워요.',
           }}
           value=""
-          fixedHeight={230}
-          maxHeight={230}
+          fixedHeight={158}
+          maxHeight={158}
           placeholder="파트별 설명을 작성해주세요."
           isError={errors.partCurriculum?.message != undefined}
           errorMessage={errors.partCurriculum?.message as string}
