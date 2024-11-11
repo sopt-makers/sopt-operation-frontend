@@ -168,7 +168,7 @@ const StyledLogin = styled.div`
     font-weight: 500;
     line-height: 2rem;
     height: 2rem;
-    color: ${({ theme }) => theme.color.sub.red};
+    color: ${colors.error};
     margin-top: 2.4rem;
   }
 `;

@@ -3235,6 +3235,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sopt-makers/colors@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@sopt-makers/colors@npm:3.0.2"
+  checksum: 10c0/f055a3f9f1b61601b0819751f3153f77f23013d5c388156267d0f87816810c48570058c335be56bb35c6907ad6cbcbe98c882da6778b8f30a9dc59aa2d9912d5
+  languageName: node
+  linkType: hard
+
 "@sopt-makers/fonts@npm:^2.0.1":
   version: 2.0.1
   resolution: "@sopt-makers/fonts@npm:2.0.1"
@@ -3260,13 +3267,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/ui@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "@sopt-makers/ui@npm:2.4.0"
+"@sopt-makers/ui@npm:^2.4.4":
+  version: 2.5.0
+  resolution: "@sopt-makers/ui@npm:2.5.0"
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-switch": "npm:^1.0.3"
-    "@sopt-makers/colors": "npm:^3.0.1"
+    "@sopt-makers/colors": "npm:^3.0.2"
     "@sopt-makers/fonts": "npm:^2.0.1"
     "@sopt-makers/icons": "npm:^1.0.5"
     "@vanilla-extract/css": "npm:^1.14.0"
@@ -3275,7 +3282,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10c0/2376be3c255ef6e7b471a42941f27559f1158df40f30d3dab0aff774dcba79029d5fdf5abda2df46590272fe535ea772e9e3e10b59984d0013b89937eb52cbe9
+  checksum: 10c0/5b41c00d4076eef0dffd389a2ad288ad841acafba0da437a0f0876d83cda73599db852fcd04c3d6c25a842bec83ba8a62a9d03a1de1c699b2ae9c9742bb0d879
   languageName: node
   linkType: hard
 
@@ -6018,6 +6025,13 @@ __metadata:
   version: 0.4.0
   resolution: "asynckit@npm:0.4.0"
   checksum: 10c0/d73e2ddf20c4eb9337e1b3df1a0f6159481050a5de457c55b14ea2e5cb6d90bb69e004c9af54737a5ee0917fcf2c9e25de67777bbe58261847846066ba75bc9d
+  languageName: node
+  linkType: hard
+
+"attr-accept@npm:^2.2.2":
+  version: 2.2.4
+  resolution: "attr-accept@npm:2.2.4"
+  checksum: 10c0/602d88b40cb039f1159b86e389ca4f908c13dba513753f7c511e69499ba6216c153519f31a484bac9c9efa633f8f6a4ec25b4f777bd55198f8cb2514cef04618
   languageName: node
   linkType: hard
 
@@ -9241,6 +9255,15 @@ __metadata:
   dependencies:
     flat-cache: "npm:^3.0.4"
   checksum: 10c0/58473e8a82794d01b38e5e435f6feaf648e3f36fdb3a56e98f417f4efae71ad1c0d4ebd8a9a7c50c3ad085820a93fc7494ad721e0e4ebc1da3573f4e1c3c7cdd
+  languageName: node
+  linkType: hard
+
+"file-selector@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "file-selector@npm:0.6.0"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 10c0/477ca1b56274db9fee1a8a623c4bfef580389726a5fef843af8c1f2f17f70ec2d1e41b29115777c92e120a15f1cca734c6ef36bb48bfa2ee027c68da16cd0d28
   languageName: node
   linkType: hard
 
@@ -13910,6 +13933,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dropzone@npm:^14.2.10":
+  version: 14.2.10
+  resolution: "react-dropzone@npm:14.2.10"
+  dependencies:
+    attr-accept: "npm:^2.2.2"
+    file-selector: "npm:^0.6.0"
+    prop-types: "npm:^15.8.1"
+  peerDependencies:
+    react: ">= 16.8 || 18.0.0"
+  checksum: 10c0/07f24b77cae951f8bdbcaeabfca1eacf8699ed79e5924c534d81c0da23bf98a83dae19d5e04419f2010b527233830f69159caabf0cdaedb1aaaaa4fe7efa99f0
+  languageName: node
+  linkType: hard
+
 "react-element-to-jsx-string@npm:^15.0.0":
   version: 15.0.0
   resolution: "react-element-to-jsx-string@npm:15.0.0"
@@ -13924,12 +13960,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.44.0":
-  version: 7.52.2
-  resolution: "react-hook-form@npm:7.52.2"
+"react-hook-form@npm:^7.53.0":
+  version: 7.53.0
+  resolution: "react-hook-form@npm:7.53.0"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/2b8d37239d40f4326a24609c1bf5b4ba2cf66bc4a988213ccd7eb92a254dd5bf9c4b94caa353bce4b1d6d8a9ecd2ea3103e25c6d2d72d53f7be26f09053a8b2f
+  checksum: 10c0/6d62b150618a833c17d59e669b707661499e2bb516a8d340ca37699f99eb448bbba7b5b78324938c8948014e21efaa32e3510c2ba246fd5e97a96fca0cfa7c98
   languageName: node
   linkType: hard
 
@@ -15005,7 +15041,7 @@ __metadata:
     "@sopt-makers/colors": "npm:^3.0.1"
     "@sopt-makers/fonts": "npm:^2.0.1"
     "@sopt-makers/icons": "npm:^1.0.4"
-    "@sopt-makers/ui": "npm:^2.4.0"
+    "@sopt-makers/ui": "npm:^2.4.4"
     "@storybook/addon-essentials": "npm:8.0.4"
     "@storybook/addon-interactions": "npm:8.0.4"
     "@storybook/addon-links": "npm:8.0.4"
@@ -15042,7 +15078,8 @@ __metadata:
     react: "npm:^18.2.0"
     react-datepicker: "npm:^6.5.0"
     react-dom: "npm:^18.2.0"
-    react-hook-form: "npm:^7.44.0"
+    react-dropzone: "npm:^14.2.10"
+    react-hook-form: "npm:^7.53.0"
     react-query: "npm:^3.39.3"
     recoil: "npm:^0.7.7"
     recoil-persist: "npm:^5.1.0"
