@@ -38,4 +38,5 @@ export const MENU_LIST = [
     MenuIcon: IcAlarmMenu,
     path: ['/alarmAdmin'],
   },
+  { title: '광고 배너 관리', MenuIcon: IcAlarmMenu, path: ['/bannerAdmin'] },
 ];
