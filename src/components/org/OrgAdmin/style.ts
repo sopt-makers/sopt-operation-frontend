@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { TextField } from '@sopt-makers/ui';
+import { TextArea, TextField } from '@sopt-makers/ui';
 
 import theme from '@/styles/theme';
 
@@ -22,6 +22,12 @@ export const StTitle = styled.h2`
   ${fontsObject.TITLE_3_24_SB}
 
   margin-bottom: 6px;
+  color: ${colors.white};
+`;
+
+export const StLabel = styled.label`
+  ${fontsObject.LABEL_3_14_SB};
+
   color: ${colors.white};
 `;
 
@@ -86,4 +92,19 @@ export const StSubmitButton = styled.button`
 
 export const StSubmitText = styled.span`
   ${fontsObject.LABEL_1_18_SB}
+`;
+
+export const StErrorMessage = styled.p`
+  ${fontsObject.LABEL_3_14_SB};
+
+  color: ${colors.error};
+`;
+
+export const StTextArea = styled(TextArea)`
+  max-width: 547px;
+
+  textarea {
+    padding: 8px 14px;
+    margin: 0px;
+  }
 `;

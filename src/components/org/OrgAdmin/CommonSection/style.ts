@@ -121,12 +121,6 @@ export const StInfoImg = styled.img`
   color: ${colors.white};
 `;
 
-export const StErrorMessage = styled.p`
-  ${fontsObject.LABEL_3_14_SB};
-
-  color: ${colors.error};
-`;
-
 export const StSubColorTitle = styled(StInputLabel)`
   display: flex;
   gap: 5px;
