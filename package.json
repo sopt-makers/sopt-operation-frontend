@@ -74,5 +74,10 @@
     "ts-node": "^10.9.1",
     "webpack": "^5.95.0"
   },
-  "packageManager": "yarn@4.5.0"
+  "packageManager": "yarn@4.5.0",
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
 }
