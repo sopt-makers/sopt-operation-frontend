@@ -67,6 +67,7 @@ const RAW_RUNTIME_STATE =
           ["jest-environment-jsdom", "virtual:d33a53ec4f2d48ae7651be05af9a3287918dc7e33dbef056d70f8f2e9a9e865a20fd7ecaabe8bc463311491ca092147063be603e51d20447f968576fdf14483f#npm:29.7.0"],\
           ["jsdom", "virtual:d33a53ec4f2d48ae7651be05af9a3287918dc7e33dbef056d70f8f2e9a9e865a20fd7ecaabe8bc463311491ca092147063be603e51d20447f968576fdf14483f#npm:24.1.1"],\
           ["next", "virtual:d33a53ec4f2d48ae7651be05af9a3287918dc7e33dbef056d70f8f2e9a9e865a20fd7ecaabe8bc463311491ca092147063be603e51d20447f968576fdf14483f#npm:14.2.5"],\
+          ["openapi-fetch", "npm:0.13.0"],\
           ["openapi-typescript", "virtual:d33a53ec4f2d48ae7651be05af9a3287918dc7e33dbef056d70f8f2e9a9e865a20fd7ecaabe8bc463311491ca092147063be603e51d20447f968576fdf14483f#npm:7.4.3"],\
           ["prettier", "npm:3.3.3"],\
           ["react", "npm:18.3.1"],\
@@ -17253,6 +17254,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["openapi-fetch", [\
+      ["npm:0.13.0", {\
+        "packageLocation": "../../../../.yarn/berry/cache/openapi-fetch-npm-0.13.0-d97212a182-10c0.zip/node_modules/openapi-fetch/",\
+        "packageDependencies": [\
+          ["openapi-fetch", "npm:0.13.0"],\
+          ["openapi-typescript-helpers", "npm:0.0.15"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["openapi-typescript", [\
       ["npm:7.4.3", {\
         "packageLocation": "../../../../.yarn/berry/cache/openapi-typescript-npm-7.4.3-c3550e5b3c-10c0.zip/node_modules/openapi-typescript/",\
@@ -17277,6 +17288,15 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/typescript",\
           "typescript"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["openapi-typescript-helpers", [\
+      ["npm:0.0.15", {\
+        "packageLocation": "../../../../.yarn/berry/cache/openapi-typescript-helpers-npm-0.0.15-4655406434-10c0.zip/node_modules/openapi-typescript-helpers/",\
+        "packageDependencies": [\
+          ["openapi-typescript-helpers", "npm:0.0.15"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -19812,6 +19832,7 @@ const RAW_RUNTIME_STATE =
           ["jest-environment-jsdom", "virtual:d33a53ec4f2d48ae7651be05af9a3287918dc7e33dbef056d70f8f2e9a9e865a20fd7ecaabe8bc463311491ca092147063be603e51d20447f968576fdf14483f#npm:29.7.0"],\
           ["jsdom", "virtual:d33a53ec4f2d48ae7651be05af9a3287918dc7e33dbef056d70f8f2e9a9e865a20fd7ecaabe8bc463311491ca092147063be603e51d20447f968576fdf14483f#npm:24.1.1"],\
           ["next", "virtual:d33a53ec4f2d48ae7651be05af9a3287918dc7e33dbef056d70f8f2e9a9e865a20fd7ecaabe8bc463311491ca092147063be603e51d20447f968576fdf14483f#npm:14.2.5"],\
+          ["openapi-fetch", "npm:0.13.0"],\
           ["openapi-typescript", "virtual:d33a53ec4f2d48ae7651be05af9a3287918dc7e33dbef056d70f8f2e9a9e865a20fd7ecaabe8bc463311491ca092147063be603e51d20447f968576fdf14483f#npm:7.4.3"],\
           ["prettier", "npm:3.3.3"],\
           ["react", "npm:18.3.1"],\

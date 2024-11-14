@@ -13063,6 +13063,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"openapi-fetch@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "openapi-fetch@npm:0.13.0"
+  dependencies:
+    openapi-typescript-helpers: "npm:^0.0.15"
+  checksum: 10c0/675a74102ba2d4433b65c89ec9f5b20254bc399912c069b1b9ca584103992e5eb71680b2b9436fe48eedf4410ad2c2dbead2c5d0c790d5cbc8e16a0b7578879c
+  languageName: node
+  linkType: hard
+
+"openapi-typescript-helpers@npm:^0.0.15":
+  version: 0.0.15
+  resolution: "openapi-typescript-helpers@npm:0.0.15"
+  checksum: 10c0/5eb68d487b787e3e31266470b1a310726549dd45a1079655ab18066ab291b0b3c343fdf629991013706a2329b86964f8798d56ef0272b94b931fe6c19abd7a88
+  languageName: node
+  linkType: hard
+
 "openapi-typescript@npm:^7.4.3":
   version: 7.4.3
   resolution: "openapi-typescript@npm:7.4.3"
@@ -15208,6 +15224,7 @@ __metadata:
     jest-environment-jsdom: "npm:^29.5.0"
     jsdom: "npm:^24.0.0"
     next: "npm:^14.1.4"
+    openapi-fetch: "npm:^0.13.0"
     openapi-typescript: "npm:^7.4.3"
     prettier: "npm:^3.2.5"
     react: "npm:^18.2.0"
