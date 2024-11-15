@@ -20,19 +20,6 @@ function OrgAdmin() {
     setSelectedPart(part);
   };
 
-  const TabContent = () => {
-    switch (selectedPart) {
-      case '공통':
-        return <CommonSection />;
-      case '홈':
-      // return <HomeSection />;
-      case '소개':
-        return <AboutSection />;
-      case '지원하기':
-        return <RecruitSection />;
-    }
-  };
-
   return (
     <>
       <StListHeader>
@@ -48,7 +35,13 @@ function OrgAdmin() {
           onSubmit={handleSubmit((data) => {
             console.log(data);
           })}>
-          <TabContent />
+          {selectedPart === '공통' ? (
+            <CommonSection />
+          ) : selectedPart === '소개' ? (
+            <AboutSection />
+          ) : (
+            <RecruitSection />
+          )}
           <StSubmitButton>
             <SubmitIcon />
             <StSubmitText>배포</StSubmitText>
