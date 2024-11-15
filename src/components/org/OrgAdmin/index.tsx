@@ -5,12 +5,11 @@ import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/s
 import FilterButton from '@/components/common/FilterButton';
 import { ORG_ADMIN_LIST } from '@/utils/org';
 
+import AboutSection from './AboutSection';
 import SubmitIcon from './assets/SubmitIcon';
 import CommonSection from './CommonSection';
 import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';
-
-import AboutSection from './AboutSection';
 
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
@@ -19,6 +18,19 @@ function OrgAdmin() {
 
   const onChangePart = (part: ORG_ADMIN): void => {
     setSelectedPart(part);
+  };
+
+  const TabContent = () => {
+    switch (selectedPart) {
+      case '공통':
+        return <CommonSection />;
+      case '홈':
+      // return <HomeSection />;
+      case '소개':
+        return <AboutSection />;
+      case '지원하기':
+        return <RecruitSection />;
+    }
   };
 
   return (
@@ -30,15 +42,13 @@ function OrgAdmin() {
           selected={selectedPart}
           onChange={onChangePart}
         />
-        {selectedPart === '소개' && <AboutSection />}
       </StListHeader>
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit((data) => {
             console.log(data);
           })}>
-          {/* <CommonSection /> */}
-          <RecruitSection />
+          <TabContent />
           <StSubmitButton>
             <SubmitIcon />
             <StSubmitText>배포</StSubmitText>
