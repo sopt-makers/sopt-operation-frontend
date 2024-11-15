@@ -17,9 +17,10 @@ import {
 interface MyDropzoneProps {
   method: UseFormReturn;
   label: string;
+  size?: 'sm' | 'lg';
 }
 
-const MyDropzone = ({ method, label }: MyDropzoneProps) => {
+const MyDropzone = ({ method, label, size = 'sm' }: MyDropzoneProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const {
     register,
@@ -61,6 +62,7 @@ const MyDropzone = ({ method, label }: MyDropzoneProps) => {
         {...getRootProps({
           onClick: handleClick, // input의 클릭 이벤트 핸들링
         })}
+        size={size}
         isError={errors[label]?.message != undefined}>
         <input
           {...getInputProps()}
