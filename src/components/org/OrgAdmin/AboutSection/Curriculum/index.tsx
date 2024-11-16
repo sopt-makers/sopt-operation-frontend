@@ -1,15 +1,6 @@
-import { Chip } from '@sopt-makers/ui';
-
-import { PART_LIST } from '@/utils/org';
-
+import PartCategory from '../../PartCategory';
 import { StInput, StTitle, StWrapper } from '../style';
-import {
-  StChipWrapper,
-  StContentWrapper,
-  StItem,
-  StList,
-  StWeek,
-} from './style';
+import { StContentWrapper, StItem, StList, StWeek } from './style';
 
 const Curriculum = () => {
   const CURRICULUM = ['', '2주차', '3주차', '4주차', '', '', '', ''];
@@ -18,11 +9,7 @@ const Curriculum = () => {
     <StWrapper>
       <StTitle>파트별 커리큘럼</StTitle>
       <StContentWrapper>
-        <StChipWrapper>
-          {PART_LIST.map((part) => (
-            <Chip key={part}>{part}</Chip>
-          ))}
-        </StChipWrapper>
+        <PartCategory />
         <StList>
           {CURRICULUM.map((curr, idx) => (
             <StItem key={`week${idx + 1}`}>
