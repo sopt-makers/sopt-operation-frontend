@@ -25,7 +25,7 @@ const Curriculum = () => {
         </StChipWrapper>
         <StList>
           {CURRICULUM.map((curr, idx) => (
-            <StItem key={curr}>
+            <StItem key={`week${idx + 1}`}>
               <StWeek htmlFor={`week${idx + 1}`}>0{idx + 1}</StWeek>
               <StInput
                 id={`week${idx}`}
