@@ -1,3 +1,6 @@
+import { useFormContext } from 'react-hook-form';
+
+import MyDropzone from '../../MyDropzone';
 import {
   StDescription,
   StInput,
@@ -5,14 +8,10 @@ import {
   StTitle,
   StWrapper,
 } from '../style';
-import {
-  StDummyImageInput,
-  StInputBox,
-  StInputWrapper,
-  StValueWrapper,
-} from './style';
+import { StInputBox, StInputWrapper, StValueWrapper } from './style';
 
 const CoreValue = () => {
+  const method = useFormContext();
   return (
     <StWrapper>
       <StTitle>핵심 가치</StTitle>
@@ -20,7 +19,12 @@ const CoreValue = () => {
         <StInputLabel>핵심 가치1</StInputLabel>
         <StDescription>이미지는 380x323으로 올려주세요.</StDescription>
         <StInputWrapper>
-          <StDummyImageInput />
+          <MyDropzone
+            method={method}
+            label="aboutCoreValue1"
+            width="224px"
+            height="190px"
+          />
           <StInputBox>
             <StInput value={'용기'} labelText="가치" placeholder="ex. 용기" />
             <StInput
@@ -36,7 +40,12 @@ const CoreValue = () => {
         <StInputLabel>핵심 가치2</StInputLabel>
         <StDescription>이미지는 380x323으로 올려주세요.</StDescription>
         <StInputWrapper>
-          <StDummyImageInput />
+          <MyDropzone
+            method={method}
+            label="aboutCoreValue2"
+            width="224px"
+            height="190px"
+          />
           <StInputBox>
             <StInput value={'모립'} labelText="가치" placeholder="ex. 몰입" />
             <StInput
@@ -52,7 +61,12 @@ const CoreValue = () => {
         <StInputLabel>핵심 가치3</StInputLabel>
         <StDescription>이미지는 380x323으로 올려주세요.</StDescription>
         <StInputWrapper>
-          <StDummyImageInput />
+          <MyDropzone
+            method={method}
+            label="aboutCoreValue1"
+            width="224px"
+            height="190px"
+          />
           <StInputBox>
             <StInput value={'화합'} labelText="가치" placeholder="ex. 화합" />
             <StInput

@@ -1,7 +1,9 @@
 import { Chip } from '@sopt-makers/ui';
+import { useFormContext } from 'react-hook-form';
 
 import { PART_LIST, 임원진_LIST } from '@/utils/org';
 
+import MyDropzone from '../../MyDropzone';
 import IcBehanceLogo from '../assets/IcBehanceLogo';
 import IcGithubLogo from '../assets/IcGithubLogo';
 import IcLinkedinLogo from '../assets/IcLinkedinLogo';
@@ -17,13 +19,13 @@ import {
   StChipLabel,
   StChipLine,
   StChipWrapper,
-  StDummyImageInput,
   StPhotoWrapper,
   StSNSBox,
   StSNSWrapper,
 } from './style';
 
 const Executives = () => {
+  const method = useFormContext();
   return (
     <StWrapper>
       <StTitle>임원진</StTitle>
@@ -44,7 +46,13 @@ const Executives = () => {
       <StPhotoWrapper>
         <StInputLabel>프로필 사진</StInputLabel>
         <StDescription>사진은 1:1 비율로 올려주세요.</StDescription>
-        <StDummyImageInput />
+        <MyDropzone
+          method={method}
+          label="aboutExecutivesProfile"
+          width="168px"
+          height="168px"
+          shape="circle"
+        />
       </StPhotoWrapper>
       <StInput labelText="이름" placeholder="ex. 김솝트" value={''} />
       <StInput

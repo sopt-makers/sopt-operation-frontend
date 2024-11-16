@@ -15,7 +15,12 @@ const HeaderBanner = () => {
           이미지는 1920*630 크기로 올려주세요. ‘소개’탭 가장 상단에 보여지는
           이미지예요.
         </StDescription>
-        <MyDropzone method={method} label="aboutHeaderBanner" size="lg" />
+        <MyDropzone
+          method={method}
+          label="aboutHeaderBanner"
+          width="582px"
+          height="191px"
+        />
       </StContentWrapper>
     </StWrapper>
   );
