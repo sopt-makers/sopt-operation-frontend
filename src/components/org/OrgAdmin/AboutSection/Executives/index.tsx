@@ -68,16 +68,23 @@ const Executives = () => {
       />
       <StSNSWrapper>
         <span>SNS</span>
-        <SNSInput icon={IcMailLogo} placeholder="ex. 000@sopt.org" />
         <SNSInput
+          label="mail"
+          icon={IcMailLogo}
+          placeholder="ex. 000@sopt.org"
+        />
+        <SNSInput
+          label="linkedIn"
           icon={IcLinkedinLogo}
           placeholder="ex. https://www.linkedin.com/..."
         />
         <SNSInput
+          label="github"
           icon={IcGithubLogo}
           placeholder="ex. https://github.com/..."
         />
         <SNSInput
+          label="behance"
           icon={IcBehanceLogo}
           placeholder="ex. https://www.behance.net/..."
         />

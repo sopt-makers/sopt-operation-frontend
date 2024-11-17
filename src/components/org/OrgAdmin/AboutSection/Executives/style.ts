@@ -41,12 +41,12 @@ export const StSNSWrapper = styled.ul`
   }
 `;
 
-export const StSNSBox = styled.label`
+export const StSNSBox = styled.li`
   display: flex;
   gap: 12px;
   align-items: center;
 
-  & > svg {
+  & svg {
     cursor: pointer;
   }
 `;

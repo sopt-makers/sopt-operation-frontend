@@ -4,17 +4,18 @@ import { StInput } from '../style';
 import { StSNSBox } from './style';
 
 interface SNSInputProps {
+  label: string;
   icon: React.FC;
   placeholder: string;
 }
-const SNSInput = ({ icon: Icon, placeholder }: SNSInputProps) => {
+const SNSInput = ({ label, icon: Icon, placeholder }: SNSInputProps) => {
   return (
-    <li>
-      <StSNSBox>
+    <StSNSBox>
+      <label htmlFor={label}>
         <Icon />
-        <StInput placeholder={placeholder} value={''} />
-      </StSNSBox>
-    </li>
+      </label>
+      <StInput placeholder={placeholder} value={''} id={label} />
+    </StSNSBox>
   );
 };
 
