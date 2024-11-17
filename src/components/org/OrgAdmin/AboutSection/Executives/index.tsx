@@ -15,6 +15,7 @@ import {
   StTitle,
   StWrapper,
 } from '../style';
+import SNSInput from './SNSInput';
 import {
   StChipLabel,
   StChipLine,
@@ -67,22 +68,19 @@ const Executives = () => {
       />
       <StSNSWrapper>
         <span>SNS</span>
-        <StSNSBox>
-          <IcMailLogo />
-          <StInput placeholder="ex. 000@sopt.org" value={''} />
-        </StSNSBox>
-        <StSNSBox>
-          <IcLinkedinLogo />
-          <StInput placeholder="ex. https://www.linkedin.com/..." value={''} />
-        </StSNSBox>
-        <StSNSBox>
-          <IcGithubLogo />
-          <StInput placeholder="ex. https://github.com/..." value={''} />
-        </StSNSBox>
-        <StSNSBox>
-          <IcBehanceLogo />
-          <StInput placeholder="ex. https://www.behance.net/..." value={''} />
-        </StSNSBox>
+        <SNSInput icon={IcMailLogo} placeholder="ex. 000@sopt.org" />
+        <SNSInput
+          icon={IcLinkedinLogo}
+          placeholder="ex. https://www.linkedin.com/..."
+        />
+        <SNSInput
+          icon={IcGithubLogo}
+          placeholder="ex. https://github.com/..."
+        />
+        <SNSInput
+          icon={IcBehanceLogo}
+          placeholder="ex. https://www.behance.net/..."
+        />
       </StSNSWrapper>
     </StWrapper>
   );
