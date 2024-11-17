@@ -1,19 +1,22 @@
 import { useState } from 'react';
 
+import { PART_LIST } from '@/utils/org';
+
 import PartCategory from '../../PartCategory';
 import { StInput, StTitle, StWrapper } from '../style';
 import { StContentWrapper, StItem, StList, StWeek } from './style';
 
 const Curriculum = () => {
+  const initialCurriculum = PART_LIST.reduce(
+    (acc, part) => {
+      acc[part] = Array.from({ length: 8 }, () => '');
+      return acc;
+    },
+    {} as Record<string, string[]>,
+  );
+
   const [selectedPart, setSelectedPart] = useState('기획');
-  const [curriculum, setCurriculum] = useState<Record<string, string[]>>({
-    기획: Array.from({ length: 8 }, () => ''),
-    디자인: Array.from({ length: 8 }, () => ''),
-    안드로이드: Array.from({ length: 8 }, () => ''),
-    iOS: Array.from({ length: 8 }, () => ''),
-    웹: Array.from({ length: 8 }, () => ''),
-    서버: Array.from({ length: 8 }, () => ''),
-  });
+  const [curriculum, setCurriculum] = useState(initialCurriculum);
 
   const handleSetSelectedPart = (value: string) => {
     setSelectedPart(value);
