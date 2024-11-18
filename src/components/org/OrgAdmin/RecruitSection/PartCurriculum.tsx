@@ -15,9 +15,9 @@ const PartCurriculum = () => {
   return (
     <StWrapper>
       <StTitleWrapper>
-        <StTitle>파트별 커리귤럼</StTitle>
+        <StTitle>파트별 커리큘럼</StTitle>
       </StTitleWrapper>
-      <PartCategory />
+      {/* <PartCategory /> */}
       <StTextAreaWrapper>
         <StTextArea
           {...register('partCurriculum', {

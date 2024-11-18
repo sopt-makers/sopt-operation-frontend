@@ -17,7 +17,7 @@ const Fna = () => {
       <StTitleWrapper>
         <StTitle>자주 묻는 질문</StTitle>
       </StTitleWrapper>
-      <PartCategory />
+      {/* <PartCategory /> */}
       <StTextAreaWrapper>
         <StFnaWrapper>
           <StTextArea

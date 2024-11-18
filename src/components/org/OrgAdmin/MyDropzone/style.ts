@@ -11,22 +11,26 @@ export const StImgButtonWrapper = styled.div`
 
 interface StImgButtonProps {
   isError: boolean;
+  width: string;
+  height: string;
+  shape: 'square' | 'circle';
 }
 
 export const StImgButton = styled.div<StImgButtonProps>`
-  ${fontsObject.BODY_2_16_M}
+  ${fontsObject.BODY_4_13_M}
 
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 547px;
-  height: 166px;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
   margin-top: 13px;
   color: ${colors.white};
   background-color: ${colors.gray800};
   border: ${({ isError }) => (isError ? `1px solid ${colors.error}` : 'none')};
-  border-radius: 10px;
+  border-radius: ${({ shape }) => (shape === 'square' ? '10px' : '50%')};
   cursor: pointer;
+  overflow: hidden;
 `;
 
 export const StImgIcon = styled(IconImagePlus)`
@@ -36,8 +40,9 @@ export const StImgIcon = styled(IconImagePlus)`
 `;
 
 export const StImgPreview = styled.img`
-  max-width: 547px;
-  height: 166px;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
   color: ${colors.white};
   border-radius: 10px;
 `;
