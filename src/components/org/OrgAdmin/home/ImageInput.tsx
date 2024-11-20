@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { IconImagePlus } from '@sopt-makers/icons';
 import { HTMLAttributes } from 'react';
+import { useFormContext } from 'react-hook-form';
+
+import MyDropZone from '../MyDropzone';
 
 interface ImageInputProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -10,6 +12,8 @@ interface ImageInputProps extends HTMLAttributes<HTMLInputElement> {
 }
 
 const ImageInput = ({ label, description }: ImageInputProps) => {
+  const method = useFormContext();
+
   return (
     <StInputContainer>
       <StLabel aria-labelledby={label}>
@@ -18,10 +22,12 @@ const ImageInput = ({ label, description }: ImageInputProps) => {
       </StLabel>
       <StDescription>{description}</StDescription>
 
-      <StImageLabel htmlFor={label}>
-        <IconImagePlus color={colors.white} />
-      </StImageLabel>
-      <StImageInput type="file" accept="image/*" id={label} />
+      <MyDropZone
+        method={method}
+        label="newsImage"
+        width="167px"
+        height="211px"
+      />
     </StInputContainer>
   );
 };

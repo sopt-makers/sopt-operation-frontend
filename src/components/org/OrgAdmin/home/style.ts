@@ -10,7 +10,7 @@ export const StContainer = styled.section`
   padding: 50px 0 270px 0;
 `;
 
-export const StForm = styled.form`
+export const StWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 80px;
