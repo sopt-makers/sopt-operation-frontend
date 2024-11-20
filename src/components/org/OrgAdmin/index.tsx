@@ -8,6 +8,7 @@ import { ORG_ADMIN_LIST } from '@/utils/org';
 import AboutSection from './AboutSection';
 import SubmitIcon from './assets/SubmitIcon';
 import CommonSection from './CommonSection';
+import HomeSection from './home/HomeSection';
 import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';
 
@@ -39,6 +40,8 @@ function OrgAdmin() {
             <CommonSection />
           ) : selectedPart === '소개' ? (
             <AboutSection />
+          ) : selectedPart === '홈' ? (
+            <HomeSection />
           ) : (
             <RecruitSection />
           )}
