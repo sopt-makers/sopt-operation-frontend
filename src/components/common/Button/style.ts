@@ -27,12 +27,12 @@ export const StButton = styled.button<Pick<Props, 'type'>>`
           color: ${colors.gray200};
         `
       : type === 'submit'
-      ? css`
-          background-color: ${colors.white};
-          color: ${colors.black};
-        `
-      : css`
-          background: none;
-          color: ${theme.color.grayscale.white100};
-        `};
+        ? css`
+            background-color: ${colors.white};
+            color: ${colors.black};
+          `
+        : css`
+            background: none;
+            color: ${colors.white};
+          `};
 `;
