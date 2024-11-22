@@ -12,6 +12,7 @@ import { StInputBox, StInputWrapper, StValueWrapper } from './style';
 
 const CoreValue = () => {
   const method = useFormContext();
+  const { register } = method;
   return (
     <StWrapper>
       <StTitle>핵심 가치</StTitle>
@@ -21,14 +22,18 @@ const CoreValue = () => {
         <StInputWrapper>
           <MyDropzone
             method={method}
-            label="aboutCoreValue1"
+            label={'coreValue.0.imageFileName'}
             width="224px"
             height="190px"
           />
           <StInputBox>
-            <StInput value={'용기'} labelText="가치" placeholder="ex. 용기" />
             <StInput
-              value={'어쩌구저쩌구'}
+              {...register('coreValue.0.value')}
+              labelText="가치"
+              placeholder="ex. 용기"
+            />
+            <StInput
+              {...register('coreValue.0.description')}
               labelText="가치 설명"
               descriptionText="호버 시, 보이는 문구예요."
               placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
@@ -42,14 +47,18 @@ const CoreValue = () => {
         <StInputWrapper>
           <MyDropzone
             method={method}
-            label="aboutCoreValue2"
+            label={'coreValue.1.imageFileName'}
             width="224px"
             height="190px"
           />
           <StInputBox>
-            <StInput value={'모립'} labelText="가치" placeholder="ex. 몰입" />
             <StInput
-              value={'어쩌구저쩌구'}
+              {...register('coreValue.1.value')}
+              labelText="가치"
+              placeholder="ex. 몰입"
+            />
+            <StInput
+              {...register('coreValue.1.description')}
               labelText="가치 설명"
               descriptionText="호버 시, 보이는 문구예요."
               placeholder="ex. 포기하지 않고 깊이 몰입하는 사람"
@@ -63,14 +72,18 @@ const CoreValue = () => {
         <StInputWrapper>
           <MyDropzone
             method={method}
-            label="aboutCoreValue1"
+            label={'coreValue.2.imageFileName'}
             width="224px"
             height="190px"
           />
           <StInputBox>
-            <StInput value={'화합'} labelText="가치" placeholder="ex. 화합" />
             <StInput
-              value={'어쩌구저쩌구'}
+              {...register('coreValue.2.value')}
+              labelText="가치"
+              placeholder="ex. 화합"
+            />
+            <StInput
+              {...register('coreValue.2.description')}
               labelText="가치 설명"
               descriptionText="호버 시, 보이는 문구예요."
               placeholder="ex. 서로를 배려하며 함께 화합하는 사람"
