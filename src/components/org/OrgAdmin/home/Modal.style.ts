@@ -39,11 +39,11 @@ export const StCancelButton = styled(Button)`
   }
 `;
 
-export const StActionButton = styled(Button)<{ btnType: 'add' | 'delete' }>`
-  color: ${(props) => (props.btnType === 'add' ? colors.black : colors.white)};
+export const StActionButton = styled(Button)<{ btntype: 'add' | 'delete' }>`
+  color: ${(props) => (props.btntype === 'add' ? colors.black : colors.white)};
 
   background-color: ${(props) =>
-    props.btnType === 'add' ? colors.white : colors.error};
+    props.btntype === 'add' ? colors.white : colors.error};
 
   &:disabled {
     cursor: default;
@@ -73,4 +73,27 @@ export const StAddModalBtnWrapper = styled.div`
 
   display: flex;
   gap: 12px;
+`;
+
+export const StInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const StLabel = styled.p`
+  ${fontsObject.LABEL_3_14_SB};
+  color: ${colors.white};
+`;
+
+export const StRequiredIcon = styled.span`
+  color: ${colors.secondary};
+  margin-left: 4px;
+`;
+
+export const StDescription = styled.p`
+  ${fontsObject.LABEL_4_12_SB};
+  color: ${colors.gray300};
+
+  padding-bottom: 5px;
 `;
