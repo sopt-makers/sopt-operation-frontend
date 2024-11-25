@@ -12,9 +12,7 @@
   "paths": {
     "/notification/register": {
       "post": {
-        "tags": [
-          "Notification"
-        ],
+        "tags": ["Notification"],
         "operationId": "registerNotification",
         "parameters": [
           {
@@ -58,9 +56,7 @@
     },
     "/admin": {
       "get": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "summary": "어드민 메인 데이터 조회",
         "description": "어드민 메인 데이터를 조회합니다",
         "operationId": "getMain",
@@ -97,9 +93,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "summary": "어드민 메인 데이터 배포",
         "description": "어드민 메인 데이터를 배포합니다",
         "operationId": "addMain",
@@ -134,9 +128,7 @@
     },
     "/admin/news": {
       "get": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "summary": "최신소식 조회",
         "description": "최신소식을 조회합니다",
         "operationId": "getMainNews",
@@ -171,9 +163,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "summary": "최신소식 추가",
         "description": "최신소식을 추가합니다",
         "operationId": "addMainNews",
@@ -205,9 +195,7 @@
         ]
       },
       "delete": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "summary": "최신소식 삭제",
         "description": "최신소식을 삭제합니다",
         "operationId": "deleteMainNews",
@@ -242,9 +230,7 @@
     },
     "/admin/confirm": {
       "post": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "summary": "어드민 메인 데이터 배포 확인",
         "description": "어드민 메인 데이터 배포를 확인합니다",
         "operationId": "addMainConfirm",
@@ -279,9 +265,7 @@
     },
     "/semesters": {
       "get": {
-        "tags": [
-          "Semester"
-        ],
+        "tags": ["Semester"],
         "operationId": "getSemesters",
         "parameters": [
           {
@@ -320,9 +304,7 @@
     },
     "/projects": {
       "get": {
-        "tags": [
-          "Project"
-        ],
+        "tags": ["Project"],
         "operationId": "getAllProject",
         "parameters": [
           {
@@ -349,10 +331,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "WEB",
-                "APP"
-              ]
+              "enum": ["WEB", "APP"]
             }
           },
           {
@@ -396,9 +375,7 @@
     },
     "/notification/list": {
       "get": {
-        "tags": [
-          "Notification"
-        ],
+        "tags": ["Notification"],
         "operationId": "getAllProject_1",
         "parameters": [
           {
@@ -428,9 +405,7 @@
     },
     "/homepage": {
       "get": {
-        "tags": [
-          "Homepage"
-        ],
+        "tags": ["Homepage"],
         "summary": "메인 페이지 조회",
         "description": "메인 페이지 데이터를 조회합니다",
         "operationId": "getMainPage",
@@ -450,9 +425,7 @@
     },
     "/homepage/recruit": {
       "get": {
-        "tags": [
-          "Homepage"
-        ],
+        "tags": ["Homepage"],
         "summary": "지원하기 페이지 조회",
         "description": "지원하기 페이지 데이터를 조회합니다",
         "operationId": "get",
@@ -472,9 +445,7 @@
     },
     "/homepage/about": {
       "get": {
-        "tags": [
-          "Homepage"
-        ],
+        "tags": ["Homepage"],
         "summary": "소개 페이지 조회",
         "description": "소개 페이지 데이터를 조회합니다",
         "operationId": "getAboutPage",
@@ -494,9 +465,7 @@
     },
     "/health": {
       "get": {
-        "tags": [
-          "HealthCheck"
-        ],
+        "tags": ["HealthCheck"],
         "operationId": "healthCheck",
         "responses": {
           "200": {
@@ -516,12 +485,7 @@
   "components": {
     "schemas": {
       "RegisterNotificationResponseDto": {
-        "required": [
-          "createdAt",
-          "email",
-          "generation",
-          "id"
-        ],
+        "required": ["createdAt", "email", "generation", "id"],
         "type": "object",
         "properties": {
           "id": {
@@ -546,12 +510,7 @@
         }
       },
       "AddAdminBrandingColorRequestDto": {
-        "required": [
-          "high",
-          "low",
-          "main",
-          "point"
-        ],
+        "required": ["high", "low", "main", "point"],
         "type": "object",
         "properties": {
           "main": {
@@ -582,11 +541,7 @@
         "description": "브랜딩 컬러"
       },
       "AddAdminCoreValueRequestDto": {
-        "required": [
-          "description",
-          "imageFileName",
-          "value"
-        ],
+        "required": ["description", "imageFileName", "value"],
         "type": "object",
         "properties": {
           "value": {
@@ -608,10 +563,7 @@
         "description": "핵심 가치"
       },
       "AddAdminCurriculumWeekRequestDto": {
-        "required": [
-          "description",
-          "week"
-        ],
+        "required": ["description", "week"],
         "type": "object",
         "properties": {
           "week": {
@@ -631,10 +583,7 @@
         "description": "주차별 커리큘럼 정보"
       },
       "AddAdminIntroductionRequestDto": {
-        "required": [
-          "content",
-          "preference"
-        ],
+        "required": ["content", "preference"],
         "type": "object",
         "properties": {
           "content": {
@@ -651,11 +600,7 @@
         "description": "소개글 정보"
       },
       "AddAdminMainButtonRequestDto": {
-        "required": [
-          "keyColor",
-          "subColor",
-          "text"
-        ],
+        "required": ["keyColor", "subColor", "text"],
         "type": "object",
         "properties": {
           "text": {
@@ -721,10 +666,7 @@
         "description": "멤버 정보"
       },
       "AddAdminPartCurriculumRequestDto": {
-        "required": [
-          "part",
-          "weeks"
-        ],
+        "required": ["part", "weeks"],
         "type": "object",
         "properties": {
           "part": {
@@ -743,10 +685,7 @@
         "description": "파트별 커리큘럼"
       },
       "AddAdminPartIntroductionRequestDto": {
-        "required": [
-          "description",
-          "part"
-        ],
+        "required": ["description", "part"],
         "type": "object",
         "properties": {
           "part": {
@@ -763,10 +702,7 @@
         "description": "파트 소개"
       },
       "AddAdminQuestionRequestDto": {
-        "required": [
-          "answer",
-          "question"
-        ],
+        "required": ["answer", "question"],
         "type": "object",
         "properties": {
           "question": {
@@ -783,10 +719,7 @@
         "description": "질문과 답변"
       },
       "AddAdminRecruitPartCurriculumRequestDto": {
-        "required": [
-          "introduction",
-          "part"
-        ],
+        "required": ["introduction", "part"],
         "type": "object",
         "properties": {
           "part": {
@@ -801,10 +734,7 @@
         "description": "모집 파트 커리큘럼"
       },
       "AddAdminRecruitQuestionRequestDto": {
-        "required": [
-          "part",
-          "questions"
-        ],
+        "required": ["part", "questions"],
         "type": "object",
         "properties": {
           "part": {
@@ -823,10 +753,7 @@
         "description": "모집 질문"
       },
       "AddAdminRecruitScheduleRequestDto": {
-        "required": [
-          "schedule",
-          "type"
-        ],
+        "required": ["schedule", "type"],
         "type": "object",
         "properties": {
           "type": {
@@ -834,10 +761,7 @@
             "type": "string",
             "description": "타입",
             "example": "OB",
-            "enum": [
-              "OB",
-              "YB"
-            ]
+            "enum": ["OB", "YB"]
           },
           "schedule": {
             "$ref": "#/components/schemas/AddAdminScheduleRequestDto"
@@ -1000,10 +924,7 @@
         "description": "SNS 링크 정보"
       },
       "AddAdminCoreValueResponseRecordDto": {
-        "required": [
-          "image",
-          "value"
-        ],
+        "required": ["image", "value"],
         "type": "object",
         "properties": {
           "value": {
@@ -1019,11 +940,7 @@
         "description": "핵심가치 이미지 S3 PresigneUrl 정보"
       },
       "AddAdminMemberResponseRecordDto": {
-        "required": [
-          "name",
-          "profileImage",
-          "role"
-        ],
+        "required": ["name", "profileImage", "role"],
         "type": "object",
         "properties": {
           "role": {
@@ -1087,11 +1004,7 @@
         "description": "어드민 메인정보 추가"
       },
       "AddAdminNewsRequestDto": {
-        "required": [
-          "image",
-          "link",
-          "title"
-        ],
+        "required": ["image", "link", "title"],
         "type": "object",
         "properties": {
           "image": {
@@ -1112,9 +1025,7 @@
         "description": "최신소식 추가하기"
       },
       "AddAdminConfirmRequestDto": {
-        "required": [
-          "generation"
-        ],
+        "required": ["generation"],
         "type": "object",
         "properties": {
           "generation": {
@@ -1190,9 +1101,7 @@
         "nullable": true
       },
       "Category": {
-        "required": [
-          "project"
-        ],
+        "required": ["project"],
         "type": "object",
         "properties": {
           "project": {
@@ -1210,10 +1119,7 @@
         "description": "프로젝트의 카테고리"
       },
       "Link": {
-        "required": [
-          "title",
-          "url"
-        ],
+        "required": ["title", "url"],
         "type": "object",
         "properties": {
           "title": {
@@ -1324,10 +1230,7 @@
             "items": {
               "type": "string",
               "description": "서비스 형태",
-              "enum": [
-                "WEB",
-                "APP"
-              ]
+              "enum": ["WEB", "APP"]
             }
           },
           "summary": {
@@ -1364,10 +1267,7 @@
         }
       },
       "GetNotificationListResponseDto": {
-        "required": [
-          "emailList",
-          "generation"
-        ],
+        "required": ["emailList", "generation"],
         "type": "object",
         "properties": {
           "generation": {
@@ -1393,12 +1293,7 @@
         }
       },
       "GetMainBrandingColorResponseRecordDto": {
-        "required": [
-          "high",
-          "low",
-          "main",
-          "point"
-        ],
+        "required": ["high", "low", "main", "point"],
         "type": "object",
         "properties": {
           "main": {
@@ -1425,12 +1320,7 @@
         "description": "브랜딩 컬러 정보"
       },
       "GetMainLatestNewsResponseRecordDto": {
-        "required": [
-          "id",
-          "image",
-          "link",
-          "title"
-        ],
+        "required": ["id", "image", "link", "title"],
         "type": "object",
         "properties": {
           "id": {
@@ -1458,11 +1348,7 @@
         "description": "최신소식"
       },
       "GetMainMainButtonResponseRecordDto": {
-        "required": [
-          "keyColor",
-          "subColor",
-          "text"
-        ],
+        "required": ["keyColor", "subColor", "text"],
         "type": "object",
         "properties": {
           "text": {
@@ -1484,10 +1370,7 @@
         "description": "메인 버튼 스타일"
       },
       "GetMainPageResponseDto": {
-        "required": [
-          "generation",
-          "name"
-        ],
+        "required": ["generation", "name"],
         "type": "object",
         "properties": {
           "generation": {
@@ -1523,10 +1406,7 @@
         "description": "메인 페이지 데이터 조회하기"
       },
       "GetMainPartIntroductionResponseRecordDto": {
-        "required": [
-          "description",
-          "part"
-        ],
+        "required": ["description", "part"],
         "type": "object",
         "properties": {
           "part": {
@@ -1543,10 +1423,7 @@
         "description": "파트 소개 정보"
       },
       "GetMainIntroductionResponseRecordDto": {
-        "required": [
-          "content",
-          "preference"
-        ],
+        "required": ["content", "preference"],
         "type": "object",
         "properties": {
           "content": {
@@ -1563,10 +1440,7 @@
         "description": "소개글 정보"
       },
       "GetMainQuestionResponseRecordDto": {
-        "required": [
-          "answer",
-          "question"
-        ],
+        "required": ["answer", "question"],
         "type": "object",
         "properties": {
           "question": {
@@ -1583,10 +1457,7 @@
         "description": "질문과 답변 정보"
       },
       "GetMainRecruitPartCurriculumResponseRecordDto": {
-        "required": [
-          "introduction",
-          "part"
-        ],
+        "required": ["introduction", "part"],
         "type": "object",
         "properties": {
           "part": {
@@ -1601,10 +1472,7 @@
         "description": "모집 파트 커리큘럼 정보"
       },
       "GetMainRecruitQuestionResponseRecordDto": {
-        "required": [
-          "part",
-          "questions"
-        ],
+        "required": ["part", "questions"],
         "type": "object",
         "properties": {
           "part": {
@@ -1623,20 +1491,14 @@
         "description": "모집 질문 정보"
       },
       "GetMainRecruitScheduleResponseRecordDto": {
-        "required": [
-          "schedule",
-          "type"
-        ],
+        "required": ["schedule", "type"],
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
             "description": "타입",
             "example": "OB",
-            "enum": [
-              "OB",
-              "YB"
-            ]
+            "enum": ["OB", "YB"]
           },
           "schedule": {
             "$ref": "#/components/schemas/GetMainScheduleResponseRecordDto"
@@ -1689,11 +1551,7 @@
         "description": "상세 일정 정보"
       },
       "GetRecruitingPageResponseDto": {
-        "required": [
-          "generation",
-          "name",
-          "recruitHeaderImage"
-        ],
+        "required": ["generation", "name", "recruitHeaderImage"],
         "type": "object",
         "properties": {
           "generation": {
@@ -1737,11 +1595,7 @@
         "description": "지원하기 페이지 데이터 조회하기"
       },
       "GetAboutPageResponseDto": {
-        "required": [
-          "generation",
-          "headerImage",
-          "name"
-        ],
+        "required": ["generation", "headerImage", "name"],
         "type": "object",
         "properties": {
           "generation": {
@@ -1785,11 +1639,7 @@
         "description": "소개 페이지 데이터 조회하기"
       },
       "GetMainCoreValueResponseRecordDto": {
-        "required": [
-          "description",
-          "image",
-          "value"
-        ],
+        "required": ["description", "image", "value"],
         "type": "object",
         "properties": {
           "value": {
@@ -1811,10 +1661,7 @@
         "description": "핵심 가치 정보"
       },
       "GetMainCurriculumWeekResponseRecordDto": {
-        "required": [
-          "description",
-          "week"
-        ],
+        "required": ["description", "week"],
         "type": "object",
         "properties": {
           "week": {
@@ -1876,10 +1723,7 @@
         "description": "멤버 정보"
       },
       "GetMainPartCurriculumResponseRecordDto": {
-        "required": [
-          "part",
-          "weeks"
-        ],
+        "required": ["part", "weeks"],
         "type": "object",
         "properties": {
           "part": {
@@ -1924,12 +1768,7 @@
         "description": "SNS 링크 정보"
       },
       "GetAdminBrandingColorResponseRecordDto": {
-        "required": [
-          "high",
-          "low",
-          "main",
-          "point"
-        ],
+        "required": ["high", "low", "main", "point"],
         "type": "object",
         "properties": {
           "main": {
@@ -1956,11 +1795,7 @@
         "description": "브랜딩 컬러 정보"
       },
       "GetAdminCoreValueResponseRecordDto": {
-        "required": [
-          "description",
-          "image",
-          "value"
-        ],
+        "required": ["description", "image", "value"],
         "type": "object",
         "properties": {
           "value": {
@@ -1982,10 +1817,7 @@
         "description": "핵심 가치 정보"
       },
       "GetAdminCurriculumWeekResponseRecordDto": {
-        "required": [
-          "description",
-          "week"
-        ],
+        "required": ["description", "week"],
         "type": "object",
         "properties": {
           "week": {
@@ -2005,10 +1837,7 @@
         "description": "주차별 커리큘럼 정보"
       },
       "GetAdminIntroductionResponseRecordDto": {
-        "required": [
-          "content",
-          "preference"
-        ],
+        "required": ["content", "preference"],
         "type": "object",
         "properties": {
           "content": {
@@ -2025,10 +1854,7 @@
         "description": "소개글 정보"
       },
       "GetAdminLatestNewsResponseRecordDto": {
-        "required": [
-          "id",
-          "title"
-        ],
+        "required": ["id", "title"],
         "type": "object",
         "properties": {
           "id": {
@@ -2046,11 +1872,7 @@
         "description": "최신소식"
       },
       "GetAdminMainButtonResponseRecordDto": {
-        "required": [
-          "keyColor",
-          "subColor",
-          "text"
-        ],
+        "required": ["keyColor", "subColor", "text"],
         "type": "object",
         "properties": {
           "text": {
@@ -2114,10 +1936,7 @@
         "description": "멤버 정보"
       },
       "GetAdminPartCurriculumResponseRecordDto": {
-        "required": [
-          "part",
-          "weeks"
-        ],
+        "required": ["part", "weeks"],
         "type": "object",
         "properties": {
           "part": {
@@ -2136,10 +1955,7 @@
         "description": "파트별 커리큘럼 정보"
       },
       "GetAdminPartIntroductionResponseRecordDto": {
-        "required": [
-          "description",
-          "part"
-        ],
+        "required": ["description", "part"],
         "type": "object",
         "properties": {
           "part": {
@@ -2156,10 +1972,7 @@
         "description": "파트 소개 정보"
       },
       "GetAdminQuestionResponseRecordDto": {
-        "required": [
-          "answer",
-          "question"
-        ],
+        "required": ["answer", "question"],
         "type": "object",
         "properties": {
           "question": {
@@ -2176,10 +1989,7 @@
         "description": "질문과 답변 정보"
       },
       "GetAdminRecruitPartCurriculumResponseRecordDto": {
-        "required": [
-          "introduction",
-          "part"
-        ],
+        "required": ["introduction", "part"],
         "type": "object",
         "properties": {
           "part": {
@@ -2194,10 +2004,7 @@
         "description": "모집 파트 커리큘럼 정보"
       },
       "GetAdminRecruitQuestionResponseRecordDto": {
-        "required": [
-          "part",
-          "questions"
-        ],
+        "required": ["part", "questions"],
         "type": "object",
         "properties": {
           "part": {
@@ -2216,20 +2023,14 @@
         "description": "모집 질문 정보"
       },
       "GetAdminRecruitScheduleResponseRecordDto": {
-        "required": [
-          "schedule",
-          "type"
-        ],
+        "required": ["schedule", "type"],
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
             "description": "타입",
             "example": "OB",
-            "enum": [
-              "OB",
-              "YB"
-            ]
+            "enum": ["OB", "YB"]
           },
           "schedule": {
             "$ref": "#/components/schemas/GetAdminScheduleResponseRecordDto"
@@ -2238,12 +2039,7 @@
         "description": "모집 일정 정보"
       },
       "GetAdminResponseDto": {
-        "required": [
-          "generation",
-          "headerImage",
-          "name",
-          "recruitHeaderImage"
-        ],
+        "required": ["generation", "headerImage", "name", "recruitHeaderImage"],
         "type": "object",
         "properties": {
           "generation": {
@@ -2395,12 +2191,7 @@
         "description": "SNS 링크 정보"
       },
       "GetAdminNewsResponseDto": {
-        "required": [
-          "id",
-          "image",
-          "link",
-          "title"
-        ],
+        "required": ["id", "image", "link", "title"],
         "type": "object",
         "properties": {
           "id": {
@@ -2428,9 +2219,7 @@
         "description": "최신소식 조회하기"
       },
       "DeleteAdminNewsRequestDto": {
-        "required": [
-          "id"
-        ],
+        "required": ["id"],
         "type": "object",
         "properties": {
           "id": {

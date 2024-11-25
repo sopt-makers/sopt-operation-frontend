@@ -557,20 +557,7 @@ export interface components {
       recruitHeaderImage: string;
     };
     /** @description 최신소식 추가하기 */
-    AddAdminNewsRequestDto: {
-      /** Format: binary */
-      image: string;
-      /**
-       * @description 제목
-       * @example MIND 23
-       */
-      title: string;
-      /**
-       * @description 링크
-       * @example https://disquiet.io/product/mind-23-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%A9%88%EC%B6%94%EC%A7%80-%EC%95%8A%EB%8A%94-it%EC%9D%B8%EB%93%A4
-       */
-      link: string;
-    };
+    AddAdminNewsRequestDto: FormData;
     /** @description 어드민 배포 확인 */
     AddAdminConfirmRequestDto: {
       /**

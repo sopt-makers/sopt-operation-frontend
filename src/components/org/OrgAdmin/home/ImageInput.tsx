@@ -7,7 +7,7 @@ import { useFormContext } from 'react-hook-form';
 import MyDropZone from '../MyDropzone';
 
 interface ImageInputProps extends HTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label: string;
   description?: string;
 }
 
@@ -22,12 +22,7 @@ const ImageInput = ({ label, description }: ImageInputProps) => {
       </StLabel>
       <StDescription>{description}</StDescription>
 
-      <MyDropZone
-        method={method}
-        label="newsImage"
-        width="167px"
-        height="211px"
-      />
+      <MyDropZone method={method} label={label} width="167px" height="211px" />
     </StInputContainer>
   );
 };
@@ -55,27 +50,4 @@ const StDescription = styled.p`
   color: ${colors.gray300};
 
   padding-bottom: 5px;
-`;
-
-const StImageLabel = styled.label`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 167px;
-  height: 211px;
-
-  border-radius: 10px;
-  background-color: ${colors.gray800};
-
-  cursor: pointer;
-
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-const StImageInput = styled.input`
-  display: none;
 `;

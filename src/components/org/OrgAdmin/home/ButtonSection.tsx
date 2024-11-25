@@ -1,4 +1,5 @@
 import { TextField } from '@sopt-makers/ui';
+import { useFormContext } from 'react-hook-form';
 
 import LiveAppliedButton from '@/components/org/OrgAdmin/home/LiveAppliedButton';
 import {
@@ -9,6 +10,8 @@ import {
 } from '@/components/org/OrgAdmin/home/style';
 
 const ButtonSection = () => {
+  const { register } = useFormContext();
+
   return (
     <StFirstSectionContainer>
       <StTitle>메인 버튼</StTitle>
@@ -18,19 +21,19 @@ const ButtonSection = () => {
           <TextField
             labelText="문구"
             placeholder="ex. 00기 YB 지원하기"
-            value={''}
+            {...register('text')}
           />
           <TextField
             labelText="키 컬러"
             descriptionText="호버 시, 하이라이트는 키컬러로 보여요."
             placeholder="ex. ffffff"
-            value={''}
+            {...register('keyColor', { maxLength: 6 })}
           />
           <TextField
             labelText="서브 컬러"
             descriptionText="호버하지 않았을 때, 버튼은 서브 컬러로 보여요."
             placeholder="ex. ffffff"
-            value={''}
+            {...register('subColor', { maxLength: 6 })}
           />
         </StButtonFormContainer>
 
