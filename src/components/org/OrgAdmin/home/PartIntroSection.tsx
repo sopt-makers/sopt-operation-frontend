@@ -3,6 +3,7 @@ import { Chip, TextArea } from '@sopt-makers/ui';
 import { ChangeEvent, useState } from 'react';
 
 import sampleImg from '@/assets/img/partIntroduceSample.png';
+import { PARTS, PARTS_FILTER } from '@/components/org/OrgAdmin/home/constant';
 import SampleView from '@/components/org/OrgAdmin/home/SampleView';
 import {
   StChipsContainer,
@@ -13,26 +14,20 @@ import {
 
 type Part = 'pm' | 'de' | 'an' | 'io' | 'we' | 'sv';
 
-type TextFieldofParts = {
+type TextFieldOfParts = {
   [key in Part]: string;
 };
 
 const PartIntroSection = () => {
   const [selectedChip, setSelectedChip] = useState<Part>('pm');
-  const [values, setValues] = useState<TextFieldofParts>({
-    pm: '',
-    de: '',
-    an: '',
-    io: '',
-    we: '',
-    sv: '',
-  });
+  const [values, setValues] = useState<TextFieldOfParts>(
+    {} as TextFieldOfParts,
+  );
+  const getActiveStatus = (id: Part) => id === selectedChip;
 
   const handleSelectChip = (id: Part) => {
     setSelectedChip(id);
   };
-
-  const getActiveStatus = (id: Part) => id === selectedChip;
 
   const handleChangeValues = (
     id: Part,
@@ -53,44 +48,21 @@ const PartIntroSection = () => {
         </StTitleWithIcon>
 
         <StChipsContainer>
-          <Chip
-            active={getActiveStatus('pm')}
-            onClick={() => handleSelectChip('pm')}>
-            기획
-          </Chip>
-          <Chip
-            active={getActiveStatus('de')}
-            onClick={() => handleSelectChip('de')}>
-            디자인
-          </Chip>
-          <Chip
-            active={getActiveStatus('an')}
-            onClick={() => handleSelectChip('an')}>
-            안드로이드
-          </Chip>
-          <Chip
-            active={getActiveStatus('io')}
-            onClick={() => handleSelectChip('io')}>
-            IOS
-          </Chip>
-          <Chip
-            active={getActiveStatus('we')}
-            onClick={() => handleSelectChip('we')}>
-            웹
-          </Chip>
-          <Chip
-            active={getActiveStatus('sv')}
-            onClick={() => handleSelectChip('sv')}>
-            서버
-          </Chip>
+          {PARTS.map((part) => (
+            <Chip
+              key={part}
+              active={getActiveStatus(PARTS_FILTER[part])}
+              onClick={() => handleSelectChip(PARTS_FILTER[part])}>
+              {part}
+            </Chip>
+          ))}
         </StChipsContainer>
 
         <TextArea
           value={values[selectedChip]}
+          onChange={(e) => handleChangeValues(selectedChip, e)}
           fixedHeight={230}
           maxHeight={230}
-          onChange={(e) => handleChangeValues(selectedChip, e)}
-          onSubmit={() => {}}
           placeholder={
             '파트별 설명을 작성해주세요. \nex.\n 린스타트업에 기초해 고객 문제정의 - 고객 발굴 - 검증 과정을 거쳐 비즈니스 전략과 핵심지표 설계까지 고객 관점 프로덕트를 만들고 운영하기 위한 모든 과정을 다룹니다.'
           }

@@ -10,7 +10,7 @@ const HomeSection = () => {
   return (
     <StContainer>
       <StWrapper>
-        <ButtonSection />
+        <ButtonSection mainButton={data?.mainButton} />
         <PartIntroSection />
       </StWrapper>
       <NewsSection latestNews={data?.latestNews} />
