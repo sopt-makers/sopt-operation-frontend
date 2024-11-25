@@ -42,7 +42,7 @@ const GenerationInformation = () => {
               message: VALIDATION_CHECK.generation.wrongLengthErrorText,
             },
           })}
-          value={35}
+          value={'35'}
           labelText="기수"
           id="generation"
           type="text"
