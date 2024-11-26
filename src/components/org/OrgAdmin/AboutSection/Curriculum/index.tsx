@@ -7,15 +7,16 @@ import PartCategory from '../../PartCategory';
 import { StInput, StTitle, StWrapper } from '../style';
 import { StContentWrapper, StItem, StList, StWeek } from './style';
 
+const CURRICULUM = PART_LIST.reduce(
+  (acc, part) => {
+    acc[part] = Array.from({ length: 8 });
+    return acc;
+  },
+  {} as Record<string, string[]>,
+);
+
 const Curriculum = () => {
   const { register } = useFormContext();
-  const CURRICULUM = PART_LIST.reduce(
-    (acc, part) => {
-      acc[part] = Array.from({ length: 8 });
-      return acc;
-    },
-    {} as Record<string, string[]>,
-  );
 
   const [selectedPart, setSelectedPart] = useState('기획');
 

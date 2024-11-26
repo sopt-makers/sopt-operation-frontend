@@ -1,4 +1,4 @@
-import { UseFormReturn } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import MyDropzone from '../../MyDropzone';
 import IcBehanceLogo from '../assets/IcBehanceLogo';
@@ -10,11 +10,11 @@ import SNSInput from './SNSInput';
 import { StPhotoWrapper, StSNSWrapper } from './style';
 
 interface ExecInfoProps {
-  method: UseFormReturn;
   selectedExec: string;
 }
 
-const ExecInfo = ({ method, selectedExec }: ExecInfoProps) => {
+const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
+  const method = useFormContext();
   const { register } = method;
 
   return (
@@ -48,25 +48,21 @@ const ExecInfo = ({ method, selectedExec }: ExecInfoProps) => {
       <StSNSWrapper>
         <span>SNS</span>
         <SNSInput
-          method={method}
           label={`${selectedExec}.sns.email`}
           icon={IcMailLogo}
           placeholder="ex. 000@sopt.org"
         />
         <SNSInput
-          method={method}
           label={`${selectedExec}.sns.linkedin`}
           icon={IcLinkedinLogo}
           placeholder="ex. https://www.linkedin.com/..."
         />
         <SNSInput
-          method={method}
           label={`${selectedExec}.sns.github`}
           icon={IcGithubLogo}
           placeholder="ex. https://github.com/..."
         />
         <SNSInput
-          method={method}
           label={`${selectedExec}.sns.behance`}
           icon={IcBehanceLogo}
           placeholder="ex. https://www.behance.net/..."
