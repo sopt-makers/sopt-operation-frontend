@@ -29,7 +29,14 @@ export const 임원진_LIST = [
   '운영 팀장',
   '미디어 팀장',
   '메이커스 팀장',
-];
+] as const;
 
 // utils/session/partList와 순서 달라서 분리
-export const PART_LIST = ['기획', '디자인', '안드로이드', 'iOS', '웹', '서버'];
+export const PART_LIST = [
+  '기획',
+  '디자인',
+  '안드로이드',
+  'iOS',
+  '웹',
+  '서버',
+] as const;

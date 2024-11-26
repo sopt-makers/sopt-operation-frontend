@@ -1,6 +1,5 @@
 import { Chip } from '@sopt-makers/ui';
 import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import { PART_LIST, 임원진_LIST } from '@/utils/org';
 
@@ -9,10 +8,10 @@ import ExecInfo from './ExecInfo';
 import { StChipLabel, StChipLine, StChipWrapper } from './style';
 
 const Executives = () => {
-  const [selectedExec, setSelectedExec] = useState('회장');
-  const method = useFormContext();
+  type ExecType = (typeof 임원진_LIST)[number] | (typeof PART_LIST)[number];
+  const [selectedExec, setSelectedExec] = useState<ExecType>('회장');
 
-  const handleSetSelectedExec = (value: string) => {
+  const handleSetSelectedExec = (value: ExecType) => {
     setSelectedExec(value);
   };
 
@@ -41,11 +40,7 @@ const Executives = () => {
           ))}
         </StChipLine>
       </StChipWrapper>
-      <ExecInfo
-        key={selectedExec}
-        method={method}
-        selectedExec={selectedExec}
-      />
+      <ExecInfo key={selectedExec} selectedExec={selectedExec} />
     </StWrapper>
   );
 };
