@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
@@ -12,21 +13,29 @@ const PartCurriculum = () => {
     formState: { errors },
   } = useFormContext();
 
+  const [selectedPart, setSelectedPart] = useState('기획');
+
+  const handleSetSelectedPart = (value: string) => {
+    setSelectedPart(value);
+  };
+
   return (
     <StWrapper>
       <StTitleWrapper>
-        <StTitle>파트별 커리큘럼</StTitle>
+        <StTitle>파트별 인재상</StTitle>
       </StTitleWrapper>
-      {/* <PartCategory /> */}
-      <StTextAreaWrapper>
+      <PartCategory
+        selectedPart={selectedPart}
+        onSetSelectedPart={handleSetSelectedPart}
+      />
+      <StTextAreaWrapper key={selectedPart}>
         <StTextArea
-          {...register('partCurriculum', {
+          {...register(`recruitPartCurriculum.${selectedPart}.content`, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
-            labelText: '기획 파트는 이런 걸 배워요.',
+            labelText: `${selectedPart} 파트는 이런 걸 배워요.`,
           }}
-          value=""
           fixedHeight={158}
           maxHeight={158}
           placeholder="파트별 설명을 작성해주세요."
@@ -34,13 +43,12 @@ const PartCurriculum = () => {
           errorMessage={errors.partCurriculum?.message as string}
         />
         <StTextArea
-          {...register('idealCandidate', {
+          {...register(`recruitPartCurriculum.${selectedPart}.preference`, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
             labelText: '이런 분이면 좋아요!',
           }}
-          value=""
           fixedHeight={230}
           maxHeight={230}
           placeholder={`파트별 인재상을 작성해주세요.
