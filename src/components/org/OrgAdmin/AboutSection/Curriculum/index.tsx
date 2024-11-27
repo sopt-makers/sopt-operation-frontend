@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { PART_LIST } from '@/utils/org';
+import { PART_LIST, VALIDATION_CHECK } from '@/utils/org';
 
 import PartCategory from '../../PartCategory';
 import { StInput, StTitle, StWrapper } from '../style';
@@ -16,7 +16,10 @@ const CURRICULUM = PART_LIST.reduce(
 );
 
 const Curriculum = () => {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   const [selectedPart, setSelectedPart] = useState('기획');
 
@@ -39,7 +42,17 @@ const Curriculum = () => {
                 0{idx + 1}
               </StWeek>
               <StInput
-                {...register(`partCurriculum.${selectedPart}.${idx}`)}
+                {...register(`partCurriculum_${selectedPart}_${idx}`, {
+                  required: true && VALIDATION_CHECK.required.errorText,
+                })}
+                isError={
+                  errors[`partCurriculum_${selectedPart}_${idx}`]?.message !==
+                  undefined
+                }
+                errorMessage={
+                  errors[`partCurriculum_${selectedPart}_${idx}`]
+                    ?.message as string
+                }
                 id={`${selectedPart} week${idx}`}
                 style={{ width: '553px' }}
                 placeholder={`${selectedPart} 파트 ${idx + 1}주차 커리큘럼을 작성해주세요.`}

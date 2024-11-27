@@ -32,7 +32,7 @@ const Fna = () => {
         <StFnaWrapper>
           <StTextArea
             {...register(
-              `recruitQuestion.${selectedPart}.questions.0.question`,
+              `recruitQuestion_${selectedPart}_questions_0_question`,
               {
                 required: true && VALIDATION_CHECK.required.errorText,
               },
@@ -43,24 +43,36 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
+            isError={
+              errors[`recruitQuestion_${selectedPart}_questions_0_question`]
+                ?.message != undefined
+            }
+            errorMessage={
+              errors[`recruitQuestion_${selectedPart}_questions_0_question`]
+                ?.message as string
+            }
           />
           <StTextArea
-            {...register(`recruitQuestion.${selectedPart}.questions.0.answer`, {
+            {...register(`recruitQuestion_${selectedPart}_questions_0_answer`, {
               required: true && VALIDATION_CHECK.required.errorText,
             })}
             fixedHeight={74}
             maxHeight={74}
             placeholder="답변을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
+            isError={
+              errors[`recruitQuestion_${selectedPart}_questions_0_answer`]
+                ?.message != undefined
+            }
+            errorMessage={
+              errors[`recruitQuestion_${selectedPart}_questions_0_answer`]
+                ?.message as string
+            }
           />
         </StFnaWrapper>
         <StFnaWrapper>
           <StTextArea
             {...register(
-              `recruitQuestion.${selectedPart}.questions.1.question`,
+              `recruitQuestion_${selectedPart}_questions_1_question`,
               {
                 required: true && VALIDATION_CHECK.required.errorText,
               },
@@ -71,24 +83,36 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
+            isError={
+              errors[`recruitQuestion_${selectedPart}_questions_1_question`]
+                ?.message != undefined
+            }
+            errorMessage={
+              errors[`recruitQuestion_${selectedPart}_questions_1_question`]
+                ?.message as string
+            }
           />
           <StTextArea
-            {...register(`recruitQuestion.${selectedPart}.questions.1.answer`, {
+            {...register(`recruitQuestion_${selectedPart}_questions_1_answer`, {
               required: true && VALIDATION_CHECK.required.errorText,
             })}
             fixedHeight={74}
             maxHeight={74}
             placeholder="답변을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
+            isError={
+              errors[`recruitQuestion_${selectedPart}_questions_1_answer`]
+                ?.message != undefined
+            }
+            errorMessage={
+              errors[`recruitQuestion_${selectedPart}_questions_1_answer`]
+                ?.message as string
+            }
           />
         </StFnaWrapper>
         <StFnaWrapper>
           <StTextArea
             {...register(
-              `recruitQuestion.${selectedPart}.questions.2.question`,
+              `recruitQuestion_${selectedPart}_questions_2_question`,
               {
                 required: true && VALIDATION_CHECK.required.errorText,
               },
@@ -99,18 +123,30 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
+            isError={
+              errors[`recruitQuestion_${selectedPart}_questions_2_question`]
+                ?.message != undefined
+            }
+            errorMessage={
+              errors[`recruitQuestion_${selectedPart}_questions_2_question`]
+                ?.message as string
+            }
           />
           <StTextArea
-            {...register(`recruitQuestion.${selectedPart}.questions.2.answer`, {
+            {...register(`recruitQuestion_${selectedPart}_questions_2_answer`, {
               required: true && VALIDATION_CHECK.required.errorText,
             })}
             fixedHeight={74}
             maxHeight={74}
             placeholder="답변을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
+            isError={
+              errors[`recruitQuestion_${selectedPart}_questions_2_answer`]
+                ?.message != undefined
+            }
+            errorMessage={
+              errors[`recruitQuestion_${selectedPart}_questions_2_answer`]
+                ?.message as string
+            }
           />
         </StFnaWrapper>
       </StTextAreaWrapper>
