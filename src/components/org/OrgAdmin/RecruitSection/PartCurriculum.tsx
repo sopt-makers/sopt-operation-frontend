@@ -30,7 +30,7 @@ const PartCurriculum = () => {
       />
       <StTextAreaWrapper key={selectedPart}>
         <StTextArea
-          {...register(`recruitPartCurriculum.${selectedPart}.content`, {
+          {...register(`recruitPartCurriculum_${selectedPart}_content`, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
@@ -39,11 +39,17 @@ const PartCurriculum = () => {
           fixedHeight={158}
           maxHeight={158}
           placeholder="파트별 설명을 작성해주세요."
-          isError={errors.partCurriculum?.message != undefined}
-          errorMessage={errors.partCurriculum?.message as string}
+          isError={
+            errors[`recruitPartCurriculum_${selectedPart}_content`]?.message !=
+            undefined
+          }
+          errorMessage={
+            errors[`recruitPartCurriculum_${selectedPart}_content`]
+              ?.message as string
+          }
         />
         <StTextArea
-          {...register(`recruitPartCurriculum.${selectedPart}.preference`, {
+          {...register(`recruitPartCurriculum_${selectedPart}_preference`, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
@@ -55,8 +61,14 @@ const PartCurriculum = () => {
 ex.
 - 어려움과 고민을 편하게 나누고 공감할 수 있는 유대감과 열린 마음을 가진 분
 - 타 파트와 협업하며 존중과 신뢰를 바탕으로 원활한 팀워크를 만들어갈 수 있는 분`}
-          isError={errors.idealCandidate?.message != undefined}
-          errorMessage={errors.idealCandidate?.message as string}
+          isError={
+            errors[`recruitPartCurriculum_${selectedPart}_preference`]
+              ?.message != undefined
+          }
+          errorMessage={
+            errors[`recruitPartCurriculum_${selectedPart}_preference`]
+              ?.message as string
+          }
         />
       </StTextAreaWrapper>
     </StWrapper>
