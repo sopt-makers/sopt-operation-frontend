@@ -46,6 +46,7 @@ export const StColorPreview = styled.input`
   width: 48px;
   height: 48px;
   padding: 0;
+  margin-bottom: 8px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
