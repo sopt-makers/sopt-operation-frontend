@@ -40,6 +40,7 @@ const Fna = () => {
             topAddon={{
               labelText: '질문1',
             }}
+            required
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."
@@ -50,6 +51,7 @@ const Fna = () => {
             {...register(`recruitQuestion.${selectedPart}.questions.0.answer`, {
               required: true && VALIDATION_CHECK.required.errorText,
             })}
+            required
             fixedHeight={74}
             maxHeight={74}
             placeholder="답변을 입력해주세요."
@@ -68,6 +70,7 @@ const Fna = () => {
             topAddon={{
               labelText: '질문2',
             }}
+            required
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."
@@ -78,6 +81,7 @@ const Fna = () => {
             {...register(`recruitQuestion.${selectedPart}.questions.1.answer`, {
               required: true && VALIDATION_CHECK.required.errorText,
             })}
+            required
             fixedHeight={74}
             maxHeight={74}
             placeholder="답변을 입력해주세요."
@@ -96,6 +100,7 @@ const Fna = () => {
             topAddon={{
               labelText: '질문3',
             }}
+            required
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."

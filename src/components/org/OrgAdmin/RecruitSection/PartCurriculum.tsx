@@ -22,7 +22,7 @@ const PartCurriculum = () => {
   return (
     <StWrapper>
       <StTitleWrapper>
-        <StTitle>파트별 인재상</StTitle>
+        <StTitle>파트별 소개</StTitle>
       </StTitleWrapper>
       <PartCategory
         selectedPart={selectedPart}
@@ -36,6 +36,7 @@ const PartCurriculum = () => {
           topAddon={{
             labelText: `${selectedPart} 파트는 이런 걸 배워요.`,
           }}
+          required
           fixedHeight={158}
           maxHeight={158}
           placeholder="파트별 설명을 작성해주세요."
@@ -49,6 +50,7 @@ const PartCurriculum = () => {
           topAddon={{
             labelText: '이런 분이면 좋아요!',
           }}
+          required
           fixedHeight={230}
           maxHeight={230}
           placeholder={`파트별 인재상을 작성해주세요.
