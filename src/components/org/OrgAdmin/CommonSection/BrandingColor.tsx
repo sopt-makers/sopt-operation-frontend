@@ -21,7 +21,7 @@ const BrandingColor = () => {
         <ColorInputField label="키컬러 (메인)" id="brandingColor_main" />
         <ColorInputField label="키컬러 (저명도)" id="brandingColor_low" />
         <ColorInputField label="키컬러 (고명도)" id="brandingColor_high" />
-        {/* <BrandingSubColor /> */}
+        <BrandingSubColor />
       </StInputWrapper>
     </StWrapper>
   );
