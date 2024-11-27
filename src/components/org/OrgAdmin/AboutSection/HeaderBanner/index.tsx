@@ -17,7 +17,7 @@ const HeaderBanner = () => {
         </StDescription>
         <MyDropzone
           method={method}
-          label="aboutHeaderBanner"
+          label="headerImageFileName"
           width="582px"
           height="191px"
         />
