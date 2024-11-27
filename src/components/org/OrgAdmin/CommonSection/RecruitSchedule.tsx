@@ -2,6 +2,8 @@ import { Chip } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { VALIDATION_CHECK } from '@/utils/org';
+
 import {
   StDescription,
   StInput,
@@ -25,7 +27,9 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
 
   return (
     <StInput
-      {...register(id)}
+      {...register(id, {
+        required: true && VALIDATION_CHECK.required.errorText,
+      })}
       required
       labelText={label}
       id={id}
