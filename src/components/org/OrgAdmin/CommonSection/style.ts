@@ -4,12 +4,12 @@ import { fontsObject } from '@sopt-makers/fonts';
 
 import zIndex from '@/utils/zIndex';
 
-import { StInputLabel } from '../style';
+import { StInputLabel, StInputWrapper } from '../style';
 
 export const StRadioWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 6px;
   margin-bottom: 40px;
 
   input[type='radio'] {
@@ -31,12 +31,14 @@ export const StRadioLabel = styled.label`
   cursor: pointer;
 `;
 
-export const StDateWrapper = styled.div`
+export const StDateWrapper = styled(StInputWrapper)`
   margin-bottom: 40px;
 `;
 
 export const StColorWrapper = styled.div`
+  position: relative;
   display: flex;
+  align-items: flex-end;
   gap: 10px;
 `;
 
@@ -61,6 +63,10 @@ export const StColorPreview = styled.input`
 
 export const StInfoButton = styled.button`
   ${fontsObject.LABEL_3_14_SB};
+
+  position: absolute;
+  top: 0px;
+  left: 175px;
   vertical-align: middle;
   width: 16px;
   height: 16px;
