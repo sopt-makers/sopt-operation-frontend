@@ -9,7 +9,7 @@ import { StInputLabel } from '../style';
 export const StRadioWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 6px;
   margin-bottom: 40px;
 
   input[type='radio'] {

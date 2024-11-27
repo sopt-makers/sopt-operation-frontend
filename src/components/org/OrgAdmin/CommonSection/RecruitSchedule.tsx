@@ -1,10 +1,11 @@
-import { Radio } from '@sopt-makers/ui';
+import { Chip } from '@sopt-makers/ui';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
 import {
-  StErrorMessage,
+  StDescription,
   StInput,
   StInputBox,
   StInputLabel,
@@ -13,14 +14,11 @@ import {
   StTitleWrapper,
   StWrapper,
 } from '../style';
-import {
-  StDateWrapper,
-  StRadioBox,
-  StRadioLabel,
-  StRadioWrapper,
-} from './style';
+import { StDateWrapper, StRadioWrapper } from './style';
 
 const RecruitSchedule = () => {
+  const [group, setGroup] = useState<'OB' | 'YB'>('OB');
+
   const {
     register,
     formState: { errors },
@@ -30,43 +28,23 @@ const RecruitSchedule = () => {
     <StWrapper>
       <StTitleWrapper>
         <StTitle>모집 일정</StTitle>
+        <StDescription>
+          입력된 모집 일정에 맞춰 ‘지원하기’ 버튼이 활성화돼요.
+        </StDescription>
       </StTitleWrapper>
-      <StInputWrapper>
-        <StInputLabel>모집유형</StInputLabel>
-        <StRadioWrapper>
-          <StRadioBox>
-            <Radio
-              {...register('group', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              type="radio"
-              name="group"
-              id="ob"
-              checked
-            />
-            <StRadioLabel htmlFor="ob">OB</StRadioLabel>
-          </StRadioBox>
-          <StRadioBox>
-            <Radio
-              {...register('group', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              type="radio"
-              name="group"
-              id="yb"
-            />
-            <StRadioLabel htmlFor="yb">YB</StRadioLabel>
-          </StRadioBox>
-          <StErrorMessage>
-            <>{errors.group?.message}</>
-          </StErrorMessage>
-        </StRadioWrapper>
-      </StInputWrapper>
+      <StRadioWrapper>
+        <Chip active={group === 'OB'} onClick={() => setGroup('OB')}>
+          OB
+        </Chip>
+        <Chip active={group === 'YB'} onClick={() => setGroup('YB')}>
+          YB
+        </Chip>
+      </StRadioWrapper>
       <StDateWrapper>
         <StInputWrapper>
           <StInputBox>
             <StInputLabel htmlFor="application-start">
-              서류 접수 시작
+              {group} 서류 접수 시작
             </StInputLabel>
             <StInput
               {...register('applicationStart', {
@@ -83,7 +61,7 @@ const RecruitSchedule = () => {
           </StInputBox>
           <StInputBox>
             <StInputLabel htmlFor="application-end">
-              서류 접수 마감
+              {group} 서류 접수 마감
             </StInputLabel>
             <StInput
               {...register('applicationEnd', {
@@ -99,7 +77,7 @@ const RecruitSchedule = () => {
           </StInputBox>
           <StInputBox>
             <StInputLabel htmlFor="application-result">
-              서류 결과 발표
+              {group} 서류 결과 발표
             </StInputLabel>
             <StInput
               {...register('applicationResult', {
@@ -118,7 +96,9 @@ const RecruitSchedule = () => {
       <StDateWrapper>
         <StInputWrapper>
           <StInputBox>
-            <StInputLabel htmlFor="interview-start">면접 시작</StInputLabel>
+            <StInputLabel htmlFor="interview-start">
+              {group} 면접 시작
+            </StInputLabel>
             <StInput
               {...register('interviewStart', {
                 required: true && VALIDATION_CHECK.required.errorText,
@@ -132,7 +112,9 @@ const RecruitSchedule = () => {
             />
           </StInputBox>
           <StInputBox>
-            <StInputLabel htmlFor="interview-end">면접 마감</StInputLabel>
+            <StInputLabel htmlFor="interview-end">
+              {group} 면접 마감
+            </StInputLabel>
             <StInput
               {...register('interviewEnd', {
                 required: true && VALIDATION_CHECK.required.errorText,
@@ -150,7 +132,9 @@ const RecruitSchedule = () => {
       <StDateWrapper>
         <StInputWrapper>
           <StInputBox>
-            <StInputLabel htmlFor="final-result">최종 결과 발표</StInputLabel>
+            <StInputLabel htmlFor="final-result">
+              {group} 최종 결과 발표
+            </StInputLabel>
             <StInput
               {...register('finalResult', {
                 required: true && VALIDATION_CHECK.required.errorText,
