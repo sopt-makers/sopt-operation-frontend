@@ -4,7 +4,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 
 import zIndex from '@/utils/zIndex';
 
-import { StInputLabel } from '../style';
+import { StInputLabel, StInputWrapper } from '../style';
 
 export const StRadioWrapper = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ export const StRadioLabel = styled.label`
   cursor: pointer;
 `;
 
-export const StDateWrapper = styled.div`
+export const StDateWrapper = styled(StInputWrapper)`
   margin-bottom: 40px;
 `;
 
