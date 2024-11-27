@@ -14,10 +14,9 @@ import { StDateWrapper, StRadioWrapper } from './style';
 interface ScheduleInputProps {
   id: string;
   label: string;
-  value: string;
 }
 
-const ScheduleInput = ({ id, label, value }: ScheduleInputProps) => {
+const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
   const {
     register,
     formState: { errors },
@@ -30,8 +29,7 @@ const ScheduleInput = ({ id, label, value }: ScheduleInputProps) => {
       labelText={label}
       id={id}
       type="datetime-local"
-      value={value}
-      hasValue={!!value}
+      // hasValue={!!value}
       isError={!!errors[id]?.message}
       errorMessage={errors[id]?.message as string}
     />
@@ -59,38 +57,32 @@ const RecruitSchedule = () => {
       </StRadioWrapper>
       <StDateWrapper>
         <ScheduleInput
-          id="application-start"
+          id={`recruitSchedule_${group}_schedule_applicationStartTime`}
           label={`${group} 서류 접수 시작`}
-          value={''}
         />
         <ScheduleInput
-          id="application-end"
+          id={`recruitSchedule_${group}_schedule_applicationEndTime`}
           label={`${group} 서류 접수 마감`}
-          value={''}
         />
         <ScheduleInput
-          id="application-result"
+          id={`recruitSchedule_${group}_schedule_applicationResultTime`}
           label={`${group} 서류 결과 발표`}
-          value={''}
         />
       </StDateWrapper>
       <StDateWrapper>
         <ScheduleInput
-          id="interview-start"
+          id={`recruitSchedule_${group}_schedule_interviewStartTime`}
           label={`${group} 면접 시작`}
-          value={''}
         />
         <ScheduleInput
-          id="interview-end"
+          id={`recruitSchedule_${group}_schedule_interviewEndTime`}
           label={`${group} 면접 마감`}
-          value={''}
         />
       </StDateWrapper>
       <StDateWrapper>
         <ScheduleInput
-          id="final-result"
+          id={`recruitSchedule_${group}_schedule_finalResultTime`}
           label={`${group} 최종 결과 발표`}
-          value={''}
         />
       </StDateWrapper>
     </StWrapper>

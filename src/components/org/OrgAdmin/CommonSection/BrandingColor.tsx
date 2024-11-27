@@ -11,11 +11,6 @@ import BrandingSubColor from './BrandingSubColor';
 import ColorInputField from './ColorInputField';
 
 const BrandingColor = () => {
-  const [mainColor, setMainColor] = useState('');
-  const [lowColor, setLowColor] = useState('');
-  const [highColor, setHighColor] = useState('');
-  const [subGrayColor, setSubGrayColor] = useState('');
-
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -23,28 +18,10 @@ const BrandingColor = () => {
         <StDescription>다크 모드를 고려하여 선정해주세요.</StDescription>
       </StTitleWrapper>
       <StInputWrapper>
-        <ColorInputField
-          label="키컬러 (메인)"
-          id="keyColorMain"
-          colorValue={mainColor}
-          onSetColorValue={(val: string) => setMainColor(val)}
-        />
-        <ColorInputField
-          label="키컬러 (저명도)"
-          id="keyColorLow"
-          colorValue={lowColor}
-          onSetColorValue={(val: string) => setLowColor(val)}
-        />
-        <ColorInputField
-          label="키컬러 (고명도)"
-          id="keyColorHigh"
-          colorValue={highColor}
-          onSetColorValue={(val: string) => setHighColor(val)}
-        />
-        <BrandingSubColor
-          subGrayColor={subGrayColor}
-          onSetSubGrayColor={setSubGrayColor}
-        />
+        <ColorInputField label="키컬러 (메인)" id="brandingColor_main" />
+        <ColorInputField label="키컬러 (저명도)" id="brandingColor_low" />
+        <ColorInputField label="키컬러 (고명도)" id="brandingColor_high" />
+        {/* <BrandingSubColor /> */}
       </StInputWrapper>
     </StWrapper>
   );
