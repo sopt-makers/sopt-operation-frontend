@@ -75,10 +75,10 @@ const MyDropzone = ({
         shape={shape}
         isError={errors[label]?.message != undefined}>
         <input
-          {...getInputProps()}
           {...register(label, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
+          {...getInputProps()}
         />
         {previewUrl ? (
           <StImgPreview src={previewUrl} alt="공홈 지원하기 탭 헤더 이미지" />
