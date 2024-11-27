@@ -1,9 +1,10 @@
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { Chip, TextArea } from '@sopt-makers/ui';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import sampleImg from '@/assets/img/partIntroduceSample.png';
-import { PARTS, PARTS_FILTER } from '@/components/org/OrgAdmin/home/constant';
+import { PARTS } from '@/components/org/OrgAdmin/home/constant';
 import SampleView from '@/components/org/OrgAdmin/home/SampleView';
 import {
   StChipsContainer,
@@ -12,32 +13,18 @@ import {
   StTitleWithIcon,
 } from '@/components/org/OrgAdmin/home/style';
 
-type Part = 'pm' | 'de' | 'an' | 'io' | 'we' | 'sv';
-
-type TextFieldOfParts = {
-  [key in Part]: string;
-};
+type Part = '기획' | '디자인' | '안드로이드' | 'IOS' | '웹' | '서버';
 
 const PartIntroSection = () => {
-  const [selectedChip, setSelectedChip] = useState<Part>('pm');
-  const [values, setValues] = useState<TextFieldOfParts>(
-    {} as TextFieldOfParts,
-  );
+  const [selectedChip, setSelectedChip] = useState<Part>('기획');
+
   const getActiveStatus = (id: Part) => id === selectedChip;
 
   const handleSelectChip = (id: Part) => {
     setSelectedChip(id);
   };
 
-  const handleChangeValues = (
-    id: Part,
-    e: ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    setValues((prev) => ({
-      ...prev,
-      [id]: e.target.value,
-    }));
-  };
+  const { register } = useFormContext();
 
   return (
     <StSecondSectionContainer>
@@ -51,16 +38,16 @@ const PartIntroSection = () => {
           {PARTS.map((part) => (
             <Chip
               key={part}
-              active={getActiveStatus(PARTS_FILTER[part])}
-              onClick={() => handleSelectChip(PARTS_FILTER[part])}>
+              active={getActiveStatus(part)}
+              onClick={() => handleSelectChip(part)}>
               {part}
             </Chip>
           ))}
         </StChipsContainer>
 
         <TextArea
-          value={values[selectedChip]}
-          onChange={(e) => handleChangeValues(selectedChip, e)}
+          key={selectedChip}
+          {...register(selectedChip)}
           fixedHeight={230}
           maxHeight={230}
           placeholder={

@@ -44,7 +44,6 @@ const NewsSection = ({ latestNews }: NewsSectionProps) => {
   const { mutate } = useDeleteNewsMutation();
 
   const handleDeleteNewsItems = (id: number) => {
-    /** TODO: delete */
     mutate(id, {
       onSuccess: closeDeleteModal,
     });

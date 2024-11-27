@@ -38,8 +38,6 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
 
   const { getValues } = useFormContext();
 
-  console.log(getValues('newsImage'));
-
   const handleSubmit = () => {
     const data = new FormData();
 
