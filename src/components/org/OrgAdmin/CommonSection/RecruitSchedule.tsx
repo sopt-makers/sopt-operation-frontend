@@ -20,6 +20,7 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
   const {
     register,
     formState: { errors },
+    watch,
   } = useFormContext();
 
   return (
@@ -29,7 +30,7 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
       labelText={label}
       id={id}
       type="datetime-local"
-      // hasValue={!!value}
+      hasValue={!!watch(id)}
       isError={!!errors[id]?.message}
       errorMessage={errors[id]?.message as string}
     />
@@ -55,36 +56,38 @@ const RecruitSchedule = () => {
           YB
         </Chip>
       </StRadioWrapper>
-      <StDateWrapper>
-        <ScheduleInput
-          id={`recruitSchedule_${group}_schedule_applicationStartTime`}
-          label={`${group} 서류 접수 시작`}
-        />
-        <ScheduleInput
-          id={`recruitSchedule_${group}_schedule_applicationEndTime`}
-          label={`${group} 서류 접수 마감`}
-        />
-        <ScheduleInput
-          id={`recruitSchedule_${group}_schedule_applicationResultTime`}
-          label={`${group} 서류 결과 발표`}
-        />
-      </StDateWrapper>
-      <StDateWrapper>
-        <ScheduleInput
-          id={`recruitSchedule_${group}_schedule_interviewStartTime`}
-          label={`${group} 면접 시작`}
-        />
-        <ScheduleInput
-          id={`recruitSchedule_${group}_schedule_interviewEndTime`}
-          label={`${group} 면접 마감`}
-        />
-      </StDateWrapper>
-      <StDateWrapper>
-        <ScheduleInput
-          id={`recruitSchedule_${group}_schedule_finalResultTime`}
-          label={`${group} 최종 결과 발표`}
-        />
-      </StDateWrapper>
+      <div key={group}>
+        <StDateWrapper>
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_applicationStartTime`}
+            label={`${group} 서류 접수 시작`}
+          />
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_applicationEndTime`}
+            label={`${group} 서류 접수 마감`}
+          />
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_applicationResultTime`}
+            label={`${group} 서류 결과 발표`}
+          />
+        </StDateWrapper>
+        <StDateWrapper>
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_interviewStartTime`}
+            label={`${group} 면접 시작`}
+          />
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_interviewEndTime`}
+            label={`${group} 면접 마감`}
+          />
+        </StDateWrapper>
+        <StDateWrapper>
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_finalResultTime`}
+            label={`${group} 최종 결과 발표`}
+          />
+        </StDateWrapper>
+      </div>
     </StWrapper>
   );
 };
