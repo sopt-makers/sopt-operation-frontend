@@ -2,6 +2,8 @@ import { Chip } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { VALIDATION_CHECK } from '@/utils/org';
+
 import {
   StDescription,
   StInput,
@@ -14,24 +16,25 @@ import { StDateWrapper, StRadioWrapper } from './style';
 interface ScheduleInputProps {
   id: string;
   label: string;
-  value: string;
 }
 
-const ScheduleInput = ({ id, label, value }: ScheduleInputProps) => {
+const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
   const {
     register,
     formState: { errors },
+    watch,
   } = useFormContext();
 
   return (
     <StInput
-      {...register(id)}
+      {...register(id, {
+        required: true && VALIDATION_CHECK.required.errorText,
+      })}
       required
       labelText={label}
       id={id}
       type="datetime-local"
-      value={value}
-      hasValue={!!value}
+      hasValue={!!watch(id)}
       isError={!!errors[id]?.message}
       errorMessage={errors[id]?.message as string}
     />
@@ -57,42 +60,38 @@ const RecruitSchedule = () => {
           YB
         </Chip>
       </StRadioWrapper>
-      <StDateWrapper>
-        <ScheduleInput
-          id="application-start"
-          label={`${group} 서류 접수 시작`}
-          value={''}
-        />
-        <ScheduleInput
-          id="application-end"
-          label={`${group} 서류 접수 마감`}
-          value={''}
-        />
-        <ScheduleInput
-          id="application-result"
-          label={`${group} 서류 결과 발표`}
-          value={''}
-        />
-      </StDateWrapper>
-      <StDateWrapper>
-        <ScheduleInput
-          id="interview-start"
-          label={`${group} 면접 시작`}
-          value={''}
-        />
-        <ScheduleInput
-          id="interview-end"
-          label={`${group} 면접 마감`}
-          value={''}
-        />
-      </StDateWrapper>
-      <StDateWrapper>
-        <ScheduleInput
-          id="final-result"
-          label={`${group} 최종 결과 발표`}
-          value={''}
-        />
-      </StDateWrapper>
+      <div key={group}>
+        <StDateWrapper>
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_applicationStartTime`}
+            label={`${group} 서류 접수 시작`}
+          />
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_applicationEndTime`}
+            label={`${group} 서류 접수 마감`}
+          />
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_applicationResultTime`}
+            label={`${group} 서류 결과 발표`}
+          />
+        </StDateWrapper>
+        <StDateWrapper>
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_interviewStartTime`}
+            label={`${group} 면접 시작`}
+          />
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_interviewEndTime`}
+            label={`${group} 면접 마감`}
+          />
+        </StDateWrapper>
+        <StDateWrapper>
+          <ScheduleInput
+            id={`recruitSchedule_${group}_schedule_finalResultTime`}
+            label={`${group} 최종 결과 발표`}
+          />
+        </StDateWrapper>
+      </div>
     </StWrapper>
   );
 };

@@ -9,19 +9,14 @@ import { expandHexColor } from './utils';
 interface ColorInputFieldProps {
   label: string;
   id: string;
-  colorValue: string;
-  onSetColorValue: (value: string) => void;
 }
 
-const ColorInputField = ({
-  label,
-  id,
-  colorValue,
-  onSetColorValue,
-}: ColorInputFieldProps) => {
+const ColorInputField = ({ label, id }: ColorInputFieldProps) => {
   const {
     register,
     formState: { errors },
+    watch,
+    setValue,
   } = useFormContext();
 
   return (
@@ -36,15 +31,13 @@ const ColorInputField = ({
         type="text"
         maxLength={9}
         placeholder="ex. #ffffff"
-        value={colorValue}
-        onChange={(e) => onSetColorValue(e.target.value)}
         isError={errors[id]?.message != undefined}
         errorMessage={errors[id]?.message as string}
       />
       <StColorPreview
         type="color"
-        value={expandHexColor(colorValue)}
-        onChange={(e) => onSetColorValue(e.target.value)}
+        value={expandHexColor(watch(id))}
+        onChange={(e) => setValue(id, e.target.value)}
       />
     </StColorWrapper>
   );

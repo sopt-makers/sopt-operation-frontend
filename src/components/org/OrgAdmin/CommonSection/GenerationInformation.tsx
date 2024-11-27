@@ -51,21 +51,20 @@ const GenerationInformation = () => {
           errorMessage={errors.generation?.message as string}
         />
         <StInput
-          {...register('soptName', {
+          {...register('name', {
             required: true && VALIDATION_CHECK.required.errorText,
             maxLength: {
-              value: VALIDATION_CHECK.soptName.maxLength,
-              message: VALIDATION_CHECK.soptName.wrongLengthErrorText(),
+              value: VALIDATION_CHECK.name.maxLength,
+              message: VALIDATION_CHECK.name.wrongLengthErrorText(),
             },
           })}
           required
-          value={'AND SOPT'}
           labelText="기수명"
           id="sopt-name"
           type="text"
           placeholder="ex. 00 SOPT"
-          isError={errors.soptName?.message != undefined}
-          errorMessage={errors.soptName?.message as string}
+          isError={errors.name?.message != undefined}
+          errorMessage={errors.name?.message as string}
         />
       </StInputWrapper>
     </StWrapper>

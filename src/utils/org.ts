@@ -9,7 +9,7 @@ export const VALIDATION_CHECK = {
     errorText: '잘못된 기수예요.',
     wrongLengthErrorText: '2자리 수만 입력 가능해요.',
   },
-  soptName: {
+  name: {
     maxLength: 20,
     errorText: '잘못된 기수명이에요.',
     wrongLengthErrorText() {
