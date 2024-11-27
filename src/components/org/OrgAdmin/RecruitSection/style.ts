@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
-import { StLabel } from '../style';
-
-export const StLabelWrapper = styled(StLabel)`
-  display: inline-block;
+export const StLabelWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
   margin: 30px 0px 8px;
 `;
 
