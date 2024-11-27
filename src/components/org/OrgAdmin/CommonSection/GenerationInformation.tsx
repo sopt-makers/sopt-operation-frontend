@@ -42,6 +42,7 @@ const GenerationInformation = () => {
               message: VALIDATION_CHECK.generation.wrongLengthErrorText,
             },
           })}
+          required
           labelText="기수"
           id="generation"
           type="text"
@@ -57,6 +58,7 @@ const GenerationInformation = () => {
               message: VALIDATION_CHECK.soptName.wrongLengthErrorText(),
             },
           })}
+          required
           value={'AND SOPT'}
           labelText="기수명"
           id="sopt-name"

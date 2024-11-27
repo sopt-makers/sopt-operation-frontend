@@ -36,7 +36,9 @@ export const StDateWrapper = styled(StInputWrapper)`
 `;
 
 export const StColorWrapper = styled.div`
+  position: relative;
   display: flex;
+  align-items: flex-end;
   gap: 10px;
 `;
 
@@ -61,6 +63,10 @@ export const StColorPreview = styled.input`
 
 export const StInfoButton = styled.button`
   ${fontsObject.LABEL_3_14_SB};
+
+  position: absolute;
+  top: 0px;
+  left: 175px;
   vertical-align: middle;
   width: 16px;
   height: 16px;

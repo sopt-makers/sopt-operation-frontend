@@ -5,8 +5,6 @@ import { useFormContext } from 'react-hook-form';
 import {
   StDescription,
   StInput,
-  StInputBox,
-  StInputLabel,
   StTitle,
   StTitleWrapper,
   StWrapper,
@@ -26,18 +24,17 @@ const ScheduleInput = ({ id, label, value }: ScheduleInputProps) => {
   } = useFormContext();
 
   return (
-    <StInputBox>
-      <StInputLabel htmlFor={id}>{label}</StInputLabel>
-      <StInput
-        {...register(id)}
-        id={id}
-        type="datetime-local"
-        value={value}
-        hasValue={!!value}
-        isError={!!errors[id]?.message}
-        errorMessage={errors[id]?.message as string}
-      />
-    </StInputBox>
+    <StInput
+      {...register(id)}
+      required
+      labelText={label}
+      id={id}
+      type="datetime-local"
+      value={value}
+      hasValue={!!value}
+      isError={!!errors[id]?.message}
+      errorMessage={errors[id]?.message as string}
+    />
   );
 };
 

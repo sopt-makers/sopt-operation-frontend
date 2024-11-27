@@ -43,20 +43,17 @@ const BrandingSubColor = ({
 
   return (
     <StInputBox>
-      <StSubColorTitle as={'p'}>
-        <label htmlFor="sub-color">서브 컬러 (강조 그레이 컬러)</label>
+      <StColorWrapper>
         <StInfoButton onClick={handleInfoToggle}>
           <IconInfoCircle />
         </StInfoButton>
-      </StSubColorTitle>
-      <StSubColorDescription>
-        강조하고 싶은 박스의 그레이 컬러를 지정해주세요.
-      </StSubColorDescription>
-      <StColorWrapper>
         <StInput
           {...register('subColor', {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
+          required
+          labelText="서브 컬러 (강조 그레이 컬러)"
+          descriptionText="강조하고 싶은 박스의 그레이 컬러를 지정해주세요."
           id="sub-color"
           type="text"
           maxLength={9}
