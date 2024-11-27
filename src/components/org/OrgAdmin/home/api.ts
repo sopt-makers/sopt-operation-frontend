@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { fetch } from '@/components/org/api';
+import { getToken } from '@/utils/auth';
 
 export const getAdminInfo = async () => {
   const { data } = await fetch.GET('/admin', {
@@ -30,8 +31,7 @@ export const deleteNews = async (id: number) => {
     },
     {
       headers: {
-        Authorization:
-          'eyJyZWdEYXRlIjoxNzMyNTEyOTU1MDUxLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiZXhwIjoxNzMyNTMwOTU1fQ.OftGPHU629hZd0p7ETZb_HcgEhBcg5-doC9Nl8WWVuI',
+        Authorization: getToken('ACCESS'),
       },
     },
   );

@@ -1,7 +1,8 @@
 'use client';
 
 import { CheckBox, TextField } from '@sopt-makers/ui';
-import { ChangeEvent, HTMLAttributes, useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import Modal from '@/components/common/modal';
 import ImageInput from '@/components/org/OrgAdmin/home/ImageInput';
@@ -32,22 +33,17 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
 
   const { mutate } = useAddNewsMutation();
 
-  const [file, setFile] = useState<Blob | null>(null);
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-  };
+  const { getValues } = useFormContext();
+
+  console.log(getValues('newsImage'));
 
   const handleSubmit = () => {
-    if (!file || !title) return;
-
     const data = new FormData();
 
-    data.append('image', file);
+    data.append('image', getValues('newsImage'));
     data.append('title', title);
     data.append('link', link);
 
@@ -68,7 +64,6 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
             label="newsImage"
             description="이미지는 00x00 비율로 올려주세요."
           />
-          <input type="file" onChange={handleChange} />
           <TextField
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -87,7 +82,7 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
             <StCancelButton onClick={onCancel}>취소</StCancelButton>
             <StAddButton
               type="button"
-              disabled={!file || !title}
+              disabled={!getValues('newsImage') || !title}
               onClick={openConfirmModal}>
               추가
             </StAddButton>
