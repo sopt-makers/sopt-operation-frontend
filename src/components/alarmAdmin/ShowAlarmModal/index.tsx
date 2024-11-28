@@ -72,9 +72,15 @@ function ShowAlarmModal(props: Props) {
           <StRadioWrap>
             <label>링크 첨부</label>
             <div>
-              <Chip active={!data.linkType}>첨부 안 함</Chip>
-              <Chip active={data.linkType === 'WEB'}>웹링크</Chip>
-              <Chip active={data.linkType === 'APP'}>앱 내 딥링크</Chip>
+              <Chip active={!data.linkType} disabled>
+                첨부 안 함
+              </Chip>
+              <Chip active={data.linkType === 'WEB'} disabled>
+                웹링크
+              </Chip>
+              <Chip active={data.linkType === 'APP'} disabled>
+                앱 내 딥링크
+              </Chip>
             </div>
             {data.link && data.linkType && (
               <StLink linkType={data.linkType} href={data.link} target="_blank">
