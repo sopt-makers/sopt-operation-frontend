@@ -15,25 +15,17 @@ import {
   StInfoSubDescription,
   StInfoTitle,
   StInfoWrapper,
-  StSubColorDescription,
-  StSubColorTitle,
 } from './style';
 import { expandHexColor } from './utils';
 
-interface BrandingSubColorProps {
-  subGrayColor: string;
-  onSetSubGrayColor: (color: string) => void;
-}
-
-const BrandingSubColor = ({
-  subGrayColor,
-  onSetSubGrayColor,
-}: BrandingSubColorProps) => {
+const BrandingSubColor = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(false);
 
   const {
     register,
     formState: { errors },
+    watch,
+    setValue,
   } = useFormContext();
 
   const handleInfoToggle = (e: MouseEvent<HTMLButtonElement>) => {
@@ -43,33 +35,28 @@ const BrandingSubColor = ({
 
   return (
     <StInputBox>
-      <StSubColorTitle as={'p'}>
-        <label htmlFor="sub-color">서브 컬러 (강조 그레이 컬러)</label>
+      <StColorWrapper>
         <StInfoButton onClick={handleInfoToggle}>
           <IconInfoCircle />
         </StInfoButton>
-      </StSubColorTitle>
-      <StSubColorDescription>
-        강조하고 싶은 박스의 그레이 컬러를 지정해주세요.
-      </StSubColorDescription>
-      <StColorWrapper>
         <StInput
-          {...register('subColor', {
+          {...register('brandingColor_point', {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
+          required
+          labelText="서브 컬러 (강조 그레이 컬러)"
+          descriptionText="강조하고 싶은 박스의 그레이 컬러를 지정해주세요."
           id="sub-color"
           type="text"
           maxLength={9}
           placeholder="ex. #ffffff"
-          value={subGrayColor}
-          onChange={(e) => onSetSubGrayColor(e.target.value)}
-          isError={errors.subColor?.message != undefined}
-          errorMessage={errors.subColor?.message as string}
+          isError={errors.brandingColor_point?.message != undefined}
+          errorMessage={errors.brandingColor_point?.message as string}
         />
         <StColorPreview
           type="color"
-          value={expandHexColor(subGrayColor)}
-          onChange={(e) => onSetSubGrayColor(e.target.value)}
+          value={expandHexColor(watch('brandingColor_point'))}
+          onChange={(e) => setValue('brandingColor_point', e.target.value)}
         />
         <StInfoWrapper isVisible={isInfoVisible}>
           <StInfoTitle>

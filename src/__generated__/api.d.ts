@@ -62,11 +62,27 @@ export interface paths {
      * @description 최신소식을 추가합니다
      */
     post: operations['addMainNews'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/admin/news/delete': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
     /**
      * 최신소식 삭제
      * @description 최신소식을 삭제합니다
      */
-    delete: operations['deleteMainNews'];
+    post: operations['deleteMainNews'];
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
@@ -280,20 +296,6 @@ export interface components {
        */
       imageFileName: string;
     };
-    /** @description 주차별 커리큘럼 정보 */
-    AddAdminCurriculumWeekRequestDto: {
-      /**
-       * Format: int32
-       * @description 주차
-       * @example 1
-       */
-      week: number;
-      /**
-       * @description 커리큘럼 설명
-       * @example Android 기초 학습
-       */
-      description: string;
-    };
     /** @description 소개글 정보 */
     AddAdminIntroductionRequestDto: {
       /**
@@ -361,8 +363,8 @@ export interface components {
        * @example 안드로이드
        */
       part: string;
-      /** @description 주차별 커리큘럼 */
-      weeks: components['schemas']['AddAdminCurriculumWeekRequestDto'][];
+      /** @description 주차별 커리큘럼 (배열 순서 = 주차 순서) */
+      curriculums: string[];
     };
     /** @description 파트 소개 */
     AddAdminPartIntroductionRequestDto: {
@@ -557,7 +559,44 @@ export interface components {
       recruitHeaderImage: string;
     };
     /** @description 최신소식 추가하기 */
-    AddAdminNewsRequestDto: FormData;
+    AddAdminNewsRequestDto: {
+      /** Format: binary */
+      image: string;
+      /**
+       * @description 제목
+       * @example MIND 23
+       */
+      title: string;
+      /**
+       * @description 링크
+       * @example https://disquiet.io/product/mind-23-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%A9%88%EC%B6%94%EC%A7%80-%EC%95%8A%EB%8A%94-it%EC%9D%B8%EB%93%A4
+       */
+      link: string;
+    };
+    /** @description 최신 소식 추가 */
+    AddAdminNewsResponseDto: {
+      /**
+       * @description 성공 메세지
+       * @example success
+       */
+      message: string;
+    };
+    /** @description 최신소식 삭제하기 */
+    DeleteAdminNewsRequestDto: {
+      /**
+       * Format: int32
+       * @description 최신소식 ID
+       */
+      id: number;
+    };
+    /** @description 최신소식 삭제 */
+    DeleteAdminNewsResponseDto: {
+      /**
+       * @description 성공 메세지
+       * @example success
+       */
+      message: string;
+    };
     /** @description 어드민 배포 확인 */
     AddAdminConfirmRequestDto: {
       /**
@@ -566,6 +605,14 @@ export interface components {
        * @example 34
        */
       generation: number;
+    };
+    /** @description 어드민 메인정보 파일 업로드 확인 */
+    AddAdminConfirmResponseDto: {
+      /**
+       * @description 성공 메세지
+       * @example success
+       */
+      message: string;
     };
     SemestersListResponse: {
       /**
@@ -958,20 +1005,6 @@ export interface components {
        */
       image: string;
     };
-    /** @description 주차별 커리큘럼 정보 */
-    GetMainCurriculumWeekResponseRecordDto: {
-      /**
-       * Format: int32
-       * @description 주차
-       * @example 1
-       */
-      week: number;
-      /**
-       * @description 커리큘럼 설명
-       * @example Android 기초 학습
-       */
-      description: string;
-    };
     /** @description 멤버 정보 */
     GetMainMemberResponseRecordDto: {
       /**
@@ -1009,7 +1042,7 @@ export interface components {
        */
       part: string;
       /** @description 주차별 커리큘럼 */
-      weeks: components['schemas']['GetMainCurriculumWeekResponseRecordDto'][];
+      curriculums: string[];
     };
     /** @description SNS 링크 정보 */
     GetMainSnsLinksResponseRecordDto: {
@@ -1074,20 +1107,6 @@ export interface components {
        * @example https://corevalue.png
        */
       image: string;
-    };
-    /** @description 주차별 커리큘럼 정보 */
-    GetAdminCurriculumWeekResponseRecordDto: {
-      /**
-       * Format: int32
-       * @description 주차
-       * @example 1
-       */
-      week: number;
-      /**
-       * @description 커리큘럼 설명
-       * @example Android 기초 학습
-       */
-      description: string;
     };
     /** @description 소개글 정보 */
     GetAdminIntroductionResponseRecordDto: {
@@ -1171,7 +1190,7 @@ export interface components {
        */
       part: string;
       /** @description 주차별 커리큘럼 */
-      weeks: components['schemas']['GetAdminCurriculumWeekResponseRecordDto'][];
+      curriculums: string[];
     };
     /** @description 파트 소개 정보 */
     GetAdminPartIntroductionResponseRecordDto: {
@@ -1342,14 +1361,6 @@ export interface components {
        */
       link: string;
     };
-    /** @description 최신소식 삭제하기 */
-    DeleteAdminNewsRequestDto: {
-      /**
-       * Format: int32
-       * @description 최신소식 ID
-       */
-      id: number;
-    };
   };
   responses: never;
   parameters: never;
@@ -1482,7 +1493,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': string;
+          '*/*': components['schemas']['AddAdminNewsResponseDto'];
         };
       };
     };
@@ -1506,7 +1517,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': string;
+          '*/*': components['schemas']['DeleteAdminNewsResponseDto'];
         };
       };
     };
@@ -1530,7 +1541,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': string;
+          '*/*': components['schemas']['AddAdminConfirmResponseDto'];
         };
       };
     };

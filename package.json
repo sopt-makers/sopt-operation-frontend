@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && yarn openapi-typescript",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "openapi-typescript": "npx openapi-typescript https://api-dev.sopt.org/v2/api-docs.yaml -o ./src/__generated__/api.d.ts"
   },
   "engines": {
     "node": ">=20.18.0 <21"
@@ -20,7 +21,7 @@
     "@sopt-makers/colors": "^3.0.1",
     "@sopt-makers/fonts": "^2.0.1",
     "@sopt-makers/icons": "^1.0.4",
-    "@sopt-makers/ui": "2.7.13",
+    "@sopt-makers/ui": "^2.7.13",
     "axios": "^1.3.4",
     "dayjs": "^1.11.9",
     "eslint-config-next": "^14.1.4",

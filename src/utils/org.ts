@@ -9,7 +9,7 @@ export const VALIDATION_CHECK = {
     errorText: '잘못된 기수예요.',
     wrongLengthErrorText: '2자리 수만 입력 가능해요.',
   },
-  soptName: {
+  name: {
     maxLength: 20,
     errorText: '잘못된 기수명이에요.',
     wrongLengthErrorText() {
@@ -29,7 +29,83 @@ export const 임원진_LIST = [
   '운영 팀장',
   '미디어 팀장',
   '메이커스 팀장',
-];
+] as const;
 
 // utils/session/partList와 순서 달라서 분리
-export const PART_LIST = ['기획', '디자인', '안드로이드', 'iOS', '웹', '서버'];
+export type PART_KO = '기획' | '디자인' | '안드로이드' | 'iOS' | '웹' | '서버';
+
+export const PART_LIST: PART_KO[] = [
+  '기획',
+  '디자인',
+  '안드로이드',
+  'iOS',
+  '웹',
+  '서버',
+] as const;
+
+export const SCHEDULE_FIELDS = {
+  OB: {
+    application: [
+      {
+        id: 'recruitSchedule_OB_schedule_applicationStartTime',
+        label: 'OB 서류 접수 시작',
+      },
+      {
+        id: 'recruitSchedule_OB_schedule_applicationEndTime',
+        label: 'OB 서류 접수 마감',
+      },
+      {
+        id: 'recruitSchedule_OB_schedule_applicationResultTime',
+        label: 'OB 서류 결과 발표',
+      },
+    ],
+    interview: [
+      {
+        id: 'recruitSchedule_OB_schedule_interviewStartTime',
+        label: 'OB 면접 시작',
+      },
+      {
+        id: 'recruitSchedule_OB_schedule_interviewEndTime',
+        label: 'OB 면접 마감',
+      },
+    ],
+    final: [
+      {
+        id: 'recruitSchedule_OB_schedule_finalResultTime',
+        label: 'OB 최종 결과 발표',
+      },
+    ],
+  },
+  YB: {
+    application: [
+      {
+        id: 'recruitSchedule_YB_schedule_applicationStartTime',
+        label: 'YB 서류 접수 시작',
+      },
+      {
+        id: 'recruitSchedule_YB_schedule_applicationEndTime',
+        label: 'YB 서류 접수 마감',
+      },
+      {
+        id: 'recruitSchedule_YB_schedule_applicationResultTime',
+        label: 'YB 서류 결과 발표',
+      },
+    ],
+    interview: [
+      {
+        id: 'recruitSchedule_YB_schedule_interviewStartTime',
+        label: 'YB 면접 시작',
+      },
+      {
+        id: 'recruitSchedule_YB_schedule_interviewEndTime',
+        label: 'YB 면접 마감',
+      },
+    ],
+    final: [
+      {
+        id: 'recruitSchedule_YB_schedule_finalResultTime',
+        label: 'YB 최종 결과 발표',
+      },
+    ],
+  },
+};

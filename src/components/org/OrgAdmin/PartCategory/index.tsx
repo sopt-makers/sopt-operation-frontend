@@ -1,12 +1,12 @@
 import { Chip } from '@sopt-makers/ui';
 
-import { PART_LIST } from '@/utils/org';
+import { PART_KO, PART_LIST } from '@/utils/org';
 
 import { StPartCategoryWrapper } from './style';
 
 interface PartCategoryProps {
-  selectedPart: string;
-  onSetSelectedPart: (part: string) => void;
+  selectedPart: PART_KO;
+  onSetSelectedPart: (part: PART_KO) => void;
 }
 const PartCategory = ({
   selectedPart,

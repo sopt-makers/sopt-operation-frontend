@@ -1,4 +1,5 @@
-import React, { ChangeEventHandler } from 'react';
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import { StInput } from '../style';
 import { StSNSBox } from './style';
@@ -7,27 +8,15 @@ interface SNSInputProps {
   label: string;
   icon: React.FC;
   placeholder: string;
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
 }
-const SNSInput = ({
-  label,
-  icon: Icon,
-  placeholder,
-  value,
-  onChange,
-}: SNSInputProps) => {
+const SNSInput = ({ label, icon: Icon, placeholder }: SNSInputProps) => {
+  const { register } = useFormContext();
   return (
     <StSNSBox>
       <label htmlFor={label}>
         <Icon />
       </label>
-      <StInput
-        placeholder={placeholder}
-        id={label}
-        value={value}
-        onChange={onChange}
-      />
+      <StInput {...register(label)} placeholder={placeholder} id={label} />
     </StSNSBox>
   );
 };
