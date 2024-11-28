@@ -8,8 +8,8 @@ import PartCurriculum from './PartCurriculum';
 interface RecruitSectionProps {
   curriculumPart: PART_KO;
   onChangeCurriculumPart: (part: PART_KO) => void;
-  fnaPart: string;
-  onChangeFnaPart: (part: string) => void;
+  fnaPart: PART_KO;
+  onChangeFnaPart: (part: PART_KO) => void;
 }
 
 const RecruitSection = ({

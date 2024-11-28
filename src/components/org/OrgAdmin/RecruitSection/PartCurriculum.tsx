@@ -32,7 +32,7 @@ const PartCurriculum = ({
         <StTitle>파트별 소개</StTitle>
       </StTitleWrapper>
       <PartCategory
-        curriculumPart={curriculumPart}
+        selectedPart={curriculumPart}
         onSetSelectedPart={handleSetSelectedPart}
       />
       <StTextAreaWrapper key={curriculumPart}>

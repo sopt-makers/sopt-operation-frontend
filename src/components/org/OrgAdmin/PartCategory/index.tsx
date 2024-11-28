@@ -5,11 +5,11 @@ import { PART_KO, PART_LIST } from '@/utils/org';
 import { StPartCategoryWrapper } from './style';
 
 interface PartCategoryProps {
-  curriculumPart: PART_KO;
+  selectedPart: PART_KO;
   onSetSelectedPart: (part: PART_KO) => void;
 }
 const PartCategory = ({
-  curriculumPart,
+  selectedPart,
   onSetSelectedPart,
 }: PartCategoryProps) => {
   return (
@@ -18,7 +18,7 @@ const PartCategory = ({
         <Chip
           key={`${part}-${part}`}
           onClick={() => onSetSelectedPart(part)}
-          active={curriculumPart === part}>
+          active={selectedPart === part}>
           {part}
         </Chip>
       ))}

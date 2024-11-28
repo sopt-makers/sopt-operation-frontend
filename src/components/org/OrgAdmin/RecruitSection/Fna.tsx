@@ -1,24 +1,26 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { VALIDATION_CHECK } from '@/utils/org';
+import { PART_KO, VALIDATION_CHECK } from '@/utils/org';
 
 import PartCategory from '../PartCategory';
 import { StTextArea, StTitle, StTitleWrapper, StWrapper } from '../style';
 import { StFnaWrapper, StTextAreaWrapper } from './style';
 
-const Fna = () => {
+interface FanProps {
+  fnaPart: PART_KO;
+  onChangeFnaPart: (part: PART_KO) => void;
+}
+
+const Fna = ({ fnaPart, onChangeFnaPart }: FanProps) => {
   const {
     register,
     clearErrors,
     setError,
     formState: { errors },
   } = useFormContext();
-
-  const [selectedPart, setSelectedPart] = useState('기획');
-
-  const handleSetSelectedPart = (value: string) => {
-    setSelectedPart(value);
+  const handleSetSelectedPart = (value: PART_KO) => {
+    onChangeFnaPart(value);
   };
 
   return (
@@ -27,18 +29,15 @@ const Fna = () => {
         <StTitle>자주 묻는 질문</StTitle>
       </StTitleWrapper>
       <PartCategory
-        selectedPart={selectedPart}
+        selectedPart={fnaPart}
         onSetSelectedPart={handleSetSelectedPart}
       />
-      <StTextAreaWrapper key={selectedPart}>
+      <StTextAreaWrapper key={fnaPart}>
         <StFnaWrapper>
           <StTextArea
-            {...register(
-              `recruitQuestion_${selectedPart}_questions_0_question`,
-              {
-                required: true && VALIDATION_CHECK.required.errorText,
-              },
-            )}
+            {...register(`recruitQuestion_${fnaPart}_questions_0_question`, {
+              required: true && VALIDATION_CHECK.required.errorText,
+            })}
             topAddon={{
               labelText: '질문1',
             }}
@@ -48,30 +47,25 @@ const Fna = () => {
             placeholder="질문을 입력해주세요."
             onChange={(e) => {
               if (e.currentTarget.value) {
-                clearErrors(
-                  `recruitQuestion_${selectedPart}_questions_0_question`,
-                );
+                clearErrors(`recruitQuestion_${fnaPart}_questions_0_question`);
               } else {
-                setError(
-                  `recruitQuestion_${selectedPart}_questions_0_question`,
-                  {
-                    type: 'required',
-                    message: VALIDATION_CHECK.required.errorText,
-                  },
-                );
+                setError(`recruitQuestion_${fnaPart}_questions_0_question`, {
+                  type: 'required',
+                  message: VALIDATION_CHECK.required.errorText,
+                });
               }
             }}
             isError={
-              errors[`recruitQuestion_${selectedPart}_questions_0_question`]
+              errors[`recruitQuestion_${fnaPart}_questions_0_question`]
                 ?.message != undefined
             }
             errorMessage={
-              errors[`recruitQuestion_${selectedPart}_questions_0_question`]
+              errors[`recruitQuestion_${fnaPart}_questions_0_question`]
                 ?.message as string
             }
           />
           <StTextArea
-            {...register(`recruitQuestion_${selectedPart}_questions_0_answer`, {
+            {...register(`recruitQuestion_${fnaPart}_questions_0_answer`, {
               required: true && VALIDATION_CHECK.required.errorText,
             })}
             required
@@ -80,34 +74,29 @@ const Fna = () => {
             placeholder="답변을 입력해주세요."
             onChange={(e) => {
               if (e.currentTarget.value) {
-                clearErrors(
-                  `recruitQuestion_${selectedPart}_questions_0_answer`,
-                );
+                clearErrors(`recruitQuestion_${fnaPart}_questions_0_answer`);
               } else {
-                setError(`recruitQuestion_${selectedPart}_questions_0_answer`, {
+                setError(`recruitQuestion_${fnaPart}_questions_0_answer`, {
                   type: 'required',
                   message: VALIDATION_CHECK.required.errorText,
                 });
               }
             }}
             isError={
-              errors[`recruitQuestion_${selectedPart}_questions_0_answer`]
+              errors[`recruitQuestion_${fnaPart}_questions_0_answer`]
                 ?.message != undefined
             }
             errorMessage={
-              errors[`recruitQuestion_${selectedPart}_questions_0_answer`]
+              errors[`recruitQuestion_${fnaPart}_questions_0_answer`]
                 ?.message as string
             }
           />
         </StFnaWrapper>
         <StFnaWrapper>
           <StTextArea
-            {...register(
-              `recruitQuestion_${selectedPart}_questions_1_question`,
-              {
-                required: true && VALIDATION_CHECK.required.errorText,
-              },
-            )}
+            {...register(`recruitQuestion_${fnaPart}_questions_1_question`, {
+              required: true && VALIDATION_CHECK.required.errorText,
+            })}
             topAddon={{
               labelText: '질문2',
             }}
@@ -117,30 +106,25 @@ const Fna = () => {
             placeholder="질문을 입력해주세요."
             onChange={(e) => {
               if (e.currentTarget.value) {
-                clearErrors(
-                  `recruitQuestion_${selectedPart}_questions_1_question`,
-                );
+                clearErrors(`recruitQuestion_${fnaPart}_questions_1_question`);
               } else {
-                setError(
-                  `recruitQuestion_${selectedPart}_questions_1_question`,
-                  {
-                    type: 'required',
-                    message: VALIDATION_CHECK.required.errorText,
-                  },
-                );
+                setError(`recruitQuestion_${fnaPart}_questions_1_question`, {
+                  type: 'required',
+                  message: VALIDATION_CHECK.required.errorText,
+                });
               }
             }}
             isError={
-              errors[`recruitQuestion_${selectedPart}_questions_1_question`]
+              errors[`recruitQuestion_${fnaPart}_questions_1_question`]
                 ?.message != undefined
             }
             errorMessage={
-              errors[`recruitQuestion_${selectedPart}_questions_1_question`]
+              errors[`recruitQuestion_${fnaPart}_questions_1_question`]
                 ?.message as string
             }
           />
           <StTextArea
-            {...register(`recruitQuestion_${selectedPart}_questions_1_answer`, {
+            {...register(`recruitQuestion_${fnaPart}_questions_1_answer`, {
               required: true && VALIDATION_CHECK.required.errorText,
             })}
             required
@@ -149,34 +133,29 @@ const Fna = () => {
             placeholder="답변을 입력해주세요."
             onChange={(e) => {
               if (e.currentTarget.value) {
-                clearErrors(
-                  `recruitQuestion_${selectedPart}_questions_1_answer`,
-                );
+                clearErrors(`recruitQuestion_${fnaPart}_questions_1_answer`);
               } else {
-                setError(`recruitQuestion_${selectedPart}_questions_1_answer`, {
+                setError(`recruitQuestion_${fnaPart}_questions_1_answer`, {
                   type: 'required',
                   message: VALIDATION_CHECK.required.errorText,
                 });
               }
             }}
             isError={
-              errors[`recruitQuestion_${selectedPart}_questions_1_answer`]
+              errors[`recruitQuestion_${fnaPart}_questions_1_answer`]
                 ?.message != undefined
             }
             errorMessage={
-              errors[`recruitQuestion_${selectedPart}_questions_1_answer`]
+              errors[`recruitQuestion_${fnaPart}_questions_1_answer`]
                 ?.message as string
             }
           />
         </StFnaWrapper>
         <StFnaWrapper>
           <StTextArea
-            {...register(
-              `recruitQuestion_${selectedPart}_questions_2_question`,
-              {
-                required: true && VALIDATION_CHECK.required.errorText,
-              },
-            )}
+            {...register(`recruitQuestion_${fnaPart}_questions_2_question`, {
+              required: true && VALIDATION_CHECK.required.errorText,
+            })}
             topAddon={{
               labelText: '질문3',
             }}
@@ -186,30 +165,25 @@ const Fna = () => {
             placeholder="질문을 입력해주세요."
             onChange={(e) => {
               if (e.currentTarget.value) {
-                clearErrors(
-                  `recruitQuestion_${selectedPart}_questions_2_question`,
-                );
+                clearErrors(`recruitQuestion_${fnaPart}_questions_2_question`);
               } else {
-                setError(
-                  `recruitQuestion_${selectedPart}_questions_2_question`,
-                  {
-                    type: 'required',
-                    message: VALIDATION_CHECK.required.errorText,
-                  },
-                );
+                setError(`recruitQuestion_${fnaPart}_questions_2_question`, {
+                  type: 'required',
+                  message: VALIDATION_CHECK.required.errorText,
+                });
               }
             }}
             isError={
-              errors[`recruitQuestion_${selectedPart}_questions_2_question`]
+              errors[`recruitQuestion_${fnaPart}_questions_2_question`]
                 ?.message != undefined
             }
             errorMessage={
-              errors[`recruitQuestion_${selectedPart}_questions_2_question`]
+              errors[`recruitQuestion_${fnaPart}_questions_2_question`]
                 ?.message as string
             }
           />
           <StTextArea
-            {...register(`recruitQuestion_${selectedPart}_questions_2_answer`, {
+            {...register(`recruitQuestion_${fnaPart}_questions_2_answer`, {
               required: true && VALIDATION_CHECK.required.errorText,
             })}
             fixedHeight={74}
@@ -217,22 +191,20 @@ const Fna = () => {
             placeholder="답변을 입력해주세요."
             onChange={(e) => {
               if (e.currentTarget.value) {
-                clearErrors(
-                  `recruitQuestion_${selectedPart}_questions_2_answer`,
-                );
+                clearErrors(`recruitQuestion_${fnaPart}_questions_2_answer`);
               } else {
-                setError(`recruitQuestion_${selectedPart}_questions_2_answer`, {
+                setError(`recruitQuestion_${fnaPart}_questions_2_answer`, {
                   type: 'required',
                   message: VALIDATION_CHECK.required.errorText,
                 });
               }
             }}
             isError={
-              errors[`recruitQuestion_${selectedPart}_questions_2_answer`]
+              errors[`recruitQuestion_${fnaPart}_questions_2_answer`]
                 ?.message != undefined
             }
             errorMessage={
-              errors[`recruitQuestion_${selectedPart}_questions_2_answer`]
+              errors[`recruitQuestion_${fnaPart}_questions_2_answer`]
                 ?.message as string
             }
           />
