@@ -67,7 +67,7 @@ function OrgAdmin() {
         />
       </StListHeader>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
           {selectedPart === '공통' ? (
             <CommonSection
               group={group}
