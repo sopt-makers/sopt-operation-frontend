@@ -43,7 +43,7 @@ const Curriculum = () => {
               </StWeek>
               <StInput
                 {...register(`partCurriculum.${selectedPart}.${idx}`, {
-                  // required: true && VALIDATION_CHECK.required.errorText,
+                  required: true && VALIDATION_CHECK.required.errorText,
                 })}
                 isError={
                   (errors as any).partCurriculum?.selectedPart?.idx?.message !==

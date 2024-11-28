@@ -37,7 +37,7 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
       </StPhotoWrapper>
       <StInput
         {...register(`member.${selectedExec}.name`, {
-          // required: true && VALIDATION_CHECK.required.errorText,
+          required: true && VALIDATION_CHECK.required.errorText,
         })}
         isError={
           (errors as any).member?.selectedExec?.name?.message !== undefined
@@ -50,7 +50,7 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
       />
       <StInput
         {...register(`member.${selectedExec}.affiliation`, {
-          // required: true && VALIDATION_CHECK.required.errorText,
+          required: true && VALIDATION_CHECK.required.errorText,
         })}
         isError={
           (errors as any).member?.selectedExec?.affiliation?.message !==
@@ -64,7 +64,7 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
       />
       <StInput
         {...register(`member.${selectedExec}.introduction`, {
-          // required: true && VALIDATION_CHECK.required.errorText,
+          required: true && VALIDATION_CHECK.required.errorText,
         })}
         isError={
           (errors as any).member?.selectedExec?.introduction?.message !==

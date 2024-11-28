@@ -102,7 +102,7 @@ function OrgAdmin() {
     const isCurriculumValid = validateCurriculum();
     const isFnaValid = validateFna();
 
-    if (true || (isScheduleValid && isCurriculumValid && isFnaValid)) {
+    if (isScheduleValid && isCurriculumValid && isFnaValid) {
       const {
         brandingColor_high,
         brandingColor_low,

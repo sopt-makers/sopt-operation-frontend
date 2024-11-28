@@ -34,7 +34,7 @@ const CoreValue = () => {
           <StInputBox>
             <StInput
               {...register('coreValue1.value', {
-                // required: true && VALIDATION_CHECK.required.errorText,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               isError={(errors as any).coreValue1?.value?.message !== undefined}
               errorMessage={
@@ -45,7 +45,7 @@ const CoreValue = () => {
             />
             <StInput
               {...register('coreValue1.description', {
-                // required: true && VALIDATION_CHECK.required.errorText,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               isError={
                 (errors as any).coreValue1?.description?.message !== undefined
@@ -73,7 +73,7 @@ const CoreValue = () => {
           <StInputBox>
             <StInput
               {...register('coreValue2.value', {
-                // required: true && VALIDATION_CHECK.required.errorText,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               isError={(errors as any).coreValue2?.value?.message !== undefined}
               errorMessage={
@@ -84,7 +84,7 @@ const CoreValue = () => {
             />
             <StInput
               {...register('coreValue2.description', {
-                // required: true && VALIDATION_CHECK.required.errorText,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               isError={
                 (errors as any).coreValue2?.description?.message !== undefined
@@ -112,7 +112,7 @@ const CoreValue = () => {
           <StInputBox>
             <StInput
               {...register('coreValue3.value', {
-                // required: true && VALIDATION_CHECK.required.errorText,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               isError={(errors as any).coreValue3?.value?.message !== undefined}
               errorMessage={
@@ -123,7 +123,7 @@ const CoreValue = () => {
             />
             <StInput
               {...register('coreValue3.description', {
-                // required: true && VALIDATION_CHECK.required.errorText,
+                required: true && VALIDATION_CHECK.required.errorText,
               })}
               isError={
                 (errors as any).coreValue3?.description?.message !== undefined

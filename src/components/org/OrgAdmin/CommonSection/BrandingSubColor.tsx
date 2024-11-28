@@ -41,7 +41,7 @@ const BrandingSubColor = () => {
         </StInfoButton>
         <StInput
           {...register('brandingColor_point', {
-            // required: true && VALIDATION_CHECK.required.errorText,
+            required: true && VALIDATION_CHECK.required.errorText,
           })}
           required
           labelText="서브 컬러 (강조 그레이 컬러)"

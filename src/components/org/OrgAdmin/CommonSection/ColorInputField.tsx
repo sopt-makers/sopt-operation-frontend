@@ -23,7 +23,7 @@ const ColorInputField = ({ label, id }: ColorInputFieldProps) => {
     <StColorWrapper>
       <StInput
         {...register(id, {
-          // required: true && VALIDATION_CHECK.required.errorText,
+          required: true && VALIDATION_CHECK.required.errorText,
         })}
         required
         labelText={label}

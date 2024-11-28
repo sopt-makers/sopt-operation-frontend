@@ -28,7 +28,7 @@ const GenerationInformation = () => {
       <StInputWrapper>
         <StInput
           {...register('generation', {
-            // required: true && VALIDATION_CHECK.required.errorText,
+            required: true && VALIDATION_CHECK.required.errorText,
             pattern: {
               value: VALIDATION_CHECK.generation.pattern,
               message: VALIDATION_CHECK.generation.errorText,
@@ -52,7 +52,7 @@ const GenerationInformation = () => {
         />
         <StInput
           {...register('name', {
-            // required: true && VALIDATION_CHECK.required.errorText,
+            required: true && VALIDATION_CHECK.required.errorText,
             maxLength: {
               value: VALIDATION_CHECK.name.maxLength,
               message: VALIDATION_CHECK.name.wrongLengthErrorText(),

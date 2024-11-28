@@ -38,7 +38,7 @@ const PartCurriculum = ({
       <StTextAreaWrapper key={curriculumPart}>
         <StTextArea
           {...register(`recruitPartCurriculum_${curriculumPart}_content`, {
-            // required: true && VALIDATION_CHECK.required.errorText,
+            required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
             labelText: `${curriculumPart} 파트는 이런 걸 배워요.`,
@@ -68,7 +68,7 @@ const PartCurriculum = ({
         />
         <StTextArea
           {...register(`recruitPartCurriculum_${curriculumPart}_preference`, {
-            // required: true && VALIDATION_CHECK.required.errorText,
+            required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
             labelText: '이런 분이면 좋아요!',
