@@ -1,13 +1,14 @@
 import { IconInfoCircle, IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
+import { useState } from 'react';
 
 import sampleImg from '@/assets/img/latestNewsSample.png';
-import { NEWS } from '@/components/org/OrgAdmin/home/constant';
 import {
   ActionModal,
   AddNewsModal,
 } from '@/components/org/OrgAdmin/home/Modal';
 import NewsItem from '@/components/org/OrgAdmin/home/NewsItem';
+import { useDeleteNewsMutation } from '@/components/org/OrgAdmin/home/queries';
 import SampleView from '@/components/org/OrgAdmin/home/SampleView';
 import {
   StLeftColumnSection,
@@ -19,7 +20,14 @@ import {
 } from '@/components/org/OrgAdmin/home/style';
 import { useBooleanState } from '@/hooks/useBooleanState';
 
-const NewsSection = () => {
+type NewsSectionProps = {
+  latestNews?: {
+    id: number;
+    title: string;
+  }[];
+};
+
+const NewsSection = ({ latestNews }: NewsSectionProps) => {
   const {
     flag: isDeleteModalOpen,
     setFalse: closeDeleteModal,
@@ -30,6 +38,16 @@ const NewsSection = () => {
     setFalse: closeAddModal,
     setTrue: openAddModal,
   } = useBooleanState();
+
+  const [deleteId, setDeleteId] = useState<number>(0);
+
+  const { mutate } = useDeleteNewsMutation();
+
+  const handleDeleteNewsItems = (id: number) => {
+    mutate(id, {
+      onSuccess: closeDeleteModal,
+    });
+  };
 
   return (
     <StNewsSectionContainer>
@@ -53,13 +71,15 @@ const NewsSection = () => {
           </Button>
         </StNewsHeader>
         <StNewsList>
-          {NEWS.map((item) => (
+          {latestNews?.map((item) => (
             <NewsItem
               key={item.id}
               title={item.title}
-              onDelete={() =>
-                openDeleteModal()
-              } /** TODO: id 넘겨서 모달 안에서 DELETE request 수행 */
+              onDelete={() => {
+                openDeleteModal();
+                setDeleteId(item.id);
+                console.log(item.id);
+              }} /** TODO: id 넘겨서 모달 안에서 DELETE request 수행 */
             />
           ))}
         </StNewsList>
@@ -72,10 +92,11 @@ const NewsSection = () => {
       />
 
       <ActionModal
-        type="delete"
+        key={deleteId}
+        variant="delete"
         isOpen={isDeleteModalOpen}
         onCancel={closeDeleteModal}
-        onAction={() => {}}
+        onAction={() => handleDeleteNewsItems(deleteId)}
         alertText="삭제하시겠습니까?"
         description="최신 소식은 ‘배포’버튼을 거치지 않고 즉시 배포가 돼요."
       />

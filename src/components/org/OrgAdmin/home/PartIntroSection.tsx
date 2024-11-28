@@ -1,7 +1,10 @@
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { Chip, TextArea } from '@sopt-makers/ui';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import sampleImg from '@/assets/img/partIntroduceSample.png';
+import { PARTS } from '@/components/org/OrgAdmin/home/constant';
 import SampleView from '@/components/org/OrgAdmin/home/SampleView';
 import {
   StChipsContainer,
@@ -10,7 +13,19 @@ import {
   StTitleWithIcon,
 } from '@/components/org/OrgAdmin/home/style';
 
+type Part = '기획' | '디자인' | '안드로이드' | 'IOS' | '웹' | '서버';
+
 const PartIntroSection = () => {
+  const [selectedChip, setSelectedChip] = useState<Part>('기획');
+
+  const getActiveStatus = (id: Part) => id === selectedChip;
+
+  const handleSelectChip = (id: Part) => {
+    setSelectedChip(id);
+  };
+
+  const { register } = useFormContext();
+
   return (
     <StSecondSectionContainer>
       <StTextAreaContainer>
@@ -20,19 +35,21 @@ const PartIntroSection = () => {
         </StTitleWithIcon>
 
         <StChipsContainer>
-          <Chip>기획</Chip>
-          <Chip>디자인</Chip>
-          <Chip>안드로이드</Chip>
-          <Chip>IOS</Chip>
-          <Chip>웹</Chip>
-          <Chip>서버</Chip>
+          {PARTS.map((part) => (
+            <Chip
+              key={part}
+              active={getActiveStatus(part)}
+              onClick={() => handleSelectChip(part)}>
+              {part}
+            </Chip>
+          ))}
         </StChipsContainer>
 
         <TextArea
-          value=""
+          key={selectedChip}
+          {...register(selectedChip)}
           fixedHeight={230}
           maxHeight={230}
-          onSubmit={() => {}}
           placeholder={
             '파트별 설명을 작성해주세요. \nex.\n 린스타트업에 기초해 고객 문제정의 - 고객 발굴 - 검증 과정을 거쳐 비즈니스 전략과 핵심지표 설계까지 고객 관점 프로덕트를 만들고 운영하기 위한 모든 과정을 다룹니다.'
           }
