@@ -28,7 +28,7 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
   return (
     <StInput
       {...register(id, {
-        required: true && VALIDATION_CHECK.required.errorText,
+        // required: true && VALIDATION_CHECK.required.errorText,
       })}
       required
       labelText={label}

@@ -84,7 +84,7 @@ const MyDropzone = ({
         isError={errors[label]?.message != undefined}>
         <input
           {...register(label, {
-            required: true && VALIDATION_CHECK.required.errorText,
+            // required: true && VALIDATION_CHECK.required.errorText,
           })}
           {...getInputProps()}
         />

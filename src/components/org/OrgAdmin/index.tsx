@@ -9,6 +9,7 @@ import {
   PART_KO,
   PART_LIST,
   SCHEDULE_FIELDS,
+  임원진_LIST,
 } from '@/utils/org';
 
 import AboutSection from './AboutSection';
@@ -28,7 +29,7 @@ function OrgAdmin() {
 
   const { sendMutate, sendIsLoading } = useMutateSendData();
 
-  const methods = useForm({ mode: 'onBlur' });
+  const methods = useForm<Record<string, any>>({ mode: 'onBlur' });
   const { handleSubmit, getValues } = methods;
 
   const onChangePart = (part: ORG_ADMIN): void => {
@@ -101,7 +102,7 @@ function OrgAdmin() {
     const isCurriculumValid = validateCurriculum();
     const isFnaValid = validateFna();
 
-    if (isScheduleValid && isCurriculumValid && isFnaValid) {
+    if (true || (isScheduleValid && isCurriculumValid && isFnaValid)) {
       const {
         brandingColor_high,
         brandingColor_low,
@@ -170,8 +171,15 @@ function OrgAdmin() {
         recruitSchedule_YB_schedule_finalResultTime,
         recruitSchedule_YB_schedule_interviewEndTime,
         recruitSchedule_YB_schedule_interviewStartTime,
+        headerImageFileName,
+        coreValue1,
+        coreValue2,
+        coreValue3,
+        partCurriculum,
+        member,
       } = data;
 
+      const 임원진 = [...임원진_LIST, ...PART_LIST];
       const sendingData = {
         generation,
         name,
@@ -244,262 +252,25 @@ function OrgAdmin() {
             description: '서버 앱 개발',
           },
         ],
-        headerImageFileName: 'header.png',
+        headerImageFileName: headerImageFileName?.fileName,
         coreValue: [
-          {
-            value: '용기',
-            description: '새로운 도전을 위해 과감히 용기내는 사람',
-            imageFileName: 'image.png',
-          },
-          {
-            value: '핵심2',
-            description: '새로운 도전을 위해 과감히 용기내는 사람',
-            imageFileName: 'image.png',
-          },
-          {
-            value: '핵심3',
-            description: '새로운 도전을 위해 과감히 용기내는 사람',
-            imageFileName: 'image.png',
-          },
+          { ...coreValue1, imageFileName: coreValue1.imageFileName?.fileName },
+          { ...coreValue2, imageFileName: coreValue2.imageFileName?.fileName },
+          { ...coreValue3, imageFileName: coreValue3.imageFileName?.fileName },
         ],
-        partCurriculum: [
-          {
-            part: '기획',
-            curriculums: [
-              '1. 1번',
-              '2. 2번',
-              '3. 3번',
-              '4. 4번',
-              '5. 5번',
-              '6. 6번',
-              '7. 7번',
-              '8. 8번',
-            ],
-          },
-          {
-            part: '디자인',
-            curriculums: [
-              '1. 1번',
-              '2. 2번',
-              '3. 3번',
-              '4. 4번',
-              '5. 5번',
-              '6. 6번',
-              '7. 7번',
-              '8. 8번',
-            ],
-          },
-          {
-            part: '안드로이드',
-            curriculums: [
-              '1. 1번',
-              '2. 2번',
-              '3. 3번',
-              '4. 4번',
-              '5. 5번',
-              '6. 6번',
-              '7. 7번',
-              '8. 8번',
-            ],
-          },
-          {
-            part: 'iOS',
-            curriculums: [
-              '1. 1번',
-              '2. 2번',
-              '3. 3번',
-              '4. 4번',
-              '5. 5번',
-              '6. 6번',
-              '7. 7번',
-              '8. 8번',
-            ],
-          },
-          {
-            part: '웹',
-            curriculums: [
-              '1. 1번',
-              '2. 2번',
-              '3. 3번',
-              '4. 4번',
-              '5. 5번',
-              '6. 6번',
-              '7. 7번',
-              '8. 8번',
-            ],
-          },
-          {
-            part: '서버',
-            curriculums: [
-              '1. 1번',
-              '2. 2번',
-              '3. 3번',
-              '4. 4번',
-              '5. 5번',
-              '6. 6번',
-              '7. 7번',
-              '8. 8번',
-            ],
-          },
-        ],
-        member: [
-          {
-            role: '회장',
-            name: '홍길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '부회장',
-            name: '부길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '총무',
-            name: '총길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '운영팀장',
-            name: '운길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '미디어팀장',
-            name: '미길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '메이커스팀장',
-            name: '메길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '기획파트장',
-            name: '기길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '디자인파트장',
-            name: '디길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '안드로이드파트장',
-            name: '안길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: 'iOS파트장',
-            name: 'i길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '웹파트장',
-            name: '웹길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-          {
-            role: '서버파트장',
-            name: '서길동',
-            affiliation: 'SOPT',
-            introduction: '안녕하세요!',
-            sns: {
-              email: 'example@sopt.org',
-              linkedin: 'https://www.linkedin.com/in/example',
-              github: 'https://github.com/example',
-              behance: 'https://www.behance.net/example',
-            },
-            profileImageFileName: 'image.png',
-          },
-        ],
+        partCurriculum: PART_LIST.map((v) => {
+          return {
+            part: v,
+            curriculums: partCurriculum[v],
+          };
+        }),
+        member: 임원진.map((v) => {
+          return {
+            ...member[v],
+            role: v,
+            profileImageFileName: member[v]?.profileImageFileName?.fileName,
+          };
+        }),
         recruitHeaderImageFileName,
         recruitPartCurriculum: [
           {
@@ -651,7 +422,8 @@ function OrgAdmin() {
         ],
       };
 
-      sendMutate(sendingData);
+      console.log('>>sendingData', sendingData);
+      // sendMutate(sendingData);
     }
   };
 
