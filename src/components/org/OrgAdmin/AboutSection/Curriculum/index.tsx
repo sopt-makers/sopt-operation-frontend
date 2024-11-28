@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { PART_LIST, VALIDATION_CHECK } from '@/utils/org';
+import { PART_KO, PART_LIST, VALIDATION_CHECK } from '@/utils/org';
 
 import PartCategory from '../../PartCategory';
 import { StInput, StTitle, StWrapper } from '../style';
@@ -21,9 +21,9 @@ const Curriculum = () => {
     formState: { errors },
   } = useFormContext();
 
-  const [selectedPart, setSelectedPart] = useState('기획');
+  const [selectedPart, setSelectedPart] = useState<PART_KO>('기획');
 
-  const handleSetSelectedPart = (value: string) => {
+  const handleSetSelectedPart = (value: PART_KO) => {
     setSelectedPart(value);
   };
 
