@@ -11,7 +11,6 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import AlarmList from '@/components/alarmAdmin/AlarmList';
-import CreateNewAlarmModal from '@/components/alarmAdmin/CreateAlarmModal';
 import CreateAlarmModal from '@/components/alarmAdmin/CreateAlarmModal';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';
@@ -19,6 +18,7 @@ import { currentGenerationState } from '@/recoil/atom';
 import { useGetAlarmList } from '@/services/api/alarm/query';
 
 function AlarmAdminPage() {
+  const [tab, setTab] = useState<ALARM_STATUS>('ALL');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isAlarmOptionButtonListOpen, setIsAlarmOptionButtonListOpen] =
     useState<boolean>(false);
@@ -30,6 +30,7 @@ function AlarmAdminPage() {
 
   const { data, isLoading, refetch } = useGetAlarmList(
     parseInt(currentGeneration),
+    tab,
   );
 
   const handleModalClose = async () => {
@@ -39,8 +40,8 @@ function AlarmAdminPage() {
     refetch();
   };
 
-  const refetchAlarmList = () => {
-    refetch();
+  const handleChangeTab = (value: ALARM_STATUS) => {
+    setTab(value);
   };
 
   const handleClickAlarmOptionButton = (sendType: 'NOW' | 'RESERVE') => {
@@ -50,7 +51,13 @@ function AlarmAdminPage() {
   if (isLoading || !data) return <Loading />;
   return (
     <>
-      <AlarmList data={data} refetch={refetchAlarmList} />
+      <AlarmList
+        alarmList={data.alarms}
+        totalCount={data.totalCount}
+        tab={tab}
+        refetch={refetch}
+        onChangeTab={handleChangeTab}
+      />
       <FloatingButton
         isAlarmOptionButtonListOpen={isAlarmOptionButtonListOpen}
         onClick={() =>

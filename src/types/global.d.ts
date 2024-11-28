@@ -6,13 +6,15 @@ declare global {
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
-  type ALARM_STATUS = '전체' | '발송 전' | '발송 후';
+  type ALARM_STATUS = 'ALL' | 'SCHEDULED' | 'COMPLETED';
   type ADMIN_STATUS =
     | 'SUPER_USER'
     | 'SOPT'
     | 'MAKERS'
     | 'NOT_CERTIFIED'
     | 'DEVELOPER';
+  type TARGET_TYPE = 'ACTIVE' | 'INACTIVE' | 'CSV';
+  type LINK_TYPE = 'WEB' | 'APP';
 
   /* 에러 */
   interface LoginError {
@@ -225,17 +227,23 @@ declare global {
   }
   interface Alarm {
     alarmId: number;
-    part: string | null;
-    attribute: string;
+    alarmType: '즉시 발송' | '예약 발송';
+    category: '공지' | '소식';
+    part?: string;
     title: string;
     content: string;
     sendAt: string;
-    status: string;
+    status: ALARM_STATUS;
   }
-  interface AlarmDetail
-    extends Omit<PostAlarmData, 'generation' | 'generationAt' | 'targetList'> {
+  interface AlarmDetail {
+    part: string | null;
+    targetType: TARGET_TYPE;
+    title: string;
+    content: string;
+    link: string | null;
+    linkType: LINK_TYPE | null;
     createdAt: string;
-    sendAt: string;
+    sendAt: string | null;
   }
 }
 
