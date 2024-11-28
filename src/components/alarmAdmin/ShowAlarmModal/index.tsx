@@ -6,7 +6,6 @@ import {
   StAlarmModalBody,
   StTextField,
   StRadioWrap,
-  StRadio,
   StLink,
 } from './style';
 import { useGetAlarm } from '@/services/api/alarm/query';
@@ -15,17 +14,12 @@ import dayjs from 'dayjs';
 import { Button, Chip } from '@sopt-makers/ui';
 import { IconLink } from '@sopt-makers/icons';
 import { colors } from '@sopt-makers/colors';
+import { targetTypeTranslator } from '@/utils/translator';
 
 interface Props {
   onClose: () => void;
   alarmId: number;
 }
-
-const targetTypeTranslator = {
-  ACTIVE: '활동 회원',
-  INACTIVE: '비활동 회원',
-  CSV: 'CSV 첨부',
-};
 
 function ShowAlarmModal(props: Props) {
   const { onClose, alarmId } = props;
@@ -84,7 +78,7 @@ function ShowAlarmModal(props: Props) {
             </div>
             {data.link && data.linkType && (
               <StLink linkType={data.linkType} href={data.link} target="_blank">
-                <IconLinks
+                <IconLink
                   style={{ width: '16px', height: '16px' }}
                   color={colors.gray200}
                 />

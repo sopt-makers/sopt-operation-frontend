@@ -7,17 +7,12 @@ import Chip from '@/components/common/Chip';
 import ListWrapper from '@/components/common/ListWrapper';
 import Modal from '@/components/common/modal';
 import { deleteAlarm } from '@/services/api/alarm';
+import { ALARM_STATUS_LIST } from '@/utils/alarm';
+import { alarmStatusTranslator } from '@/utils/translator';
 
 import ShowAlarmModal from '../ShowAlarmModal';
 import { StListItem, StPageHeader } from './style';
 import { Tab } from '@sopt-makers/ui';
-
-const alarmStatusList: ALARM_STATUS[] = ['ALL', 'SCHEDULED', 'COMPLETED'];
-const alarmStatusTranslator: Record<ALARM_STATUS, string> = {
-  ALL: '전체',
-  SCHEDULED: '발송 예약',
-  COMPLETED: '발송 완료',
-};
 
 interface Props {
   alarmList: Alarm[];
@@ -69,7 +64,7 @@ function AlarmList(props: Props) {
         <Tab<ALARM_STATUS>
           style="primary"
           size="md"
-          tabItems={alarmStatusList}
+          tabItems={ALARM_STATUS_LIST}
           translator={alarmStatusTranslator}
           selectedInitial={tab}
           onChange={onChangeTab}
