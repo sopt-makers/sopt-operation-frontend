@@ -1,13 +1,20 @@
-import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { VALIDATION_CHECK } from '@/utils/org';
+import { PART_KO, VALIDATION_CHECK } from '@/utils/org';
 
 import PartCategory from '../PartCategory';
 import { StTextArea, StTitle, StTitleWrapper, StWrapper } from '../style';
 import { StTextAreaWrapper } from './style';
 
-const PartCurriculum = () => {
+interface RecruitSectionProps {
+  curriculumPart: PART_KO;
+  onChangeCurriculumPart: (part: PART_KO) => void;
+}
+
+const PartCurriculum = ({
+  curriculumPart,
+  onChangeCurriculumPart,
+}: RecruitSectionProps) => {
   const {
     register,
     clearErrors,
@@ -15,15 +22,9 @@ const PartCurriculum = () => {
     formState: { errors },
   } = useFormContext();
 
-  const [selectedPart, setSelectedPart] = useState('기획');
-
-  const handleSetSelectedPart = (value: string) => {
-    setSelectedPart(value);
+  const handleSetSelectedPart = (value: PART_KO) => {
+    onChangeCurriculumPart(value);
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <StWrapper>
@@ -31,16 +32,16 @@ const PartCurriculum = () => {
         <StTitle>파트별 소개</StTitle>
       </StTitleWrapper>
       <PartCategory
-        selectedPart={selectedPart}
+        curriculumPart={curriculumPart}
         onSetSelectedPart={handleSetSelectedPart}
       />
-      <StTextAreaWrapper>
+      <StTextAreaWrapper key={curriculumPart}>
         <StTextArea
-          {...register(`recruitPartCurriculum_${selectedPart}_content`, {
+          {...register(`recruitPartCurriculum_${curriculumPart}_content`, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
-            labelText: `${selectedPart} 파트는 이런 걸 배워요.`,
+            labelText: `${curriculumPart} 파트는 이런 걸 배워요.`,
           }}
           required
           fixedHeight={158}
@@ -48,25 +49,25 @@ const PartCurriculum = () => {
           placeholder="파트별 설명을 작성해주세요."
           onChange={(e) => {
             if (e.currentTarget.value) {
-              clearErrors(`recruitPartCurriculum_${selectedPart}_content`);
+              clearErrors(`recruitPartCurriculum_${curriculumPart}_content`);
             } else {
-              setError(`recruitPartCurriculum_${selectedPart}_content`, {
+              setError(`recruitPartCurriculum_${curriculumPart}_content`, {
                 type: 'required',
                 message: VALIDATION_CHECK.required.errorText,
               });
             }
           }}
           isError={
-            errors[`recruitPartCurriculum_${selectedPart}_content`]?.message !=
-            undefined
+            errors[`recruitPartCurriculum_${curriculumPart}_content`]
+              ?.message != undefined
           }
           errorMessage={
-            errors[`recruitPartCurriculum_${selectedPart}_content`]
+            errors[`recruitPartCurriculum_${curriculumPart}_content`]
               ?.message as string
           }
         />
         <StTextArea
-          {...register(`recruitPartCurriculum_${selectedPart}_preference`, {
+          {...register(`recruitPartCurriculum_${curriculumPart}_preference`, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
@@ -81,20 +82,20 @@ ex.
 - 타 파트와 협업하며 존중과 신뢰를 바탕으로 원활한 팀워크를 만들어갈 수 있는 분`}
           onChange={(e) => {
             if (e.currentTarget.value) {
-              clearErrors(`recruitPartCurriculum_${selectedPart}_preference`);
+              clearErrors(`recruitPartCurriculum_${curriculumPart}_preference`);
             } else {
-              setError(`recruitPartCurriculum_${selectedPart}_preference`, {
+              setError(`recruitPartCurriculum_${curriculumPart}_preference`, {
                 type: 'required',
                 message: VALIDATION_CHECK.required.errorText,
               });
             }
           }}
           isError={
-            errors[`recruitPartCurriculum_${selectedPart}_preference`]
+            errors[`recruitPartCurriculum_${curriculumPart}_preference`]
               ?.message != undefined
           }
           errorMessage={
-            errors[`recruitPartCurriculum_${selectedPart}_preference`]
+            errors[`recruitPartCurriculum_${curriculumPart}_preference`]
               ?.message as string
           }
         />

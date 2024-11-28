@@ -1,15 +1,15 @@
 import { Chip } from '@sopt-makers/ui';
 
-import { PART_LIST } from '@/utils/org';
+import { PART_KO, PART_LIST } from '@/utils/org';
 
 import { StPartCategoryWrapper } from './style';
 
 interface PartCategoryProps {
-  selectedPart: string;
-  onSetSelectedPart: (part: string) => void;
+  curriculumPart: PART_KO;
+  onSetSelectedPart: (part: PART_KO) => void;
 }
 const PartCategory = ({
-  selectedPart,
+  curriculumPart,
   onSetSelectedPart,
 }: PartCategoryProps) => {
   return (
@@ -18,7 +18,7 @@ const PartCategory = ({
         <Chip
           key={`${part}-${part}`}
           onClick={() => onSetSelectedPart(part)}
-          active={selectedPart === part}>
+          active={curriculumPart === part}>
           {part}
         </Chip>
       ))}
