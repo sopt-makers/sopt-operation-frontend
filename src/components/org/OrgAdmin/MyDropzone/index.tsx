@@ -40,10 +40,14 @@ const MyDropzone = ({
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
       if (file) {
+        const sanitizedFileName = file.name
+          .trim() // 앞뒤 공백 제거
+          .replace(/\s+/g, '_'); // 띄어쓰기를 언더스코어로 변경
+
         const reader = new FileReader();
         reader.onloadend = () => {
           setPreviewUrl(reader.result as string);
-          setValue(label, reader.result, { shouldValidate: true });
+          setValue(label, sanitizedFileName, { shouldValidate: true });
         };
         reader.readAsDataURL(file);
       }
@@ -81,7 +85,7 @@ const MyDropzone = ({
           {...getInputProps()}
         />
         {previewUrl ? (
-          <StImgPreview src={previewUrl} alt="공홈 지원하기 탭 헤더 이미지" />
+          <StImgPreview src={previewUrl} alt="에러가 발생했어요." />
         ) : isDragActive ? (
           <p>이미지를 드래그 해주세요...</p>
         ) : (
