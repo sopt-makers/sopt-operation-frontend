@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && yarn openapi-typescript",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "openapi-typescript": "npx openapi-typescript https://api-dev.sopt.org/v2/api-docs.yaml -o ./src/__generated__/api.d.ts"
   },
   "engines": {
     "node": ">=20.18.0 <21"
