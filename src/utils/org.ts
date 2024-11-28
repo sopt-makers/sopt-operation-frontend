@@ -40,3 +40,70 @@ export const PART_LIST = [
   '웹',
   '서버',
 ] as const;
+
+export const SCHEDULE_FIELDS = {
+  OB: {
+    application: [
+      {
+        id: 'recruitSchedule_OB_schedule_applicationStartTime',
+        label: 'OB 서류 접수 시작',
+      },
+      {
+        id: 'recruitSchedule_OB_schedule_applicationEndTime',
+        label: 'OB 서류 접수 마감',
+      },
+      {
+        id: 'recruitSchedule_OB_schedule_applicationResultTime',
+        label: 'OB 서류 결과 발표',
+      },
+    ],
+    interview: [
+      {
+        id: 'recruitSchedule_OB_schedule_interviewStartTime',
+        label: 'OB 면접 시작',
+      },
+      {
+        id: 'recruitSchedule_OB_schedule_interviewEndTime',
+        label: 'OB 면접 마감',
+      },
+    ],
+    final: [
+      {
+        id: 'recruitSchedule_OB_schedule_finalResultTime',
+        label: 'OB 최종 결과 발표',
+      },
+    ],
+  },
+  YB: {
+    application: [
+      {
+        id: 'recruitSchedule_YB_schedule_applicationStartTime',
+        label: 'YB 서류 접수 시작',
+      },
+      {
+        id: 'recruitSchedule_YB_schedule_applicationEndTime',
+        label: 'YB 서류 접수 마감',
+      },
+      {
+        id: 'recruitSchedule_YB_schedule_applicationResultTime',
+        label: 'YB 서류 결과 발표',
+      },
+    ],
+    interview: [
+      {
+        id: 'recruitSchedule_YB_schedule_interviewStartTime',
+        label: 'YB 면접 시작',
+      },
+      {
+        id: 'recruitSchedule_YB_schedule_interviewEndTime',
+        label: 'YB 면접 마감',
+      },
+    ],
+    final: [
+      {
+        id: 'recruitSchedule_YB_schedule_finalResultTime',
+        label: 'YB 최종 결과 발표',
+      },
+    ],
+  },
+};

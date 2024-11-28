@@ -1,7 +1,7 @@
 import { Chip } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
-import { VALIDATION_CHECK } from '@/utils/org';
+import { SCHEDULE_FIELDS, VALIDATION_CHECK } from '@/utils/org';
 
 import {
   StDescription,
@@ -47,6 +47,8 @@ interface RecruitScheduleProps {
 }
 
 const RecruitSchedule = ({ group, onChangeGroup }: RecruitScheduleProps) => {
+  const currentFields = SCHEDULE_FIELDS[group];
+
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -63,38 +65,24 @@ const RecruitSchedule = ({ group, onChangeGroup }: RecruitScheduleProps) => {
           YB
         </Chip>
       </StRadioWrapper>
-      <div key={group}>
-        <StDateWrapper>
-          <ScheduleInput
-            id={`recruitSchedule_${group}_schedule_applicationStartTime`}
-            label={`${group} 서류 접수 시작`}
-          />
-          <ScheduleInput
-            id={`recruitSchedule_${group}_schedule_applicationEndTime`}
-            label={`${group} 서류 접수 마감`}
-          />
-          <ScheduleInput
-            id={`recruitSchedule_${group}_schedule_applicationResultTime`}
-            label={`${group} 서류 결과 발표`}
-          />
-        </StDateWrapper>
-        <StDateWrapper>
-          <ScheduleInput
-            id={`recruitSchedule_${group}_schedule_interviewStartTime`}
-            label={`${group} 면접 시작`}
-          />
-          <ScheduleInput
-            id={`recruitSchedule_${group}_schedule_interviewEndTime`}
-            label={`${group} 면접 마감`}
-          />
-        </StDateWrapper>
-        <StDateWrapper>
-          <ScheduleInput
-            id={`recruitSchedule_${group}_schedule_finalResultTime`}
-            label={`${group} 최종 결과 발표`}
-          />
-        </StDateWrapper>
-      </div>
+
+      <StDateWrapper>
+        {currentFields.application.map(({ id, label }) => (
+          <ScheduleInput key={id} id={id} label={label} />
+        ))}
+      </StDateWrapper>
+
+      <StDateWrapper>
+        {currentFields.interview.map(({ id, label }) => (
+          <ScheduleInput key={id} id={id} label={label} />
+        ))}
+      </StDateWrapper>
+
+      <StDateWrapper>
+        {currentFields.final.map(({ id, label }) => (
+          <ScheduleInput key={id} id={id} label={label} />
+        ))}
+      </StDateWrapper>
     </StWrapper>
   );
 };

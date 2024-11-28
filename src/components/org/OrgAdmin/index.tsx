@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
-import { ORG_ADMIN_LIST } from '@/utils/org';
+import { ORG_ADMIN_LIST, SCHEDULE_FIELDS } from '@/utils/org';
 
 import AboutSection from './AboutSection';
 import SubmitIcon from './assets/SubmitIcon';
@@ -12,25 +12,6 @@ import HomeSection from './home/HomeSection';
 import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';
 import { Group } from './types';
-
-const FIELD_IDS = {
-  OB: [
-    'recruitSchedule_OB_schedule_applicationStartTime',
-    'recruitSchedule_OB_schedule_applicationEndTime',
-    'recruitSchedule_OB_schedule_applicationResultTime',
-    'recruitSchedule_OB_schedule_interviewStartTime',
-    'recruitSchedule_OB_schedule_interviewEndTime',
-    'recruitSchedule_OB_schedule_finalResultTime',
-  ],
-  YB: [
-    'recruitSchedule_YB_schedule_applicationStartTime',
-    'recruitSchedule_YB_schedule_applicationEndTime',
-    'recruitSchedule_YB_schedule_applicationResultTime',
-    'recruitSchedule_YB_schedule_interviewStartTime',
-    'recruitSchedule_YB_schedule_interviewEndTime',
-    'recruitSchedule_YB_schedule_finalResultTime',
-  ],
-};
 
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
@@ -43,18 +24,24 @@ function OrgAdmin() {
   };
 
   const validateSchedule = () => {
-    const obValues = FIELD_IDS.OB.map((field) => getValues(field));
-    const ybValues = FIELD_IDS.YB.map((field) => getValues(field));
+    const validateGroup = (groupKey: Group) => {
+      const groupFields = SCHEDULE_FIELDS[groupKey];
+      return Object.values(groupFields)
+        .flat()
+        .map((field) => getValues(field.id))
+        .every((value) => !!value);
+    };
 
-    const isOBValid = obValues.every((value) => !!value);
-    const isYBValid = ybValues.every((value) => !!value);
-
+    const isOBValid = validateGroup('OB');
     if (!isOBValid) {
+      setSelectedPart('공통');
       setGroup('OB');
       return false;
     }
 
+    const isYBValid = validateGroup('YB');
     if (!isYBValid) {
+      setSelectedPart('공통');
       setGroup('YB');
       return false;
     }
