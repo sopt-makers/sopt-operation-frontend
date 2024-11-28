@@ -32,7 +32,9 @@ export const 임원진_LIST = [
 ] as const;
 
 // utils/session/partList와 순서 달라서 분리
-export const PART_LIST = [
+export type PART_KO = '기획' | '디자인' | '안드로이드' | 'iOS' | '웹' | '서버';
+
+export const PART_LIST: PART_KO[] = [
   '기획',
   '디자인',
   '안드로이드',

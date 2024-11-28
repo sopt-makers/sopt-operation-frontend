@@ -3,7 +3,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
-import { ORG_ADMIN_LIST, SCHEDULE_FIELDS } from '@/utils/org';
+import {
+  ORG_ADMIN_LIST,
+  PART_KO,
+  PART_LIST,
+  SCHEDULE_FIELDS,
+} from '@/utils/org';
 
 import AboutSection from './AboutSection';
 import SubmitIcon from './assets/SubmitIcon';
@@ -16,6 +21,9 @@ import { Group } from './types';
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
   const [group, setGroup] = useState<Group>('OB');
+  const [curriculumPart, setCurriculumPart] = useState<PART_KO>('기획');
+  const [fnaPart, setFnaPart] = useState<PART_KO>('기획');
+
   const methods = useForm({ mode: 'onBlur' });
   const { handleSubmit, getValues } = methods;
 
@@ -49,9 +57,47 @@ function OrgAdmin() {
     return true;
   };
 
+  const validateCurriculum = () => {
+    for (const part of PART_LIST) {
+      const content = getValues(`recruitPartCurriculum_${part}_content`);
+      const preference = getValues(`recruitPartCurriculum_${part}_preference`);
+      if (!content || !preference) {
+        setCurriculumPart(part);
+        setSelectedPart('지원하기');
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const validateFna = () => {
+    for (const part of PART_LIST) {
+      const questionsAndAnswers = Array.from({ length: 3 }, (_, index) => ({
+        question: getValues(
+          `recruitQuestion_${part}_questions_${index}_question`,
+        ),
+        answer: getValues(`recruitQuestion_${part}_questions_${index}_answer`),
+      }));
+
+      const isPartValid = questionsAndAnswers.every(
+        ({ question, answer }) => !!question && !!answer,
+      );
+
+      if (!isPartValid) {
+        setFnaPart(part);
+        setSelectedPart('지원하기');
+        return false;
+      }
+    }
+    return true;
+  };
+
   const onSubmit = (data: any) => {
-    const isValid = validateSchedule();
-    if (isValid) {
+    const isScheduleValid = validateSchedule();
+    const isCurriculumValid = validateCurriculum();
+    const isFnaValid = validateFna();
+
+    if (isScheduleValid && isCurriculumValid && isFnaValid) {
       console.log(data);
     }
   };
@@ -67,7 +113,7 @@ function OrgAdmin() {
         />
       </StListHeader>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
           {selectedPart === '공통' ? (
             <CommonSection
               group={group}
@@ -80,7 +126,14 @@ function OrgAdmin() {
           ) : selectedPart === '홈' ? (
             <HomeSection />
           ) : (
-            <RecruitSection />
+            <RecruitSection
+              curriculumPart={curriculumPart}
+              onChangeCurriculumPart={(part: PART_KO) =>
+                setCurriculumPart(part)
+              }
+              fnaPart={fnaPart}
+              onChangeFnaPart={(part: PART_KO) => setFnaPart(part)}
+            />
           )}
           <StSubmitButton>
             <SubmitIcon />
