@@ -30,8 +30,8 @@ export const StListItem = styled.li`
 
   .alarm-status {
     ${fontsObject.BODY_3_14_M}
-    line-height: 25px;
     width: fit-content;
+    padding-top: 2px;
     margin-bottom: 29px;
     margin-right: 38px;
   }
