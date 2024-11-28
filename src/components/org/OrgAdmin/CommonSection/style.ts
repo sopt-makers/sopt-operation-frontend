@@ -37,12 +37,12 @@ export const StDateWrapper = styled(StInputWrapper)`
 
 export const StColorWrapper = styled.div`
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
 `;
 
 export const StColorPreview = styled.input`
+  position: absolute;
+  top: 26px;
+  left: 348px;
   width: 48px;
   height: 48px;
   padding: 0;

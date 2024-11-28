@@ -50,8 +50,8 @@ const BrandingSubColor = () => {
           type="text"
           maxLength={9}
           placeholder="ex. #ffffff"
-          isError={errors.subColor?.message != undefined}
-          errorMessage={errors.subColor?.message as string}
+          isError={errors.brandingColor_point?.message != undefined}
+          errorMessage={errors.brandingColor_point?.message as string}
         />
         <StColorPreview
           type="color"
