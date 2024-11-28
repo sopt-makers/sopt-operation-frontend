@@ -72,33 +72,18 @@ function OrgAdmin() {
 
   const validateFna = () => {
     for (const part of PART_LIST) {
-      const partQuestion1 = getValues(
-        `recruitQuestion_${part}_questions_0_question`,
-      );
-      const partAnswer1 = getValues(
-        `recruitQuestion_${part}_questions_0_answer`,
-      );
-      const partQuestion2 = getValues(
-        `recruitQuestion_${part}_questions_1_question`,
-      );
-      const partAnswer2 = getValues(
-        `recruitQuestion_${part}_questions_1_answer`,
-      );
-      const partQuestion3 = getValues(
-        `recruitQuestion_${part}_questions_2_question`,
-      );
-      const partAnswer3 = getValues(
-        `recruitQuestion_${part}_questions_2_answer`,
+      const questionsAndAnswers = Array.from({ length: 3 }, (_, index) => ({
+        question: getValues(
+          `recruitQuestion_${part}_questions_${index}_question`,
+        ),
+        answer: getValues(`recruitQuestion_${part}_questions_${index}_answer`),
+      }));
+
+      const isPartValid = questionsAndAnswers.every(
+        ({ question, answer }) => !!question && !!answer,
       );
 
-      if (
-        !partQuestion1 ||
-        !partAnswer1 ||
-        !partQuestion2 ||
-        !partAnswer2 ||
-        !partQuestion3 ||
-        !partAnswer3
-      ) {
+      if (!isPartValid) {
         setFnaPart(part);
         setSelectedPart('지원하기');
         return false;
