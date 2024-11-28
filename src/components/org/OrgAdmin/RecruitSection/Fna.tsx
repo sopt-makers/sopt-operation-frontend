@@ -10,6 +10,8 @@ import { StFnaWrapper, StTextAreaWrapper } from './style';
 const Fna = () => {
   const {
     register,
+    clearErrors,
+    setError,
     formState: { errors },
   } = useFormContext();
 
@@ -44,6 +46,21 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."
+            onChange={(e) => {
+              if (e.currentTarget.value) {
+                clearErrors(
+                  `recruitQuestion_${selectedPart}_questions_0_question`,
+                );
+              } else {
+                setError(
+                  `recruitQuestion_${selectedPart}_questions_0_question`,
+                  {
+                    type: 'required',
+                    message: VALIDATION_CHECK.required.errorText,
+                  },
+                );
+              }
+            }}
             isError={
               errors[`recruitQuestion_${selectedPart}_questions_0_question`]
                 ?.message != undefined
@@ -61,6 +78,18 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="답변을 입력해주세요."
+            onChange={(e) => {
+              if (e.currentTarget.value) {
+                clearErrors(
+                  `recruitQuestion_${selectedPart}_questions_0_answer`,
+                );
+              } else {
+                setError(`recruitQuestion_${selectedPart}_questions_0_answer`, {
+                  type: 'required',
+                  message: VALIDATION_CHECK.required.errorText,
+                });
+              }
+            }}
             isError={
               errors[`recruitQuestion_${selectedPart}_questions_0_answer`]
                 ?.message != undefined
@@ -86,6 +115,21 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."
+            onChange={(e) => {
+              if (e.currentTarget.value) {
+                clearErrors(
+                  `recruitQuestion_${selectedPart}_questions_1_question`,
+                );
+              } else {
+                setError(
+                  `recruitQuestion_${selectedPart}_questions_1_question`,
+                  {
+                    type: 'required',
+                    message: VALIDATION_CHECK.required.errorText,
+                  },
+                );
+              }
+            }}
             isError={
               errors[`recruitQuestion_${selectedPart}_questions_1_question`]
                 ?.message != undefined
@@ -103,6 +147,18 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="답변을 입력해주세요."
+            onChange={(e) => {
+              if (e.currentTarget.value) {
+                clearErrors(
+                  `recruitQuestion_${selectedPart}_questions_1_answer`,
+                );
+              } else {
+                setError(`recruitQuestion_${selectedPart}_questions_1_answer`, {
+                  type: 'required',
+                  message: VALIDATION_CHECK.required.errorText,
+                });
+              }
+            }}
             isError={
               errors[`recruitQuestion_${selectedPart}_questions_1_answer`]
                 ?.message != undefined
@@ -128,6 +184,21 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="질문을 입력해주세요."
+            onChange={(e) => {
+              if (e.currentTarget.value) {
+                clearErrors(
+                  `recruitQuestion_${selectedPart}_questions_2_question`,
+                );
+              } else {
+                setError(
+                  `recruitQuestion_${selectedPart}_questions_2_question`,
+                  {
+                    type: 'required',
+                    message: VALIDATION_CHECK.required.errorText,
+                  },
+                );
+              }
+            }}
             isError={
               errors[`recruitQuestion_${selectedPart}_questions_2_question`]
                 ?.message != undefined
@@ -144,6 +215,18 @@ const Fna = () => {
             fixedHeight={74}
             maxHeight={74}
             placeholder="답변을 입력해주세요."
+            onChange={(e) => {
+              if (e.currentTarget.value) {
+                clearErrors(
+                  `recruitQuestion_${selectedPart}_questions_2_answer`,
+                );
+              } else {
+                setError(`recruitQuestion_${selectedPart}_questions_2_answer`, {
+                  type: 'required',
+                  message: VALIDATION_CHECK.required.errorText,
+                });
+              }
+            }}
             isError={
               errors[`recruitQuestion_${selectedPart}_questions_2_answer`]
                 ?.message != undefined
