@@ -36,8 +36,10 @@ const CoreValue = () => {
               {...register('coreValue1.value', {
                 // required: true && VALIDATION_CHECK.required.errorText,
               })}
-              isError={errors.coreValue1?.value?.message !== undefined}
-              errorMessage={errors.coreValue1?.value?.message as string}
+              isError={(errors as any).coreValue1?.value?.message !== undefined}
+              errorMessage={
+                (errors as any).coreValue1?.value?.message as string
+              }
               labelText="가치"
               placeholder="ex. 용기"
             />
@@ -45,8 +47,12 @@ const CoreValue = () => {
               {...register('coreValue1.description', {
                 // required: true && VALIDATION_CHECK.required.errorText,
               })}
-              isError={errors.coreValue1?.description?.message !== undefined}
-              errorMessage={errors.coreValue1?.description?.message as string}
+              isError={
+                (errors as any).coreValue1?.description?.message !== undefined
+              }
+              errorMessage={
+                (errors as any).coreValue1?.description?.message as string
+              }
               labelText="가치 설명"
               descriptionText="호버 시, 보이는 문구예요."
               placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
@@ -69,8 +75,10 @@ const CoreValue = () => {
               {...register('coreValue2.value', {
                 // required: true && VALIDATION_CHECK.required.errorText,
               })}
-              isError={errors.coreValue2?.value?.message !== undefined}
-              errorMessage={errors.coreValue2?.value?.message as string}
+              isError={(errors as any).coreValue2?.value?.message !== undefined}
+              errorMessage={
+                (errors as any).coreValue2?.value?.message as string
+              }
               labelText="가치"
               placeholder="ex. 몰입"
             />
@@ -78,8 +86,12 @@ const CoreValue = () => {
               {...register('coreValue2.description', {
                 // required: true && VALIDATION_CHECK.required.errorText,
               })}
-              isError={errors.coreValue2?.description?.message !== undefined}
-              errorMessage={errors.coreValue2?.description?.message as string}
+              isError={
+                (errors as any).coreValue2?.description?.message !== undefined
+              }
+              errorMessage={
+                (errors as any).coreValue2?.description?.message as string
+              }
               labelText="가치 설명"
               descriptionText="호버 시, 보이는 문구예요."
               placeholder="ex. 포기하지 않고 깊이 몰입하는 사람"
@@ -102,8 +114,10 @@ const CoreValue = () => {
               {...register('coreValue3.value', {
                 // required: true && VALIDATION_CHECK.required.errorText,
               })}
-              isError={errors.coreValue3?.value?.message !== undefined}
-              errorMessage={errors.coreValue3?.value?.message as string}
+              isError={(errors as any).coreValue3?.value?.message !== undefined}
+              errorMessage={
+                (errors as any).coreValue3?.value?.message as string
+              }
               labelText="가치"
               placeholder="ex. 화합"
             />
@@ -111,8 +125,12 @@ const CoreValue = () => {
               {...register('coreValue3.description', {
                 // required: true && VALIDATION_CHECK.required.errorText,
               })}
-              isError={errors.coreValue3?.description?.message !== undefined}
-              errorMessage={errors.coreValue3?.description?.message as string}
+              isError={
+                (errors as any).coreValue3?.description?.message !== undefined
+              }
+              errorMessage={
+                (errors as any).coreValue3?.description?.message as string
+              }
               labelText="가치 설명"
               descriptionText="호버 시, 보이는 문구예요."
               placeholder="ex. 서로를 배려하며 함께 화합하는 사람"

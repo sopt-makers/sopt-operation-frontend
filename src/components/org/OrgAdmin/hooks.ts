@@ -5,7 +5,7 @@ import { sendData } from './api';
 const useMutateSendData = () => {
   const { mutate: sendMutate, isLoading: sendIsLoading } = useMutation({
     mutationFn: (data) => sendData(data),
-    onSuccess: (res, variables) => {
+    onSuccess: (res: any, variables) => {
       const {
         coreValues,
         headerImage: headerImageURL,
@@ -30,7 +30,7 @@ const useMutateSendData = () => {
       const member11URL = members[10].profileImage;
       const member12URL = members[11].profileImage;
 
-      const { recruitHeaderImageFileName } = variables;
+      // const { recruitHeaderImageFileName } = variables;
 
       console.log(coreValues, headerImageURL, members, recruitHeaderImageURL);
     },

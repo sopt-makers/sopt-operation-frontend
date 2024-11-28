@@ -39,8 +39,12 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
         {...register(`member.${selectedExec}.name`, {
           // required: true && VALIDATION_CHECK.required.errorText,
         })}
-        isError={errors.member?.selectedExec?.name?.message !== undefined}
-        errorMessage={errors.member?.selectedExec?.name?.message as string}
+        isError={
+          (errors as any).member?.selectedExec?.name?.message !== undefined
+        }
+        errorMessage={
+          (errors as any).member?.selectedExec?.name?.message as string
+        }
         labelText="이름"
         placeholder="ex. 김솝트"
       />
@@ -49,10 +53,11 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
           // required: true && VALIDATION_CHECK.required.errorText,
         })}
         isError={
-          errors.member?.selectedExec?.affiliation?.message !== undefined
+          (errors as any).member?.selectedExec?.affiliation?.message !==
+          undefined
         }
         errorMessage={
-          errors.member?.selectedExec?.affiliation?.message as string
+          (errors as any).member?.selectedExec?.affiliation?.message as string
         }
         labelText="소속"
         placeholder="ex. 솝트대학교 / 솝트컴퍼니 / 앱잼 프로덕트명"
@@ -62,10 +67,11 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
           // required: true && VALIDATION_CHECK.required.errorText,
         })}
         isError={
-          errors.member?.selectedExec?.introduction?.message !== undefined
+          (errors as any).member?.selectedExec?.introduction?.message !==
+          undefined
         }
         errorMessage={
-          errors.member?.selectedExec?.introduction?.message as string
+          (errors as any).member?.selectedExec?.introduction?.message as string
         }
         labelText="한 줄 소개"
         placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"

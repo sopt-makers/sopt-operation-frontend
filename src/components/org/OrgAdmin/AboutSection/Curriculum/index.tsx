@@ -46,11 +46,12 @@ const Curriculum = () => {
                   // required: true && VALIDATION_CHECK.required.errorText,
                 })}
                 isError={
-                  errors.partCurriculum?.selectedPart?.idx?.message !==
+                  (errors as any).partCurriculum?.selectedPart?.idx?.message !==
                   undefined
                 }
                 errorMessage={
-                  errors.partCurriculum?.selectedPart?.idx?.message as string
+                  (errors as any).partCurriculum?.selectedPart?.idx
+                    ?.message as string
                 }
                 id={`${selectedPart} week${idx}`}
                 style={{ width: '553px' }}
