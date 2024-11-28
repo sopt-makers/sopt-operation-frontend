@@ -47,7 +47,11 @@ const MyDropzone = ({
         const reader = new FileReader();
         reader.onloadend = () => {
           setPreviewUrl(reader.result as string);
-          setValue(label, sanitizedFileName, { shouldValidate: true });
+          setValue(
+            label,
+            { fileName: sanitizedFileName, file: reader.result },
+            { shouldValidate: true },
+          );
         };
         reader.readAsDataURL(file);
       }
