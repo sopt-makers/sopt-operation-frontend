@@ -59,15 +59,6 @@ export const StRadioWrap = styled.div`
   }
 `;
 
-export const StRadio = styled.p<{ checked?: boolean }>`
-  ${fontsObject.LABEL_3_14_SB};
-  color: ${({ checked }) => (checked ? colors.white : colors.gray300)};
-  border-radius: 9999px;
-  border: 1px solid
-    ${({ checked }) => (checked ? colors.gray100 : colors.gray700)};
-  padding: 9px 14px;
-`;
-
 export const StLink = styled.a<{ linkType: LINK_TYPE }>`
   ${fontsObject.LABEL_3_14_SB};
   color: ${colors.gray200};
