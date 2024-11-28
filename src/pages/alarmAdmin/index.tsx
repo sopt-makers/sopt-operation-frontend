@@ -11,7 +11,6 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import AlarmList from '@/components/alarmAdmin/AlarmList';
-import CreateNewAlarmModal from '@/components/alarmAdmin/CreateAlarmModal';
 import CreateAlarmModal from '@/components/alarmAdmin/CreateAlarmModal';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/modal';

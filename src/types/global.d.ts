@@ -227,8 +227,9 @@ declare global {
   }
   interface Alarm {
     alarmId: number;
-    part: string | null;
-    attribute: string;
+    alarmType: '즉시 발송' | '예약 발송';
+    category: '공지' | '소식';
+    part?: string;
     title: string;
     content: string;
     sendAt: string;

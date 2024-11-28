@@ -3,12 +3,12 @@ import { useState } from 'react';
 
 import IcMore from '@/assets/icons/IcMore.svg';
 import { StActionButton } from '@/components/attendanceAdmin/session/SessionList/style';
-import Chip from '@/components/common/Chip';
 import ListWrapper from '@/components/common/ListWrapper';
 import Modal from '@/components/common/modal';
 import { deleteAlarm } from '@/services/api/alarm';
 import { ALARM_STATUS_LIST } from '@/utils/alarm';
 import { alarmStatusTranslator } from '@/utils/translator';
+import { Tag } from '@sopt-makers/ui';
 
 import ShowAlarmModal from '../ShowAlarmModal';
 import { StListItem, StPageHeader } from './style';
@@ -90,12 +90,13 @@ function AlarmList(props: Props) {
             <div className="alarm-info-wrap">
               <div>
                 <p className="alarm-title">{alarm.title}</p>
-                <Chip text={alarm.part ?? '전체'} />
-                {alarm.attribute && <Chip text={alarm.attribute} />}
+                <Tag size="sm" shape="pill" variant="primary" type="line">
+                  {alarm.part ?? '지정대상'}
+                </Tag>
               </div>
 
               <p className="alarm-sent-at">
-                {alarm.status === 'SCHEDULED' ? '예약 발송: ' : '즉시 발송: '}
+                {alarm.alarmType + ': '}
                 {alarm.sendAt
                   ? dayjs(alarm.sendAt).format('YYYY/MM/DD HH:mm')
                   : ''}
