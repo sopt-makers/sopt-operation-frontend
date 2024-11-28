@@ -1,5 +1,4 @@
 import { Chip } from '@sopt-makers/ui';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
@@ -11,6 +10,7 @@ import {
   StTitleWrapper,
   StWrapper,
 } from '../style';
+import { Group } from '../types';
 import { StDateWrapper, StRadioWrapper } from './style';
 
 interface ScheduleInputProps {
@@ -41,9 +41,12 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
   );
 };
 
-const RecruitSchedule = () => {
-  const [group, setGroup] = useState<'OB' | 'YB'>('OB');
+interface RecruitScheduleProps {
+  group: Group;
+  onChangeGroup: (group: Group) => void;
+}
 
+const RecruitSchedule = ({ group, onChangeGroup }: RecruitScheduleProps) => {
   return (
     <StWrapper>
       <StTitleWrapper>
@@ -53,10 +56,10 @@ const RecruitSchedule = () => {
         </StDescription>
       </StTitleWrapper>
       <StRadioWrapper>
-        <Chip active={group === 'OB'} onClick={() => setGroup('OB')}>
+        <Chip active={group === 'OB'} onClick={() => onChangeGroup('OB')}>
           OB
         </Chip>
-        <Chip active={group === 'YB'} onClick={() => setGroup('YB')}>
+        <Chip active={group === 'YB'} onClick={() => onChangeGroup('YB')}>
           YB
         </Chip>
       </StRadioWrapper>
