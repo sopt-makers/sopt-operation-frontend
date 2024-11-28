@@ -15,10 +15,8 @@ export const getAdminInfo = async () => {
   return data;
 };
 
-export const postNews = async (formData: FormData) => {
-  const res = await fetch.POST('/admin/news', {
-    body: formData,
-  });
+export const postNews = async (formData: any) => {
+  const res = await fetch.POST('/admin/news', formData);
 
   return res;
 };
