@@ -3,7 +3,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
-import { getToken } from '@/utils/auth';
 import {
   ORG_ADMIN_LIST,
   PART_KO,
