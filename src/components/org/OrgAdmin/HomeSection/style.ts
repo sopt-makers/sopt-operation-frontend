@@ -34,6 +34,17 @@ export const StIcon = styled.button`
   height: 20px;
 `;
 
+export const StInputLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  ${fontsObject.LABEL_3_14_SB};
+  margin: 30px 0 8px;
+  color: ${colors.white};
+
+  cursor: pointer;
+`;
+
 export const StContentContainer = styled.div`
   display: flex;
   gap: 87px;

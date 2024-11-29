@@ -10,6 +10,7 @@ import NewsItem from '@/components/org/OrgAdmin/HomeSection/NewsItem';
 import { useDeleteNewsMutation } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
   StIcon,
+  StInputLabel,
   StLeftColumnSection,
   StNewsHeader,
   StNewsHeaderText,
@@ -19,6 +20,7 @@ import {
 } from '@/components/org/OrgAdmin/HomeSection/style';
 import { useBooleanState } from '@/hooks/useBooleanState';
 
+import RequiredIcon from '../assets/RequiredIcon';
 import Modal from '../common/Modal';
 import useModal from '../common/Modal/useModal';
 
@@ -67,6 +69,10 @@ const NewsSection = ({ latestNews }: NewsSectionProps) => {
               &apos;최신 소식&apos;은 배포 버튼을 거치지 않아도 바로 저장되니,
               신중하게 작성해주세요!
             </p>
+            <StInputLabel>
+              <span>솝트의 최신 소식이 궁금하다면!</span>
+              <RequiredIcon />
+            </StInputLabel>
           </StNewsHeaderText>
           <Button
             onClick={openAddModal}

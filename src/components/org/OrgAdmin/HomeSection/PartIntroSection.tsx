@@ -7,11 +7,13 @@ import { PARTS } from '@/components/org/OrgAdmin/HomeSection/constant';
 import {
   StChipsContainer,
   StIcon,
+  StInputLabel,
   StSecondSectionContainer,
   StTextAreaContainer,
   StTitleWithIcon,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 
+import RequiredIcon from '../assets/RequiredIcon';
 import Modal from '../common/Modal';
 import useModal from '../common/Modal/useModal';
 
@@ -33,12 +35,15 @@ const PartIntroSection = () => {
     <StSecondSectionContainer>
       <StTextAreaContainer>
         <StTitleWithIcon>
-          파트별 소개
+          <span>파트별 소개</span>
           <StIcon onClick={onInfoToggle}>
             <IconInfoCircle />
           </StIcon>
         </StTitleWithIcon>
-
+        <StInputLabel>
+          <span>파트별 소개 설명</span>
+          <RequiredIcon />
+        </StInputLabel>
         <StChipsContainer>
           {PARTS.map((part) => (
             <Chip
