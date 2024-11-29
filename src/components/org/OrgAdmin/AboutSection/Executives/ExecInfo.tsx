@@ -54,16 +54,7 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
         required
       />
       <StInput
-        {...register(`member.${selectedExec}.affiliation`, {
-          required: true && VALIDATION_CHECK.required.errorText,
-        })}
-        isError={
-          (errors as any).member?.selectedExec?.affiliation?.message !==
-          undefined
-        }
-        errorMessage={
-          (errors as any).member?.selectedExec?.affiliation?.message as string
-        }
+        {...register(`member.${selectedExec}.affiliation`)}
         labelText="소속"
         placeholder="ex. 솝트대학교 / 솝트컴퍼니 / 앱잼 프로덕트명"
       />

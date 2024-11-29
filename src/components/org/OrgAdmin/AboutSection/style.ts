@@ -48,4 +48,8 @@ export const StInput = styled(TextField)<StInputProps>`
   width: 338px;
   color: ${({ hasValue = true }) =>
     hasValue ? `${colors.white}` : `${colors.gray300}`};
+
+  & label {
+    gap: 8px;
+  }
 `;
