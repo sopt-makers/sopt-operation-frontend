@@ -25,6 +25,9 @@ export const StTitle = styled.h2`
 `;
 
 export const StInputLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 4px;
   ${fontsObject.LABEL_3_14_SB};
   margin-bottom: 8px;
   color: ${colors.white};
