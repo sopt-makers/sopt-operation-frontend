@@ -19,6 +19,9 @@ export const StTitleWrapper = styled.div`
 `;
 
 export const StTitle = styled.h2`
+  display: flex;
+  gap: 8px;
+  align-items: center;
   ${fontsObject.TITLE_3_24_SB}
 
   margin-bottom: 6px;
