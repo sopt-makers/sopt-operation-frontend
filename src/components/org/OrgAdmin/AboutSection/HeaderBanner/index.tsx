@@ -2,9 +2,9 @@ import { IconInfoCircle } from '@sopt-makers/icons';
 import { useFormContext } from 'react-hook-form';
 
 import RequiredIcon from '../../assets/RequiredIcon';
+import Modal from '../../common/Modal';
+import useModal from '../../common/Modal/useModal';
 import MyDropzone from '../../MyDropzone';
-import Modal from '../common/Modal';
-import useModal from '../common/Modal/useModal';
 import { StDescription, StInputLabel, StTitle, StWrapper } from '../style';
 import { StContainer, StContentWrapper, StInfoButton } from './style';
 
@@ -38,7 +38,14 @@ const HeaderBanner = () => {
           />
         </StContentWrapper>
       </StWrapper>
-      <Modal isInfoVisible={isInfoVisible} handleInfoToggle={onInfoToggle} />
+      <Modal
+        title="소개탭 헤더"
+        description="소개탭 가장 상단에 보이는 헤더 이미지예요."
+        subDescription="이번 기수의 핵심 가치가 돋보이는 이미지를 넣어주세요."
+        imgSrc="/images/org/imgAboutHeaderInfo.png"
+        isInfoVisible={isInfoVisible}
+        handleInfoToggle={onInfoToggle}
+      />
     </StContainer>
   );
 };
