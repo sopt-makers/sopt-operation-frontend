@@ -1,27 +1,23 @@
 import { IconInfoCircle } from '@sopt-makers/icons';
-import { MouseEvent, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import RequiredIcon from '../../assets/RequiredIcon';
 import MyDropzone from '../../MyDropzone';
+import Modal from '../common/Modal';
+import useModal from '../common/Modal/useModal';
 import { StDescription, StInputLabel, StTitle, StWrapper } from '../style';
-import Modal from './Modal';
 import { StContainer, StContentWrapper, StInfoButton } from './style';
 
 const HeaderBanner = () => {
   const method = useFormContext();
-  const [isInfoVisible, setIsInfoVisible] = useState(false);
-  const handleInfoToggle = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setIsInfoVisible((prev) => !prev);
-  };
+  const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
     <StContainer>
       <StWrapper>
         <StTitle>
           <span>소개탭 헤더</span>
-          <StInfoButton onClick={handleInfoToggle}>
+          <StInfoButton onClick={onInfoToggle}>
             <IconInfoCircle />
           </StInfoButton>
         </StTitle>
@@ -42,10 +38,7 @@ const HeaderBanner = () => {
           />
         </StContentWrapper>
       </StWrapper>
-      <Modal
-        isInfoVisible={isInfoVisible}
-        handleInfoToggle={handleInfoToggle}
-      />
+      <Modal isInfoVisible={isInfoVisible} handleInfoToggle={onInfoToggle} />
     </StContainer>
   );
 };

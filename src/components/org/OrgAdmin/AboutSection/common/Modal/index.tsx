@@ -8,7 +8,7 @@ import {
   StInfoSubDescription,
   StInfoTitle,
   StInfoWrapper,
-} from './modal.style';
+} from './style';
 
 interface ModalProps {
   isInfoVisible: boolean;
