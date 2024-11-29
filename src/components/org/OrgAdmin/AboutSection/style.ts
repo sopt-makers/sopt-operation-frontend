@@ -19,6 +19,10 @@ export const StWrapper = styled.div`
 `;
 
 export const StTitle = styled.h2`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
   ${fontsObject.TITLE_3_24_SB}
   margin-bottom: 10px;
   color: ${colors.white};
