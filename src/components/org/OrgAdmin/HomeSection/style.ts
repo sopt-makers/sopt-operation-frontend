@@ -26,11 +26,12 @@ export const StTitleWithIcon = styled(StTitle)`
   display: flex;
   align-items: center;
   gap: 6px;
+`;
 
-  & > svg {
-    width: 20px;
-    height: 20px;
-  }
+export const StIcon = styled.button`
+  color: ${colors.white};
+  width: 20px;
+  height: 20px;
 `;
 
 export const StContentContainer = styled.div`
@@ -58,8 +59,8 @@ export const StFirstSectionContainer = styled.div`
 
 export const StSecondSectionContainer = styled.div`
   display: flex;
-  align-items: end;
-  gap: 31px;
+  align-items: baseline;
+  justify-content: space-between;
 `;
 
 export const StTextAreaContainer = styled.div`
@@ -178,7 +179,7 @@ export const StNewsItem = styled.li`
 export const StNewsSectionContainer = styled.div`
   display: flex;
   align-items: start;
-  gap: 31px;
+  justify-content: space-between;
 `;
 
 export const StLeftColumnSection = styled.div`
