@@ -6,10 +6,10 @@ import sampleImg from '@/assets/img/latestNewsSample.png';
 import {
   ActionModal,
   AddNewsModal,
-} from '@/components/org/OrgAdmin/home/Modal';
-import NewsItem from '@/components/org/OrgAdmin/home/NewsItem';
-import { useDeleteNewsMutation } from '@/components/org/OrgAdmin/home/queries';
-import SampleView from '@/components/org/OrgAdmin/home/SampleView';
+} from '@/components/org/OrgAdmin/HomeSection/Modal';
+import NewsItem from '@/components/org/OrgAdmin/HomeSection/NewsItem';
+import { useDeleteNewsMutation } from '@/components/org/OrgAdmin/HomeSection/queries';
+import SampleView from '@/components/org/OrgAdmin/HomeSection/SampleView';
 import {
   StLeftColumnSection,
   StNewsHeader,
@@ -17,7 +17,7 @@ import {
   StNewsList,
   StNewsSectionContainer,
   StTitleWithIcon,
-} from '@/components/org/OrgAdmin/home/style';
+} from '@/components/org/OrgAdmin/HomeSection/style';
 import { useBooleanState } from '@/hooks/useBooleanState';
 
 type NewsSectionProps = {

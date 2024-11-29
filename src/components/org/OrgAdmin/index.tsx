@@ -14,7 +14,7 @@ import {
 import AboutSection from './AboutSection';
 import SubmitIcon from './assets/SubmitIcon';
 import CommonSection from './CommonSection';
-import HomeSection from './home/HomeSection';
+import HomeSection from './HomeSection/HomeSection';
 import useMutateSendData from './hooks';
 import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';

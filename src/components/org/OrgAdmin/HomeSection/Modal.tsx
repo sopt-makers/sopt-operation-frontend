@@ -5,7 +5,7 @@ import { HTMLAttributes, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Modal from '@/components/common/modal';
-import ImageInput from '@/components/org/OrgAdmin/home/ImageInput';
+import ImageInput from '@/components/org/OrgAdmin/HomeSection/ImageInput';
 import {
   StActionButton,
   StAddButton,
@@ -14,8 +14,8 @@ import {
   StCancelButton,
   StModalBtnWrapper,
   StModalContainer,
-} from '@/components/org/OrgAdmin/home/Modal.style';
-import { useAddNewsMutation } from '@/components/org/OrgAdmin/home/queries';
+} from '@/components/org/OrgAdmin/HomeSection/Modal.style';
+import { useAddNewsMutation } from '@/components/org/OrgAdmin/HomeSection/queries';
 import { useBooleanState } from '@/hooks/useBooleanState';
 
 /** 최신 소식 추가 모달 */

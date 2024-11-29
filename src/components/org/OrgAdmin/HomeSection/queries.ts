@@ -4,7 +4,7 @@ import {
   deleteNews,
   getAdminInfo,
   postNews,
-} from '@/components/org/OrgAdmin/home/api';
+} from '@/components/org/OrgAdmin/HomeSection/api';
 
 export const useAdminInfoQuery = () => {
   return useQuery({

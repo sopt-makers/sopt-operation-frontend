@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import sampleImg from '@/assets/img/partIntroduceSample.png';
-import { PARTS } from '@/components/org/OrgAdmin/home/constant';
-import SampleView from '@/components/org/OrgAdmin/home/SampleView';
+import { PARTS } from '@/components/org/OrgAdmin/HomeSection/constant';
+import SampleView from '@/components/org/OrgAdmin/HomeSection/SampleView';
 import {
   StChipsContainer,
   StSecondSectionContainer,
   StTextAreaContainer,
   StTitleWithIcon,
-} from '@/components/org/OrgAdmin/home/style';
+} from '@/components/org/OrgAdmin/HomeSection/style';
 
 type Part = '기획' | '디자인' | '안드로이드' | 'IOS' | '웹' | '서버';
 

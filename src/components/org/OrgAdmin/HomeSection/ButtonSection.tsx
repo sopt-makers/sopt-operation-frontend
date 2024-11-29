@@ -1,13 +1,13 @@
 import { TextField } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
-import LiveAppliedButton from '@/components/org/OrgAdmin/home/LiveAppliedButton';
+import LiveAppliedButton from '@/components/org/OrgAdmin/HomeSection/LiveAppliedButton';
 import {
   StButtonFormContainer,
   StContentContainer,
   StFirstSectionContainer,
   StTitle,
-} from '@/components/org/OrgAdmin/home/style';
+} from '@/components/org/OrgAdmin/HomeSection/style';
 
 type ButtonSectionProps = {
   mainButton?: {
