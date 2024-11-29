@@ -29,58 +29,72 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
         <StDescription>사진은 1:1 비율로 올려주세요.</StDescription>
         <MyDropzone
           method={method}
-          label={`${selectedExec}_profileImageFileName`}
+          label={`member.${selectedExec}.profileImageFileName`}
           width="168px"
           height="168px"
           shape="circle"
         />
       </StPhotoWrapper>
       <StInput
-        {...register(`${selectedExec}_name`, {
+        {...register(`member.${selectedExec}.name`, {
           required: true && VALIDATION_CHECK.required.errorText,
         })}
-        isError={errors[`${selectedExec}_name`]?.message !== undefined}
-        errorMessage={errors[`${selectedExec}_name`]?.message as string}
+        isError={
+          (errors as any).member?.selectedExec?.name?.message !== undefined
+        }
+        errorMessage={
+          (errors as any).member?.selectedExec?.name?.message as string
+        }
         labelText="이름"
         placeholder="ex. 김솝트"
       />
       <StInput
-        {...register(`${selectedExec}_affiliation`, {
+        {...register(`member.${selectedExec}.affiliation`, {
           required: true && VALIDATION_CHECK.required.errorText,
         })}
-        isError={errors[`${selectedExec}_affiliation`]?.message !== undefined}
-        errorMessage={errors[`${selectedExec}_affiliation`]?.message as string}
+        isError={
+          (errors as any).member?.selectedExec?.affiliation?.message !==
+          undefined
+        }
+        errorMessage={
+          (errors as any).member?.selectedExec?.affiliation?.message as string
+        }
         labelText="소속"
         placeholder="ex. 솝트대학교 / 솝트컴퍼니 / 앱잼 프로덕트명"
       />
       <StInput
-        {...register(`${selectedExec}_introduction`, {
+        {...register(`member.${selectedExec}.introduction`, {
           required: true && VALIDATION_CHECK.required.errorText,
         })}
-        isError={errors[`${selectedExec}_introduction`]?.message !== undefined}
-        errorMessage={errors[`${selectedExec}_introduction`]?.message as string}
+        isError={
+          (errors as any).member?.selectedExec?.introduction?.message !==
+          undefined
+        }
+        errorMessage={
+          (errors as any).member?.selectedExec?.introduction?.message as string
+        }
         labelText="한 줄 소개"
         placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
       />
       <StSNSWrapper>
         <span>SNS</span>
         <SNSInput
-          label={`${selectedExec}_sns_email`}
+          label={`member.${selectedExec}.sns.email`}
           icon={IcMailLogo}
           placeholder="ex. 000@sopt.org"
         />
         <SNSInput
-          label={`${selectedExec}_sns_linkedin`}
+          label={`member.${selectedExec}.sns.linkedin`}
           icon={IcLinkedinLogo}
           placeholder="ex. https://www.linkedin.com/..."
         />
         <SNSInput
-          label={`${selectedExec}_sns_github`}
+          label={`member.${selectedExec}.sns.github`}
           icon={IcGithubLogo}
           placeholder="ex. https://github.com/..."
         />
         <SNSInput
-          label={`${selectedExec}_sns_behance`}
+          label={`member.${selectedExec}.sns.behance`}
           icon={IcBehanceLogo}
           placeholder="ex. https://www.behance.net/..."
         />

@@ -42,15 +42,15 @@ const Curriculum = () => {
                 0{idx + 1}
               </StWeek>
               <StInput
-                {...register(`partCurriculum_${selectedPart}_${idx}`, {
+                {...register(`partCurriculum.${selectedPart}.${idx}`, {
                   required: true && VALIDATION_CHECK.required.errorText,
                 })}
                 isError={
-                  errors[`partCurriculum_${selectedPart}_${idx}`]?.message !==
+                  (errors as any).partCurriculum?.selectedPart?.idx?.message !==
                   undefined
                 }
                 errorMessage={
-                  errors[`partCurriculum_${selectedPart}_${idx}`]
+                  (errors as any).partCurriculum?.selectedPart?.idx
                     ?.message as string
                 }
                 id={`${selectedPart} week${idx}`}

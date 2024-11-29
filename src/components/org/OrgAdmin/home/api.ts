@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-import { fetch } from '@/components/org/api';
 import { getToken } from '@/utils/auth';
 
+import { fetcher } from '../api';
+
 export const getAdminInfo = async () => {
-  const { data } = await fetch.GET('/admin', {
+  const { data } = await fetcher.GET('/admin', {
     params: {
       query: {
         generation: '34',
@@ -16,7 +17,7 @@ export const getAdminInfo = async () => {
 };
 
 export const postNews = async (formData: any) => {
-  const res = await fetch.POST('/admin/news', formData);
+  const res = await fetcher.POST('/admin/news', formData);
 
   return res;
 };
