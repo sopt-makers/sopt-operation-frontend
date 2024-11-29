@@ -3,8 +3,9 @@ import { useFormContext } from 'react-hook-form';
 
 import { PART_KO, PART_LIST, VALIDATION_CHECK } from '@/utils/org';
 
+import RequiredIcon from '../../assets/RequiredIcon';
 import PartCategory from '../../PartCategory';
-import { StInput, StTitle, StWrapper } from '../style';
+import { StInput, StInputLabel, StTitle, StWrapper } from '../style';
 import { StContentWrapper, StItem, StList, StWeek } from './style';
 
 const CURRICULUM = PART_LIST.reduce(
@@ -29,7 +30,11 @@ const Curriculum = () => {
 
   return (
     <StWrapper>
-      <StTitle>파트별 커리큘럼</StTitle>
+      <StTitle>커리큘럼</StTitle>
+      <StInputLabel>
+        <span>파트별 커리큘럼</span>
+        <RequiredIcon />
+      </StInputLabel>
       <StContentWrapper>
         <PartCategory
           selectedPart={selectedPart}
@@ -55,7 +60,7 @@ const Curriculum = () => {
                 }
                 id={`${selectedPart} week${idx}`}
                 style={{ width: '553px' }}
-                placeholder={`${selectedPart} 파트 ${idx + 1}주차 커리큘럼을 작성해주세요.`}
+                placeholder={`${idx + 1}주차 커리큘럼을 작성해주세요.`}
               />
             </StItem>
           ))}
