@@ -45,11 +45,11 @@ const MyDropzone = ({
           .replace(/\s+/g, '_'); // 띄어쓰기를 언더스코어로 변경
 
         const reader = new FileReader();
-        reader.onloadend = () => {
+        reader.onloadend = async () => {
           setPreviewUrl(reader.result as string);
           setValue(
             label,
-            { fileName: sanitizedFileName, file: reader.result },
+            { fileName: sanitizedFileName, file },
             { shouldValidate: true },
           );
         };
