@@ -17,9 +17,18 @@ import {
 interface MyDropzoneProps {
   method: UseFormReturn;
   label: string;
+  width?: string;
+  height?: string;
+  shape?: 'square' | 'circle';
 }
 
-const MyDropzone = ({ method, label }: MyDropzoneProps) => {
+const MyDropzone = ({
+  method,
+  label,
+  width = '547px',
+  height = '166px',
+  shape = 'square',
+}: MyDropzoneProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const {
     register,
@@ -61,12 +70,15 @@ const MyDropzone = ({ method, label }: MyDropzoneProps) => {
         {...getRootProps({
           onClick: handleClick, // input의 클릭 이벤트 핸들링
         })}
+        width={width}
+        height={height}
+        shape={shape}
         isError={errors[label]?.message != undefined}>
         <input
-          {...getInputProps()}
           {...register(label, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
+          {...getInputProps()}
         />
         {previewUrl ? (
           <StImgPreview src={previewUrl} alt="공홈 지원하기 탭 헤더 이미지" />

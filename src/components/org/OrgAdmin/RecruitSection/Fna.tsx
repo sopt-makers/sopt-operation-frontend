@@ -1,105 +1,109 @@
 import { useFormContext } from 'react-hook-form';
 
-import { VALIDATION_CHECK } from '@/utils/org';
+import { PART_KO, VALIDATION_CHECK } from '@/utils/org';
 
 import PartCategory from '../PartCategory';
 import { StTextArea, StTitle, StTitleWrapper, StWrapper } from '../style';
 import { StFnaWrapper, StTextAreaWrapper } from './style';
 
-const Fna = () => {
+const QUESTION_NUMBERS = [0, 1, 2];
+
+interface FnaProps {
+  fnaPart: PART_KO;
+  onChangeFnaPart: (part: PART_KO) => void;
+}
+
+const Fna = ({ fnaPart, onChangeFnaPart }: FnaProps) => {
   const {
     register,
+    clearErrors,
+    setError,
     formState: { errors },
   } = useFormContext();
+
+  const handleSetSelectedPart = (value: PART_KO) => {
+    onChangeFnaPart(value);
+  };
+
+  const handleValidation = (field: string, value: string) => {
+    if (value) {
+      clearErrors(field);
+    } else {
+      setError(field, {
+        type: 'required',
+        message: VALIDATION_CHECK.required.errorText,
+      });
+    }
+  };
 
   return (
     <StWrapper>
       <StTitleWrapper>
         <StTitle>자주 묻는 질문</StTitle>
       </StTitleWrapper>
-      <PartCategory />
-      <StTextAreaWrapper>
-        <StFnaWrapper>
-          <StTextArea
-            {...register('frequentQuestion1', {
-              required: true && VALIDATION_CHECK.required.errorText,
-            })}
-            topAddon={{
-              labelText: '질문1',
-            }}
-            value=""
-            fixedHeight={74}
-            maxHeight={74}
-            placeholder="질문을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
-          />
-          <StTextArea
-            {...register('frequentQuestionAnswer1', {
-              required: true && VALIDATION_CHECK.required.errorText,
-            })}
-            value=""
-            fixedHeight={74}
-            maxHeight={74}
-            placeholder="답변을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
-          />
-        </StFnaWrapper>
-        <StFnaWrapper>
-          <StTextArea
-            {...register('frequentQuestion2', {
-              required: true && VALIDATION_CHECK.required.errorText,
-            })}
-            topAddon={{
-              labelText: '질문2',
-            }}
-            value=""
-            fixedHeight={74}
-            maxHeight={74}
-            placeholder="질문을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
-          />
-          <StTextArea
-            {...register('frequentQuestionAnswer2', {
-              required: true && VALIDATION_CHECK.required.errorText,
-            })}
-            value=""
-            fixedHeight={74}
-            maxHeight={74}
-            placeholder="답변을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
-          />
-        </StFnaWrapper>
-        <StFnaWrapper>
-          <StTextArea
-            {...register('frequentQuestion3', {
-              required: true && VALIDATION_CHECK.required.errorText,
-            })}
-            topAddon={{
-              labelText: '질문3',
-            }}
-            value=""
-            fixedHeight={74}
-            maxHeight={74}
-            placeholder="질문을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
-          />
-          <StTextArea
-            {...register('frequentQuestionAnswer3', {
-              required: true && VALIDATION_CHECK.required.errorText,
-            })}
-            value=""
-            fixedHeight={74}
-            maxHeight={74}
-            placeholder="답변을 입력해주세요."
-            isError={errors.partCurriculum?.message != undefined}
-            errorMessage={errors.partCurriculum?.message as string}
-          />
-        </StFnaWrapper>
+      <PartCategory
+        selectedPart={fnaPart}
+        onSetSelectedPart={handleSetSelectedPart}
+      />
+      <StTextAreaWrapper key={fnaPart}>
+        {QUESTION_NUMBERS.map((index) => (
+          <StFnaWrapper key={index}>
+            <StTextArea
+              {...register(
+                `recruitQuestion_${fnaPart}_questions_${index}_question`,
+                {
+                  required: VALIDATION_CHECK.required.errorText,
+                },
+              )}
+              topAddon={{
+                labelText: `질문 ${index + 1}`,
+              }}
+              required
+              fixedHeight={74}
+              maxHeight={74}
+              placeholder="질문을 입력해주세요."
+              onChange={(e) =>
+                handleValidation(
+                  `recruitQuestion_${fnaPart}_questions_${index}_question`,
+                  e.currentTarget.value,
+                )
+              }
+              isError={
+                !!errors[
+                  `recruitQuestion_${fnaPart}_questions_${index}_question`
+                ]
+              }
+              errorMessage={
+                errors[`recruitQuestion_${fnaPart}_questions_${index}_question`]
+                  ?.message as string
+              }
+            />
+            <StTextArea
+              {...register(
+                `recruitQuestion_${fnaPart}_questions_${index}_answer`,
+                {
+                  required: VALIDATION_CHECK.required.errorText,
+                },
+              )}
+              fixedHeight={74}
+              maxHeight={74}
+              placeholder="답변을 입력해주세요."
+              onChange={(e) =>
+                handleValidation(
+                  `recruitQuestion_${fnaPart}_questions_${index}_answer`,
+                  e.currentTarget.value,
+                )
+              }
+              isError={
+                !!errors[`recruitQuestion_${fnaPart}_questions_${index}_answer`]
+              }
+              errorMessage={
+                errors[`recruitQuestion_${fnaPart}_questions_${index}_answer`]
+                  ?.message as string
+              }
+            />
+          </StFnaWrapper>
+        ))}
       </StTextAreaWrapper>
     </StWrapper>
   );

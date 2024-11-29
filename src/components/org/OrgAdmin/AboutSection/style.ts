@@ -34,7 +34,6 @@ export const StInputLabel = styled.label`
 
 export const StDescription = styled.p`
   ${fontsObject.LABEL_4_12_SB};
-  margin-bottom: 13px;
   color: ${colors.gray300};
 `;
 
