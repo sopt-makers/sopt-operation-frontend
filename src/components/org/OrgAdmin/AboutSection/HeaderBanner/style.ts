@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-export const StContainer = styled.section`
+export const StSretchContainer = styled.section`
   display: flex;
-  gap: 31px;
+  justify-content: space-between;
   align-items: baseline;
 `;
 export const StContentWrapper = styled.div`

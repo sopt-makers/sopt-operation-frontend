@@ -6,14 +6,14 @@ import Modal from '../../common/Modal';
 import useModal from '../../common/Modal/useModal';
 import MyDropzone from '../../MyDropzone';
 import { StDescription, StInputLabel, StTitle, StWrapper } from '../style';
-import { StContainer, StContentWrapper, StInfoButton } from './style';
+import { StContentWrapper, StInfoButton, StSretchContainer } from './style';
 
 const HeaderBanner = () => {
   const method = useFormContext();
   const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
-    <StContainer>
+    <StSretchContainer>
       <StWrapper>
         <StTitle>
           <span>소개탭 헤더</span>
@@ -44,9 +44,9 @@ const HeaderBanner = () => {
         subDescription="이번 기수의 핵심 가치가 돋보이는 이미지를 넣어주세요."
         imgSrc="/images/org/imgAboutHeaderInfo.png"
         isInfoVisible={isInfoVisible}
-        handleInfoToggle={onInfoToggle}
+        onInfoToggle={onInfoToggle}
       />
-    </StContainer>
+    </StSretchContainer>
   );
 };
 

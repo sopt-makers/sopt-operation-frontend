@@ -16,7 +16,7 @@ interface ModalProps {
   subDescription: string;
   imgSrc: string;
   isInfoVisible: boolean;
-  handleInfoToggle: (e: MouseEvent<HTMLButtonElement>) => void;
+  onInfoToggle: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Modal = ({
@@ -25,25 +25,18 @@ const Modal = ({
   subDescription,
   imgSrc,
   isInfoVisible,
-  handleInfoToggle,
+  onInfoToggle,
 }: ModalProps) => {
   return (
     <StInfoWrapper isVisible={isInfoVisible}>
       <StInfoTitle>
         <IconInfoCircle />
         <span>{title}</span>
-        <StInfoCloseButton onClick={handleInfoToggle}>
-          &#10005;
-        </StInfoCloseButton>
+        <StInfoCloseButton onClick={onInfoToggle}>&#10005;</StInfoCloseButton>
       </StInfoTitle>
       <StInfoDescription>{description}</StInfoDescription>
       <StInfoSubDescription>{subDescription}</StInfoSubDescription>
-      <StInfoImg
-        src={imgSrc}
-        alt={`${title} 적용 예시`}
-        width={368}
-        height={223}
-      />
+      <StInfoImg src={imgSrc} alt={`${title} 적용 예시`} />
     </StInfoWrapper>
   );
 };

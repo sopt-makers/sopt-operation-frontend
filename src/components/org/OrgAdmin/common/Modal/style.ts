@@ -9,6 +9,7 @@ interface StInfoWrapperProps {
 }
 
 export const StInfoWrapper = styled.article<StInfoWrapperProps>`
+  width: fit-content;
   position: relative;
   border-radius: 12px;
   padding: 22px 32px 38px;

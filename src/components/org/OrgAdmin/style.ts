@@ -6,7 +6,7 @@ import { TextArea, TextField } from '@sopt-makers/ui';
 import theme from '@/styles/theme';
 
 export const StContainer = styled.section`
-  padding: 50px 0;
+  padding: 50px 0 284px;
 `;
 
 export const StWrapper = styled.div`
