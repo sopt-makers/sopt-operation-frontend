@@ -1,3 +1,4 @@
+import zIndex from '@/utils/zIndex';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
@@ -7,6 +8,7 @@ export const StNavWrapper = styled.nav`
   top: 0;
   width: 21.2rem;
   height: 100%;
+  z-index: ${zIndex.nav};
 
   background-color: ${colors.gray900};
 

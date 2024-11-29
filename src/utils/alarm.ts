@@ -21,6 +21,8 @@ export const LINK_TYPE_LIST = [
   '솝탬프',
 ];
 
+export const ALARM_STATUS_LIST: ALARM_STATUS[] = ['ALL', 'SCHEDULED', 'COMPLETED'];
+
 export const readPlaygroundId = async (file: File): Promise<string[]> => {
   return new Promise((resolve, reject) => {
     const userIds: string[] = [];

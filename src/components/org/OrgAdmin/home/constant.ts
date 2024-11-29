@@ -5,3 +5,21 @@ export const NEWS = [
   { id: 4, title: 'MIND 23 : IT PEOPLE CONFERENCE' },
   { id: 5, title: 'DO SOPT 1차 행사' },
 ];
+
+export const PARTS = [
+  '기획',
+  '디자인',
+  '안드로이드',
+  'IOS',
+  '웹',
+  '서버',
+] as const;
+
+export const PARTS_FILTER = {
+  기획: 'pm',
+  디자인: 'de',
+  안드로이드: 'an',
+  IOS: 'io',
+  웹: 'we',
+  서버: 'sv',
+} as const;

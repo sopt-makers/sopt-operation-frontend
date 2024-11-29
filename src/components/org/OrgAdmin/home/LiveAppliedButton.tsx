@@ -4,11 +4,16 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
 interface LiveAppliedButtonProps {
+  text: string;
   keyColor: string;
   subColor: string;
 }
 
-const LiveAppliedButton = ({ keyColor, subColor }: LiveAppliedButtonProps) => {
+const LiveAppliedButton = ({
+  text,
+  keyColor,
+  subColor,
+}: LiveAppliedButtonProps) => {
   return (
     <StContainer>
       <StExampleText>
@@ -16,7 +21,7 @@ const LiveAppliedButton = ({ keyColor, subColor }: LiveAppliedButtonProps) => {
         키컬러 #ffffff / 서브컬러 #ffffff
       </StExampleText>
       <StOrgButtonWrapper keyColor={keyColor} subColor={subColor}>
-        35기 YB 지원하기
+        {text}
       </StOrgButtonWrapper>
 
       <StList>

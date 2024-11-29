@@ -71,6 +71,7 @@ export const StImgWrapper = styled.div`
   flex-direction: column;
 
   padding: 22px 32px;
+  margin-top: 42px;
 
   border-radius: 12px;
   background-color: ${colors.gray900};
@@ -176,7 +177,7 @@ export const StNewsItem = styled.li`
 
 export const StNewsSectionContainer = styled.div`
   display: flex;
-  align-items: end;
+  align-items: start;
   gap: 31px;
 `;
 
