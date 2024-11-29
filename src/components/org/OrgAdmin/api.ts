@@ -17,3 +17,20 @@ export const sendData = async (data: any) => {
 
   return res;
 };
+
+export const sendPresignedURL = async (url: string, data: any) => {
+  const res = await fetch(url, {
+    method: 'POST',
+    body: data,
+  });
+
+  return res;
+};
+
+export const sendDataConfirm = async (data: any) => {
+  const res = await fetcher.POST('/admin/confirm', {
+    body: data,
+  });
+
+  return res;
+};
