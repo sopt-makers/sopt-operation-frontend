@@ -66,7 +66,7 @@ const useMutateSendData = ({
         !members ||
         !recruitHeaderImageURL
       )
-        return;
+        throw new Error('presigned url put 준비 과정에 에러가 발생함.');
 
       try {
         await Promise.all([
