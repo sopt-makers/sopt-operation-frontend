@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && yarn openapi-typescript",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest --watch",
-    "openapi-typescript": "npx openapi-typescript https://api-dev.sopt.org/v2/api-docs.yaml -o ./src/__generated__/api.d.ts"
+    "openapi-typescript": "npx openapi-typescript https://api-dev.sopt.org/v2/api-docs.yaml -o ./src/__generated__/api.d.ts",
+    "swagger-typescript-api": "swagger-typescript-api -p https://api-dev.sopt.org/v2/api-docs.yaml -r -o ./src/__generated__/org-types --modular -d --extract-request-body --extract-response-body --extract-response-error",
+    "api-spec": "yarn openapi-typescript && yarn swagger-typescript-api"
   },
   "engines": {
     "node": ">=20.18.0 <21"
@@ -37,6 +39,7 @@
     "react-query": "^3.39.3",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
+    "swagger-typescript-api": "^13.0.23",
     "typescript": "^5.4.4",
     "use-immer": "^0.9.0"
   },
