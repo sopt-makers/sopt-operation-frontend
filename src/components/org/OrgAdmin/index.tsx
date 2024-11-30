@@ -446,7 +446,6 @@ function OrgAdmin() {
         ],
       };
 
-      console.log('>>sendingData', sendingData);
       sendMutate(sendingData);
     }
   };
