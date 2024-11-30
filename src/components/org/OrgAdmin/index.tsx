@@ -1,6 +1,12 @@
 import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import {
+  type FieldValues,
+  FormProvider,
+  type SubmitHandler,
+  useForm,
+} from 'react-hook-form';
 
+import type { AddAdminRequestDto } from '@/__generated__/org-types/data-contracts';
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
 import {
@@ -18,7 +24,7 @@ import HomeSection from './home/HomeSection';
 import useMutateSendData from './hooks';
 import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';
-import { Group } from './types';
+import type { Group } from './types';
 
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
@@ -26,7 +32,7 @@ function OrgAdmin() {
   const [curriculumPart, setCurriculumPart] = useState<PART_KO>('기획');
   const [fnaPart, setFnaPart] = useState<PART_KO>('기획');
 
-  const methods = useForm<Record<string, any>>({ mode: 'onBlur' });
+  const methods = useForm({ mode: 'onBlur' });
   const { handleSubmit, getValues } = methods;
 
   const { sendMutate, sendIsLoading } = useMutateSendData({
@@ -115,7 +121,7 @@ function OrgAdmin() {
     return true;
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const isScheduleValid = validateSchedule();
     const isCurriculumValid = validateCurriculum();
     const isFnaValid = validateFna();
@@ -198,7 +204,7 @@ function OrgAdmin() {
       } = data;
 
       const 임원진 = [...임원진_LIST, ...PART_LIST];
-      const sendingData = {
+      const sendingData: AddAdminRequestDto = {
         generation,
         name,
         recruitSchedule: [
@@ -441,7 +447,7 @@ function OrgAdmin() {
       };
 
       console.log('>>sendingData', sendingData);
-      sendMutate(sendingData as any);
+      sendMutate(sendingData);
     }
   };
 
