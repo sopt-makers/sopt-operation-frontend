@@ -9,7 +9,7 @@ import {
   StImgTitle,
   StImgWrapper,
   StImgWrapperTitle,
-} from '@/components/org/OrgAdmin/home/style';
+} from '@/components/org/OrgAdmin/HomeSection/style';
 
 interface SampleViewProps {
   category: string;

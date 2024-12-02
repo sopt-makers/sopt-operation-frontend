@@ -6,6 +6,12 @@ import zIndex from '@/utils/zIndex';
 
 import { StInputLabel, StInputWrapper } from '../style';
 
+export const StStretchContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const StRadioWrapper = styled.div`
   display: flex;
   align-items: center;

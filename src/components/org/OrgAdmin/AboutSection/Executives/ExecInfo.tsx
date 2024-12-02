@@ -2,6 +2,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
+import RequiredIcon from '../../assets/RequiredIcon';
 import MyDropzone from '../../MyDropzone';
 import IcBehanceLogo from '../assets/IcBehanceLogo';
 import IcGithubLogo from '../assets/IcGithubLogo';
@@ -25,7 +26,10 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
   return (
     <>
       <StPhotoWrapper>
-        <StInputLabel>프로필 사진</StInputLabel>
+        <StInputLabel>
+          <span>프로필 사진</span>
+          <RequiredIcon />
+        </StInputLabel>
         <StDescription>사진은 1:1 비율로 올려주세요.</StDescription>
         <MyDropzone
           method={method}
@@ -47,18 +51,10 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
         }
         labelText="이름"
         placeholder="ex. 김솝트"
+        required
       />
       <StInput
-        {...register(`member.${selectedExec}.affiliation`, {
-          required: true && VALIDATION_CHECK.required.errorText,
-        })}
-        isError={
-          (errors as any).member?.selectedExec?.affiliation?.message !==
-          undefined
-        }
-        errorMessage={
-          (errors as any).member?.selectedExec?.affiliation?.message as string
-        }
+        {...register(`member.${selectedExec}.affiliation`)}
         labelText="소속"
         placeholder="ex. 솝트대학교 / 솝트컴퍼니 / 앱잼 프로덕트명"
       />
@@ -75,6 +71,7 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
         }
         labelText="한 줄 소개"
         placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
+        required
       />
       <StSNSWrapper>
         <span>SNS</span>

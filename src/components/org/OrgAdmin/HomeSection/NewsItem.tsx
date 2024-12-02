@@ -1,6 +1,6 @@
 import { IconTrash } from '@sopt-makers/icons';
 
-import { StNewsItem } from '@/components/org/OrgAdmin/home/style';
+import { StNewsItem } from '@/components/org/OrgAdmin/HomeSection/style';
 
 type NewsItemProps = {
   title: string;

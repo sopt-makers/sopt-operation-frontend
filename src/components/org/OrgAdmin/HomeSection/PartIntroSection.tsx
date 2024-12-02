@@ -3,20 +3,25 @@ import { Chip, TextArea } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import sampleImg from '@/assets/img/partIntroduceSample.png';
-import { PARTS } from '@/components/org/OrgAdmin/home/constant';
-import SampleView from '@/components/org/OrgAdmin/home/SampleView';
+import { PARTS } from '@/components/org/OrgAdmin/HomeSection/constant';
 import {
   StChipsContainer,
+  StIcon,
+  StInputLabel,
   StSecondSectionContainer,
   StTextAreaContainer,
   StTitleWithIcon,
-} from '@/components/org/OrgAdmin/home/style';
+} from '@/components/org/OrgAdmin/HomeSection/style';
+
+import RequiredIcon from '../assets/RequiredIcon';
+import Modal from '../common/Modal';
+import useModal from '../common/Modal/useModal';
 
 type Part = '기획' | '디자인' | '안드로이드' | 'IOS' | '웹' | '서버';
 
 const PartIntroSection = () => {
   const [selectedChip, setSelectedChip] = useState<Part>('기획');
+  const { isInfoVisible, onInfoToggle } = useModal();
 
   const getActiveStatus = (id: Part) => id === selectedChip;
 
@@ -30,10 +35,15 @@ const PartIntroSection = () => {
     <StSecondSectionContainer>
       <StTextAreaContainer>
         <StTitleWithIcon>
-          파트별 소개
-          <IconInfoCircle />
+          <span>파트별 소개</span>
+          <StIcon onClick={onInfoToggle}>
+            <IconInfoCircle />
+          </StIcon>
         </StTitleWithIcon>
-
+        <StInputLabel>
+          <span>파트별 소개 설명</span>
+          <RequiredIcon />
+        </StInputLabel>
         <StChipsContainer>
           {PARTS.map((part) => (
             <Chip
@@ -55,11 +65,13 @@ const PartIntroSection = () => {
           }
         />
       </StTextAreaContainer>
-      <SampleView
-        src={sampleImg}
-        category="파트별 소개"
-        title="메인 홈 'Part' 속 파트별 소개에요"
-        description="파트의 간략한 소개를 작성해주세요."
+      <Modal
+        title="파트별 소개"
+        description="메인 홈 'Part' 속 파트별 소개에요"
+        subDescription="파트의 간략한 소개를 작성해주세요."
+        imgSrc="/images/org/imgPartInfo.png"
+        isInfoVisible={isInfoVisible}
+        onInfoToggle={onInfoToggle}
       />
     </StSecondSectionContainer>
   );

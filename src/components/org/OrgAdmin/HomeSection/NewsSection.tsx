@@ -2,23 +2,27 @@ import { IconInfoCircle, IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { useState } from 'react';
 
-import sampleImg from '@/assets/img/latestNewsSample.png';
 import {
   ActionModal,
   AddNewsModal,
-} from '@/components/org/OrgAdmin/home/Modal';
-import NewsItem from '@/components/org/OrgAdmin/home/NewsItem';
-import { useDeleteNewsMutation } from '@/components/org/OrgAdmin/home/queries';
-import SampleView from '@/components/org/OrgAdmin/home/SampleView';
+} from '@/components/org/OrgAdmin/HomeSection/Modal';
+import NewsItem from '@/components/org/OrgAdmin/HomeSection/NewsItem';
+import { useDeleteNewsMutation } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
+  StIcon,
+  StInputLabel,
   StLeftColumnSection,
   StNewsHeader,
   StNewsHeaderText,
   StNewsList,
   StNewsSectionContainer,
   StTitleWithIcon,
-} from '@/components/org/OrgAdmin/home/style';
+} from '@/components/org/OrgAdmin/HomeSection/style';
 import { useBooleanState } from '@/hooks/useBooleanState';
+
+import RequiredIcon from '../assets/RequiredIcon';
+import Modal from '../common/Modal';
+import useModal from '../common/Modal/useModal';
 
 type NewsSectionProps = {
   latestNews?: {
@@ -40,6 +44,7 @@ const NewsSection = ({ latestNews }: NewsSectionProps) => {
   } = useBooleanState();
 
   const [deleteId, setDeleteId] = useState<number>(0);
+  const { isInfoVisible, onInfoToggle } = useModal();
 
   const { mutate } = useDeleteNewsMutation();
 
@@ -56,12 +61,18 @@ const NewsSection = ({ latestNews }: NewsSectionProps) => {
           <StNewsHeaderText>
             <StTitleWithIcon>
               최신 소식
-              <IconInfoCircle />
+              <StIcon onClick={onInfoToggle}>
+                <IconInfoCircle />
+              </StIcon>
             </StTitleWithIcon>
             <p>
               &apos;최신 소식&apos;은 배포 버튼을 거치지 않아도 바로 저장되니,
               신중하게 작성해주세요!
             </p>
+            <StInputLabel>
+              <span>솝트의 최신 소식이 궁금하다면!</span>
+              <RequiredIcon />
+            </StInputLabel>
           </StNewsHeaderText>
           <Button
             onClick={openAddModal}
@@ -84,13 +95,14 @@ const NewsSection = ({ latestNews }: NewsSectionProps) => {
           ))}
         </StNewsList>
       </StLeftColumnSection>
-      <SampleView
-        src={sampleImg}
-        category="최신 소식"
-        title="메인 홈 '솝트의 최신 소식이 궁금하다면!' 입니다."
-        description="리스트 순서대로 배치돼요. 행사 포스터와 이름, 링크를 추가해주세요."
+      <Modal
+        title="최신 소식"
+        description="메인 홈 '솝트의 최신 소식이 궁금하다면!' 입니다."
+        subDescription="리스트 순서대로 배치돼요. 행사 포스터와 이름, 링크를 추가해주세요."
+        imgSrc="/images/org/imgLatestNewsInfo.png"
+        isInfoVisible={isInfoVisible}
+        onInfoToggle={onInfoToggle}
       />
-
       <ActionModal
         key={deleteId}
         variant="delete"
