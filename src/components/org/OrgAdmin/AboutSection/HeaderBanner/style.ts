@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-export const StSretchContainer = styled.section`
+export const StStretchContainer = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: baseline;

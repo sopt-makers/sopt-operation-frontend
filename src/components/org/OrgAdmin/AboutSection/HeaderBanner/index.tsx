@@ -6,14 +6,14 @@ import Modal from '../../common/Modal';
 import useModal from '../../common/Modal/useModal';
 import MyDropzone from '../../MyDropzone';
 import { StDescription, StInputLabel, StTitle, StWrapper } from '../style';
-import { StContentWrapper, StInfoButton, StSretchContainer } from './style';
+import { StContentWrapper, StInfoButton, StStretchContainer } from './style';
 
 const HeaderBanner = () => {
   const method = useFormContext();
   const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
-    <StSretchContainer>
+    <StStretchContainer>
       <StWrapper>
         <StTitle>
           <span>소개탭 헤더</span>
@@ -46,7 +46,7 @@ const HeaderBanner = () => {
         isInfoVisible={isInfoVisible}
         onInfoToggle={onInfoToggle}
       />
-    </StSretchContainer>
+    </StStretchContainer>
   );
 };
 

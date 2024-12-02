@@ -28,11 +28,13 @@ const Modal = ({
   onInfoToggle,
 }: ModalProps) => {
   return (
-    <StInfoWrapper isVisible={isInfoVisible}>
+    <StInfoWrapper isVisible={isInfoVisible} aria-hidden={!isInfoVisible}>
       <StInfoTitle>
         <IconInfoCircle />
         <span>{title}</span>
-        <StInfoCloseButton onClick={onInfoToggle}>&#10005;</StInfoCloseButton>
+        <StInfoCloseButton onClick={onInfoToggle} aria-label="Close Modal">
+          &#10005;
+        </StInfoCloseButton>
       </StInfoTitle>
       <StInfoDescription>{description}</StInfoDescription>
       <StInfoSubDescription>{subDescription}</StInfoSubDescription>
