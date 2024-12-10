@@ -1,5 +1,10 @@
 import { useMutation } from 'react-query';
 
+import {
+  AddAdminRequestDto,
+  AddAdminResponseDto,
+} from '@/__generated__/org-types/data-contracts';
+
 import { sendData, sendDataConfirm, sendPresignedURL } from './api';
 
 interface UseMutateSendDataProps {
@@ -42,15 +47,26 @@ const useMutateSendData = ({
   recruitHeaderImageFile,
 }: UseMutateSendDataProps) => {
   const { mutate: sendMutate, isLoading: sendIsLoading } = useMutation({
-    mutationFn: (data) => sendData(data),
-    onSuccess: async (res: any) => {
+    mutationFn: (
+      data: AddAdminRequestDto,
+    ): Promise<AddAdminResponseDto | undefined> => sendData(data),
+    onSuccess: async (res) => {
       const {
         generation,
         coreValues,
         headerImage: headerImageURL,
         members,
         recruitHeaderImage: recruitHeaderImageURL,
-      } = res.data;
+      } = res || {};
+
+      if (
+        !generation ||
+        !coreValues ||
+        !headerImageURL ||
+        !members ||
+        !recruitHeaderImageURL
+      )
+        throw new Error('presigned url put 준비 과정에 에러가 발생함.');
 
       try {
         await Promise.all([
