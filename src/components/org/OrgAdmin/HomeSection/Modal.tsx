@@ -48,6 +48,8 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
     mutate(data, {
       onSuccess: () => {
         closeConfirmModal();
+        setTitle('');
+        setLink('');
 
         onCancel?.();
       },
