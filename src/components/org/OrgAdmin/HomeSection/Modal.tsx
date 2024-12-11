@@ -41,7 +41,7 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
   const handleSubmit = () => {
     const data = new FormData();
 
-    data.append('image', getValues('newsImage'));
+    data.append('image', getValues('newsImage')?.file);
     data.append('title', title);
     data.append('link', link);
 
