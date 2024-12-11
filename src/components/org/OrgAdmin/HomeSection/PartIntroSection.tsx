@@ -1,3 +1,5 @@
+'use client';
+
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { Chip, TextArea } from '@sopt-makers/ui';
 import { useState } from 'react';
@@ -23,13 +25,30 @@ const PartIntroSection = () => {
   const [selectedChip, setSelectedChip] = useState<Part>('기획');
   const { isInfoVisible, onInfoToggle } = useModal();
 
+  const {
+    register,
+    clearErrors,
+    setError,
+    getValues,
+    formState: { errors },
+  } = useFormContext();
+
   const getActiveStatus = (id: Part) => id === selectedChip;
 
   const handleSelectChip = (id: Part) => {
     setSelectedChip(id);
   };
 
-  const { register } = useFormContext();
+  const handleValidation = (field: string, value: string) => {
+    if (value) {
+      clearErrors(field);
+    } else {
+      setError(field, {
+        type: 'required',
+        message: '필수 항목이에요.',
+      });
+    }
+  };
 
   return (
     <StSecondSectionContainer>
@@ -57,7 +76,20 @@ const PartIntroSection = () => {
 
         <TextArea
           key={selectedChip}
-          {...register(selectedChip)}
+          {...register(`partIntroduction${selectedChip}`, {
+            required: '필수 항목이에요.',
+          })}
+          onChange={(e) =>
+            handleValidation(
+              `partIntroduction${selectedChip}`,
+              e.currentTarget.value,
+            )
+          }
+          isError={!!errors[`partIntroduction${selectedChip}`]}
+          errorMessage={
+            errors[`partIntroduction${selectedChip}`]?.message as string
+          }
+          required
           fixedHeight={230}
           maxHeight={230}
           placeholder={

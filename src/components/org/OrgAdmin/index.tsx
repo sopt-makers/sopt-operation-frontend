@@ -9,6 +9,7 @@ import {
 import type { AddAdminRequestDto } from '@/__generated__/org-types/data-contracts';
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
+import { PARTS } from '@/components/org/OrgAdmin/HomeSection/constant';
 import {
   ORG_ADMIN_LIST,
   PART_KO,
@@ -121,12 +122,27 @@ function OrgAdmin() {
     return true;
   };
 
+  const validatePartIntro = () => {
+    if (PARTS.some((part) => getValues(`partIntroduction${part}`) === '')) {
+      setSelectedPart('홈');
+      return false;
+    }
+
+    return true;
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const isScheduleValid = validateSchedule();
     const isCurriculumValid = validateCurriculum();
     const isFnaValid = validateFna();
+    const isPartIntroValid = validatePartIntro();
 
-    if (isScheduleValid && isCurriculumValid && isFnaValid) {
+    if (
+      isScheduleValid &&
+      isCurriculumValid &&
+      isFnaValid &&
+      isPartIntroValid
+    ) {
       const {
         brandingColor_high,
         brandingColor_low,
@@ -200,6 +216,12 @@ function OrgAdmin() {
         coreValue2,
         coreValue3,
         partCurriculum,
+        partIntroduction기획,
+        partIntroduction디자인,
+        partIntroduction안드로이드,
+        partIntroductionIOS,
+        partIntroduction웹,
+        partIntroduction서버,
         member,
       } = data;
 
@@ -253,27 +275,27 @@ function OrgAdmin() {
         partIntroduction: [
           {
             part: '기획',
-            description: '기획 앱 개발',
+            description: partIntroduction기획,
           },
           {
             part: '디자인',
-            description: '디자인 앱 개발',
+            description: partIntroduction디자인,
           },
           {
             part: '안드로이드',
-            description: '안드로이드 앱 개발',
+            description: partIntroduction안드로이드,
           },
           {
             part: 'iOS',
-            description: 'iOS 앱 개발',
+            description: partIntroductionIOS,
           },
           {
             part: '웹',
-            description: '웹 앱 개발',
+            description: partIntroduction웹,
           },
           {
             part: '서버',
-            description: '서버 앱 개발',
+            description: partIntroduction서버,
           },
         ],
         headerImageFileName: headerImageFileName?.fileName,
