@@ -495,12 +495,13 @@ export interface Link {
   url: string;
 }
 
-export interface PaginateResponseProjectResponse {
-  data?: ProjectResponse[];
-  /** 다음 페이지가 있는지 여부를 나타냄. */
-  hasNextPage: boolean;
-  /** 이전 페이지가 있는지 여부를 나타냄. */
-  hasPrevPage: boolean;
+/** 페이지네이션 응답 */
+export interface PaginateResponseDto {
+  /**
+   * item을 몇개까지 가져올지에 대한 카운트
+   * @format int32
+   */
+  limit: number;
   /**
    * 총 data 들의 갯수
    * @format int32
@@ -516,14 +517,14 @@ export interface PaginateResponseProjectResponse {
    * @format int32
    */
   currentPage: number;
-  /**
-   * item을 몇개까지 가져올지에 대한 카운트
-   * @format int32
-   */
-  limit: number;
+  data?: ProjectsResponseDto[];
+  /** 다음 페이지가 있는지 여부를 나타냄. */
+  hasNextPage: boolean;
+  /** 이전 페이지가 있는지 여부를 나타냄. */
+  hasPrevPage: boolean;
 }
 
-export interface ProjectResponse {
+export interface ProjectsResponseDto {
   /**
    * 프로젝트의 Id
    * @format int64
@@ -554,6 +555,82 @@ export interface ProjectResponse {
   isFounding: boolean;
   /** 프로젝트 링크 */
   links: Link[];
+}
+
+/** 프로젝트 팀원 */
+export interface Member {
+  /** 프로젝트 팀원 이름 */
+  name: string;
+  /** 프로젝트 팀원의 역할 */
+  role:
+    | 'Team Leader'
+    | 'Main PM'
+    | 'PM'
+    | 'Team Improvement'
+    | '디자이너'
+    | 'iOS 개발자'
+    | 'Android 개발자'
+    | '웹 프론트엔드 개발자'
+    | '서버 개발자';
+  /** 프로젝트 팀원의 역할 상세설명 */
+  description: string;
+}
+
+export interface ProjectDetailResponseDto {
+  /**
+   * 프로젝트의 Id
+   * @format int64
+   */
+  id: number;
+  /** 프로젝트의 이름 */
+  name: string;
+  /**
+   * 프로젝트가 진행된 기수
+   * @format int32
+   */
+  generation: number;
+  /** 프로젝트의 카테고리 */
+  category: Category;
+  /** 서비스 형태 */
+  serviceType: ('WEB' | 'APP')[];
+  /** 프로젝트 한줄소개 */
+  summary: string;
+  /** 프로젝트 설명 */
+  detail: string;
+  /** 프로젝트 로고 이미지 URL */
+  logoImage: string;
+  /** 프로젝트 썸네일 이미지 URL */
+  thumbnailImage: string;
+  /** 서비스 이용 가능 여부 */
+  isAvailable: boolean;
+  /** 창업중인지 여부 */
+  isFounding: boolean;
+  /** 프로젝트 링크 */
+  links: Link[];
+  /**
+   * 프로젝트 시작 날짜
+   * @format date
+   */
+  startAt: string;
+  /**
+   * 프로젝트 종료 날짜. 프로젝트가 진행중 일 경우 값 없음
+   * @format date
+   */
+  endAt?: string | null;
+  /** 프로젝트 이미지 URL */
+  projectImage?: string | null;
+  /**
+   * 프로젝트를 등록한 시간
+   * @format date-time
+   */
+  uploadedAt: string;
+  /**
+   * 프로젝트를 수정한 시간
+   * @format date-time
+   */
+  updatedAt: string;
+  /** 프로젝트 팀원 */
+  members: Member[];
 }
 
 export interface GetNotificationListResponseDto {
@@ -1233,9 +1310,11 @@ export type AddMainConfirmData = AddAdminConfirmResponseDto;
 
 export type GetSemestersData = SemestersListResponse;
 
-export type GetAllProjectData = PaginateResponseProjectResponse;
+export type GetProjectsData = PaginateResponseDto;
 
-export type GetAllProject1Data = GetNotificationListResponseDto;
+export type GetProjectData = ProjectDetailResponseDto;
+
+export type GetAllProjectData = GetNotificationListResponseDto;
 
 export type GetMainPageData = GetMainPageResponseDto;
 
