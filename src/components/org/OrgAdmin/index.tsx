@@ -32,6 +32,7 @@ function OrgAdmin() {
   const [group, setGroup] = useState<Group>('OB');
   const [curriculumPart, setCurriculumPart] = useState<PART_KO>('기획');
   const [fnaPart, setFnaPart] = useState<PART_KO>('기획');
+  const [introPart, setIntroPart] = useState<PART_KO>('기획');
 
   const methods = useForm({ mode: 'onBlur' });
   const { handleSubmit, getValues } = methods;
@@ -59,6 +60,10 @@ function OrgAdmin() {
 
   const onChangePart = (part: ORG_ADMIN): void => {
     setSelectedPart(part);
+  };
+
+  const onChangeIntroPart = (part: PART_KO) => {
+    setIntroPart(part);
   };
 
   const validateSchedule = () => {
@@ -123,9 +128,12 @@ function OrgAdmin() {
   };
 
   const validatePartIntro = () => {
-    if (PARTS.some((part) => getValues(`partIntroduction${part}`) === '')) {
-      setSelectedPart('홈');
-      return false;
+    for (const part of PARTS) {
+      if (getValues(`partIntroduction${part}`) === '') {
+        setIntroPart(part);
+        setSelectedPart('홈');
+        return false;
+      }
     }
 
     return true;
@@ -494,7 +502,10 @@ function OrgAdmin() {
           ) : selectedPart === '소개' ? (
             <AboutSection />
           ) : selectedPart === '홈' ? (
-            <HomeSection />
+            <HomeSection
+              selectedIntroPart={introPart}
+              onChangeIntroPart={onChangeIntroPart}
+            />
           ) : (
             <RecruitSection
               curriculumPart={curriculumPart}

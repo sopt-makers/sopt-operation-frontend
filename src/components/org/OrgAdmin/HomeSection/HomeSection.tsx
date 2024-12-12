@@ -7,15 +7,27 @@ import {
   StContainer,
   StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
+import { PART_KO } from '@/utils/org';
 
-const HomeSection = () => {
+type HomeSectionProps = {
+  selectedIntroPart: PART_KO;
+  onChangeIntroPart: (part: PART_KO) => void;
+};
+
+const HomeSection = ({
+  selectedIntroPart,
+  onChangeIntroPart,
+}: HomeSectionProps) => {
   const { data } = useAdminInfoQuery();
 
   return (
     <StContainer>
       <ToastProvider>
         <StWrapper>
-          <PartIntroSection />
+          <PartIntroSection
+            selectedPart={selectedIntroPart}
+            onChangePart={onChangeIntroPart}
+          />
         </StWrapper>
         <NewsSection latestNews={data?.latestNews} />
       </ToastProvider>

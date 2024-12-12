@@ -2,7 +2,6 @@
 
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { Chip, TextArea } from '@sopt-makers/ui';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { PARTS } from '@/components/org/OrgAdmin/HomeSection/constant';
@@ -14,15 +13,21 @@ import {
   StTextAreaContainer,
   StTitleWithIcon,
 } from '@/components/org/OrgAdmin/HomeSection/style';
+import { PART_KO } from '@/utils/org';
 
 import RequiredIcon from '../assets/RequiredIcon';
 import Modal from '../common/Modal';
 import useModal from '../common/Modal/useModal';
 
-type Part = '기획' | '디자인' | '안드로이드' | 'IOS' | '웹' | '서버';
+type PartIntroSectionProps = {
+  selectedPart: PART_KO;
+  onChangePart: (id: PART_KO) => void;
+};
 
-const PartIntroSection = () => {
-  const [selectedChip, setSelectedChip] = useState<Part>('기획');
+const PartIntroSection = ({
+  selectedPart,
+  onChangePart,
+}: PartIntroSectionProps) => {
   const { isInfoVisible, onInfoToggle } = useModal();
 
   const {
@@ -33,10 +38,10 @@ const PartIntroSection = () => {
     formState: { errors },
   } = useFormContext();
 
-  const getActiveStatus = (id: Part) => id === selectedChip;
+  const getActiveStatus = (id: PART_KO) => id === selectedPart;
 
-  const handleSelectChip = (id: Part) => {
-    setSelectedChip(id);
+  const handleSelectChip = (id: PART_KO) => {
+    onChangePart(id);
   };
 
   const handleValidation = (field: string, value: string) => {
@@ -75,19 +80,19 @@ const PartIntroSection = () => {
         </StChipsContainer>
 
         <TextArea
-          key={selectedChip}
-          {...register(`partIntroduction${selectedChip}`, {
+          key={selectedPart}
+          {...register(`partIntroduction${selectedPart}`, {
             required: '필수 항목이에요.',
           })}
           onChange={(e) =>
             handleValidation(
-              `partIntroduction${selectedChip}`,
+              `partIntroduction${selectedPart}`,
               e.currentTarget.value,
             )
           }
-          isError={!!errors[`partIntroduction${selectedChip}`]}
+          isError={!!errors[`partIntroduction${selectedPart}`]}
           errorMessage={
-            errors[`partIntroduction${selectedChip}`]?.message as string
+            errors[`partIntroduction${selectedPart}`]?.message as string
           }
           required
           fixedHeight={230}
