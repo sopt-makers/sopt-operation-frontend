@@ -1,6 +1,6 @@
 const zIndex = {
   nav: 10,
-  header: 10,
+  header: 30,
   footer: 10,
   helper: 11,
   select: 99,
