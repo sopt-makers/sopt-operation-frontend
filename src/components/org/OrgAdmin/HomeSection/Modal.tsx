@@ -38,6 +38,15 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
 
   const { getValues } = useFormContext();
 
+  const handleCloseModal = () => {
+    closeConfirmModal();
+
+    setTitle('');
+    setLink('');
+
+    onCancel?.();
+  };
+
   const handleSubmit = () => {
     const data = new FormData();
 
@@ -47,11 +56,7 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
 
     mutate(data, {
       onSuccess: () => {
-        closeConfirmModal();
-        setTitle('');
-        setLink('');
-
-        onCancel?.();
+        handleCloseModal();
       },
     });
   };
@@ -79,7 +84,7 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
           />
 
           <StAddModalBtnWrapper>
-            <StCancelButton onClick={onCancel}>취소</StCancelButton>
+            <StCancelButton onClick={handleCloseModal}>취소</StCancelButton>
             <StAddButton
               type="button"
               disabled={!getValues('newsImage') || !title}

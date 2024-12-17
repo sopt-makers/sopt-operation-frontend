@@ -13,7 +13,7 @@ import {
   StTextAreaContainer,
   StTitleWithIcon,
 } from '@/components/org/OrgAdmin/HomeSection/style';
-import { PART_KO } from '@/utils/org';
+import { PART_KO, VALIDATION_CHECK } from '@/utils/org';
 
 import RequiredIcon from '../assets/RequiredIcon';
 import Modal from '../common/Modal';
@@ -34,7 +34,6 @@ const PartIntroSection = ({
     register,
     clearErrors,
     setError,
-    getValues,
     formState: { errors },
   } = useFormContext();
 
@@ -82,7 +81,7 @@ const PartIntroSection = ({
         <TextArea
           key={selectedPart}
           {...register(`partIntroduction${selectedPart}`, {
-            required: '필수 항목이에요.',
+            required: VALIDATION_CHECK.required.errorText,
           })}
           onChange={(e) =>
             handleValidation(

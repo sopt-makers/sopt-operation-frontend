@@ -7,6 +7,11 @@ import {
   postNews,
 } from '@/components/org/OrgAdmin/HomeSection/api';
 
+const TOAST_OPTION: Record<'success' | 'error', ToastOptionType> = {
+  success: { icon: 'success', content: '성공적으로 추가되었어요' },
+  error: { icon: 'error', content: '추가에 실패했어요' },
+};
+
 export const useAdminInfoQuery = () => {
   return useQuery({
     queryKey: ['admin'],
@@ -17,10 +22,6 @@ export const useAdminInfoQuery = () => {
 export const useAddNewsMutation = () => {
   const queryClient = useQueryClient();
   const { open } = useToast();
-  const option: ToastOptionType = {
-    icon: 'success',
-    content: '성공적으로 추가되었어요.',
-  };
 
   return useMutation({
     mutationFn: (formData: FormData) => postNews(formData),
@@ -29,7 +30,7 @@ export const useAddNewsMutation = () => {
         queryKey: ['admin'],
       });
 
-      open(option);
+      open(TOAST_OPTION.success);
     },
   });
 };
@@ -49,7 +50,10 @@ export const useDeleteNewsMutation = () => {
         queryKey: ['admin'],
       });
 
-      open(option);
+      open(TOAST_OPTION.success);
+    },
+    onError: () => {
+      open(TOAST_OPTION.error);
     },
   });
 };
