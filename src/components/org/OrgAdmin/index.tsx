@@ -37,22 +37,24 @@ function OrgAdmin() {
 
   const { sendMutate, sendIsLoading } = useMutateSendData({
     headerImageFile: getValues('headerImageFileName')?.file,
-    coreValueImageFile1: getValues('coreValue1.imageFileName')?.file,
-    coreValueImageFile2: getValues('coreValue2.imageFileName')?.file,
-    coreValueImageFile3: getValues('coreValue3.imageFileName')?.file,
-    memberImageFile1: getValues('member.회장.profileImageFileName')?.file,
-    memberImageFile2: getValues('member.부회장.profileImageFileName')?.file,
-    memberImageFile3: getValues('member.총무.profileImageFileName')?.file,
-    memberImageFile4: getValues('member.운영팀장.profileImageFileName')?.file,
-    memberImageFile5: getValues('member.미디어팀장.profileImageFileName')?.file,
-    memberImageFile6: getValues('member.메이커스팀장.profileImageFileName')
-      ?.file,
-    memberImageFile7: getValues('member.기획.profileImageFileName')?.file,
-    memberImageFile8: getValues('member.디자인.profileImageFileName')?.file,
-    memberImageFile9: getValues('member.안드로이드.profileImageFileName')?.file,
-    memberImageFile10: getValues('member.iOS.profileImageFileName')?.file,
-    memberImageFile11: getValues('member.웹.profileImageFileName')?.file,
-    memberImageFile12: getValues('member.서버.profileImageFileName')?.file,
+    coreValueImageFile1: getValues('coreValue1')?.imageFileName.file,
+    coreValueImageFile2: getValues('coreValue2')?.imageFileName.file,
+    coreValueImageFile3: getValues('coreValue3')?.imageFileName.file,
+    memberImageFile1: getValues('member')?.회장.profileImageFileName.file,
+    memberImageFile2: getValues('member')?.부회장.profileImageFileName.file,
+    memberImageFile3: getValues('member')?.총무.profileImageFileName.file,
+    memberImageFile4:
+      getValues('member')?.['운영 팀장']?.profileImageFileName.file,
+    memberImageFile5:
+      getValues('member')?.['미디어 팀장'].profileImageFileName.file,
+    memberImageFile6:
+      getValues('member')?.['메이커스 팀장'].profileImageFileName.file,
+    memberImageFile7: getValues('member')?.기획.profileImageFileName.file,
+    memberImageFile8: getValues('member')?.디자인.profileImageFileName.file,
+    memberImageFile9: getValues('member')?.안드로이드.profileImageFileName.file,
+    memberImageFile10: getValues('member')?.iOS.profileImageFileName.file,
+    memberImageFile11: getValues('member')?.웹.profileImageFileName.file,
+    memberImageFile12: getValues('member')?.서버.profileImageFileName.file,
     recruitHeaderImageFile: getValues('recruitHeaderImage')?.file,
   });
 
@@ -183,18 +185,7 @@ function OrgAdmin() {
         recruitQuestion_웹_questions_1_question,
         recruitQuestion_웹_questions_2_answer,
         recruitQuestion_웹_questions_2_question,
-        recruitSchedule_OB_schedule_applicationEndTime,
-        recruitSchedule_OB_schedule_applicationResultTime,
-        recruitSchedule_OB_schedule_applicationStartTime,
-        recruitSchedule_OB_schedule_finalResultTime,
-        recruitSchedule_OB_schedule_interviewEndTime,
-        recruitSchedule_OB_schedule_interviewStartTime,
-        recruitSchedule_YB_schedule_applicationEndTime,
-        recruitSchedule_YB_schedule_applicationResultTime,
-        recruitSchedule_YB_schedule_applicationStartTime,
-        recruitSchedule_YB_schedule_finalResultTime,
-        recruitSchedule_YB_schedule_interviewEndTime,
-        recruitSchedule_YB_schedule_interviewStartTime,
+        recruitSchedule,
         headerImageFileName,
         coreValue1,
         coreValue2,
@@ -211,31 +202,23 @@ function OrgAdmin() {
           {
             type: 'OB',
             schedule: {
-              applicationStartTime:
-                recruitSchedule_OB_schedule_applicationStartTime,
-              applicationEndTime:
-                recruitSchedule_OB_schedule_applicationEndTime,
-              applicationResultTime:
-                recruitSchedule_OB_schedule_applicationResultTime,
-              interviewStartTime:
-                recruitSchedule_OB_schedule_interviewStartTime,
-              interviewEndTime: recruitSchedule_OB_schedule_interviewEndTime,
-              finalResultTime: recruitSchedule_OB_schedule_finalResultTime,
+              applicationStartTime: recruitSchedule.OB.applicationStartTime,
+              applicationEndTime: recruitSchedule.OB.applicationEndTime,
+              applicationResultTime: recruitSchedule.OB.applicationResultTime,
+              interviewStartTime: recruitSchedule.OB.interviewStartTime,
+              interviewEndTime: recruitSchedule.OB.interviewEndTime,
+              finalResultTime: recruitSchedule.OB.finalResultTime,
             },
           },
           {
             type: 'YB',
             schedule: {
-              applicationStartTime:
-                recruitSchedule_YB_schedule_applicationStartTime,
-              applicationEndTime:
-                recruitSchedule_YB_schedule_applicationEndTime,
-              applicationResultTime:
-                recruitSchedule_YB_schedule_applicationResultTime,
-              interviewStartTime:
-                recruitSchedule_YB_schedule_interviewStartTime,
-              interviewEndTime: recruitSchedule_YB_schedule_interviewEndTime,
-              finalResultTime: recruitSchedule_YB_schedule_finalResultTime,
+              applicationStartTime: recruitSchedule.YB.applicationStartTime,
+              applicationEndTime: recruitSchedule.YB.applicationEndTime,
+              applicationResultTime: recruitSchedule.YB.applicationResultTime,
+              interviewStartTime: recruitSchedule.YB.interviewStartTime,
+              interviewEndTime: recruitSchedule.YB.interviewEndTime,
+              finalResultTime: recruitSchedule.YB.finalResultTime,
             },
           },
         ],
