@@ -138,42 +138,7 @@ function OrgAdmin() {
         name,
         recruitHeaderImage: { fileName: recruitHeaderImageFileName },
         recruitPartCurriculum,
-        recruitQuestion_iOS_questions_0_answer,
-        recruitQuestion_iOS_questions_0_question,
-        recruitQuestion_iOS_questions_1_answer,
-        recruitQuestion_iOS_questions_1_question,
-        recruitQuestion_iOS_questions_2_answer,
-        recruitQuestion_iOS_questions_2_question,
-        recruitQuestion_기획_questions_0_answer,
-        recruitQuestion_기획_questions_0_question,
-        recruitQuestion_기획_questions_1_answer,
-        recruitQuestion_기획_questions_1_question,
-        recruitQuestion_기획_questions_2_answer,
-        recruitQuestion_기획_questions_2_question,
-        recruitQuestion_디자인_questions_0_answer,
-        recruitQuestion_디자인_questions_0_question,
-        recruitQuestion_디자인_questions_1_answer,
-        recruitQuestion_디자인_questions_1_question,
-        recruitQuestion_디자인_questions_2_answer,
-        recruitQuestion_디자인_questions_2_question,
-        recruitQuestion_서버_questions_0_answer,
-        recruitQuestion_서버_questions_0_question,
-        recruitQuestion_서버_questions_1_answer,
-        recruitQuestion_서버_questions_1_question,
-        recruitQuestion_서버_questions_2_answer,
-        recruitQuestion_서버_questions_2_question,
-        recruitQuestion_안드로이드_questions_0_answer,
-        recruitQuestion_안드로이드_questions_0_question,
-        recruitQuestion_안드로이드_questions_1_answer,
-        recruitQuestion_안드로이드_questions_1_question,
-        recruitQuestion_안드로이드_questions_2_answer,
-        recruitQuestion_안드로이드_questions_2_question,
-        recruitQuestion_웹_questions_0_answer,
-        recruitQuestion_웹_questions_0_question,
-        recruitQuestion_웹_questions_1_answer,
-        recruitQuestion_웹_questions_1_question,
-        recruitQuestion_웹_questions_2_answer,
-        recruitQuestion_웹_questions_2_question,
+        recruitQuestion,
         recruitSchedule,
         headerImageFileName,
         coreValue1,
@@ -182,6 +147,7 @@ function OrgAdmin() {
         partCurriculum,
         member,
       } = data;
+      console.log(data);
 
       const 임원진 = [...임원진_LIST, ...PART_LIST];
       const sendingData: AddAdminRequestDto = {
@@ -275,110 +241,13 @@ function OrgAdmin() {
             preference: recruitPartCurriculum.v.preference,
           },
         })),
-        recruitQuestion: [
-          {
-            part: '기획',
-            questions: [
-              {
-                question: recruitQuestion_기획_questions_0_question,
-                answer: recruitQuestion_기획_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_기획_questions_1_question,
-                answer: recruitQuestion_기획_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_기획_questions_2_question,
-                answer: recruitQuestion_기획_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '디자인',
-            questions: [
-              {
-                question: recruitQuestion_디자인_questions_0_question,
-                answer: recruitQuestion_디자인_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_디자인_questions_1_question,
-                answer: recruitQuestion_디자인_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_디자인_questions_2_question,
-                answer: recruitQuestion_디자인_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '안드로이드',
-            questions: [
-              {
-                question: recruitQuestion_안드로이드_questions_0_question,
-                answer: recruitQuestion_안드로이드_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_안드로이드_questions_1_question,
-                answer: recruitQuestion_안드로이드_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_안드로이드_questions_2_question,
-                answer: recruitQuestion_안드로이드_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: 'iOS',
-            questions: [
-              {
-                question: recruitQuestion_iOS_questions_0_question,
-                answer: recruitQuestion_iOS_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_iOS_questions_1_question,
-                answer: recruitQuestion_iOS_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_iOS_questions_2_question,
-                answer: recruitQuestion_iOS_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '웹',
-            questions: [
-              {
-                question: recruitQuestion_웹_questions_0_question,
-                answer: recruitQuestion_웹_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_웹_questions_1_question,
-                answer: recruitQuestion_웹_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_웹_questions_2_question,
-                answer: recruitQuestion_웹_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '서버',
-            questions: [
-              {
-                question: recruitQuestion_서버_questions_0_question,
-                answer: recruitQuestion_서버_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_서버_questions_1_question,
-                answer: recruitQuestion_서버_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_서버_questions_2_question,
-                answer: recruitQuestion_서버_questions_2_answer,
-              },
-            ],
-          },
-        ],
+        recruitQuestion: PART_LIST.map((v) => ({
+          part: v,
+          questions: [0, 1, 2].map((n) => ({
+            question: `${recruitQuestion}.${v}.question${n}}`,
+            answer: `${recruitQuestion}.${v}.answer${n}}`,
+          })),
+        })),
       };
 
       sendMutate(sendingData);

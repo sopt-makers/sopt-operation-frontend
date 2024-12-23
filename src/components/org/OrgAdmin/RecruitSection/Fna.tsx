@@ -49,12 +49,9 @@ const Fna = ({ fnaPart, onChangeFnaPart }: FnaProps) => {
         {QUESTION_NUMBERS.map((index) => (
           <StFnaWrapper key={index}>
             <StTextArea
-              {...register(
-                `recruitQuestion_${fnaPart}_questions_${index}_question`,
-                {
-                  required: VALIDATION_CHECK.required.errorText,
-                },
-              )}
+              {...register(`recruitQuestion.${fnaPart}.question${index}`, {
+                required: VALIDATION_CHECK.required.errorText,
+              })}
               topAddon={{
                 labelText: `질문 ${index + 1}`,
               }}
@@ -64,41 +61,39 @@ const Fna = ({ fnaPart, onChangeFnaPart }: FnaProps) => {
               placeholder="질문을 입력해주세요."
               onChange={(e) =>
                 handleValidation(
-                  `recruitQuestion_${fnaPart}_questions_${index}_question`,
+                  `recruitQuestion.${fnaPart}.question${index}`,
                   e.currentTarget.value,
                 )
               }
               isError={
-                !!errors[
-                  `recruitQuestion_${fnaPart}_questions_${index}_question`
-                ]
+                !!(errors as any).recruitQuestion?.[fnaPart]?.[
+                  `question${index}`
+                ]?.message
               }
               errorMessage={
-                errors[`recruitQuestion_${fnaPart}_questions_${index}_question`]
+                (errors as any).recruitQuestion?.[fnaPart]?.[`question${index}`]
                   ?.message as string
               }
             />
             <StTextArea
-              {...register(
-                `recruitQuestion_${fnaPart}_questions_${index}_answer`,
-                {
-                  required: VALIDATION_CHECK.required.errorText,
-                },
-              )}
+              {...register(`recruitQuestion.${fnaPart}.answer${index}`, {
+                required: VALIDATION_CHECK.required.errorText,
+              })}
               fixedHeight={74}
               maxHeight={74}
               placeholder="답변을 입력해주세요."
               onChange={(e) =>
                 handleValidation(
-                  `recruitQuestion_${fnaPart}_questions_${index}_answer`,
+                  `recruitQuestion.${fnaPart}.answer${index}`,
                   e.currentTarget.value,
                 )
               }
               isError={
-                !!errors[`recruitQuestion_${fnaPart}_questions_${index}_answer`]
+                !!(errors as any).recruitQuestion?.[fnaPart]?.[`answer${index}`]
+                  ?.message
               }
               errorMessage={
-                errors[`recruitQuestion_${fnaPart}_questions_${index}_answer`]
+                (errors as any).recruitQuestion?.[fnaPart]?.[`answer${index}`]
                   ?.message as string
               }
             />
