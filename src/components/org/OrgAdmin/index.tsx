@@ -130,10 +130,7 @@ function OrgAdmin() {
 
     if (isScheduleValid && isCurriculumValid && isFnaValid) {
       const {
-        brandingColor_high,
-        brandingColor_low,
-        brandingColor_main,
-        brandingColor_point,
+        brandingColor,
         generation,
         name,
         recruitHeaderImage: { fileName: recruitHeaderImageFileName },
@@ -177,10 +174,10 @@ function OrgAdmin() {
           },
         ],
         brandingColor: {
-          main: brandingColor_main,
-          low: brandingColor_low,
-          high: brandingColor_high,
-          point: brandingColor_point,
+          main: brandingColor.main,
+          low: brandingColor.low,
+          high: brandingColor.high,
+          point: brandingColor.point,
         },
         mainButton: {
           text: '지원하기',

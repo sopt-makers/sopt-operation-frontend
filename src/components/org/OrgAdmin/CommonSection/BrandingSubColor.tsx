@@ -27,7 +27,7 @@ const BrandingSubColor = ({
           <IconInfoCircle />
         </StInfoButton>
         <StInput
-          {...register('brandingColor_point', {
+          {...register('brandingColor.point', {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           required
@@ -37,13 +37,13 @@ const BrandingSubColor = ({
           type="text"
           maxLength={9}
           placeholder="ex. #ffffff"
-          isError={errors.brandingColor_point?.message != undefined}
-          errorMessage={errors.brandingColor_point?.message as string}
+          isError={!!(errors as any).brandingColor?.point?.message}
+          errorMessage={(errors as any).brandingColor?.point?.message as string}
         />
         <StColorPreview
           type="color"
-          value={expandHexColor(watch('brandingColor_point'))}
-          onChange={(e) => setValue('brandingColor_point', e.target.value)}
+          value={expandHexColor(watch('brandingColor.point'))}
+          onChange={(e) => setValue('brandingColor.point', e.target.value)}
         />
       </StColorWrapper>
     </StInputBox>
