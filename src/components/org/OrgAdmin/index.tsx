@@ -147,7 +147,6 @@ function OrgAdmin() {
         partCurriculum,
         member,
       } = data;
-      console.log(data);
 
       const 임원진 = [...임원진_LIST, ...PART_LIST];
       const sendingData: AddAdminRequestDto = {
