@@ -37,7 +37,7 @@ const PartCurriculum = ({
       />
       <StTextAreaWrapper key={curriculumPart}>
         <StTextArea
-          {...register(`recruitPartCurriculum_${curriculumPart}_content`, {
+          {...register(`recruitPartCurriculum.${curriculumPart}.content`, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
@@ -49,25 +49,25 @@ const PartCurriculum = ({
           placeholder="파트별 설명을 작성해주세요."
           onChange={(e) => {
             if (e.currentTarget.value) {
-              clearErrors(`recruitPartCurriculum_${curriculumPart}_content`);
+              clearErrors(`recruitPartCurriculum.${curriculumPart}.content`);
             } else {
-              setError(`recruitPartCurriculum_${curriculumPart}_content`, {
+              setError(`recruitPartCurriculum.${curriculumPart}.content`, {
                 type: 'required',
                 message: VALIDATION_CHECK.required.errorText,
               });
             }
           }}
           isError={
-            errors[`recruitPartCurriculum_${curriculumPart}_content`]
-              ?.message != undefined
+            !!(errors as any).recruitPartCurriculum?.[curriculumPart]?.content
+              ?.message
           }
           errorMessage={
-            errors[`recruitPartCurriculum_${curriculumPart}_content`]
+            (errors as any).recruitPartCurriculum?.[curriculumPart]?.content
               ?.message as string
           }
         />
         <StTextArea
-          {...register(`recruitPartCurriculum_${curriculumPart}_preference`, {
+          {...register(`recruitPartCurriculum.${curriculumPart}.preference`, {
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           topAddon={{
@@ -82,20 +82,20 @@ ex.
 - 타 파트와 협업하며 존중과 신뢰를 바탕으로 원활한 팀워크를 만들어갈 수 있는 분`}
           onChange={(e) => {
             if (e.currentTarget.value) {
-              clearErrors(`recruitPartCurriculum_${curriculumPart}_preference`);
+              clearErrors(`recruitPartCurriculum.${curriculumPart}.preference`);
             } else {
-              setError(`recruitPartCurriculum_${curriculumPart}_preference`, {
+              setError(`recruitPartCurriculum.${curriculumPart}.preference`, {
                 type: 'required',
                 message: VALIDATION_CHECK.required.errorText,
               });
             }
           }}
           isError={
-            errors[`recruitPartCurriculum_${curriculumPart}_preference`]
-              ?.message != undefined
+            !!(errors as any).recruitPartCurriculum?.[curriculumPart]
+              ?.preference?.message
           }
           errorMessage={
-            errors[`recruitPartCurriculum_${curriculumPart}_preference`]
+            (errors as any).recruitPartCurriculum?.[curriculumPart]?.preference
               ?.message as string
           }
         />

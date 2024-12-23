@@ -137,18 +137,7 @@ function OrgAdmin() {
         generation,
         name,
         recruitHeaderImage: { fileName: recruitHeaderImageFileName },
-        recruitPartCurriculum_iOS_content,
-        recruitPartCurriculum_iOS_preference,
-        recruitPartCurriculum_기획_content,
-        recruitPartCurriculum_기획_preference,
-        recruitPartCurriculum_디자인_content,
-        recruitPartCurriculum_디자인_preference,
-        recruitPartCurriculum_서버_content,
-        recruitPartCurriculum_서버_preference,
-        recruitPartCurriculum_안드로이드_content,
-        recruitPartCurriculum_안드로이드_preference,
-        recruitPartCurriculum_웹_content,
-        recruitPartCurriculum_웹_preference,
+        recruitPartCurriculum,
         recruitQuestion_iOS_questions_0_answer,
         recruitQuestion_iOS_questions_0_question,
         recruitQuestion_iOS_questions_1_answer,
@@ -279,50 +268,13 @@ function OrgAdmin() {
           };
         }),
         recruitHeaderImageFileName,
-        recruitPartCurriculum: [
-          {
-            part: '기획',
-            introduction: {
-              content: recruitPartCurriculum_기획_content,
-              preference: recruitPartCurriculum_기획_preference,
-            },
+        recruitPartCurriculum: PART_LIST.map((v) => ({
+          part: v,
+          introduction: {
+            content: recruitPartCurriculum.v.content,
+            preference: recruitPartCurriculum.v.preference,
           },
-          {
-            part: '디자인',
-            introduction: {
-              content: recruitPartCurriculum_디자인_content,
-              preference: recruitPartCurriculum_디자인_preference,
-            },
-          },
-          {
-            part: '안드로이드',
-            introduction: {
-              content: recruitPartCurriculum_안드로이드_content,
-              preference: recruitPartCurriculum_안드로이드_preference,
-            },
-          },
-          {
-            part: 'iOS',
-            introduction: {
-              content: recruitPartCurriculum_iOS_content,
-              preference: recruitPartCurriculum_iOS_preference,
-            },
-          },
-          {
-            part: '웹',
-            introduction: {
-              content: recruitPartCurriculum_웹_content,
-              preference: recruitPartCurriculum_웹_preference,
-            },
-          },
-          {
-            part: '서버',
-            introduction: {
-              content: recruitPartCurriculum_서버_content,
-              preference: recruitPartCurriculum_서버_preference,
-            },
-          },
-        ],
+        })),
         recruitQuestion: [
           {
             part: '기획',
