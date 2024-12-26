@@ -1,20 +1,20 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
-import OptionTemplate from '@/components/common/OptionTemplate';
-import Selector from '@/components/common/Selector';
-import { currentGenerationState } from '@/recoil/atom';
-import { getAlarm } from '@/services/api/alarm';
 
 import {
   StAlarmModalWrapper,
-  StAlarmTypeButton,
-  StTextArea,
-} from '../CreateAlarmModal/style';
+  StAlarmModalFooter,
+  StAlarmModalBody,
+  StTextField,
+  StRadioWrap,
+  StLink,
+} from './style';
+import { useGetAlarm } from '@/services/api/alarm/query';
+import Loading from '@/components/common/Loading';
+import dayjs from 'dayjs';
+import { Button, Chip } from '@sopt-makers/ui';
+import { IconLink } from '@sopt-makers/icons';
+import { colors } from '@sopt-makers/colors';
+import { targetTypeTranslator } from '@/utils/translator';
 
 interface Props {
   onClose: () => void;
@@ -24,97 +24,82 @@ interface Props {
 function ShowAlarmModal(props: Props) {
   const { onClose, alarmId } = props;
 
-  const generation = useRecoilValue(currentGenerationState);
+  const { data, isLoading } = useGetAlarm(alarmId);
 
-  const [data, setData] = useState<AlarmDetail>({
-    attribute: '',
-    part: null,
-    isActive: null,
-    title: '',
-    content: '',
-    link: null,
-    createdAt: '',
-    sendAt: '',
-  });
-
-  useEffect(() => {
-    (async () => {
-      const alarmData = await getAlarm(alarmId);
-      setData(alarmData);
-    })();
-  }, [alarmId]);
-
-  const activeStatus = useMemo(() => {
-    switch (data.isActive) {
-      case true:
-        return '활동 회원';
-      case false:
-        return '비활동 회원';
-      default:
-        return 'CSV 첨부';
-    }
-  }, [data.isActive]);
-
+  if (isLoading || !data) return <Loading />;
   return (
     <StAlarmModalWrapper>
       <ModalHeader title="알림 조회" desc="" onClose={onClose} />
-      <main>
-        <div className="type_selector">
-          <StAlarmTypeButton
-            type="button"
-            isSelected={data.attribute === '공지'}
-            readOnly>
-            공지
-          </StAlarmTypeButton>
-          <StAlarmTypeButton
-            type="button"
-            isSelected={data.attribute === '소식'}
-            readOnly>
-            소식
-          </StAlarmTypeButton>
+
+      <StAlarmModalBody>
+        <div>
+          <StTextField>
+            <label>발송 대상</label>
+            <p>{targetTypeTranslator[data.targetType]}</p>
+          </StTextField>
+          <StTextField>
+            <label>발송 파트</label>
+            <p>{data.part ?? '전체'}</p>
+          </StTextField>
         </div>
 
-        <div className="dropdowns">
-          <OptionTemplate title="발송 대상">
-            <Selector content={activeStatus} readOnly />
-          </OptionTemplate>
-          {activeStatus !== 'CSV 첨부' && (
-            <>
-              <OptionTemplate title="파트">
-                <Selector content={data.part} readOnly />
-              </OptionTemplate>
-              <OptionTemplate title="발송 기수">
-                <Selector content={`${generation}기`} readOnly />
-              </OptionTemplate>
-            </>
-          )}
+        <div>
+          <StTextField full>
+            <label>알림 제목</label>
+            <p>{data.title}</p>
+          </StTextField>
         </div>
 
-        <div className="inputs">
-          <OptionTemplate title="알림 제목">
-            <Input
-              readOnly
-              type="text"
-              placeholder="발송할 알림의 제목을 입력하세요."
-              value={data.title}
-            />
-          </OptionTemplate>
-          <OptionTemplate title="알림 내용">
-            <StTextArea
-              readOnly
-              placeholder="발송할 알림의 내용을 입력하세요."
-              value={data.content}
-            />
-          </OptionTemplate>
-          <OptionTemplate title="링크 첨부">
-            <Selector content="기능 추가 예정입니다." isDisabledValue={true} />
-          </OptionTemplate>
+        <div>
+          <StTextField full textarea>
+            <label>알림 내용</label>
+            <p>{data.content}</p>
+          </StTextField>
         </div>
-      </main>
 
-      <ModalFooter>
-        <></>
-      </ModalFooter>
+        <div>
+          <StTextField full>
+            <label>알림 발송 날짜</label>
+            <p>{dayjs(data.createdAt).format('YYYY-MM-DD')}</p>
+          </StTextField>
+          <StTextField full>
+            <label>알림 발송 시간</label>
+            <p>{dayjs(data.createdAt).format('HH:mm')}</p>
+          </StTextField>
+        </div>
+
+        <div>
+          <StRadioWrap>
+            <label>링크 첨부</label>
+            <div>
+              <Chip active={!data.linkType} disabled>
+                첨부 안 함
+              </Chip>
+              <Chip active={data.linkType === 'WEB'} disabled>
+                웹링크
+              </Chip>
+              <Chip active={data.linkType === 'APP'} disabled>
+                앱 내 딥링크
+              </Chip>
+            </div>
+            {data.link && data.linkType && (
+              <StLink linkType={data.linkType} href={data.link} target="_blank">
+                <IconLink
+                  style={{ width: '16px', height: '16px' }}
+                  color={colors.gray200}
+                />
+                {data.link}
+              </StLink>
+            )}
+          </StRadioWrap>
+        </div>
+      </StAlarmModalBody>
+
+      <StAlarmModalFooter>
+        <Button size="lg" theme="white" rounded="md" onClick={onClose}>
+          확인
+        </Button>
+      </StAlarmModalFooter>
     </StAlarmModalWrapper>
   );
 }

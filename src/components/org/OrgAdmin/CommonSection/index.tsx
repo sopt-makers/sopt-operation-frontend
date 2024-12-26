@@ -1,13 +1,19 @@
 import { StContainer } from '../style';
+import type { Group } from '../types';
 import BrandingColor from './BrandingColor';
 import GenerationInformation from './GenerationInformation';
 import RecruitSchedule from './RecruitSchedule';
 
-const CommonSection = () => {
+interface CommonSectionProps {
+  group: Group;
+  onChangeGroup: (group: Group) => void;
+}
+
+const CommonSection = ({ group, onChangeGroup }: CommonSectionProps) => {
   return (
     <StContainer>
       <GenerationInformation />
-      <RecruitSchedule />
+      <RecruitSchedule group={group} onChangeGroup={onChangeGroup} />
       <BrandingColor />
     </StContainer>
   );

@@ -6,10 +6,10 @@ export const StLayout = styled.div`
   .main-wrapper {
     width: 100%;
     padding: 88px 0 0 212px;
-    main {
-      max-width: 98rem;
+    & > main {
       width: 100%;
-      margin: 0 auto;
+
+      padding: 0px 49px 0px 124px;
     }
   }
 `;

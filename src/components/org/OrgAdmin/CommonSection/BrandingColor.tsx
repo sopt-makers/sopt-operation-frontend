@@ -1,5 +1,5 @@
-import { useState } from 'react';
-
+import Modal from '../common/Modal';
+import useModal from '../common/Modal/useModal';
 import {
   StDescription,
   StInputWrapper,
@@ -9,44 +9,34 @@ import {
 } from '../style';
 import BrandingSubColor from './BrandingSubColor';
 import ColorInputField from './ColorInputField';
+import { StStretchContainer } from './style';
 
 const BrandingColor = () => {
-  const [mainColor, setMainColor] = useState('');
-  const [lowColor, setLowColor] = useState('');
-  const [highColor, setHighColor] = useState('');
-  const [subGrayColor, setSubGrayColor] = useState('');
+  const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
-    <StWrapper>
-      <StTitleWrapper>
-        <StTitle>브랜딩 컬러</StTitle>
-        <StDescription>다크 모드를 고려하여 선정해주세요.</StDescription>
-      </StTitleWrapper>
-      <StInputWrapper>
-        <ColorInputField
-          label="키컬러 (메인)"
-          id="keyColorMain"
-          colorValue={mainColor}
-          onSetColorValue={(val: string) => setMainColor(val)}
-        />
-        <ColorInputField
-          label="키컬러 (저명도)"
-          id="keyColorLow"
-          colorValue={lowColor}
-          onSetColorValue={(val: string) => setLowColor(val)}
-        />
-        <ColorInputField
-          label="키컬러 (고명도)"
-          id="keyColorHigh"
-          colorValue={highColor}
-          onSetColorValue={(val: string) => setHighColor(val)}
-        />
-        <BrandingSubColor
-          subGrayColor={subGrayColor}
-          onSetSubGrayColor={setSubGrayColor}
-        />
-      </StInputWrapper>
-    </StWrapper>
+    <StStretchContainer>
+      <StWrapper>
+        <StTitleWrapper>
+          <StTitle>브랜딩 컬러</StTitle>
+          <StDescription>다크 모드를 고려하여 선정해주세요.</StDescription>
+        </StTitleWrapper>
+        <StInputWrapper>
+          <ColorInputField label="키컬러 (메인)" id="brandingColor_main" />
+          <ColorInputField label="키컬러 (저명도)" id="brandingColor_low" />
+          <ColorInputField label="키컬러 (고명도)" id="brandingColor_high" />
+          <BrandingSubColor onInfoToggle={onInfoToggle} />
+        </StInputWrapper>
+      </StWrapper>{' '}
+      <Modal
+        title="서브컬러 (강조 그레이 컬러) 예시"
+        description="&#39;지원하기&#39; 탭 속 파트별 소개 &#39;👍이런 분이면 좋아요!&#39;의 백그라운 컬러예요."
+        subDescription="키컬러 저명도와 그레이 컬러 사이, 컬러를 지정해주세요."
+        imgSrc="/images/org/imgSubColorInfo.png"
+        isInfoVisible={isInfoVisible}
+        onInfoToggle={onInfoToggle}
+      />
+    </StStretchContainer>
   );
 };
 

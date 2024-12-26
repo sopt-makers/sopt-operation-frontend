@@ -2,25 +2,46 @@ import { AxiosResponse } from 'axios';
 
 import { client } from '@/services/api/client';
 
+export interface AlarmListResponse {
+  alarms: Alarm[];
+  totalCount: number;
+}
+
 export const postNewAlarm = async (alarmData: PostAlarmData): Promise<void> => {
   await client.post('/alarms', alarmData);
 };
 
-export const getAlarmList = async (generation: number): Promise<Alarm[]> => {
-  const { data }: AxiosResponse<{ data: { alarms: Alarm[] } }> =
-    await client.get(
-      `/alarms?generation=${generation}&size=${100}`, // TODO:: 페이지네이션 적용
-    );
+export const getAlarmList = async (
+  generation: number,
+  status: ALARM_STATUS,
+): Promise<AlarmListResponse> => {
+  const statusQuery = status === 'ALL' ? '' : `&status=${status}`;
+  const pageQuery = `&size=${100}`; // TODO:: 페이지네이션 적용
 
-  return data.data.alarms;
+  const { data }: AxiosResponse<{ data: AlarmListResponse }> = await client.get(
+    `/alarms?generation=${generation}${statusQuery}${pageQuery}`,
+  );
+
+  return data.data;
 };
 
-export const sendAlarm = async (alarmId: number): Promise<boolean> => {
-  const { data }: AxiosResponse<{ success: boolean }> = await client.post(
+export const sendAlarm = async (alarmData: AlarmData): Promise<any> => {
+  const { data }: AxiosResponse<any> = await client.post(
     '/alarms/send',
-    { alarmId },
+    alarmData,
   );
-  return data.success;
+  return data;
+};
+
+export const createReserveAlarm = async (
+  alarmData: ReserveAlarmData,
+): Promise<any> => {
+  const { data }: AxiosResponse<any> = await client.post(
+    '/alarms/schedule',
+    alarmData,
+  );
+
+  return data;
 };
 
 export const getAlarm = async (alarmId: number): Promise<AlarmDetail> => {
