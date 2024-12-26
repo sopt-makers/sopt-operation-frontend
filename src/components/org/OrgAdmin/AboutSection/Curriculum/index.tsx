@@ -16,16 +16,22 @@ const CURRICULUM = PART_LIST.reduce(
   {} as Record<string, string[]>,
 );
 
-const Curriculum = () => {
+interface CurriculumProps {
+  selectedPart: PART_KO;
+  onChangeSelectedPart: (part: PART_KO) => void;
+}
+
+const Curriculum = ({
+  selectedPart,
+  onChangeSelectedPart,
+}: CurriculumProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  const [selectedPart, setSelectedPart] = useState<PART_KO>('기획');
-
   const handleSetSelectedPart = (value: PART_KO) => {
-    setSelectedPart(value);
+    onChangeSelectedPart(value);
   };
 
   return (
