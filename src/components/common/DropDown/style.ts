@@ -2,6 +2,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
+import zIndex from '@/utils/zIndex';
+
 import { Props } from './index';
 
 export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
@@ -20,7 +22,7 @@ export const DropdownWrapper = styled.div<Pick<Props, 'type'>>`
 
   background-color: ${colors.gray500};
 
-  z-index: 1;
+  z-index: ${zIndex.select};
 
   animation: appearDropdown 0.6s;
   & > div {

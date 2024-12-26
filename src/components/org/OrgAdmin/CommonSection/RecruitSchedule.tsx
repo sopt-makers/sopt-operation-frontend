@@ -1,169 +1,87 @@
-import { Radio } from '@sopt-makers/ui';
+import { Chip } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
-import { VALIDATION_CHECK } from '@/utils/org';
+import { SCHEDULE_FIELDS, VALIDATION_CHECK } from '@/utils/org';
 
 import {
-  StErrorMessage,
+  StDescription,
   StInput,
-  StInputBox,
-  StInputLabel,
-  StInputWrapper,
   StTitle,
   StTitleWrapper,
   StWrapper,
 } from '../style';
-import {
-  StDateWrapper,
-  StRadioBox,
-  StRadioLabel,
-  StRadioWrapper,
-} from './style';
+import { Group } from '../types';
+import { StDateWrapper, StRadioWrapper } from './style';
 
-const RecruitSchedule = () => {
+interface ScheduleInputProps {
+  id: string;
+  label: string;
+}
+
+const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
   const {
     register,
     formState: { errors },
+    watch,
   } = useFormContext();
+
+  return (
+    <StInput
+      {...register(id, {
+        required: true && VALIDATION_CHECK.required.errorText,
+      })}
+      required
+      labelText={label}
+      id={id}
+      type="datetime-local"
+      hasValue={!!watch(id)}
+      isError={!!errors[id]?.message}
+      errorMessage={errors[id]?.message as string}
+    />
+  );
+};
+
+interface RecruitScheduleProps {
+  group: Group;
+  onChangeGroup: (group: Group) => void;
+}
+
+const RecruitSchedule = ({ group, onChangeGroup }: RecruitScheduleProps) => {
+  const currentFields = SCHEDULE_FIELDS[group];
 
   return (
     <StWrapper>
       <StTitleWrapper>
         <StTitle>모집 일정</StTitle>
+        <StDescription>
+          입력된 모집 일정에 맞춰 ‘지원하기’ 버튼이 활성화돼요.
+        </StDescription>
       </StTitleWrapper>
-      <StInputWrapper>
-        <StInputLabel>모집유형</StInputLabel>
-        <StRadioWrapper>
-          <StRadioBox>
-            <Radio
-              {...register('group', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              type="radio"
-              name="group"
-              id="ob"
-              checked
-            />
-            <StRadioLabel htmlFor="ob">OB</StRadioLabel>
-          </StRadioBox>
-          <StRadioBox>
-            <Radio
-              {...register('group', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              type="radio"
-              name="group"
-              id="yb"
-            />
-            <StRadioLabel htmlFor="yb">YB</StRadioLabel>
-          </StRadioBox>
-          <StErrorMessage>
-            <>{errors.group?.message}</>
-          </StErrorMessage>
-        </StRadioWrapper>
-      </StInputWrapper>
+      <StRadioWrapper>
+        <Chip active={group === 'OB'} onClick={() => onChangeGroup('OB')}>
+          OB
+        </Chip>
+        <Chip active={group === 'YB'} onClick={() => onChangeGroup('YB')}>
+          YB
+        </Chip>
+      </StRadioWrapper>
+
       <StDateWrapper>
-        <StInputWrapper>
-          <StInputBox>
-            <StInputLabel htmlFor="application-start">
-              서류 접수 시작
-            </StInputLabel>
-            <StInput
-              {...register('applicationStart', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              id="application-start"
-              type="datetime-local"
-              value={''}
-              // value={'2022-10-12T12:00'}
-              hasValue={false}
-              isError={errors.applicationStart?.message != undefined}
-              errorMessage={errors.applicationStart?.message as string}
-            />
-          </StInputBox>
-          <StInputBox>
-            <StInputLabel htmlFor="application-end">
-              서류 접수 마감
-            </StInputLabel>
-            <StInput
-              {...register('applicationEnd', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              value={'2022-10-12T12:00'}
-              id="application-end"
-              type="datetime-local"
-              hasValue={true}
-              isError={errors.applicationEnd?.message != undefined}
-              errorMessage={errors.applicationEnd?.message as string}
-            />
-          </StInputBox>
-          <StInputBox>
-            <StInputLabel htmlFor="application-result">
-              서류 결과 발표
-            </StInputLabel>
-            <StInput
-              {...register('applicationResult', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              value={'2022-10-12T12:00'}
-              id="application-result"
-              type="datetime-local"
-              hasValue={false}
-              isError={errors.applicationResult?.message != undefined}
-              errorMessage={errors.applicationResult?.message as string}
-            />
-          </StInputBox>
-        </StInputWrapper>
+        {currentFields.application.map(({ id, label }) => (
+          <ScheduleInput key={id} id={id} label={label} />
+        ))}
       </StDateWrapper>
+
       <StDateWrapper>
-        <StInputWrapper>
-          <StInputBox>
-            <StInputLabel htmlFor="interview-start">면접 시작</StInputLabel>
-            <StInput
-              {...register('interviewStart', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              value={'2022-10-12T12:00'}
-              id="interview-start"
-              type="datetime-local"
-              hasValue={false}
-              isError={errors.interviewStart?.message != undefined}
-              errorMessage={errors.interviewStart?.message as string}
-            />
-          </StInputBox>
-          <StInputBox>
-            <StInputLabel htmlFor="interview-end">면접 마감</StInputLabel>
-            <StInput
-              {...register('interviewEnd', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              value={'2022-10-12T12:00'}
-              id="interview-end"
-              type="datetime-local"
-              hasValue={false}
-              isError={errors.interviewEnd?.message != undefined}
-              errorMessage={errors.interviewEnd?.message as string}
-            />
-          </StInputBox>
-        </StInputWrapper>
+        {currentFields.interview.map(({ id, label }) => (
+          <ScheduleInput key={id} id={id} label={label} />
+        ))}
       </StDateWrapper>
+
       <StDateWrapper>
-        <StInputWrapper>
-          <StInputBox>
-            <StInputLabel htmlFor="final-result">최종 결과 발표</StInputLabel>
-            <StInput
-              {...register('finalResult', {
-                required: true && VALIDATION_CHECK.required.errorText,
-              })}
-              value={'2022-10-12T12:00'}
-              id="final-result"
-              type="datetime-local"
-              hasValue={false}
-              isError={errors.finalResult?.message != undefined}
-              errorMessage={errors.finalResult?.message as string}
-            />
-          </StInputBox>
-        </StInputWrapper>
+        {currentFields.final.map(({ id, label }) => (
+          <ScheduleInput key={id} id={id} label={label} />
+        ))}
       </StDateWrapper>
     </StWrapper>
   );
