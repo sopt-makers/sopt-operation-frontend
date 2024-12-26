@@ -119,3 +119,58 @@ export const validationAboutInputs = (
 
   return isAllFilled;
 };
+
+export const validationRecruitInputs = (
+  getValues: (payload?: string | string[]) => FieldValues,
+  setError: (name: string, error: { type: string; message: string }) => void,
+  setCurriculumPart: (curriculumPart: PART_KO) => void,
+  setFnaPart: (fnaPart: PART_KO) => void,
+) => {
+  const { recruitHeaderImage, recruitPartCurriculum, recruitQuestion } =
+    getValues();
+
+  const fieldsToValidate = [
+    { name: 'recruitHeaderImage', value: recruitHeaderImage },
+    ...PART_LIST.flatMap((part) =>
+      ['content', 'preference'].map((item) => ({
+        name: `recruitPartCurriculum.${part}.${item}`,
+        value: recruitPartCurriculum?.[part]?.[item],
+      })),
+    ),
+    ...PART_LIST.flatMap((part) =>
+      [
+        'answer0',
+        'answer1',
+        'answer2',
+        'question0',
+        'question1',
+        'question2',
+      ].map((item) => ({
+        name: `recruitQuestion.${part}.${item}`,
+        value: recruitQuestion?.[part]?.[item],
+      })),
+    ),
+  ];
+
+  let isAllFilled = true;
+
+  for (const { name, value } of fieldsToValidate) {
+    if (!value) {
+      isAllFilled = false;
+
+      setError(name, {
+        type: 'required',
+        message: VALIDATION_CHECK.required.errorText,
+      });
+
+      if (name.includes('recruitPartCurriculum'))
+        setCurriculumPart(name.split('.')[1] as PART_KO);
+      if (name.includes('recruitQuestion'))
+        setFnaPart(name.split('.')[1] as PART_KO);
+
+      break;
+    }
+  }
+
+  return isAllFilled;
+};
