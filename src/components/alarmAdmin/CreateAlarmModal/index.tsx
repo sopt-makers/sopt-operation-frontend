@@ -337,7 +337,7 @@ function CreateAlarmModal(props: Props) {
                     css={reserveTimeTriggerCSS(
                       bannedTimeList.includes(selectedTime),
                     )}
-                    placeholder="발송 대상"
+                    placeholder="알림 발송 시간"
                   />
                 </SelectV2.Trigger>
                 <SelectV2.Menu>
