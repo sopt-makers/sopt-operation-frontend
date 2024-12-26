@@ -37,24 +37,25 @@ function OrgAdmin() {
 
   const { sendMutate, sendIsLoading } = useMutateSendData({
     headerImageFile: getValues('headerImageFileName')?.file,
-    coreValueImageFile1: getValues('coreValue1')?.imageFileName.file,
-    coreValueImageFile2: getValues('coreValue2')?.imageFileName.file,
-    coreValueImageFile3: getValues('coreValue3')?.imageFileName.file,
-    memberImageFile1: getValues('member')?.회장.profileImageFileName.file,
-    memberImageFile2: getValues('member')?.부회장.profileImageFileName.file,
-    memberImageFile3: getValues('member')?.총무.profileImageFileName.file,
+    coreValueImageFile1: getValues('coreValue1')?.imageFileName?.file,
+    coreValueImageFile2: getValues('coreValue2')?.imageFileName?.file,
+    coreValueImageFile3: getValues('coreValue3')?.imageFileName?.file,
+    memberImageFile1: getValues('member')?.회장?.profileImageFileName?.file,
+    memberImageFile2: getValues('member')?.부회장?.profileImageFileName?.file,
+    memberImageFile3: getValues('member')?.총무?.profileImageFileName?.file,
     memberImageFile4:
-      getValues('member')?.['운영 팀장']?.profileImageFileName.file,
+      getValues('member')?.['운영 팀장']?.profileImageFileName?.file,
     memberImageFile5:
-      getValues('member')?.['미디어 팀장'].profileImageFileName.file,
+      getValues('member')?.['미디어 팀장']?.profileImageFileName?.file,
     memberImageFile6:
-      getValues('member')?.['메이커스 팀장'].profileImageFileName.file,
-    memberImageFile7: getValues('member')?.기획.profileImageFileName.file,
-    memberImageFile8: getValues('member')?.디자인.profileImageFileName.file,
-    memberImageFile9: getValues('member')?.안드로이드.profileImageFileName.file,
-    memberImageFile10: getValues('member')?.iOS.profileImageFileName.file,
-    memberImageFile11: getValues('member')?.웹.profileImageFileName.file,
-    memberImageFile12: getValues('member')?.서버.profileImageFileName.file,
+      getValues('member')?.['메이커스 팀장']?.profileImageFileName?.file,
+    memberImageFile7: getValues('member')?.기획?.profileImageFileName?.file,
+    memberImageFile8: getValues('member')?.디자인?.profileImageFileName?.file,
+    memberImageFile9:
+      getValues('member')?.안드로이드?.profileImageFileName?.file,
+    memberImageFile10: getValues('member')?.iOS?.profileImageFileName?.file,
+    memberImageFile11: getValues('member')?.웹?.profileImageFileName?.file,
+    memberImageFile12: getValues('member')?.서버?.profileImageFileName?.file,
     recruitHeaderImageFile: getValues('recruitHeaderImage')?.file,
   });
 
