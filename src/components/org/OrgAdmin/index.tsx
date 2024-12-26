@@ -90,6 +90,7 @@ function OrgAdmin() {
         handleValidationAboutInputs,
         handleValidationRecruitInputs,
       ],
+      홈: [],
       소개: [
         handleValidationAboutInputs,
         handleValidateCommonInputs,
