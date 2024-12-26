@@ -18,6 +18,11 @@ import useMutateSendData from './hooks';
 import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';
 import type { Group } from './types';
+import {
+  validationAboutInputs,
+  validationCommonInputs,
+  validationRecruitInputs,
+} from './utils';
 
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
@@ -31,7 +36,7 @@ function OrgAdmin() {
   const [fnaPart, setFnaPart] = useState<PART_KO>('기획');
 
   const methods = useForm({ mode: 'onBlur' });
-  const { handleSubmit, getValues } = methods;
+  const { handleSubmit, getValues, setError } = methods;
 
   const { sendMutate, sendIsLoading } = useMutateSendData({
     headerImageFile: getValues('headerImageFileName')?.file,
@@ -61,7 +66,61 @@ function OrgAdmin() {
     setSelectedPart(part);
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {};
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const handleValidateCommonInputs = () =>
+      validationCommonInputs(getValues, setError, setGroup);
+    const handleValidationAboutInputs = () =>
+      validationAboutInputs(
+        getValues,
+        setError,
+        setSelectedPartInHomeTap,
+        setSelectedExec,
+      );
+    const handleValidationRecruitInputs = () =>
+      validationRecruitInputs(
+        getValues,
+        setError,
+        setCurriculumPart,
+        setFnaPart,
+      );
+
+    const validationFlow = {
+      공통: [
+        handleValidateCommonInputs,
+        handleValidationAboutInputs,
+        handleValidationRecruitInputs,
+      ],
+      소개: [
+        handleValidationAboutInputs,
+        handleValidateCommonInputs,
+        handleValidationRecruitInputs,
+      ],
+      지원하기: [
+        handleValidationRecruitInputs,
+        handleValidateCommonInputs,
+        handleValidationAboutInputs,
+      ],
+    };
+
+    const validationSequence = validationFlow[selectedPart];
+
+    const getPartForValidation = (validateFn: () => boolean) => {
+      if (validateFn === handleValidateCommonInputs) return '공통';
+      if (validateFn === handleValidationAboutInputs) return '소개';
+      if (validateFn === handleValidationRecruitInputs) return '지원하기';
+      return '공통';
+    };
+
+    for (const validate of validationSequence) {
+      const isValid = validate();
+
+      if (!isValid) {
+        setSelectedPart(getPartForValidation(validate));
+
+        return;
+      }
+    }
+  };
 
   return (
     <>
