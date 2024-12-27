@@ -1,3 +1,4 @@
+import { useToast } from '@sopt-makers/ui';
 import { useState } from 'react';
 import {
   type FieldValues,
@@ -37,6 +38,8 @@ function OrgAdmin() {
 
   const methods = useForm({ mode: 'onBlur' });
   const { handleSubmit, getValues, setError } = methods;
+
+  const { open } = useToast();
 
   const { sendMutate, sendIsLoading } = useMutateSendData({
     headerImageFile: getValues('headerImageFileName')?.file,
@@ -116,6 +119,10 @@ function OrgAdmin() {
       const isValid = validate();
 
       if (!isValid) {
+        open({
+          icon: 'error',
+          content: `${getPartForValidation(validate)}에 아직 채우지 않은 필드가 있어요.`,
+        });
         setSelectedPart(getPartForValidation(validate));
 
         return;
