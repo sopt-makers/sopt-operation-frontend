@@ -4,8 +4,15 @@ import { useFormContext } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
+import { StInputLabel } from '../AboutSection/style';
+import RequiredIcon from '../assets/RequiredIcon';
 import { StInput, StInputBox } from '../style';
-import { StColorWrapper, StInfoButton, StSubColorPreview } from './style';
+import {
+  StColorWrapper,
+  StInfoButton,
+  StSubColorDescription,
+  StSubColorPreview,
+} from './style';
 import { expandHexColor } from './utils';
 
 const BrandingSubColor = ({
@@ -23,6 +30,13 @@ const BrandingSubColor = ({
   return (
     <StInputBox>
       <StColorWrapper>
+        <StInputLabel>
+          <span>서브 컬러 (강조 그레이 컬러)</span>
+          <RequiredIcon />
+        </StInputLabel>
+        <StSubColorDescription>
+          강조하고 싶은 박스의 그레이 컬러를 지정해주세요.
+        </StSubColorDescription>
         <StInfoButton onClick={onInfoToggle}>
           <IconInfoCircle />
         </StInfoButton>
@@ -31,8 +45,6 @@ const BrandingSubColor = ({
             required: true && VALIDATION_CHECK.required.errorText,
           })}
           required
-          labelText="서브 컬러 (강조 그레이 컬러)"
-          descriptionText="강조하고 싶은 박스의 그레이 컬러를 지정해주세요."
           id="sub-color"
           type="text"
           maxLength={8}
