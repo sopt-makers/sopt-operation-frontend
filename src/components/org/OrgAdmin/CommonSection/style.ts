@@ -69,14 +69,14 @@ export const StColorPreview = styled.input`
 `;
 
 export const StSubColorPreview = styled(StColorPreview)`
-  top: 42px;
+  top: 50px;
 `;
 
 export const StInfoButton = styled.button`
   ${fontsObject.LABEL_3_14_SB};
 
   position: absolute;
-  top: 0px;
+  top: 1px;
   left: 175px;
   vertical-align: middle;
   width: 16px;
