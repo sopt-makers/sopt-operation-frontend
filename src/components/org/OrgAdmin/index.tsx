@@ -121,7 +121,7 @@ function OrgAdmin() {
       if (!isValid) {
         open({
           icon: 'error',
-          content: `${getPartForValidation(validate)}에 아직 채우지 않은 필드가 있어요.`,
+          content: `${getPartForValidation(validate)}탭에 아직 채우지 않은 필드가 있어요.`,
         });
         setSelectedPart(getPartForValidation(validate));
 
