@@ -36,6 +36,14 @@ const MyDropzone = ({
     formState: { errors },
   } = method;
 
+  const errorMsg = label.includes('.')
+    ? label.split('.').length === 2
+      ? (errors as any)?.[label.split('.')[0]]?.[label.split('.')[1]]?.message
+      : (errors as any)?.[label.split('.')[0]]?.[label.split('.')[1]]?.[
+          label.split('.')[2]
+        ]?.message
+    : errors[label]?.message;
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
@@ -81,7 +89,7 @@ const MyDropzone = ({
         width={width}
         height={height}
         shape={shape}
-        isError={errors[label]?.message != undefined}>
+        isError={errorMsg}>
         <input
           {...register(label, {
             required: true && VALIDATION_CHECK.required.errorText,
@@ -96,9 +104,9 @@ const MyDropzone = ({
           <StImgIcon />
         )}
       </StImgButton>
-      {errors[label] && (
+      {errorMsg && (
         <StErrorMessage>
-          <>{errors[label].message}</>
+          <>{errorMsg}</>
         </StErrorMessage>
       )}
     </StImgButtonWrapper>
