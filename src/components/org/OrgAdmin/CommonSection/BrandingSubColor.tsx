@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { VALIDATION_CHECK } from '@/utils/org';
 
 import { StInput, StInputBox } from '../style';
-import { StColorPreview, StColorWrapper, StInfoButton } from './style';
+import { StColorWrapper, StInfoButton, StSubColorPreview } from './style';
 import { expandHexColor } from './utils';
 
 const BrandingSubColor = ({
@@ -40,7 +40,7 @@ const BrandingSubColor = ({
           isError={errors.brandingColor_point?.message != undefined}
           errorMessage={errors.brandingColor_point?.message as string}
         />
-        <StColorPreview
+        <StSubColorPreview
           type="color"
           value={expandHexColor(watch('brandingColor_point'))}
           onChange={(e) => setValue('brandingColor_point', e.target.value)}
