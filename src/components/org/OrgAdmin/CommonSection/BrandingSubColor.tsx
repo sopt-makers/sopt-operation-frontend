@@ -35,15 +35,17 @@ const BrandingSubColor = ({
           descriptionText="강조하고 싶은 박스의 그레이 컬러를 지정해주세요."
           id="sub-color"
           type="text"
-          maxLength={9}
-          placeholder="ex. #ffffff"
+          maxLength={8}
+          placeholder="ex. ffffff"
           isError={errors.brandingColor_point?.message != undefined}
           errorMessage={errors.brandingColor_point?.message as string}
         />
         <StSubColorPreview
           type="color"
           value={expandHexColor(watch('brandingColor_point'))}
-          onChange={(e) => setValue('brandingColor_point', e.target.value)}
+          onChange={(e) =>
+            setValue('brandingColor_point', e.target.value.replace('#', ''))
+          }
         />
       </StColorWrapper>
     </StInputBox>
