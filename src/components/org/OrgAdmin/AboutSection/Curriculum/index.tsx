@@ -57,11 +57,11 @@ const Curriculum = ({
                   required: true && VALIDATION_CHECK.required.errorText,
                 })}
                 isError={
-                  (errors as any).partCurriculum?.selectedPart?.idx?.message !==
-                  undefined
+                  (errors as any).partCurriculum?.[selectedPart]?.[idx]
+                    ?.message !== undefined
                 }
                 errorMessage={
-                  (errors as any).partCurriculum?.selectedPart?.idx
+                  (errors as any).partCurriculum?.[selectedPart]?.[idx]
                     ?.message as string
                 }
                 id={`${selectedPart} week${idx}`}
