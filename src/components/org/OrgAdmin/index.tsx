@@ -37,22 +37,24 @@ function OrgAdmin() {
 
   const { sendMutate, sendIsLoading } = useMutateSendData({
     headerImageFile: getValues('headerImageFileName')?.file,
-    coreValueImageFile1: getValues('coreValue1.imageFileName')?.file,
-    coreValueImageFile2: getValues('coreValue2.imageFileName')?.file,
-    coreValueImageFile3: getValues('coreValue3.imageFileName')?.file,
-    memberImageFile1: getValues('member.회장.profileImageFileName')?.file,
-    memberImageFile2: getValues('member.부회장.profileImageFileName')?.file,
-    memberImageFile3: getValues('member.총무.profileImageFileName')?.file,
-    memberImageFile4: getValues('member.운영팀장.profileImageFileName')?.file,
-    memberImageFile5: getValues('member.미디어팀장.profileImageFileName')?.file,
-    memberImageFile6: getValues('member.메이커스팀장.profileImageFileName')
-      ?.file,
-    memberImageFile7: getValues('member.기획.profileImageFileName')?.file,
-    memberImageFile8: getValues('member.디자인.profileImageFileName')?.file,
-    memberImageFile9: getValues('member.안드로이드.profileImageFileName')?.file,
-    memberImageFile10: getValues('member.iOS.profileImageFileName')?.file,
-    memberImageFile11: getValues('member.웹.profileImageFileName')?.file,
-    memberImageFile12: getValues('member.서버.profileImageFileName')?.file,
+    coreValueImageFile1: getValues('coreValue1')?.imageFileName.file,
+    coreValueImageFile2: getValues('coreValue2')?.imageFileName.file,
+    coreValueImageFile3: getValues('coreValue3')?.imageFileName.file,
+    memberImageFile1: getValues('member')?.회장.profileImageFileName.file,
+    memberImageFile2: getValues('member')?.부회장.profileImageFileName.file,
+    memberImageFile3: getValues('member')?.총무.profileImageFileName.file,
+    memberImageFile4:
+      getValues('member')?.['운영 팀장']?.profileImageFileName.file,
+    memberImageFile5:
+      getValues('member')?.['미디어 팀장'].profileImageFileName.file,
+    memberImageFile6:
+      getValues('member')?.['메이커스 팀장'].profileImageFileName.file,
+    memberImageFile7: getValues('member')?.기획.profileImageFileName.file,
+    memberImageFile8: getValues('member')?.디자인.profileImageFileName.file,
+    memberImageFile9: getValues('member')?.안드로이드.profileImageFileName.file,
+    memberImageFile10: getValues('member')?.iOS.profileImageFileName.file,
+    memberImageFile11: getValues('member')?.웹.profileImageFileName.file,
+    memberImageFile12: getValues('member')?.서버.profileImageFileName.file,
     recruitHeaderImageFile: getValues('recruitHeaderImage')?.file,
   });
 
@@ -128,73 +130,13 @@ function OrgAdmin() {
 
     if (isScheduleValid && isCurriculumValid && isFnaValid) {
       const {
-        brandingColor_high,
-        brandingColor_low,
-        brandingColor_main,
-        brandingColor_point,
+        brandingColor,
         generation,
         name,
         recruitHeaderImage: { fileName: recruitHeaderImageFileName },
-        recruitPartCurriculum_iOS_content,
-        recruitPartCurriculum_iOS_preference,
-        recruitPartCurriculum_기획_content,
-        recruitPartCurriculum_기획_preference,
-        recruitPartCurriculum_디자인_content,
-        recruitPartCurriculum_디자인_preference,
-        recruitPartCurriculum_서버_content,
-        recruitPartCurriculum_서버_preference,
-        recruitPartCurriculum_안드로이드_content,
-        recruitPartCurriculum_안드로이드_preference,
-        recruitPartCurriculum_웹_content,
-        recruitPartCurriculum_웹_preference,
-        recruitQuestion_iOS_questions_0_answer,
-        recruitQuestion_iOS_questions_0_question,
-        recruitQuestion_iOS_questions_1_answer,
-        recruitQuestion_iOS_questions_1_question,
-        recruitQuestion_iOS_questions_2_answer,
-        recruitQuestion_iOS_questions_2_question,
-        recruitQuestion_기획_questions_0_answer,
-        recruitQuestion_기획_questions_0_question,
-        recruitQuestion_기획_questions_1_answer,
-        recruitQuestion_기획_questions_1_question,
-        recruitQuestion_기획_questions_2_answer,
-        recruitQuestion_기획_questions_2_question,
-        recruitQuestion_디자인_questions_0_answer,
-        recruitQuestion_디자인_questions_0_question,
-        recruitQuestion_디자인_questions_1_answer,
-        recruitQuestion_디자인_questions_1_question,
-        recruitQuestion_디자인_questions_2_answer,
-        recruitQuestion_디자인_questions_2_question,
-        recruitQuestion_서버_questions_0_answer,
-        recruitQuestion_서버_questions_0_question,
-        recruitQuestion_서버_questions_1_answer,
-        recruitQuestion_서버_questions_1_question,
-        recruitQuestion_서버_questions_2_answer,
-        recruitQuestion_서버_questions_2_question,
-        recruitQuestion_안드로이드_questions_0_answer,
-        recruitQuestion_안드로이드_questions_0_question,
-        recruitQuestion_안드로이드_questions_1_answer,
-        recruitQuestion_안드로이드_questions_1_question,
-        recruitQuestion_안드로이드_questions_2_answer,
-        recruitQuestion_안드로이드_questions_2_question,
-        recruitQuestion_웹_questions_0_answer,
-        recruitQuestion_웹_questions_0_question,
-        recruitQuestion_웹_questions_1_answer,
-        recruitQuestion_웹_questions_1_question,
-        recruitQuestion_웹_questions_2_answer,
-        recruitQuestion_웹_questions_2_question,
-        recruitSchedule_OB_schedule_applicationEndTime,
-        recruitSchedule_OB_schedule_applicationResultTime,
-        recruitSchedule_OB_schedule_applicationStartTime,
-        recruitSchedule_OB_schedule_finalResultTime,
-        recruitSchedule_OB_schedule_interviewEndTime,
-        recruitSchedule_OB_schedule_interviewStartTime,
-        recruitSchedule_YB_schedule_applicationEndTime,
-        recruitSchedule_YB_schedule_applicationResultTime,
-        recruitSchedule_YB_schedule_applicationStartTime,
-        recruitSchedule_YB_schedule_finalResultTime,
-        recruitSchedule_YB_schedule_interviewEndTime,
-        recruitSchedule_YB_schedule_interviewStartTime,
+        recruitPartCurriculum,
+        recruitQuestion,
+        recruitSchedule,
         headerImageFileName,
         coreValue1,
         coreValue2,
@@ -211,39 +153,31 @@ function OrgAdmin() {
           {
             type: 'OB',
             schedule: {
-              applicationStartTime:
-                recruitSchedule_OB_schedule_applicationStartTime,
-              applicationEndTime:
-                recruitSchedule_OB_schedule_applicationEndTime,
-              applicationResultTime:
-                recruitSchedule_OB_schedule_applicationResultTime,
-              interviewStartTime:
-                recruitSchedule_OB_schedule_interviewStartTime,
-              interviewEndTime: recruitSchedule_OB_schedule_interviewEndTime,
-              finalResultTime: recruitSchedule_OB_schedule_finalResultTime,
+              applicationStartTime: recruitSchedule.OB.applicationStartTime,
+              applicationEndTime: recruitSchedule.OB.applicationEndTime,
+              applicationResultTime: recruitSchedule.OB.applicationResultTime,
+              interviewStartTime: recruitSchedule.OB.interviewStartTime,
+              interviewEndTime: recruitSchedule.OB.interviewEndTime,
+              finalResultTime: recruitSchedule.OB.finalResultTime,
             },
           },
           {
             type: 'YB',
             schedule: {
-              applicationStartTime:
-                recruitSchedule_YB_schedule_applicationStartTime,
-              applicationEndTime:
-                recruitSchedule_YB_schedule_applicationEndTime,
-              applicationResultTime:
-                recruitSchedule_YB_schedule_applicationResultTime,
-              interviewStartTime:
-                recruitSchedule_YB_schedule_interviewStartTime,
-              interviewEndTime: recruitSchedule_YB_schedule_interviewEndTime,
-              finalResultTime: recruitSchedule_YB_schedule_finalResultTime,
+              applicationStartTime: recruitSchedule.YB.applicationStartTime,
+              applicationEndTime: recruitSchedule.YB.applicationEndTime,
+              applicationResultTime: recruitSchedule.YB.applicationResultTime,
+              interviewStartTime: recruitSchedule.YB.interviewStartTime,
+              interviewEndTime: recruitSchedule.YB.interviewEndTime,
+              finalResultTime: recruitSchedule.YB.finalResultTime,
             },
           },
         ],
         brandingColor: {
-          main: brandingColor_main,
-          low: brandingColor_low,
-          high: brandingColor_high,
-          point: brandingColor_point,
+          main: brandingColor.main,
+          low: brandingColor.low,
+          high: brandingColor.high,
+          point: brandingColor.point,
         },
         mainButton: {
           text: '지원하기',
@@ -296,154 +230,20 @@ function OrgAdmin() {
           };
         }),
         recruitHeaderImageFileName,
-        recruitPartCurriculum: [
-          {
-            part: '기획',
-            introduction: {
-              content: recruitPartCurriculum_기획_content,
-              preference: recruitPartCurriculum_기획_preference,
-            },
+        recruitPartCurriculum: PART_LIST.map((v) => ({
+          part: v,
+          introduction: {
+            content: recruitPartCurriculum.v.content,
+            preference: recruitPartCurriculum.v.preference,
           },
-          {
-            part: '디자인',
-            introduction: {
-              content: recruitPartCurriculum_디자인_content,
-              preference: recruitPartCurriculum_디자인_preference,
-            },
-          },
-          {
-            part: '안드로이드',
-            introduction: {
-              content: recruitPartCurriculum_안드로이드_content,
-              preference: recruitPartCurriculum_안드로이드_preference,
-            },
-          },
-          {
-            part: 'iOS',
-            introduction: {
-              content: recruitPartCurriculum_iOS_content,
-              preference: recruitPartCurriculum_iOS_preference,
-            },
-          },
-          {
-            part: '웹',
-            introduction: {
-              content: recruitPartCurriculum_웹_content,
-              preference: recruitPartCurriculum_웹_preference,
-            },
-          },
-          {
-            part: '서버',
-            introduction: {
-              content: recruitPartCurriculum_서버_content,
-              preference: recruitPartCurriculum_서버_preference,
-            },
-          },
-        ],
-        recruitQuestion: [
-          {
-            part: '기획',
-            questions: [
-              {
-                question: recruitQuestion_기획_questions_0_question,
-                answer: recruitQuestion_기획_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_기획_questions_1_question,
-                answer: recruitQuestion_기획_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_기획_questions_2_question,
-                answer: recruitQuestion_기획_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '디자인',
-            questions: [
-              {
-                question: recruitQuestion_디자인_questions_0_question,
-                answer: recruitQuestion_디자인_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_디자인_questions_1_question,
-                answer: recruitQuestion_디자인_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_디자인_questions_2_question,
-                answer: recruitQuestion_디자인_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '안드로이드',
-            questions: [
-              {
-                question: recruitQuestion_안드로이드_questions_0_question,
-                answer: recruitQuestion_안드로이드_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_안드로이드_questions_1_question,
-                answer: recruitQuestion_안드로이드_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_안드로이드_questions_2_question,
-                answer: recruitQuestion_안드로이드_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: 'iOS',
-            questions: [
-              {
-                question: recruitQuestion_iOS_questions_0_question,
-                answer: recruitQuestion_iOS_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_iOS_questions_1_question,
-                answer: recruitQuestion_iOS_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_iOS_questions_2_question,
-                answer: recruitQuestion_iOS_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '웹',
-            questions: [
-              {
-                question: recruitQuestion_웹_questions_0_question,
-                answer: recruitQuestion_웹_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_웹_questions_1_question,
-                answer: recruitQuestion_웹_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_웹_questions_2_question,
-                answer: recruitQuestion_웹_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '서버',
-            questions: [
-              {
-                question: recruitQuestion_서버_questions_0_question,
-                answer: recruitQuestion_서버_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_서버_questions_1_question,
-                answer: recruitQuestion_서버_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_서버_questions_2_question,
-                answer: recruitQuestion_서버_questions_2_answer,
-              },
-            ],
-          },
-        ],
+        })),
+        recruitQuestion: PART_LIST.map((v) => ({
+          part: v,
+          questions: [0, 1, 2].map((n) => ({
+            question: `${recruitQuestion}.${v}.question${n}}`,
+            answer: `${recruitQuestion}.${v}.answer${n}}`,
+          })),
+        })),
       };
 
       sendMutate(sendingData);
