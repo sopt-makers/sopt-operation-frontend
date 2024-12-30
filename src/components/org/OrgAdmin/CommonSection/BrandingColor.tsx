@@ -22,9 +22,9 @@ const BrandingColor = () => {
           <StDescription>다크 모드를 고려하여 선정해주세요.</StDescription>
         </StTitleWrapper>
         <StInputWrapper>
-          <ColorInputField label="키컬러 (메인)" id="brandingColor_main" />
-          <ColorInputField label="키컬러 (저명도)" id="brandingColor_low" />
-          <ColorInputField label="키컬러 (고명도)" id="brandingColor_high" />
+          <ColorInputField label="키컬러 (메인)" id="brandingColor.main" />
+          <ColorInputField label="키컬러 (저명도)" id="brandingColor.low" />
+          <ColorInputField label="키컬러 (고명도)" id="brandingColor.high" />
           <BrandingSubColor onInfoToggle={onInfoToggle} />
         </StInputWrapper>
       </StWrapper>{' '}
