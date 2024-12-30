@@ -1,20 +1,21 @@
+import { colors } from '@sopt-makers/colors';
+import { IconLink } from '@sopt-makers/icons';
+import { Button, Chip } from '@sopt-makers/ui';
+import dayjs from 'dayjs';
+
+import Loading from '@/components/common/Loading';
 import ModalHeader from '@/components/common/modal/ModalHeader';
+import { useGetAlarm } from '@/services/api/alarm/query';
+import { targetTypeTranslator } from '@/utils/translator';
 
 import {
-  StAlarmModalWrapper,
-  StAlarmModalFooter,
   StAlarmModalBody,
-  StTextField,
-  StRadioWrap,
+  StAlarmModalFooter,
+  StAlarmModalWrapper,
   StLink,
+  StRadioWrap,
+  StTextField,
 } from './style';
-import { useGetAlarm } from '@/services/api/alarm/query';
-import Loading from '@/components/common/Loading';
-import dayjs from 'dayjs';
-import { Button, Chip } from '@sopt-makers/ui';
-import { IconLink } from '@sopt-makers/icons';
-import { colors } from '@sopt-makers/colors';
-import { targetTypeTranslator } from '@/utils/translator';
 
 interface Props {
   onClose: () => void;
@@ -25,6 +26,8 @@ function ShowAlarmModal(props: Props) {
   const { onClose, alarmId } = props;
 
   const { data, isLoading } = useGetAlarm(alarmId);
+
+  console.log(data);
 
   if (isLoading || !data) return <Loading />;
   return (
@@ -60,11 +63,11 @@ function ShowAlarmModal(props: Props) {
         <div>
           <StTextField full>
             <label>알림 발송 날짜</label>
-            <p>{dayjs(data.createdAt).format('YYYY-MM-DD')}</p>
+            <p>{dayjs(data.sendAt).format('YYYY-MM-DD')}</p>
           </StTextField>
           <StTextField full>
             <label>알림 발송 시간</label>
-            <p>{dayjs(data.createdAt).format('HH:mm')}</p>
+            <p>{dayjs(data.sendAt).format('HH:mm')}</p>
           </StTextField>
         </div>
 
