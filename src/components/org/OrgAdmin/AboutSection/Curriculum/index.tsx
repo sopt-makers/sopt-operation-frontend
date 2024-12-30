@@ -42,10 +42,8 @@ const Curriculum = () => {
         />
         <StList>
           {CURRICULUM[selectedPart].map((_, idx) => (
-            <StItem key={`${selectedPart} week${idx + 1}`}>
-              <StWeek htmlFor={`${selectedPart} week${idx + 1}`}>
-                0{idx + 1}
-              </StWeek>
+            <StItem key={`${selectedPart} week${idx}`}>
+              <StWeek htmlFor={`${selectedPart} week${idx}`}>0{idx + 1}</StWeek>
               <StInput
                 {...register(`partCurriculum.${selectedPart}.${idx}`, {
                   required: true && VALIDATION_CHECK.required.errorText,
