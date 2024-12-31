@@ -43,6 +43,10 @@ export const PART_LIST: PART_KO[] = [
   '서버',
 ] as const;
 
+export type EXEC_TYPE =
+  | (typeof 임원진_LIST)[number]
+  | (typeof PART_LIST)[number];
+
 export const SCHEDULE_FIELDS = {
   OB: {
     application: [
