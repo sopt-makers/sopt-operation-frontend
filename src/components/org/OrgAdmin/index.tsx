@@ -75,9 +75,6 @@ function OrgAdmin() {
     setIntroPart(part);
   };
 
-  const handleValidateHomeInputs = () =>
-    validationHomeInputs(getValues, setError, onChangeIntroPart);
-
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const handleValidateCommonInputs = () =>
       validationCommonInputs(getValues, setError, setGroup);
