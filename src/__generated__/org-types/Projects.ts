@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { GetAllProjectData } from './data-contracts';
+import { GetProjectData, GetProjectsData } from './data-contracts';
 import { HttpClient, RequestParams } from './http-client';
 
 export class Projects<
@@ -19,13 +19,14 @@ export class Projects<
    * No description
    *
    * @tags Project
-   * @name GetAllProject
+   * @name GetProjects
+   * @summary 프로젝트 정보 전부 가져오기
    * @request GET:/projects
-   * @response `200` `GetAllProjectData` OK
+   * @response `200` `GetProjectsData` OK
    */
-  getAllProject = (
+  getProjects = (
     query?: {
-      /** 프로젝트 타입 */
+      /** 필터링 키워드 */
       filter?:
         | 'APPJAM'
         | 'SOPKATHON'
@@ -33,7 +34,7 @@ export class Projects<
         | 'STUDY'
         | 'JOINTSEMINAR'
         | 'ETC';
-      /** 서비스 플랫폼 */
+      /** 웹/앱 필터링 */
       platform?: 'WEB' | 'APP';
       /**
        * 페이지
@@ -52,10 +53,25 @@ export class Projects<
     },
     params: RequestParams = {},
   ) =>
-    this.request<GetAllProjectData, any>({
+    this.request<GetProjectsData, any>({
       path: `/projects`,
       method: 'GET',
       query: query,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Project
+   * @name GetProject
+   * @summary 특정 프로젝트 정보 가져오기
+   * @request GET:/projects/{projectId}
+   * @response `200` `GetProjectData` OK
+   */
+  getProject = (projectId: number, params: RequestParams = {}) =>
+    this.request<GetProjectData, any>({
+      path: `/projects/${projectId}`,
+      method: 'GET',
       ...params,
     });
 }

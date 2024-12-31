@@ -35,6 +35,7 @@ function OrgAdmin() {
 
   const [curriculumPart, setCurriculumPart] = useState<PART_KO>('기획');
   const [fnaPart, setFnaPart] = useState<PART_KO>('기획');
+  const [introPart, setIntroPart] = useState<PART_KO>('기획');
 
   const methods = useForm({ mode: 'onBlur' });
   const { handleSubmit, getValues, setError } = methods;
@@ -67,6 +68,10 @@ function OrgAdmin() {
 
   const onChangePart = (part: ORG_ADMIN): void => {
     setSelectedPart(part);
+  };
+
+  const onChangeIntroPart = (part: PART_KO) => {
+    setIntroPart(part);
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -128,6 +133,18 @@ function OrgAdmin() {
         return;
       }
     }
+
+    const validatePartIntro = () => {
+      for (const part of PARTS) {
+        if (getValues(`partIntroduction${part}`) === '') {
+          setIntroPart(part);
+          setSelectedPart('홈');
+          return false;
+        }
+      }
+
+      return true;
+    };
   };
 
   return (
@@ -150,7 +167,10 @@ function OrgAdmin() {
               }}
             />
           ) : selectedPart === '홈' ? (
-            <HomeSection />
+            <HomeSection
+              selectedIntroPart={introPart}
+              onChangeIntroPart={onChangeIntroPart}
+            />
           ) : selectedPart === '소개' ? (
             <AboutSection
               selectedPart={selectedPartInHomeTap}

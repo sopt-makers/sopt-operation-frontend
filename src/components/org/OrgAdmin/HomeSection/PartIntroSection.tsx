@@ -1,6 +1,7 @@
+'use client';
+
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { Chip, TextArea } from '@sopt-makers/ui';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { PARTS } from '@/components/org/OrgAdmin/HomeSection/constant';
@@ -12,24 +13,46 @@ import {
   StTextAreaContainer,
   StTitleWithIcon,
 } from '@/components/org/OrgAdmin/HomeSection/style';
+import { PART_KO, VALIDATION_CHECK } from '@/utils/org';
 
 import RequiredIcon from '../assets/RequiredIcon';
 import Modal from '../common/Modal';
 import useModal from '../common/Modal/useModal';
 
-type Part = '기획' | '디자인' | '안드로이드' | 'IOS' | '웹' | '서버';
+type PartIntroSectionProps = {
+  selectedPart: PART_KO;
+  onChangePart: (id: PART_KO) => void;
+};
 
-const PartIntroSection = () => {
-  const [selectedChip, setSelectedChip] = useState<Part>('기획');
+const PartIntroSection = ({
+  selectedPart,
+  onChangePart,
+}: PartIntroSectionProps) => {
   const { isInfoVisible, onInfoToggle } = useModal();
 
-  const getActiveStatus = (id: Part) => id === selectedChip;
+  const {
+    register,
+    clearErrors,
+    setError,
+    formState: { errors },
+  } = useFormContext();
 
-  const handleSelectChip = (id: Part) => {
-    setSelectedChip(id);
+  const getActiveStatus = (id: PART_KO) => id === selectedPart;
+
+  const handleSelectChip = (id: PART_KO) => {
+    onChangePart(id);
   };
 
-  const { register } = useFormContext();
+  const handleValidation = (field: string, value: string) => {
+    if (value) {
+      clearErrors(field);
+    } else {
+      setError(field, {
+        type: 'required',
+        message: '필수 항목이에요.',
+      });
+    }
+  };
 
   return (
     <StSecondSectionContainer>
@@ -56,8 +79,21 @@ const PartIntroSection = () => {
         </StChipsContainer>
 
         <TextArea
-          key={selectedChip}
-          {...register(selectedChip)}
+          key={selectedPart}
+          {...register(`partIntroduction${selectedPart}`, {
+            required: VALIDATION_CHECK.required.errorText,
+          })}
+          onChange={(e) =>
+            handleValidation(
+              `partIntroduction${selectedPart}`,
+              e.currentTarget.value,
+            )
+          }
+          isError={!!errors[`partIntroduction${selectedPart}`]}
+          errorMessage={
+            errors[`partIntroduction${selectedPart}`]?.message as string
+          }
+          required
           fixedHeight={230}
           maxHeight={230}
           placeholder={

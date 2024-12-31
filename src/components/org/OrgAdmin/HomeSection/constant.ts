@@ -10,7 +10,7 @@ export const PARTS = [
   '기획',
   '디자인',
   '안드로이드',
-  'IOS',
+  'iOS',
   '웹',
   '서버',
 ] as const;

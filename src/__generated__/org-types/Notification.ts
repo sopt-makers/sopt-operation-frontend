@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { GetAllProject1Data, RegisterNotificationData } from './data-contracts';
+import { GetAllProjectData, RegisterNotificationData } from './data-contracts';
 import { HttpClient, RequestParams } from './http-client';
 
 export class Notification<
@@ -48,11 +48,11 @@ export class Notification<
    * No description
    *
    * @tags Notification
-   * @name GetAllProject1
+   * @name GetAllProject
    * @request GET:/notification/list
-   * @response `200` `GetAllProject1Data` OK
+   * @response `200` `GetAllProjectData` OK
    */
-  getAllProject1 = (
+  getAllProject = (
     query?: {
       /**
        * 기수
@@ -62,7 +62,7 @@ export class Notification<
     },
     params: RequestParams = {},
   ) =>
-    this.request<GetAllProject1Data, any>({
+    this.request<GetAllProjectData, any>({
       path: `/notification/list`,
       method: 'GET',
       query: query,

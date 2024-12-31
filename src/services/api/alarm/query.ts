@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { getAlarm, getAlarmList, AlarmListResponse } from './index';
+import { AlarmListResponse, getAlarm, getAlarmList } from './index';
 
 export const useGetAlarmList = (generation: number, status: ALARM_STATUS) => {
   return useQuery<AlarmListResponse, Error>(

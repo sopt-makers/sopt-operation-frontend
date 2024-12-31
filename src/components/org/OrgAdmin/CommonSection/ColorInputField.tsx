@@ -30,8 +30,8 @@ const ColorInputField = ({ label, id }: ColorInputFieldProps) => {
         labelText={label}
         id={id}
         type="text"
-        maxLength={9}
-        placeholder="ex. #ffffff"
+        maxLength={8}
+        placeholder="ex. ffffff"
         isError={!!(errors as any)[brandingColor]?.[color]?.message}
         errorMessage={
           (errors as any)[brandingColor]?.[color]?.message as string
@@ -40,7 +40,7 @@ const ColorInputField = ({ label, id }: ColorInputFieldProps) => {
       <StColorPreview
         type="color"
         value={expandHexColor(watch(id))}
-        onChange={(e) => setValue(id, e.target.value)}
+        onChange={(e) => setValue(id, e.target.value.replace('#', ''))}
       />
     </StColorWrapper>
   );

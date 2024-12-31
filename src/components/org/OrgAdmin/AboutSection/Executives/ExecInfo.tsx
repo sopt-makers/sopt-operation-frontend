@@ -30,7 +30,9 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
           <span>프로필 사진</span>
           <RequiredIcon />
         </StInputLabel>
-        <StDescription>사진은 1:1 비율로 올려주세요.</StDescription>
+        <StDescription>
+          사진은 1:1 비율로 올려주세요. 사진 용량은 00mb 아래로 첨부해주세요.
+        </StDescription>
         <MyDropzone
           method={method}
           label={`member.${selectedExec}.profileImageFileName`}
