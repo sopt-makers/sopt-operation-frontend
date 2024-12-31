@@ -7,9 +7,16 @@ import {
   useForm,
 } from 'react-hook-form';
 
+import { AddAdminRequestDto } from '@/__generated__/org-types/data-contracts';
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
-import { type EXEC_TYPE, ORG_ADMIN_LIST, type PART_KO } from '@/utils/org';
+import {
+  type EXEC_TYPE,
+  ORG_ADMIN_LIST,
+  type PART_KO,
+  PART_LIST,
+  임원진_LIST,
+} from '@/utils/org';
 
 import AboutSection from './AboutSection';
 import SubmitIcon from './assets/SubmitIcon';
@@ -129,8 +136,122 @@ function OrgAdmin() {
           content: `${getPartForValidation(validate)}탭에 아직 채우지 않은 필드가 있어요.`,
         });
         setSelectedPart(getPartForValidation(validate));
-
         return;
+      } else {
+        const {
+          generation,
+          brandingColor,
+          coreValue1,
+          coreValue2,
+          coreValue3,
+          headerImageFileName,
+          member,
+          name,
+          partCurriculum,
+          partIntroductioniOS,
+          partIntroduction기획,
+          partIntroduction디자인,
+          partIntroduction서버,
+          partIntroduction안드로이드,
+          partIntroduction웹,
+          recruitHeaderImage,
+          recruitPartCurriculum,
+          recruitQuestion,
+          recruitSchedule,
+        } = data;
+        const requestBody: AddAdminRequestDto = {
+          generation: Number(generation),
+          name,
+          recruitSchedule: [
+            {
+              type: 'OB',
+              schedule: recruitSchedule.OB,
+            },
+            {
+              type: 'YB',
+              schedule: recruitSchedule.YB,
+            },
+          ],
+          brandingColor,
+          mainButton: {
+            text: '지원하기',
+            keyColor: '#FF0000',
+            subColor: '#CC0000',
+          },
+          partIntroduction: [
+            {
+              part: '기획',
+              description: partIntroduction기획,
+            },
+            {
+              part: '디자인',
+              description: partIntroduction디자인,
+            },
+            {
+              part: '서버',
+              description: partIntroduction서버,
+            },
+            {
+              part: '웹',
+              description: partIntroduction웹,
+            },
+            {
+              part: '안드로이드',
+              description: partIntroduction안드로이드,
+            },
+            {
+              part: 'iOS',
+              description: partIntroductioniOS,
+            },
+          ],
+          headerImageFileName: headerImageFileName.fileName,
+          coreValue: [
+            {
+              ...coreValue1,
+              imageFileName: coreValue1.imageFileName.fileName,
+            },
+            {
+              ...coreValue2,
+              imageFileName: coreValue2.imageFileName.fileName,
+            },
+            {
+              ...coreValue3,
+              imageFileName: coreValue3.imageFileName.fileName,
+            },
+          ],
+          partCurriculum: PART_LIST.map((part) => ({
+            part,
+            curriculums: partCurriculum[part],
+          })),
+          member: [...임원진_LIST, ...PART_LIST].map((exec) => ({
+            role: exec,
+            ...member[exec],
+            profileImageFileName: member[exec].profileImageFileName.fileName,
+          })),
+          recruitHeaderImageFileName: recruitHeaderImage.fileName,
+          recruitPartCurriculum: PART_LIST.map((part) => ({
+            part,
+            introduction: recruitPartCurriculum[part],
+          })),
+          recruitQuestion: PART_LIST.map((part) => ({
+            part,
+            questions: [
+              {
+                question: recruitQuestion[part].question0,
+                answer: recruitQuestion[part].answer0,
+              },
+              {
+                question: recruitQuestion[part].question1,
+                answer: recruitQuestion[part].answer1,
+              },
+              {
+                question: recruitQuestion[part].question2,
+                answer: recruitQuestion[part].answer2,
+              },
+            ],
+          })),
+        };
+        sendMutate(requestBody);
       }
     }
   };
