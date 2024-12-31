@@ -134,19 +134,6 @@ function OrgAdmin() {
       }
     }
 
-    const validatePartIntro = () => {
-      for (const part of PARTS) {
-        if (getValues(`partIntroduction${part}`) === '') {
-          setIntroPart(part);
-          setSelectedPart('홈');
-          return false;
-        }
-      }
-
-      return true;
-    };
-  };
-
   return (
     <>
       <StListHeader>
