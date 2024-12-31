@@ -39,12 +39,8 @@ export const validationCommonInputs = (
     })),
   ];
 
-  let isAllFilled = true;
-
   for (const { name, value } of fieldsToValidate) {
     if (!value) {
-      isAllFilled = false;
-
       setError(name, {
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
@@ -53,11 +49,11 @@ export const validationCommonInputs = (
       if (name.includes('YB')) setGroup('YB');
       else if (name.includes('OB')) setGroup('OB');
 
-      break;
+      return false;
     }
   }
 
-  return isAllFilled;
+  return true;
 };
 
 export const validationAboutInputs = (
