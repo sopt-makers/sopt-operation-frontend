@@ -65,7 +65,6 @@ export const validationHomeInputs = (
     const name = `partIntroduction${part}`;
     const data = getValues(name);
     if (!data) {
-      console.log(part, data);
       setError(name, {
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
