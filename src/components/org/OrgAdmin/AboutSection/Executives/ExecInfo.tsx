@@ -46,10 +46,10 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
           required: true && VALIDATION_CHECK.required.errorText,
         })}
         isError={
-          (errors as any).member?.selectedExec?.name?.message !== undefined
+          (errors as any).member?.[selectedExec]?.name?.message !== undefined
         }
         errorMessage={
-          (errors as any).member?.selectedExec?.name?.message as string
+          (errors as any).member?.[selectedExec]?.name?.message as string
         }
         labelText="이름"
         placeholder="ex. 김솝트"
@@ -65,11 +65,12 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
           required: true && VALIDATION_CHECK.required.errorText,
         })}
         isError={
-          (errors as any).member?.selectedExec?.introduction?.message !==
+          (errors as any).member?.[selectedExec]?.introduction?.message !==
           undefined
         }
         errorMessage={
-          (errors as any).member?.selectedExec?.introduction?.message as string
+          (errors as any).member?.[selectedExec]?.introduction
+            ?.message as string
         }
         labelText="한 줄 소개"
         placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
