@@ -56,6 +56,27 @@ export const validationCommonInputs = (
   return true;
 };
 
+export const validationHomeInputs = (
+  getValues: (payload?: string | string[]) => FieldValues,
+  setError: (name: string, error: { type: string; message: string }) => void,
+  onChangeIntroPart: (part: PART_KO) => void,
+) => {
+  for (const part of PART_LIST) {
+    const name = `partIntroduction${part}`;
+    const data = getValues(name);
+    if (!data) {
+      console.log(part, data);
+      setError(name, {
+        type: 'required',
+        message: VALIDATION_CHECK.required.errorText,
+      });
+      onChangeIntroPart(part);
+      return false;
+    }
+  }
+  return true;
+};
+
 export const validationAboutInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,

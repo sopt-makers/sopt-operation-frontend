@@ -22,6 +22,7 @@ import type { Group } from './types';
 import {
   validationAboutInputs,
   validationCommonInputs,
+  validationHomeInputs,
   validationRecruitInputs,
 } from './utils';
 
@@ -74,9 +75,14 @@ function OrgAdmin() {
     setIntroPart(part);
   };
 
+  const handleValidateHomeInputs = () =>
+    validationHomeInputs(getValues, setError, onChangeIntroPart);
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const handleValidateCommonInputs = () =>
       validationCommonInputs(getValues, setError, setGroup);
+    const handleValidateHomeInputs = () =>
+      validationHomeInputs(getValues, setError, onChangeIntroPart);
     const handleValidationAboutInputs = () =>
       validationAboutInputs(
         getValues,
@@ -95,18 +101,26 @@ function OrgAdmin() {
     const validationFlow = {
       공통: [
         handleValidateCommonInputs,
+        handleValidateHomeInputs,
         handleValidationAboutInputs,
         handleValidationRecruitInputs,
       ],
-      홈: [],
+      홈: [
+        handleValidateHomeInputs,
+        handleValidateCommonInputs,
+        handleValidationAboutInputs,
+        handleValidationRecruitInputs,
+      ],
       소개: [
         handleValidationAboutInputs,
         handleValidateCommonInputs,
+        handleValidateHomeInputs,
         handleValidationRecruitInputs,
       ],
       지원하기: [
         handleValidationRecruitInputs,
         handleValidateCommonInputs,
+        handleValidateHomeInputs,
         handleValidationAboutInputs,
       ],
     };
@@ -117,6 +131,7 @@ function OrgAdmin() {
       if (validateFn === handleValidateCommonInputs) return '공통';
       if (validateFn === handleValidationAboutInputs) return '소개';
       if (validateFn === handleValidationRecruitInputs) return '지원하기';
+      if (validateFn === handleValidateHomeInputs) return '홈';
       return '공통';
     };
 
