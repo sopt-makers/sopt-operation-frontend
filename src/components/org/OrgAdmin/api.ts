@@ -22,7 +22,7 @@ export const sendData = async (data: AddAdminRequestDto) => {
 
 export const sendPresignedURL = async (url: string, data: BodyInit) => {
   const res = await fetch(url, {
-    method: 'POST',
+    method: 'PUT',
     body: data,
   });
 
