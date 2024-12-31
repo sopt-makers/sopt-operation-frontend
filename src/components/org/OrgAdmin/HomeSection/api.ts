@@ -16,8 +16,17 @@ export const getAdminInfo = async () => {
   return data;
 };
 
-export const postNews = async (formData: any) => {
-  const res = await fetcher.POST('/admin/news', formData);
+export const postNews = async (formData: FormData) => {
+  const res = await axios.post(
+    `${process.env.NEXT_PUBLIC_ORG_API}/admin/news`,
+    formData,
+    {
+      headers: {
+        Authorization: getToken('ACCESS'),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
 
   return res;
 };

@@ -17,7 +17,7 @@ const ImageInput = ({ label, description }: ImageInputProps) => {
   return (
     <StInputContainer>
       <StLabel aria-labelledby={label}>
-        {label}
+        이미지
         <StRequiredIcon>*</StRequiredIcon>
       </StLabel>
       <StDescription>{description}</StDescription>
