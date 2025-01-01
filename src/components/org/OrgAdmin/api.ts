@@ -2,10 +2,11 @@ import createFetch from 'openapi-fetch';
 
 import { paths } from '@/__generated__/api';
 import { AddAdminRequestDto } from '@/__generated__/org-types/data-contracts';
+import config from '@/configs/config';
 import { getToken } from '@/utils/auth';
 
 export const fetcher = createFetch<paths>({
-  baseUrl: process.env.NEXT_PUBLIC_ORG_API,
+  baseUrl: `${config.ORG_API_URL}/v2`,
   headers: {
     Authorization: getToken('ACCESS'),
   },
@@ -21,7 +22,7 @@ export const sendData = async (data: AddAdminRequestDto) => {
 
 export const sendPresignedURL = async (url: string, data: BodyInit) => {
   const res = await fetch(url, {
-    method: 'POST',
+    method: 'PUT',
     body: data,
   });
 
