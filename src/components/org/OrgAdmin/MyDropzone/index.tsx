@@ -1,6 +1,6 @@
 'use client';
 
-import { type MouseEvent, useCallback, useState } from 'react';
+import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import type { UseFormReturn } from 'react-hook-form';
 
@@ -33,6 +33,7 @@ const MyDropzone = ({
   const {
     register,
     setValue,
+    watch,
     formState: { errors },
   } = method;
 
@@ -57,7 +58,7 @@ const MyDropzone = ({
           setPreviewUrl(reader.result as string);
           setValue(
             label,
-            { fileName: sanitizedFileName, file },
+            { fileName: sanitizedFileName, file, previewUrl: reader.result },
             { shouldValidate: true },
           );
         };
@@ -79,6 +80,14 @@ const MyDropzone = ({
       'image/png': [],
     },
   });
+
+  useEffect(() => {
+    const storedData = watch(label);
+
+    if (storedData?.previewUrl) {
+      setPreviewUrl(storedData.previewUrl);
+    }
+  }, [label, watch]);
 
   return (
     <StImgButtonWrapper>
