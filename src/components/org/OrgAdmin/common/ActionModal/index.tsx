@@ -1,5 +1,6 @@
 import { CheckBox } from '@sopt-makers/ui';
 import { type HTMLAttributes, useState } from 'react';
+import type { FieldValues, SubmitHandler } from 'react-hook-form';
 
 import Modal from '@/components/common/modal';
 
@@ -13,8 +14,8 @@ import {
 interface ActionModalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
   isOpen: boolean;
   onCancel?: () => void;
-  onAction?: () => void;
-  variant: 'add' | 'delete';
+  onAction?: () => void | SubmitHandler<FieldValues>;
+  variant: 'add' | 'delete' | 'deploy';
   alertText: string;
   description?: string;
 }

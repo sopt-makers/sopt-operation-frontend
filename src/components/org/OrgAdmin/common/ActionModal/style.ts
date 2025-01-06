@@ -18,6 +18,7 @@ export const StModalContainer = styled.div`
   & > p {
     ${fontsObject.BODY_2_16_R};
     color: ${colors.gray100};
+    white-space: pre-line;
   }
 `;
 
@@ -39,7 +40,9 @@ export const StCancelButton = styled(Button)`
   }
 `;
 
-export const StActionButton = styled(Button)<{ btntype: 'add' | 'delete' }>`
+export const StActionButton = styled(Button)<{
+  btntype: 'add' | 'delete' | 'deploy';
+}>`
   color: ${(props) => (props.btntype === 'add' ? colors.black : colors.white)};
 
   background-color: ${(props) =>
