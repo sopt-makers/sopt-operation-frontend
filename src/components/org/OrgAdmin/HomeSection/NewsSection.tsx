@@ -2,10 +2,7 @@ import { IconInfoCircle, IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { useState } from 'react';
 
-import {
-  ActionModal,
-  AddNewsModal,
-} from '@/components/org/OrgAdmin/HomeSection/Modal';
+import { AddNewsModal } from '@/components/org/OrgAdmin/HomeSection/Modal';
 import NewsItem from '@/components/org/OrgAdmin/HomeSection/NewsItem';
 import { useDeleteNewsMutation } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
@@ -21,6 +18,7 @@ import {
 import { useBooleanState } from '@/hooks/useBooleanState';
 
 import RequiredIcon from '../assets/RequiredIcon';
+import { ActionModal } from '../common/ActionModal';
 import Modal from '../common/Modal';
 import useModal from '../common/Modal/useModal';
 
