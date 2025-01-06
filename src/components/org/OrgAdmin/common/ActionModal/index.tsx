@@ -42,11 +42,20 @@ export const ActionModal = ({
             onChange={() => setChecked((prev) => !prev)}
           />
           <StModalBtnWrapper>
-            <StCancelButton onClick={onCancel}>취소</StCancelButton>
+            <StCancelButton
+              onClick={() => {
+                onCancel && onCancel();
+                setChecked(false);
+              }}>
+              취소
+            </StCancelButton>
             <StActionButton
               btntype={variant}
               disabled={!checked}
-              onClick={onAction}>
+              onClick={() => {
+                setChecked(false);
+                onAction && onAction();
+              }}>
               {variant === 'add'
                 ? '추가'
                 : variant === 'delete'
