@@ -166,6 +166,16 @@ function CreateAlarmModal(props: Props) {
     }
   };
 
+  const handleClickCancelButton = () => {
+    if (
+      confirm(
+        '알림 생성 모달을 종료하면 작성된 내용이 모두 사라져요. 그래도 삭제하시겠어요?',
+      )
+    ) {
+      onClose();
+    }
+  };
+
   // 발송 / 예약하기 버튼 눌렀을 때 API 요청 쏘는 함수
   const handleClickCompleteButton = async () => {
     const commonPayload: AlarmData = {
@@ -207,7 +217,11 @@ function CreateAlarmModal(props: Props) {
 
   return (
     <StAlarmModalWrapper>
-      <ModalHeader title={modalTitle} desc={modalDesc} onClose={onClose} />
+      <ModalHeader
+        title={modalTitle}
+        desc={modalDesc}
+        onClose={handleClickCancelButton}
+      />
       <main>
         <SelectWrapper>
           <LabeledComponent labelText="발송 대상">
@@ -405,7 +419,11 @@ function CreateAlarmModal(props: Props) {
         </AttachWrapper>
       </main>
       <ModalFooter>
-        <Button size="lg" type="button" onClick={onClose} theme="black">
+        <Button
+          size="lg"
+          type="button"
+          onClick={handleClickCancelButton}
+          theme="black">
           취소하기
         </Button>
         <Button
