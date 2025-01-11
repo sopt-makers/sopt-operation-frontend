@@ -1,3 +1,4 @@
+import { useToast } from '@sopt-makers/ui';
 import { useMutation } from 'react-query';
 
 import {
@@ -46,6 +47,8 @@ const useMutateSendData = ({
   memberImageFile12,
   recruitHeaderImageFile,
 }: UseMutateSendDataProps) => {
+  const { open } = useToast();
+
   const { mutate: sendMutate, isLoading: sendIsLoading } = useMutation({
     mutationFn: (
       data: AddAdminRequestDto,
@@ -173,6 +176,12 @@ const useMutateSendData = ({
         ]);
 
         const finalResponse = await sendDataConfirm({ generation });
+
+        if (finalResponse.response.status === 201)
+          open({
+            icon: 'success',
+            content: '성공적으로 배포했어요.',
+          });
 
         return finalResponse;
       } catch (err) {

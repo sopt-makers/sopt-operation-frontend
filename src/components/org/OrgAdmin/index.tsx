@@ -20,6 +20,7 @@ import {
 
 import AboutSection from './AboutSection';
 import SubmitIcon from './assets/SubmitIcon';
+import { ActionModal } from './common/ActionModal';
 import CommonSection from './CommonSection';
 import HomeSection from './HomeSection/HomeSection';
 import useMutateSendData from './hooks';
@@ -34,7 +35,9 @@ import {
 } from './utils';
 
 function OrgAdmin() {
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
+
   const [group, setGroup] = useState<Group>('OB');
 
   const [selectedPartInHomeTap, setSelectedPartInHomeTap] =
@@ -82,7 +85,7 @@ function OrgAdmin() {
     setIntroPart(part);
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const handleCheckNonFilledInputs = () => {
     const handleValidateCommonInputs = () =>
       validationCommonInputs(getValues, setError, setGroup);
     const handleValidateHomeInputs = () =>
@@ -148,9 +151,14 @@ function OrgAdmin() {
           content: `${getPartForValidation(validate)}탭에 아직 채우지 않은 필드가 있어요.`,
         });
         setSelectedPart(getPartForValidation(validate));
-        return;
+        return false;
       }
     }
+
+    return true;
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const {
       generation,
       brandingColor,
@@ -278,7 +286,7 @@ function OrgAdmin() {
         />
       </StListHeader>
       <FormProvider {...methods}>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <form noValidate>
           {selectedPart === '공통' ? (
             <CommonSection
               group={group}
@@ -312,12 +320,33 @@ function OrgAdmin() {
               onChangeFnaPart={(part: PART_KO) => setFnaPart(part)}
             />
           )}
-          <StSubmitButton>
+          <StSubmitButton
+            type="button"
+            onClick={() => {
+              if (handleCheckNonFilledInputs()) {
+                setIsActionModalOpen(true);
+              }
+            }}>
             <SubmitIcon />
             <StSubmitText>{sendIsLoading ? '배포 중...' : '배포'}</StSubmitText>
           </StSubmitButton>
         </form>
       </FormProvider>
+      <ActionModal
+        isOpen={isActionModalOpen}
+        onCancel={() => {
+          setIsActionModalOpen(false);
+        }}
+        onAction={() => {
+          setIsActionModalOpen(false);
+          handleSubmit(onSubmit)();
+        }}
+        variant="deploy"
+        alertText="배포하시겠습니까?"
+        description={
+          '입력한 내용은 공홈에 즉시 반영돼요.\n잘못 기입된 부분이 없는지 마지막으로 확인해주세요.'
+        }
+      />
     </>
   );
 }
