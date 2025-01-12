@@ -145,7 +145,7 @@ export const StSubColorTitle = styled(StInputLabel)`
 `;
 
 export const StSubColorDescription = styled.p`
-  ${fontsObject.LABEL_4_12_SB}
+  ${fontsObject.LABEL_3_14_SB}
 
   margin-bottom: 8px;
   color: ${colors.gray300};
