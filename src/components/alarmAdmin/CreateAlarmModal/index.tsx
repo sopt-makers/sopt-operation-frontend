@@ -1,12 +1,11 @@
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { IconLink } from '@sopt-makers/icons';
+import { IconLink, IconXClose } from '@sopt-makers/icons';
 import { Button, Chip, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
-import loadConfig from 'next/dist/server/config';
 import { ChangeEvent, useState } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { IcDeleteFile, IcUpload } from '@/assets/icons';
+import { IcDeleteFile } from '@/assets/icons';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import { createReserveAlarm, sendAlarm } from '@/services/api/alarm';
@@ -273,7 +272,19 @@ function CreateAlarmModal(props: Props) {
                 {uploadedFile ? (
                   <div className="uploaded">
                     <span>{uploadedFile.name}</span>
-                    <IcDeleteFile onClick={() => setUploadedFile(null)} />
+                    <Button
+                      onClick={() => setUploadedFile(null)}
+                      theme="black"
+                      size="sm"
+                      css={{
+                        padding: '8px',
+                        '& > span': {
+                          width: '24px',
+                          height: '24px',
+                        },
+                      }}>
+                      <IconXClose style={{ width: '24px', height: '24px' }} />
+                    </Button>
                   </div>
                 ) : (
                   <>
