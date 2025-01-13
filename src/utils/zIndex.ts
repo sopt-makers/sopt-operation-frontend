@@ -4,8 +4,8 @@ const zIndex = {
   footer: 10,
   helper: 11,
   select: 99,
-  dim: 15,
-  modal: 20,
+  dim: 40,
+  modal: 50,
 };
 
 export default zIndex;
