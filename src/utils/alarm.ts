@@ -31,13 +31,13 @@ export const readPlaygroundId = async (file: File): Promise<string[]> => {
   // 파일 크기 체크
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
   if (file.size > MAX_FILE_SIZE) {
+    alert('파일 크기는 5MB를 초과할 수 없습니다.');
     throw new Error('파일 크기는 5MB를 초과할 수 없습니다.');
   }
 
   return new Promise((resolve, reject) => {
     const userIds: string[] = [];
     const reader = new FileReader();
-    let foundColumn = false;
 
     reader.readAsText(file, 'UTF-8');
     reader.onload = function (evt) {
@@ -47,7 +47,9 @@ export const readPlaygroundId = async (file: File): Promise<string[]> => {
 
         // 빈 파일 체크
         if (lines.length < 2) {
-          throw new Error('유효하지 않은 CSV 파일입니다.');
+          const errorMessage = '유효하지 않은 CSV 파일입니다.';
+          alert(errorMessage);
+          throw new Error(errorMessage);
         }
 
         // 헤더 찾기
@@ -56,7 +58,9 @@ export const readPlaygroundId = async (file: File): Promise<string[]> => {
         );
 
         if (headerIndex === -1) {
-          throw new Error('user_id 컬럼을 찾을 수 없습니다.');
+          const errorMessage = 'user_id 컬럼을 찾을 수 없습니다.';
+          alert(errorMessage);
+          throw new Error(errorMessage);
         }
 
         // 데이터 파싱
@@ -74,7 +78,9 @@ export const readPlaygroundId = async (file: File): Promise<string[]> => {
         }
 
         if (userIds.length === 0) {
-          throw new Error('유효한 user_id가 없습니다.');
+          const errorMessage = '유효한 user_id가 없습니다.';
+          alert(errorMessage);
+          throw new Error(errorMessage);
         }
 
         resolve(userIds);
@@ -82,6 +88,9 @@ export const readPlaygroundId = async (file: File): Promise<string[]> => {
         reject(error);
       }
     };
-    reader.onerror = reject;
+    reader.onerror = (error) => {
+      alert('파일을 읽는 중 오류가 발생했습니다.');
+      reject(error);
+    };
   });
 };

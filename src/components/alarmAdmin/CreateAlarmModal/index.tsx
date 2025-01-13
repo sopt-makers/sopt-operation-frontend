@@ -162,6 +162,11 @@ function CreateAlarmModal(props: Props) {
         setTargetList(userIds);
       } catch (error) {
         console.error('파일을 읽는데 실패했습니다.', error);
+        setUploadedFile(null);
+        setTargetList([]);
+        if (e.target) {
+          e.target.value = '';
+        }
       }
     }
   };
