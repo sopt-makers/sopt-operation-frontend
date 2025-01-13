@@ -21,9 +21,19 @@ export const LINK_TYPE_LIST = [
   '솝탬프',
 ];
 
-export const ALARM_STATUS_LIST: ALARM_STATUS[] = ['ALL', 'SCHEDULED', 'COMPLETED'];
+export const ALARM_STATUS_LIST: ALARM_STATUS[] = [
+  'ALL',
+  'SCHEDULED',
+  'COMPLETED',
+];
 
 export const readPlaygroundId = async (file: File): Promise<string[]> => {
+  // 파일 크기 체크
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error('파일 크기는 5MB를 초과할 수 없습니다.');
+  }
+
   return new Promise((resolve, reject) => {
     const userIds: string[] = [];
     const reader = new FileReader();
@@ -35,24 +45,43 @@ export const readPlaygroundId = async (file: File): Promise<string[]> => {
         const csv = evt.target?.result as string;
         const lines = csv.split('\n');
 
-        for (let i = 0; i < lines.length; i++) {
-          if (lines[i].includes('user_id')) {
-            foundColumn = true;
-            continue;
-          }
-          if (foundColumn) {
-            let value = lines[i].split(',')[0].trim();
-            value = value.replace(/^"\t|\t"$|"/g, '').trim();
-            if (value) userIds.push(value);
-          }
+        // 빈 파일 체크
+        if (lines.length < 2) {
+          throw new Error('유효하지 않은 CSV 파일입니다.');
         }
+
+        // 헤더 찾기
+        const headerIndex = lines.findIndex((line) =>
+          line.toLowerCase().includes('user_id'),
+        );
+
+        if (headerIndex === -1) {
+          throw new Error('user_id 컬럼을 찾을 수 없습니다.');
+        }
+
+        // 데이터 파싱
+        for (let i = headerIndex + 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+
+          const value = line
+            .split(',')[0]
+            .replace(/^"|"$/g, '') // 따옴표 제거
+            .replace(/^\t|\t$/g, '') // 탭 제거
+            .trim();
+
+          if (value) userIds.push(value);
+        }
+
+        if (userIds.length === 0) {
+          throw new Error('유효한 user_id가 없습니다.');
+        }
+
         resolve(userIds);
       } catch (error) {
         reject(error);
       }
     };
-    reader.onerror = function (error) {
-      reject(error);
-    };
+    reader.onerror = reject;
   });
 };

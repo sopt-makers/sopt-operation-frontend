@@ -135,7 +135,7 @@ function CreateAlarmModal(props: Props) {
     if (sendType === 'RESERVE' && bannedTimeList.includes(selectedTime))
       return true;
 
-    if (selectedTarget === 'CSV 첨부' && targetList.length > 0) return true;
+    if (selectedTarget === 'CSV 첨부' && targetList.length === 0) return true;
 
     return false;
   };
