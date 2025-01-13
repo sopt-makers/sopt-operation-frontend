@@ -1,3 +1,5 @@
+import { Tag } from '@sopt-makers/ui';
+import { Tab } from '@sopt-makers/ui';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
@@ -8,11 +10,9 @@ import Modal from '@/components/common/modal';
 import { deleteAlarm } from '@/services/api/alarm';
 import { ALARM_STATUS_LIST } from '@/utils/alarm';
 import { alarmStatusTranslator } from '@/utils/translator';
-import { Tag } from '@sopt-makers/ui';
 
 import ShowAlarmModal from '../ShowAlarmModal';
 import { StListItem, StPageHeader } from './style';
-import { Tab } from '@sopt-makers/ui';
 
 interface Props {
   alarmList: Alarm[];

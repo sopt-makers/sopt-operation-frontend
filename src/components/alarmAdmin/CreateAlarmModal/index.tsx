@@ -1,12 +1,11 @@
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { IconLink } from '@sopt-makers/icons';
+import { IconLink, IconXClose } from '@sopt-makers/icons';
 import { Button, Chip, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
-import loadConfig from 'next/dist/server/config';
 import { ChangeEvent, useState } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { IcDeleteFile, IcUpload } from '@/assets/icons';
+import { IcDeleteFile } from '@/assets/icons';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import { createReserveAlarm, sendAlarm } from '@/services/api/alarm';
@@ -135,7 +134,7 @@ function CreateAlarmModal(props: Props) {
     if (sendType === 'RESERVE' && bannedTimeList.includes(selectedTime))
       return true;
 
-    if (selectedTarget === 'CSV 첨부' && targetList.length > 0) return true;
+    if (selectedTarget === 'CSV 첨부' && targetList.length === 0) return true;
 
     return false;
   };
@@ -162,7 +161,22 @@ function CreateAlarmModal(props: Props) {
         setTargetList(userIds);
       } catch (error) {
         console.error('파일을 읽는데 실패했습니다.', error);
+        setUploadedFile(null);
+        setTargetList([]);
+        if (e.target) {
+          e.target.value = '';
+        }
       }
+    }
+  };
+
+  const handleClickCancelButton = () => {
+    if (
+      confirm(
+        '알림 생성 모달을 종료하면 작성된 내용이 모두 사라져요. 그래도 삭제하시겠어요?',
+      )
+    ) {
+      onClose();
     }
   };
 
@@ -207,7 +221,11 @@ function CreateAlarmModal(props: Props) {
 
   return (
     <StAlarmModalWrapper>
-      <ModalHeader title={modalTitle} desc={modalDesc} onClose={onClose} />
+      <ModalHeader
+        title={modalTitle}
+        desc={modalDesc}
+        onClose={handleClickCancelButton}
+      />
       <main>
         <SelectWrapper>
           <LabeledComponent labelText="발송 대상">
@@ -254,7 +272,19 @@ function CreateAlarmModal(props: Props) {
                 {uploadedFile ? (
                   <div className="uploaded">
                     <span>{uploadedFile.name}</span>
-                    <IcDeleteFile onClick={() => setUploadedFile(null)} />
+                    <Button
+                      onClick={() => setUploadedFile(null)}
+                      theme="black"
+                      size="sm"
+                      css={{
+                        padding: '8px',
+                        '& > span': {
+                          width: '24px',
+                          height: '24px',
+                        },
+                      }}>
+                      <IconXClose style={{ width: '24px', height: '24px' }} />
+                    </Button>
                   </div>
                 ) : (
                   <>
@@ -405,7 +435,11 @@ function CreateAlarmModal(props: Props) {
         </AttachWrapper>
       </main>
       <ModalFooter>
-        <Button size="lg" type="button" onClick={onClose} theme="black">
+        <Button
+          size="lg"
+          type="button"
+          onClick={handleClickCancelButton}
+          theme="black">
           취소하기
         </Button>
         <Button
