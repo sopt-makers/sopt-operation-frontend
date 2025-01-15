@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
-import { Progress, TagType } from '../types';
+import { Progress, TagType } from '../../types';
 
 export const listItemCss = css({
   display: 'grid',

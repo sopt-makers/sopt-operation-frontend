@@ -2,7 +2,7 @@ import { IconEdit, IconTrash } from '@sopt-makers/icons';
 import { Tag } from '@sopt-makers/ui';
 import { CSSProperties } from 'react';
 
-import { Progress, TagType } from '../types';
+import { Progress, TagType } from '../../types';
 import {
   listItemCss,
   progressColorVariant,
