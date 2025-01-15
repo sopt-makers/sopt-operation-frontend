@@ -24,6 +24,7 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
     formState: { errors },
     watch,
   } = useFormContext();
+  const [recruitSchedule, group, time] = id.split('.');
 
   return (
     <StInput
@@ -34,9 +35,11 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
       labelText={label}
       id={id}
       type="datetime-local"
-      hasValue={!!watch(id)}
-      isError={!!errors[id]?.message}
-      errorMessage={errors[id]?.message as string}
+      hasValue={!!watch(`${recruitSchedule}.${group}.${time}`)}
+      isError={!!(errors as any)[recruitSchedule]?.[group]?.[time]?.message}
+      errorMessage={
+        (errors as any)[recruitSchedule]?.[group]?.[time]?.message as string
+      }
     />
   );
 };

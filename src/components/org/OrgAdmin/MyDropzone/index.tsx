@@ -1,6 +1,6 @@
 'use client';
 
-import { type MouseEvent, useCallback, useState } from 'react';
+import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import type { UseFormReturn } from 'react-hook-form';
 
@@ -33,8 +33,17 @@ const MyDropzone = ({
   const {
     register,
     setValue,
+    watch,
     formState: { errors },
   } = method;
+
+  const errorMsg = label.includes('.')
+    ? label.split('.').length === 2
+      ? (errors as any)?.[label.split('.')[0]]?.[label.split('.')[1]]?.message
+      : (errors as any)?.[label.split('.')[0]]?.[label.split('.')[1]]?.[
+          label.split('.')[2]
+        ]?.message
+    : errors[label]?.message;
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -49,7 +58,7 @@ const MyDropzone = ({
           setPreviewUrl(reader.result as string);
           setValue(
             label,
-            { fileName: sanitizedFileName, file },
+            { fileName: sanitizedFileName, file, previewUrl: reader.result },
             { shouldValidate: true },
           );
         };
@@ -72,6 +81,14 @@ const MyDropzone = ({
     },
   });
 
+  useEffect(() => {
+    const storedData = watch(label);
+
+    if (storedData?.previewUrl) {
+      setPreviewUrl(storedData.previewUrl);
+    }
+  }, [label, watch]);
+
   return (
     <StImgButtonWrapper>
       <StImgButton
@@ -81,7 +98,7 @@ const MyDropzone = ({
         width={width}
         height={height}
         shape={shape}
-        isError={errors[label]?.message != undefined}>
+        isError={errorMsg}>
         <input
           {...register(label, {
             required: true && VALIDATION_CHECK.required.errorText,
@@ -96,9 +113,9 @@ const MyDropzone = ({
           <StImgIcon />
         )}
       </StImgButton>
-      {errors[label] && (
+      {errorMsg && (
         <StErrorMessage>
-          <>{errors[label].message}</>
+          <>{errorMsg}</>
         </StErrorMessage>
       )}
     </StImgButtonWrapper>

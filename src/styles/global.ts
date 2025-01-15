@@ -22,6 +22,10 @@ const global: Interpolation<Theme> = (theme: Theme) => css`
     overflow-y: scroll;
     overflow-x: hidden;
 
+    font-smooth: never;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
     &::-webkit-scrollbar {
       width: 1.2rem;
     }

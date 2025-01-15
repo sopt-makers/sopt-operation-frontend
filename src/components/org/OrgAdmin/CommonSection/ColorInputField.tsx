@@ -18,6 +18,7 @@ const ColorInputField = ({ label, id }: ColorInputFieldProps) => {
     watch,
     setValue,
   } = useFormContext();
+  const [brandingColor, color] = id.split('.');
 
   return (
     <StColorWrapper>
@@ -29,15 +30,17 @@ const ColorInputField = ({ label, id }: ColorInputFieldProps) => {
         labelText={label}
         id={id}
         type="text"
-        maxLength={9}
-        placeholder="ex. #ffffff"
-        isError={errors[id]?.message != undefined}
-        errorMessage={errors[id]?.message as string}
+        maxLength={8}
+        placeholder="ex. ffffff"
+        isError={!!(errors as any)[brandingColor]?.[color]?.message}
+        errorMessage={
+          (errors as any)[brandingColor]?.[color]?.message as string
+        }
       />
       <StColorPreview
         type="color"
         value={expandHexColor(watch(id))}
-        onChange={(e) => setValue(id, e.target.value)}
+        onChange={(e) => setValue(id, e.target.value.replace('#', ''))}
       />
     </StColorWrapper>
   );

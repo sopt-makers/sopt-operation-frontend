@@ -172,7 +172,7 @@ export const bannedTimeList = [
 
 // 예약 날짜 포맷 변환 함수 (Date 객체에서 연월일 파싱해서 문자열로 반환)
 export const formatDate = (date: Date | null) => {
-  if (!date) return '알림 발송 날짜';
+  if (!date) return '날짜 선택';
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');

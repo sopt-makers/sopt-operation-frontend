@@ -16,16 +16,22 @@ const CURRICULUM = PART_LIST.reduce(
   {} as Record<string, string[]>,
 );
 
-const Curriculum = () => {
+interface CurriculumProps {
+  selectedPart: PART_KO;
+  onChangeSelectedPart: (part: PART_KO) => void;
+}
+
+const Curriculum = ({
+  selectedPart,
+  onChangeSelectedPart,
+}: CurriculumProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  const [selectedPart, setSelectedPart] = useState<PART_KO>('기획');
-
   const handleSetSelectedPart = (value: PART_KO) => {
-    setSelectedPart(value);
+    onChangeSelectedPart(value);
   };
 
   return (
@@ -42,20 +48,18 @@ const Curriculum = () => {
         />
         <StList>
           {CURRICULUM[selectedPart].map((_, idx) => (
-            <StItem key={`${selectedPart} week${idx + 1}`}>
-              <StWeek htmlFor={`${selectedPart} week${idx + 1}`}>
-                0{idx + 1}
-              </StWeek>
+            <StItem key={`${selectedPart} week${idx}`}>
+              <StWeek htmlFor={`${selectedPart} week${idx}`}>0{idx + 1}</StWeek>
               <StInput
                 {...register(`partCurriculum.${selectedPart}.${idx}`, {
                   required: true && VALIDATION_CHECK.required.errorText,
                 })}
                 isError={
-                  (errors as any).partCurriculum?.selectedPart?.idx?.message !==
-                  undefined
+                  (errors as any).partCurriculum?.[selectedPart]?.[idx]
+                    ?.message !== undefined
                 }
                 errorMessage={
-                  (errors as any).partCurriculum?.selectedPart?.idx
+                  (errors as any).partCurriculum?.[selectedPart]?.[idx]
                     ?.message as string
                 }
                 id={`${selectedPart} week${idx}`}
