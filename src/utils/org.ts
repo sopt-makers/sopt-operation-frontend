@@ -43,35 +43,39 @@ export const PART_LIST: PART_KO[] = [
   '서버',
 ] as const;
 
+export type EXEC_TYPE =
+  | (typeof 임원진_LIST)[number]
+  | (typeof PART_LIST)[number];
+
 export const SCHEDULE_FIELDS = {
   OB: {
     application: [
       {
-        id: 'recruitSchedule_OB_schedule_applicationStartTime',
+        id: 'recruitSchedule.OB.applicationStartTime',
         label: 'OB 서류 접수 시작',
       },
       {
-        id: 'recruitSchedule_OB_schedule_applicationEndTime',
+        id: 'recruitSchedule.OB.applicationEndTime',
         label: 'OB 서류 접수 마감',
       },
       {
-        id: 'recruitSchedule_OB_schedule_applicationResultTime',
+        id: 'recruitSchedule.OB.applicationResultTime',
         label: 'OB 서류 결과 발표',
       },
     ],
     interview: [
       {
-        id: 'recruitSchedule_OB_schedule_interviewStartTime',
+        id: 'recruitSchedule.OB.interviewStartTime',
         label: 'OB 면접 시작',
       },
       {
-        id: 'recruitSchedule_OB_schedule_interviewEndTime',
+        id: 'recruitSchedule.OB.interviewEndTime',
         label: 'OB 면접 마감',
       },
     ],
     final: [
       {
-        id: 'recruitSchedule_OB_schedule_finalResultTime',
+        id: 'recruitSchedule.OB.finalResultTime',
         label: 'OB 최종 결과 발표',
       },
     ],
@@ -79,31 +83,31 @@ export const SCHEDULE_FIELDS = {
   YB: {
     application: [
       {
-        id: 'recruitSchedule_YB_schedule_applicationStartTime',
+        id: 'recruitSchedule.YB.applicationStartTime',
         label: 'YB 서류 접수 시작',
       },
       {
-        id: 'recruitSchedule_YB_schedule_applicationEndTime',
+        id: 'recruitSchedule.YB.applicationEndTime',
         label: 'YB 서류 접수 마감',
       },
       {
-        id: 'recruitSchedule_YB_schedule_applicationResultTime',
+        id: 'recruitSchedule.YB.applicationResultTime',
         label: 'YB 서류 결과 발표',
       },
     ],
     interview: [
       {
-        id: 'recruitSchedule_YB_schedule_interviewStartTime',
+        id: 'recruitSchedule.YB.interviewStartTime',
         label: 'YB 면접 시작',
       },
       {
-        id: 'recruitSchedule_YB_schedule_interviewEndTime',
+        id: 'recruitSchedule.YB.interviewEndTime',
         label: 'YB 면접 마감',
       },
     ],
     final: [
       {
-        id: 'recruitSchedule_YB_schedule_finalResultTime',
+        id: 'recruitSchedule.YB.finalResultTime',
         label: 'YB 최종 결과 발표',
       },
     ],

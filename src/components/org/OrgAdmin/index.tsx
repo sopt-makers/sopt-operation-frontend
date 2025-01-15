@@ -1,3 +1,4 @@
+import { useToast } from '@sopt-makers/ui';
 import { useState } from 'react';
 import {
   type FieldValues,
@@ -6,53 +7,73 @@ import {
   useForm,
 } from 'react-hook-form';
 
-import type { AddAdminRequestDto } from '@/__generated__/org-types/data-contracts';
+import { AddAdminRequestDto } from '@/__generated__/org-types/data-contracts';
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
 import {
+  type EXEC_TYPE,
   ORG_ADMIN_LIST,
-  PART_KO,
+  type PART_KO,
   PART_LIST,
-  SCHEDULE_FIELDS,
   임원진_LIST,
 } from '@/utils/org';
 
 import AboutSection from './AboutSection';
 import SubmitIcon from './assets/SubmitIcon';
+import { ActionModal } from './common/ActionModal';
 import CommonSection from './CommonSection';
 import HomeSection from './HomeSection/HomeSection';
 import useMutateSendData from './hooks';
 import RecruitSection from './RecruitSection';
 import { StSubmitButton, StSubmitText } from './style';
 import type { Group } from './types';
+import {
+  validationAboutInputs,
+  validationCommonInputs,
+  validationHomeInputs,
+  validationRecruitInputs,
+} from './utils';
 
 function OrgAdmin() {
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
+
   const [group, setGroup] = useState<Group>('OB');
+
+  const [selectedPartInHomeTap, setSelectedPartInHomeTap] =
+    useState<PART_KO>('기획');
+  const [selectedExec, setSelectedExec] = useState<EXEC_TYPE>('회장');
+
   const [curriculumPart, setCurriculumPart] = useState<PART_KO>('기획');
   const [fnaPart, setFnaPart] = useState<PART_KO>('기획');
+  const [introPart, setIntroPart] = useState<PART_KO>('기획');
 
   const methods = useForm({ mode: 'onBlur' });
-  const { handleSubmit, getValues } = methods;
+  const { handleSubmit, getValues, setError } = methods;
+
+  const { open } = useToast();
 
   const { sendMutate, sendIsLoading } = useMutateSendData({
     headerImageFile: getValues('headerImageFileName')?.file,
-    coreValueImageFile1: getValues('coreValue1.imageFileName')?.file,
-    coreValueImageFile2: getValues('coreValue2.imageFileName')?.file,
-    coreValueImageFile3: getValues('coreValue3.imageFileName')?.file,
-    memberImageFile1: getValues('member.회장.profileImageFileName')?.file,
-    memberImageFile2: getValues('member.부회장.profileImageFileName')?.file,
-    memberImageFile3: getValues('member.총무.profileImageFileName')?.file,
-    memberImageFile4: getValues('member.운영팀장.profileImageFileName')?.file,
-    memberImageFile5: getValues('member.미디어팀장.profileImageFileName')?.file,
-    memberImageFile6: getValues('member.메이커스팀장.profileImageFileName')
-      ?.file,
-    memberImageFile7: getValues('member.기획.profileImageFileName')?.file,
-    memberImageFile8: getValues('member.디자인.profileImageFileName')?.file,
-    memberImageFile9: getValues('member.안드로이드.profileImageFileName')?.file,
-    memberImageFile10: getValues('member.iOS.profileImageFileName')?.file,
-    memberImageFile11: getValues('member.웹.profileImageFileName')?.file,
-    memberImageFile12: getValues('member.서버.profileImageFileName')?.file,
+    coreValueImageFile1: getValues('coreValue1')?.imageFileName?.file,
+    coreValueImageFile2: getValues('coreValue2')?.imageFileName?.file,
+    coreValueImageFile3: getValues('coreValue3')?.imageFileName?.file,
+    memberImageFile1: getValues('member')?.회장?.profileImageFileName?.file,
+    memberImageFile2: getValues('member')?.부회장?.profileImageFileName?.file,
+    memberImageFile3: getValues('member')?.총무?.profileImageFileName?.file,
+    memberImageFile4:
+      getValues('member')?.['운영 팀장']?.profileImageFileName?.file,
+    memberImageFile5:
+      getValues('member')?.['미디어 팀장']?.profileImageFileName?.file,
+    memberImageFile6:
+      getValues('member')?.['메이커스 팀장']?.profileImageFileName?.file,
+    memberImageFile7: getValues('member')?.기획?.profileImageFileName?.file,
+    memberImageFile8: getValues('member')?.디자인?.profileImageFileName?.file,
+    memberImageFile9:
+      getValues('member')?.안드로이드?.profileImageFileName?.file,
+    memberImageFile10: getValues('member')?.iOS?.profileImageFileName?.file,
+    memberImageFile11: getValues('member')?.웹?.profileImageFileName?.file,
+    memberImageFile12: getValues('member')?.서버?.profileImageFileName?.file,
     recruitHeaderImageFile: getValues('recruitHeaderImage')?.file,
   });
 
@@ -60,394 +81,198 @@ function OrgAdmin() {
     setSelectedPart(part);
   };
 
-  const validateSchedule = () => {
-    const validateGroup = (groupKey: Group) => {
-      const groupFields = SCHEDULE_FIELDS[groupKey];
-      return Object.values(groupFields)
-        .flat()
-        .map((field) => getValues(field.id))
-        .every((value) => !!value);
-    };
-
-    const isOBValid = validateGroup('OB');
-    if (!isOBValid) {
-      setSelectedPart('공통');
-      setGroup('OB');
-      return false;
-    }
-
-    const isYBValid = validateGroup('YB');
-    if (!isYBValid) {
-      setSelectedPart('공통');
-      setGroup('YB');
-      return false;
-    }
-
-    return true;
+  const onChangeIntroPart = (part: PART_KO) => {
+    setIntroPart(part);
   };
 
-  const validateCurriculum = () => {
-    for (const part of PART_LIST) {
-      const content = getValues(`recruitPartCurriculum_${part}_content`);
-      const preference = getValues(`recruitPartCurriculum_${part}_preference`);
-      if (!content || !preference) {
-        setCurriculumPart(part);
-        setSelectedPart('지원하기');
-        return false;
-      }
-    }
-    return true;
-  };
-
-  const validateFna = () => {
-    for (const part of PART_LIST) {
-      const questionsAndAnswers = Array.from({ length: 3 }, (_, index) => ({
-        question: getValues(
-          `recruitQuestion_${part}_questions_${index}_question`,
-        ),
-        answer: getValues(`recruitQuestion_${part}_questions_${index}_answer`),
-      }));
-
-      const isPartValid = questionsAndAnswers.every(
-        ({ question, answer }) => !!question && !!answer,
+  const handleCheckNonFilledInputs = () => {
+    const handleValidateCommonInputs = () =>
+      validationCommonInputs(getValues, setError, setGroup);
+    const handleValidateHomeInputs = () =>
+      validationHomeInputs(getValues, setError, onChangeIntroPart);
+    const handleValidationAboutInputs = () =>
+      validationAboutInputs(
+        getValues,
+        setError,
+        setSelectedPartInHomeTap,
+        setSelectedExec,
+      );
+    const handleValidationRecruitInputs = () =>
+      validationRecruitInputs(
+        getValues,
+        setError,
+        setCurriculumPart,
+        setFnaPart,
       );
 
-      if (!isPartValid) {
-        setFnaPart(part);
-        setSelectedPart('지원하기');
+    const validationFlow = {
+      공통: [
+        handleValidateCommonInputs,
+        handleValidateHomeInputs,
+        handleValidationAboutInputs,
+        handleValidationRecruitInputs,
+      ],
+      홈: [
+        handleValidateHomeInputs,
+        handleValidateCommonInputs,
+        handleValidationAboutInputs,
+        handleValidationRecruitInputs,
+      ],
+      소개: [
+        handleValidationAboutInputs,
+        handleValidateCommonInputs,
+        handleValidateHomeInputs,
+        handleValidationRecruitInputs,
+      ],
+      지원하기: [
+        handleValidationRecruitInputs,
+        handleValidateCommonInputs,
+        handleValidateHomeInputs,
+        handleValidationAboutInputs,
+      ],
+    };
+
+    const validationSequence = validationFlow[selectedPart];
+
+    const getPartForValidation = (validateFn: () => boolean) => {
+      if (validateFn === handleValidateCommonInputs) return '공통';
+      if (validateFn === handleValidationAboutInputs) return '소개';
+      if (validateFn === handleValidationRecruitInputs) return '지원하기';
+      if (validateFn === handleValidateHomeInputs) return '홈';
+      return '공통';
+    };
+
+    for (const validate of validationSequence) {
+      const isValid = validate();
+
+      if (!isValid) {
+        open({
+          icon: 'error',
+          content: `${getPartForValidation(validate)}탭에 아직 채우지 않은 필드가 있어요.`,
+        });
+        setSelectedPart(getPartForValidation(validate));
         return false;
       }
     }
+
     return true;
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    const isScheduleValid = validateSchedule();
-    const isCurriculumValid = validateCurriculum();
-    const isFnaValid = validateFna();
-
-    if (isScheduleValid && isCurriculumValid && isFnaValid) {
-      const {
-        brandingColor_high,
-        brandingColor_low,
-        brandingColor_main,
-        brandingColor_point,
-        generation,
-        name,
-        recruitHeaderImage: { fileName: recruitHeaderImageFileName },
-        recruitPartCurriculum_iOS_content,
-        recruitPartCurriculum_iOS_preference,
-        recruitPartCurriculum_기획_content,
-        recruitPartCurriculum_기획_preference,
-        recruitPartCurriculum_디자인_content,
-        recruitPartCurriculum_디자인_preference,
-        recruitPartCurriculum_서버_content,
-        recruitPartCurriculum_서버_preference,
-        recruitPartCurriculum_안드로이드_content,
-        recruitPartCurriculum_안드로이드_preference,
-        recruitPartCurriculum_웹_content,
-        recruitPartCurriculum_웹_preference,
-        recruitQuestion_iOS_questions_0_answer,
-        recruitQuestion_iOS_questions_0_question,
-        recruitQuestion_iOS_questions_1_answer,
-        recruitQuestion_iOS_questions_1_question,
-        recruitQuestion_iOS_questions_2_answer,
-        recruitQuestion_iOS_questions_2_question,
-        recruitQuestion_기획_questions_0_answer,
-        recruitQuestion_기획_questions_0_question,
-        recruitQuestion_기획_questions_1_answer,
-        recruitQuestion_기획_questions_1_question,
-        recruitQuestion_기획_questions_2_answer,
-        recruitQuestion_기획_questions_2_question,
-        recruitQuestion_디자인_questions_0_answer,
-        recruitQuestion_디자인_questions_0_question,
-        recruitQuestion_디자인_questions_1_answer,
-        recruitQuestion_디자인_questions_1_question,
-        recruitQuestion_디자인_questions_2_answer,
-        recruitQuestion_디자인_questions_2_question,
-        recruitQuestion_서버_questions_0_answer,
-        recruitQuestion_서버_questions_0_question,
-        recruitQuestion_서버_questions_1_answer,
-        recruitQuestion_서버_questions_1_question,
-        recruitQuestion_서버_questions_2_answer,
-        recruitQuestion_서버_questions_2_question,
-        recruitQuestion_안드로이드_questions_0_answer,
-        recruitQuestion_안드로이드_questions_0_question,
-        recruitQuestion_안드로이드_questions_1_answer,
-        recruitQuestion_안드로이드_questions_1_question,
-        recruitQuestion_안드로이드_questions_2_answer,
-        recruitQuestion_안드로이드_questions_2_question,
-        recruitQuestion_웹_questions_0_answer,
-        recruitQuestion_웹_questions_0_question,
-        recruitQuestion_웹_questions_1_answer,
-        recruitQuestion_웹_questions_1_question,
-        recruitQuestion_웹_questions_2_answer,
-        recruitQuestion_웹_questions_2_question,
-        recruitSchedule_OB_schedule_applicationEndTime,
-        recruitSchedule_OB_schedule_applicationResultTime,
-        recruitSchedule_OB_schedule_applicationStartTime,
-        recruitSchedule_OB_schedule_finalResultTime,
-        recruitSchedule_OB_schedule_interviewEndTime,
-        recruitSchedule_OB_schedule_interviewStartTime,
-        recruitSchedule_YB_schedule_applicationEndTime,
-        recruitSchedule_YB_schedule_applicationResultTime,
-        recruitSchedule_YB_schedule_applicationStartTime,
-        recruitSchedule_YB_schedule_finalResultTime,
-        recruitSchedule_YB_schedule_interviewEndTime,
-        recruitSchedule_YB_schedule_interviewStartTime,
-        headerImageFileName,
-        coreValue1,
-        coreValue2,
-        coreValue3,
-        partCurriculum,
-        member,
-      } = data;
-
-      const 임원진 = [...임원진_LIST, ...PART_LIST];
-      const sendingData: AddAdminRequestDto = {
-        generation,
-        name,
-        recruitSchedule: [
-          {
-            type: 'OB',
-            schedule: {
-              applicationStartTime:
-                recruitSchedule_OB_schedule_applicationStartTime,
-              applicationEndTime:
-                recruitSchedule_OB_schedule_applicationEndTime,
-              applicationResultTime:
-                recruitSchedule_OB_schedule_applicationResultTime,
-              interviewStartTime:
-                recruitSchedule_OB_schedule_interviewStartTime,
-              interviewEndTime: recruitSchedule_OB_schedule_interviewEndTime,
-              finalResultTime: recruitSchedule_OB_schedule_finalResultTime,
-            },
-          },
-          {
-            type: 'YB',
-            schedule: {
-              applicationStartTime:
-                recruitSchedule_YB_schedule_applicationStartTime,
-              applicationEndTime:
-                recruitSchedule_YB_schedule_applicationEndTime,
-              applicationResultTime:
-                recruitSchedule_YB_schedule_applicationResultTime,
-              interviewStartTime:
-                recruitSchedule_YB_schedule_interviewStartTime,
-              interviewEndTime: recruitSchedule_YB_schedule_interviewEndTime,
-              finalResultTime: recruitSchedule_YB_schedule_finalResultTime,
-            },
-          },
-        ],
-        brandingColor: {
-          main: brandingColor_main,
-          low: brandingColor_low,
-          high: brandingColor_high,
-          point: brandingColor_point,
+    const {
+      generation,
+      brandingColor,
+      coreValue1,
+      coreValue2,
+      coreValue3,
+      headerImageFileName,
+      member,
+      name,
+      partCurriculum,
+      partIntroductioniOS,
+      partIntroduction기획,
+      partIntroduction디자인,
+      partIntroduction서버,
+      partIntroduction안드로이드,
+      partIntroduction웹,
+      recruitHeaderImage,
+      recruitPartCurriculum,
+      recruitQuestion,
+      recruitSchedule,
+    } = data;
+    const requestBody: AddAdminRequestDto = {
+      generation: Number(generation),
+      name,
+      recruitSchedule: [
+        {
+          type: 'OB',
+          schedule: recruitSchedule.OB,
         },
-        mainButton: {
-          text: '지원하기',
-          keyColor: '#FF0000',
-          subColor: '#CC0000',
+        {
+          type: 'YB',
+          schedule: recruitSchedule.YB,
         },
-        partIntroduction: [
+      ],
+      brandingColor,
+      mainButton: {
+        text: '지원하기',
+        keyColor: '#FF0000',
+        subColor: '#CC0000',
+      },
+      partIntroduction: [
+        {
+          part: '기획',
+          description: partIntroduction기획,
+        },
+        {
+          part: '디자인',
+          description: partIntroduction디자인,
+        },
+        {
+          part: '서버',
+          description: partIntroduction서버,
+        },
+        {
+          part: '웹',
+          description: partIntroduction웹,
+        },
+        {
+          part: '안드로이드',
+          description: partIntroduction안드로이드,
+        },
+        {
+          part: 'iOS',
+          description: partIntroductioniOS,
+        },
+      ],
+      headerImageFileName: headerImageFileName.fileName,
+      coreValue: [
+        {
+          ...coreValue1,
+          imageFileName: coreValue1.imageFileName.fileName,
+        },
+        {
+          ...coreValue2,
+          imageFileName: coreValue2.imageFileName.fileName,
+        },
+        {
+          ...coreValue3,
+          imageFileName: coreValue3.imageFileName.fileName,
+        },
+      ],
+      partCurriculum: PART_LIST.map((part) => ({
+        part,
+        curriculums: partCurriculum[part],
+      })),
+      member: [...임원진_LIST, ...PART_LIST].map((exec) => ({
+        role: exec,
+        ...member[exec],
+        profileImageFileName: member[exec].profileImageFileName.fileName,
+      })),
+      recruitHeaderImageFileName: recruitHeaderImage.fileName,
+      recruitPartCurriculum: PART_LIST.map((part) => ({
+        part,
+        introduction: recruitPartCurriculum[part],
+      })),
+      recruitQuestion: PART_LIST.map((part) => ({
+        part,
+        questions: [
           {
-            part: '기획',
-            description: '기획 앱 개발',
+            question: recruitQuestion[part].question0,
+            answer: recruitQuestion[part].answer0,
           },
           {
-            part: '디자인',
-            description: '디자인 앱 개발',
+            question: recruitQuestion[part].question1,
+            answer: recruitQuestion[part].answer1,
           },
           {
-            part: '안드로이드',
-            description: '안드로이드 앱 개발',
-          },
-          {
-            part: 'iOS',
-            description: 'iOS 앱 개발',
-          },
-          {
-            part: '웹',
-            description: '웹 앱 개발',
-          },
-          {
-            part: '서버',
-            description: '서버 앱 개발',
-          },
-        ],
-        headerImageFileName: headerImageFileName?.fileName,
-        coreValue: [
-          { ...coreValue1, imageFileName: coreValue1.imageFileName?.fileName },
-          { ...coreValue2, imageFileName: coreValue2.imageFileName?.fileName },
-          { ...coreValue3, imageFileName: coreValue3.imageFileName?.fileName },
-        ],
-        partCurriculum: PART_LIST.map((v) => {
-          return {
-            part: v,
-            curriculums: partCurriculum[v],
-          };
-        }),
-        member: 임원진.map((v) => {
-          return {
-            ...member[v],
-            role: v,
-            profileImageFileName: member[v]?.profileImageFileName?.fileName,
-          };
-        }),
-        recruitHeaderImageFileName,
-        recruitPartCurriculum: [
-          {
-            part: '기획',
-            introduction: {
-              content: recruitPartCurriculum_기획_content,
-              preference: recruitPartCurriculum_기획_preference,
-            },
-          },
-          {
-            part: '디자인',
-            introduction: {
-              content: recruitPartCurriculum_디자인_content,
-              preference: recruitPartCurriculum_디자인_preference,
-            },
-          },
-          {
-            part: '안드로이드',
-            introduction: {
-              content: recruitPartCurriculum_안드로이드_content,
-              preference: recruitPartCurriculum_안드로이드_preference,
-            },
-          },
-          {
-            part: 'iOS',
-            introduction: {
-              content: recruitPartCurriculum_iOS_content,
-              preference: recruitPartCurriculum_iOS_preference,
-            },
-          },
-          {
-            part: '웹',
-            introduction: {
-              content: recruitPartCurriculum_웹_content,
-              preference: recruitPartCurriculum_웹_preference,
-            },
-          },
-          {
-            part: '서버',
-            introduction: {
-              content: recruitPartCurriculum_서버_content,
-              preference: recruitPartCurriculum_서버_preference,
-            },
+            question: recruitQuestion[part].question2,
+            answer: recruitQuestion[part].answer2,
           },
         ],
-        recruitQuestion: [
-          {
-            part: '기획',
-            questions: [
-              {
-                question: recruitQuestion_기획_questions_0_question,
-                answer: recruitQuestion_기획_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_기획_questions_1_question,
-                answer: recruitQuestion_기획_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_기획_questions_2_question,
-                answer: recruitQuestion_기획_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '디자인',
-            questions: [
-              {
-                question: recruitQuestion_디자인_questions_0_question,
-                answer: recruitQuestion_디자인_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_디자인_questions_1_question,
-                answer: recruitQuestion_디자인_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_디자인_questions_2_question,
-                answer: recruitQuestion_디자인_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '안드로이드',
-            questions: [
-              {
-                question: recruitQuestion_안드로이드_questions_0_question,
-                answer: recruitQuestion_안드로이드_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_안드로이드_questions_1_question,
-                answer: recruitQuestion_안드로이드_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_안드로이드_questions_2_question,
-                answer: recruitQuestion_안드로이드_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: 'iOS',
-            questions: [
-              {
-                question: recruitQuestion_iOS_questions_0_question,
-                answer: recruitQuestion_iOS_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_iOS_questions_1_question,
-                answer: recruitQuestion_iOS_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_iOS_questions_2_question,
-                answer: recruitQuestion_iOS_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '웹',
-            questions: [
-              {
-                question: recruitQuestion_웹_questions_0_question,
-                answer: recruitQuestion_웹_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_웹_questions_1_question,
-                answer: recruitQuestion_웹_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_웹_questions_2_question,
-                answer: recruitQuestion_웹_questions_2_answer,
-              },
-            ],
-          },
-          {
-            part: '서버',
-            questions: [
-              {
-                question: recruitQuestion_서버_questions_0_question,
-                answer: recruitQuestion_서버_questions_0_answer,
-              },
-              {
-                question: recruitQuestion_서버_questions_1_question,
-                answer: recruitQuestion_서버_questions_1_answer,
-              },
-              {
-                question: recruitQuestion_서버_questions_2_question,
-                answer: recruitQuestion_서버_questions_2_answer,
-              },
-            ],
-          },
-        ],
-      };
-
-      sendMutate(sendingData);
-    }
+      })),
+    };
+    sendMutate(requestBody);
   };
 
   return (
@@ -461,7 +286,7 @@ function OrgAdmin() {
         />
       </StListHeader>
       <FormProvider {...methods}>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <form noValidate>
           {selectedPart === '공통' ? (
             <CommonSection
               group={group}
@@ -469,10 +294,22 @@ function OrgAdmin() {
                 setGroup(group);
               }}
             />
-          ) : selectedPart === '소개' ? (
-            <AboutSection />
           ) : selectedPart === '홈' ? (
-            <HomeSection />
+            <HomeSection
+              selectedIntroPart={introPart}
+              onChangeIntroPart={onChangeIntroPart}
+            />
+          ) : selectedPart === '소개' ? (
+            <AboutSection
+              selectedPart={selectedPartInHomeTap}
+              onChangeSelectedPart={(part: PART_KO) =>
+                setSelectedPartInHomeTap(part)
+              }
+              selectedExec={selectedExec}
+              onChangeSelectedExec={(member: EXEC_TYPE) =>
+                setSelectedExec(member)
+              }
+            />
           ) : (
             <RecruitSection
               curriculumPart={curriculumPart}
@@ -483,12 +320,33 @@ function OrgAdmin() {
               onChangeFnaPart={(part: PART_KO) => setFnaPart(part)}
             />
           )}
-          <StSubmitButton>
+          <StSubmitButton
+            type="button"
+            onClick={() => {
+              if (handleCheckNonFilledInputs()) {
+                setIsActionModalOpen(true);
+              }
+            }}>
             <SubmitIcon />
             <StSubmitText>{sendIsLoading ? '배포 중...' : '배포'}</StSubmitText>
           </StSubmitButton>
         </form>
       </FormProvider>
+      <ActionModal
+        isOpen={isActionModalOpen}
+        onCancel={() => {
+          setIsActionModalOpen(false);
+        }}
+        onAction={() => {
+          setIsActionModalOpen(false);
+          handleSubmit(onSubmit)();
+        }}
+        variant="deploy"
+        alertText="배포하시겠습니까?"
+        description={
+          '입력한 내용은 공홈에 즉시 반영돼요.\n잘못 기입된 부분이 없는지 마지막으로 확인해주세요.'
+        }
+      />
     </>
   );
 }
