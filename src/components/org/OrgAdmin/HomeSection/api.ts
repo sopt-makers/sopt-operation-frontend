@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import config from '@/configs/config';
 import { getToken } from '@/utils/auth';
+import { ACTIVITY_GENERATION } from '@/utils/generation';
 
 import { fetcher } from '../api';
 
@@ -9,7 +10,7 @@ export const getAdminInfo = async () => {
   const { data } = await fetcher.GET('/admin', {
     params: {
       query: {
-        generation: '34',
+        generation: ACTIVITY_GENERATION,
       },
     },
   });
@@ -33,11 +34,17 @@ export const postNews = async (formData: FormData) => {
 };
 
 export const deleteNews = async (id: number) => {
-  const response = await fetcher.POST('/admin/news/delete', {
-    body: {
+  const res = await axios.post(
+    `${config.ORG_API_URL}/v2/admin/news/delete`,
+    {
       id,
     },
-  });
+    {
+      headers: {
+        Authorization: getToken('ACCESS'),
+      },
+    },
+  );
 
-  return response;
+  return res;
 };
