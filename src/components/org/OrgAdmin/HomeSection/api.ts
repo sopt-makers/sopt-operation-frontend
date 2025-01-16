@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import config from '@/configs/config';
 import { getToken } from '@/utils/auth';
 
 import { fetcher } from '../api';
@@ -18,7 +19,7 @@ export const getAdminInfo = async () => {
 
 export const postNews = async (formData: FormData) => {
   const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_ORG_API}/admin/news`,
+    `${config.ORG_API_URL}/v2/admin/news`,
     formData,
     {
       headers: {
@@ -32,17 +33,11 @@ export const postNews = async (formData: FormData) => {
 };
 
 export const deleteNews = async (id: number) => {
-  const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_ORG_API}/admin/news/delete`,
-    {
+  const response = await fetcher.POST('/admin/news/delete', {
+    body: {
       id,
     },
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
-      },
-    },
-  );
+  });
 
-  return res;
+  return response;
 };
