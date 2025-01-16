@@ -1,4 +1,4 @@
-import { useToast } from '@sopt-makers/ui';
+import { Button, useToast } from '@sopt-makers/ui';
 import { useState } from 'react';
 import {
   type FieldValues,
@@ -8,7 +8,10 @@ import {
 } from 'react-hook-form';
 
 import { AddAdminRequestDto } from '@/__generated__/org-types/data-contracts';
-import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
+import {
+  StDevHStack,
+  StListHeader,
+} from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
 import {
   type EXEC_TYPE,
@@ -49,7 +52,7 @@ function OrgAdmin() {
   const [introPart, setIntroPart] = useState<PART_KO>('기획');
 
   const methods = useForm({ mode: 'onBlur' });
-  const { handleSubmit, getValues, setError } = methods;
+  const { handleSubmit, getValues, setError, reset, setValue } = methods;
 
   const { open } = useToast();
 
@@ -272,11 +275,79 @@ function OrgAdmin() {
         ],
       })),
     };
+
     sendMutate(requestBody);
   };
 
+  const handleClickMagicButton = (type: 'SET' | 'GET' | 'IMAGE' | 'RESET') => {
+    if (type === 'SET') {
+      localStorage.setItem('org-admin', JSON.stringify(getValues()));
+      alert('데이터 임시저장 성공!');
+      return;
+    }
+    if (type === 'GET') {
+      const data = localStorage.getItem('org-admin');
+      if (!data) {
+        alert('저장된 데이터가 없음ㅠ');
+      } else {
+        reset(JSON.parse(data));
+        alert(
+          '데이터 불러오기 성공! \n소개탭 헤더를 반드시 다시 첨부해주세요!',
+        );
+      }
+      return;
+    }
+
+    if (type === 'IMAGE') {
+      const headerImage = getValues('headerImageFileName');
+      if (!(headerImage.file instanceof File)) {
+        alert('소개탭 헤더 넣어주세용');
+        return;
+      }
+      setValue('coreValue1.imageFileName', headerImage);
+      setValue('coreValue2.imageFileName', headerImage);
+      setValue('coreValue3.imageFileName', headerImage);
+      setValue('member.회장.profileImageFileName', headerImage);
+      setValue('member.부회장.profileImageFileName', headerImage);
+      setValue('member.총무.profileImageFileName', headerImage);
+      setValue('member.운영 팀장.profileImageFileName', headerImage);
+      setValue('member.미디어 팀장.profileImageFileName', headerImage);
+      setValue('member.메이커스 팀장.profileImageFileName', headerImage);
+      setValue('member.기획.profileImageFileName', headerImage);
+      setValue('member.디자인.profileImageFileName', headerImage);
+      setValue('member.안드로이드.profileImageFileName', headerImage);
+      setValue('member.iOS.profileImageFileName', headerImage);
+      setValue('member.웹.profileImageFileName', headerImage);
+      setValue('member.서버.profileImageFileName', headerImage);
+      setValue('recruitHeaderImage', headerImage);
+
+      alert('소개탭 헤더로 이미지 밀기 성공!');
+      return;
+    }
+    localStorage.removeItem('org-admin');
+
+    alert('데이터 초기화 성공! 새로고침하세용');
+  };
   return (
     <>
+      {process.env.NODE_ENV === 'development' && (
+        <StDevHStack>
+          <p>매직버튼</p>
+          <Button size="sm" onClick={() => handleClickMagicButton('SET')}>
+            임시저장
+          </Button>
+          <Button size="sm" onClick={() => handleClickMagicButton('GET')}>
+            불러오기
+          </Button>
+          <Button size="sm" onClick={() => handleClickMagicButton('IMAGE')}>
+            이미지 채우기
+          </Button>
+          <Button size="sm" onClick={() => handleClickMagicButton('RESET')}>
+            데이터삭제
+          </Button>
+        </StDevHStack>
+      )}
+
       <StListHeader>
         <h1>공홈 관리</h1>
         <FilterButton
