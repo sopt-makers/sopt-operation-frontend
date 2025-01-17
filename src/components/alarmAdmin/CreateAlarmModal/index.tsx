@@ -5,7 +5,6 @@ import { Button, Chip, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
 import { ChangeEvent, useState } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { IcDeleteFile } from '@/assets/icons';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import { createReserveAlarm, sendAlarm } from '@/services/api/alarm';
@@ -173,7 +172,7 @@ function CreateAlarmModal(props: Props) {
   const handleClickCancelButton = () => {
     if (
       confirm(
-        '알림 생성 모달을 종료하면 작성된 내용이 모두 사라져요. 그래도 삭제하시겠어요?',
+        '알림 생성 모달을 종료하면 작성된 내용이 모두 사라져요.\n그래도 삭제하시겠어요?',
       )
     ) {
       onClose();
@@ -277,13 +276,13 @@ function CreateAlarmModal(props: Props) {
                       theme="black"
                       size="sm"
                       css={{
-                        padding: '8px',
+                        padding: '6px',
                         '& > span': {
-                          width: '24px',
-                          height: '24px',
+                          width: '16px',
+                          height: '16px',
                         },
                       }}>
-                      <IconXClose style={{ width: '24px', height: '24px' }} />
+                      <IconXClose style={{ width: '16px', height: '16px' }} />
                     </Button>
                   </div>
                 ) : (
