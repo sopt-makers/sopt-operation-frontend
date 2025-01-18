@@ -1,6 +1,8 @@
 import axios from 'axios';
 
+import config from '@/configs/config';
 import { getToken } from '@/utils/auth';
+import { ACTIVITY_GENERATION } from '@/utils/generation';
 
 import { fetcher } from '../api';
 
@@ -8,7 +10,7 @@ export const getAdminInfo = async () => {
   const { data } = await fetcher.GET('/admin', {
     params: {
       query: {
-        generation: '34',
+        generation: ACTIVITY_GENERATION,
       },
     },
   });
@@ -18,7 +20,7 @@ export const getAdminInfo = async () => {
 
 export const postNews = async (formData: FormData) => {
   const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_ORG_API}/admin/news`,
+    `${config.ORG_API_URL}/v2/admin/news`,
     formData,
     {
       headers: {
@@ -33,7 +35,7 @@ export const postNews = async (formData: FormData) => {
 
 export const deleteNews = async (id: number) => {
   const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_ORG_API}/admin/news/delete`,
+    `${config.ORG_API_URL}/v2/admin/news/delete`,
     {
       id,
     },
