@@ -1,0 +1,36 @@
+name: Build Dev
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build project
+        run: yarn build
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: your-project-name # Cloudflare Pages 프로젝트 이름으로 변경해주세요
+          directory: .out
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: dev
