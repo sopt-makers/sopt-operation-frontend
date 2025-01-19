@@ -1,14 +1,23 @@
 import { Button, Tab } from '@sopt-makers/ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { getBannerList } from '@/services/api/banner';
+import { useGetBannerList } from '@/services/api/banner/query';
 
 import CreateBannerModal from './components/BannerModal/BannerModal';
 import ListItem from './components/ListItem/ListItem';
 import { bannerListCss, bannerListHeaderCss } from './style';
-import { TabOption } from './types';
 
 const BannerList = () => {
   const [selectedTab, setSelectedTab] = useState<TabOption>('all');
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data: bannerList } = useGetBannerList(
+    selectedTab as BannerList['status'],
+    'status',
+  );
+
+  console.log(bannerList);
 
   return (
     <>
@@ -23,9 +32,9 @@ const BannerList = () => {
         모달 열기
       </Button>
       <ul css={bannerListCss}>
-        <ListItem progress="reserved" tag="pg-community" />
-        <ListItem progress="in-progress" tag="cr-main" />
-        <ListItem progress="finished" tag="cr-feed" />
+        {bannerList?.banners.map((banner) => (
+          <ListItem key={banner.id} {...banner} />
+        ))}
       </ul>
       <CreateBannerModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>

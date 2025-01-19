@@ -45,6 +45,7 @@ const CreateBannerModal = (props: CreateBannerModalProps) => {
             <Radio label="생일 광고" size="lg" />
           </div>
         </FieldBox>
+        <TextField labelText="노출 일정" required />
       </section>
     </Modal>
   );

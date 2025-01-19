@@ -2,7 +2,6 @@ import { IconEdit, IconTrash } from '@sopt-makers/icons';
 import { Tag } from '@sopt-makers/ui';
 import { CSSProperties } from 'react';
 
-import { Progress, TagType } from '../../types';
 import {
   listItemCss,
   progressColorVariant,
@@ -11,29 +10,35 @@ import {
   tagCss,
 } from './style';
 
-export interface ListItemProp {
-  progress: Progress;
-  tag: TagType;
-}
+export interface ListItemProp extends BannerList {}
 
-const ProgressTextMap: Record<Progress, string> = {
+const ProgressTextMap: Record<BannerList['status'], string> = {
   reserved: '진행 예정',
-  finished: '진행 종료',
-  'in-progress': '진행 중',
+  in_progress: '진행 중',
+  done: '진행 종료',
 };
 
-const TagTextMap: Record<TagType, string> = {
-  'pg-community': '플그 커뮤니티',
-  'cr-main': '크루 메인',
-  'cr-feed': '크루 피드',
-  org: '오거나이저',
+const TagTextMap: Record<BannerList['content_type'], string> = {
+  product: '상품',
+  birthday: '생일',
+  sponsor: '스폰서',
+  event: '이벤트',
+  etc: '기타',
 };
 
 const ListItem = (props: ListItemProp) => {
-  const { progress, tag } = props;
+  const {
+    status,
+    location,
+    content_type,
+    title,
+    publisher,
+    start_date,
+    end_date,
+  } = props;
 
-  const progressStyle = { ...progressColorVariant[progress] } as CSSProperties;
-  const tagStyle = { ...tagColorVariant[tag] } as CSSProperties;
+  const progressStyle = { ...progressColorVariant[status] } as CSSProperties;
+  const tagStyle = { ...tagColorVariant[content_type] } as CSSProperties;
 
   return (
     <li css={listItemCss}>
@@ -41,18 +46,18 @@ const ListItem = (props: ListItemProp) => {
         aria-describedby="진행 상태(임시)"
         style={progressStyle}
         css={progressCss}>
-        {ProgressTextMap[progress]}
+        {ProgressTextMap[status]}
       </div>
       <div>
         <Tag size="md" shape="pill" css={tagCss}>
-          {TagTextMap[tag]}
+          {TagTextMap[content_type]}
         </Tag>
         <Tag size="md" shape="pill">
-          {TagTextMap[tag]}
+          {TagTextMap[content_type]}
         </Tag>
-        <span>{TagTextMap[tag]}</span>
-        <span>2024.11.02</span>
-        <span>2024.11.02</span>
+        <span>{TagTextMap[content_type]}</span>
+        <span>{start_date}</span>
+        <span>{end_date}</span>
       </div>
       <div>
         <IconEdit />
