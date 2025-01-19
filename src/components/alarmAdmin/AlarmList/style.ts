@@ -52,7 +52,7 @@ export const StListItem = styled.li`
     .alarm-title {
       ${fontsObject.TITLE_5_18_SB}
       color: ${colors.gray30};
-      max-width: 146px;
+      width: 146px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

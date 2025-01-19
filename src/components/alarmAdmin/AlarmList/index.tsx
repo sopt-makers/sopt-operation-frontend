@@ -84,19 +84,22 @@ function AlarmList(props: Props) {
                   ? 'alarm-status before'
                   : 'alarm-status after'
               }>
-              {alarmStatusTranslator[alarm.status]}
+              {alarm.status}
             </p>
 
             <div className="alarm-info-wrap">
-              <div>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
                 <p className="alarm-title">{alarm.title}</p>
+                <Tag size="sm" shape="pill" variant="secondary" type="line">
+                  {alarm.targetType}
+                </Tag>
                 <Tag size="sm" shape="pill" variant="primary" type="line">
-                  {alarm.part ?? '지정대상'}
+                  {alarm.targetPart ?? '지정대상'}
                 </Tag>
               </div>
 
               <p className="alarm-sent-at">
-                {alarm.alarmType + ': '}
+                {alarm.sendType + ' : '}
                 {alarm.sendAt
                   ? dayjs(alarm.sendAt).format('YYYY/MM/DD HH:mm')
                   : ''}
