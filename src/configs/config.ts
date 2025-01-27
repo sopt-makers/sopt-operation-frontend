@@ -7,7 +7,7 @@ const CLIENT_URL = 'https://operation.sopt.org';
 const ORG_API_URL =
   process.env.NEXT_PUBLIC_API_URL === 'PRODUCTION'
     ? 'https://api.sopt.org'
-    : 'https://api-dev.sopt.org';
+    : 'https://api.sopt.org'; // 임시 수정 (QA용 prod 연결)
 
 const config = {
   ENV_STATUS: process.env.NODE_ENV,
