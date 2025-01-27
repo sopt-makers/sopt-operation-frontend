@@ -330,7 +330,7 @@ function OrgAdmin() {
   };
   return (
     <>
-      {process.env.NODE_ENV === 'development' && (
+      {process.env.NEXT_PUBLIC_API_URL !== 'PRODUCTION' && (
         <StDevHStack>
           <p>매직버튼</p>
           <Button size="sm" onClick={() => handleClickMagicButton('SET')}>
