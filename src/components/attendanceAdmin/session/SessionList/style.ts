@@ -2,6 +2,17 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
+export const StDevHStack = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 15px;
+  & > p {
+    ${fontsObject.TITLE_7_14_SB}
+    color:  ${colors.gray10};
+  }
+`;
 export const StListHeader = styled.header`
   h1 {
     ${fontsObject.TITLE_1_32_SB}

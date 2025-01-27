@@ -28,27 +28,27 @@ interface UseMutateSendDataProps {
   recruitHeaderImageFile: File;
 }
 
-const useMutateSendData = ({
-  headerImageFile,
-  coreValueImageFile1,
-  coreValueImageFile2,
-  coreValueImageFile3,
-  memberImageFile1,
-  memberImageFile2,
-  memberImageFile3,
-  memberImageFile4,
-  memberImageFile5,
-  memberImageFile6,
-  memberImageFile7,
-  memberImageFile8,
-  memberImageFile9,
-  memberImageFile10,
-  memberImageFile11,
-  memberImageFile12,
-  recruitHeaderImageFile,
-}: UseMutateSendDataProps) => {
+const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
+  const {
+    headerImageFile,
+    coreValueImageFile1,
+    coreValueImageFile2,
+    coreValueImageFile3,
+    memberImageFile1,
+    memberImageFile2,
+    memberImageFile3,
+    memberImageFile4,
+    memberImageFile5,
+    memberImageFile6,
+    memberImageFile7,
+    memberImageFile8,
+    memberImageFile9,
+    memberImageFile10,
+    memberImageFile11,
+    memberImageFile12,
+    recruitHeaderImageFile,
+  } = fileProps;
   const { open } = useToast();
-
   const { mutate: sendMutate, isLoading: sendIsLoading } = useMutation({
     mutationFn: (
       data: AddAdminRequestDto,
@@ -68,10 +68,16 @@ const useMutateSendData = ({
         !headerImageURL ||
         !members ||
         !recruitHeaderImageURL
-      )
+      ) {
         throw new Error('presigned url put 준비 과정에 에러가 발생함.');
-
+      }
       try {
+        if (Object.values(fileProps).some((file) => !(file instanceof File))) {
+          alert(
+            '이미지가 정상적으로 올라가지 않았어요.\n이미지를 다시 첨부하고 재배포해주세요.',
+          );
+          return;
+        }
         await Promise.all([
           sendPresignedURL(headerImageURL, headerImageFile).catch((err) => {
             console.error('소개 헤더 이미지 업로드 실패: ', err);
