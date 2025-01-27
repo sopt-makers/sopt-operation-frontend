@@ -300,7 +300,7 @@ function OrgAdmin() {
 
     if (type === 'IMAGE') {
       const headerImage = getValues('headerImageFileName');
-      if (!(headerImage.file instanceof File)) {
+      if (!(headerImage?.file instanceof File)) {
         alert('소개탭 헤더 넣어주세용');
         return;
       }
