@@ -15,6 +15,8 @@ declare global {
     | 'DEVELOPER';
   type TARGET_TYPE = 'ACTIVE' | 'INACTIVE' | 'CSV';
   type LINK_TYPE = 'WEB' | 'APP';
+  type TabOption = 'all' | BannerList['status'];
+  type BannerListSort = 'status' | 'start_date' | 'end_date';
 
   /* 에러 */
   interface LoginError {
@@ -245,6 +247,22 @@ declare global {
     linkType: LINK_TYPE | null;
     createdAt: string;
     sendAt: string | null;
+  }
+
+  interface BannerList {
+    id: number;
+    status: 'reserved' | 'in_progress' | 'done';
+    location: 'pg_community' | 'cr_main' | 'cr_feed' | 'org';
+    content_type: 'product' | 'birthday' | 'sponsor' | 'event' | 'etc';
+    title: string;
+    publisher: string;
+    start_date: string;
+    end_date: string;
+  }
+
+  interface BannerListResponse {
+    banners: BannerList[];
+    totalCount: number;
   }
 }
 
