@@ -13,8 +13,8 @@ declare global {
     | 'MAKERS'
     | 'NOT_CERTIFIED'
     | 'DEVELOPER';
-  type TARGET_TYPE = 'ACTIVE' | 'INACTIVE' | 'CSV';
-  type LINK_TYPE = 'WEB' | 'APP';
+  type TARGET_TYPE = 'ALL' | 'ACTIVE' | 'CSV';
+  type LINK_TYPE = 'WEB' | 'APP' | 'NONE';
 
   /* 에러 */
   interface LoginError {
@@ -214,10 +214,10 @@ declare global {
     title: string;
     content: string;
     category: 'NOTICE' | 'NEWS';
-    targetType: 'ALL' | 'ACTIVE' | 'CSV';
+    targetType: TARGET_TYPE;
     targetList?: Array<string>;
     part?: PART;
-    linkType?: 'WEB' | 'APP' | null;
+    linkType?: LINK_TYPE | null;
     link?: string | null;
   }
 
@@ -229,7 +229,7 @@ declare global {
     alarmId: number;
     sendType: '즉시 발송' | '예약 발송';
     targetType: TARGET_TYPE;
-    targetPart?: string;
+    targetPart?: PART;
     category: '공지' | '소식';
     title: string;
     content: string;

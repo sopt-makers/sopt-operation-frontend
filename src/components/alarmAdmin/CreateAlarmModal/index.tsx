@@ -189,7 +189,6 @@ function CreateAlarmModal(props: Props) {
       title: alarmTitle,
       content: alarmDetail,
       targetList: targetList,
-      // targetList: ['357'],
       linkType: linkTypeMap[attachOption],
       link:
         attachOption === '첨부 안함'

@@ -1,7 +1,6 @@
 import { ISendPartOptions, ISendTargetOptions } from './type';
 import {
   AttachOptionType,
-  requestLinkType,
   requestTargetType,
   SendPartType,
   SendTargetType,
@@ -24,8 +23,8 @@ export const targetTypeMap: Record<SendTargetType, requestTargetType> = {
   'CSV 첨부': 'CSV',
 };
 
-export const linkTypeMap: Record<AttachOptionType, requestLinkType> = {
-  '첨부 안함': null,
+export const linkTypeMap: Record<AttachOptionType, LINK_TYPE> = {
+  '첨부 안함': 'NONE',
   '웹 링크': 'WEB',
   '앱 내 딥링크': 'APP',
 };
