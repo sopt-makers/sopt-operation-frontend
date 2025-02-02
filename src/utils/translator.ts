@@ -41,7 +41,7 @@ export const alarmStatusTranslator: Record<ALARM_STATUS, string> = {
   COMPLETED: '발송 완료',
 };
 export const targetTypeTranslator: Record<TARGET_TYPE, string> = {
+  ALL: '전체',
   ACTIVE: '활동 회원',
-  INACTIVE: '비활동 회원',
   CSV: 'CSV 첨부',
 };
