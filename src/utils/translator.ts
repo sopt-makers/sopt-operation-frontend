@@ -1,5 +1,3 @@
-import { colors } from '@sopt-makers/colors';
-
 export const partList: PART[] = [
   'ALL',
   'PLAN',
@@ -36,4 +34,14 @@ export const attendanceTranslator: Record<ATTEND_STATUS, string> = {
   ATTENDANCE: '출석',
   TARDY: '지각',
   ABSENT: '결석',
+};
+export const alarmStatusTranslator: Record<ALARM_STATUS, string> = {
+  ALL: '전체',
+  SCHEDULED: '발송 예약',
+  COMPLETED: '발송 완료',
+};
+export const targetTypeTranslator: Record<TARGET_TYPE, string> = {
+  ALL: '전체',
+  ACTIVE: '활동 회원',
+  CSV: 'CSV 첨부',
 };

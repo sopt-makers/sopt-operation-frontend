@@ -2,16 +2,19 @@ declare global {
   type ATTEND_STATUS = 'ATTENDANCE' | 'ABSENT' | 'TARDY';
   type ATTEND_STATUS_KR = '출석' | '결석' | '지각';
   type PART = 'ALL' | 'PLAN' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER';
+  type ORG_ADMIN = '공통' | '홈' | '소개' | '지원하기';
   type SESSION_TYPE = 'SEMINAR' | 'EVENT' | 'ETC';
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
-  type ALARM_STATUS = '전체' | '발송 전' | '발송 후';
+  type ALARM_STATUS = 'ALL' | 'SCHEDULED' | 'COMPLETED';
   type ADMIN_STATUS =
     | 'SUPER_USER'
     | 'SOPT'
     | 'MAKERS'
     | 'NOT_CERTIFIED'
     | 'DEVELOPER';
+  type TARGET_TYPE = 'ALL' | 'ACTIVE' | 'CSV';
+  type LINK_TYPE = 'WEB' | 'APP' | 'NONE';
 
   /* 에러 */
   interface LoginError {
@@ -205,19 +208,43 @@ declare global {
     content: string;
     link?: string | null;
   }
+
+  interface AlarmData {
+    createdGeneration: number;
+    title: string;
+    content: string;
+    category: 'NOTICE' | 'NEWS';
+    targetType: TARGET_TYPE;
+    targetList?: Array<string>;
+    part?: PART;
+    linkType?: LINK_TYPE | null;
+    link?: string | null;
+  }
+
+  interface ReserveAlarmData extends AlarmData {
+    postDate: string;
+    postTime: string;
+  }
   interface Alarm {
     alarmId: number;
-    part: string | null;
-    attribute: string;
+    sendType: '즉시 발송' | '예약 발송';
+    targetType: TARGET_TYPE;
+    targetPart?: PART;
+    category: '공지' | '소식';
     title: string;
     content: string;
     sendAt: string;
-    status: string;
+    status: ALARM_STATUS;
   }
-  interface AlarmDetail
-    extends Omit<PostAlarmData, 'generation' | 'generationAt' | 'targetList'> {
+  interface AlarmDetail {
+    part: string | null;
+    targetType: TARGET_TYPE;
+    title: string;
+    content: string;
+    link: string | null;
+    linkType: LINK_TYPE | null;
     createdAt: string;
-    sendAt: string;
+    sendAt: string | null;
   }
 }
 

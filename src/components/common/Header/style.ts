@@ -10,6 +10,7 @@ export const StHeader = styled.header`
 
   position: fixed;
   z-index: ${zIndex.header};
+  background-color: ${colors.background};
   top: 0;
   left: 22rem;
   width: calc(100% - 22rem);

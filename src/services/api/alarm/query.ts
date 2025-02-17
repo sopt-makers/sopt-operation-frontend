@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query';
 
-import { getAlarm, getAlarmList } from './index';
+import { AlarmListResponse, getAlarm, getAlarmList } from './index';
 
-export const useGetAlarmList = (generation: number) => {
-  return useQuery<Alarm[], Error>(
-    ['alarmList', generation],
-    () => getAlarmList(generation),
+export const useGetAlarmList = (generation: number, status: ALARM_STATUS) => {
+  return useQuery<AlarmListResponse, Error>(
+    ['alarmList', generation, status],
+    () => getAlarmList(generation, status),
     { staleTime: 10 * 60 * 1000 },
   );
 };

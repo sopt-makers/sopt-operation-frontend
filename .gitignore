@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+.pnp.cjs
+.pnp.loader.mjs
 
 # testing
 /coverage
@@ -37,3 +39,15 @@ next-env.d.ts
 
 # webstorm
 .idea
+
+# env
+.env
+
+# yarn berry
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
