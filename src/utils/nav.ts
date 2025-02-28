@@ -2,7 +2,6 @@ import { IcAlarmMenu, IcAttendanceMenu, IcOrgMenu } from '@/assets/icons';
 
 export const GENERATION_INFO = [
   { generation: '36', slogan: 'AT' },
-  ,
   {
     generation: '35',
     slogan: 'AND',
@@ -17,7 +16,6 @@ export const GENERATION_INFO = [
   },
   {
     generation: '32',
-
     slogan: 'GO',
   },
 ];
