@@ -1,4 +1,5 @@
 export { default as AndSoptLogo } from './AndSoptLogo.svg';
+export { default as AtSoptLogo } from './AtSoptLogo.svg';
 export { default as DoSoptLogo } from './DoSoptLogo.svg';
 export { default as GoSoptLogo } from './GoSoptLogo.svg';
 export { default as NowSoptLogo } from './NowSoptLogo.svg';
