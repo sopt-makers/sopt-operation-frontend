@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { IcNewDropdown } from '@/assets/icons';
-import { AtSoptLogo } from '@/assets/icons/SoptLogos';
 import { useRecoilGenerationSSR } from '@/hooks/useRecoilGenerationSSR';
 import { GENERATION_INFO } from '@/utils/nav';
 
