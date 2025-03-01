@@ -22,7 +22,13 @@ const ImageInput = ({ label, description }: ImageInputProps) => {
       </StLabel>
       <StDescription>{description}</StDescription>
 
-      <MyDropZone method={method} label={label} width="167px" height="211px" />
+      <MyDropZone
+        method={method}
+        label={label}
+        width="167px"
+        height="211px"
+        required
+      />
     </StInputContainer>
   );
 };

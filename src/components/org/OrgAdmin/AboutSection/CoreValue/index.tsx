@@ -34,6 +34,7 @@ const CoreValue = () => {
             label={'coreValue1.imageFileName'}
             width="224px"
             height="190px"
+            required
           />
           <StInputBox>
             <StInput
@@ -78,6 +79,7 @@ const CoreValue = () => {
             label={'coreValue2.imageFileName'}
             width="224px"
             height="190px"
+            required
           />
           <StInputBox>
             <StInput
@@ -122,6 +124,7 @@ const CoreValue = () => {
             label={'coreValue3.imageFileName'}
             width="224px"
             height="190px"
+            required
           />
           <StInputBox>
             <StInput

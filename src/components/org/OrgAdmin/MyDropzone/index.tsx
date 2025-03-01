@@ -20,6 +20,7 @@ interface MyDropzoneProps {
   width?: string;
   height?: string;
   shape?: 'square' | 'circle';
+  required?: boolean;
 }
 
 const MyDropzone = ({
@@ -28,6 +29,7 @@ const MyDropzone = ({
   width = '547px',
   height = '166px',
   shape = 'square',
+  required,
 }: MyDropzoneProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const {
@@ -101,7 +103,7 @@ const MyDropzone = ({
         isError={errorMsg}>
         <input
           {...register(label, {
-            required: true && VALIDATION_CHECK.required.errorText,
+            required: required && true && VALIDATION_CHECK.required.errorText,
           })}
           {...getInputProps()}
         />
