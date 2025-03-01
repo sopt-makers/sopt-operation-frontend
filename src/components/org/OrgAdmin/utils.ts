@@ -105,12 +105,12 @@ export const validationAboutInputs = (
         value: partCurriculum?.[part]?.[idx],
       })),
     ),
-    ...[...임원진_LIST, ...PART_LIST].flatMap((item) =>
-      ['profileImageFileName', 'name', 'introduction'].map((key) => ({
-        name: `member.${item}.${key}`,
-        value: member?.[item]?.[key],
-      })),
-    ),
+    // ...[...임원진_LIST, ...PART_LIST].flatMap((item) =>
+    //   ['profileImageFileName', 'name', 'introduction'].map((key) => ({
+    //     name: `member.${item}.${key}`,
+    //     value: member?.[item]?.[key],
+    //   })),
+    // ),
   ];
 
   let isAllFilled = true;

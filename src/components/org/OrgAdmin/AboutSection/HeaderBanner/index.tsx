@@ -35,6 +35,7 @@ const HeaderBanner = () => {
             label="headerImageFileName"
             width="582px"
             height="191px"
+            required
           />
         </StContentWrapper>
       </StWrapper>
