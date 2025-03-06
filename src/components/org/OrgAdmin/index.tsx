@@ -247,11 +247,13 @@ function OrgAdmin() {
         part,
         curriculums: partCurriculum[part],
       })),
-      member: [...임원진_LIST, ...PART_LIST].map((exec) => ({
-        role: exec,
-        ...member[exec],
-        profileImageFileName: member[exec].profileImageFileName.fileName,
-      })),
+      member: [...임원진_LIST, ...PART_LIST]
+        .filter((exec) => member && member[exec] && member[exec].profileImageFileName)
+        .map((exec) => ({
+          role: exec,
+          ...member[exec],
+          profileImageFileName: member[exec].profileImageFileName.fileName,
+        })),
       recruitHeaderImageFileName: recruitHeaderImage.fileName,
       recruitPartCurriculum: PART_LIST.map((part) => ({
         part,
