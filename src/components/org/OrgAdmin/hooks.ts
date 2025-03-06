@@ -74,9 +74,9 @@ const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
       try {
         // 필수 이미지 체크
         if (
-          !(headerImageFile instanceof File) || 
-          !(coreValueImageFile1 instanceof File) || 
-          !(coreValueImageFile2 instanceof File) || 
+          !(headerImageFile instanceof File) ||
+          !(coreValueImageFile1 instanceof File) ||
+          !(coreValueImageFile2 instanceof File) ||
           !(coreValueImageFile3 instanceof File) ||
           !(recruitHeaderImageFile instanceof File)
         ) {
@@ -85,7 +85,7 @@ const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
           );
           return;
         }
-        
+
         // 멤버 이미지 중 최소 하나라도 있는지 체크
         const memberFiles = [
           memberImageFile1,
@@ -101,16 +101,19 @@ const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
           memberImageFile11,
           memberImageFile12,
         ];
-        
-        const hasAtLeastOneMember = memberFiles.some(file => file instanceof File);
-  
+
+        // 존재하는 임원진 파일만 필터링
+        const existMemberFiles = memberFiles.filter((file) => file);
+
+        const hasAtLeastOneMember = memberFiles.some(
+          (file) => file instanceof File,
+        );
+
         if (!hasAtLeastOneMember) {
-          alert(
-            '최소 한 명 이상의 멤버 정보를 입력해주세요.',
-          );
+          alert('최소 한 명 이상의 멤버 정보를 입력해주세요.');
           return;
         }
-        
+
         // 필수 이미지 업로드
         const uploadPromises = [
           sendPresignedURL(headerImageURL, headerImageFile).catch((err) => {
@@ -144,32 +147,29 @@ const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
         ];
 
         // 멤버 이미지는 있는 경우에만 업로드
-        const memberImageFiles = [
-          { url: members[0]?.profileImage, file: memberImageFile1, name: '회장' },
-          { url: members[1]?.profileImage, file: memberImageFile2, name: '부회장' },
-          { url: members[2]?.profileImage, file: memberImageFile3, name: '총무' },
-          { url: members[3]?.profileImage, file: memberImageFile4, name: '운영 팀장' },
-          { url: members[4]?.profileImage, file: memberImageFile5, name: '미디어 팀장' },
-          { url: members[5]?.profileImage, file: memberImageFile6, name: '메이커스 팀장' },
-          { url: members[6]?.profileImage, file: memberImageFile7, name: '기획 파트장' },
-          { url: members[7]?.profileImage, file: memberImageFile8, name: '디자인 파트장' },
-          { url: members[8]?.profileImage, file: memberImageFile9, name: '안드로이드 파트장' },
-          { url: members[9]?.profileImage, file: memberImageFile10, name: 'iOS 파트장' },
-          { url: members[10]?.profileImage, file: memberImageFile11, name: '웹 파트장' },
-          { url: members[11]?.profileImage, file: memberImageFile12, name: '서버 파트장' },
-        ];
+
+        const existMemberImageFiles = members.map(
+          (member: { profileImage: string; role: string }, index: number) => ({
+            url: member.profileImage,
+            file: existMemberFiles[index],
+            role: member.role,
+          }),
+        );
 
         // 파일이 있는 멤버만 업로드 프로미스 추가
-        memberImageFiles.forEach(({ url, file, name }) => {
-          if (url && file instanceof File) {
-            uploadPromises.push(
-              sendPresignedURL(url, file).catch((err) => {
-                console.error(`${name} 이미지 업로드 실패: `, err);
-                throw err;
-              })
-            );
-          }
-        });
+        existMemberImageFiles.forEach(
+          ({ url, file, role }: { url: string; file: File; role: string }) => {
+            if (url && file instanceof File) {
+              console.log(role);
+              uploadPromises.push(
+                sendPresignedURL(url, file).catch((err) => {
+                  console.error(`${role} 이미지 업로드 실패: `, err);
+                  throw err;
+                }),
+              );
+            }
+          },
+        );
 
         await Promise.all(uploadPromises);
 
