@@ -23,6 +23,10 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
     formState: { errors },
   } = method;
 
+  if (!selectedExec) {
+    return <div>임원을 선택해주세요.</div>;
+  }
+
   return (
     <>
       <StPhotoWrapper>

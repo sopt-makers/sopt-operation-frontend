@@ -78,7 +78,8 @@ const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
           );
           return;
         }
-        await Promise.all([
+        // 필수 이미지 업로드
+        const uploadPromises = [
           sendPresignedURL(headerImageURL, headerImageFile).catch((err) => {
             console.error('소개 헤더 이미지 업로드 실패: ', err);
             throw err;
@@ -101,85 +102,43 @@ const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
               throw err;
             },
           ),
-          sendPresignedURL(members[0].profileImage, memberImageFile1).catch(
-            (err) => {
-              console.error('회장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[1].profileImage, memberImageFile2).catch(
-            (err) => {
-              console.error('부회장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[2].profileImage, memberImageFile3).catch(
-            (err) => {
-              console.error('총무 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[3].profileImage, memberImageFile4).catch(
-            (err) => {
-              console.error('운영 팀장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[4].profileImage, memberImageFile5).catch(
-            (err) => {
-              console.error('미디어 팀장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[5].profileImage, memberImageFile6).catch(
-            (err) => {
-              console.error('메이커스 팀장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[6].profileImage, memberImageFile7).catch(
-            (err) => {
-              console.error('기획 파트장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[7].profileImage, memberImageFile8).catch(
-            (err) => {
-              console.error('디자인 파트장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[8].profileImage, memberImageFile9).catch(
-            (err) => {
-              console.error('안드로이드 파트장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[9].profileImage, memberImageFile10).catch(
-            (err) => {
-              console.error('iOS 파트장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[10].profileImage, memberImageFile11).catch(
-            (err) => {
-              console.error('웹 파트장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
-          sendPresignedURL(members[11].profileImage, memberImageFile12).catch(
-            (err) => {
-              console.error('서버 파트장 이미지 업로드 실패: ', err);
-              throw err;
-            },
-          ),
           sendPresignedURL(recruitHeaderImageURL, recruitHeaderImageFile).catch(
             (err) => {
               console.error('지원하기 헤더 이미지 업로드 실패: ', err);
               throw err;
             },
           ),
-        ]);
+        ];
+
+        // 멤버 이미지는 있는 경우에만 업로드
+        const memberImageFiles = [
+          { url: members[0]?.profileImage, file: memberImageFile1, name: '회장' },
+          { url: members[1]?.profileImage, file: memberImageFile2, name: '부회장' },
+          { url: members[2]?.profileImage, file: memberImageFile3, name: '총무' },
+          { url: members[3]?.profileImage, file: memberImageFile4, name: '운영 팀장' },
+          { url: members[4]?.profileImage, file: memberImageFile5, name: '미디어 팀장' },
+          { url: members[5]?.profileImage, file: memberImageFile6, name: '메이커스 팀장' },
+          { url: members[6]?.profileImage, file: memberImageFile7, name: '기획 파트장' },
+          { url: members[7]?.profileImage, file: memberImageFile8, name: '디자인 파트장' },
+          { url: members[8]?.profileImage, file: memberImageFile9, name: '안드로이드 파트장' },
+          { url: members[9]?.profileImage, file: memberImageFile10, name: 'iOS 파트장' },
+          { url: members[10]?.profileImage, file: memberImageFile11, name: '웹 파트장' },
+          { url: members[11]?.profileImage, file: memberImageFile12, name: '서버 파트장' },
+        ];
+
+        // 파일이 있는 멤버만 업로드 프로미스 추가
+        memberImageFiles.forEach(({ url, file, name }) => {
+          if (url && file instanceof File) {
+            uploadPromises.push(
+              sendPresignedURL(url, file).catch((err) => {
+                console.error(`${name} 이미지 업로드 실패: `, err);
+                throw err;
+              })
+            );
+          }
+        });
+
+        await Promise.all(uploadPromises);
 
         const finalResponse = await sendDataConfirm({ generation });
 
