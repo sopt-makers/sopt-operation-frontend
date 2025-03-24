@@ -100,7 +100,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
                       );
                     }}></FormController>
                 </StDateField>
-                <span style={{ marginTop: '14px' }}>-</span>
+                <StDateDash>-</StDateDash>
                 <StDateField>
                   <FormController
                     name="detail.mEndDate"
@@ -228,6 +228,9 @@ export const StInputLabel = styled.label`
   cursor: pointer;
 `;
 
+const StDateDash = styled.span`
+  font: ${fontsObject.LABEL_3_14_SB};
+`;
 export const StDescriptionTitle = styled.span`
   ${fontsObject.LABEL_3_14_SB};
   color: ${colors.gray100};
@@ -235,6 +238,7 @@ export const StDescriptionTitle = styled.span`
 
 const StDateFieldWrapper = styled.div`
   display: flex;
+  align-items: center;
   color: ${colors.gray500};
   gap: 1.2rem;
 `;
