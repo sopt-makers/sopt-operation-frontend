@@ -1,7 +1,17 @@
 import React, { useEffect } from 'react';
 import { Controller, ControllerProps, useFormContext } from 'react-hook-form';
 
-import { Option } from '../Select/OptionItem';
+interface Option {
+  label: string;
+  /**
+   * null 은 placeholder
+   */
+  value: string | null;
+  /**
+   * multiple 셀렉트에서 선택된 옵션을 표기할 순서
+   */
+  order?: number;
+}
 
 interface FormControllerProps {
   name: string;

@@ -39,6 +39,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
       position: '커뮤니티',
       pcImageFileName: '',
       mobileImageFileName: '',
+      dateRange: [],
     },
   });
 
@@ -80,34 +81,39 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
               <StDateFieldWrapper>
                 <StDateField>
                   <FormController
-                    name="detail.mStartDate"
+                    name="dateRange"
                     render={({ field, formState: { errors } }) => {
-                      const dateError = errors.detail as
-                        | (FieldError & {
-                            mStartDate?: FieldError;
-                            mEndDate?: FieldError;
-                          })
+                      const dateError = errors as
+                        | {
+                            dateRange?: FieldError[];
+                          }
                         | undefined;
                       return (
                         <CalendarInputForm
                           selectedDate={field.value}
                           setSelectedDate={field.onChange}
+                          selectedDateFieldName={field.name}
                           error={
-                            dateError?.mStartDate?.message ||
-                            dateError?.mEndDate?.message
+                            (dateError?.dateRange as FieldError[])?.[0]
+                              ?.message ||
+                            (dateError?.dateRange as FieldError[])?.[1]?.message
                           }
+                          dateType="startDate"
                         />
                       );
-                    }}></FormController>
+                    }}
+                  />
                 </StDateField>
                 <StDateDash>-</StDateDash>
                 <StDateField>
                   <FormController
-                    name="detail.mEndDate"
+                    name="dateRange"
                     render={({ field }) => (
                       <CalendarInputForm
                         selectedDate={field.value}
                         setSelectedDate={field.onChange}
+                        selectedDateFieldName={field.name}
+                        dateType="endDate"
                       />
                     )}></FormController>
                 </StDateField>
@@ -199,7 +205,8 @@ export const StCreateBannerModalWrapper = styled.div`
 const StForm = styled.form``;
 
 const StMain = styled.main`
-  max-height: 80rem;
+  max-height: 50rem;
+  overflow-y: scroll;
 `;
 
 export const StRadioGroup = styled.div`
