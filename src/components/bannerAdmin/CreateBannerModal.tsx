@@ -115,7 +115,8 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
                         selectedDateFieldName={field.name}
                         dateType="endDate"
                       />
-                    )}></FormController>
+                    )}
+                  />
                 </StDateField>
               </StDateFieldWrapper>
             </StContentWrapper>

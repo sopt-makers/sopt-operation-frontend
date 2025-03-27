@@ -183,16 +183,15 @@ const CalendarInputForm = ({
   return (
     <>
       <SInputWrapper onClick={() => setIsOpen(true)}>
-        <SInputCustom>
-          <SInput
-            type="text"
-            name={selectedDateFieldName}
-            value={inputValue}
-            onChange={handleInputChange}
-            maxLength={10}
-            placeholder="YYYY.MM.DD"
-          />
-        </SInputCustom>
+        <SInput
+          type="text"
+          name={selectedDateFieldName}
+          value={inputValue}
+          onChange={handleInputChange}
+          maxLength={10}
+          placeholder="YYYY.MM.DD"
+        />
+
         <CalendarIcon />
       </SInputWrapper>
       {error && dateType !== 'endDate' && (
@@ -217,22 +216,6 @@ export const SCalendarWrapper = styled.div`
   position: absolute;
   z-index: 9999;
   margin-top: 10px;
-`;
-
-const SInputCustom = styled.div`
-  position: 'relative';
-  width: '80%';
-  display: 'flex';
-  align-items: 'center';
-  color: ${colors.gray10};
-  caret-color: ${colors.gray10};
-
-  & .filled {
-    color: ${colors.gray10};
-  }
-  & .placeholder {
-    color: ${colors.gray500};
-  }
 `;
 
 export const SErrorMessage = styled(ErrorMessage)`
