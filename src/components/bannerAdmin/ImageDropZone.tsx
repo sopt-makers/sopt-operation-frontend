@@ -29,10 +29,13 @@ const ImageDropZone = ({
   required,
 }: MyDropzoneProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   const {
     register,
     setValue,
     watch,
+    getValues,
+    trigger,
     formState: { errors },
   } = method;
 
@@ -60,6 +63,7 @@ const ImageDropZone = ({
             { fileName: sanitizedFileName, file, previewUrl: reader.result },
             { shouldValidate: true },
           );
+          // console.log(await getImageSize(reader.result as string));
         };
         reader.readAsDataURL(file);
       }
@@ -85,9 +89,9 @@ const ImageDropZone = ({
 
     if (storedData?.previewUrl) {
       setPreviewUrl(storedData.previewUrl);
+      trigger(label);
     }
   }, [label, watch]);
-
   return (
     <StImgButtonWrapper>
       <StImgButton

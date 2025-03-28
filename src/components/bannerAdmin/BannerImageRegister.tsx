@@ -13,7 +13,10 @@ import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 
 const BannerImageRegister = () => {
   const method = useFormContext();
+  const { errors } = method.formState;
 
+  const { getValues } = method;
+  console.log(errors);
   return (
     <StContentWrapper>
       <StInputLabel>
@@ -27,7 +30,12 @@ const BannerImageRegister = () => {
           크기로 올려주세요.
           <p>(형식: PNG, 용량: 5MB 이내)</p>
         </StDescription>
-        <Button size="sm" variant="outlined" disabled>
+        <Button
+          size="sm"
+          variant="outlined"
+          disabled={
+            !getValues('pcImageFileName') || 'pcImageFileName' in errors
+          }>
           미리보기
         </Button>
       </StDescriptionWrapper>
@@ -45,7 +53,12 @@ const BannerImageRegister = () => {
           크기로 올려주세요.
           <p>(형식: PNG, 용량: 5MB 이내)</p>
         </StDescription>
-        <Button size="sm" variant="outlined" disabled>
+        <Button
+          size="sm"
+          variant="outlined"
+          disabled={
+            !getValues('mobileImageFileName') || 'mobileImageFileName' in errors
+          }>
           미리보기
         </Button>
       </StDescriptionWrapper>
@@ -54,7 +67,6 @@ const BannerImageRegister = () => {
         label="mobileImageFileName"
         width="580px"
         height="170px"
-        required
       />
     </StContentWrapper>
   );
