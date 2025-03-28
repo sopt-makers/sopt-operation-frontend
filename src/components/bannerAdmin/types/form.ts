@@ -77,7 +77,7 @@ export const bannerSchema = z.object({
     .superRefine(async (file, ctx) => {
       const { width, height } = await getImageSize(file.previewUrl);
 
-      if (width !== 1340 || height !== 627) {
+      if (width !== 1340 || height !== 672) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: '이미지 규격이 맞지 않습니다.',
