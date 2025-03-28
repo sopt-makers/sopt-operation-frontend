@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Radio, TextField } from '@sopt-makers/ui';
@@ -16,6 +17,12 @@ import {
 import BannerImageRegister from '@/components/bannerAdmin/BannerImageRegister';
 import CalendarInputForm from '@/components/bannerAdmin/form/Calendar';
 import FormController from '@/components/bannerAdmin/form/FormController';
+import {
+  bannerSchema,
+  BannerType,
+  CONTENT_LIST,
+  LOCATION_LIST,
+} from '@/components/bannerAdmin/types/form';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
@@ -24,21 +31,14 @@ interface CreateBannerModalProps {
   onClose: () => void;
 }
 
-const CATEGORY_LIST = ['프로덕트 홍보', '기타 홍보', '생일 광고'];
-
-const POSITION_LIST = ['커뮤니티', '전체모임', '모임피드'];
-
 const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
 
-  const method = useForm({
+  const method = useForm<BannerType>({
+    resolver: zodResolver(bannerSchema),
     defaultValues: {
-      name: '',
-      link: '',
-      category: '프로덕트 홍보',
-      position: '커뮤니티',
-      pcImageFileName: '',
-      mobileImageFileName: '',
+      contentType: '프로덕트 홍보',
+      location: '커뮤니티',
       dateRange: [],
     },
   });
@@ -46,24 +46,27 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
     watch,
     getValues,
   } = method;
 
-  console.log(getValues());
+  const onSubmit = (data: BannerType) => {
+    console.log(data);
+  };
+
   return (
     <StCreateBannerModalWrapper>
       <ModalHeader title="신규 배너 등록" onClose={onClose} />
       <FormProvider {...method}>
-        <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
             <TextField
-              id="name"
+              id="publisher"
               labelText="광고 요청자"
               placeholder="광고 요청자 이름을 입력하세요."
               required={true}
-              {...register('name')}
+              {...register('publisher')}
             />
 
             <TextField
@@ -127,14 +130,14 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
                 <RequiredIcon />
               </StInputLabel>
               <StRadioGroup>
-                {CATEGORY_LIST.map((category, index) => (
+                {CONTENT_LIST.map((content, index) => (
                   <Radio
-                    key={`${index}-${category}`}
-                    checked={watch('category') === category}
-                    label={category}
+                    key={`${index}-${content}`}
+                    checked={watch('contentType') === content}
+                    label={content}
                     size="lg"
-                    value={category}
-                    {...register('category')}
+                    value={content}
+                    {...register('contentType')}
                   />
                 ))}
               </StRadioGroup>
@@ -146,14 +149,14 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
                 <RequiredIcon />
               </StInputLabel>
               <StRadioGroup>
-                {POSITION_LIST.map((position, index) => (
+                {LOCATION_LIST.map((location, index) => (
                   <Radio
-                    key={`${index}-${position}`}
-                    checked={watch('position') === position}
-                    label={position}
+                    key={`${index}-${location}`}
+                    checked={watch('location') === location}
+                    label={location}
                     size="lg"
-                    value={position}
-                    {...register('position')}
+                    value={location}
+                    {...register('location')}
                   />
                 ))}
               </StRadioGroup>
@@ -166,7 +169,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
             <Button type={'button'} onClick={onClose}>
               취소하기
             </Button>
-            <Button type={'submit'} disabled={isSubmitting}>
+            <Button type={'submit'} disabled={isSubmitting || !isValid}>
               등록하기
             </Button>
           </ModalFooter>
