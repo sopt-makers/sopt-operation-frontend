@@ -1,11 +1,9 @@
 import Header from '@/components/bannerAdmin/Header/Header';
 import ListItem from '@/components/bannerAdmin/ListItem/ListItem';
-import Tabs from '@/components/bannerAdmin/Tabs/Tabs';
 import styled from '@emotion/styled';
 const index = () => {
   return (
     <div>
-      <Tabs />
       <StListWrapper>
         <Header />
         <StItemWrapper>
