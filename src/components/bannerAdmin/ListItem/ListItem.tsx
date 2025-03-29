@@ -95,11 +95,18 @@ export const StItem = styled.div`
   padding: 3.3rem 0;
 
   text-align: center;
+  align-items: center;
 
   & > p {
     color: ${colors.gray100};
 
     ${fontsObject.BODY_3_14_M}
+  }
+
+  & > h4 {
+    margin-left: 3.5rem;
+
+    text-align: left;
   }
 
   & > p:nth-child(6) {

@@ -39,7 +39,10 @@ const StHeader = styled.header`
   border-bottom: 1px solid ${colors.gray700};
 
   & > h3 {
-    ${fontsObject.BODY_3_14_M}
+    margin-left: 3.9rem;
+    text-align: left;
+
+    ${fontsObject.BODY_3_14_M};
     color: ${colors.gray100};
   }
 
