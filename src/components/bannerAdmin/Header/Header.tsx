@@ -10,6 +10,7 @@ const Header = () => {
     '광고 요청자',
     '시작날짜',
     '종료날짜',
+    '',
   ];
 
   return (
@@ -25,12 +26,14 @@ export default Header;
 
 const StHeader = styled.header`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 0.5fr;
 
-  padding: 1rem 1rem 1rem 3.9rem;
+  padding: 1rem 0;
 
   align-items: center;
   justify-content: space-between;
+
+  text-align: center;
 
   border-top: 1px solid ${colors.gray700};
   border-bottom: 1px solid ${colors.gray700};
@@ -38,5 +41,11 @@ const StHeader = styled.header`
   & > h3 {
     ${fontsObject.BODY_3_14_M}
     color: ${colors.gray100};
+  }
+
+  & > h3:nth-child(6) {
+    margin-left: 1rem;
+
+    text-align: left;
   }
 `;
