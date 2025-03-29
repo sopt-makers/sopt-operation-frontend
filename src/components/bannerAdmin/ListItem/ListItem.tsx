@@ -1,25 +1,15 @@
 import { IcEdit, IcTrash } from '@/assets/icons';
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
+import { ITEM_DUMMY_LIST } from '@/constants';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
 const ListItem = () => {
-  const ITEM_LIST = [
-    {
-      status: '진행 예정',
-      bannerLocation: '플그 커뮤니티',
-      contentType: '프로덕트 홍보',
-      requester: '마케팅 오거나이저',
-      startedAt: '2025.03.28',
-      endedAt: '2025.03.28',
-    },
-  ];
-
   return (
     <StItemWrapper>
-      {ITEM_LIST.map((item) => (
+      {ITEM_DUMMY_LIST.map((item) => (
         <StItem>
           <StStatus status={item.status}>{item.status}</StStatus>
           <StBannerTagWrapper>

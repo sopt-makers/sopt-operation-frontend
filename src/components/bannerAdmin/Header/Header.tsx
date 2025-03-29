@@ -1,18 +1,9 @@
+import { HEADER_LIST } from '@/constants';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
 const Header = () => {
-  const HEADER_LIST = [
-    '진행 상태',
-    '배너 노출 위치',
-    '콘텐츠 유형',
-    '광고 요청자',
-    '시작날짜',
-    '종료날짜',
-    '',
-  ];
-
   return (
     <StHeader>
       {HEADER_LIST.map((title) => (
