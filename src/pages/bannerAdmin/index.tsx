@@ -1,7 +1,10 @@
+import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
 import SessionList from '@/components/attendanceAdmin/session/SessionList';
 import CreateBannerModal from '@/components/bannerAdmin/CreateBannerModal';
+import Header from '@/components/bannerAdmin/Header/Header';
+import ListItem from '@/components/bannerAdmin/ListItem/ListItem';
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 
@@ -21,6 +24,12 @@ const BannerAdminPage = () => {
 
   return (
     <>
+      <StLayout>
+        <Header />
+        <StItemWrapper>
+          <ListItem />
+        </StItemWrapper>
+      </StLayout>
       {isModalOpen && (
         <Modal>
           <CreateBannerModal onClose={() => setIsModalOpen(!isModalOpen)} />
@@ -36,3 +45,15 @@ const BannerAdminPage = () => {
 };
 
 export default BannerAdminPage;
+
+const StLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+`;
+
+const StItemWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;

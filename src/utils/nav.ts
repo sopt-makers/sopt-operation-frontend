@@ -1,4 +1,9 @@
-import { IcAlarmMenu, IcAttendanceMenu, IcOrgMenu } from '@/assets/icons';
+import {
+  IcAlarmMenu,
+  IcAttendanceMenu,
+  IcBannerMenu,
+  IcOrgMenu,
+} from '@/assets/icons';
 
 export const GENERATION_INFO = [
   { generation: '36', slogan: 'AT' },
@@ -39,8 +44,8 @@ export const MENU_LIST = [
     path: ['/alarmAdmin'],
   },
   {
-    title: '광고 배너 관리',
-    MenuIcon: IcAlarmMenu,
+    title: '배너 관리',
+    MenuIcon: IcBannerMenu,
     path: ['/bannerAdmin'],
   },
 ];
