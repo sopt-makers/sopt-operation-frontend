@@ -8,7 +8,7 @@ import {
 
 const MAX_PUBLISHER_LENGTH = 30;
 
-const PublisherFiled = () => {
+const PublisherField = () => {
   const {
     register,
     formState: { errors },
@@ -38,4 +38,4 @@ const PublisherFiled = () => {
   );
 };
 
-export default PublisherFiled;
+export default PublisherField;

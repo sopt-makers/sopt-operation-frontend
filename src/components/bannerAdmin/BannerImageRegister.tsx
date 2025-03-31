@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -7,7 +9,6 @@ import { IcModalClose } from '@/assets/icons';
 import {
   StContentWrapper,
   StDescription,
-  StDescriptionTitle,
   StInputLabel,
 } from '@/components/bannerAdmin/CreateBannerModal';
 import ImageDropZone from '@/components/bannerAdmin/ImageDropZone';
@@ -157,4 +158,9 @@ const StPreviewImage = styled.img<{
 }>`
   max-width: ${({ viewportWidth }) => `calc(${viewportWidth}px - 288px)`};
   max-height: ${({ viewportHeight }) => `calc(${viewportHeight}px - 100px)`};
+`;
+
+const StDescriptionTitle = styled.span`
+  ${fontsObject.LABEL_3_14_SB};
+  color: ${colors.gray100};
 `;
