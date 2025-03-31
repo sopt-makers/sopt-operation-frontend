@@ -35,7 +35,7 @@ const BannerAdminPage = () => {
           <CreateBannerModal onClose={() => setIsModalOpen(!isModalOpen)} />
         </Modal>
       )}
-      <SessionList />
+
       <FloatingButton
         content={<>배너 등록</>}
         onClick={() => setIsModalOpen(!isModalOpen)}
