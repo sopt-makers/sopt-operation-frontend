@@ -1,22 +1,23 @@
 import Header from '@/components/bannerAdmin/Header/Header';
 import ListItem from '@/components/bannerAdmin/ListItem/ListItem';
 import styled from '@emotion/styled';
-const index = () => {
+
+const BannerAdminPage = () => {
   return (
-    <div>
-      <StListWrapper>
+    <>
+      <StLayout>
         <Header />
         <StItemWrapper>
           <ListItem />
         </StItemWrapper>
-      </StListWrapper>
-    </div>
+      </StLayout>
+    </>
   );
 };
 
-export default index;
+export default BannerAdminPage;
 
-const StListWrapper = styled.ul`
+const StLayout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.7rem;
