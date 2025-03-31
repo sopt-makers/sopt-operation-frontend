@@ -1,6 +1,6 @@
 import { IcEdit, IcTrash } from '@/assets/icons';
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
-import { ITEM_DUMMY_LIST } from '@/constants';
+import { useFetchBannerList } from '@/services/api/banner/query';
 import { getTagColor } from '@/utils';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -8,24 +8,26 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
 const ListItem = () => {
+  const { data } = useFetchBannerList();
+
   return (
     <StItemWrapper>
-      {ITEM_DUMMY_LIST.map((item) => (
+      {data?.map((item) => (
         <StItem>
           <StStatus status={item.status}>{item.status}</StStatus>
           <StBannerTagWrapper>
-            <BannerTag color={getTagColor(item.bannerLocation)}>
-              <p>{item.bannerLocation}</p>
+            <BannerTag color={getTagColor(item.location)}>
+              <p>{item.location}</p>
             </BannerTag>
           </StBannerTagWrapper>
           <StBannerTagWrapper>
             <BannerTag color={`${colors.gray700}`}>
-              {item.contentType}
+              {item.content_type}
             </BannerTag>
           </StBannerTagWrapper>
-          <p>{item.requester}</p>
-          <p>{item.startedAt}</p>
-          <p>{item.endedAt}</p>
+          <p>{item.publisher}</p>
+          <p>{item.start_date}</p>
+          <p>{item.end_date}</p>
           <StButtonLayout>
             <IcEdit />
             <IcTrash />
@@ -43,16 +45,9 @@ export const StItemWrapper = styled.li`
 
   width: 100%;
 
-  padding: 0 3.4rem 0 0rem;
-
-  border: 1px solid ${colors.gray700};
-  border-radius: 1rem;
-
+  flex-direction: column;
   align-items: center;
-
-  &:hover {
-    background-color: ${colors.gray800};
-  }
+  gap: 1rem;
 `;
 
 export const StStatus = styled.h4<{ status: string }>`
@@ -64,7 +59,7 @@ export const StStatus = styled.h4<{ status: string }>`
         color: ${colors.secondary};
       `;
     }
-    if (status === '진행 중') {
+    if (status === 'in_progress') {
       return css`
         color: ${colors.success};
       `;
@@ -83,7 +78,10 @@ export const StItem = styled.div`
 
   width: 100%;
 
-  padding: 3.3rem 0;
+  padding: 3.3rem 3.4rem 3.3rem 0;
+
+  border: 1px solid ${colors.gray700};
+  border-radius: 1rem;
 
   text-align: center;
   align-items: center;
@@ -103,6 +101,10 @@ export const StItem = styled.div`
   & > p:nth-child(6) {
     text-align: left;
     margin-left: 1.5rem;
+  }
+
+  &:hover {
+    background-color: ${colors.gray800};
   }
 `;
 

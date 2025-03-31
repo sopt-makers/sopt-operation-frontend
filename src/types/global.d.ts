@@ -246,6 +246,16 @@ declare global {
     createdAt: string;
     sendAt: string | null;
   }
+
+  interface BannerList {
+    content_type: string;
+    end_date: string;
+    id: number;
+    location: string;
+    publisher: string;
+    start_date: string;
+    status: string;
+  }
 }
 
 export default global;

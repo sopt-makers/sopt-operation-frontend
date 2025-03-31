@@ -1,7 +1,9 @@
 import { client } from '@/services/api/client';
+import { AxiosResponse } from 'axios';
 
 export const fetchBannerList = async () => {
-  const { data } = await client.get('/banners');
+  const { data }: AxiosResponse<{ success: boolean; data: BannerList[] }> =
+    await client.get('/banners');
 
-  return data;
+  return data.data;
 };
