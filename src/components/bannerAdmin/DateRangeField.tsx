@@ -76,6 +76,8 @@ const StDateFieldWrapper = styled.div`
 `;
 
 const StDateField = styled.div`
+  position: relative;
+
   width: 100%;
   max-width: 205px;
 `;

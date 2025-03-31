@@ -215,7 +215,7 @@ export const SCalendarWrapper = styled.div`
   border-radius: 16px;
   position: absolute;
   z-index: 9999;
-  margin-top: 10px;
+  margin-top: -15px;
 `;
 
 export const SErrorMessage = styled(ErrorMessage)`

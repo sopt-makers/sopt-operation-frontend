@@ -1,5 +1,5 @@
 import { TextField } from '@sopt-makers/ui';
-import { useFormContext, type UseFormReturn } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import {
   StDescription,

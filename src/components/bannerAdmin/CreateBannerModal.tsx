@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Radio } from '@sopt-makers/ui';
 import { Button } from '@sopt-makers/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -20,7 +19,6 @@ import {
 } from '@/components/bannerAdmin/types/form';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
-import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 
 interface CreateBannerModalProps {
   onClose: () => void;
