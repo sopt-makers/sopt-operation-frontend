@@ -56,6 +56,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
     console.log(data);
   };
 
+  console.log(errors);
   return (
     <StCreateBannerModalWrapper>
       <ModalHeader title="신규 배너 등록" onClose={onClose} />

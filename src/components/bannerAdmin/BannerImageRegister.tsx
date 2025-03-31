@@ -34,6 +34,8 @@ const BannerImageRegister = () => {
     };
   }, [isModalOpen]);
 
+  const viewportWidth = window.innerWidth;
+  console.log(viewportWidth);
   return (
     <StContentWrapper>
       <StInputLabel>
@@ -97,19 +99,19 @@ const BannerImageRegister = () => {
               onClick={() => setIsModalOpen(null)}
               style={{ position: 'absolute', top: '-4rem', right: 0 }}
             />
+
             {isModalOpen && isModalOpen === 'pc' ? (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <StPreviewImage
                 src={getValues('pcImageFileName').previewUrl}
                 alt="pc 배너 미리보기"
-                width={1824}
-                height={328}
+                viewportWidth={viewportWidth}
               />
             ) : (
-              <Image
+              <StPreviewImage
                 src={getValues('mobileImageFileName').previewUrl}
                 alt="mobile 배너 미리보기"
-                width={1340}
-                height={672}
+                viewportWidth={viewportWidth}
               />
             )}
           </StPreviewWrapper>
@@ -128,4 +130,8 @@ const StDescriptionWrapper = styled.div`
 
 const StPreviewWrapper = styled.div`
   position: 'relative';
+`;
+
+const StPreviewImage = styled.img<{ viewportWidth: number }>`
+  max-width: ${({ viewportWidth }) => `calc(${viewportWidth}px - 288px)`};
 `;
