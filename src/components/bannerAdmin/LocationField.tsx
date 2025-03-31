@@ -9,9 +9,7 @@ import {
 import { LOCATION_LIST } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 
-interface LocationFeildProps {}
-
-const LocationFeild = ({}: LocationFeildProps) => {
+const LocationField = () => {
   const { register, watch } = useFormContext();
 
   return (
@@ -36,4 +34,4 @@ const LocationFeild = ({}: LocationFeildProps) => {
   );
 };
 
-export default LocationFeild;
+export default LocationField;

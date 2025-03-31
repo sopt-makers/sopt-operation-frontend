@@ -19,10 +19,10 @@ const LinkField = () => {
         labelText="[선택] 링크 첨부"
         placeholder="이동할 링크를 입력하세요."
         {...register('link')}
-        isError={errors.link ? true : false}
+        isError={!!errors.link}
       />
       <StDescriptionWrapper>
-        <StDescription isError={errors.link ? true : false}>
+        <StDescription isError={!!errors.link}>
           {errors.link?.message as string}
         </StDescription>
       </StDescriptionWrapper>

@@ -86,7 +86,7 @@ const ImageDropZone = ({
         width={width}
         height={height}
         shape={shape}
-        isError={errors[label] ? true : false}>
+        isError={!!errors[label]}>
         <input
           {...register(label, {
             required: required && true && VALIDATION_CHECK.required.errorText,

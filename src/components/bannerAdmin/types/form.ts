@@ -8,6 +8,17 @@ export const CONTENT_LIST = [
 
 export const LOCATION_LIST = ['커뮤니티', '전체모임', '모임피드'] as const;
 
+const MAX_IMAGE_CAPACITY = 0.5;
+
+const ERROR_MESSAGE = {
+  REQUIRED_VALUE: '필수 입력값입니다.',
+  PUBLISHER_MAX_LENGTH: '30자 이내로 작성해주세요.',
+  INVALID_LINK: '유효한 링크를 첨부해주세요.',
+  INVALID_IMAGE_SIZE: '이미지 규격이 맞지 않습니다.',
+  IMAGE_MAX_CAPACITY: '용량이 5MB 초과입니다.',
+  INVALID_IMAGE_TYPE: '이미지가 png 형식이 아닙니다.',
+};
+
 interface ImgSize {
   width: number;
   height: number;
@@ -58,12 +69,12 @@ export const getMoImageBaseSize = (
 export const bannerSchema = z.object({
   publisher: z
     .string()
-    .min(1, { message: '필수 입력값입니다.' })
-    .max(30, { message: '30자 이내로 작성해주세요.' }),
+    .min(1, { message: ERROR_MESSAGE.REQUIRED_VALUE })
+    .max(30, { message: ERROR_MESSAGE.PUBLISHER_MAX_LENGTH }),
   contentType: z.enum(CONTENT_LIST),
   location: z.enum(LOCATION_LIST),
   dateRange: z.string().array(),
-  link: z.string().url({ message: '유효한 링크를 첨부해주세요.' }),
+  link: z.string().url({ message: ERROR_MESSAGE.INVALID_LINK }),
   pcImageFileName: z
     .object({
       fileName: z.string(),
@@ -79,15 +90,15 @@ export const bannerSchema = z.object({
       if (width !== baseWidth || height !== baseHeight) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: '이미지 규격이 맞지 않습니다.',
+          message: ERROR_MESSAGE.INVALID_IMAGE_SIZE,
           path: ['pcImageFileName'],
         });
       }
 
-      if (file.file.size / 1024 / 1024 > 0.5) {
+      if (file.file.size / 1024 / 1024 > MAX_IMAGE_CAPACITY) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: '용량이 5MB 초과입니다.',
+          message: ERROR_MESSAGE.IMAGE_MAX_CAPACITY,
           path: ['pcImageFileName'],
         });
       }
@@ -95,7 +106,7 @@ export const bannerSchema = z.object({
       if (file.file.type.split('/').pop() !== 'png') {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: '이미지가 png 형식이 아닙니다.',
+          message: ERROR_MESSAGE.INVALID_IMAGE_TYPE,
           path: ['pcImageFileName'],
         });
       }
@@ -115,7 +126,7 @@ export const bannerSchema = z.object({
       if (width !== baseWidth || height !== baseHeight) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: '이미지 규격이 맞지 않습니다.',
+          message: ERROR_MESSAGE.INVALID_IMAGE_SIZE,
           path: ['mobileImageFileName'],
         });
       }
@@ -123,7 +134,7 @@ export const bannerSchema = z.object({
       if (file.file.size / 1024 / 1024 > 0.5) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: '용량이 5MB 초과입니다.',
+          message: ERROR_MESSAGE.IMAGE_MAX_CAPACITY,
           path: ['mobileImageFileName'],
         });
       }
@@ -131,7 +142,7 @@ export const bannerSchema = z.object({
       if (file.file.type.split('/').pop() !== 'png') {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: '이미지가 png 형식이 아닙니다.',
+          message: ERROR_MESSAGE.INVALID_IMAGE_TYPE,
           path: ['mobileImageFileName'],
         });
       }

@@ -1,13 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import React from 'react';
+import { PropsWithChildren } from 'react';
 
-interface HelpMessageProps {
-  children?: React.ReactNode;
-}
-
-const HelpMessage = ({ children }: HelpMessageProps) => {
+const HelpMessage = ({ children }: PropsWithChildren) => {
   return <SHelpMessage>{children}</SHelpMessage>;
 };
 

@@ -74,15 +74,15 @@ const BannerImageRegister = () => {
       <ImageDropZone
         method={method}
         label="pcImageFileName"
-        width="580px"
-        height="170px"
+        width="58rem"
+        height="17rem"
         required
       />
 
       {location !== '모임피드' && (
         <>
           <StDescriptionWrapper style={{ marginTop: '2rem' }}>
-            <StDescription isError={errors.mobileImageFileName ? true : false}>
+            <StDescription isError={!!errors.mobileImageFileName}>
               <StDescriptionTitle>[PC]</StDescriptionTitle>{' '}
               {`이미지는 ${moImageBaseWidth}*${moImageBaseHeight} px`}
               크기로 올려주세요.
@@ -111,12 +111,7 @@ const BannerImageRegister = () => {
       {isModalOpen && (
         <Modal>
           <StPreviewWrapper>
-            <IcModalClose
-              width={24}
-              height={24}
-              onClick={() => setIsModalOpen(null)}
-              style={{ position: 'absolute', top: '-4rem', right: 0 }}
-            />
+            <StModalCloseIcon onClick={() => setIsModalOpen(null)} />
 
             {isModalOpen && isModalOpen === 'pc' ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -163,4 +158,13 @@ const StPreviewImage = styled.img<{
 const StDescriptionTitle = styled.span`
   ${fontsObject.LABEL_3_14_SB};
   color: ${colors.gray100};
+`;
+
+export const StModalCloseIcon = styled(IcModalClose)`
+  position: absolute;
+  top: -4rem;
+  right: 0;
+
+  width: 2.4rem;
+  height: 2.4rem;
 `;
