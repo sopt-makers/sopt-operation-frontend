@@ -1,23 +1,39 @@
 import Header from '@/components/bannerAdmin/Header/Header';
 import ListItem from '@/components/bannerAdmin/ListItem/ListItem';
-import styled from '@emotion/styled';
 
-const BannerAdminPage = () => {
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+const index = () => {
   return (
-    <>
-      <StLayout>
+    <StWrapper>
+      <StTitle>광고 배너 관리</StTitle>
+      <StListWrapper>
         <Header />
         <StItemWrapper>
           <ListItem />
         </StItemWrapper>
-      </StLayout>
-    </>
+      </StListWrapper>
+    </StWrapper>
   );
 };
 
-export default BannerAdminPage;
+export default index;
 
-const StLayout = styled.div`
+const StWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: 4.9rem;
+`;
+
+const StTitle = styled.h1`
+  color: ${colors.white};
+
+  ${fontsObject.TITLE_1_32_SB}
+`;
+
+const StListWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1.7rem;
