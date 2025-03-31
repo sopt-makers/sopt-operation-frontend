@@ -30,11 +30,14 @@ const getImageSize = async (url: string): Promise<ImgSize> => {
 };
 
 export const bannerSchema = z.object({
-  publisher: z.string().min(1),
+  publisher: z
+    .string()
+    .min(1)
+    .max(30, { message: '30자 이내로 작성해주세요.' }),
   contentType: z.enum(CONTENT_LIST),
   location: z.enum(LOCATION_LIST),
-  dateRange: z.date().array(),
-  link: z.string().url(),
+  dateRange: z.string().array(),
+  link: z.string().url({ message: '유효한 링크를 첨부해주세요.' }),
   pcImageFileName: z
     .object({
       fileName: z.string(),

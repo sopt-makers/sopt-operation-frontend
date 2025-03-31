@@ -40,15 +40,16 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
       contentType: '프로덕트 홍보',
       location: '커뮤니티',
       dateRange: [],
+      publisher: '',
     },
+    mode: 'onChange',
   });
 
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
     watch,
-    getValues,
   } = method;
 
   const onSubmit = (data: BannerType) => {
@@ -61,20 +62,39 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
-            <TextField
-              id="publisher"
-              labelText="광고 요청자"
-              placeholder="광고 요청자 이름을 입력하세요."
-              required={true}
-              {...register('publisher')}
-            />
-
-            <TextField
-              id="link"
-              labelText="[선택] 링크 첨부"
-              placeholder="이동할 링크를 입력하세요."
-              {...register('link')}
-            />
+            <div>
+              <TextField
+                id="publisher"
+                labelText="광고 요청자"
+                placeholder="광고 요청자 이름을 입력하세요."
+                required={true}
+                {...register('publisher')}
+                isError={errors.publisher ? true : false}
+              />
+              <StDescriptionWrapper>
+                <StDescription isError={errors.publisher ? true : false}>
+                  {errors.publisher ? errors.publisher.message : ''}
+                </StDescription>
+                <StDescription
+                  isError={
+                    errors.publisher ? true : false
+                  }>{`${watch('publisher').length}/30`}</StDescription>
+              </StDescriptionWrapper>
+            </div>
+            <div>
+              <TextField
+                id="link"
+                labelText="[선택] 링크 첨부"
+                placeholder="이동할 링크를 입력하세요."
+                {...register('link')}
+                isError={errors.link ? true : false}
+              />
+              <StDescriptionWrapper>
+                <StDescription isError={errors.link ? true : false}>
+                  {errors.link ? errors.link.message : ''}
+                </StDescription>
+              </StDescriptionWrapper>
+            </div>
 
             <StContentWrapper>
               <StInputLabel>
@@ -223,9 +243,18 @@ export const StContentWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const StDescription = styled.p`
+const StDescriptionWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const StDescription = styled.p<{ isError: boolean }>`
   ${fontsObject.LABEL_3_14_SB};
-  color: ${colors.gray300};
+  color: ${({ isError }) => (isError ? colors.error : colors.gray300)};
+
+  & span {
+    color: ${({ isError }) => isError && colors.error};
+  }
 `;
 
 export const StInputLabel = styled.label`

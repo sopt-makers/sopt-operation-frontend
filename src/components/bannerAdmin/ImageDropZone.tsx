@@ -33,19 +33,8 @@ const ImageDropZone = ({
   const {
     register,
     setValue,
-    watch,
-    getValues,
-    trigger,
     formState: { errors },
   } = method;
-
-  const errorMsg = label.includes('.')
-    ? label.split('.').length === 2
-      ? (errors as any)?.[label.split('.')[0]]?.[label.split('.')[1]]?.message
-      : (errors as any)?.[label.split('.')[0]]?.[label.split('.')[1]]?.[
-          label.split('.')[2]
-        ]?.message
-    : errors[label]?.message;
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -63,7 +52,6 @@ const ImageDropZone = ({
             { fileName: sanitizedFileName, file, previewUrl: reader.result },
             { shouldValidate: true },
           );
-          // console.log(await getImageSize(reader.result as string));
         };
         reader.readAsDataURL(file);
       }
@@ -84,14 +72,6 @@ const ImageDropZone = ({
     },
   });
 
-  useEffect(() => {
-    const storedData = watch(label);
-
-    if (storedData?.previewUrl) {
-      setPreviewUrl(storedData.previewUrl);
-      trigger(label);
-    }
-  }, [label, watch]);
   return (
     <StImgButtonWrapper>
       <StImgButton
@@ -101,7 +81,7 @@ const ImageDropZone = ({
         width={width}
         height={height}
         shape={shape}
-        isError={errorMsg}>
+        isError={errors[label] ? true : false}>
         <input
           {...register(label, {
             required: required && true && VALIDATION_CHECK.required.errorText,
@@ -116,11 +96,6 @@ const ImageDropZone = ({
           <StImgIcon />
         )}
       </StImgButton>
-      {errorMsg && (
-        <StErrorMessage>
-          <>{errorMsg}</>
-        </StErrorMessage>
-      )}
     </StImgButtonWrapper>
   );
 };

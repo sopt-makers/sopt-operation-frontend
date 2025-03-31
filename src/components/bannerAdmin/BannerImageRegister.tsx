@@ -42,7 +42,7 @@ const BannerImageRegister = () => {
       </StInputLabel>
 
       <StDescriptionWrapper>
-        <StDescription>
+        <StDescription isError={errors.pcImageFileName ? true : false}>
           <StDescriptionTitle>[PC]</StDescriptionTitle> 이미지는 1824*328 px
           크기로 올려주세요.
           <p>(형식: PNG, 용량: 5MB 이내)</p>
@@ -66,7 +66,7 @@ const BannerImageRegister = () => {
       />
 
       <StDescriptionWrapper style={{ marginTop: '2rem' }}>
-        <StDescription>
+        <StDescription isError={errors.mobileImageFileName ? true : false}>
           <StDescriptionTitle>[PC]</StDescriptionTitle> 이미지는 1340*627 px
           크기로 올려주세요.
           <p>(형식: PNG, 용량: 5MB 이내)</p>
