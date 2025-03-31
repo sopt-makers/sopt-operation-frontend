@@ -4,13 +4,13 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Radio, TextField } from '@sopt-makers/ui';
 import { Button } from '@sopt-makers/ui';
-import { useState } from 'react';
-import { FieldError, FieldErrors } from 'react-hook-form';
+import { FieldError } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import BannerImageRegister from '@/components/bannerAdmin/BannerImageRegister';
 import CalendarInputForm from '@/components/bannerAdmin/form/Calendar';
 import FormController from '@/components/bannerAdmin/form/FormController';
+import PublisherFiled from '@/components/bannerAdmin/PublisherFiled';
 import {
   bannerSchema,
   BannerType,
@@ -29,10 +29,10 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
   const method = useForm<BannerType>({
     resolver: zodResolver(bannerSchema),
     defaultValues: {
-      contentType: '프로덕트 홍보',
-      location: '커뮤니티',
-      dateRange: [],
       publisher: '',
+      contentType: CONTENT_LIST[0],
+      location: LOCATION_LIST[0],
+      dateRange: [],
     },
     mode: 'onChange',
   });
@@ -54,25 +54,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
-            <div>
-              <TextField
-                id="publisher"
-                labelText="광고 요청자"
-                placeholder="광고 요청자 이름을 입력하세요."
-                required={true}
-                {...register('publisher')}
-                isError={errors.publisher ? true : false}
-              />
-              <StDescriptionWrapper>
-                <StDescription isError={errors.publisher ? true : false}>
-                  {errors.publisher ? errors.publisher.message : ''}
-                </StDescription>
-                <StDescription
-                  isError={
-                    errors.publisher ? true : false
-                  }>{`${watch('publisher').length}/30`}</StDescription>
-              </StDescriptionWrapper>
-            </div>
+            <PublisherFiled />
             <div>
               <TextField
                 id="link"
@@ -235,7 +217,7 @@ export const StContentWrapper = styled.div`
   flex-direction: column;
 `;
 
-const StDescriptionWrapper = styled.div`
+export const StDescriptionWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;

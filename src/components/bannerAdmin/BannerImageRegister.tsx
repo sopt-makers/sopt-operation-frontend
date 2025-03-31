@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Button } from '@sopt-makers/ui';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 

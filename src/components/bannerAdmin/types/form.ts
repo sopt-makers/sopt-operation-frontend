@@ -58,7 +58,7 @@ export const getMoImageBaseSize = (
 export const bannerSchema = z.object({
   publisher: z
     .string()
-    .min(1)
+    .min(1, { message: '필수 입력값입니다.' })
     .max(30, { message: '30자 이내로 작성해주세요.' }),
   contentType: z.enum(CONTENT_LIST),
   location: z.enum(LOCATION_LIST),

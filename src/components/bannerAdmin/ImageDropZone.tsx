@@ -8,7 +8,6 @@ import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import type { UseFormReturn } from 'react-hook-form';
 
-import { StErrorMessage } from '@/components/org/OrgAdmin/style';
 import { VALIDATION_CHECK } from '@/utils/org';
 
 interface MyDropzoneProps {
