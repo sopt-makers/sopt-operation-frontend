@@ -33,6 +33,7 @@ const ImageDropZone = ({
   const {
     register,
     setValue,
+    getValues,
     formState: { errors },
   } = method;
 
@@ -49,14 +50,19 @@ const ImageDropZone = ({
           setPreviewUrl(reader.result as string);
           setValue(
             label,
-            { fileName: sanitizedFileName, file, previewUrl: reader.result },
+            {
+              fileName: sanitizedFileName,
+              file,
+              previewUrl: reader.result,
+              location: getValues('location'),
+            },
             { shouldValidate: true },
           );
         };
         reader.readAsDataURL(file);
       }
     },
-    [label, setValue],
+    [label, setValue, getValues],
   );
 
   const handleClick = (e: MouseEvent<HTMLInputElement>) => {

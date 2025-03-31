@@ -29,6 +29,32 @@ const getImageSize = async (url: string): Promise<ImgSize> => {
   });
 };
 
+export const getPcImageBaseSize = (
+  location: (typeof LOCATION_LIST)[number],
+) => {
+  switch (location) {
+    case '커뮤니티':
+      return [1824, 328];
+    case '전체모임':
+      return [760, 956];
+    case '모임피드':
+      return [760, 760];
+  }
+};
+
+export const getMoImageBaseSize = (
+  location: (typeof LOCATION_LIST)[number],
+) => {
+  switch (location) {
+    case '커뮤니티':
+      return [1340, 627];
+    case '전체모임':
+      return [760, 190];
+    case '모임피드':
+      return [];
+  }
+};
+
 export const bannerSchema = z.object({
   publisher: z
     .string()
@@ -43,11 +69,14 @@ export const bannerSchema = z.object({
       fileName: z.string(),
       file: z.instanceof(File),
       previewUrl: z.string().url(),
+      location: z.enum(LOCATION_LIST),
     })
     .superRefine(async (file, ctx) => {
       const { width, height } = await getImageSize(file.previewUrl);
 
-      if (width !== 1824 || height !== 328) {
+      const [baseWidth, baseHeight] = getPcImageBaseSize(file.location);
+
+      if (width !== baseWidth || height !== baseHeight) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: '이미지 규격이 맞지 않습니다.',
@@ -76,12 +105,14 @@ export const bannerSchema = z.object({
       fileName: z.string(),
       file: z.instanceof(File),
       previewUrl: z.string().url(),
+      location: z.enum(LOCATION_LIST),
     })
     .superRefine(async (file, ctx) => {
       const { width, height } = await getImageSize(file.previewUrl);
 
-      console.log(width, height);
-      if (width !== 1340 || height !== 627) {
+      const [baseWidth, baseHeight] = getMoImageBaseSize(file.location);
+
+      if (width !== baseWidth || height !== baseHeight) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: '이미지 규격이 맞지 않습니다.',

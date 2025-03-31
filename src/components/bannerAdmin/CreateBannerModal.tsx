@@ -6,13 +6,7 @@ import { Radio, TextField } from '@sopt-makers/ui';
 import { Button } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { FieldError, FieldErrors } from 'react-hook-form';
-import { useFormContext } from 'react-hook-form';
-import {
-  type FieldValues,
-  FormProvider,
-  type SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import BannerImageRegister from '@/components/bannerAdmin/BannerImageRegister';
 import CalendarInputForm from '@/components/bannerAdmin/form/Calendar';
@@ -32,8 +26,6 @@ interface CreateBannerModalProps {
 }
 
 const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
-  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
-
   const method = useForm<BannerType>({
     resolver: zodResolver(bannerSchema),
     defaultValues: {
@@ -56,7 +48,6 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
     console.log(data);
   };
 
-  console.log(errors);
   return (
     <StCreateBannerModalWrapper>
       <ModalHeader title="신규 배너 등록" onClose={onClose} />

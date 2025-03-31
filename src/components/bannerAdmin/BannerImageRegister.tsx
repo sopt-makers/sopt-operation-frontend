@@ -12,6 +12,10 @@ import {
   StInputLabel,
 } from '@/components/bannerAdmin/CreateBannerModal';
 import ImageDropZone from '@/components/bannerAdmin/ImageDropZone';
+import {
+  getMoImageBaseSize,
+  getPcImageBaseSize,
+} from '@/components/bannerAdmin/types/form';
 import Modal from '@/components/common/modal';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 
@@ -20,8 +24,12 @@ const BannerImageRegister = () => {
   const { errors } = method.formState;
 
   const { getValues } = method;
+  const location = getValues('location');
 
   const [isModalOpen, setIsModalOpen] = useState<'pc' | 'mobile' | null>(null);
+
+  const [pcImageBaseWidth, pcImageBaseHeight] = getPcImageBaseSize(location);
+  const [moImageBaseWidth, moImageBaseHeight] = getMoImageBaseSize(location);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -35,7 +43,7 @@ const BannerImageRegister = () => {
   }, [isModalOpen]);
 
   const viewportWidth = window.innerWidth;
-  console.log(viewportWidth);
+
   return (
     <StContentWrapper>
       <StInputLabel>
@@ -45,7 +53,10 @@ const BannerImageRegister = () => {
 
       <StDescriptionWrapper>
         <StDescription isError={errors.pcImageFileName ? true : false}>
-          <StDescriptionTitle>[PC]</StDescriptionTitle> 이미지는 1824*328 px
+          <StDescriptionTitle>
+            {location === '모임피드' ? '[PC/MO]' : '[PC]'}
+          </StDescriptionTitle>{' '}
+          {`이미지는 ${pcImageBaseWidth}*${pcImageBaseHeight} px`}
           크기로 올려주세요.
           <p>(형식: PNG, 용량: 5MB 이내)</p>
         </StDescription>
@@ -67,28 +78,34 @@ const BannerImageRegister = () => {
         required
       />
 
-      <StDescriptionWrapper style={{ marginTop: '2rem' }}>
-        <StDescription isError={errors.mobileImageFileName ? true : false}>
-          <StDescriptionTitle>[PC]</StDescriptionTitle> 이미지는 1340*627 px
-          크기로 올려주세요.
-          <p>(형식: PNG, 용량: 5MB 이내)</p>
-        </StDescription>
-        <Button
-          size="sm"
-          variant="outlined"
-          disabled={
-            !getValues('mobileImageFileName') || 'mobileImageFileName' in errors
-          }
-          onClick={() => setIsModalOpen('mobile')}>
-          미리보기
-        </Button>
-      </StDescriptionWrapper>
-      <ImageDropZone
-        method={method}
-        label="mobileImageFileName"
-        width="580px"
-        height="170px"
-      />
+      {location !== '모임피드' && (
+        <>
+          <StDescriptionWrapper style={{ marginTop: '2rem' }}>
+            <StDescription isError={errors.mobileImageFileName ? true : false}>
+              <StDescriptionTitle>[PC]</StDescriptionTitle>{' '}
+              {`이미지는 ${moImageBaseWidth}*${moImageBaseHeight} px`}
+              크기로 올려주세요.
+              <p>(형식: PNG, 용량: 5MB 이내)</p>
+            </StDescription>
+            <Button
+              size="sm"
+              variant="outlined"
+              disabled={
+                !getValues('mobileImageFileName') ||
+                'mobileImageFileName' in errors
+              }
+              onClick={() => setIsModalOpen('mobile')}>
+              미리보기
+            </Button>
+          </StDescriptionWrapper>
+          <ImageDropZone
+            method={method}
+            label="mobileImageFileName"
+            width="580px"
+            height="170px"
+          />
+        </>
+      )}
 
       {isModalOpen && (
         <Modal>
