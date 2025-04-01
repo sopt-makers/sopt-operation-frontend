@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
+import { AxiosError } from 'axios';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import BannerImageRegister from '@/components/bannerAdmin/BannerImageRegister';
@@ -12,20 +13,23 @@ import LinkField from '@/components/bannerAdmin/LinkField';
 import LocationFeild from '@/components/bannerAdmin/LocationField';
 import PublisherField from '@/components/bannerAdmin/PublisherField';
 import {
+  BannerFormType,
   bannerSchema,
-  BannerType,
   CONTENT_LIST,
+  contentList,
   LOCATION_LIST,
+  locationList,
 } from '@/components/bannerAdmin/types/form';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
+import { usePostNewBanner } from '@/services/api/banner/query';
 
 interface CreateBannerModalProps {
   onClose: () => void;
 }
 
 const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
-  const method = useForm<BannerType>({
+  const method = useForm<BannerFormType>({
     resolver: zodResolver(bannerSchema),
     defaultValues: {
       publisher: '',
@@ -41,8 +45,23 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
     formState: { isSubmitting, isValid },
   } = method;
 
-  const onSubmit = (data: BannerType) => {
-    console.log(data);
+  const { mutate: createBannerMutate } = usePostNewBanner();
+
+  const onSubmit = (data: BannerFormType) => {
+    const bannerData = {
+      publisher: data.publisher,
+      content_type: contentList[data.contentType as keyof typeof contentList],
+      location: locationList[data.location as keyof typeof locationList],
+      start_date: data.dateRange[0].replaceAll('.', '-'),
+      end_date: data.dateRange[1].replaceAll('.', '-'),
+      link: data.link,
+      image_pc: data.pcImageFileName.file,
+      image_mobile: data.mobileImageFileName.file,
+    };
+    console.log(bannerData);
+    createBannerMutate(bannerData, {
+      onSuccess: () => console.log('생성 성공'),
+    });
   };
 
   return (

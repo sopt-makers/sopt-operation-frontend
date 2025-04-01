@@ -1,12 +1,9 @@
-import {
-  CONTENT_LIST,
-  LOCATION_LIST,
-} from '@/components/bannerAdmin/types/form';
+import { contentList, locationList } from '@/components/bannerAdmin/types/form';
 
 export interface BannerType {
   publisher: string;
-  content_type: (typeof CONTENT_LIST)[number];
-  location: (typeof LOCATION_LIST)[number];
+  content_type: (typeof contentList)[keyof typeof contentList];
+  location: (typeof locationList)[keyof typeof locationList];
   start_date: string;
   end_date: string;
   link: string;

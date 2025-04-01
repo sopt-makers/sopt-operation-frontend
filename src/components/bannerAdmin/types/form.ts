@@ -1,5 +1,17 @@
 import { z } from 'zod';
 
+export const contentList = {
+  '프로덕트 홍보': 'product',
+  '기타 홍보': 'etc',
+  '생일 광고': 'birthday',
+} as const;
+
+export const locationList = {
+  커뮤니티: 'pg_community',
+  전체모임: 'cr_main',
+  모임피드: 'cr_feed',
+} as const;
+
 export const CONTENT_LIST = [
   '프로덕트 홍보',
   '기타 홍보',
