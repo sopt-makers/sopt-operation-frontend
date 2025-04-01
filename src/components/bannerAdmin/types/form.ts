@@ -149,4 +149,4 @@ export const bannerSchema = z.object({
     }),
 });
 
-export type BannerType = z.infer<typeof bannerSchema>;
+export type BannerFormType = z.infer<typeof bannerSchema>;
