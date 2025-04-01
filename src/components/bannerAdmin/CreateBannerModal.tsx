@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Button } from '@sopt-makers/ui';
+import { Button, useToast } from '@sopt-makers/ui';
 import { AxiosError } from 'axios';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -39,7 +39,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
     },
     mode: 'onChange',
   });
-
+  const { open } = useToast();
   const {
     handleSubmit,
     formState: { isSubmitting, isValid },
@@ -58,9 +58,15 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
       image_pc: data.pcImageFileName.file,
       image_mobile: data.mobileImageFileName.file,
     };
-    console.log(bannerData);
+
     createBannerMutate(bannerData, {
-      onSuccess: () => console.log('생성 성공'),
+      onSuccess: () => {
+        open({ icon: 'success', content: '배너가 등록되었어요.' });
+        onClose();
+      },
+      onError: () => {
+        open({ icon: 'error', content: '배너를 등록에 실패했어요.' });
+      },
     });
   };
 
