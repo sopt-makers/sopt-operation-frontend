@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
-import SessionList from '@/components/attendanceAdmin/session/SessionList';
 import CreateBannerModal from '@/components/bannerAdmin/CreateBannerModal';
 import Header from '@/components/bannerAdmin/Header/Header';
 import ListItem from '@/components/bannerAdmin/ListItem/ListItem';

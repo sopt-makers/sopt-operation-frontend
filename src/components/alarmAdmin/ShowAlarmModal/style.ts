@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
-import { fontsObject } from '@sopt-makers/fonts';
-import { colors } from '@sopt-makers/colors';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StAlarmModalWrapper = styled.section`
   width: 64rem;
