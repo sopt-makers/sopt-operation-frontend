@@ -6,6 +6,7 @@ import Header from '@/components/bannerAdmin/Header/Header';
 import ListItem from '@/components/bannerAdmin/ListItem/ListItem';
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
+import { useGetBannerList } from '@/services/api/banner/query';
 
 const BannerAdminPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -21,6 +22,8 @@ const BannerAdminPage = () => {
     };
   }, [isModalOpen]);
 
+  const data = useGetBannerList();
+  console.log(data);
   return (
     <>
       <StLayout>
