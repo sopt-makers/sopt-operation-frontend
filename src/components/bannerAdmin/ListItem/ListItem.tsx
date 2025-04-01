@@ -3,8 +3,9 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
-import { IcEdit, IcTrash } from '@/assets/icons';
+import { IcEdit } from '@/assets/icons';
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
+import DeleteBannerButton from '@/components/bannerAdmin/DeleteBannerButton';
 import { ITEM_DUMMY_LIST } from '@/constants';
 import { getTagColor } from '@/utils';
 
@@ -12,7 +13,7 @@ const ListItem = () => {
   return (
     <StItemWrapper>
       {ITEM_DUMMY_LIST.map((item) => (
-        <StItem>
+        <StItem key={item.requester}>
           <StStatus status={item.status}>{item.status}</StStatus>
           <StBannerTagWrapper>
             <BannerTag color={getTagColor(item.bannerLocation)}>
@@ -29,7 +30,7 @@ const ListItem = () => {
           <p>{item.endedAt}</p>
           <StButtonLayout>
             <IcEdit />
-            <IcTrash />
+            <DeleteBannerButton bannerId={18} />
           </StButtonLayout>
         </StItem>
       ))}
