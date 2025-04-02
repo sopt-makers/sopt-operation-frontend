@@ -21,11 +21,14 @@ import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 
 const BannerImageRegister = () => {
   const method = useFormContext();
-  const { errors } = method.formState;
+  const {
+    getValues,
+    watch,
+    formState: { errors },
+  } = method;
 
-  const { getValues, watch } = method;
   const location = watch('location');
-  console.log(location);
+
   const [isModalOpen, setIsModalOpen] = useState<'pc' | 'mobile' | null>(null);
 
   const [pcImageBaseWidth, pcImageBaseHeight] = getPcImageBaseSize(location);
@@ -55,7 +58,7 @@ const BannerImageRegister = () => {
       <StDescriptionWrapper>
         <StDescription isError={errors.pcImageFileName ? true : false}>
           <StDescriptionTitle>
-            {location === '모임피드' ? '[PC/MO]' : '[PC]'}
+            {location === 'cr_feed' ? '[PC/MO]' : '[PC]'}
           </StDescriptionTitle>{' '}
           {`이미지는 ${pcImageBaseWidth}*${pcImageBaseHeight} px`}
           크기로 올려주세요.

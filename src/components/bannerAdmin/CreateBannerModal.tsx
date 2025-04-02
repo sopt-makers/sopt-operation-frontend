@@ -60,11 +60,9 @@ const CreateBannerModal = ({
   const {
     handleSubmit,
     reset,
-    getValues,
-    formState: { isSubmitting, isValid, isDirty, errors },
+    formState: { isSubmitting, isValid, isDirty },
   } = method;
 
-  console.log(getValues());
   const resetData = async () => {
     if (!isSuccess || modalState === CREATE_MODAL) {
       return;
@@ -96,7 +94,6 @@ const CreateBannerModal = ({
     });
 
     initialRef.current = true;
-    console.log('리셋됨');
   };
 
   useEffect(() => {
@@ -172,7 +169,7 @@ const CreateBannerModal = ({
             <LinkField />
             <DateRangeField />
             <ContentTypeField />
-            <LocationFeild modalState={modalState} />
+            <LocationFeild />
             <BannerImageRegister />
           </StMain>
 

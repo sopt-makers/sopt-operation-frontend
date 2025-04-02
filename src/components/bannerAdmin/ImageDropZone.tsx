@@ -35,7 +35,7 @@ const ImageDropZone = ({
     formState: { errors },
   } = method;
 
-  // 수정하기 시 서버에서 받아온 url로 previewUrl 설정
+  // 수정하기시 서버에서 받아온 url로 previewUrl 설정
   const imageFile = watch(label);
 
   const onDrop = useCallback(

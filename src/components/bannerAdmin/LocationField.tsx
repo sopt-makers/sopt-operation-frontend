@@ -1,5 +1,5 @@
 import { Radio } from '@sopt-makers/ui';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import {
   StContentWrapper,
@@ -12,32 +12,19 @@ import {
 } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import { useEffect } from 'react';
-import { CREATE_MODAL } from '@/pages/bannerAdmin';
+
 import FormController from '@/components/bannerAdmin/form/FormController';
 
-interface LocationField {
-  modalState: number;
-}
-
-const LocationField = ({ modalState }: LocationField) => {
-  const {
-    register,
-    getValues,
-    watch,
-    trigger,
-    setValue,
-    getFieldState,
-    formState: { defaultValues },
-  } = useFormContext();
+const LocationField = () => {
+  const { watch, trigger, setValue } = useFormContext();
 
   const location = watch('location');
-  const locationState = getFieldState('location');
-  console.log(defaultValues);
 
   useEffect(() => {
     setValue('pcImageFileName.location', location);
     setValue('mobileImageFileName.location', location);
     trigger('pcImageFileName');
+    trigger('mobileImageFileName');
   }, [location]);
 
   return (
