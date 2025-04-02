@@ -247,7 +247,7 @@ declare global {
     sendAt: string | null;
   }
 
-  interface BannerList {
+  interface Banner {
     content_type: string;
     end_date: string;
     id: number;

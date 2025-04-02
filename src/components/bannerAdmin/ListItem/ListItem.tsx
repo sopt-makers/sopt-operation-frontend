@@ -15,28 +15,28 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
 const ListItem = () => {
-  const { data } = useFetchBannerList();
+  const { data: bannerList } = useFetchBannerList();
 
   return (
     <StItemWrapper>
-      {data?.map((item) => (
+      {bannerList?.map((banner) => (
         <StItem>
-          <StStatus status={item.status}>
-            {translateStatus(item.status)}
+          <StStatus status={banner.status}>
+            {translateStatus(banner.status)}
           </StStatus>
-          <StBannerTagWrapper location={item.location}>
-            <BannerTag color={getTagColor(item.location)}>
-              <p>{translateLocation(item.location)}</p>
+          <StBannerTagWrapper location={banner.location}>
+            <BannerTag color={getTagColor(banner.location)}>
+              <p>{translateLocation(banner.location)}</p>
             </BannerTag>
           </StBannerTagWrapper>
           <StBannerTagWrapper>
             <BannerTag color={`${colors.gray700}`}>
-              {translateContentType(item.content_type)}
+              {translateContentType(banner.content_type)}
             </BannerTag>
           </StBannerTagWrapper>
-          <p>{item.publisher}</p>
-          <p>{replaceDateFormat(item.start_date)}</p>
-          <p>{replaceDateFormat(item.end_date)}</p>
+          <p>{banner.publisher}</p>
+          <p>{replaceDateFormat(banner.start_date)}</p>
+          <p>{replaceDateFormat(banner.end_date)}</p>
           <StButtonLayout>
             <IcEdit />
             <IcTrash />
