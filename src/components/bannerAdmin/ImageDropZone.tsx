@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconImagePlus } from '@sopt-makers/icons';
-import { type MouseEvent, useCallback, useState } from 'react';
+import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import type { UseFormReturn } from 'react-hook-form';
 
@@ -27,30 +27,34 @@ const ImageDropZone = ({
   shape = 'square',
   required,
 }: MyDropzoneProps) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  // const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const {
     register,
     setValue,
     getValues,
+    watch,
     formState: { errors },
   } = method;
+
+  // 수정하기 시 서버에서 받아온 url로 previewUrl 설정
+  const imageFile = watch(label);
+
+  // useEffect(() => {
+  //   setPreviewUrl(imageFile.previewUrl);
+  // }, [imageFile]);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
       if (file) {
-        const sanitizedFileName = file.name
-          .trim() // 앞뒤 공백 제거
-          .replace(/\s+/g, '_'); // 띄어쓰기를 언더스코어로 변경
-
         const reader = new FileReader();
         reader.onloadend = async () => {
-          setPreviewUrl(reader.result as string);
+          // setPreviewUrl(reader.result as string);
+
           setValue(
             label,
             {
-              fileName: sanitizedFileName,
               file,
               previewUrl: reader.result,
               location: getValues('location'),
@@ -93,8 +97,8 @@ const ImageDropZone = ({
           })}
           {...getInputProps()}
         />
-        {previewUrl ? (
-          <StImgPreview src={previewUrl} alt="에러가 발생했어요." />
+        {imageFile?.previewUrl ? (
+          <StImgPreview src={imageFile.previewUrl} alt="에러가 발생했어요." />
         ) : isDragActive ? (
           <p>이미지를 드래그 해주세요...</p>
         ) : (
