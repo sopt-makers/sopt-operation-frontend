@@ -79,7 +79,7 @@ const BannerImageRegister = () => {
         required
       />
 
-      {location !== '모임피드' && (
+      {location !== 'cr_feed' && (
         <>
           <StDescriptionWrapper style={{ marginTop: '2rem' }}>
             <StDescription isError={!!errors.mobileImageFileName}>

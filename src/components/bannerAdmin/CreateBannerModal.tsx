@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Button, useToast } from '@sopt-makers/ui';
+import { Button, Tag, useToast } from '@sopt-makers/ui';
 
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -16,9 +16,7 @@ import {
   BannerFormType,
   bannerSchema,
   CONTENT_VALUE,
-  contentList,
   LOCATION_VALUE,
-  locationList,
 } from '@/components/bannerAdmin/types/form';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
@@ -41,7 +39,11 @@ const CreateBannerModal = ({
   modalState,
 }: CreateBannerModalProps) => {
   const { data: bannerData, isSuccess } = useGetBannerDetail(modalState);
+  const { mutate: createBannerMutate } = usePostNewBanner();
+  const { mutate: editBannerMutate } = usePutBanner();
+  const { open } = useToast();
 
+  // 수정하기 시 서버에서 데이터 받아온 이후 한번만 초기화 하기 위한 ref
   const initialRef = useRef(false);
 
   const method = useForm<BannerFormType>({
@@ -55,12 +57,10 @@ const CreateBannerModal = ({
     mode: 'onChange',
   });
 
-  const { open } = useToast();
-
   const {
     handleSubmit,
     reset,
-    trigger,
+
     formState: { isSubmitting, isValid, isDirty },
   } = method;
 
@@ -69,9 +69,6 @@ const CreateBannerModal = ({
       return;
     }
 
-    console.log(bannerData);
-
-    // 비동기 함수 호출
     const pcImageFile = await convertUrlToFile(bannerData.data.image_url_pc);
     const mobileImageFile = await convertUrlToFile(
       bannerData.data.image_url_mobile,
@@ -96,7 +93,7 @@ const CreateBannerModal = ({
         location: bannerData.data.location,
       },
     });
-    trigger();
+
     initialRef.current = true;
   };
 
@@ -105,9 +102,6 @@ const CreateBannerModal = ({
       resetData();
     }
   }, [isSuccess, resetData]);
-
-  const { mutate: createBannerMutate } = usePostNewBanner();
-  const { mutate: editBannerMutate } = usePutBanner();
 
   const onSubmit = (data: BannerFormType) => {
     const bannerData = {
@@ -151,7 +145,21 @@ const CreateBannerModal = ({
 
   return (
     <StCreateBannerModalWrapper>
-      <ModalHeader title="신규 배너 등록" onClose={onCloseModal} />
+      <ModalHeader
+        title={modalState === CREATE_MODAL ? '신규 배너 등록' : '배너 수정'}
+        onClose={onCloseModal}
+        tag={
+          modalState !== CREATE_MODAL && (
+            <Tag
+              size="lg"
+              variant={
+                bannerData?.data.status === 'reserved' ? 'primary' : 'secondary'
+              }>
+              {bannerData?.data.status === 'reserved' ? '진행 예정' : '진행 중'}
+            </Tag>
+          )
+        }
+      />
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
