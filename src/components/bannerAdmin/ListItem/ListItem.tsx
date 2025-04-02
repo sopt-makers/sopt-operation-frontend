@@ -1,7 +1,14 @@
 import { IcEdit, IcTrash } from '@/assets/icons';
+
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
 import { useFetchBannerList } from '@/services/api/banner/query';
-import { getTagColor } from '@/utils';
+import {
+  getTagColor,
+  translateContentType,
+  translateLocation,
+  translateStatus,
+} from '@/utils';
+import { replaceDateFormat } from '@/utils/date';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -14,20 +21,22 @@ const ListItem = () => {
     <StItemWrapper>
       {data?.map((item) => (
         <StItem>
-          <StStatus status={item.status}>{item.status}</StStatus>
-          <StBannerTagWrapper>
+          <StStatus status={item.status}>
+            {translateStatus(item.status)}
+          </StStatus>
+          <StBannerTagWrapper location={item.location}>
             <BannerTag color={getTagColor(item.location)}>
-              <p>{item.location}</p>
+              <p>{translateLocation(item.location)}</p>
             </BannerTag>
           </StBannerTagWrapper>
           <StBannerTagWrapper>
             <BannerTag color={`${colors.gray700}`}>
-              {item.content_type}
+              {translateContentType(item.content_type)}
             </BannerTag>
           </StBannerTagWrapper>
           <p>{item.publisher}</p>
-          <p>{item.start_date}</p>
-          <p>{item.end_date}</p>
+          <p>{replaceDateFormat(item.start_date)}</p>
+          <p>{replaceDateFormat(item.end_date)}</p>
           <StButtonLayout>
             <IcEdit />
             <IcTrash />
@@ -54,7 +63,7 @@ export const StStatus = styled.h4<{ status: string }>`
   ${fontsObject.TITLE_6_16_SB}
 
   ${({ status }) => {
-    if (status === '진행 예정') {
+    if (status === 'reserved') {
       return css`
         color: ${colors.secondary};
       `;
@@ -64,7 +73,7 @@ export const StStatus = styled.h4<{ status: string }>`
         color: ${colors.success};
       `;
     }
-    if (status === '진행 종료') {
+    if (status === 'done') {
       return css`
         color: ${colors.error};
       `;
@@ -120,7 +129,36 @@ export const StButtonLayout = styled.div`
   box-sizing: content-box;
 `;
 
-const StBannerTagWrapper = styled.div`
+const StBannerTagWrapper = styled.div<{
+  location?: string;
+}>`
   display: flex;
   justify-content: center;
+
+  & > p {
+    ${fontsObject.LABEL_3_14_SB}
+
+    ${({ location }) => {
+      if (location === 'pg_community') {
+        return css`
+          color: rgba(88, 207, 5, 0.5);
+        `;
+      }
+      if (location === 'cr_main') {
+        return css`
+          color: rgba(0, 174, 255, 0.5);
+        `;
+      }
+      if (location === 'cr_feed') {
+        return css`
+          color: rgba(250, 115, 227, 0.5);
+        `;
+      }
+      if (location === 'org') {
+        return css`
+          color: ${colors.gray100};
+        `;
+      }
+    }}
+  }
 `;

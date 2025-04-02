@@ -16,3 +16,7 @@ export const transDate = (
       throw new Error(`Unsupported type: ${type}`);
   }
 };
+
+export const replaceDateFormat = (date: string) => {
+  return date.replace(/-/g, '.');
+};
