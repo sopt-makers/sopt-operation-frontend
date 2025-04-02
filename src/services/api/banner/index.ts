@@ -18,8 +18,8 @@ export const deleteBanner = async (bannerId: number) => {
 };
 
 export const putBanner = async (
-  bannerData: BannerDetailRequest,
   bannerId: number,
+  bannerData: BannerDetailRequest,
 ) => {
   const response = await client.put(`/banners/${bannerId}`, bannerData, {
     headers: {

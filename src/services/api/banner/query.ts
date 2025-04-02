@@ -33,7 +33,7 @@ export const usePutBanner = () => {
     }: {
       bannerId: number;
       bannerData: BannerDetailRequest;
-    }) => putBanner(bannerData, bannerId),
+    }) => putBanner(bannerId, bannerData),
   });
 };
 

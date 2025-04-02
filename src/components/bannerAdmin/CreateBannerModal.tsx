@@ -25,6 +25,7 @@ import ModalHeader from '@/components/common/modal/ModalHeader';
 import {
   useGetBannerDetail,
   usePostNewBanner,
+  usePutBanner,
 } from '@/services/api/banner/query';
 import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile';
 import { useEffect, useRef } from 'react';
@@ -59,13 +60,11 @@ const CreateBannerModal = ({
   const {
     handleSubmit,
     reset,
-    getValues,
     trigger,
-    formState: { isSubmitting, isValid, errors },
+    formState: { isSubmitting, isValid, isDirty },
   } = method;
 
-  console.log(errors, isValid, getValues());
-  const f = async () => {
+  const resetData = async () => {
     if (!isSuccess || modalState === CREATE_MODAL) {
       return;
     }
@@ -103,17 +102,18 @@ const CreateBannerModal = ({
 
   useEffect(() => {
     if (!initialRef.current && isSuccess) {
-      f();
+      resetData();
     }
-  }, [isSuccess, f]);
+  }, [isSuccess, resetData]);
 
   const { mutate: createBannerMutate } = usePostNewBanner();
+  const { mutate: editBannerMutate } = usePutBanner();
 
   const onSubmit = (data: BannerFormType) => {
     const bannerData = {
       publisher: data.publisher,
-      content_type: contentList[data.contentType as keyof typeof contentList],
-      location: locationList[data.location as keyof typeof locationList],
+      content_type: data.contentType,
+      location: data.location,
       start_date: data.dateRange[0].replaceAll('.', '-'),
       end_date: data.dateRange[1].replaceAll('.', '-'),
       link: data.link,
@@ -121,15 +121,32 @@ const CreateBannerModal = ({
       image_mobile: data.mobileImageFileName.file,
     };
 
-    createBannerMutate(bannerData, {
-      onSuccess: () => {
-        open({ icon: 'success', content: '배너가 등록되었어요.' });
-        onCloseModal();
+    if (modalState === CREATE_MODAL) {
+      createBannerMutate(bannerData, {
+        onSuccess: () => {
+          open({ icon: 'success', content: '배너가 등록되었어요.' });
+          onCloseModal();
+        },
+        onError: () => {
+          open({ icon: 'error', content: '배너를 등록에 실패했어요.' });
+        },
+      });
+
+      return;
+    }
+
+    editBannerMutate(
+      { bannerId: modalState, bannerData },
+      {
+        onSuccess: () => {
+          open({ icon: 'success', content: '배너가 수정되었어요.' });
+          onCloseModal();
+        },
+        onError: () => {
+          open({ icon: 'error', content: '배너 수정에 실패했어요.' });
+        },
       },
-      onError: () => {
-        open({ icon: 'error', content: '배너를 등록에 실패했어요.' });
-      },
-    });
+    );
   };
 
   return (
@@ -150,9 +167,17 @@ const CreateBannerModal = ({
             <Button type={'button'} onClick={onCloseModal}>
               취소하기
             </Button>
-            <Button type={'submit'} disabled={isSubmitting || !isValid}>
-              등록하기
-            </Button>
+            {modalState === CREATE_MODAL ? (
+              <Button type={'submit'} disabled={isSubmitting || !isValid}>
+                등록하기
+              </Button>
+            ) : (
+              <Button
+                type={'submit'}
+                disabled={isSubmitting || !isValid || !isDirty}>
+                수정하기
+              </Button>
+            )}
           </ModalFooter>
         </form>
       </FormProvider>
