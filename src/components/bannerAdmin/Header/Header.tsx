@@ -36,9 +36,11 @@ const StHeader = styled.header`
 
     ${fontsObject.BODY_3_14_M};
     color: ${colors.gray100};
+
+    white-space: nowrap;
   }
 
-  & > h3:nth-child(6) {
+  & > h3:nth-of-type(6) {
     margin-left: 1rem;
 
     text-align: left;

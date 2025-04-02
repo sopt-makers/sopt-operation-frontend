@@ -8,9 +8,9 @@ import {
 import {
   deleteBanner,
   getBannerDetail,
-  getBannerList,
   postNewBanner,
   putBanner,
+  fetchBannerList,
 } from '@/services/api/banner';
 
 export const usePostNewBanner = () => {
@@ -45,15 +45,6 @@ export const useGetBannerDetail = (bannerId: number) => {
   });
 };
 
-interface BannerListResponse {
-  success: boolean;
-  message: string;
-  data: { banners: BannerDetailRequest[] };
-}
-
-export const useGetBannerList = () => {
-  return useQuery<BannerListResponse>({
-    queryKey: ['banner', 'list'],
-    queryFn: () => getBannerList(),
-  });
+export const useFetchBannerList = () => {
+  return useQuery('bannerList', fetchBannerList);
 };

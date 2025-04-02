@@ -34,3 +34,44 @@ export const getTagColor = (location: string) => {
 
   return 'rgba(88, 207, 5, 0.5)';
 };
+
+export const translateStatus = (status: string) => {
+  switch (status) {
+    case 'reserved':
+      return '진행 예정';
+    case 'in_progress':
+      return '진행 중';
+    case 'done':
+      return '진행 완료';
+    default:
+      return status;
+  }
+};
+
+export const translateLocation = (location: string) => {
+  switch (location) {
+    case 'pg_community':
+      return '플그 커뮤니티';
+    case 'cr_main':
+      return '크루 전체 모임';
+    case 'cr_feed':
+      return '크루 모임피드';
+    case 'org':
+      return '공식 홈페이지';
+    default:
+      return location;
+  }
+};
+
+export const translateContentType = (contentType: string) => {
+  switch (contentType) {
+    case 'product':
+      return '프로덕트 홍보';
+    case 'birthday':
+      return '생일 광고';
+    case 'etc':
+      return '기타 홍보';
+    default:
+      return contentType;
+  }
+};

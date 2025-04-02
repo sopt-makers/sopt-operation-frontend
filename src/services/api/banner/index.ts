@@ -1,6 +1,8 @@
 import { BannerDetailRequest } from '@/components/bannerAdmin/types/api';
 import { client } from '@/services/api/client';
 
+import { AxiosResponse } from 'axios';
+
 export const postNewBanner = async (bannerData: BannerDetailRequest) => {
   const response = await client.post('/banners', bannerData, {
     headers: {
@@ -36,8 +38,9 @@ export const getBannerDetail = async (bannerId: number) => {
   return data;
 };
 
-export const getBannerList = async () => {
-  const { data } = await client.get('/banners');
+export const fetchBannerList = async () => {
+  const { data }: AxiosResponse<{ success: boolean; data: Banner[] }> =
+    await client.get('/banners');
 
-  return data;
+  return data.data;
 };
