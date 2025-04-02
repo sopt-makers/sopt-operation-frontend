@@ -13,13 +13,13 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
-const ListItem = () => {
+const BannerList = () => {
   const { data: bannerList } = useFetchBannerList();
 
   return (
     <StItemWrapper>
       {bannerList?.map((banner) => (
-        <StItem>
+        <StItem key={banner.id}>
           <StStatus status={banner.status}>
             {translateStatus(banner.status)}
           </StStatus>
@@ -46,7 +46,7 @@ const ListItem = () => {
   );
 };
 
-export default ListItem;
+export default BannerList;
 
 export const StItemWrapper = styled.li`
   display: flex;
@@ -106,7 +106,7 @@ export const StItem = styled.div`
     text-align: left;
   }
 
-  & > p:nth-child(6) {
+  & > p:nth-of-type(6) {
     text-align: left;
     margin-left: 1.5rem;
   }
