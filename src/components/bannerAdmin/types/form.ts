@@ -29,27 +29,27 @@ const ERROR_MESSAGE = {
 };
 
 export const getPcImageBaseSize = (
-  location: (typeof LOCATION_KEY)[number],
+  location: (typeof LOCATION_VALUE)[number],
 ) => {
   switch (location) {
-    case '커뮤니티':
+    case 'pg_community':
       return [1824, 328];
-    case '전체모임':
+    case 'cr_main':
       return [760, 956];
-    case '모임피드':
+    case 'cr_feed':
       return [760, 760];
   }
 };
 
 export const getMoImageBaseSize = (
-  location: (typeof LOCATION_KEY)[number],
+  location: (typeof LOCATION_VALUE)[number],
 ) => {
   switch (location) {
-    case '커뮤니티':
+    case 'pg_community':
       return [1340, 627];
-    case '전체모임':
+    case 'cr_main':
       return [760, 190];
-    case '모임피드':
+    case 'cr_feed':
       return [];
   }
 };
@@ -59,8 +59,8 @@ export const bannerSchema = z.object({
     .string()
     .min(1, { message: ERROR_MESSAGE.REQUIRED_VALUE })
     .max(30, { message: ERROR_MESSAGE.PUBLISHER_MAX_LENGTH }),
-  contentType: z.enum(CONTENT_KEY),
-  location: z.enum(LOCATION_KEY),
+  contentType: z.enum(CONTENT_VALUE),
+  location: z.enum(LOCATION_VALUE),
   dateRange: z.string().array(),
   link: z.string().url({ message: ERROR_MESSAGE.INVALID_LINK }),
   pcImageFileName: z
@@ -68,7 +68,7 @@ export const bannerSchema = z.object({
       fileName: z.string(),
       file: z.instanceof(File),
       previewUrl: z.string().url(),
-      location: z.enum(LOCATION_KEY),
+      location: z.enum(LOCATION_VALUE),
     })
     .superRefine(async (file, ctx) => {
       const { width, height } = await getImageSize(file.previewUrl);
@@ -104,7 +104,7 @@ export const bannerSchema = z.object({
       fileName: z.string(),
       file: z.instanceof(File),
       previewUrl: z.string().url(),
-      location: z.enum(LOCATION_KEY),
+      location: z.enum(LOCATION_VALUE),
     })
     .superRefine(async (file, ctx) => {
       const { width, height } = await getImageSize(file.previewUrl);

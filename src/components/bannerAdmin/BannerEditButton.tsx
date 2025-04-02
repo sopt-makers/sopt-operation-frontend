@@ -1,5 +1,5 @@
 import { IcEdit } from '@/assets/icons';
-import { QueryClient, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
 interface BannerEditButtonProps {
   onEditModalOpen: (bannerId: number) => void;

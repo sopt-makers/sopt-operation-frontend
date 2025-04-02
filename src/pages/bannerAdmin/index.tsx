@@ -45,7 +45,10 @@ const BannerAdminPage = () => {
       </StLayout>
       {isModalState !== CLOSE_MODAL && (
         <Modal>
-          <CreateBannerModal onCloseModal={handleCloseModal} />
+          <CreateBannerModal
+            onCloseModal={handleCloseModal}
+            isModalState={isModalState}
+          />
         </Modal>
       )}
 

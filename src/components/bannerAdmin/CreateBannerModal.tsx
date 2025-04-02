@@ -15,35 +15,92 @@ import PublisherField from '@/components/bannerAdmin/PublisherField';
 import {
   BannerFormType,
   bannerSchema,
-  CONTENT_KEY,
+  CONTENT_VALUE,
   contentList,
-  LOCATION_KEY,
+  LOCATION_VALUE,
   locationList,
 } from '@/components/bannerAdmin/types/form';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
-import { usePostNewBanner } from '@/services/api/banner/query';
+import {
+  useGetBannerDetail,
+  usePostNewBanner,
+} from '@/services/api/banner/query';
+import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile';
+import { useEffect, useRef } from 'react';
 
 interface CreateBannerModalProps {
   onCloseModal: () => void;
+  isModalState: number;
 }
 
-const CreateBannerModal = ({ onCloseModal }: CreateBannerModalProps) => {
+const CreateBannerModal = ({
+  onCloseModal,
+  isModalState,
+}: CreateBannerModalProps) => {
+  const { data: bannerData, isSuccess } = useGetBannerDetail(isModalState);
+
+  const initialRef = useRef(false);
+
   const method = useForm<BannerFormType>({
     resolver: zodResolver(bannerSchema),
     defaultValues: {
       publisher: '',
-      contentType: CONTENT_KEY[0],
-      location: LOCATION_KEY[0],
+      contentType: CONTENT_VALUE[0],
+      location: LOCATION_VALUE[0],
       dateRange: [],
     },
     mode: 'onChange',
   });
+
   const { open } = useToast();
+
   const {
     handleSubmit,
+    reset,
     formState: { isSubmitting, isValid },
   } = method;
+  const f = async () => {
+    if (!isSuccess) {
+      return;
+    }
+
+    console.log(bannerData);
+
+    // 비동기 함수 호출
+    const pcImageFile = await convertUrlToFile(bannerData.data.image_url_pc);
+    const mobileImageFile = await convertUrlToFile(
+      bannerData.data.image_url_mobile,
+    );
+    const startDate = bannerData.data.start_date.replaceAll('-', '.');
+    const endDate = bannerData.data.end_date.replaceAll('-', '.');
+
+    reset({
+      publisher: bannerData.data.publisher,
+      contentType: bannerData.data.content_type,
+      location: bannerData.data.location,
+      dateRange: [startDate, endDate],
+      link: bannerData.data.link,
+      pcImageFileName: {
+        file: pcImageFile,
+        previewUrl: bannerData.data.image_url_pc,
+        location: bannerData.data.location,
+      },
+      mobileImageFileName: {
+        file: mobileImageFile,
+        previewUrl: bannerData.data.image_url_mobile,
+        location: bannerData.data.location,
+      },
+    });
+
+    initialRef.current = true;
+  };
+
+  useEffect(() => {
+    if (!initialRef.current && isSuccess) {
+      f();
+    }
+  }, [isSuccess, f]);
 
   const { mutate: createBannerMutate } = usePostNewBanner();
 
