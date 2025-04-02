@@ -27,8 +27,6 @@ const ImageDropZone = ({
   shape = 'square',
   required,
 }: MyDropzoneProps) => {
-  // const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
   const {
     register,
     setValue,
@@ -40,18 +38,12 @@ const ImageDropZone = ({
   // 수정하기 시 서버에서 받아온 url로 previewUrl 설정
   const imageFile = watch(label);
 
-  // useEffect(() => {
-  //   setPreviewUrl(imageFile.previewUrl);
-  // }, [imageFile]);
-
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
       if (file) {
         const reader = new FileReader();
         reader.onloadend = async () => {
-          // setPreviewUrl(reader.result as string);
-
           setValue(
             label,
             {
