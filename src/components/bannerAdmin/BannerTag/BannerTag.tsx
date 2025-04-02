@@ -26,7 +26,6 @@ const StTag = styled.div<{ color: string }>`
 
   align-items: center;
   justify-content: center;
-
   gap: 1rem;
 
   border-radius: 10rem;
@@ -35,4 +34,6 @@ const StTag = styled.div<{ color: string }>`
 
   color: ${colors.white};
   background-color: ${({ color }) => color};
+
+  white-space: nowrap;
 `;
