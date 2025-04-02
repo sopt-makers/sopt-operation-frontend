@@ -8,7 +8,6 @@ import {
   translateLocation,
   translateStatus,
 } from '@/utils';
-import { replaceDateFormat } from '@/utils/date';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -35,8 +34,8 @@ const ListItem = () => {
             </BannerTag>
           </StBannerTagWrapper>
           <p>{banner.publisher}</p>
-          <p>{replaceDateFormat(banner.start_date)}</p>
-          <p>{replaceDateFormat(banner.end_date)}</p>
+          <p>{banner.start_date.replaceAll('-', '.')}</p>
+          <p>{banner.end_date.replaceAll('-', '.')}</p>
           <StButtonLayout>
             <IcEdit />
             <IcTrash />
