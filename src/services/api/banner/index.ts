@@ -1,7 +1,7 @@
-import { BannerType } from '@/components/bannerAdmin/types/api';
+import { BannerDetailRequest } from '@/components/bannerAdmin/types/api';
 import { client } from '@/services/api/client';
 
-export const postNewBanner = async (bannerData: BannerType) => {
+export const postNewBanner = async (bannerData: BannerDetailRequest) => {
   const response = await client.post('/banners', bannerData, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -17,7 +17,10 @@ export const deleteBanner = async (bannerId: number) => {
   return response;
 };
 
-export const putBanner = async (bannerData: BannerType, bannerId: number) => {
+export const putBanner = async (
+  bannerData: BannerDetailRequest,
+  bannerId: number,
+) => {
   const response = await client.put(`/banners/${bannerId}`, bannerData, {
     headers: {
       'Content-Type': 'multipart/form-data',

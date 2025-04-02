@@ -6,7 +6,10 @@ import {
   StInputLabel,
   StRadioGroup,
 } from '@/components/bannerAdmin/CreateBannerModal';
-import { LOCATION_LIST } from '@/components/bannerAdmin/types/form';
+import {
+  LOCATION_KEY,
+  locationList,
+} from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 
 const LocationField = () => {
@@ -19,13 +22,13 @@ const LocationField = () => {
         <RequiredIcon />
       </StInputLabel>
       <StRadioGroup>
-        {LOCATION_LIST.map((location, index) => (
+        {LOCATION_KEY.map((location, index) => (
           <Radio
             key={`${index}-${location}`}
-            checked={watch('location') === location}
+            checked={watch('location') === locationList[location]}
             label={location}
             size="lg"
-            value={location}
+            value={locationList[location]}
             {...register('location')}
           />
         ))}

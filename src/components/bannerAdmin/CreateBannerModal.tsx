@@ -15,9 +15,9 @@ import PublisherField from '@/components/bannerAdmin/PublisherField';
 import {
   BannerFormType,
   bannerSchema,
-  CONTENT_LIST,
+  CONTENT_KEY,
   contentList,
-  LOCATION_LIST,
+  LOCATION_KEY,
   locationList,
 } from '@/components/bannerAdmin/types/form';
 import ModalFooter from '@/components/common/modal/ModalFooter';
@@ -33,8 +33,8 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
     resolver: zodResolver(bannerSchema),
     defaultValues: {
       publisher: '',
-      contentType: CONTENT_LIST[0],
-      location: LOCATION_LIST[0],
+      contentType: CONTENT_KEY[0],
+      location: LOCATION_KEY[0],
       dateRange: [],
     },
     mode: 'onChange',

@@ -1,24 +1,21 @@
+import { getImageSize } from '@/components/bannerAdmin/utils/getImageSize';
 import { z } from 'zod';
 
+export const CONTENT_KEY = ['프로덕트 홍보', '기타 홍보', '생일 광고'] as const;
+export const CONTENT_VALUE = ['product', 'etc', 'birthday'] as const;
 export const contentList = {
   '프로덕트 홍보': 'product',
   '기타 홍보': 'etc',
   '생일 광고': 'birthday',
 } as const;
 
+export const LOCATION_KEY = ['커뮤니티', '전체모임', '모임피드'] as const;
+export const LOCATION_VALUE = ['pg_community', 'cr_main', 'cr_feed'] as const;
 export const locationList = {
   커뮤니티: 'pg_community',
   전체모임: 'cr_main',
   모임피드: 'cr_feed',
 } as const;
-
-export const CONTENT_LIST = [
-  '프로덕트 홍보',
-  '기타 홍보',
-  '생일 광고',
-] as const;
-
-export const LOCATION_LIST = ['커뮤니티', '전체모임', '모임피드'] as const;
 
 const MAX_IMAGE_CAPACITY = 0.5;
 
@@ -31,29 +28,8 @@ const ERROR_MESSAGE = {
   INVALID_IMAGE_TYPE: '이미지가 png 형식이 아닙니다.',
 };
 
-interface ImgSize {
-  width: number;
-  height: number;
-}
-
-const getImageSize = async (url: string): Promise<ImgSize> => {
-  return new Promise((res) => {
-    const img = new Image();
-
-    img.src = url;
-
-    img.onload = () => {
-      const { width, height } = img;
-
-      const size: ImgSize = { width, height };
-
-      res(size);
-    };
-  });
-};
-
 export const getPcImageBaseSize = (
-  location: (typeof LOCATION_LIST)[number],
+  location: (typeof LOCATION_KEY)[number],
 ) => {
   switch (location) {
     case '커뮤니티':
@@ -66,7 +42,7 @@ export const getPcImageBaseSize = (
 };
 
 export const getMoImageBaseSize = (
-  location: (typeof LOCATION_LIST)[number],
+  location: (typeof LOCATION_KEY)[number],
 ) => {
   switch (location) {
     case '커뮤니티':
@@ -83,8 +59,8 @@ export const bannerSchema = z.object({
     .string()
     .min(1, { message: ERROR_MESSAGE.REQUIRED_VALUE })
     .max(30, { message: ERROR_MESSAGE.PUBLISHER_MAX_LENGTH }),
-  contentType: z.enum(CONTENT_LIST),
-  location: z.enum(LOCATION_LIST),
+  contentType: z.enum(CONTENT_KEY),
+  location: z.enum(LOCATION_KEY),
   dateRange: z.string().array(),
   link: z.string().url({ message: ERROR_MESSAGE.INVALID_LINK }),
   pcImageFileName: z
@@ -92,7 +68,7 @@ export const bannerSchema = z.object({
       fileName: z.string(),
       file: z.instanceof(File),
       previewUrl: z.string().url(),
-      location: z.enum(LOCATION_LIST),
+      location: z.enum(LOCATION_KEY),
     })
     .superRefine(async (file, ctx) => {
       const { width, height } = await getImageSize(file.previewUrl);
@@ -128,7 +104,7 @@ export const bannerSchema = z.object({
       fileName: z.string(),
       file: z.instanceof(File),
       previewUrl: z.string().url(),
-      location: z.enum(LOCATION_LIST),
+      location: z.enum(LOCATION_KEY),
     })
     .superRefine(async (file, ctx) => {
       const { width, height } = await getImageSize(file.previewUrl);
