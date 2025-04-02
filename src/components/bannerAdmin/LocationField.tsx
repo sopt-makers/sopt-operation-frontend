@@ -11,9 +11,10 @@ import {
   locationList,
 } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
-import { useEffect } from 'react';
+import { MutableRefObject, useEffect, useRef } from 'react';
 
 import FormController from '@/components/bannerAdmin/form/FormController';
+import { CREATE_MODAL } from '@/pages/bannerAdmin';
 
 const LocationField = () => {
   const { watch, trigger, setValue } = useFormContext();

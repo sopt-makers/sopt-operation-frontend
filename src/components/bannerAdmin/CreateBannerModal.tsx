@@ -62,9 +62,11 @@ const CreateBannerModal = ({
   const {
     handleSubmit,
     reset,
-    formState: { isSubmitting, isValid, isDirty },
+    formState: { isSubmitting, isValid, isDirty, errors },
+    getValues,
   } = method;
-
+  console.log(getValues());
+  console.log(errors);
   const resetData = async () => {
     if (!isSuccess || modalState === CREATE_MODAL) {
       return;
