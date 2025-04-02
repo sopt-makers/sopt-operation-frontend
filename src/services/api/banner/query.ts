@@ -1,6 +1,10 @@
 import { useMutation, useQuery } from 'react-query';
 
-import { BannerType } from '@/components/bannerAdmin/types/api';
+import {
+  BannerDetailResponse,
+  BannerDetailRequest,
+} from '@/components/bannerAdmin/types/api';
+
 import {
   deleteBanner,
   getBannerDetail,
@@ -11,7 +15,7 @@ import {
 
 export const usePostNewBanner = () => {
   return useMutation({
-    mutationFn: (bannerData: BannerType) => postNewBanner(bannerData),
+    mutationFn: (bannerData: BannerDetailRequest) => postNewBanner(bannerData),
   });
 };
 
@@ -28,22 +32,24 @@ export const usePutBanner = () => {
       bannerData,
     }: {
       bannerId: number;
-      bannerData: BannerType;
+      bannerData: BannerDetailRequest;
     }) => putBanner(bannerData, bannerId),
   });
 };
 
 export const useGetBannerDetail = (bannerId: number) => {
-  return useQuery<BannerType>({
+  return useQuery<BannerDetailResponse>({
     queryKey: ['banner', 'detail'],
     queryFn: () => getBannerDetail(bannerId),
+    enabled: bannerId !== 0,
+    staleTime: 5000,
   });
 };
 
 interface BannerListResponse {
   success: boolean;
   message: string;
-  data: { banners: BannerType[] };
+  data: { banners: BannerDetailRequest[] };
 }
 
 export const useGetBannerList = () => {
