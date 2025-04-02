@@ -60,10 +60,11 @@ const CreateBannerModal = ({
   const {
     handleSubmit,
     reset,
-
-    formState: { isSubmitting, isValid, isDirty },
+    getValues,
+    formState: { isSubmitting, isValid, isDirty, errors },
   } = method;
 
+  console.log(getValues());
   const resetData = async () => {
     if (!isSuccess || modalState === CREATE_MODAL) {
       return;
@@ -95,6 +96,7 @@ const CreateBannerModal = ({
     });
 
     initialRef.current = true;
+    console.log('리셋됨');
   };
 
   useEffect(() => {
@@ -112,7 +114,10 @@ const CreateBannerModal = ({
       end_date: data.dateRange[1].replaceAll('.', '-'),
       link: data.link,
       image_pc: data.pcImageFileName.file,
-      image_mobile: data.mobileImageFileName.file,
+      image_mobile:
+        data.location === 'cr_feed'
+          ? data.pcImageFileName.file
+          : data.mobileImageFileName.file,
     };
 
     if (modalState === CREATE_MODAL) {
@@ -167,7 +172,7 @@ const CreateBannerModal = ({
             <LinkField />
             <DateRangeField />
             <ContentTypeField />
-            <LocationFeild />
+            <LocationFeild modalState={modalState} />
             <BannerImageRegister />
           </StMain>
 

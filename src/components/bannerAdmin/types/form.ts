@@ -50,7 +50,7 @@ export const getMoImageBaseSize = (
     case 'cr_main':
       return [760, 190];
     case 'cr_feed':
-      return [];
+      return [760, 760];
   }
 };
 

@@ -33,8 +33,8 @@ const ListItem = ({ onEditModalOpen }: ListItemProps) => {
           <p>{item.startedAt}</p>
           <p>{item.endedAt}</p>
           <StButtonLayout>
-            <BannerEditButton onEditModalOpen={onEditModalOpen} bannerId={19} />
-            <DeleteBannerButton bannerId={19} />
+            <BannerEditButton onEditModalOpen={onEditModalOpen} bannerId={23} />
+            <DeleteBannerButton bannerId={16} />
           </StButtonLayout>
         </StItem>
       ))}

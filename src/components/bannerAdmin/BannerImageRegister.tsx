@@ -23,9 +23,9 @@ const BannerImageRegister = () => {
   const method = useFormContext();
   const { errors } = method.formState;
 
-  const { getValues } = method;
-  const location = getValues('location');
-
+  const { getValues, watch } = method;
+  const location = watch('location');
+  console.log(location);
   const [isModalOpen, setIsModalOpen] = useState<'pc' | 'mobile' | null>(null);
 
   const [pcImageBaseWidth, pcImageBaseHeight] = getPcImageBaseSize(location);
