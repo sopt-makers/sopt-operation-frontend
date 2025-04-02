@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 
 import CreateBannerModal from '@/components/bannerAdmin/CreateBannerModal';
 import Header from '@/components/bannerAdmin/Header/Header';
-import ListItem from '@/components/bannerAdmin/ListItem/ListItem';
 
+import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 import { colors } from '@sopt-makers/colors';
@@ -28,12 +28,12 @@ const BannerAdminPage = () => {
     <>
       <StWrapper>
         <StTitle>광고 배너 관리</StTitle>
-        <StListWrapper>
+        <StBannerList>
           <Header />
-          <StItemWrapper>
-            <ListItem />
-          </StItemWrapper>
-        </StListWrapper>
+          <StBannerListWrapper>
+            <BannerList />
+          </StBannerListWrapper>
+        </StBannerList>
       </StWrapper>
       {isModalOpen && (
         <Modal>
@@ -63,13 +63,13 @@ const StTitle = styled.h1`
   ${fontsObject.TITLE_1_32_SB}
 `;
 
-const StListWrapper = styled.ul`
+const StBannerList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.7rem;
 `;
 
-const StItemWrapper = styled.ul`
+const StBannerListWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1rem;
