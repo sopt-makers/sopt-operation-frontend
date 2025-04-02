@@ -40,6 +40,14 @@ export const alarmStatusTranslator: Record<ALARM_STATUS, string> = {
   SCHEDULED: '발송 예약',
   COMPLETED: '발송 완료',
 };
+
+export const bannerStatusTranslator: Record<BANNER_STATUS, string> = {
+  ALL: '전체',
+  RESERVED: '진행 예정',
+  IN_PROGRESS: '진행 중',
+  DONE: '진행 종료',
+};
+
 export const targetTypeTranslator: Record<TARGET_TYPE, string> = {
   ALL: '전체',
   ACTIVE: '활동 회원',

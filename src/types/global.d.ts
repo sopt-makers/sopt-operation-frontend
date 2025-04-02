@@ -7,6 +7,7 @@ declare global {
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
   type ALARM_STATUS = 'ALL' | 'SCHEDULED' | 'COMPLETED';
+  type BANNER_STATUS = 'ALL' | 'RESERVED' | 'IN_PROGRESS' | 'DONE';
   type ADMIN_STATUS =
     | 'SUPER_USER'
     | 'SOPT'

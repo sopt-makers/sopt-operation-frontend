@@ -27,6 +27,13 @@ export const ALARM_STATUS_LIST: ALARM_STATUS[] = [
   'COMPLETED',
 ];
 
+export const BANNER_STATUS_LIST: BANNER_STATUS[] = [
+  'ALL',
+  'RESERVED',
+  'IN_PROGRESS',
+  'DONE',
+];
+
 export const readPlaygroundId = async (file: File): Promise<string[]> => {
   // 파일 크기 체크
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
