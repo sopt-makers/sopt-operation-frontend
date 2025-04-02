@@ -4,7 +4,7 @@ import { StModalHeader } from './style';
 
 interface Props {
   title: string;
-  desc: string;
+  desc?: string;
   onClose: () => void;
 }
 
