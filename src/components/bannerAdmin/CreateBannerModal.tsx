@@ -46,7 +46,7 @@ const CreateBannerModal = ({
   const { open } = useToast();
 
   // 수정하기 시 서버에서 데이터 받아온 이후 한번만 초기화 하기 위한 ref
-  const initialRef = useRef(false);
+  const initialRef = useRef(true);
 
   const method = useForm<BannerFormType>({
     resolver: zodResolver(bannerSchema),
@@ -65,8 +65,7 @@ const CreateBannerModal = ({
     formState: { isSubmitting, isValid, isDirty, errors },
     getValues,
   } = method;
-  console.log(getValues());
-  console.log(errors);
+
   const resetData = async () => {
     if (!isSuccess || modalState === CREATE_MODAL) {
       return;
@@ -97,11 +96,11 @@ const CreateBannerModal = ({
       },
     });
 
-    initialRef.current = true;
+    initialRef.current = false;
   };
 
   useEffect(() => {
-    if (!initialRef.current && isSuccess) {
+    if (initialRef.current && isSuccess) {
       resetData();
     }
   }, [isSuccess, resetData]);
