@@ -3,13 +3,17 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
-import { IcEdit } from '@/assets/icons';
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
 import DeleteBannerButton from '@/components/bannerAdmin/DeleteBannerButton';
 import { ITEM_DUMMY_LIST } from '@/constants';
 import { getTagColor } from '@/utils';
+import BannerEditButton from '@/components/bannerAdmin/BannerEditButton';
 
-const ListItem = () => {
+interface ListItemProps {
+  onEditModalOpen: (bannerId: number) => void;
+}
+
+const ListItem = ({ onEditModalOpen }: ListItemProps) => {
   return (
     <StItemWrapper>
       {ITEM_DUMMY_LIST.map((item) => (
@@ -29,7 +33,7 @@ const ListItem = () => {
           <p>{item.startedAt}</p>
           <p>{item.endedAt}</p>
           <StButtonLayout>
-            <IcEdit />
+            <BannerEditButton onEditModalOpen={onEditModalOpen} bannerId={19} />
             <DeleteBannerButton bannerId={18} />
           </StButtonLayout>
         </StItem>

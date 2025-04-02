@@ -8,11 +8,22 @@ import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 import { useGetBannerList } from '@/services/api/banner/query';
 
+const CLOSE_MODAL = -1;
+const CREATE_MODAL = 0;
+
 const BannerAdminPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalState, setIsModalState] = useState<number>(CLOSE_MODAL);
+
+  const handleCloseModal = () => {
+    setIsModalState(CLOSE_MODAL);
+  };
+
+  const handleOpenModal = (modalState: number) => {
+    setIsModalState(modalState);
+  };
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (isModalState !== CLOSE_MODAL) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -20,7 +31,7 @@ const BannerAdminPage = () => {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isModalOpen]);
+  }, [isModalState]);
 
   const data = useGetBannerList();
   console.log(data);
@@ -29,18 +40,18 @@ const BannerAdminPage = () => {
       <StLayout>
         <Header />
         <StItemWrapper>
-          <ListItem />
+          <ListItem onEditModalOpen={handleOpenModal} />
         </StItemWrapper>
       </StLayout>
-      {isModalOpen && (
+      {isModalState !== CLOSE_MODAL && (
         <Modal>
-          <CreateBannerModal onClose={() => setIsModalOpen(!isModalOpen)} />
+          <CreateBannerModal onCloseModal={handleCloseModal} />
         </Modal>
       )}
 
       <FloatingButton
         content={<>배너 등록</>}
-        onClick={() => setIsModalOpen(!isModalOpen)}
+        onClick={() => handleOpenModal(CREATE_MODAL)}
       />
     </>
   );

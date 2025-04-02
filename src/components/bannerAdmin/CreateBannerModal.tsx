@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button, useToast } from '@sopt-makers/ui';
-import { AxiosError } from 'axios';
+
 import { FormProvider, useForm } from 'react-hook-form';
 
 import BannerImageRegister from '@/components/bannerAdmin/BannerImageRegister';
@@ -25,10 +25,10 @@ import ModalHeader from '@/components/common/modal/ModalHeader';
 import { usePostNewBanner } from '@/services/api/banner/query';
 
 interface CreateBannerModalProps {
-  onClose: () => void;
+  onCloseModal: () => void;
 }
 
-const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
+const CreateBannerModal = ({ onCloseModal }: CreateBannerModalProps) => {
   const method = useForm<BannerFormType>({
     resolver: zodResolver(bannerSchema),
     defaultValues: {
@@ -62,7 +62,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
     createBannerMutate(bannerData, {
       onSuccess: () => {
         open({ icon: 'success', content: '배너가 등록되었어요.' });
-        onClose();
+        onCloseModal();
       },
       onError: () => {
         open({ icon: 'error', content: '배너를 등록에 실패했어요.' });
@@ -72,7 +72,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
 
   return (
     <StCreateBannerModalWrapper>
-      <ModalHeader title="신규 배너 등록" onClose={onClose} />
+      <ModalHeader title="신규 배너 등록" onClose={onCloseModal} />
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
@@ -85,7 +85,7 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
           </StMain>
 
           <ModalFooter>
-            <Button type={'button'} onClick={onClose}>
+            <Button type={'button'} onClick={onCloseModal}>
               취소하기
             </Button>
             <Button type={'submit'} disabled={isSubmitting || !isValid}>
