@@ -1,7 +1,7 @@
 import '@sopt-makers/ui/dist/index.css';
 
 import { Global, ThemeProvider } from '@emotion/react';
-import { ToastProvider } from '@sopt-makers/ui';
+import { DialogProvider, ToastProvider } from '@sopt-makers/ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -48,10 +48,12 @@ export default function App({ Component, pageProps }: AppProps) {
             <RecoilRoot>
               <ThemeProvider theme={theme}>
                 <ToastProvider>
-                  <Global styles={global} />
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
+                  <DialogProvider>
+                    <Global styles={global} />
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </DialogProvider>
                 </ToastProvider>
               </ThemeProvider>
             </RecoilRoot>
