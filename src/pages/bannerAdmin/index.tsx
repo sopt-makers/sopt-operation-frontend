@@ -9,21 +9,21 @@ import Modal from '@/components/common/modal';
 import { useGetBannerList } from '@/services/api/banner/query';
 
 const CLOSE_MODAL = -1;
-const CREATE_MODAL = 0;
+export const CREATE_MODAL = 0;
 
 const BannerAdminPage = () => {
-  const [isModalState, setIsModalState] = useState<number>(CLOSE_MODAL);
+  const [modalState, setModalState] = useState<number>(CLOSE_MODAL);
 
   const handleCloseModal = () => {
-    setIsModalState(CLOSE_MODAL);
+    setModalState(CLOSE_MODAL);
   };
 
   const handleOpenModal = (modalState: number) => {
-    setIsModalState(modalState);
+    setModalState(modalState);
   };
 
   useEffect(() => {
-    if (isModalState !== CLOSE_MODAL) {
+    if (modalState !== CLOSE_MODAL) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -31,7 +31,7 @@ const BannerAdminPage = () => {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isModalState]);
+  }, [modalState]);
 
   const data = useGetBannerList();
   console.log(data);
@@ -43,11 +43,11 @@ const BannerAdminPage = () => {
           <ListItem onEditModalOpen={handleOpenModal} />
         </StItemWrapper>
       </StLayout>
-      {isModalState !== CLOSE_MODAL && (
+      {modalState !== CLOSE_MODAL && (
         <Modal>
           <CreateBannerModal
             onCloseModal={handleCloseModal}
-            isModalState={isModalState}
+            modalState={modalState}
           />
         </Modal>
       )}

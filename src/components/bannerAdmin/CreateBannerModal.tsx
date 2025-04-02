@@ -28,17 +28,18 @@ import {
 } from '@/services/api/banner/query';
 import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile';
 import { useEffect, useRef } from 'react';
+import { CREATE_MODAL } from '@/pages/bannerAdmin';
 
 interface CreateBannerModalProps {
   onCloseModal: () => void;
-  isModalState: number;
+  modalState: number;
 }
 
 const CreateBannerModal = ({
   onCloseModal,
-  isModalState,
+  modalState,
 }: CreateBannerModalProps) => {
-  const { data: bannerData, isSuccess } = useGetBannerDetail(isModalState);
+  const { data: bannerData, isSuccess } = useGetBannerDetail(modalState);
 
   const initialRef = useRef(false);
 
@@ -58,10 +59,14 @@ const CreateBannerModal = ({
   const {
     handleSubmit,
     reset,
-    formState: { isSubmitting, isValid },
+    getValues,
+    trigger,
+    formState: { isSubmitting, isValid, errors },
   } = method;
+
+  console.log(errors, isValid, getValues());
   const f = async () => {
-    if (!isSuccess) {
+    if (!isSuccess || modalState === CREATE_MODAL) {
       return;
     }
 
@@ -92,7 +97,7 @@ const CreateBannerModal = ({
         location: bannerData.data.location,
       },
     });
-
+    trigger();
     initialRef.current = true;
   };
 
