@@ -94,6 +94,8 @@ export const StItem = styled.div`
   text-align: center;
   align-items: center;
 
+  white-space: nowrap;
+
   & > p {
     color: ${colors.gray100};
 
@@ -106,7 +108,7 @@ export const StItem = styled.div`
     text-align: left;
   }
 
-  & > p:nth-of-type(6) {
+  & > p:nth-child(6) {
     text-align: left;
     margin-left: 1.5rem;
   }
