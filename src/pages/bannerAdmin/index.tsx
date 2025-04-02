@@ -12,6 +12,7 @@ export const CREATE_MODAL = 0;
 
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 
 const BannerAdminPage = () => {
   const [modalState, setModalState] = useState<number>(CLOSE_MODAL);

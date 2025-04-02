@@ -28,6 +28,7 @@ import {
 import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile';
 import { useEffect, useRef } from 'react';
 import { CREATE_MODAL } from '@/pages/bannerAdmin';
+import { useQueryClient } from 'react-query';
 
 interface CreateBannerModalProps {
   onCloseModal: () => void;
@@ -41,6 +42,7 @@ const CreateBannerModal = ({
   const { data: bannerData, isSuccess } = useGetBannerDetail(modalState);
   const { mutate: createBannerMutate } = usePostNewBanner();
   const { mutate: editBannerMutate } = usePutBanner();
+  const queryClient = useQueryClient();
   const { open } = useToast();
 
   // 수정하기 시 서버에서 데이터 받아온 이후 한번만 초기화 하기 위한 ref
@@ -122,6 +124,7 @@ const CreateBannerModal = ({
         onSuccess: () => {
           open({ icon: 'success', content: '배너가 등록되었어요.' });
           onCloseModal();
+          queryClient.invalidateQueries('bannerList');
         },
         onError: () => {
           open({ icon: 'error', content: '배너를 등록에 실패했어요.' });
@@ -137,6 +140,7 @@ const CreateBannerModal = ({
         onSuccess: () => {
           open({ icon: 'success', content: '배너가 수정되었어요.' });
           onCloseModal();
+          queryClient.invalidateQueries('bannerList');
         },
         onError: () => {
           open({ icon: 'error', content: '배너 수정에 실패했어요.' });

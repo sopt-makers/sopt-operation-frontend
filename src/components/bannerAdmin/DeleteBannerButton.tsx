@@ -15,7 +15,7 @@ const DeleteBannerButton = ({ bannerId }: DeleteBannerButtonProps) => {
 
   const handleBannerDelete = () => {
     deleteBannerMutate(bannerId, {
-      onSuccess: () => queryClient.invalidateQueries(['banner', 'list']),
+      onSuccess: () => queryClient.invalidateQueries('bannerList'),
     });
   };
 

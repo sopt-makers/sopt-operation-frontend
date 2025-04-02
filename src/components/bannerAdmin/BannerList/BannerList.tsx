@@ -1,6 +1,8 @@
 import { IcEdit, IcTrash } from '@/assets/icons';
+import BannerEditButton from '@/components/bannerAdmin/BannerEditButton';
 
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
+import DeleteBannerButton from '@/components/bannerAdmin/DeleteBannerButton';
 import { useFetchBannerList } from '@/services/api/banner/query';
 import {
   getTagColor,
@@ -14,7 +16,10 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
-const BannerList = () => {
+interface BannerListProps {
+  onEditModalOpen: (modalState: number) => void;
+}
+const BannerList = ({ onEditModalOpen }: BannerListProps) => {
   const { data: bannerList } = useFetchBannerList();
 
   return (
@@ -38,8 +43,11 @@ const BannerList = () => {
           <p>{banner.start_date.replaceAll('-', '.')}</p>
           <p>{banner.end_date.replaceAll('-', '.')}</p>
           <StButtonLayout>
-            <BannerEditButton onEditModalOpen={onEditModalOpen} bannerId={23} />
-            <DeleteBannerButton bannerId={16} />
+            <BannerEditButton
+              onEditModalOpen={onEditModalOpen}
+              bannerId={banner.id}
+            />
+            <DeleteBannerButton bannerId={banner.id} />
           </StButtonLayout>
         </StItem>
       ))}
