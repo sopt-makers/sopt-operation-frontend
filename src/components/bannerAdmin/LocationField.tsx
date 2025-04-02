@@ -1,5 +1,5 @@
 import { Radio } from '@sopt-makers/ui';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import {
   StContentWrapper,
@@ -11,9 +11,34 @@ import {
   locationList,
 } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
+import { useEffect } from 'react';
+import { CREATE_MODAL } from '@/pages/bannerAdmin';
+import FormController from '@/components/bannerAdmin/form/FormController';
 
-const LocationField = () => {
-  const { register, watch } = useFormContext();
+interface LocationField {
+  modalState: number;
+}
+
+const LocationField = ({ modalState }: LocationField) => {
+  const {
+    register,
+    getValues,
+    watch,
+    trigger,
+    setValue,
+    getFieldState,
+    formState: { defaultValues },
+  } = useFormContext();
+
+  const location = watch('location');
+  const locationState = getFieldState('location');
+  console.log(defaultValues);
+
+  useEffect(() => {
+    setValue('pcImageFileName.location', location);
+    setValue('mobileImageFileName.location', location);
+    trigger('pcImageFileName');
+  }, [location]);
 
   return (
     <StContentWrapper>
@@ -22,14 +47,19 @@ const LocationField = () => {
         <RequiredIcon />
       </StInputLabel>
       <StRadioGroup>
-        {LOCATION_KEY.map((location, index) => (
-          <Radio
-            key={`${index}-${location}`}
-            checked={watch('location') === locationList[location]}
-            label={location}
-            size="lg"
-            value={locationList[location]}
-            {...register('location')}
+        {LOCATION_KEY.map((locationItem, index) => (
+          <FormController
+            key={`${index}-${locationItem}`}
+            name="location"
+            render={({ field }) => (
+              <Radio
+                {...field}
+                label={locationItem}
+                size="lg"
+                value={locationList[locationItem]}
+                checked={location === locationList[locationItem]}
+              />
+            )}
           />
         ))}
       </StRadioGroup>
