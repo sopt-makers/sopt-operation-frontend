@@ -1,6 +1,7 @@
 import '@sopt-makers/ui/dist/index.css';
 
 import { Global, ThemeProvider } from '@emotion/react';
+import { DialogProvider, ToastProvider } from '@sopt-makers/ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -46,10 +47,14 @@ export default function App({ Component, pageProps }: AppProps) {
           <Hydrate state={pageProps.dehydratedState}>
             <RecoilRoot>
               <ThemeProvider theme={theme}>
-                <Global styles={global} />
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
+                <ToastProvider>
+                  <DialogProvider>
+                    <Global styles={global} />
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </DialogProvider>
+                </ToastProvider>
               </ThemeProvider>
             </RecoilRoot>
           </Hydrate>

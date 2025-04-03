@@ -1,6 +1,6 @@
-import { fontsObject } from '@sopt-makers/fonts';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
 
 export const StModalHeader = styled.header`
   display: flex;

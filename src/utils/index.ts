@@ -28,11 +28,11 @@ export const getQuery = (url: string, key: string) => {
 };
 
 export const getTagColor = (location: string) => {
-  if (location === '플그 커뮤니티') return `rgba(88, 207, 5, 0.5)`;
-  if (location === '크루 전체모임') return `rgba(0, 174, 255, 0.50)`;
-  if (location === '크루 모임피드') return `rgba(250, 115, 227, 0.50)`;
+  if (location === '플그 커뮤니티') return 'rgba(88, 207, 5, 0.5)';
+  if (location === '크루 전체모임') return 'rgba(0, 174, 255, 0.50)';
+  if (location === '크루 모임피드') return 'rgba(250, 115, 227, 0.50)';
 
-  return `rgba(88, 207, 5, 0.5)`;
+  return 'rgba(88, 207, 5, 0.5)';
 };
 
 export const translateStatus = (status: string) => {

@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Button } from '@sopt-makers/ui';
+import { Button, Tag, useToast } from '@sopt-makers/ui';
+
 import { FormProvider, useForm } from 'react-hook-form';
 
 import BannerImageRegister from '@/components/bannerAdmin/BannerImageRegister';
@@ -12,25 +13,47 @@ import LinkField from '@/components/bannerAdmin/LinkField';
 import LocationFeild from '@/components/bannerAdmin/LocationField';
 import PublisherField from '@/components/bannerAdmin/PublisherField';
 import {
+  BannerFormType,
   bannerSchema,
-  BannerType,
-  CONTENT_LIST,
-  LOCATION_LIST,
+  CONTENT_VALUE,
+  LOCATION_VALUE,
 } from '@/components/bannerAdmin/types/form';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
+import {
+  useGetBannerDetail,
+  usePostNewBanner,
+  usePutBanner,
+} from '@/services/api/banner/query';
+import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile';
+import { useEffect, useRef } from 'react';
+import { CREATE_MODAL } from '@/pages/bannerAdmin';
+import { useQueryClient } from 'react-query';
 
 interface CreateBannerModalProps {
-  onClose: () => void;
+  onCloseModal: () => void;
+  modalState: number;
 }
 
-const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
-  const method = useForm<BannerType>({
+const CreateBannerModal = ({
+  onCloseModal,
+  modalState,
+}: CreateBannerModalProps) => {
+  const { data: bannerData, isSuccess } = useGetBannerDetail(modalState);
+  const { mutate: createBannerMutate } = usePostNewBanner();
+  const { mutate: editBannerMutate } = usePutBanner();
+  const queryClient = useQueryClient();
+  const { open } = useToast();
+
+  // 수정하기 시 서버에서 데이터 받아온 이후 한번만 초기화 하기 위한 ref
+  const initialRef = useRef(true);
+
+  const method = useForm<BannerFormType>({
     resolver: zodResolver(bannerSchema),
     defaultValues: {
       publisher: '',
-      contentType: CONTENT_LIST[0],
-      location: LOCATION_LIST[0],
+      contentType: CONTENT_VALUE[0],
+      location: LOCATION_VALUE[0],
       dateRange: [],
     },
     mode: 'onChange',
@@ -38,16 +61,111 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
 
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    reset,
+    formState: { isSubmitting, isValid, isDirty, errors },
   } = method;
 
-  const onSubmit = (data: BannerType) => {
-    console.log(data);
+  const resetData = async () => {
+    if (!isSuccess || modalState === CREATE_MODAL) {
+      return;
+    }
+
+    const pcImageFile = await convertUrlToFile(bannerData.data.image_url_pc);
+    const mobileImageFile = await convertUrlToFile(
+      bannerData.data.image_url_mobile,
+    );
+    const startDate = bannerData.data.start_date.replaceAll('-', '.');
+    const endDate = bannerData.data.end_date.replaceAll('-', '.');
+
+    reset({
+      publisher: bannerData.data.publisher,
+      contentType: bannerData.data.content_type,
+      location: bannerData.data.location,
+      dateRange: [startDate, endDate],
+      link: bannerData.data.link,
+      pcImageFileName: {
+        file: pcImageFile,
+        previewUrl: bannerData.data.image_url_pc,
+        location: bannerData.data.location,
+      },
+      mobileImageFileName: {
+        file: mobileImageFile,
+        previewUrl: bannerData.data.image_url_mobile,
+        location: bannerData.data.location,
+      },
+    });
+
+    initialRef.current = false;
+  };
+
+  useEffect(() => {
+    if (initialRef.current && isSuccess) {
+      resetData();
+    }
+  }, [isSuccess, resetData]);
+
+  const onSubmit = (data: BannerFormType) => {
+    const bannerData = {
+      publisher: data.publisher,
+      content_type: data.contentType,
+      location: data.location,
+      start_date: data.dateRange[0].replaceAll('.', '-'),
+      end_date: data.dateRange[1].replaceAll('.', '-'),
+      link: data.link,
+      image_pc: data.pcImageFileName.file,
+      image_mobile:
+        data.location === 'cr_feed'
+          ? data.pcImageFileName.file
+          : data.mobileImageFileName.file,
+    };
+
+    if (modalState === CREATE_MODAL) {
+      createBannerMutate(bannerData, {
+        onSuccess: () => {
+          open({ icon: 'success', content: '배너가 등록되었어요.' });
+          onCloseModal();
+          queryClient.invalidateQueries('bannerList');
+        },
+        onError: () => {
+          open({ icon: 'error', content: '배너를 등록에 실패했어요.' });
+        },
+      });
+
+      return;
+    }
+
+    editBannerMutate(
+      { bannerId: modalState, bannerData },
+      {
+        onSuccess: () => {
+          open({ icon: 'success', content: '배너가 수정되었어요.' });
+          onCloseModal();
+          queryClient.invalidateQueries('bannerList');
+        },
+        onError: () => {
+          open({ icon: 'error', content: '배너 수정에 실패했어요.' });
+        },
+      },
+    );
   };
 
   return (
     <StCreateBannerModalWrapper>
-      <ModalHeader title="신규 배너 등록" onClose={onClose} />
+      <ModalHeader
+        title={modalState === CREATE_MODAL ? '신규 배너 등록' : '배너 수정'}
+        onClose={onCloseModal}
+        tag={
+          modalState !== CREATE_MODAL && (
+            <Tag
+              size="lg"
+              variant={
+                bannerData?.data.status === 'reserved' ? 'primary' : 'secondary'
+              }>
+              {bannerData?.data.status === 'reserved' ? '진행 예정' : '진행 중'}
+            </Tag>
+          )
+        }
+      />
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
@@ -55,17 +173,25 @@ const CreateBannerModal = ({ onClose }: CreateBannerModalProps) => {
             <LinkField />
             <DateRangeField />
             <ContentTypeField />
-            <LocationFeild />
+            <LocationFeild modalState={modalState} />
             <BannerImageRegister />
           </StMain>
 
           <ModalFooter>
-            <Button type={'button'} onClick={onClose}>
+            <Button type={'button'} onClick={onCloseModal}>
               취소하기
             </Button>
-            <Button type={'submit'} disabled={isSubmitting || !isValid}>
-              등록하기
-            </Button>
+            {modalState === CREATE_MODAL ? (
+              <Button type={'submit'} disabled={isSubmitting || !isValid}>
+                등록하기
+              </Button>
+            ) : (
+              <Button
+                type={'submit'}
+                disabled={isSubmitting || !isValid || !isDirty}>
+                수정하기
+              </Button>
+            )}
           </ModalFooter>
         </form>
       </FormProvider>
