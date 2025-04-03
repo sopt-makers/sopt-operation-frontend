@@ -1,7 +1,6 @@
 import { IcEdit, IcTrash } from '@/assets/icons';
 
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
-import { useFetchBannerList } from '@/services/api/banner/query';
 import {
   getTagColor,
   translateContentType,
@@ -13,9 +12,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
-const BannerList = () => {
-  const { data: bannerList } = useFetchBannerList();
-
+const BannerList = ({ bannerList }: { bannerList: Banner[] }) => {
   return (
     <StItemWrapper>
       {bannerList?.map((banner) => (
@@ -23,7 +20,7 @@ const BannerList = () => {
           <StStatus status={banner.status}>
             {translateStatus(banner.status)}
           </StStatus>
-          <StBannerTagWrapper location={banner.location}>
+          <StBannerTagWrapper>
             <BannerTag color={getTagColor(banner.location)}>
               <p>{translateLocation(banner.location)}</p>
             </BannerTag>
@@ -135,36 +132,11 @@ export const StButtonLayout = styled.div`
   box-sizing: content-box;
 `;
 
-const StBannerTagWrapper = styled.div<{
-  location?: string;
-}>`
+const StBannerTagWrapper = styled.div`
   display: flex;
   justify-content: center;
 
   & > p {
     ${fontsObject.LABEL_3_14_SB}
-
-    ${({ location }) => {
-      if (location === 'pg_community') {
-        return css`
-          color: rgba(88, 207, 5, 0.5);
-        `;
-      }
-      if (location === 'cr_main') {
-        return css`
-          color: rgba(0, 174, 255, 0.5);
-        `;
-      }
-      if (location === 'cr_feed') {
-        return css`
-          color: rgba(250, 115, 227, 0.5);
-        `;
-      }
-      if (location === 'org') {
-        return css`
-          color: ${colors.gray100};
-        `;
-      }
-    }}
   }
 `;

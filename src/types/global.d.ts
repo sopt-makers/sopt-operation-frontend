@@ -8,6 +8,7 @@ declare global {
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
   type ALARM_STATUS = 'ALL' | 'SCHEDULED' | 'COMPLETED';
   type BANNER_STATUS = 'ALL' | 'RESERVED' | 'IN_PROGRESS' | 'DONE';
+  type BANNER_FILTER = '진행 상태 순' | '시작날짜 빠른 순' | '종료날짜 빠른 순';
   type ADMIN_STATUS =
     | 'SUPER_USER'
     | 'SOPT'

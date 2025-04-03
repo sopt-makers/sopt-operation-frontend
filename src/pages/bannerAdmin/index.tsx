@@ -9,6 +9,8 @@ import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 import { BANNER_TAB_FILTER_LIST } from '@/constants';
+import { useFetchBannerList } from '@/services/api/banner/query';
+import { getBannerSort, getBannerStatus } from '@/utils';
 import { BANNER_STATUS_LIST } from '@/utils/alarm';
 import { bannerStatusTranslator } from '@/utils/translator';
 import { colors } from '@sopt-makers/colors';
@@ -18,15 +20,20 @@ import { SelectV2, Tab } from '@sopt-makers/ui';
 const BannerAdminPage = () => {
   const [tab, setTab] = useState<BANNER_STATUS>('ALL');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>('진행 상태 순');
+  const [filter, setFilter] = useState<BANNER_FILTER>('진행 상태 순');
 
   const handleChangeTab = (value: BANNER_STATUS) => {
     setTab(value);
   };
 
-  const handleSelectFilter = (selectedAttribute: string): void => {
-    setFilter(selectedAttribute);
+  const handleSelectFilter = (filter: BANNER_FILTER) => {
+    setFilter(filter);
   };
+
+  const { data: bannerList } = useFetchBannerList(
+    getBannerStatus(tab),
+    getBannerSort(filter),
+  );
 
   useEffect(() => {
     if (isModalOpen) {
@@ -54,14 +61,13 @@ const BannerAdminPage = () => {
           />
           <SelectV2.Root
             visibleOptions={3}
-            onChange={handleSelectFilter}
+            onChange={(value) => handleSelectFilter(value as BANNER_FILTER)}
+            defaultValue={{
+              value: BANNER_TAB_FILTER_LIST[0],
+              label: BANNER_TAB_FILTER_LIST[0],
+            }}
             type="text">
-            <SelectV2.Trigger
-              css={{
-                '& > svg': {
-                  flexShrink: 0,
-                },
-              }}>
+            <SelectV2.Trigger>
               <SelectV2.TriggerContent placeholder={filter} />
             </SelectV2.Trigger>
             <SelectV2.Menu>
@@ -69,6 +75,9 @@ const BannerAdminPage = () => {
                 <SelectV2.MenuItem
                   key={filterItem}
                   option={{ value: filterItem, label: filterItem }}
+                  onClick={() =>
+                    handleSelectFilter(filterItem as BANNER_FILTER)
+                  }
                 />
               ))}
             </SelectV2.Menu>
@@ -77,7 +86,7 @@ const BannerAdminPage = () => {
         <StBannerList>
           <Header />
           <StBannerListWrapper>
-            <BannerList />
+            <BannerList bannerList={bannerList ?? []} />
           </StBannerListWrapper>
         </StBannerList>
       </StWrapper>
