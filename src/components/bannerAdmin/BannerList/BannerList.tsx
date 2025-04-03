@@ -97,6 +97,11 @@ export const StItem = styled.div`
   white-space: nowrap;
 
   & > p {
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
     color: ${colors.gray100};
 
     ${fontsObject.BODY_3_14_M}
