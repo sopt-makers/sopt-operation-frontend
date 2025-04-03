@@ -63,7 +63,6 @@ const CreateBannerModal = ({
     handleSubmit,
     reset,
     formState: { isSubmitting, isValid, isDirty, errors },
-    getValues,
   } = method;
 
   const resetData = async () => {
@@ -174,7 +173,7 @@ const CreateBannerModal = ({
             <LinkField />
             <DateRangeField />
             <ContentTypeField />
-            <LocationFeild />
+            <LocationFeild modalState={modalState} />
             <BannerImageRegister />
           </StMain>
 

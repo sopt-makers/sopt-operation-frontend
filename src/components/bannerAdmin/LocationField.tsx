@@ -16,16 +16,45 @@ import { MutableRefObject, useEffect, useRef } from 'react';
 import FormController from '@/components/bannerAdmin/form/FormController';
 import { CREATE_MODAL } from '@/pages/bannerAdmin';
 
-const LocationField = () => {
-  const { watch, trigger, setValue } = useFormContext();
+interface LocationField {
+  modalState: number;
+}
+const LocationField = ({ modalState }: LocationField) => {
+  const { watch, trigger, setValue, getValues } = useFormContext();
 
   const location = watch('location');
+  const pcImageFile = getValues('pcImageFileName');
+  const mobileImageFile = getValues('mobileImageFileName');
 
   useEffect(() => {
-    setValue('pcImageFileName.location', location);
-    setValue('mobileImageFileName.location', location);
-    trigger('pcImageFileName');
-    trigger('mobileImageFileName');
+    if (modalState === CREATE_MODAL) {
+      if (!!pcImageFile?.file && !!mobileImageFile?.file) {
+        console.log(0);
+        setValue('pcImageFileName.location', location);
+        trigger('pcImageFileName');
+        setValue('mobileImageFileName.location', location);
+        trigger('mobileImageFileName');
+      } else if (!pcImageFile?.file && !!mobileImageFile?.file) {
+        console.log(1);
+        setValue('pcImageFileName.location', location);
+        setValue('mobileImageFileName.location', location);
+        trigger('mobileImageFileName');
+      } else if (!!pcImageFile?.file && !mobileImageFile?.file) {
+        console.log(2);
+        setValue('pcImageFileName.location', location);
+        trigger('pcImageFileName');
+        setValue('mobileImageFileName.location', location);
+      } else {
+        console.log(3);
+        setValue('pcImageFileName.location', location);
+        setValue('mobileImageFileName.location', location);
+      }
+    } else {
+      setValue('pcImageFileName.location', location);
+      setValue('mobileImageFileName.location', location);
+      trigger('pcImageFileName');
+      trigger('mobileImageFileName');
+    }
   }, [location]);
 
   return (

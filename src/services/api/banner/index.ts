@@ -1,4 +1,7 @@
-import { BannerDetailRequest } from '@/components/bannerAdmin/types/api';
+import {
+  BannerDetailRequest,
+  BannerDetailResponse,
+} from '@/components/bannerAdmin/types/api';
 import { client } from '@/services/api/client';
 
 import { AxiosResponse } from 'axios';
@@ -33,7 +36,9 @@ export const putBanner = async (
 };
 
 export const getBannerDetail = async (bannerId: number) => {
-  const { data } = await client.get(`/banners/${bannerId}`);
+  const { data }: AxiosResponse<BannerDetailResponse> = await client.get(
+    `/banners/${bannerId}`,
+  );
 
   return data;
 };

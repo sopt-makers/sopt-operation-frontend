@@ -68,7 +68,7 @@ const BannerImageRegister = () => {
           size="sm"
           variant="outlined"
           disabled={
-            !getValues('pcImageFileName') || 'pcImageFileName' in errors
+            !getValues('pcImageFileName')?.file || 'pcImageFileName' in errors
           }
           onClick={() => setIsModalOpen('pc')}>
           미리보기
@@ -95,7 +95,7 @@ const BannerImageRegister = () => {
               size="sm"
               variant="outlined"
               disabled={
-                !getValues('mobileImageFileName') ||
+                !getValues('mobileImageFileName')?.file ||
                 'mobileImageFileName' in errors
               }
               onClick={() => setIsModalOpen('mobile')}>

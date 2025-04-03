@@ -38,7 +38,7 @@ export const usePutBanner = () => {
 };
 
 export const useGetBannerDetail = (bannerId: number) => {
-  return useQuery<BannerDetailResponse>({
+  return useQuery({
     queryKey: ['banner', 'detail'],
     queryFn: () => getBannerDetail(bannerId),
     enabled: bannerId !== 0,

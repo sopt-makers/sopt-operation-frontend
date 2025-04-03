@@ -59,7 +59,7 @@ export const bannerSchema = z.object({
     .string()
     .min(1, { message: ERROR_MESSAGE.REQUIRED_VALUE })
     .max(30, { message: ERROR_MESSAGE.PUBLISHER_MAX_LENGTH }),
-  contentType: z.enum(CONTENT_VALUE, { message: '이상합니다!' }),
+  contentType: z.enum(CONTENT_VALUE),
   location: z.enum(LOCATION_VALUE),
   dateRange: z.string().array(),
   link: z.string().url({ message: ERROR_MESSAGE.INVALID_LINK }),
