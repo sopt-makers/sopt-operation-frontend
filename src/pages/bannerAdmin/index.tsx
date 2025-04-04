@@ -79,7 +79,14 @@ const BannerAdminPage = () => {
             }}
             type="text">
             <SelectV2.Trigger>
-              <SelectV2.TriggerContent placeholder={filter} />
+              <SelectV2.TriggerContent
+                placeholder={filter}
+                css={{
+                  '& > p': {
+                    whiteSpace: 'nowrap',
+                  },
+                }}
+              />
             </SelectV2.Trigger>
             <SelectV2.Menu>
               {BANNER_TAB_FILTER_LIST.map((filterItem) => (
