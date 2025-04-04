@@ -21,10 +21,13 @@ import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 
 const BannerImageRegister = () => {
   const method = useFormContext();
-  const { errors } = method.formState;
+  const {
+    getValues,
+    watch,
+    formState: { errors },
+  } = method;
 
-  const { getValues } = method;
-  const location = getValues('location');
+  const location = watch('location');
 
   const [isModalOpen, setIsModalOpen] = useState<'pc' | 'mobile' | null>(null);
 
@@ -55,7 +58,7 @@ const BannerImageRegister = () => {
       <StDescriptionWrapper>
         <StDescription isError={errors.pcImageFileName ? true : false}>
           <StDescriptionTitle>
-            {location === '모임피드' ? '[PC/MO]' : '[PC]'}
+            {location === 'cr_feed' ? '[PC/MO]' : '[PC]'}
           </StDescriptionTitle>{' '}
           {`이미지는 ${pcImageBaseWidth}*${pcImageBaseHeight} px`}
           크기로 올려주세요.
@@ -65,7 +68,7 @@ const BannerImageRegister = () => {
           size="sm"
           variant="outlined"
           disabled={
-            !getValues('pcImageFileName') || 'pcImageFileName' in errors
+            !getValues('pcImageFileName')?.file || 'pcImageFileName' in errors
           }
           onClick={() => setIsModalOpen('pc')}>
           미리보기
@@ -79,7 +82,7 @@ const BannerImageRegister = () => {
         required
       />
 
-      {location !== '모임피드' && (
+      {location !== 'cr_feed' && (
         <>
           <StDescriptionWrapper style={{ marginTop: '2rem' }}>
             <StDescription isError={!!errors.mobileImageFileName}>
@@ -92,7 +95,7 @@ const BannerImageRegister = () => {
               size="sm"
               variant="outlined"
               disabled={
-                !getValues('mobileImageFileName') ||
+                !getValues('mobileImageFileName')?.file ||
                 'mobileImageFileName' in errors
               }
               onClick={() => setIsModalOpen('mobile')}>

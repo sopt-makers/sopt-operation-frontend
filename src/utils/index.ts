@@ -33,7 +33,7 @@ export const getTagColor = (location: string) => {
   if (location === 'cr_feed') return `rgba(250, 115, 227, 0.50)`;
   if (location === 'org') return `rgba(255, 193, 7, 0.50)`;
 
-  return `rgba(88, 207, 5, 0.5)`;
+  return 'rgba(88, 207, 5, 0.5)';
 };
 
 export const translateStatus = (status: string) => {

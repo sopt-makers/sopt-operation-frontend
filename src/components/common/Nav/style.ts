@@ -1,6 +1,7 @@
-import zIndex from '@/utils/zIndex';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+
+import zIndex from '@/utils/zIndex';
 
 export const StNavWrapper = styled.nav`
   position: fixed;

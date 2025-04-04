@@ -1,18 +1,26 @@
-import { IcEdit, IcTrash } from '@/assets/icons';
+import BannerEditButton from '@/components/bannerAdmin/BannerEditButton';
 
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
+import DeleteBannerButton from '@/components/bannerAdmin/DeleteBannerButton';
+
 import {
   getTagColor,
   translateContentType,
   translateLocation,
   translateStatus,
 } from '@/utils';
+
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
-const BannerList = ({ bannerList }: { bannerList: Banner[] }) => {
+interface BannerListProps {
+  onEditModalOpen: (modalState: number) => void;
+  bannerList: Banner[];
+}
+const BannerList = ({ onEditModalOpen, bannerList }: BannerListProps) => {
+
   return (
     <StItemWrapper>
       {bannerList?.map((banner) => (
@@ -34,8 +42,11 @@ const BannerList = ({ bannerList }: { bannerList: Banner[] }) => {
           <p>{banner.start_date.replaceAll('-', '.')}</p>
           <p>{banner.end_date.replaceAll('-', '.')}</p>
           <StButtonLayout>
-            <IcEdit />
-            <IcTrash />
+            <BannerEditButton
+              onEditModalOpen={onEditModalOpen}
+              bannerId={banner.id}
+            />
+            <DeleteBannerButton bannerId={banner.id} />
           </StButtonLayout>
         </StItem>
       ))}

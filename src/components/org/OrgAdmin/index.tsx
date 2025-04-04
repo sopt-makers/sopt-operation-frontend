@@ -248,7 +248,9 @@ function OrgAdmin() {
         curriculums: partCurriculum[part],
       })),
       member: [...임원진_LIST, ...PART_LIST]
-        .filter((exec) => member && member[exec] && member[exec].profileImageFileName)
+        .filter(
+          (exec) => member && member[exec] && member[exec].profileImageFileName,
+        )
         .map((exec) => ({
           role: exec,
           ...member[exec],

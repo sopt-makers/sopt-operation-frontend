@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
+import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 import CreateBannerModal from '@/components/bannerAdmin/CreateBannerModal';
 import Header from '@/components/bannerAdmin/Header/Header';
-
-import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
@@ -17,9 +16,12 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { SelectV2, Tab } from '@sopt-makers/ui';
 
+const CLOSE_MODAL = -1;
+export const CREATE_MODAL = 0;
+
 const BannerAdminPage = () => {
+  const [modalState, setModalState] = useState<number>(CLOSE_MODAL);
   const [tab, setTab] = useState<BANNER_STATUS>('ALL');
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<BANNER_FILTER>('진행 상태 순');
 
   const handleChangeTab = (value: BANNER_STATUS) => {
@@ -35,8 +37,17 @@ const BannerAdminPage = () => {
     getBannerSort(filter),
   );
 
+  const handleCloseModal = () => {
+    setModalState(CLOSE_MODAL);
+  };
+
+  const handleOpenModal = (modalState: number) => {
+    setModalState(modalState);
+  };
+
+
   useEffect(() => {
-    if (isModalOpen) {
+    if (modalState !== CLOSE_MODAL) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -44,7 +55,7 @@ const BannerAdminPage = () => {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isModalOpen]);
+  }, [modalState]);
 
   return (
     <>
@@ -86,18 +97,21 @@ const BannerAdminPage = () => {
         <StBannerList>
           <Header />
           <StBannerListWrapper>
-            <BannerList bannerList={bannerList ?? []} />
+            <BannerList onEditModalOpen={handleOpenModal} bannerList={bannerList ?? []} />
           </StBannerListWrapper>
         </StBannerList>
       </StWrapper>
-      {isModalOpen && (
+      {modalState !== CLOSE_MODAL && (
         <Modal>
-          <CreateBannerModal onClose={() => setIsModalOpen(!isModalOpen)} />
+          <CreateBannerModal
+            onCloseModal={handleCloseModal}
+            modalState={modalState}
+          />
         </Modal>
       )}
       <FloatingButton
         content={<>배너 등록</>}
-        onClick={() => setIsModalOpen(!isModalOpen)}
+        onClick={() => handleOpenModal(CREATE_MODAL)}
       />
     </>
   );

@@ -1,7 +1,8 @@
-import { HEADER_LIST } from '@/constants';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+
+import { HEADER_LIST } from '@/constants';
 
 const Header = () => {
   return (

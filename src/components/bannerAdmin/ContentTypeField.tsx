@@ -6,7 +6,7 @@ import {
   StInputLabel,
   StRadioGroup,
 } from '@/components/bannerAdmin/CreateBannerModal';
-import { CONTENT_LIST } from '@/components/bannerAdmin/types/form';
+import { CONTENT_KEY, contentList } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 
 const ContentTypeField = () => {
@@ -19,13 +19,13 @@ const ContentTypeField = () => {
         <RequiredIcon />
       </StInputLabel>
       <StRadioGroup>
-        {CONTENT_LIST.map((content, index) => (
+        {CONTENT_KEY.map((content, index) => (
           <Radio
             key={`${index}-${content}`}
-            checked={watch('contentType') === content}
+            checked={watch('contentType') === contentList[content]}
             label={content}
             size="lg"
-            value={content}
+            value={contentList[content]}
             {...register('contentType')}
           />
         ))}
