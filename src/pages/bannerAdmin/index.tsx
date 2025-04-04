@@ -24,10 +24,7 @@ const BannerAdminPage = () => {
   const [tab, setTab] = useState<BANNER_STATUS>('ALL');
   const [filter, setFilter] = useState<BANNER_FILTER>('진행 상태 순');
 
-  const { data: entireBannerList } = useFetchBannerList(
-    '',
-    getBannerSort(filter),
-  );
+  const { data: entireBannerList } = useFetchBannerList('', 'status');
   const { data: selectedTabBannerList } = useFetchBannerList(
     getBannerStatus(tab),
     getBannerSort(filter),
