@@ -24,14 +24,6 @@ const BannerAdminPage = () => {
   const [tab, setTab] = useState<BANNER_STATUS>('ALL');
   const [filter, setFilter] = useState<BANNER_FILTER>('진행 상태 순');
 
-  const handleChangeTab = (value: BANNER_STATUS) => {
-    setTab(value);
-  };
-
-  const handleSelectFilter = (filter: BANNER_FILTER) => {
-    setFilter(filter);
-  };
-
   const { data: entireBannerList } = useFetchBannerList(
     '',
     getBannerSort(filter),
@@ -40,7 +32,14 @@ const BannerAdminPage = () => {
     getBannerStatus(tab),
     getBannerSort(filter),
   );
-  const bannerList = selectedTabBannerList?.banners ?? [];
+
+  const handleChangeTab = (value: BANNER_STATUS) => {
+    setTab(value);
+  };
+
+  const handleSelectFilter = (filter: BANNER_FILTER) => {
+    setFilter(filter);
+  };
 
   const handleCloseModal = () => {
     setModalState(CLOSE_MODAL);
@@ -103,7 +102,7 @@ const BannerAdminPage = () => {
           <StBannerListWrapper>
             <BannerList
               onEditModalOpen={handleOpenModal}
-              bannerList={bannerList}
+              bannerList={selectedTabBannerList?.banners ?? []}
             />
           </StBannerListWrapper>
         </StBannerList>
