@@ -32,14 +32,15 @@ const BannerAdminPage = () => {
     setFilter(filter);
   };
 
-  const { data: bannerList } = useFetchBannerList(
+  const { data: entireBannerList } = useFetchBannerList(
+    '',
+    getBannerSort(filter),
+  );
+  const { data: selectedTabBannerList } = useFetchBannerList(
     getBannerStatus(tab),
     getBannerSort(filter),
   );
-
-  // Filter the bannerList based on the current tab
-  const filteredBannerList =
-    bannerList?.filter((banner) => banner.status === tab) ?? [];
+  const bannerList = selectedTabBannerList?.banners ?? [];
 
   const handleCloseModal = () => {
     setModalState(CLOSE_MODAL);
@@ -69,7 +70,7 @@ const BannerAdminPage = () => {
             style="primary"
             size="md"
             tabItems={BANNER_STATUS_LIST}
-            translator={bannerStatusTranslator(filteredBannerList)}
+            translator={bannerStatusTranslator(entireBannerList?.banners ?? [])}
             selectedInitial={tab}
             onChange={handleChangeTab}
           />
@@ -102,7 +103,7 @@ const BannerAdminPage = () => {
           <StBannerListWrapper>
             <BannerList
               onEditModalOpen={handleOpenModal}
-              bannerList={bannerList ?? []}
+              bannerList={bannerList}
             />
           </StBannerListWrapper>
         </StBannerList>
@@ -127,8 +128,8 @@ export default BannerAdminPage;
 
 const StWrapper = styled.div`
   display: flex;
-  flex-direction: column;
 
+  flex-direction: column;
   gap: 4.9rem;
 `;
 
@@ -140,18 +141,19 @@ const StLayout = styled.div`
 
 const StTitle = styled.h1`
   color: ${colors.white};
-
   ${fontsObject.TITLE_1_32_SB}
 `;
 
 const StBannerList = styled.div`
   display: flex;
+
   flex-direction: column;
   gap: 1.7rem;
 `;
 
 const StBannerListWrapper = styled.ul`
   display: flex;
+
   flex-direction: column;
   gap: 1rem;
 `;

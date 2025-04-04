@@ -46,50 +46,30 @@ export const alarmStatusTranslator: Record<ALARM_STATUS, string> = {
 export const bannerStatusTranslator: (
   bannerList: Banner[],
 ) => Record<BANNER_STATUS, ReactNode> = (bannerList) => {
+  const countByStatus = {
+    ALL: bannerList.length,
+    RESERVED: bannerList.filter((b) => b.status === 'reserved').length,
+    IN_PROGRESS: bannerList.filter((b) => b.status === 'in_progress').length,
+    DONE: bannerList.filter((b) => b.status === 'done').length,
+  };
+
+  const renderTab = (label: string, status: BANNER_STATUS) => (
+    <div
+      css={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.4rem',
+      }}>
+      {label}
+      <CountTag status={status}>{countByStatus[status]}</CountTag>
+    </div>
+  );
+
   return {
-    ALL: (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.4rem',
-        }}>
-        전체
-        <CountTag status="ALL">{bannerList.length}</CountTag>
-      </div>
-    ),
-    RESERVED: (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.4rem',
-        }}>
-        진행 예정
-        <CountTag status="RESERVED">{bannerList.length}</CountTag>
-      </div>
-    ),
-    IN_PROGRESS: (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.4rem',
-        }}>
-        진행 중<CountTag status="IN_PROGRESS">{bannerList.length}</CountTag>
-      </div>
-    ),
-    DONE: (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.4rem',
-        }}>
-        진행 완료
-        <CountTag status="DONE">{bannerList.length}</CountTag>
-      </div>
-    ),
+    ALL: renderTab('전체', 'ALL'),
+    RESERVED: renderTab('진행 예정', 'RESERVED'),
+    IN_PROGRESS: renderTab('진행 중', 'IN_PROGRESS'),
+    DONE: renderTab('진행 완료', 'DONE'),
   };
 };
 

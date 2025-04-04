@@ -46,11 +46,15 @@ export const getBannerDetail = async (bannerId: number) => {
 export const fetchBannerList = async (
   status: string = '',
   sort: string = 'status',
-) => {
+): Promise<{ banners: Banner[]; length: number }> => {
   if (!status && sort === 'status') {
     const { data }: AxiosResponse<{ success: boolean; data: Banner[] }> =
       await client.get('/banners');
-    return data.data;
+
+    return {
+      banners: data.data,
+      length: data.data.length,
+    };
   }
 
   let queryString = '';
@@ -64,5 +68,8 @@ export const fetchBannerList = async (
   const { data }: AxiosResponse<{ success: boolean; data: Banner[] }> =
     await client.get(`/banners${queryString}`);
 
-  return data.data;
+  return {
+    banners: data.data,
+    length: data.data.length,
+  };
 };
