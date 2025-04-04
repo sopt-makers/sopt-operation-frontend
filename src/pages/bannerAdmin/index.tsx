@@ -37,6 +37,10 @@ const BannerAdminPage = () => {
     getBannerSort(filter),
   );
 
+  // Filter the bannerList based on the current tab
+  const filteredBannerList =
+    bannerList?.filter((banner) => banner.status === tab) ?? [];
+
   const handleCloseModal = () => {
     setModalState(CLOSE_MODAL);
   };
@@ -44,7 +48,6 @@ const BannerAdminPage = () => {
   const handleOpenModal = (modalState: number) => {
     setModalState(modalState);
   };
-
 
   useEffect(() => {
     if (modalState !== CLOSE_MODAL) {
@@ -66,7 +69,7 @@ const BannerAdminPage = () => {
             style="primary"
             size="md"
             tabItems={BANNER_STATUS_LIST}
-            translator={bannerStatusTranslator}
+            translator={bannerStatusTranslator(filteredBannerList)}
             selectedInitial={tab}
             onChange={handleChangeTab}
           />
@@ -97,7 +100,10 @@ const BannerAdminPage = () => {
         <StBannerList>
           <Header />
           <StBannerListWrapper>
-            <BannerList onEditModalOpen={handleOpenModal} bannerList={bannerList ?? []} />
+            <BannerList
+              onEditModalOpen={handleOpenModal}
+              bannerList={bannerList ?? []}
+            />
           </StBannerListWrapper>
         </StBannerList>
       </StWrapper>
