@@ -127,7 +127,7 @@ const CreateBannerModal = ({
           queryClient.invalidateQueries('bannerList');
         },
         onError: () => {
-          open({ icon: 'error', content: '배너를 등록에 실패했어요.' });
+          open({ icon: 'error', content: '배너 등록에 실패했어요.' });
         },
       });
 
