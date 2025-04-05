@@ -11,7 +11,7 @@ import {
   locationList,
 } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import FormController from '@/components/bannerAdmin/form/FormController';
 import { CREATE_MODAL } from '@/pages/bannerAdmin';
@@ -29,23 +29,19 @@ const LocationField = ({ modalState }: LocationField) => {
   useEffect(() => {
     if (modalState === CREATE_MODAL) {
       if (!!pcImageFile?.file && !!mobileImageFile?.file) {
-        console.log(0);
         setValue('pcImageFileName.location', location);
         trigger('pcImageFileName');
         setValue('mobileImageFileName.location', location);
         trigger('mobileImageFileName');
       } else if (!pcImageFile?.file && !!mobileImageFile?.file) {
-        console.log(1);
         setValue('pcImageFileName.location', location);
         setValue('mobileImageFileName.location', location);
         trigger('mobileImageFileName');
       } else if (!!pcImageFile?.file && !mobileImageFile?.file) {
-        console.log(2);
         setValue('pcImageFileName.location', location);
         trigger('pcImageFileName');
         setValue('mobileImageFileName.location', location);
       } else {
-        console.log(3);
         setValue('pcImageFileName.location', location);
         setValue('mobileImageFileName.location', location);
       }

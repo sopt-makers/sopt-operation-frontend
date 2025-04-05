@@ -8,9 +8,12 @@ import {
 } from '@/components/bannerAdmin/CreateBannerModal';
 import { CONTENT_KEY, contentList } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
+import FormController from '@/components/bannerAdmin/form/FormController';
 
 const ContentTypeField = () => {
-  const { register, watch } = useFormContext();
+  const { watch } = useFormContext();
+
+  const content = watch('contentType');
 
   return (
     <StContentWrapper>
@@ -19,14 +22,19 @@ const ContentTypeField = () => {
         <RequiredIcon />
       </StInputLabel>
       <StRadioGroup>
-        {CONTENT_KEY.map((content, index) => (
-          <Radio
-            key={`${index}-${content}`}
-            checked={watch('contentType') === contentList[content]}
-            label={content}
-            size="lg"
-            value={contentList[content]}
-            {...register('contentType')}
+        {CONTENT_KEY.map((contentItem, index) => (
+          <FormController
+            key={`${index}-${contentItem}`}
+            name="contentType"
+            render={({ field }) => (
+              <Radio
+                {...field}
+                label={contentItem}
+                size="lg"
+                value={contentList[contentItem]}
+                checked={content === contentList[contentItem]}
+              />
+            )}
           />
         ))}
       </StRadioGroup>
