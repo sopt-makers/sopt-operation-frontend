@@ -21,8 +21,10 @@ export const CREATE_MODAL = 0;
 
 const BannerAdminPage = () => {
   const [modalState, setModalState] = useState<number>(CLOSE_MODAL);
-  const [tab, setTab] = useState<BANNER_STATUS>('ALL');
-  const [filter, setFilter] = useState<BANNER_FILTER>('진행 상태 순');
+  const [tab, setTab] = useState<BANNER_STATUS>(BANNER_STATUS_LIST[0]);
+  const [filter, setFilter] = useState<BANNER_FILTER>(
+    BANNER_TAB_FILTER_LIST[0] as BANNER_FILTER,
+  );
 
   const { data: entireBannerList } = useFetchBannerList('', 'status');
   const { data: selectedTabBannerList } = useFetchBannerList(
