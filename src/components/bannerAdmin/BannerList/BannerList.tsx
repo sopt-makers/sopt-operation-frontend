@@ -1,9 +1,8 @@
-import { IcEdit, IcTrash } from '@/assets/icons';
 import BannerEditButton from '@/components/bannerAdmin/BannerEditButton';
 
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
 import DeleteBannerButton from '@/components/bannerAdmin/DeleteBannerButton';
-import { useFetchBannerList } from '@/services/api/banner/query';
+
 import {
   getTagColor,
   translateContentType,
@@ -18,9 +17,9 @@ import { fontsObject } from '@sopt-makers/fonts';
 
 interface BannerListProps {
   onEditModalOpen: (modalState: number) => void;
+  bannerList: Banner[];
 }
-const BannerList = ({ onEditModalOpen }: BannerListProps) => {
-  const { data: bannerList } = useFetchBannerList();
+const BannerList = ({ onEditModalOpen, bannerList }: BannerListProps) => {
 
   return (
     <StItemWrapper>
@@ -29,7 +28,7 @@ const BannerList = ({ onEditModalOpen }: BannerListProps) => {
           <StStatus status={banner.status}>
             {translateStatus(banner.status)}
           </StStatus>
-          <StBannerTagWrapper location={banner.location}>
+          <StBannerTagWrapper>
             <BannerTag color={getTagColor(banner.location)}>
               <p>{translateLocation(banner.location)}</p>
             </BannerTag>
@@ -106,6 +105,11 @@ export const StItem = styled.div`
   white-space: nowrap;
 
   & > p {
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
     color: ${colors.gray100};
 
     ${fontsObject.BODY_3_14_M}
@@ -139,36 +143,11 @@ export const StButtonLayout = styled.div`
   box-sizing: content-box;
 `;
 
-const StBannerTagWrapper = styled.div<{
-  location?: string;
-}>`
+const StBannerTagWrapper = styled.div`
   display: flex;
   justify-content: center;
 
   & > p {
     ${fontsObject.LABEL_3_14_SB}
-
-    ${({ location }) => {
-      if (location === 'pg_community') {
-        return css`
-          color: rgba(88, 207, 5, 0.5);
-        `;
-      }
-      if (location === 'cr_main') {
-        return css`
-          color: rgba(0, 174, 255, 0.5);
-        `;
-      }
-      if (location === 'cr_feed') {
-        return css`
-          color: rgba(250, 115, 227, 0.5);
-        `;
-      }
-      if (location === 'org') {
-        return css`
-          color: ${colors.gray100};
-        `;
-      }
-    }}
   }
 `;

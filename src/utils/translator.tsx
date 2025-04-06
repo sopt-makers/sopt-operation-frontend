@@ -1,3 +1,5 @@
+import CountTag from '@/components/bannerAdmin/CountTag/CountTag';
+import { ReactNode } from 'react';
 export const partList: PART[] = [
   'ALL',
   'PLAN',
@@ -40,6 +42,37 @@ export const alarmStatusTranslator: Record<ALARM_STATUS, string> = {
   SCHEDULED: '발송 예약',
   COMPLETED: '발송 완료',
 };
+
+export const bannerStatusTranslator: (
+  bannerList: Banner[],
+) => Record<BANNER_STATUS, ReactNode> = (bannerList) => {
+  const countByStatus = {
+    ALL: bannerList.length,
+    RESERVED: bannerList.filter((b) => b.status === 'reserved').length,
+    IN_PROGRESS: bannerList.filter((b) => b.status === 'in_progress').length,
+    DONE: bannerList.filter((b) => b.status === 'done').length,
+  };
+
+  const renderTab = (label: string, status: BANNER_STATUS) => (
+    <div
+      css={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.4rem',
+      }}>
+      {label}
+      <CountTag status={status}>{countByStatus[status]}</CountTag>
+    </div>
+  );
+
+  return {
+    ALL: renderTab('전체', 'ALL'),
+    RESERVED: renderTab('진행 예정', 'RESERVED'),
+    IN_PROGRESS: renderTab('진행 중', 'IN_PROGRESS'),
+    DONE: renderTab('진행 완료', 'DONE'),
+  };
+};
+
 export const targetTypeTranslator: Record<TARGET_TYPE, string> = {
   ALL: '전체',
   ACTIVE: '활동 회원',

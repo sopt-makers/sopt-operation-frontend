@@ -18,3 +18,9 @@ export const ITEM_DUMMY_LIST = [
     endedAt: '2025.03.28',
   },
 ];
+
+export const BANNER_TAB_FILTER_LIST: string[] = [
+  '진행 상태 순',
+  '시작날짜 빠른 순',
+  '종료날짜 빠른 순',
+];
