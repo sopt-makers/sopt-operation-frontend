@@ -110,6 +110,14 @@ export const StItem = styled.div`
 
   white-space: nowrap;
 
+  & > div,
+  & > p {
+    margin-left: 3.9rem;
+
+    text-align: left;
+    justify-content: start;
+  }
+
   & > p {
     max-width: 12rem;
 
@@ -124,21 +132,17 @@ export const StItem = styled.div`
 
   & > h4 {
     margin-left: 3.5rem;
-
     text-align: left;
   }
 
-  & > div,
-  & > p {
-    margin-left: 3.9rem;
-
-    text-align: left;
-    justify-content: start;
+  & > p:nth-child(4) {
+    margin: 0;
+    text-align: center;
   }
 
   & > p:nth-child(6) {
-    text-align: left;
     margin-left: 1.8rem;
+    text-align: left;
   }
 
   &:hover {
