@@ -15,7 +15,7 @@ declare global {
     | 'DEVELOPER';
   type TARGET_TYPE = 'ALL' | 'ACTIVE' | 'CSV';
   type LINK_TYPE = 'WEB' | 'APP' | 'NONE';
-
+  type BANNER_STATUS = 'reserved' | 'in_progress' | 'done';
   /* 에러 */
   interface LoginError {
     success: boolean;

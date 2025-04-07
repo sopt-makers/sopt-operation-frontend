@@ -29,6 +29,8 @@ import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile
 import { useEffect, useRef } from 'react';
 import { CREATE_MODAL } from '@/pages/bannerAdmin';
 import { useQueryClient } from 'react-query';
+import { getBannerStatus } from '@/components/bannerAdmin/utils/getBannerStatus';
+import { getBannerType } from '@/components/bannerAdmin/utils/getBannerType';
 
 interface CreateBannerModalProps {
   onCloseModal: () => void;
@@ -159,10 +161,8 @@ const CreateBannerModal = ({
           modalState !== CREATE_MODAL && (
             <Tag
               size="lg"
-              variant={
-                bannerData?.data.status === 'reserved' ? 'primary' : 'secondary'
-              }>
-              {bannerData?.data.status === 'reserved' ? '진행 예정' : '진행 중'}
+              variant={getBannerType(bannerData?.data.status as BANNER_STATUS)}>
+              {getBannerStatus(bannerData?.data.status as BANNER_STATUS)}
             </Tag>
           )
         }
