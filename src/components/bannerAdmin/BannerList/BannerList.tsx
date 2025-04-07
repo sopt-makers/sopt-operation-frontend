@@ -96,7 +96,7 @@ export const StStatus = styled.h4<{ status: string }>`
 
 export const StItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1.1fr 1fr 1fr 1fr 0.2fr;
+  grid-template-columns: 1fr 1fr 1.1fr 1fr 1fr 1.2fr 0.2fr;
 
   width: 100%;
 
@@ -109,13 +109,6 @@ export const StItem = styled.div`
   align-items: center;
 
   white-space: nowrap;
-
-  & > div,
-  & > p {
-    margin-left: 3.9rem;
-
-    text-align: left;
-  }
 
   & > p {
     max-width: 12rem;
@@ -135,13 +128,8 @@ export const StItem = styled.div`
   }
 
   & > p:nth-child(4) {
-    margin-left: 2rem;
+    margin-left: 1rem;
     text-align: center;
-  }
-
-  & > p:nth-child(6) {
-    margin-left: 1.8rem;
-    text-align: left;
   }
 
   &:hover {
