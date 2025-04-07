@@ -62,7 +62,11 @@ export const bannerSchema = z.object({
   contentType: z.enum(CONTENT_VALUE),
   location: z.enum(LOCATION_VALUE),
   dateRange: z.string().array(),
-  link: z.string().url({ message: ERROR_MESSAGE.INVALID_LINK }),
+  link: z
+    .string()
+    .url({ message: ERROR_MESSAGE.INVALID_LINK })
+    .optional()
+    .or(z.literal('')),
   pcImageFileName: z
     .object({
       file: z.instanceof(File),

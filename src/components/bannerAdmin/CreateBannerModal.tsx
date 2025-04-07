@@ -55,6 +55,7 @@ const CreateBannerModal = ({
       contentType: CONTENT_VALUE[0],
       location: LOCATION_VALUE[0],
       dateRange: [],
+      // link: undefined,
     },
     mode: 'onChange',
   });
@@ -111,7 +112,7 @@ const CreateBannerModal = ({
       location: data.location,
       start_date: data.dateRange[0].replaceAll('.', '-'),
       end_date: data.dateRange[1].replaceAll('.', '-'),
-      link: data.link,
+      link: data?.link,
       image_pc: data.pcImageFileName.file,
       image_mobile:
         data.location === 'cr_feed'
