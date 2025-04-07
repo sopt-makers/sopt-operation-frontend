@@ -22,8 +22,8 @@ const PublisherField = () => {
         labelText="광고 요청자"
         placeholder="광고 요청자 이름을 입력하세요."
         required={true}
+        maxLength={30}
         {...register('publisher')}
-        isError={!!errors.publisher}
       />
       <StDescriptionWrapper>
         <StDescription isError={!!errors.publisher}>
