@@ -115,7 +115,6 @@ export const StItem = styled.div`
     margin-left: 3.9rem;
 
     text-align: left;
-    justify-content: start;
   }
 
   & > p {
@@ -136,7 +135,7 @@ export const StItem = styled.div`
   }
 
   & > p:nth-child(4) {
-    margin: 0;
+    margin-left: 2rem;
     text-align: center;
   }
 

@@ -31,7 +31,7 @@ const StHeader = styled.header`
   border-bottom: 1px solid ${colors.gray700};
 
   & > h3 {
-    margin-left: 3.9rem;
+    margin-left: 5rem;
     text-align: left;
 
     ${fontsObject.BODY_3_14_M};
@@ -40,12 +40,20 @@ const StHeader = styled.header`
     white-space: nowrap;
   }
 
+  & > h3:nth-child(1) {
+    margin-left: 3.9rem;
+  }
+
   & > h3:nth-child(4) {
     margin-left: 3rem;
   }
 
+  & > h3:nth-child(5) {
+    margin-left: 2rem;
+  }
+
   & > h3:nth-of-type(6) {
-    margin-left: 1rem;
+    margin-left: -2rem;
 
     text-align: left;
   }
