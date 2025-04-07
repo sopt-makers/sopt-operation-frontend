@@ -71,7 +71,7 @@ const BannerAdminPage = () => {
             translator={bannerStatusTranslator(entireBannerList?.banners ?? [])}
             selectedInitial={tab}
             onChange={handleChangeTab}
-            css={{ marginTop: 'auto' }}
+            css={{ marginTop: 'auto', gap: '2.6rem' }}
           />
           <SelectV2.Root
             visibleOptions={3}
