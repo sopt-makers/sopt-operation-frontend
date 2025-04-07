@@ -40,6 +40,10 @@ const StHeader = styled.header`
     white-space: nowrap;
   }
 
+  & > h3:nth-child(4) {
+    margin-left: 3rem;
+  }
+
   & > h3:nth-of-type(6) {
     margin-left: 1rem;
 

@@ -112,6 +112,7 @@ export const StItem = styled.div`
 
   & > p {
     max-width: 12rem;
+
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -127,9 +128,17 @@ export const StItem = styled.div`
     text-align: left;
   }
 
+  & > div,
+  & > p {
+    margin-left: 3.9rem;
+
+    text-align: left;
+    justify-content: start;
+  }
+
   & > p:nth-child(6) {
     text-align: left;
-    margin-left: 1.5rem;
+    margin-left: 1.8rem;
   }
 
   &:hover {
@@ -159,5 +168,5 @@ const StBannerTagWrapper = styled.div`
 `;
 
 const StEmptyBox = styled.div`
-  width: 6.4rem;
+  width: 5.6rem;
 `;
