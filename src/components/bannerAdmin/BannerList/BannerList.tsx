@@ -19,8 +19,8 @@ interface BannerListProps {
   onEditModalOpen: (modalState: number) => void;
   bannerList: Banner[];
 }
-const BannerList = ({ onEditModalOpen, bannerList }: BannerListProps) => {
 
+const BannerList = ({ onEditModalOpen, bannerList }: BannerListProps) => {
   return (
     <StItemWrapper>
       {bannerList?.map((banner) => (
@@ -42,11 +42,17 @@ const BannerList = ({ onEditModalOpen, bannerList }: BannerListProps) => {
           <p>{banner.start_date.replaceAll('-', '.')}</p>
           <p>{banner.end_date.replaceAll('-', '.')}</p>
           <StButtonLayout>
-            <BannerEditButton
-              onEditModalOpen={onEditModalOpen}
-              bannerId={banner.id}
-            />
-            <DeleteBannerButton bannerId={banner.id} />
+            {banner.status !== 'done' ? (
+              <>
+                <BannerEditButton
+                  onEditModalOpen={onEditModalOpen}
+                  bannerId={banner.id}
+                />
+                <DeleteBannerButton bannerId={banner.id} />
+              </>
+            ) : (
+              <StEmptyBox />
+            )}
           </StButtonLayout>
         </StItem>
       ))}
@@ -150,4 +156,8 @@ const StBannerTagWrapper = styled.div`
   & > p {
     ${fontsObject.LABEL_3_14_SB}
   }
+`;
+
+const StEmptyBox = styled.div`
+  width: 6.4rem;
 `;
