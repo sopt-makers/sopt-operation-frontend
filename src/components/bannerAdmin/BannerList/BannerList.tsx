@@ -160,4 +160,5 @@ const StBannerTagWrapper = styled.div`
 
 const StEmptyBox = styled.div`
   width: 5.6rem;
+  height: 2.45rem;
 `;
