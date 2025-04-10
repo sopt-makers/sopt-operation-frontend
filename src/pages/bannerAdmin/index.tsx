@@ -71,6 +71,7 @@ const BannerAdminPage = () => {
             translator={bannerStatusTranslator(entireBannerList?.banners ?? [])}
             selectedInitial={tab}
             onChange={handleChangeTab}
+            css={{ marginTop: 'auto', gap: '2.6rem' }}
           />
           <SelectV2.Root
             visibleOptions={3}
@@ -87,6 +88,7 @@ const BannerAdminPage = () => {
                   '& > p': {
                     whiteSpace: 'nowrap',
                   },
+                  marginBottom: '1.2rem',
                 }}
               />
             </SelectV2.Trigger>
@@ -142,6 +144,8 @@ const StLayout = styled.div`
   display: flex;
 
   align-items: center;
+
+  border-bottom: 1px solid ${colors.gray800};
 `;
 
 const StTitle = styled.h1`

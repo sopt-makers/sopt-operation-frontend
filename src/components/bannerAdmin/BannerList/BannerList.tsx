@@ -19,8 +19,8 @@ interface BannerListProps {
   onEditModalOpen: (modalState: number) => void;
   bannerList: Banner[];
 }
-const BannerList = ({ onEditModalOpen, bannerList }: BannerListProps) => {
 
+const BannerList = ({ onEditModalOpen, bannerList }: BannerListProps) => {
   return (
     <StItemWrapper>
       {bannerList?.map((banner) => (
@@ -42,11 +42,17 @@ const BannerList = ({ onEditModalOpen, bannerList }: BannerListProps) => {
           <p>{banner.start_date.replaceAll('-', '.')}</p>
           <p>{banner.end_date.replaceAll('-', '.')}</p>
           <StButtonLayout>
-            <BannerEditButton
-              onEditModalOpen={onEditModalOpen}
-              bannerId={banner.id}
-            />
-            <DeleteBannerButton bannerId={banner.id} />
+            {banner.status !== 'done' ? (
+              <>
+                <BannerEditButton
+                  onEditModalOpen={onEditModalOpen}
+                  bannerId={banner.id}
+                />
+                <DeleteBannerButton bannerId={banner.id} />
+              </>
+            ) : (
+              <StEmptyBox />
+            )}
           </StButtonLayout>
         </StItem>
       ))}
@@ -90,7 +96,7 @@ export const StStatus = styled.h4<{ status: string }>`
 
 export const StItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1.1fr 1fr 1fr 1fr 0.2fr;
+  grid-template-columns: 1fr 1fr 1.1fr 1fr 1fr 1.2fr 0.2fr;
 
   width: 100%;
 
@@ -106,6 +112,7 @@ export const StItem = styled.div`
 
   & > p {
     max-width: 12rem;
+
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -117,13 +124,12 @@ export const StItem = styled.div`
 
   & > h4 {
     margin-left: 3.5rem;
-
     text-align: left;
   }
 
-  & > p:nth-child(6) {
-    text-align: left;
-    margin-left: 1.5rem;
+  & > p:nth-child(4) {
+    margin-left: 1rem;
+    text-align: center;
   }
 
   &:hover {
@@ -150,4 +156,9 @@ const StBannerTagWrapper = styled.div`
   & > p {
     ${fontsObject.LABEL_3_14_SB}
   }
+`;
+
+const StEmptyBox = styled.div`
+  width: 5.6rem;
+  height: 2.45rem;
 `;
