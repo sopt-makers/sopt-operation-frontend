@@ -46,17 +46,16 @@ export const getBannerDetail = async (bannerId: number) => {
 export const fetchBannerList = async (
   status: string = '',
   sort: string = 'status',
-): Promise<{ banners: Banner[]; length: number }> => {
-  if (!status && sort === 'status') {
-    const { data }: AxiosResponse<{ success: boolean; data: Banner[] }> =
-      await client.get('/banners');
-
-    return {
-      banners: data.data,
-      length: data.data.length,
-    };
-  }
-
+  page: number = 1,
+  limit: number = 10,
+): Promise<{
+  banners: Banner[];
+  totalCount: number;
+  totalPage: number;
+  currentPage: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}> => {
   let queryString = '';
 
   if (status) {
@@ -64,12 +63,30 @@ export const fetchBannerList = async (
   }
 
   queryString += queryString ? `&sort=${sort}` : `?sort=${sort}`;
+  queryString += `&page=${page}&limit=${limit}`;
 
-  const { data }: AxiosResponse<{ success: boolean; data: Banner[] }> =
-    await client.get(`/banners${queryString}`);
+  const {
+    data,
+  }: AxiosResponse<{
+    success: boolean;
+    message: string;
+    data: {
+      limit: number;
+      totalCount: number;
+      totalPage: number;
+      currentPage: number;
+      data: Banner[];
+      hasNextPage: boolean;
+      hasPrevPage: boolean;
+    };
+  }> = await client.get(`/banners${queryString}`);
 
   return {
-    banners: data.data,
-    length: data.data.length,
+    banners: data.data.data,
+    totalCount: data.data.totalCount,
+    totalPage: data.data.totalPage,
+    currentPage: data.data.currentPage,
+    hasNextPage: data.data.hasNextPage,
+    hasPrevPage: data.data.hasPrevPage,
   };
 };

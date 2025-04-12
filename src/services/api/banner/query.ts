@@ -1,16 +1,13 @@
 import { useMutation, useQuery } from 'react-query';
 
-import {
-  BannerDetailResponse,
-  BannerDetailRequest,
-} from '@/components/bannerAdmin/types/api';
+import { BannerDetailRequest } from '@/components/bannerAdmin/types/api';
 
 import {
   deleteBanner,
+  fetchBannerList,
   getBannerDetail,
   postNewBanner,
   putBanner,
-  fetchBannerList,
 } from '@/services/api/banner';
 
 export const usePostNewBanner = () => {
@@ -48,8 +45,10 @@ export const useGetBannerDetail = (bannerId: number) => {
 export const useFetchBannerList = (
   status: string = '',
   sort: string = 'status',
+  page: number = 1,
+  limit: number = 10,
 ) => {
-  return useQuery(['bannerList', status, sort], () =>
-    fetchBannerList(status, sort),
+  return useQuery(['bannerList', status, sort, page, limit], () =>
+    fetchBannerList(status, sort, page, limit),
   );
 };

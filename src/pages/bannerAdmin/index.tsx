@@ -25,19 +25,37 @@ const BannerAdminPage = () => {
   const [filter, setFilter] = useState<BANNER_FILTER>(
     BANNER_TAB_FILTER_LIST[0] as BANNER_FILTER,
   );
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const limit = 10;
 
   const { data: entireBannerList } = useFetchBannerList('', 'status');
   const { data: selectedTabBannerList } = useFetchBannerList(
     getBannerStatus(tab),
     getBannerSort(filter),
+    currentPage,
+    limit,
   );
+
+  const bannerList = Array.isArray(selectedTabBannerList?.banners)
+    ? selectedTabBannerList.banners
+    : [];
+
+  const totalPages = selectedTabBannerList?.totalPage || 1;
+  const hasNextPage = selectedTabBannerList?.hasNextPage || false;
+  const hasPrevPage = selectedTabBannerList?.hasPrevPage || false;
 
   const handleChangeTab = (value: BANNER_STATUS) => {
     setTab(value);
+    setCurrentPage(1);
   };
 
   const handleSelectFilter = (filter: BANNER_FILTER) => {
     setFilter(filter);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   const handleCloseModal = () => {
@@ -110,9 +128,24 @@ const BannerAdminPage = () => {
           <StBannerListWrapper>
             <BannerList
               onEditModalOpen={handleOpenModal}
-              bannerList={selectedTabBannerList?.banners ?? []}
+              bannerList={bannerList}
             />
           </StBannerListWrapper>
+          <StPagination>
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={!hasPrevPage}>
+              이전
+            </button>
+            <span>
+              {currentPage} / {totalPages}
+            </span>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={!hasNextPage}>
+              다음
+            </button>
+          </StPagination>
         </StBannerList>
       </StWrapper>
       {modalState !== CLOSE_MODAL && (
@@ -165,4 +198,36 @@ const StBannerListWrapper = styled.ul`
 
   flex-direction: column;
   gap: 1rem;
+`;
+
+const StPagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  button {
+    padding: 0.5rem 1rem;
+    background-color: ${colors.gray700};
+    border: none;
+    border-radius: 0.5rem;
+    color: ${colors.white};
+    cursor: pointer;
+
+    &:disabled {
+      background-color: ${colors.gray800};
+      color: ${colors.gray500};
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: ${colors.gray600};
+    }
+  }
+
+  span {
+    color: ${colors.white};
+    ${fontsObject.BODY_3_14_M}
+  }
 `;
