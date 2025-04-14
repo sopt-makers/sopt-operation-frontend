@@ -1,5 +1,6 @@
-import CountTag from '@/components/bannerAdmin/CountTag/CountTag';
 import { ReactNode } from 'react';
+
+import CountTag from '@/components/bannerAdmin/CountTag/CountTag';
 export const partList: PART[] = [
   'ALL',
   'PLAN',
