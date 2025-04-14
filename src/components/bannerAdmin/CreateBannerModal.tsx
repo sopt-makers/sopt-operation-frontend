@@ -3,8 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button, Tag, useToast } from '@sopt-makers/ui';
-
+import { useCallback, useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 
 import BannerImageRegister from '@/components/bannerAdmin/BannerImageRegister';
 import ContentTypeField from '@/components/bannerAdmin/ContentTypeField';
@@ -18,19 +19,17 @@ import {
   CONTENT_VALUE,
   LOCATION_VALUE,
 } from '@/components/bannerAdmin/types/form';
+import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile';
+import { getBannerStatus } from '@/components/bannerAdmin/utils/getBannerStatus';
+import { getBannerType } from '@/components/bannerAdmin/utils/getBannerType';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
+import { CREATE_MODAL } from '@/pages/bannerAdmin';
 import {
   useGetBannerDetail,
   usePostNewBanner,
   usePutBanner,
 } from '@/services/api/banner/query';
-import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile';
-import { useEffect, useRef } from 'react';
-import { CREATE_MODAL } from '@/pages/bannerAdmin';
-import { useQueryClient } from 'react-query';
-import { getBannerStatus } from '@/components/bannerAdmin/utils/getBannerStatus';
-import { getBannerType } from '@/components/bannerAdmin/utils/getBannerType';
 
 interface CreateBannerModalProps {
   onCloseModal: () => void;
@@ -57,7 +56,6 @@ const CreateBannerModal = ({
       contentType: CONTENT_VALUE[0],
       location: LOCATION_VALUE[0],
       dateRange: [],
-      // link: undefined,
     },
     mode: 'onChange',
   });
@@ -68,7 +66,7 @@ const CreateBannerModal = ({
     formState: { isSubmitting, isValid, isDirty, errors },
   } = method;
 
-  const resetData = async () => {
+  const resetData = useCallback(async () => {
     if (!isSuccess || modalState === CREATE_MODAL) {
       return;
     }
@@ -99,7 +97,7 @@ const CreateBannerModal = ({
     });
 
     initialRef.current = false;
-  };
+  }, [bannerData, isSuccess, modalState, reset]);
 
   useEffect(() => {
     if (initialRef.current && isSuccess) {

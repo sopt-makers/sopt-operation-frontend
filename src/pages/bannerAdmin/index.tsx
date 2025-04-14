@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 import CreateBannerModal from '@/components/bannerAdmin/CreateBannerModal';
 import Header from '@/components/bannerAdmin/Header/Header';
-
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 
@@ -12,6 +11,7 @@ export const CREATE_MODAL = 0;
 
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+
 import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 
 const BannerAdminPage = () => {

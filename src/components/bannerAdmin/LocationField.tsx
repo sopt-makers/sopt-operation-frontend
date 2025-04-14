@@ -1,4 +1,5 @@
 import { Radio } from '@sopt-makers/ui';
+import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -6,14 +7,12 @@ import {
   StInputLabel,
   StRadioGroup,
 } from '@/components/bannerAdmin/CreateBannerModal';
+import FormController from '@/components/bannerAdmin/form/FormController';
 import {
   LOCATION_KEY,
   locationList,
 } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
-import { useEffect } from 'react';
-
-import FormController from '@/components/bannerAdmin/form/FormController';
 import { CREATE_MODAL } from '@/pages/bannerAdmin';
 
 interface LocationField {
@@ -51,7 +50,14 @@ const LocationField = ({ modalState }: LocationField) => {
       trigger('pcImageFileName');
       trigger('mobileImageFileName');
     }
-  }, [location]);
+  }, [
+    location,
+    mobileImageFile?.file,
+    modalState,
+    pcImageFile?.file,
+    setValue,
+    trigger,
+  ]);
 
   return (
     <StContentWrapper>

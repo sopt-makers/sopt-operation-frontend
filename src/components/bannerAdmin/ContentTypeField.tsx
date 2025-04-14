@@ -6,9 +6,9 @@ import {
   StInputLabel,
   StRadioGroup,
 } from '@/components/bannerAdmin/CreateBannerModal';
+import FormController from '@/components/bannerAdmin/form/FormController';
 import { CONTENT_KEY, contentList } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
-import FormController from '@/components/bannerAdmin/form/FormController';
 
 const ContentTypeField = () => {
   const { watch } = useFormContext();

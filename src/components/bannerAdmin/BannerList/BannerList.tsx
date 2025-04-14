@@ -1,6 +1,10 @@
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+
 import { IcEdit, IcTrash } from '@/assets/icons';
 import BannerEditButton from '@/components/bannerAdmin/BannerEditButton';
-
 import BannerTag from '@/components/bannerAdmin/BannerTag/BannerTag';
 import DeleteBannerButton from '@/components/bannerAdmin/DeleteBannerButton';
 import { useFetchBannerList } from '@/services/api/banner/query';
@@ -10,11 +14,6 @@ import {
   translateLocation,
   translateStatus,
 } from '@/utils';
-
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
-import { fontsObject } from '@sopt-makers/fonts';
 
 interface BannerListProps {
   onEditModalOpen: (modalState: number) => void;

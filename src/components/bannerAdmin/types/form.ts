@@ -1,5 +1,6 @@
-import { getImageSize } from '@/components/bannerAdmin/utils/getImageSize';
 import { z } from 'zod';
+
+import { getImageSize } from '@/components/bannerAdmin/utils/getImageSize';
 
 export const CONTENT_KEY = ['프로덕트 홍보', '기타 홍보', '생일 광고'] as const;
 export const CONTENT_VALUE = ['product', 'etc', 'birthday'] as const;

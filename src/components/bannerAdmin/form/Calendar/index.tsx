@@ -135,7 +135,7 @@ const CalendarInputForm = ({
     if (selectedDate) {
       setInputValue(dateType === 'endDate' ? selectedDate[1] : selectedDate[0]);
     }
-  }, [selectedDate]);
+  }, [dateType, selectedDate]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);

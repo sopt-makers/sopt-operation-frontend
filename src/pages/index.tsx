@@ -32,7 +32,7 @@ function LoginPage() {
     if (getToken('ACCESS')) {
       router.replace('/attendanceAdmin/session');
     }
-  }, []);
+  }, [router]);
 
   const onSubmit = async () => {
     if (state.email && state.password) {

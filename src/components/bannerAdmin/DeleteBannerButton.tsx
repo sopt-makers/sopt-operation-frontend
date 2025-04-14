@@ -1,8 +1,8 @@
+import { DialogOptionType, useDialog, useToast } from '@sopt-makers/ui';
 import { useQueryClient } from 'react-query';
 
 import { IcTrash } from '@/assets/icons';
 import { useDeleteBanner } from '@/services/api/banner/query';
-import { DialogOptionType, useDialog, useToast } from '@sopt-makers/ui';
 
 interface DeleteBannerButtonProps {
   bannerId: number;

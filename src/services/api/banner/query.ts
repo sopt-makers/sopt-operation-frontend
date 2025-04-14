@@ -1,16 +1,15 @@
 import { useMutation, useQuery } from 'react-query';
 
 import {
-  BannerDetailResponse,
   BannerDetailRequest,
+  BannerDetailResponse,
 } from '@/components/bannerAdmin/types/api';
-
 import {
   deleteBanner,
+  fetchBannerList,
   getBannerDetail,
   postNewBanner,
   putBanner,
-  fetchBannerList,
 } from '@/services/api/banner';
 
 export const usePostNewBanner = () => {
