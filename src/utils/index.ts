@@ -28,10 +28,10 @@ export const getQuery = (url: string, key: string) => {
 };
 
 export const getTagColor = (location: string) => {
-  if (location === 'pg_community') return `rgba(88, 207, 5, 0.5)`;
-  if (location === 'cr_main') return `rgba(0, 174, 255, 0.50)`;
-  if (location === 'cr_feed') return `rgba(250, 115, 227, 0.50)`;
-  if (location === 'org') return `rgba(255, 193, 7, 0.50)`;
+  if (location === 'pg_community') return 'rgba(88, 207, 5, 0.5)';
+  if (location === 'cr_main') return 'rgba(0, 174, 255, 0.50)';
+  if (location === 'cr_feed') return 'rgba(250, 115, 227, 0.50)';
+  if (location === 'org') return 'rgba(255, 193, 7, 0.50)';
 
   return 'rgba(88, 207, 5, 0.5)';
 };

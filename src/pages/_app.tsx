@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (!getToken('ACCESS')) {
       router.replace('/');
     }
-  }, []);
+  }, [router]);
 
   return (
     <>

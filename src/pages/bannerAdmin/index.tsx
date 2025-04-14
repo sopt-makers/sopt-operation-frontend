@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+import { SelectV2, Tab } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 
 import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 import CreateBannerModal from '@/components/bannerAdmin/CreateBannerModal';
 import Header from '@/components/bannerAdmin/Header/Header';
-
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 import { BANNER_TAB_FILTER_LIST } from '@/constants';
@@ -12,9 +14,6 @@ import { useFetchBannerList } from '@/services/api/banner/query';
 import { getBannerSort, getBannerStatus } from '@/utils';
 import { BANNER_STATUS_LIST } from '@/utils/alarm';
 import { bannerStatusTranslator } from '@/utils/translator';
-import { colors } from '@sopt-makers/colors';
-import { fontsObject } from '@sopt-makers/fonts';
-import { SelectV2, Tab } from '@sopt-makers/ui';
 
 const CLOSE_MODAL = -1;
 export const CREATE_MODAL = 0;
