@@ -44,6 +44,11 @@ export const useGetBannerDetail = (bannerId: number) => {
   });
 };
 
-export const useFetchBannerList = () => {
-  return useQuery('bannerList', fetchBannerList);
+export const useFetchBannerList = (
+  status: string = '',
+  sort: string = 'status',
+) => {
+  return useQuery(['bannerList', status, sort], () =>
+    fetchBannerList(status, sort),
+  );
 };
