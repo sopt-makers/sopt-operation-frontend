@@ -101,8 +101,6 @@ const BannerAdminPage = () => {
     };
   }, [modalState]);
 
-  console.log(bannerList);
-
   return (
     <>
       <StWrapper>
