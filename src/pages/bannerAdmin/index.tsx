@@ -5,6 +5,7 @@ import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 import CreateBannerModal from '@/components/bannerAdmin/CreateBannerModal';
 import Header from '@/components/bannerAdmin/Header/Header';
 
+import { IcPaginationLeft, IcPaginationRight } from '@/assets/icons';
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 import { BANNER_TAB_FILTER_LIST } from '@/constants';
@@ -64,6 +65,27 @@ const BannerAdminPage = () => {
 
   const handleOpenModal = (modalState: number) => {
     setModalState(modalState);
+  };
+
+  const renderPaginationButtons = () => {
+    const pageButtons = [];
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+
+    if (endPage - startPage < 4) {
+      startPage = Math.max(1, endPage - 4);
+    }
+    for (let i = startPage; i <= endPage; i++) {
+      pageButtons.push(
+        <StPageButton
+          key={i}
+          onClick={() => handlePageChange(i)}
+          active={i === currentPage}>
+          {i}
+        </StPageButton>,
+      );
+    }
+    return pageButtons;
   };
 
   useEffect(() => {
@@ -135,15 +157,13 @@ const BannerAdminPage = () => {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={!hasPrevPage}>
-              이전
+              <IcPaginationLeft />
             </button>
-            <span>
-              {currentPage} / {totalPages}
-            </span>
+            {renderPaginationButtons()}
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={!hasNextPage}>
-              다음
+              <IcPaginationRight />
             </button>
           </StPagination>
         </StBannerList>
@@ -168,6 +188,8 @@ export default BannerAdminPage;
 
 const StWrapper = styled.div`
   display: flex;
+
+  padding-bottom: 7.2rem;
 
   flex-direction: column;
   gap: 4.9rem;
@@ -202,32 +224,58 @@ const StBannerListWrapper = styled.ul`
 
 const StPagination = styled.div`
   display: flex;
+  margin-top: 2rem;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 1.2rem;
 
-  button {
-    padding: 0.5rem 1rem;
-    background-color: ${colors.gray700};
-    border: none;
-    border-radius: 0.5rem;
-    color: ${colors.white};
-    cursor: pointer;
-
-    &:disabled {
-      background-color: ${colors.gray800};
-      color: ${colors.gray500};
-      cursor: not-allowed;
-    }
-
-    &:hover:not(:disabled) {
-      background-color: ${colors.gray600};
+  svg {
+    path {
+      stroke: ${colors.gray200};
     }
   }
 
-  span {
-    color: ${colors.white};
-    ${fontsObject.BODY_3_14_M}
+  button:first-of-type {
+    margin-right: 1.2rem;
   }
+
+  button:last-of-type {
+    margin-left: 1.2rem;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    svg {
+      path {
+        stroke: ${colors.gray700};
+      }
+    }
+  }
+
+  button:hover:not(:disabled) {
+    svg {
+      path {
+        stroke: ${colors.white};
+        transition: all 0.3s ease;
+      }
+    }
+  }
+`;
+
+const StPageButton = styled.button<{ active: boolean }>`
+  display: flex;
+
+  width: 4rem;
+  height: 4rem;
+  padding: 1.1rem 0.8rem;
+
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 2rem;
+
+  background-color: ${({ active }) => active && colors.gray10};
+  color: ${({ active }) => (active ? colors.gray950 : colors.gray200)};
+
+  ${fontsObject.HEADING_6_18_B};
 `;
