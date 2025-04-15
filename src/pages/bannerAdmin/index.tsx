@@ -284,4 +284,9 @@ const StPageButton = styled.button<{ active: boolean }>`
   color: ${({ active }) => (active ? colors.gray950 : colors.gray200)};
 
   ${fontsObject.HEADING_6_18_B};
+
+  &:hover {
+    color: ${colors.white};
+    transition: all 0.2s ease-in;
+  }
 `;
