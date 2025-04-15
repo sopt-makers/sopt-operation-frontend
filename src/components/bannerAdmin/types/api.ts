@@ -30,3 +30,16 @@ export interface BannerDetailResponse {
     image_url_mobile: string;
   };
 }
+
+export interface BannerListResponse {
+  success: boolean;
+  message: string;
+  data: {
+    banners: Banner[];
+    totalCount: number;
+    totalPage: number;
+    currentPage: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+}

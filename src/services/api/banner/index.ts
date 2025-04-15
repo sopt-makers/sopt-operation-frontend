@@ -1,6 +1,7 @@
 import {
   BannerDetailRequest,
   BannerDetailResponse,
+  BannerListResponse,
 } from '@/components/bannerAdmin/types/api';
 import { client } from '@/services/api/client';
 
@@ -44,18 +45,11 @@ export const getBannerDetail = async (bannerId: number) => {
 };
 
 export const fetchBannerList = async (
-  status: string = '',
-  sort: string = 'status',
-  page: number = 1,
-  limit: number = 10,
-): Promise<{
-  banners: Banner[];
-  totalCount: number;
-  totalPage: number;
-  currentPage: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
-}> => {
+  status = '',
+  sort = 'status',
+  page = 1,
+  limit = 20,
+) => {
   let queryString = '';
 
   if (status) {
@@ -65,24 +59,12 @@ export const fetchBannerList = async (
   queryString += queryString ? `&sort=${sort}` : `?sort=${sort}`;
   queryString += `&page=${page}&limit=${limit}`;
 
-  const {
-    data,
-  }: AxiosResponse<{
-    success: boolean;
-    message: string;
-    data: {
-      limit: number;
-      totalCount: number;
-      totalPage: number;
-      currentPage: number;
-      data: Banner[];
-      hasNextPage: boolean;
-      hasPrevPage: boolean;
-    };
-  }> = await client.get(`/banners${queryString}`);
+  const { data }: AxiosResponse<BannerListResponse> = await client.get(
+    `/banners${queryString}`,
+  );
 
   return {
-    banners: data.data.data,
+    banners: data.data.banners,
     totalCount: data.data.totalCount,
     totalPage: data.data.totalPage,
     currentPage: data.data.currentPage,
