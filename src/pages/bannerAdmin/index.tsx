@@ -4,10 +4,10 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { SelectV2, Tab } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 
+import { IcPaginationLeft, IcPaginationRight } from '@/assets/icons';
 import BannerList from '@/components/bannerAdmin/BannerList/BannerList';
 import CreateBannerModal from '@/components/bannerAdmin/CreateBannerModal';
 import Header from '@/components/bannerAdmin/Header/Header';
-import { IcPaginationLeft, IcPaginationRight } from '@/assets/icons';
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 import {
@@ -37,6 +37,8 @@ const BannerAdminPage = () => {
     currentPage,
     BANNER_LIST_LIMIT,
   );
+
+  console.log(selectedTabBannerList);
 
   const bannerList = Array.isArray(selectedTabBannerList?.banners)
     ? selectedTabBannerList.banners

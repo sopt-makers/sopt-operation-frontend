@@ -68,7 +68,7 @@ export const fetchBannerList = async (
     totalCount: data.data.totalCount,
     totalPage: data.data.totalPage,
     currentPage: data.data.currentPage,
-    hasNextPage: data.hasNextPage,
-    hasPrevPage: data.hasPrevPage,
+    hasNextPage: data.data.hasNextPage,
+    hasPrevPage: data.data.hasPrevPage,
   };
 };

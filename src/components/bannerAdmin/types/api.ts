@@ -39,7 +39,7 @@ export interface BannerListResponse {
     totalCount: number;
     totalPage: number;
     currentPage: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
   };
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
 }
