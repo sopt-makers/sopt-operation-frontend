@@ -1,8 +1,8 @@
+import { DialogOptionType, useDialog, useToast } from '@sopt-makers/ui';
 import { useQueryClient } from 'react-query';
 
 import { IcTrash } from '@/assets/icons';
 import { useDeleteBanner } from '@/services/api/banner/query';
-import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 
 interface DeleteBannerButtonProps {
   bannerId: number;
@@ -15,11 +15,18 @@ const DeleteBannerButton = ({ bannerId }: DeleteBannerButtonProps) => {
 
   const handleBannerDelete = () => {
     deleteBannerMutate(bannerId, {
-      onSuccess: () => queryClient.invalidateQueries('bannerList'),
+      onSuccess: () => {
+        queryClient.invalidateQueries('bannerList');
+        openToast({ icon: 'success', content: '배너가 삭제되었어요.' });
+      },
+      onError: () => {
+        openToast({ icon: 'error', content: '배너 삭제에 실패했어요.' });
+      },
     });
   };
 
-  const { open } = useDialog();
+  const { open: openToast } = useToast();
+  const { open: openDialog } = useDialog();
 
   const option: DialogOptionType = {
     title: '배너를 삭제하실 건가요?',
@@ -33,7 +40,7 @@ const DeleteBannerButton = ({ bannerId }: DeleteBannerButtonProps) => {
   };
 
   return (
-    <button onClick={() => open(option)}>
+    <button onClick={() => openDialog(option)}>
       <IcTrash />
     </button>
   );

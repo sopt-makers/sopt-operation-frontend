@@ -1,4 +1,5 @@
 import { Radio } from '@sopt-makers/ui';
+import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -6,14 +7,12 @@ import {
   StInputLabel,
   StRadioGroup,
 } from '@/components/bannerAdmin/CreateBannerModal';
+import FormController from '@/components/bannerAdmin/form/FormController';
 import {
   LOCATION_KEY,
   locationList,
 } from '@/components/bannerAdmin/types/form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
-import { MutableRefObject, useEffect, useRef } from 'react';
-
-import FormController from '@/components/bannerAdmin/form/FormController';
 import { CREATE_MODAL } from '@/pages/bannerAdmin';
 
 interface LocationField {
@@ -29,23 +28,19 @@ const LocationField = ({ modalState }: LocationField) => {
   useEffect(() => {
     if (modalState === CREATE_MODAL) {
       if (!!pcImageFile?.file && !!mobileImageFile?.file) {
-        console.log(0);
         setValue('pcImageFileName.location', location);
         trigger('pcImageFileName');
         setValue('mobileImageFileName.location', location);
         trigger('mobileImageFileName');
       } else if (!pcImageFile?.file && !!mobileImageFile?.file) {
-        console.log(1);
         setValue('pcImageFileName.location', location);
         setValue('mobileImageFileName.location', location);
         trigger('mobileImageFileName');
       } else if (!!pcImageFile?.file && !mobileImageFile?.file) {
-        console.log(2);
         setValue('pcImageFileName.location', location);
         trigger('pcImageFileName');
         setValue('mobileImageFileName.location', location);
       } else {
-        console.log(3);
         setValue('pcImageFileName.location', location);
         setValue('mobileImageFileName.location', location);
       }
@@ -55,7 +50,14 @@ const LocationField = ({ modalState }: LocationField) => {
       trigger('pcImageFileName');
       trigger('mobileImageFileName');
     }
-  }, [location]);
+  }, [
+    location,
+    mobileImageFile?.file,
+    modalState,
+    pcImageFile?.file,
+    setValue,
+    trigger,
+  ]);
 
   return (
     <StContentWrapper>

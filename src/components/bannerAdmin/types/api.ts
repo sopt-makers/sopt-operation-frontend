@@ -9,7 +9,7 @@ export interface BannerDetailRequest {
   location: (typeof LOCATION_VALUE)[number];
   start_date: string;
   end_date: string;
-  link: string;
+  link?: string;
   image_pc: File;
   image_mobile: File;
 }

@@ -86,7 +86,7 @@ const BannerImageRegister = () => {
         <>
           <StDescriptionWrapper style={{ marginTop: '2rem' }}>
             <StDescription isError={!!errors.mobileImageFileName}>
-              <StDescriptionTitle>[PC]</StDescriptionTitle>{' '}
+              <StDescriptionTitle>[MO]</StDescriptionTitle>{' '}
               {`이미지는 ${moImageBaseWidth}*${moImageBaseHeight} px`}
               크기로 올려주세요.
               <p>(형식: PNG, 용량: 5MB 이내)</p>

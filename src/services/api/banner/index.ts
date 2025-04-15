@@ -1,10 +1,11 @@
+import { AxiosResponse } from 'axios';
+
 import {
   BannerDetailRequest,
   BannerDetailResponse,
   BannerListResponse,
 } from '@/components/bannerAdmin/types/api';
 import { client } from '@/services/api/client';
-
 import { AxiosResponse } from 'axios';
 
 import { BANNER_LIST_LIMIT, BANNER_LIST_PAGE } from '@/constants';

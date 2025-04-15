@@ -1,5 +1,6 @@
-import { getImageSize } from '@/components/bannerAdmin/utils/getImageSize';
 import { z } from 'zod';
+
+import { getImageSize } from '@/components/bannerAdmin/utils/getImageSize';
 
 export const CONTENT_KEY = ['프로덕트 홍보', '기타 홍보', '생일 광고'] as const;
 export const CONTENT_VALUE = ['product', 'etc', 'birthday'] as const;
@@ -62,7 +63,11 @@ export const bannerSchema = z.object({
   contentType: z.enum(CONTENT_VALUE),
   location: z.enum(LOCATION_VALUE),
   dateRange: z.string().array(),
-  link: z.string().url({ message: ERROR_MESSAGE.INVALID_LINK }),
+  link: z
+    .string()
+    .url({ message: ERROR_MESSAGE.INVALID_LINK })
+    .optional()
+    .or(z.literal('')),
   pcImageFileName: z
     .object({
       file: z.instanceof(File),

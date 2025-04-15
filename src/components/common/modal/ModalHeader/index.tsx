@@ -1,7 +1,8 @@
+import { ReactNode } from 'react';
+
 import { IcModalClose } from '@/assets/icons';
 
 import { StModalHeader } from './style';
-import { ReactNode } from 'react';
 
 interface Props {
   title: string;

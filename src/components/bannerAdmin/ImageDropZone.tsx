@@ -88,7 +88,7 @@ const ImageDropZone = ({
     <StImgButtonWrapper>
       <StImgButton
         {...getRootProps({
-          onClick: handleClick, // input의 클릭 이벤트 핸들링
+          onClick: handleClick,
         })}
         width={width}
         height={height}
