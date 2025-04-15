@@ -8,7 +8,11 @@ import Header from '@/components/bannerAdmin/Header/Header';
 import { IcPaginationLeft, IcPaginationRight } from '@/assets/icons';
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
-import { BANNER_TAB_FILTER_LIST } from '@/constants';
+import {
+  BANNER_LIST_LIMIT,
+  BANNER_LIST_PAGE,
+  BANNER_TAB_FILTER_LIST,
+} from '@/constants';
 import { useFetchBannerList } from '@/services/api/banner/query';
 import { getBannerSort, getBannerStatus } from '@/utils';
 import { BANNER_STATUS_LIST } from '@/utils/alarm';
@@ -26,15 +30,13 @@ const BannerAdminPage = () => {
   const [filter, setFilter] = useState<BANNER_FILTER>(
     BANNER_TAB_FILTER_LIST[0] as BANNER_FILTER,
   );
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const limit = 10;
+  const [currentPage, setCurrentPage] = useState(BANNER_LIST_PAGE);
 
-  const { data: entireBannerList } = useFetchBannerList('', 'status');
   const { data: selectedTabBannerList } = useFetchBannerList(
     getBannerStatus(tab),
     getBannerSort(filter),
     currentPage,
-    limit,
+    BANNER_LIST_LIMIT,
   );
 
   const bannerList = Array.isArray(selectedTabBannerList?.banners)
@@ -47,12 +49,12 @@ const BannerAdminPage = () => {
 
   const handleChangeTab = (value: BANNER_STATUS) => {
     setTab(value);
-    setCurrentPage(1);
+    setCurrentPage(BANNER_LIST_PAGE);
   };
 
   const handleSelectFilter = (filter: BANNER_FILTER) => {
     setFilter(filter);
-    setCurrentPage(1);
+    setCurrentPage(BANNER_LIST_PAGE);
   };
 
   const handlePageChange = (page: number) => {
@@ -99,6 +101,8 @@ const BannerAdminPage = () => {
     };
   }, [modalState]);
 
+  console.log(bannerList);
+
   return (
     <>
       <StWrapper>
@@ -108,7 +112,9 @@ const BannerAdminPage = () => {
             style="primary"
             size="md"
             tabItems={BANNER_STATUS_LIST}
-            translator={bannerStatusTranslator(entireBannerList?.banners ?? [])}
+            translator={bannerStatusTranslator(
+              selectedTabBannerList?.banners ?? [],
+            )}
             selectedInitial={tab}
             onChange={handleChangeTab}
             css={{ marginTop: 'auto', gap: '2.6rem' }}
@@ -224,7 +230,9 @@ const StBannerListWrapper = styled.ul`
 
 const StPagination = styled.div`
   display: flex;
+
   margin-top: 2rem;
+
   justify-content: center;
   align-items: center;
   gap: 1.2rem;
@@ -256,7 +264,7 @@ const StPagination = styled.div`
     svg {
       path {
         stroke: ${colors.white};
-        transition: all 0.3s ease;
+        transition: all 0.3s ease-in;
       }
     }
   }

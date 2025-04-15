@@ -24,3 +24,6 @@ export const BANNER_TAB_FILTER_LIST: string[] = [
   '시작날짜 빠른 순',
   '종료날짜 빠른 순',
 ];
+
+export const BANNER_LIST_LIMIT = 20;
+export const BANNER_LIST_PAGE = 1;

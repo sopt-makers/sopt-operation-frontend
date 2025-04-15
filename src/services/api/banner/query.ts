@@ -2,6 +2,7 @@ import { useMutation, useQuery } from 'react-query';
 
 import { BannerDetailRequest } from '@/components/bannerAdmin/types/api';
 
+import { BANNER_LIST_LIMIT, BANNER_LIST_PAGE } from '@/constants';
 import {
   deleteBanner,
   fetchBannerList,
@@ -43,10 +44,10 @@ export const useGetBannerDetail = (bannerId: number) => {
 };
 
 export const useFetchBannerList = (
-  status: string = '',
-  sort: string = 'status',
-  page: number = 1,
-  limit: number = 10,
+  status = '',
+  sort = 'status',
+  page = BANNER_LIST_PAGE,
+  limit = BANNER_LIST_LIMIT,
 ) => {
   return useQuery(['bannerList', status, sort, page, limit], () =>
     fetchBannerList(status, sort, page, limit),
