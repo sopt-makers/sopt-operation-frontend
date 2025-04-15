@@ -35,11 +35,11 @@ export interface BannerListResponse {
   success: boolean;
   message: string;
   data: {
-    banners: Banner[];
+    data: Banner[];
     totalCount: number;
     totalPage: number;
     currentPage: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
   };
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
 }

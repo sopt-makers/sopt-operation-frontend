@@ -7,6 +7,8 @@ import { client } from '@/services/api/client';
 
 import { AxiosResponse } from 'axios';
 
+import { BANNER_LIST_LIMIT, BANNER_LIST_PAGE } from '@/constants';
+
 export const postNewBanner = async (bannerData: BannerDetailRequest) => {
   const response = await client.post('/banners', bannerData, {
     headers: {
@@ -47,8 +49,8 @@ export const getBannerDetail = async (bannerId: number) => {
 export const fetchBannerList = async (
   status = '',
   sort = 'status',
-  page = 1,
-  limit = 20,
+  page = BANNER_LIST_PAGE,
+  limit = BANNER_LIST_LIMIT,
 ) => {
   let queryString = '';
 
@@ -64,11 +66,11 @@ export const fetchBannerList = async (
   );
 
   return {
-    banners: data.data.banners,
+    banners: data.data.data,
     totalCount: data.data.totalCount,
     totalPage: data.data.totalPage,
     currentPage: data.data.currentPage,
-    hasNextPage: data.data.hasNextPage,
-    hasPrevPage: data.data.hasPrevPage,
+    hasNextPage: data.hasNextPage,
+    hasPrevPage: data.hasPrevPage,
   };
 };
