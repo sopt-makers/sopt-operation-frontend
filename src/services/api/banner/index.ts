@@ -1,14 +1,11 @@
-import { AxiosResponse } from 'axios';
-
 import {
   BannerDetailRequest,
   BannerDetailResponse,
   BannerListResponse,
 } from '@/components/bannerAdmin/types/api';
+import { BANNER_LIST_LIMIT, BANNER_LIST_PAGE } from '@/constants';
 import { client } from '@/services/api/client';
 import { AxiosResponse } from 'axios';
-
-import { BANNER_LIST_LIMIT, BANNER_LIST_PAGE } from '@/constants';
 
 export const postNewBanner = async (bannerData: BannerDetailRequest) => {
   const response = await client.post('/banners', bannerData, {
