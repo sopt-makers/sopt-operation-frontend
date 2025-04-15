@@ -127,7 +127,7 @@ export const StItem = styled.div`
     text-align: left;
   }
 
-  & > p:nth-child(4) {
+  & > p:nth-of-type(4) {
     margin-left: 1rem;
     text-align: center;
   }
