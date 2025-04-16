@@ -12,6 +12,7 @@ import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 import {
   BANNER_LIST_LIMIT,
+  BANNER_LIST_MAX,
   BANNER_LIST_PAGE,
   BANNER_TAB_FILTER_LIST,
 } from '@/constants';
@@ -31,14 +32,18 @@ const BannerAdminPage = () => {
   );
   const [currentPage, setCurrentPage] = useState(BANNER_LIST_PAGE);
 
+  const { data: entireBannerList } = useFetchBannerList(
+    '',
+    'status',
+    BANNER_LIST_PAGE,
+    BANNER_LIST_MAX,
+  );
   const { data: selectedTabBannerList } = useFetchBannerList(
     getBannerStatus(tab),
     getBannerSort(filter),
     currentPage,
     BANNER_LIST_LIMIT,
   );
-
-  console.log(selectedTabBannerList);
 
   const bannerList = Array.isArray(selectedTabBannerList?.banners)
     ? selectedTabBannerList.banners
@@ -111,9 +116,7 @@ const BannerAdminPage = () => {
             style="primary"
             size="md"
             tabItems={BANNER_STATUS_LIST}
-            translator={bannerStatusTranslator(
-              selectedTabBannerList?.banners ?? [],
-            )}
+            translator={bannerStatusTranslator(entireBannerList?.banners ?? [])}
             selectedInitial={tab}
             onChange={handleChangeTab}
             css={{ marginTop: 'auto', gap: '2.6rem' }}
