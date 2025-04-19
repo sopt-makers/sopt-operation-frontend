@@ -168,12 +168,14 @@ const BannerAdminPage = () => {
           </StBannerListWrapper>
           <StPagination>
             <button
+              type="button"
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={!hasPrevPage}>
               <IcPaginationLeft />
             </button>
             {renderPaginationButtons()}
             <button
+              type="button"
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={!hasNextPage}>
               <IcPaginationRight />
