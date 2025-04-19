@@ -23,6 +23,8 @@ import { bannerStatusTranslator } from '@/utils/translator';
 
 const CLOSE_MODAL = -1;
 export const CREATE_MODAL = 0;
+const BACKWARD_PAGE_BUTTON_COUNT = 2;
+const ADDITIONAL_PAGE_BUTTON_COUNT = 4;
 
 const BannerAdminPage = () => {
   const [modalState, setModalState] = useState<number>(CLOSE_MODAL);
@@ -77,11 +79,14 @@ const BannerAdminPage = () => {
 
   const renderPaginationButtons = () => {
     const pageButtons = [];
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, startPage + 4);
+    let startPage = Math.max(1, currentPage - BACKWARD_PAGE_BUTTON_COUNT);
+    let endPage = Math.min(
+      totalPages,
+      startPage + ADDITIONAL_PAGE_BUTTON_COUNT,
+    );
 
-    if (endPage - startPage < 4) {
-      startPage = Math.max(1, endPage - 4);
+    if (endPage - startPage < ADDITIONAL_PAGE_BUTTON_COUNT) {
+      startPage = Math.max(1, endPage - ADDITIONAL_PAGE_BUTTON_COUNT);
     }
     for (let i = startPage; i <= endPage; i++) {
       pageButtons.push(
