@@ -3,7 +3,7 @@ import {
   BannerDetailResponse,
   BannerListResponse,
 } from '@/components/bannerAdmin/types/api';
-import { BANNER_LIST_LIMIT, BANNER_LIST_PAGE } from '@/constants';
+import { DEFAULT_BANNER_LIST_LIMIT, INIT_BANNER_LIST_PAGE } from '@/constants';
 import { client } from '@/services/api/client';
 import { AxiosResponse } from 'axios';
 
@@ -47,8 +47,8 @@ export const getBannerDetail = async (bannerId: number) => {
 export const fetchBannerList = async (
   status = '',
   sort = 'status',
-  page = BANNER_LIST_PAGE,
-  limit = BANNER_LIST_LIMIT,
+  page = INIT_BANNER_LIST_PAGE,
+  limit = DEFAULT_BANNER_LIST_LIMIT,
 ) => {
   let queryString = '';
 

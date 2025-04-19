@@ -11,10 +11,10 @@ import Header from '@/components/bannerAdmin/Header/Header';
 import FloatingButton from '@/components/common/FloatingButton';
 import Modal from '@/components/common/modal';
 import {
-  BANNER_LIST_LIMIT,
-  BANNER_LIST_MAX,
-  BANNER_LIST_PAGE,
   BANNER_TAB_FILTER_LIST,
+  DEFAULT_BANNER_LIST_LIMIT,
+  DEFAULT_BANNER_LIST_MAX,
+  INIT_BANNER_LIST_PAGE,
 } from '@/constants';
 import { useFetchBannerList } from '@/services/api/banner/query';
 import { getBannerSort, getBannerStatus } from '@/utils';
@@ -30,19 +30,19 @@ const BannerAdminPage = () => {
   const [filter, setFilter] = useState<BANNER_FILTER>(
     BANNER_TAB_FILTER_LIST[0] as BANNER_FILTER,
   );
-  const [currentPage, setCurrentPage] = useState(BANNER_LIST_PAGE);
+  const [currentPage, setCurrentPage] = useState(INIT_BANNER_LIST_PAGE);
 
   const { data: entireBannerList } = useFetchBannerList(
     '',
     'status',
-    BANNER_LIST_PAGE,
-    BANNER_LIST_MAX,
+    INIT_BANNER_LIST_PAGE,
+    DEFAULT_BANNER_LIST_MAX,
   );
   const { data: selectedTabBannerList } = useFetchBannerList(
     getBannerStatus(tab),
     getBannerSort(filter),
     currentPage,
-    BANNER_LIST_LIMIT,
+    DEFAULT_BANNER_LIST_LIMIT,
   );
 
   const bannerList = Array.isArray(selectedTabBannerList?.banners)
@@ -55,12 +55,12 @@ const BannerAdminPage = () => {
 
   const handleChangeTab = (value: BANNER_STATUS) => {
     setTab(value);
-    setCurrentPage(BANNER_LIST_PAGE);
+    setCurrentPage(INIT_BANNER_LIST_PAGE);
   };
 
   const handleSelectFilter = (filter: BANNER_FILTER) => {
     setFilter(filter);
-    setCurrentPage(BANNER_LIST_PAGE);
+    setCurrentPage(INIT_BANNER_LIST_PAGE);
   };
 
   const handlePageChange = (page: number) => {
