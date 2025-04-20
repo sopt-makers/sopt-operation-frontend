@@ -47,11 +47,13 @@ export const alarmStatusTranslator: Record<ALARM_STATUS, string> = {
 export const bannerStatusTranslator: (
   bannerList: Banner[],
 ) => Record<BANNER_STATUS, ReactNode> = (bannerList) => {
+  const banners = Array.isArray(bannerList) ? bannerList : [];
+
   const countByStatus = {
-    ALL: bannerList.length,
-    RESERVED: bannerList.filter((b) => b.status === 'reserved').length,
-    IN_PROGRESS: bannerList.filter((b) => b.status === 'in_progress').length,
-    DONE: bannerList.filter((b) => b.status === 'done').length,
+    ALL: banners.length,
+    RESERVED: banners.filter((b) => b.status === 'reserved').length,
+    IN_PROGRESS: banners.filter((b) => b.status === 'in_progress').length,
+    DONE: banners.filter((b) => b.status === 'done').length,
   };
 
   const renderTab = (label: string, status: BANNER_STATUS) => (

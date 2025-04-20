@@ -1,10 +1,11 @@
-import { AxiosResponse } from 'axios';
-
 import {
   BannerDetailRequest,
   BannerDetailResponse,
+  BannerListResponse,
 } from '@/components/bannerAdmin/types/api';
+import { DEFAULT_BANNER_LIST_LIMIT, INIT_BANNER_LIST_PAGE } from '@/constants';
 import { client } from '@/services/api/client';
+import { AxiosResponse } from 'axios';
 
 export const postNewBanner = async (bannerData: BannerDetailRequest) => {
   const response = await client.post('/banners', bannerData, {
@@ -44,19 +45,11 @@ export const getBannerDetail = async (bannerId: number) => {
 };
 
 export const fetchBannerList = async (
-  status: string = '',
-  sort: string = 'status',
-): Promise<{ banners: Banner[]; length: number }> => {
-  if (!status && sort === 'status') {
-    const { data }: AxiosResponse<{ success: boolean; data: Banner[] }> =
-      await client.get('/banners');
-
-    return {
-      banners: data.data,
-      length: data.data.length,
-    };
-  }
-
+  status = '',
+  sort = 'status',
+  page = INIT_BANNER_LIST_PAGE,
+  limit = DEFAULT_BANNER_LIST_LIMIT,
+) => {
   let queryString = '';
 
   if (status) {
@@ -64,12 +57,18 @@ export const fetchBannerList = async (
   }
 
   queryString += queryString ? `&sort=${sort}` : `?sort=${sort}`;
+  queryString += `&page=${page}&limit=${limit}`;
 
-  const { data }: AxiosResponse<{ success: boolean; data: Banner[] }> =
-    await client.get(`/banners${queryString}`);
+  const { data }: AxiosResponse<BannerListResponse> = await client.get(
+    `/banners${queryString}`,
+  );
 
   return {
-    banners: data.data,
-    length: data.data.length,
+    banners: data.data.data,
+    totalCount: data.data.totalCount,
+    totalPage: data.data.totalPage,
+    currentPage: data.data.currentPage,
+    hasNextPage: data.data.hasNextPage,
+    hasPrevPage: data.data.hasPrevPage,
   };
 };
