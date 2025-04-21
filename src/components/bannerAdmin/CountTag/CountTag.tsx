@@ -22,19 +22,19 @@ const TagWrapper = styled.div<{ status: BANNER_STATUS }>`
   ${fontsObject.LABEL_3_14_SB};
 
   ${({ status }) => {
-    if (status === 'ALL' || status === 'DONE') {
+    if (status === 'all' || status === 'done') {
       return css`
         color: ${colors.gray10};
         background-color: ${colors.gray700};
       `;
     }
-    if (status === 'RESERVED') {
+    if (status === 'reserved') {
       return css`
         color: ${colors.secondary};
         background-color: ${colors.orangeAlpha200};
       `;
     }
-    if (status === 'IN_PROGRESS') {
+    if (status === 'in_progress') {
       return css`
         color: ${colors.success};
         background-color: ${colors.blueAlpha200};
