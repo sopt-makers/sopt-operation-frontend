@@ -28,10 +28,10 @@ export const ALARM_STATUS_LIST: ALARM_STATUS[] = [
 ];
 
 export const BANNER_STATUS_LIST: BANNER_STATUS[] = [
-  'ALL',
-  'RESERVED',
-  'IN_PROGRESS',
-  'DONE',
+  'all',
+  'reserved',
+  'in_progress',
+  'done',
 ];
 
 export const readPlaygroundId = async (file: File): Promise<string[]> => {

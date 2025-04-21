@@ -1,7 +1,7 @@
-import { BannerDetailRequest } from '@/components/bannerAdmin/types/api';
-import { DEFAULT_BANNER_LIST_LIMIT, INIT_BANNER_LIST_PAGE } from '@/constants';
 import { useMutation, useQuery } from 'react-query';
 
+import { BannerDetailRequest } from '@/components/bannerAdmin/types/api';
+import { DEFAULT_BANNER_LIST_LIMIT, INIT_BANNER_LIST_PAGE } from '@/constants';
 import {
   deleteBanner,
   fetchBannerList,

@@ -46,7 +46,7 @@ export const alarmStatusTranslator: Record<ALARM_STATUS, string> = {
 
 export const bannerStatusTranslator: (
   bannerList: Banner[],
-) => Record<BANNER_STATUS, ReactNode | string> = (bannerList) => {
+) => Record<BANNER_STATUS, ReactNode> = (bannerList) => {
   const banners = Array.isArray(bannerList) ? bannerList : [];
 
   const countByStatus = {
