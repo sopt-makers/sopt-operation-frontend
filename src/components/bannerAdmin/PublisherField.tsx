@@ -56,7 +56,7 @@ const CustomInputWrapper = styled.div`
     background-color: ${colors.gray700};
   }
 
-  & > div > div:has(input) {
+  & > div > div > div:has(input) {
     background-color: ${colors.gray700};
   }
 `;
