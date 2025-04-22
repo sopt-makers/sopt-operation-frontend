@@ -22,6 +22,7 @@ const DateRangeField = () => {
         <StDateField>
           <FormController
             name="dateRange"
+            defaultValue={[]}
             render={({ field, formState: { errors } }) => {
               const dateError = errors as
                 | {
@@ -47,6 +48,7 @@ const DateRangeField = () => {
         <StDateField>
           <FormController
             name="dateRange"
+            defaultValue={[]}
             render={({ field }) => (
               <CalendarInputForm
                 selectedDate={field.value}

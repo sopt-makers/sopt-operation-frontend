@@ -39,12 +39,12 @@ const StHeader = styled.header`
     white-space: nowrap;
   }
 
-  & > h3:nth-child(1) {
+  & > h3:nth-of-type(1) {
     margin-left: 3.9rem;
     text-align: left;
   }
 
-  & > h3:nth-child(6) {
+  & > h3:nth-of-type(6) {
     margin-left: 5rem;
     text-align: left;
   }
