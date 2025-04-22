@@ -1,3 +1,5 @@
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { TextField } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
@@ -22,13 +24,15 @@ const PublisherField = () => {
         name="publisher"
         defaultValue=""
         render={({ field }) => (
-          <TextField
-            labelText="광고 요청자"
-            placeholder="광고 요청자 이름을 입력하세요."
-            required={true}
-            maxLength={30}
-            {...field}
-          />
+          <CustomInputWrapper>
+            <TextField
+              labelText="광고 요청자"
+              placeholder="광고 요청자 이름을 입력하세요."
+              required={true}
+              maxLength={30}
+              {...field}
+            />
+          </CustomInputWrapper>
         )}
       />
 
@@ -46,3 +50,13 @@ const PublisherField = () => {
 };
 
 export default PublisherField;
+
+const CustomInputWrapper = styled.div`
+  & input {
+    background-color: ${colors.gray700};
+  }
+
+  & > div > div:has(input) {
+    background-color: ${colors.gray700};
+  }
+`;

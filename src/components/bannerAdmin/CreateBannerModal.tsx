@@ -22,6 +22,7 @@ import {
 import { convertUrlToFile } from '@/components/bannerAdmin/utils/converUrlToFile';
 import { getBannerStatus } from '@/components/bannerAdmin/utils/getBannerStatus';
 import { getBannerType } from '@/components/bannerAdmin/utils/getBannerType';
+import Input from '@/components/common/Input';
 import ModalFooter from '@/components/common/modal/ModalFooter';
 import ModalHeader from '@/components/common/modal/ModalHeader';
 import { CREATE_MODAL } from '@/pages/bannerAdmin';
@@ -169,7 +170,6 @@ const CreateBannerModal = ({
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
-            <TextField />
             <PublisherField />
             <LinkField />
             <DateRangeField />

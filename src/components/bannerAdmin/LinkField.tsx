@@ -4,7 +4,9 @@ import { useFormContext } from 'react-hook-form';
 import {
   StDescription,
   StDescriptionWrapper,
+  StInputLabel,
 } from '@/components/bannerAdmin/CreateBannerModal';
+import Input from '@/components/common/Input';
 
 const LinkField = () => {
   const {
