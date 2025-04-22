@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Button, Tag, useToast } from '@sopt-makers/ui';
+import { Button, Tag, TextField, useToast } from '@sopt-makers/ui';
 import { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -169,6 +169,7 @@ const CreateBannerModal = ({
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
+            <TextField />
             <PublisherField />
             <LinkField />
             <DateRangeField />
