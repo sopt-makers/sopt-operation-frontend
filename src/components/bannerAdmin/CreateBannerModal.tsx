@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button, Tag, useToast } from '@sopt-makers/ui';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 
@@ -41,11 +41,11 @@ const CreateBannerModal = ({
   modalState,
 }: CreateBannerModalProps) => {
   const { data: bannerData, isSuccess } = useGetBannerDetail(modalState);
+
   const { mutate: createBannerMutate } = usePostNewBanner();
   const { mutate: editBannerMutate } = usePutBanner();
   const queryClient = useQueryClient();
   const { open } = useToast();
-
   // 수정하기 시 서버에서 데이터 받아온 이후 한번만 초기화 하기 위한 ref
   const initialRef = useRef(true);
 
@@ -66,44 +66,45 @@ const CreateBannerModal = ({
     formState: { isSubmitting, isValid, isDirty, errors },
   } = method;
 
-  const resetData = useCallback(async () => {
-    if (!isSuccess || modalState === CREATE_MODAL) {
-      return;
-    }
-
-    const pcImageFile = await convertUrlToFile(bannerData.data.image_url_pc);
-    const mobileImageFile = await convertUrlToFile(
-      bannerData.data.image_url_mobile,
-    );
-    const startDate = bannerData.data.start_date.replaceAll('-', '.');
-    const endDate = bannerData.data.end_date.replaceAll('-', '.');
-
-    reset({
-      publisher: bannerData.data.publisher,
-      contentType: bannerData.data.content_type,
-      location: bannerData.data.location,
-      dateRange: [startDate, endDate],
-      link: bannerData.data.link,
-      pcImageFileName: {
-        file: pcImageFile,
-        previewUrl: bannerData.data.image_url_pc,
-        location: bannerData.data.location,
-      },
-      mobileImageFileName: {
-        file: mobileImageFile,
-        previewUrl: bannerData.data.image_url_mobile,
-        location: bannerData.data.location,
-      },
-    });
-
-    initialRef.current = false;
-  }, [bannerData, isSuccess, modalState, reset]);
-
   useEffect(() => {
-    if (initialRef.current && isSuccess) {
+    if (isSuccess && modalState !== CREATE_MODAL && initialRef.current) {
+      const resetData = async () => {
+        if (!isSuccess || modalState === CREATE_MODAL) {
+          return;
+        }
+        const pcImageFile = await convertUrlToFile(
+          bannerData.data.image_url_pc,
+        );
+        const mobileImageFile = await convertUrlToFile(
+          bannerData.data.image_url_mobile,
+        );
+        const startDate = bannerData.data.start_date.replaceAll('-', '.');
+        const endDate = bannerData.data.end_date.replaceAll('-', '.');
+
+        reset({
+          publisher: bannerData.data.publisher,
+          contentType: bannerData.data.content_type,
+          location: bannerData.data.location,
+          dateRange: [startDate, endDate],
+          link: bannerData.data.link,
+          pcImageFileName: {
+            file: pcImageFile,
+            previewUrl: bannerData.data.image_url_pc,
+            location: bannerData.data.location,
+          },
+          mobileImageFileName: {
+            file: mobileImageFile,
+            previewUrl: bannerData.data.image_url_mobile,
+            location: bannerData.data.location,
+          },
+        });
+
+        initialRef.current = false;
+      };
+
       resetData();
     }
-  }, [isSuccess, resetData]);
+  }, [bannerData, isSuccess, modalState, reset]);
 
   const onSubmit = (data: BannerFormType) => {
     const bannerData = {

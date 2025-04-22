@@ -39,6 +39,7 @@ export const useGetBannerDetail = (bannerId: number) => {
     queryKey: ['banner', 'detail'],
     queryFn: () => getBannerDetail(bannerId),
     enabled: bannerId !== 0,
+    cacheTime: 0,
   });
 };
 
