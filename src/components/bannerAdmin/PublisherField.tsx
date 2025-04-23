@@ -1,13 +1,10 @@
-import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
-import { TextField } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 import {
+  CustomTextField,
   StDescription,
   StDescriptionWrapper,
 } from '@/components/bannerAdmin/CreateBannerModal';
-import FormController from '@/components/bannerAdmin/form/FormController';
 
 const MAX_PUBLISHER_LENGTH = 30;
 
@@ -20,20 +17,13 @@ const PublisherField = () => {
 
   return (
     <div>
-      <FormController
-        name="publisher"
-        defaultValue=""
-        render={({ field }) => (
-          <CustomInputWrapper>
-            <TextField
-              labelText="광고 요청자"
-              placeholder="광고 요청자 이름을 입력하세요."
-              required={true}
-              maxLength={30}
-              {...field}
-            />
-          </CustomInputWrapper>
-        )}
+      <CustomTextField
+        id="publisher"
+        labelText="광고 요청자"
+        placeholder="광고 요청자 이름을 입력하세요."
+        required={true}
+        maxLength={30}
+        {...register('publisher')}
       />
 
       <StDescriptionWrapper>
@@ -50,13 +40,3 @@ const PublisherField = () => {
 };
 
 export default PublisherField;
-
-const CustomInputWrapper = styled.div`
-  & input {
-    background-color: ${colors.gray700};
-  }
-
-  & > div > div > div:has(input) {
-    background-color: ${colors.gray700};
-  }
-`;

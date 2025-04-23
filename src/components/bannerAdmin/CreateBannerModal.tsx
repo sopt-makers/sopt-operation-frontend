@@ -171,10 +171,10 @@ const CreateBannerModal = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <StMain>
             <PublisherField />
-            <LinkField />
             <DateRangeField />
             <ContentTypeField />
             <LocationFeild modalState={modalState} />
+            <LinkField />
             <BannerImageRegister />
           </StMain>
 
@@ -265,4 +265,10 @@ export const StInputLabel = styled.label`
   color: ${colors.white};
 
   cursor: pointer;
+`;
+
+export const CustomTextField = styled(TextField)`
+  & :nth-of-type(2) {
+    background-color: ${colors.gray700};
+  }
 `;

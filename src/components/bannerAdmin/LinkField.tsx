@@ -1,7 +1,7 @@
-import { TextField } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 import {
+  CustomTextField,
   StDescription,
   StDescriptionWrapper,
   StInputLabel,
@@ -16,12 +16,12 @@ const LinkField = () => {
 
   return (
     <div>
-      <TextField
+      <CustomTextField
         id="link"
         labelText="[선택] 링크 첨부"
         placeholder="이동할 링크를 입력하세요."
-        {...register('link')}
         isError={!!errors.link}
+        {...register('link')}
       />
       <StDescriptionWrapper>
         <StDescription isError={!!errors.link}>
