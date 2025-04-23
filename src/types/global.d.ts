@@ -7,6 +7,8 @@ declare global {
   type SESSION_STATUS = 'BEFORE' | 'FIRST' | 'SECOND' | 'END';
   type AlarmDropdownType = 'part' | 'target' | 'generation' | 'targetSelector';
   type ALARM_STATUS = 'ALL' | 'SCHEDULED' | 'COMPLETED';
+  type BANNER_STATUS = 'all' | 'reserved' | 'in_progress' | 'done';
+  type BANNER_FILTER = '진행 상태 순' | '시작날짜 빠른 순' | '종료날짜 빠른 순';
   type ADMIN_STATUS =
     | 'SUPER_USER'
     | 'SOPT'
@@ -245,6 +247,16 @@ declare global {
     linkType: LINK_TYPE | null;
     createdAt: string;
     sendAt: string | null;
+  }
+
+  interface Banner {
+    content_type: string;
+    end_date: string;
+    id: number;
+    location: string;
+    publisher: string;
+    start_date: string;
+    status: string;
   }
 }
 
