@@ -50,10 +50,10 @@ export const bannerStatusTranslator: (
   const banners = Array.isArray(bannerList) ? bannerList : [];
 
   const countByStatus = {
-    ALL: banners.length,
-    RESERVED: banners.filter((b) => b.status === 'reserved').length,
-    IN_PROGRESS: banners.filter((b) => b.status === 'in_progress').length,
-    DONE: banners.filter((b) => b.status === 'done').length,
+    all: banners.length,
+    reserved: banners.filter((b) => b.status === 'reserved').length,
+    in_progress: banners.filter((b) => b.status === 'in_progress').length,
+    done: banners.filter((b) => b.status === 'done').length,
   };
 
   const renderTab = (label: string, status: BANNER_STATUS) => (
@@ -69,10 +69,10 @@ export const bannerStatusTranslator: (
   );
 
   return {
-    ALL: renderTab('전체', 'ALL'),
-    RESERVED: renderTab('진행 예정', 'RESERVED'),
-    IN_PROGRESS: renderTab('진행 중', 'IN_PROGRESS'),
-    DONE: renderTab('진행 완료', 'DONE'),
+    all: renderTab('전체', 'all'),
+    reserved: renderTab('진행 예정', 'reserved'),
+    in_progress: renderTab('진행 중', 'in_progress'),
+    done: renderTab('진행 완료', 'done'),
   };
 };
 

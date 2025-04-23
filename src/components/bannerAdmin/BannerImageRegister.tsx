@@ -62,7 +62,7 @@ const BannerImageRegister = () => {
           </StDescriptionTitle>{' '}
           {`이미지는 ${pcImageBaseWidth}*${pcImageBaseHeight} px`}
           크기로 올려주세요.
-          <p>(형식: PNG, 용량: 5MB 이내)</p>
+          <span>(형식: PNG, 용량: 5MB 이내)</span>
         </StDescription>
         <Button
           size="sm"
@@ -89,7 +89,7 @@ const BannerImageRegister = () => {
               <StDescriptionTitle>[MO]</StDescriptionTitle>{' '}
               {`이미지는 ${moImageBaseWidth}*${moImageBaseHeight} px`}
               크기로 올려주세요.
-              <p>(형식: PNG, 용량: 5MB 이내)</p>
+              <span>(형식: PNG, 용량: 5MB 이내)</span>
             </StDescription>
             <Button
               size="sm"

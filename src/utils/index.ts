@@ -78,10 +78,10 @@ export const translateContentType = (contentType: string) => {
 };
 
 export const getBannerStatus = (tab: BANNER_STATUS) => {
-  if (tab === 'ALL') return '';
-  if (tab === 'RESERVED') return 'reserved';
-  if (tab === 'IN_PROGRESS') return 'in_progress';
-  if (tab === 'DONE') return 'done';
+  if (tab === 'all') return '';
+  if (tab === 'reserved') return 'reserved';
+  if (tab === 'in_progress') return 'in_progress';
+  if (tab === 'done') return 'done';
   return '';
 };
 

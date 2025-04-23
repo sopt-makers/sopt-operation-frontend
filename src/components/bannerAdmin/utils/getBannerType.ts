@@ -1,5 +1,5 @@
 export const getBannerType = (bannerStatus: BANNER_STATUS) => {
-  if (bannerStatus === 'RESERVED') return 'primary';
-  if (bannerStatus === 'IN_PROGRESS') return 'secondary';
-  if (bannerStatus === 'DONE') return 'default';
+  if (bannerStatus === 'reserved') return 'primary';
+  if (bannerStatus === 'in_progress') return 'secondary';
+  if (bannerStatus === 'done') return 'default';
 };

@@ -1,7 +1,7 @@
-import { TextField } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 import {
+  CustomTextField,
   StDescription,
   StDescriptionWrapper,
 } from '@/components/bannerAdmin/CreateBannerModal';
@@ -17,7 +17,7 @@ const PublisherField = () => {
 
   return (
     <div>
-      <TextField
+      <CustomTextField
         id="publisher"
         labelText="광고 요청자"
         placeholder="광고 요청자 이름을 입력하세요."
@@ -25,6 +25,7 @@ const PublisherField = () => {
         maxLength={30}
         {...register('publisher')}
       />
+
       <StDescriptionWrapper>
         <StDescription isError={!!errors.publisher}>
           {errors.publisher?.message as string}
