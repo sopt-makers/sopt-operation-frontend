@@ -13,7 +13,9 @@ function Nav() {
 
   const filteredMenuList =
     status === 'MAKERS'
-      ? MENU_LIST.filter((menu) => menu.title === '알림 관리')
+      ? MENU_LIST.filter(
+          (menu) => menu.title === '알림 관리' || menu.title === '배너 관리',
+        )
       : MENU_LIST;
 
   const handleSubMenuClick = (path: string) => {
