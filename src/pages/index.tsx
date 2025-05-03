@@ -30,7 +30,11 @@ function LoginPage() {
 
   useEffect(() => {
     if (getToken('ACCESS')) {
-      router.replace('/attendanceAdmin/session');
+      router.replace(
+        sessionStorage.getItem('adminStatus') !== 'MAKERS'
+          ? '/attendanceAdmin/session'
+          : '/alarmAdmin',
+      );
     }
   }, [router]);
 
