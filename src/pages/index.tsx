@@ -53,7 +53,7 @@ function LoginPage() {
         router.replace(
           result.adminStatus !== 'MAKERS'
             ? '/attendanceAdmin/session'
-            : '/alarmAdmin',
+            : '/bannerAdmin',
         );
       }
     }
