@@ -24,7 +24,6 @@ export const targetTypeMap: Record<SendTargetType, requestTargetType> = {
 };
 
 export const linkTypeMap: Record<AttachOptionType, LINK_TYPE> = {
-  '첨부 안함': 'NONE',
   '웹 링크': 'WEB',
   '앱 내 딥링크': 'APP',
 };
@@ -81,8 +80,28 @@ export const deepLinkOptions = [
     value: 'home/notification',
   },
   {
+    label: '홈-마이페이지',
+    value: 'home/mypage',
+  },
+  {
     label: '홈-출석',
     value: 'home/attendance',
+  },
+  {
+    label: '홈-솝탬프(전체미션)',
+    value: 'home/soptamp',
+  },
+  {
+    label: '홈-솝탬프(전체랭킹)',
+    value: 'home/soptamp/entire-ranking',
+  },
+  {
+    label: '홈-콕 찌르기',
+    value: 'home/poke',
+  },
+  {
+    label: '홈-솝마디',
+    value: 'home/fortune',
   },
   {
     label: '플레이그라운드',

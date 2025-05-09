@@ -27,8 +27,6 @@ function ShowAlarmModal(props: Props) {
 
   const { data, isLoading } = useGetAlarm(alarmId);
 
-  console.log(data);
-
   if (isLoading || !data) return <Loading />;
   return (
     <StAlarmModalWrapper>
@@ -67,7 +65,7 @@ function ShowAlarmModal(props: Props) {
           </StTextField>
           <StTextField full>
             <label>알림 발송 시간</label>
-            <p>{dayjs(data.sendAt).format('HH:mm')}</p>
+            <p>{data.intendTime}</p>
           </StTextField>
         </div>
 
