@@ -344,6 +344,7 @@ function CreateAlarmModal(props: Props) {
                     <DatePicker
                       selected={selectedDate}
                       onChange={handleChangeDate}
+                      minDate={new Date()}
                       open={datePickerOpen}
                       onSelect={handleDatePickerToggle}
                       customInput={<></>}
