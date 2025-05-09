@@ -15,8 +15,6 @@ import LabeledComponent from './LabeledComponent';
 import {
   AttachOptionButtonList,
   AttachWrapper,
-  AvailableCheckLink,
-  AvailableCheckText,
   datePickerWrapperCSS,
   deepLinkSelectCSS,
   deepLinkTriggerCSS,
