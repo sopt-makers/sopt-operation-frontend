@@ -381,10 +381,6 @@ function CreateAlarmModal(props: Props) {
         )}
         <AttachWrapper>
           <LabeledComponent labelText="링크 첨부">
-            <AvailableCheckLink>
-              <StyledIconArrowUpRight />
-              <AvailableCheckText>첨부 가능한 링크 확인하기</AvailableCheckText>
-            </AvailableCheckLink>
             <AttachOptionButtonList>
               <Chip
                 onClick={() => handleClickAttachOptionButton('웹 링크')}

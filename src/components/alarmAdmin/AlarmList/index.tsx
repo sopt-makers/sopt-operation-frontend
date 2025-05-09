@@ -24,7 +24,6 @@ interface Props {
 
 function AlarmList(props: Props) {
   const { alarmList, totalCount, tab, refetch, onChangeTab } = props;
-
   const [activeDropdownId, setActiveDropdownId] = useState<number | null>(null);
   const [showAlarmDetail, setShowAlarmDetail] = useState<number | null>(null);
 
@@ -59,6 +58,12 @@ function AlarmList(props: Props) {
         console.error(e);
       }
     }
+  };
+
+  const getLabel = (alarm: Alarm) => {
+    if (alarm.sendType === '즉시 발송') return '즉시 발송';
+    if (alarm.sendAt) return '발송 완료';
+    return '예약 시간';
   };
 
   return (
@@ -103,10 +108,10 @@ function AlarmList(props: Props) {
               </div>
 
               <p className="alarm-sent-at">
-                {alarm.sendType + ' : '}
+                {getLabel(alarm) + ' : '}
                 {alarm.sendAt
                   ? dayjs(alarm.sendAt).format('YYYY/MM/DD HH:mm')
-                  : ''}
+                  : dayjs(alarm.indendAt).format('YYYY/MM/DD HH:mm')}
               </p>
             </div>
 

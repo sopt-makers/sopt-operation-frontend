@@ -236,6 +236,7 @@ declare global {
     title: string;
     content: string;
     sendAt: string;
+    indendAt: string;
     status: ALARM_STATUS;
   }
   interface AlarmDetail {
@@ -247,6 +248,7 @@ declare global {
     linkType: LINK_TYPE | null;
     createdAt: string;
     sendAt: string | null;
+    intendTime: string | null;
   }
 
   interface Banner {
