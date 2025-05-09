@@ -52,8 +52,12 @@ function AlarmList(props: Props) {
     e.stopPropagation();
     const response = window.confirm('알림을 삭제하시겠습니까?');
     if (response) {
-      const result = await deleteAlarm(alarmId);
-      result && refetch();
+      try {
+        await deleteAlarm(alarmId);
+        refetch();
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
@@ -76,8 +80,8 @@ function AlarmList(props: Props) {
       <ListWrapper>
         {alarmList.map((alarm) => (
           <StListItem
-            key={alarm.alarmId}
-            onClick={() => handleShowAlarmDetail(alarm.alarmId)}>
+            key={alarm.id}
+            onClick={() => handleShowAlarmDetail(alarm.id)}>
             <p
               className={
                 alarm.status === 'SCHEDULED'
@@ -108,21 +112,14 @@ function AlarmList(props: Props) {
 
             <p className="alarm-content">{alarm.content}</p>
             <div>
-              <StActionButton
-                onClick={(e) =>
-                  alarm.status === 'SCHEDULED' &&
-                  toggleDropdown(e, alarm.alarmId)
-                }>
+              <StActionButton onClick={(e) => toggleDropdown(e, alarm.id)}>
                 <IcMore />
               </StActionButton>
 
-              {activeDropdownId === alarm.alarmId && (
+              {activeDropdownId === alarm.id && (
                 <div
                   className="delete_dropdown"
-                  onClick={(e) =>
-                    alarm.status === 'SCHEDULED' &&
-                    handleDeleteAlarm(e, alarm.alarmId)
-                  }>
+                  onClick={(e) => handleDeleteAlarm(e, alarm.id)}>
                   <p>삭제하기</p>
                 </div>
               )}

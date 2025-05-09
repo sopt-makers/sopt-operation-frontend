@@ -228,7 +228,7 @@ declare global {
     postTime: string;
   }
   interface Alarm {
-    alarmId: number;
+    id: number;
     sendType: '즉시 발송' | '예약 발송';
     targetType: TARGET_TYPE;
     targetPart?: PART;
