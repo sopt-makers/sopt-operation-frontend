@@ -236,7 +236,7 @@ declare global {
     title: string;
     content: string;
     sendAt: string;
-    indendAt: string;
+    intendAt: string;
     status: ALARM_STATUS;
   }
   interface AlarmDetail {

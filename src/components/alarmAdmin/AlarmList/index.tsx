@@ -109,9 +109,7 @@ function AlarmList(props: Props) {
 
               <p className="alarm-sent-at">
                 {getLabel(alarm) + ' : '}
-                {alarm.sendAt
-                  ? dayjs(alarm.sendAt).format('YYYY/MM/DD HH:mm')
-                  : dayjs(alarm.indendAt).format('YYYY/MM/DD HH:mm')}
+                {dayjs(alarm.intendAt).format('YYYY/MM/DD HH:mm')}
               </p>
             </div>
 
