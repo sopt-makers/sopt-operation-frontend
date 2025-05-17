@@ -2,7 +2,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { IconLink, IconXClose } from '@sopt-makers/icons';
 import { Button, Chip, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 
 import ModalFooter from '@/components/common/modal/ModalFooter';
@@ -15,8 +15,6 @@ import LabeledComponent from './LabeledComponent';
 import {
   AttachOptionButtonList,
   AttachWrapper,
-  AvailableCheckLink,
-  AvailableCheckText,
   datePickerWrapperCSS,
   deepLinkSelectCSS,
   deepLinkTriggerCSS,
@@ -63,13 +61,14 @@ function CreateAlarmModal(props: Props) {
   const [selectedPart, setSelectedPart] = useState<SendPartType>(''); // 발송 파트
   const [alarmTitle, setAlarmTitle] = useState<string>(''); // 알림 제목
   const [alarmDetail, setAlarmDetail] = useState<string>(''); // 알림 내용
-  const [attachOption, setAttachOption] =
-    useState<AttachOptionType>('첨부 안함'); // 첨부 옵션
+  const [attachOption, setAttachOption] = useState<AttachOptionType>('웹 링크'); // 첨부 옵션
   const [webLink, setWebLink] = useState<string>(''); // 웹 링크
   const [deepLink, setDeepLink] = useState<string>(''); // 딥링크
   const [selectedDate, setSelectedDate] = useState<Date | null>(null); // 예약 날짜(Date 객체)
   const [selectedTime, setSelectedTime] = useState<string>(''); // 예약 시간(HH:MM 포맷 string)
   const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false); // 달력 오픈 여부 관리하는 state
+
+  const throttleRef = useRef(false);
 
   const [targetList, setTargetList] = useState<Array<string>>([]);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null); // CSV 파일을 관리하는 state
@@ -129,10 +128,6 @@ function CreateAlarmModal(props: Props) {
     // 예약 발송인데 예약 시간 안 고르면 비활성화
     if (sendType === 'RESERVE' && selectedTime === '') return true;
 
-    // 예약 시간이 금지 시간대면 비활성화
-    if (sendType === 'RESERVE' && bannedTimeList.includes(selectedTime))
-      return true;
-
     if (selectedTarget === 'CSV 첨부' && targetList.length === 0) return true;
 
     return false;
@@ -190,28 +185,33 @@ function CreateAlarmModal(props: Props) {
       content: alarmDetail,
       targetList: targetList,
       linkType: linkTypeMap[attachOption],
-      link:
-        attachOption === '첨부 안함'
-          ? null
-          : attachOption === '웹 링크'
-            ? webLink
-            : deepLink,
+      link: attachOption === '웹 링크' ? webLink : deepLink,
     };
 
-    switch (sendType) {
-      case 'NOW':
-        await sendAlarm(commonPayload);
-        break;
+    if (throttleRef.current) return;
 
-      case 'RESERVE':
-        const reservePayload: ReserveAlarmData = {
-          ...commonPayload,
-          postDate: formatDate(selectedDate),
-          postTime: selectedTime,
-        };
+    throttleRef.current = true;
 
-        await createReserveAlarm(reservePayload);
-        break;
+    try {
+      switch (sendType) {
+        case 'NOW':
+          await sendAlarm(commonPayload);
+          break;
+
+        case 'RESERVE':
+          const reservePayload: ReserveAlarmData = {
+            ...commonPayload,
+            postDate: formatDate(selectedDate),
+            postTime: selectedTime,
+          };
+
+          await createReserveAlarm(reservePayload);
+          break;
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      throttleRef.current = false;
     }
 
     onClose();
@@ -342,6 +342,7 @@ function CreateAlarmModal(props: Props) {
                     <DatePicker
                       selected={selectedDate}
                       onChange={handleChangeDate}
+                      minDate={new Date()}
                       open={datePickerOpen}
                       onSelect={handleDatePickerToggle}
                       customInput={<></>}
@@ -351,8 +352,8 @@ function CreateAlarmModal(props: Props) {
               </div>
             </LabeledComponent>
             <LabeledComponent
-              labelText="알림 발송 시간"
-              desc="알림 발송 금지 시간: 00:00~07:30 / 21:30~23:30">
+              labelText="알림 유의 시간"
+              desc="알림 유의 시간: 00:00~07:30 / 21:30~23:30">
               <SelectV2.Root
                 css={reserveTimeSelectCSS(
                   bannedTimeList.includes(selectedTime),
@@ -379,16 +380,7 @@ function CreateAlarmModal(props: Props) {
         )}
         <AttachWrapper>
           <LabeledComponent labelText="링크 첨부">
-            <AvailableCheckLink>
-              <StyledIconArrowUpRight />
-              <AvailableCheckText>첨부 가능한 링크 확인하기</AvailableCheckText>
-            </AvailableCheckLink>
             <AttachOptionButtonList>
-              <Chip
-                onClick={() => handleClickAttachOptionButton('첨부 안함')}
-                active={attachOption === '첨부 안함'}>
-                {'첨부 안함'}
-              </Chip>
               <Chip
                 onClick={() => handleClickAttachOptionButton('웹 링크')}
                 active={attachOption === '웹 링크'}>

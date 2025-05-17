@@ -1,7 +1,7 @@
 export type SendTargetType = '전체' | '활동 회원' | 'CSV 첨부';
 export type requestTargetType = 'ALL' | 'ACTIVE' | 'CSV';
 
-export type AttachOptionType = '첨부 안함' | '웹 링크' | '앱 내 딥링크';
+export type AttachOptionType = '웹 링크' | '앱 내 딥링크';
 export type requestLinkType = 'WEB' | 'APP' | null;
 
 export interface ISendTargetOptions {
