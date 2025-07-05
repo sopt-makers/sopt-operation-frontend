@@ -47,7 +47,7 @@ export const getMoImageBaseSize = (
 ) => {
   switch (location) {
     case 'pg_community':
-      return [1340, 627];
+      return [1340, 672];
     case 'cr_main':
       return [760, 190];
     case 'cr_feed':
