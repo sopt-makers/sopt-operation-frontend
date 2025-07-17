@@ -6,6 +6,7 @@ import { MENU_LIST } from '@/utils/nav';
 
 import GenerationDropDown from './GenerationDropDown';
 import { StMenu, StNavWrapper, StSoptLogo, StSubMenu } from './style';
+import { IcArrowUpRight } from '@/assets/icons';
 
 function Nav() {
   const router = useRouter();
@@ -39,6 +40,7 @@ function Nav() {
             <p>
               <menu.MenuIcon />
               <span>{menu.title}</span>
+              {menu.title === '지원서 관리' && <IcArrowUpRight />}
             </p>
           </StMenu>
           {menu.subMenu &&

@@ -2,6 +2,7 @@ import {
   IcAlarmMenu,
   IcAttendanceMenu,
   IcBannerMenu,
+  IcApplicationMenu,
   IcOrgMenu,
 } from '@/assets/icons';
 
@@ -47,5 +48,10 @@ export const MENU_LIST = [
     title: '배너 관리',
     MenuIcon: IcBannerMenu,
     path: ['/bannerAdmin'],
+  },
+  {
+    title: '지원서 관리',
+    MenuIcon: IcApplicationMenu,
+    path: ['/applicationAdmin'],
   },
 ];
