@@ -18,7 +18,7 @@ export const locationList = {
   모임피드: 'cr_feed',
 } as const;
 
-const MAX_IMAGE_CAPACITY = 0.5;
+const MAX_IMAGE_CAPACITY = 5;
 
 const ERROR_MESSAGE = {
   REQUIRED_VALUE: '필수 입력값입니다.',
@@ -122,7 +122,7 @@ export const bannerSchema = z.object({
         });
       }
 
-      if (file.file.size / 1024 / 1024 > 0.5) {
+      if (file.file.size / 1024 / 1024 > MAX_IMAGE_CAPACITY) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: ERROR_MESSAGE.IMAGE_MAX_CAPACITY,
