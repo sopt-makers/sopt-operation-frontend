@@ -38,8 +38,8 @@ export const MENU_LIST = [
   {
     title: '공홈 관리',
     MenuIcon: IcOrgMenu,
-    subMenu: ['공식홈페이지', '지원서'],
-    path: ['/org/org-admin', '/org/recruit-admin'],
+    subMenu: ['공식홈페이지'],
+    path: ['/org/org-admin'],
   },
   {
     title: '알림 관리',
