@@ -20,7 +20,11 @@ function Nav() {
       : MENU_LIST;
 
   const handleSubMenuClick = (path: string) => {
-    router.push(path);
+    if (path.startsWith('/')) {
+      router.push(path);
+    } else {
+      window.open(path, '_blank');
+    }
   };
 
   return (

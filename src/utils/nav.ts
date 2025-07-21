@@ -6,6 +6,8 @@ import {
   IcOrgMenu,
 } from '@/assets/icons';
 
+const APPLICATION_URL = 'https://recruiting-fe-react.pages.dev/';
+
 export const GENERATION_INFO = [
   { generation: '36', slogan: 'AT' },
   {
@@ -52,6 +54,6 @@ export const MENU_LIST = [
   {
     title: '지원서 관리',
     MenuIcon: IcApplicationMenu,
-    path: ['/applicationAdmin'],
+    path: [APPLICATION_URL],
   },
 ];
