@@ -12,3 +12,5 @@ export { default as IcPaginationLeft } from './IcPaginationLeft.svg';
 export { default as IcPaginationRight } from './IcPaginationRight.svg';
 export { default as IcTrash } from './IcTrash.svg';
 export { default as IcUpload } from './IcUpload.svg';
+export { default as IcApplicationMenu } from './IcApplicationMenu.svg';
+export { default as IcArrowUpRight } from './IcArrowUpRight.svg';
