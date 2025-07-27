@@ -45,6 +45,7 @@ export const StMenu = styled.div<{ currentPage: boolean | undefined }>`
   font-weight: 600;
   line-height: 150%;
   letter-spacing: -0.024rem;
+  white-space: nowrap;
 
   color: ${colors.gray300};
 

@@ -2,8 +2,11 @@ import {
   IcAlarmMenu,
   IcAttendanceMenu,
   IcBannerMenu,
+  IcApplicationMenu,
   IcOrgMenu,
 } from '@/assets/icons';
+
+const APPLICATION_URL = 'https://recruiting-fe-react.pages.dev/';
 
 export const GENERATION_INFO = [
   { generation: '36', slogan: 'AT' },
@@ -35,8 +38,8 @@ export const MENU_LIST = [
   {
     title: '공홈 관리',
     MenuIcon: IcOrgMenu,
-    subMenu: ['공식홈페이지', '지원서'],
-    path: ['/org/org-admin', '/org/recruit-admin'],
+    subMenu: ['공식홈페이지'],
+    path: ['/org/org-admin'],
   },
   {
     title: '알림 관리',
@@ -47,5 +50,10 @@ export const MENU_LIST = [
     title: '배너 관리',
     MenuIcon: IcBannerMenu,
     path: ['/bannerAdmin'],
+  },
+  {
+    title: '지원서 관리',
+    MenuIcon: IcApplicationMenu,
+    path: [APPLICATION_URL],
   },
 ];
