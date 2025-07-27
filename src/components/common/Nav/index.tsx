@@ -15,7 +15,10 @@ function Nav() {
   const filteredMenuList =
     status === 'MAKERS'
       ? MENU_LIST.filter(
-          (menu) => menu.title === '알림 관리' || menu.title === '배너 관리',
+          (menu) =>
+            menu.title === '알림 관리' ||
+            menu.title === '배너 관리' ||
+            menu.title === '지원서 관리',
         )
       : MENU_LIST;
 
