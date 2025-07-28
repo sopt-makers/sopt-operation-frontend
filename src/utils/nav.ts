@@ -6,7 +6,7 @@ import {
   IcOrgMenu,
 } from '@/assets/icons';
 
-const APPLICATION_URL = 'https://recruiting-fe-react.pages.dev/';
+const APPLICATION_URL = 'https://recruiting-admin.sopt.org/';
 
 export const GENERATION_INFO = [
   { generation: '36', slogan: 'AT' },
