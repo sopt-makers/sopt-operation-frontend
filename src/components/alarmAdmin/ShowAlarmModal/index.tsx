@@ -36,7 +36,9 @@ function ShowAlarmModal(props: Props) {
         <div>
           <StTextField>
             <label>발송 대상</label>
-            <p>{targetTypeTranslator[data.targetType]}</p>
+            {/* NOTE(@10tacio) 발송 대상 타입 매핑이 필요하다면 아래 기존 코드 활용*/}
+            {/* <p>{targetTypeTranslator[data.targetType]}</p> */}
+            <p>{data.targetType}</p>
           </StTextField>
           <StTextField>
             <label>발송 파트</label>
