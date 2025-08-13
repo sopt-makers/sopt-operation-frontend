@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 import { Fragment, useContext } from 'react';
 
+import { IcArrowUpRight } from '@/assets/icons';
 import { adminStatusContext } from '@/components/devTools/AdminContextProvider';
 import { MENU_LIST } from '@/utils/nav';
 
 import GenerationDropDown from './GenerationDropDown';
 import { StMenu, StNavWrapper, StSoptLogo, StSubMenu } from './style';
-import { IcArrowUpRight } from '@/assets/icons';
 
 function Nav() {
   const router = useRouter();
@@ -43,7 +43,13 @@ function Nav() {
               menu.path &&
               menu.path.some((path) => router.pathname.includes(path))
             }
-            onClick={() => menu.path && handleSubMenuClick(menu.path[0])}>
+            onClick={() =>
+              menu.path &&
+              handleSubMenuClick(
+                menu.title === '지원서 관리' && status !== 'MAKERS'
+                  ? menu.path[1]
+                  : menu.path[0],
+              )}>
             <p>
               <menu.MenuIcon />
               <span>{menu.title}</span>
