@@ -1,8 +1,8 @@
 import {
   IcAlarmMenu,
+  IcApplicationMenu,
   IcAttendanceMenu,
   IcBannerMenu,
-  IcApplicationMenu,
   IcOrgMenu,
 } from '@/assets/icons';
 

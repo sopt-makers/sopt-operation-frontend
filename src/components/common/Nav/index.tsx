@@ -49,7 +49,8 @@ function Nav() {
                 menu.title === '지원서 관리' && status !== 'MAKERS'
                   ? menu.path[1]
                   : menu.path[0],
-              )}>
+              )
+            }>
             <p>
               <menu.MenuIcon />
               <span>{menu.title}</span>
