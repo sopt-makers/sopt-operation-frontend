@@ -1,13 +1,14 @@
 import {
   IcAlarmMenu,
+  IcApplicationMenu,
   IcAttendanceMenu,
   IcBannerMenu,
-  IcApplicationMenu,
   IcOrgMenu,
 } from '@/assets/icons';
 
 // const DEV_APPLICATION_URL = 'https://recruiting-fe-react.pages.dev/';
-const PROD_APPLICATION_URL = 'https://recruiting-admin.sopt.org/';
+const MAKERS_APPLICATION_URL = 'https://recruiting-admin.sopt.org/';
+const SOPT_APPLICATION_URL = 'https://recruit-admin.sopt.org/';
 
 export const GENERATION_INFO = [
   { generation: '36', slogan: 'AT' },
@@ -55,6 +56,6 @@ export const MENU_LIST = [
   {
     title: '지원서 관리',
     MenuIcon: IcApplicationMenu,
-    path: [PROD_APPLICATION_URL],
+    path: [MAKERS_APPLICATION_URL, SOPT_APPLICATION_URL],
   },
 ];
