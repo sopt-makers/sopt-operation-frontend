@@ -6,11 +6,11 @@ import {
   IcOrgMenu,
 } from '@/assets/icons';
 
-// const DEV_APPLICATION_URL = 'https://recruiting-fe-react.pages.dev/';
 const MAKERS_APPLICATION_URL = 'https://recruiting-admin.sopt.org/';
 const SOPT_APPLICATION_URL = 'https://recruit-admin.sopt.org/';
 
 export const GENERATION_INFO = [
+  { generation: '37', slogan: 'DIVE' },
   { generation: '36', slogan: 'AT' },
   {
     generation: '35',
