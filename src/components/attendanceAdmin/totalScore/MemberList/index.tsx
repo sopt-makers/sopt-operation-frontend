@@ -28,6 +28,7 @@ function MemberList() {
     fetchNextPage,
     isFetchingNextPage,
     status,
+    hasNextPage,
   } = useGetInfiniteMemberList(parseInt(currentGeneration), selectedPart);
 
   const members = membersData?.pages.map((item) => item.members) ?? [];
@@ -36,6 +37,8 @@ function MemberList() {
   useObserver({
     target: bottomRef,
     fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   });
 
   const onChangePart = (part: PART) => {
