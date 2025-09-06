@@ -49,8 +49,6 @@ function MemberDetail(props: Props) {
           <p className="member-name">{member.name}</p>
           <p className="member-score">{member.score}점</p>
           <p className="chip">{member.part}</p>
-          <p className="chip">{member.university}</p>
-          <p className="chip">{member.phone}</p>
         </header>
         <div className="score-list">
           <ListWrapper>
