@@ -66,6 +66,7 @@ function SessionDetailPage() {
     fetchNextPage,
     isFetchingNextPage,
     status,
+    hasNextPage,
     refetch: refetchMembers,
   } = useGetInfiniteSessionMembers(id, selectedPart);
 
@@ -75,6 +76,8 @@ function SessionDetailPage() {
   useObserver({
     target: bottomRef,
     fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   });
 
   const onChangePart = (part: PART) => {

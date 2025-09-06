@@ -28,6 +28,7 @@ function MemberList() {
     fetchNextPage,
     isFetchingNextPage,
     status,
+    hasNextPage,
   } = useGetInfiniteMemberList(parseInt(currentGeneration), selectedPart);
 
   const members = membersData?.pages.map((item) => item.members) ?? [];
@@ -36,6 +37,8 @@ function MemberList() {
   useObserver({
     target: bottomRef,
     fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   });
 
   const onChangePart = (part: PART) => {
@@ -62,13 +65,13 @@ function MemberList() {
           (pageMembers, pageIndex) =>
             pageMembers &&
             pageMembers.map((member, index) => {
-              const { part, name, university, score, total } = member;
+              const { part, name, score, total } = member;
               const { attendance, tardy, absent, participate } = total;
               const partName = getPartValue(partTranslator, part) || part;
 
               return (
                 <StListItem
-                  key={`${name}-${university}`}
+                  key={`${name}-${part}-${score}`}
                   onClick={() => onShowMemberDetail(member)}>
                   <div className="member-info-wrap">
                     <p className="index">
@@ -79,7 +82,6 @@ function MemberList() {
                         <p className="member-name">{name}</p>
                         <Chip text={partName} />
                       </div>
-                      <p className="member-university">{university}</p>
                     </div>
                   </div>
                   <div className="member-score-wrap">

@@ -9,6 +9,8 @@ interface UseObserver {
   root?: HTMLElement;
   rootMargin?: string;
   threshold?: number;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
 }
 
 const useObserver = (props: UseObserver) => {
@@ -18,10 +20,15 @@ const useObserver = (props: UseObserver) => {
     root = null, // 교차할 부모 요소, default: documentElement
     rootMargin = '0px', // root와 target이 감지하는 여백의 거리
     threshold = 1.0, // 임계점 - 1.0이면 root내에서 target이 100% 보여질 때 callback 실행
+    hasNextPage = true,
+    isFetchingNextPage = false,
   } = props;
 
-  const onIntersect: IntersectionObserverCallback = ([entry]) =>
-    entry.isIntersecting && fetchNextPage();
+  const onIntersect: IntersectionObserverCallback = ([entry]) => {
+    if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
 
   useEffect(() => {
     let observer: IntersectionObserver;
