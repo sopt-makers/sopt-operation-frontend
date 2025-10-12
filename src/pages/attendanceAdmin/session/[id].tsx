@@ -171,12 +171,10 @@ function SessionDetailPage() {
       const firstRoundError = await updateMemberAttendStatus(
         firstSubAttendanceId,
         firstRoundStatus,
-        session.attribute,
       );
       const secondRoundError = await updateMemberAttendStatus(
         secondSubAttendanceId,
         secondRoundStatus,
-        session.attribute,
       );
       const updateScoreError = await updateMemberScore(memberId);
 

@@ -5,10 +5,9 @@ import { client } from '@/services/api/client';
 export const updateMemberAttendStatus = async (
   subAttendanceId: number,
   status: ATTEND_STATUS,
-  attribute: SESSION_TYPE,
 ): Promise<void | ProjectError> => {
   try {
-    await client.patch('/attendances', { subAttendanceId, status, attribute });
+    await client.patch('/attendances', { subAttendanceId, status });
   } catch (e) {
     console.error(e);
   }
