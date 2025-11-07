@@ -64,6 +64,7 @@ function CreateAlarmModal(props: Props) {
   const [attachOption, setAttachOption] = useState<AttachOptionType>('웹 링크'); // 첨부 옵션
   const [webLink, setWebLink] = useState<string>(''); // 웹 링크
   const [deepLink, setDeepLink] = useState<string>(''); // 딥링크
+  const [etcDeepLink, setEtcDeepLink] = useState<string>(''); // 기타 딥링크
   const [selectedDate, setSelectedDate] = useState<Date | null>(null); // 예약 날짜(Date 객체)
   const [selectedTime, setSelectedTime] = useState<string>(''); // 예약 시간(HH:MM 포맷 string)
   const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false); // 달력 오픈 여부 관리하는 state
@@ -103,6 +104,10 @@ function CreateAlarmModal(props: Props) {
 
   const handleChangeDeepLinkSelect = (value: string) => {
     setDeepLink(value);
+  };
+
+  const handleChangeEtcDeepLink = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setEtcDeepLink(e.target.value);
   };
 
   const handleChangeSelectedTime = (value: string) => {
@@ -176,6 +181,19 @@ function CreateAlarmModal(props: Props) {
 
   // 발송 / 예약하기 버튼 눌렀을 때 API 요청 쏘는 함수
   const handleClickCompleteButton = async () => {
+    const link = (() => {
+      switch (attachOption) {
+        case '웹 링크':
+          return webLink;
+        case '앱 내 딥링크':
+          return deepLink;
+        case '기타 딥링크':
+          return etcDeepLink;
+        default:
+          throw new Error('It is invalid attach option');
+      }
+    })();
+
     const commonPayload: AlarmData = {
       createdGeneration: parseInt(ACTIVITY_GENERATION),
       targetType: targetTypeMap[selectedTarget],
@@ -185,7 +203,7 @@ function CreateAlarmModal(props: Props) {
       content: alarmDetail,
       targetList: targetList,
       linkType: linkTypeMap[attachOption],
-      link: attachOption === '웹 링크' ? webLink : deepLink,
+      link,
     };
 
     if (throttleRef.current) return;
@@ -422,6 +440,15 @@ function CreateAlarmModal(props: Props) {
                     ))}
                   </SelectV2.Menu>
                 </SelectV2.Root>
+              )}
+              {attachOption === '기타 딥링크' && (
+                <TextArea
+                  css={textAreaCSS}
+                  fixedHeight={100}
+                  placeholder="이동할 링크를 입력하세요"
+                  onChange={handleChangeEtcDeepLink}
+                  value={etcDeepLink}
+                />
               )}
             </OptionalInputWrapper>
           </LabeledComponent>
