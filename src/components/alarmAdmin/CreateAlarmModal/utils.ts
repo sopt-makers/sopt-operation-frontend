@@ -104,14 +104,6 @@ export const deepLinkOptions = [
     label: '홈-솝마디',
     value: 'home/fortune',
   },
-  {
-    label: '플레이그라운드',
-    value: 'https://playground.sopt.org/',
-  },
-  {
-    label: '크루',
-    value: 'https://playground.sopt.org/group',
-  },
 ];
 
 export const timeOptions = [
