@@ -1,5 +1,7 @@
 import 'react-datepicker/dist/react-datepicker.css';
 
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { IconLink, IconXClose } from '@sopt-makers/icons';
 import { Button, Chip, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
 import { ChangeEvent, useRef, useState } from 'react';
@@ -18,7 +20,6 @@ import {
   datePickerWrapperCSS,
   deepLinkSelectCSS,
   deepLinkTriggerCSS,
-  inputCSS,
   InputWrapper,
   OptionalInputWrapper,
   reserveDateSelectCSS,
@@ -31,7 +32,6 @@ import {
   sendTriggerCSS,
   StAlarmModalWrapper,
   StCsvUploader,
-  StyledIconArrowUpRight,
   textAreaCSS,
 } from './style';
 import { AttachOptionType, SendPartType, SendTargetType } from './type';
@@ -306,8 +306,7 @@ function CreateAlarmModal(props: Props) {
               </StCsvUploader>
             </LabeledComponent>
           )}
-          <TextField
-            css={inputCSS}
+          <ColoredTextField
             value={alarmTitle}
             onChange={handleChangeAlarmTitle}
             labelText="알림 제목"
@@ -391,13 +390,17 @@ function CreateAlarmModal(props: Props) {
                 active={attachOption === '앱 내 딥링크'}>
                 {'앱 내 딥 링크'}
               </Chip>
+              <Chip
+                onClick={() => handleClickAttachOptionButton('기타 딥링크')}
+                active={attachOption === '기타 딥링크'}>
+                {'기타 딥링크'}
+              </Chip>
             </AttachOptionButtonList>
             <OptionalInputWrapper attachOption={attachOption}>
               {attachOption === '웹 링크' && (
-                <TextField
+                <ColoredTextFieldWithoutLabel
                   value={webLink}
                   onChange={handleChangeWebLink}
-                  css={inputCSS}
                   placeholder="이동할 링크를 입력하세요."
                 />
               )}
@@ -445,3 +448,20 @@ function CreateAlarmModal(props: Props) {
 }
 
 export default CreateAlarmModal;
+
+const ColoredTextField = styled(TextField)`
+  & div:nth-of-type(2) {
+    background-color: ${colors.gray700};
+    width: 100%;
+  }
+`;
+
+const ColoredTextFieldWithoutLabel = styled(TextField)`
+  & div:nth-of-type(1) {
+    background-color: ${colors.gray700};
+    width: 100%;
+  }
+  & input {
+    margin: 0 -3px;
+  }
+`;

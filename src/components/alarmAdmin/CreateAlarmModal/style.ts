@@ -6,6 +6,8 @@ import { IconArrowUpRight } from '@sopt-makers/icons';
 
 export const StAlarmModalWrapper = styled.section`
   width: 64rem;
+  max-height: 100vh;
+  overflow-y: auto;
 
   & > main {
     padding: 2.6rem 3rem;
@@ -210,13 +212,6 @@ export const OptionalInputWrapper = styled.div<{ attachOption: string }>`
 export const triggerCSS = css`
   background-color: ${colors.gray700};
   width: 18rem;
-`;
-
-export const inputCSS = css`
-  & input {
-    background-color: ${colors.gray700};
-    width: 100%;
-  }
 `;
 
 export const textAreaCSS = css`
