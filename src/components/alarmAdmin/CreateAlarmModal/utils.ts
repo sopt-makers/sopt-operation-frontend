@@ -26,6 +26,7 @@ export const targetTypeMap: Record<SendTargetType, requestTargetType> = {
 export const linkTypeMap: Record<AttachOptionType, LINK_TYPE> = {
   '웹 링크': 'WEB',
   '앱 내 딥링크': 'APP',
+  '기타 딥링크': 'APP',
 };
 
 export const targetOptions: ISendTargetOptions[] = [
@@ -102,14 +103,6 @@ export const deepLinkOptions = [
   {
     label: '홈-솝마디',
     value: 'home/fortune',
-  },
-  {
-    label: '플레이그라운드',
-    value: 'https://playground.sopt.org/',
-  },
-  {
-    label: '크루',
-    value: 'https://playground.sopt.org/group',
   },
 ];
 
