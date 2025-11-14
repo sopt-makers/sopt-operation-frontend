@@ -18,14 +18,14 @@ export const locationList = {
   모임피드: 'cr_feed',
 } as const;
 
-const MAX_IMAGE_CAPACITY = 5;
+const MAX_IMAGE_CAPACITY = 1;
 
 const ERROR_MESSAGE = {
   REQUIRED_VALUE: '필수 입력값입니다.',
   PUBLISHER_MAX_LENGTH: '30자 이내로 작성해주세요.',
   INVALID_LINK: '유효한 링크를 첨부해주세요.',
   INVALID_IMAGE_SIZE: '이미지 규격이 맞지 않습니다.',
-  IMAGE_MAX_CAPACITY: '용량이 5MB 초과입니다.',
+  IMAGE_MAX_CAPACITY: '용량이 1MB 초과입니다.',
   INVALID_IMAGE_TYPE: '이미지가 png 형식이 아닙니다.',
 };
 
