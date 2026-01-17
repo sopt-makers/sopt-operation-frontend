@@ -5,7 +5,7 @@ export type AttachOptionType = '웹 링크' | '앱 내 딥링크' | '기타 딥�
 export type requestLinkType = 'WEB' | 'APP' | null;
 
 export interface ISendTargetOptions {
-  label: SendTargetType;
+  label: string;
   value: SendTargetType;
 }
 
