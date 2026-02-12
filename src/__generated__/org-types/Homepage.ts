@@ -9,7 +9,11 @@
  * ---------------------------------------------------------------
  */
 
-import { GetAboutPageData, GetData, GetMainPageData } from './data-contracts';
+import {
+  GetAboutPageData,
+  GetMainPageData,
+  GetRecruitPageData,
+} from './data-contracts';
 import { HttpClient, RequestParams } from './http-client';
 
 export class Homepage<
@@ -31,26 +35,26 @@ export class Homepage<
       ...params,
     });
   /**
-   * @description 지원하기 페이지 데이터를 조회합니다
+   * @description Recruiting 페이지 데이터를 조회합니다
    *
    * @tags Homepage
-   * @name Get
-   * @summary 지원하기 페이지 조회
+   * @name GetRecruitPage
+   * @summary Recruiting 페이지 조회
    * @request GET:/homepage/recruit
-   * @response `200` `GetData` OK
+   * @response `200` `GetRecruitPageData` OK
    */
-  get = (params: RequestParams = {}) =>
-    this.request<GetData, any>({
+  getRecruitPage = (params: RequestParams = {}) =>
+    this.request<GetRecruitPageData, any>({
       path: `/homepage/recruit`,
       method: 'GET',
       ...params,
     });
   /**
-   * @description 소개 페이지 데이터를 조회합니다
+   * @description About 페이지 데이터를 조회합니다
    *
    * @tags Homepage
    * @name GetAboutPage
-   * @summary 소개 페이지 조회
+   * @summary About 페이지 조회
    * @request GET:/homepage/about
    * @response `200` `GetAboutPageData` OK
    */
