@@ -4,1830 +4,2405 @@
  */
 
 export interface paths {
-  '/notification/register': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/visitor": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 하루 방문자 수 조회 */
+        get: operations["getTodayVisitor"];
+        put?: never;
+        /** 하루 방문자 수 증가 */
+        post: operations["visitorCountUp"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    post: operations['registerNotification'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/admin': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/soptstory": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 솝트스토리 리스트 조회(정렬) */
+        get: operations["getSoptStoryList"];
+        put?: never;
+        /**
+         * 솝트스토리 생성
+         * @description 솝트스토리를 생성합니다.
+         */
+        post: operations["createSoptStory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * 어드민 메인 데이터 조회
-     * @description 어드민 메인 데이터를 조회합니다
-     */
-    get: operations['getMain'];
-    put?: never;
-    /**
-     * 어드민 메인 데이터 배포
-     * @description 어드민 메인 데이터를 배포합니다
-     */
-    post: operations['addMain'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/admin/news': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/soptstory/{id}/unlike": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 솝트스토리 좋아요 취소하기 */
+        post: operations["unlikeSoptStory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * 최신소식 조회
-     * @description 최신소식을 조회합니다
-     */
-    get: operations['getMainNews'];
-    put?: never;
-    /**
-     * 최신소식 추가
-     * @description 최신소식을 추가합니다
-     */
-    post: operations['addMainNews'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/admin/news/delete': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/soptstory/{id}/like": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 솝트스토리 좋아요 누르기 */
+        post: operations["likeSoptStory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * 최신소식 삭제
-     * @description 최신소식을 삭제합니다
-     */
-    post: operations['deleteMainNews'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/admin/confirm': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/s3/presigned-url": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * S3 Presigned URL 발급
+         * @description 클라이언트가 직접 S3에 파일을 업로드할 수 있는 서명된 URL을 발급합니다.
+         *
+         *     **사용 흐름:**
+         *     1. 이 API 호출 → presignedUrl, fileUrl 수신
+         *     2. presignedUrl로 PUT 요청 (파일 바이너리 전송)
+         *     3. fileUrl을 뉴스/프로젝트 생성 API에 전달
+         *
+         *     **허용 파일 형식:** jpeg, jpg, png, gif, webp
+         *
+         *     **URL 유효 시간:** 10분
+         *
+         *     **기존 API와의 차이점:**
+         *     - 기존: generatePresignedUrl(fileName, path) - 서버가 Content-Type 추측
+         *     - 신규: 클라이언트가 Content-Type 직접 전달 (Lambda 환경 대응)
+         */
+        post: operations["getPresignedUrl"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * 어드민 메인 데이터 배포 확인
-     * @description 어드민 메인 데이터 배포를 확인합니다
-     */
-    post: operations['addMainConfirm'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/semesters': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 활동 후기 목록 조회 */
+        get: operations["getReviews"];
+        put?: never;
+        /**
+         * 활동후기 추가
+         * @description 활동후기를 추가합니다. API 키 인증이 필요합니다.
+         */
+        post: operations["createReview"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get: operations['getSemesters'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/projects': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/notification/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 모집 알림 신청 */
+        post: operations["register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** 프로젝트 정보 전부 가져오기 */
-    get: operations['getProjects'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/projects/{projectId}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/internal/scrap": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 블로그 링크 정보 스크랩하기
+         * @description Playground 에서 솝티클 정보 스크래핑에 필요한 API 입니다.
+         */
+        post: operations["scrapLink"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** 특정 프로젝트 정보 가져오기 */
-    get: operations['getProject'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/notification/list': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/admin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 어드민 메인 데이터 조회
+         * @description 어드민 메인 데이터를 조회합니다
+         */
+        get: operations["getMain"];
+        put?: never;
+        /**
+         * 어드민 메인 데이터 배포
+         * @description 어드민 메인 데이터를 배포합니다
+         */
+        post: operations["addMain"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get: operations['getAllProject'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/homepage': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/admin/news": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 최신소식 추가
+         * @description 최신소식을 추가합니다
+         */
+        post: operations["addMainNews"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * 메인 페이지 조회
-     * @description 메인 페이지 데이터를 조회합니다
-     */
-    get: operations['getMainPage'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/homepage/recruit': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/admin/news/v2": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 최신소식 추가 (Presigned URL)
+         * @description 람다 전용
+         */
+        post: operations["addMainNewsV2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * 지원하기 페이지 조회
-     * @description 지원하기 페이지 데이터를 조회합니다
-     */
-    get: operations['get'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/homepage/about': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/admin/news/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 최신소식 삭제
+         * @description 최신소식을 삭제합니다
+         */
+        post: operations["deleteMainNews"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * 소개 페이지 조회
-     * @description 소개 페이지 데이터를 조회합니다
-     */
-    get: operations['getAboutPage'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/health': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/admin/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 어드민 메인 데이터 배포 확인
+         * @description 어드민 메인 데이터 배포를 확인합니다
+         */
+        post: operations["addMainConfirm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get: operations['healthCheck'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+    "/reviews/random": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 랜덤 활동 후기 파트별로 하나씩 조회 */
+        get: operations["getRandomReviewsByPart"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/reviews/internal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Playground Internal - 유저 활동후기 데이터 조회 */
+        get: operations["getReviewsByAuthor"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 프로젝트 정보 전부 가져오기 */
+        get: operations["getProjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/projects/{projectId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 특정 프로젝트 정보 가져오기 */
+        get: operations["getProject"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/notification/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 모집 알림 목록 조회 */
+        get: operations["getList"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/homepage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 메인 페이지 조회
+         * @description 메인 페이지 데이터를 조회합니다
+         */
+        get: operations["getMainPage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/homepage/recruit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Recruiting 페이지 조회
+         * @description Recruiting 페이지 데이터를 조회합니다
+         */
+        get: operations["getRecruitPage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/homepage/about": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * About 페이지 조회
+         * @description About 페이지 데이터를 조회합니다
+         */
+        get: operations["getAboutPage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["healthCheck"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health/sentryerror": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["testSentryError"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health/sentryerror3": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["testSentryError3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health/sentryerror2": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["testSentryError2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/news/news": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 최신소식 조회
+         * @description 최신소식을 조회합니다
+         */
+        get: operations["getMainNews"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    RegisterNotificationResponseDto: {
-      /**
-       * Format: int32
-       * @description Notification ID
-       */
-      id: number;
-      /**
-       * Format: int32
-       * @description 기수 (Generation)
-       */
-      generation: number;
-      /** @description 이메일 (Email) */
-      email: string;
-      /**
-       * Format: date-time
-       * @description 생성일자 (Creation Date)
-       */
-      createdAt: string;
-    };
-    /** @description 브랜딩 컬러 */
-    AddAdminBrandingColorRequestDto: {
-      /**
-       * @description 메인 컬러
-       * @example #FF0000
-       */
-      main: string;
-      /**
-       * @description 로우 톤 컬러
-       * @example #CC0000
-       */
-      low: string;
-      /**
-       * @description 하이 톤 컬러
-       * @example #FF3333
-       */
-      high: string;
-      /**
-       * @description 포인트 컬러
-       * @example #FF9999
-       */
-      point: string;
-    };
-    /** @description 핵심 가치 */
-    AddAdminCoreValueRequestDto: {
-      /**
-       * @description 핵심 가치
-       * @example 용기
-       */
-      value: string;
-      /**
-       * @description 핵심 가치 설명
-       * @example 새로운 도전을 위해 과감히 용기내는 사람
-       */
-      description: string;
-      /**
-       * @description 핵심 가치 이미지 파일명
-       * @example image.png
-       */
-      imageFileName: string;
-    };
-    /** @description 소개글 정보 */
-    AddAdminIntroductionRequestDto: {
-      /**
-       * @description 내용
-       * @example Android 앱 개발
-       */
-      content: string;
-      /**
-       * @description 우대사항
-       * @example Kotlin 개발 경험
-       */
-      preference: string;
-    };
-    /** @description 메인 버튼 스타일 */
-    AddAdminMainButtonRequestDto: {
-      /**
-       * @description 버튼 텍스트
-       * @example 지원하기
-       */
-      text: string;
-      /**
-       * @description 주요 컬러
-       * @example #FF0000
-       */
-      keyColor: string;
-      /**
-       * @description 보조 컬러
-       * @example #CC0000
-       */
-      subColor: string;
-    };
-    /** @description 멤버 정보 */
-    AddAdminMemberRequestDto: {
-      /**
-       * @description 역할
-       * @example 회장
-       */
-      role: string;
-      /**
-       * @description 이름
-       * @example 홍길동
-       */
-      name: string;
-      /**
-       * @description 소속
-       * @example SOPT
-       */
-      affiliation: string;
-      /**
-       * @description 한줄 소개
-       * @example 안녕하세요!
-       */
-      introduction: string;
-      sns: components['schemas']['AddAdminSnsLinksRequestDto'];
-      /**
-       * @description 프로필 이미지 파일명
-       * @example image.png
-       */
-      profileImageFileName: string;
-    };
-    /** @description 파트별 커리큘럼 */
-    AddAdminPartCurriculumRequestDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /** @description 주차별 커리큘럼 (배열 순서 = 주차 순서) */
-      curriculums: string[];
-    };
-    /** @description 파트 소개 */
-    AddAdminPartIntroductionRequestDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /**
-       * @description 파트 설명
-       * @example Android 앱 개발
-       */
-      description: string;
-    };
-    /** @description 질문과 답변 */
-    AddAdminQuestionRequestDto: {
-      /**
-       * @description 질문
-       * @example 몇명 뽑나요?
-       */
-      question: string;
-      /**
-       * @description 답변
-       * @example 10명 뽑아요.
-       */
-      answer: string;
-    };
-    /** @description 모집 파트 커리큘럼 */
-    AddAdminRecruitPartCurriculumRequestDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      introduction: components['schemas']['AddAdminIntroductionRequestDto'];
-    };
-    /** @description 모집 질문 */
-    AddAdminRecruitQuestionRequestDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /** @description 질문 리스트 */
-      questions: components['schemas']['AddAdminQuestionRequestDto'][];
-    };
-    /** @description 모집 일정 */
-    AddAdminRecruitScheduleRequestDto: {
-      /**
-       * @description 타입
-       * @example OB
-       * @enum {string}
-       */
-      type: 'OB' | 'YB';
-      schedule: components['schemas']['AddAdminScheduleRequestDto'];
-    };
-    /** @description 어드민 배포하기 */
-    AddAdminRequestDto: {
-      /**
-       * Format: int32
-       * @description 기수
-       * @example 34
-       */
-      generation: number;
-      /**
-       * @description 기수명
-       * @example SOPT
-       */
-      name: string;
-      recruitSchedule?: components['schemas']['AddAdminRecruitScheduleRequestDto'][];
-      brandingColor?: components['schemas']['AddAdminBrandingColorRequestDto'];
-      mainButton?: components['schemas']['AddAdminMainButtonRequestDto'];
-      partIntroduction?: components['schemas']['AddAdminPartIntroductionRequestDto'][];
-      /**
-       * @description 헤더 이미지 파일명
-       * @example header.png
-       */
-      headerImageFileName: string;
-      coreValue?: components['schemas']['AddAdminCoreValueRequestDto'][];
-      partCurriculum?: components['schemas']['AddAdminPartCurriculumRequestDto'][];
-      member?: components['schemas']['AddAdminMemberRequestDto'][];
-      /**
-       * @description 지원하기 헤더 이미지 파일명
-       * @example recruit_header.png
-       */
-      recruitHeaderImageFileName: string;
-      recruitPartCurriculum?: components['schemas']['AddAdminRecruitPartCurriculumRequestDto'][];
-      recruitQuestion?: components['schemas']['AddAdminRecruitQuestionRequestDto'][];
-    };
-    /** @description 상세 일정 */
-    AddAdminScheduleRequestDto: {
-      /**
-       * @description 지원 시작 시간
-       * @example 2024-01-01 09:00:00
-       */
-      applicationStartTime: string;
-      /**
-       * @description 지원 종료 시간
-       * @example 2024-01-31 18:00:00
-       */
-      applicationEndTime: string;
-      /**
-       * @description 지원 결과 발표 시간
-       * @example 2024-02-01 12:00:00
-       */
-      applicationResultTime: string;
-      /**
-       * @description 면접 시작 시간
-       * @example 2024-02-05 09:00:00
-       */
-      interviewStartTime: string;
-      /**
-       * @description 면접 종료 시간
-       * @example 2024-02-05 18:00:00
-       */
-      interviewEndTime: string;
-      /**
-       * @description 최종 결과 발표 시간
-       * @example 2024-02-10 12:00:00
-       */
-      finalResultTime: string;
-    };
-    /** @description SNS 링크 정보 */
-    AddAdminSnsLinksRequestDto: {
-      /**
-       * @description 이메일
-       * @example example@sopt.org
-       */
-      email?: string;
-      /**
-       * @description 링크드인 URL
-       * @example https://www.linkedin.com/in/example
-       */
-      linkedin?: string;
-      /**
-       * @description 깃허브 URL
-       * @example https://github.com/example
-       */
-      github?: string;
-      /**
-       * @description 비핸스 URL
-       * @example https://www.behance.net/example
-       */
-      behance?: string;
-    };
-    /** @description 핵심가치 이미지 S3 PresigneUrl 정보 */
-    AddAdminCoreValueResponseRecordDto: {
-      /**
-       * @description 핵심 가치
-       * @example 용기
-       */
-      value: string;
-      /** @description 핵심가치 이미지 PresgiendUrl */
-      image: string;
-    };
-    /** @description 멤버 프로필 이미지 S3 PresigneUrl 정보 */
-    AddAdminMemberResponseRecordDto: {
-      /**
-       * @description 역할
-       * @example 회장
-       */
-      role: string;
-      /**
-       * @description 이름
-       * @example 홍길동
-       */
-      name: string;
-      /** @description 프로필 이미지 PresgiendUrl */
-      profileImage: string;
-    };
-    /** @description 어드민 메인정보 추가 */
-    AddAdminResponseDto: {
-      /**
-       * Format: int32
-       * @description 기수
-       * @example 34
-       */
-      generation: number;
-      /**
-       * @description 헤더 이미지 S3 PresignedUrl
-       * @example https://image.url
-       */
-      headerImage: string;
-      /** @description 핵심가치 이미지 S3 PresigneUrl 정보 */
-      coreValues: components['schemas']['AddAdminCoreValueResponseRecordDto'][];
-      /** @description 멤버 프로필 이미지 S3 PresigneUrl 정보 */
-      members: components['schemas']['AddAdminMemberResponseRecordDto'][];
-      /**
-       * @description 지원하기 헤더 이미지 S3 PresignedUrl
-       * @example https://image.url
-       */
-      recruitHeaderImage: string;
-    };
-    /** @description 최신소식 추가하기 */
-    AddAdminNewsRequestDto: {
-      /** Format: binary */
-      image: string;
-      /**
-       * @description 제목
-       * @example MIND 23
-       */
-      title: string;
-      /**
-       * @description 링크
-       * @example https://disquiet.io/product/mind-23-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%A9%88%EC%B6%94%EC%A7%80-%EC%95%8A%EB%8A%94-it%EC%9D%B8%EB%93%A4
-       */
-      link: string;
-    };
-    /** @description 최신 소식 추가 */
-    AddAdminNewsResponseDto: {
-      /**
-       * @description 성공 메세지
-       * @example success
-       */
-      message: string;
-    };
-    /** @description 최신소식 삭제하기 */
-    DeleteAdminNewsRequestDto: {
-      /**
-       * Format: int32
-       * @description 최신소식 ID
-       */
-      id: number;
-    };
-    /** @description 최신소식 삭제 */
-    DeleteAdminNewsResponseDto: {
-      /**
-       * @description 성공 메세지
-       * @example success
-       */
-      message: string;
-    };
-    /** @description 어드민 배포 확인 */
-    AddAdminConfirmRequestDto: {
-      /**
-       * Format: int32
-       * @description 기수
-       * @example 34
-       */
-      generation: number;
-    };
-    /** @description 어드민 메인정보 파일 업로드 확인 */
-    AddAdminConfirmResponseDto: {
-      /**
-       * @description 성공 메세지
-       * @example success
-       */
-      message: string;
-    };
-    SemestersListResponse: {
-      /**
-       * Format: int32
-       * @description 페이지네이션 조회 조건 페이지 수
-       */
-      page?: number;
-      /**
-       * Format: int32
-       * @description 페이지네이션 조회로 기수 정보 가져올 갯수
-       */
-      limit?: number;
-      /**
-       * Format: int64
-       * @description 조회한 기수 리스트 수
-       */
-      total?: number;
-      /** @description 기수 대표 정보 */
-      semesters?: components['schemas']['SemestersResponse'][] | null;
-    };
-    /** @description 기수 대표 정보 */
-    SemestersResponse: {
-      /**
-       * Format: int32
-       * @description 역대 기수
-       */
-      id?: number;
-      /** @description 기수에 사용했던 컬러 */
-      color?: string | null;
-      /** @description 기수에 사용했던 로고 */
-      logo?: string;
-      /** @description 기수에 사용했던 백그라운드 이미지 */
-      background?: string | null;
-      /** @description 기수에 사용했던 테마명 */
-      name?: string | null;
-      /** @description 기수 활동 기간 */
-      year?: string;
-    } | null;
-    /** @description 프로젝트의 카테고리 */
-    Category: {
-      /** @enum {string} */
-      project:
-        | 'APPJAM'
-        | 'SOPKATHON'
-        | 'SOPTERM'
-        | 'STUDY'
-        | 'JOINTSEMINAR'
-        | 'ETC';
-    };
-    /** @description 프로젝트 링크 */
-    Link: {
-      /**
-       * @description 웹사이트, 구글 플레이스토어, 앱스토어, Github, 발표영상 등 프로젝트에 관련된 링크의 종류
-       * @example website
-       * @enum {string}
-       */
-      title:
-        | 'website'
-        | 'googlePlay'
-        | 'appStore'
-        | 'github'
-        | 'media'
-        | 'instagram';
-      /**
-       * @description 링크의 url 주소
-       * @example https://example.com
-       */
-      url: string;
-    };
-    /** @description 페이지네이션 응답 */
-    PaginateResponseDto: {
-      /**
-       * Format: int32
-       * @description item을 몇개까지 가져올지에 대한 카운트
-       */
-      limit: number;
-      /**
-       * Format: int32
-       * @description 총 data 들의 갯수
-       */
-      totalCount: number;
-      /**
-       * Format: int32
-       * @description 총 페이지 카운트
-       */
-      totalPage: number;
-      /**
-       * Format: int32
-       * @description 현재 페이지
-       */
-      currentPage: number;
-      data?: components['schemas']['ProjectsResponseDto'][];
-      /** @description 다음 페이지가 있는지 여부를 나타냄. */
-      hasNextPage: boolean;
-      /** @description 이전 페이지가 있는지 여부를 나타냄. */
-      hasPrevPage: boolean;
-    };
-    ProjectsResponseDto: {
-      /**
-       * Format: int64
-       * @description 프로젝트의 Id
-       */
-      id: number;
-      /** @description 프로젝트의 이름 */
-      name: string;
-      /**
-       * Format: int32
-       * @description 프로젝트가 진행된 기수
-       */
-      generation: number;
-      category: components['schemas']['Category'];
-      /** @description 서비스 형태 */
-      serviceType: ('WEB' | 'APP')[];
-      /** @description 프로젝트 한줄소개 */
-      summary: string;
-      /** @description 프로젝트 설명 */
-      detail: string;
-      /** @description 프로젝트 로고 이미지 URL */
-      logoImage: string;
-      /** @description 프로젝트 썸네일 이미지 URL */
-      thumbnailImage: string;
-      /** @description 서비스 이용 가능 여부 */
-      isAvailable: boolean;
-      /** @description 창업중인지 여부 */
-      isFounding: boolean;
-      /** @description 프로젝트 링크 */
-      links: components['schemas']['Link'][];
-    };
-    /** @description 프로젝트 팀원 */
-    Member: {
-      /** @description 프로젝트 팀원 이름 */
-      name: string;
-      /**
-       * @description 프로젝트 팀원의 역할
-       * @enum {string}
-       */
-      role:
-        | 'Team Leader'
-        | 'Main PM'
-        | 'PM'
-        | 'Team Improvement'
-        | '디자이너'
-        | 'iOS 개발자'
-        | 'Android 개발자'
-        | '웹 프론트엔드 개발자'
-        | '서버 개발자';
-      /** @description 프로젝트 팀원의 역할 상세설명 */
-      description: string;
-    };
-    ProjectDetailResponseDto: {
-      /**
-       * Format: int64
-       * @description 프로젝트의 Id
-       */
-      id: number;
-      /** @description 프로젝트의 이름 */
-      name: string;
-      /**
-       * Format: int32
-       * @description 프로젝트가 진행된 기수
-       */
-      generation: number;
-      category: components['schemas']['Category'];
-      /** @description 서비스 형태 */
-      serviceType: ('WEB' | 'APP')[];
-      /** @description 프로젝트 한줄소개 */
-      summary: string;
-      /** @description 프로젝트 설명 */
-      detail: string;
-      /** @description 프로젝트 로고 이미지 URL */
-      logoImage: string;
-      /** @description 프로젝트 썸네일 이미지 URL */
-      thumbnailImage: string;
-      /** @description 서비스 이용 가능 여부 */
-      isAvailable: boolean;
-      /** @description 창업중인지 여부 */
-      isFounding: boolean;
-      /** @description 프로젝트 링크 */
-      links: components['schemas']['Link'][];
-      /**
-       * Format: date
-       * @description 프로젝트 시작 날짜
-       */
-      startAt: string;
-      /**
-       * Format: date
-       * @description 프로젝트 종료 날짜. 프로젝트가 진행중 일 경우 값 없음
-       */
-      endAt?: string | null;
-      /** @description 프로젝트 이미지 URL */
-      projectImage?: string | null;
-      /**
-       * Format: date-time
-       * @description 프로젝트를 등록한 시간
-       */
-      uploadedAt: string;
-      /**
-       * Format: date-time
-       * @description 프로젝트를 수정한 시간
-       */
-      updatedAt: string;
-      /** @description 프로젝트 팀원 */
-      members: components['schemas']['Member'][];
-    };
-    GetNotificationListResponseDto: {
-      /**
-       * Format: int32
-       * @description 기수
-       * @example 34
-       */
-      generation: number;
-      /**
-       * @description 모집알림 신청한 이메일 리스트
-       * @example [
-       *       "example@naver.com",
-       *       "example2@naver.com",
-       *       "example3@naver.com"
-       *     ]
-       */
-      emailList: string[];
-    };
-    /** @description 브랜딩 컬러 정보 */
-    GetMainBrandingColorResponseRecordDto: {
-      /**
-       * @description 메인 컬러
-       * @example #FF0000
-       */
-      main: string;
-      /**
-       * @description 로우 톤 컬러
-       * @example #CC0000
-       */
-      low: string;
-      /**
-       * @description 하이 톤 컬러
-       * @example #FF3333
-       */
-      high: string;
-      /**
-       * @description 포인트 컬러
-       * @example #FF9999
-       */
-      point: string;
-    };
-    /** @description 최신소식 */
-    GetMainLatestNewsResponseRecordDto: {
-      /**
-       * Format: int32
-       * @description 최신소식 ID
-       * @example 1
-       */
-      id: number;
-      /**
-       * @description 최신소식 제목
-       * @example Mind 23
-       */
-      title: string;
-      /**
-       * @description 최신소식 이미지 링크
-       * @example https://image.url
-       */
-      image: string;
-      /**
-       * @description 최신소식 링크
-       * @example https://news.url
-       */
-      link: string;
-    };
-    /** @description 메인 버튼 스타일 */
-    GetMainMainButtonResponseRecordDto: {
-      /**
-       * @description 버튼 텍스트
-       * @example 지원하기
-       */
-      text: string;
-      /**
-       * @description 주요 컬러
-       * @example #FF0000
-       */
-      keyColor: string;
-      /**
-       * @description 보조 컬러
-       * @example #CC0000
-       */
-      subColor: string;
-    };
-    /** @description 메인 페이지 데이터 조회하기 */
-    GetMainPageResponseDto: {
-      /**
-       * Format: int32
-       * @description 기수
-       * @example 34
-       */
-      generation: number;
-      /**
-       * @description 기수명
-       * @example SOPT
-       */
-      name: string;
-      brandingColor?: components['schemas']['GetMainBrandingColorResponseRecordDto'];
-      mainButton?: components['schemas']['GetMainMainButtonResponseRecordDto'];
-      partIntroduction?: components['schemas']['GetMainPartIntroductionResponseRecordDto'][];
-      latestNews?: components['schemas']['GetMainLatestNewsResponseRecordDto'][];
-    };
-    /** @description 파트 소개 정보 */
-    GetMainPartIntroductionResponseRecordDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /**
-       * @description 파트 설명
-       * @example Android 앱 개발
-       */
-      description: string;
-    };
-    /** @description 소개글 정보 */
-    GetMainIntroductionResponseRecordDto: {
-      /**
-       * @description 내용
-       * @example Android 앱 개발
-       */
-      content: string;
-      /**
-       * @description 우대사항
-       * @example Kotlin 개발 경험
-       */
-      preference: string;
-    };
-    /** @description 질문과 답변 정보 */
-    GetMainQuestionResponseRecordDto: {
-      /**
-       * @description 질문
-       * @example 몇명 뽑나요?
-       */
-      question: string;
-      /**
-       * @description 답변
-       * @example 10명 뽑아요.
-       */
-      answer: string;
-    };
-    /** @description 모집 파트 커리큘럼 정보 */
-    GetMainRecruitPartCurriculumResponseRecordDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      introduction: components['schemas']['GetMainIntroductionResponseRecordDto'];
-    };
-    /** @description 모집 질문 정보 */
-    GetMainRecruitQuestionResponseRecordDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /** @description 질문 리스트 */
-      questions: components['schemas']['GetMainQuestionResponseRecordDto'][];
-    };
-    /** @description 모집 일정 정보 */
-    GetMainRecruitScheduleResponseRecordDto: {
-      /**
-       * @description 타입
-       * @example OB
-       * @enum {string}
-       */
-      type: 'OB' | 'YB';
-      schedule: components['schemas']['GetMainScheduleResponseRecordDto'];
-    };
-    /** @description 상세 일정 정보 */
-    GetMainScheduleResponseRecordDto: {
-      /**
-       * @description 지원 시작 시간
-       * @example 2024-01-01 09:00:00
-       */
-      applicationStartTime: string;
-      /**
-       * @description 지원 종료 시간
-       * @example 2024-01-31 18:00:00
-       */
-      applicationEndTime: string;
-      /**
-       * @description 지원 결과 발표 시간
-       * @example 2024-02-01 12:00:00
-       */
-      applicationResultTime: string;
-      /**
-       * @description 면접 시작 시간
-       * @example 2024-02-05 09:00:00
-       */
-      interviewStartTime: string;
-      /**
-       * @description 면접 종료 시간
-       * @example 2024-02-05 18:00:00
-       */
-      interviewEndTime: string;
-      /**
-       * @description 최종 결과 발표 시간
-       * @example 2024-02-10 12:00:00
-       */
-      finalResultTime: string;
-    };
-    /** @description 지원하기 페이지 데이터 조회하기 */
-    GetRecruitingPageResponseDto: {
-      /**
-       * Format: int32
-       * @description 기수
-       * @example 34
-       */
-      generation: number;
-      /**
-       * @description 기수명
-       * @example SOPT
-       */
-      name: string;
-      /**
-       * @description 지원하기 헤더 이미지 링크
-       * @example https://recruit_header.png
-       */
-      recruitHeaderImage: string;
-      brandingColor?: components['schemas']['GetMainBrandingColorResponseRecordDto'];
-      recruitSchedule?: components['schemas']['GetMainRecruitScheduleResponseRecordDto'][];
-      recruitPartCurriculum?: components['schemas']['GetMainRecruitPartCurriculumResponseRecordDto'][];
-      recruitQuestion?: components['schemas']['GetMainRecruitQuestionResponseRecordDto'][];
-    };
-    /** @description 소개 페이지 데이터 조회하기 */
-    GetAboutPageResponseDto: {
-      /**
-       * Format: int32
-       * @description 기수
-       * @example 34
-       */
-      generation: number;
-      /**
-       * @description 기수명
-       * @example SOPT
-       */
-      name: string;
-      /**
-       * @description 헤더 이미지 링크
-       * @example https://header.png
-       */
-      headerImage: string;
-      brandingColor?: components['schemas']['GetMainBrandingColorResponseRecordDto'];
-      coreValue?: components['schemas']['GetMainCoreValueResponseRecordDto'][];
-      partCurriculum?: components['schemas']['GetMainPartCurriculumResponseRecordDto'][];
-      member?: components['schemas']['GetMainMemberResponseRecordDto'][];
-    };
-    /** @description 핵심 가치 정보 */
-    GetMainCoreValueResponseRecordDto: {
-      /**
-       * @description 핵심 가치
-       * @example 용기
-       */
-      value: string;
-      /**
-       * @description 핵심 가치 설명
-       * @example 새로운 도전을 위해 과감히 용기내는 사람
-       */
-      description: string;
-      /**
-       * @description 핵심 가치 이미지 링크
-       * @example https://corevalue.png
-       */
-      image: string;
-    };
-    /** @description 멤버 정보 */
-    GetMainMemberResponseRecordDto: {
-      /**
-       * @description 역할
-       * @example 회장
-       */
-      role: string;
-      /**
-       * @description 이름
-       * @example 홍길동
-       */
-      name: string;
-      /**
-       * @description 소속
-       * @example SOPT
-       */
-      affiliation: string;
-      /**
-       * @description 한줄 소개
-       * @example 안녕하세요!
-       */
-      introduction: string;
-      /**
-       * @description 프로필 이미지 링크
-       * @example https://profile.png
-       */
-      profileImage: string;
-      sns: components['schemas']['GetMainSnsLinksResponseRecordDto'];
-    };
-    /** @description 파트별 커리큘럼 정보 */
-    GetMainPartCurriculumResponseRecordDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /** @description 주차별 커리큘럼 */
-      curriculums: string[];
-    };
-    /** @description SNS 링크 정보 */
-    GetMainSnsLinksResponseRecordDto: {
-      /**
-       * @description 이메일
-       * @example example@sopt.org
-       */
-      email?: string;
-      /**
-       * @description 링크드인 URL
-       * @example https://www.linkedin.com/in/example
-       */
-      linkedin?: string;
-      /**
-       * @description 깃허브 URL
-       * @example https://github.com/example
-       */
-      github?: string;
-      /**
-       * @description 비핸스 URL
-       * @example https://www.behance.net/example
-       */
-      behance?: string;
-    };
-    /** @description 브랜딩 컬러 정보 */
-    GetAdminBrandingColorResponseRecordDto: {
-      /**
-       * @description 메인 컬러
-       * @example #FF0000
-       */
-      main: string;
-      /**
-       * @description 로우 톤 컬러
-       * @example #CC0000
-       */
-      low: string;
-      /**
-       * @description 하이 톤 컬러
-       * @example #FF3333
-       */
-      high: string;
-      /**
-       * @description 포인트 컬러
-       * @example #FF9999
-       */
-      point: string;
-    };
-    /** @description 핵심 가치 정보 */
-    GetAdminCoreValueResponseRecordDto: {
-      /**
-       * @description 핵심 가치
-       * @example 용기
-       */
-      value: string;
-      /**
-       * @description 핵심 가치 설명
-       * @example 새로운 도전을 위해 과감히 용기내는 사람
-       */
-      description: string;
-      /**
-       * @description 핵심 가치 이미지 링크
-       * @example https://corevalue.png
-       */
-      image: string;
-    };
-    /** @description 소개글 정보 */
-    GetAdminIntroductionResponseRecordDto: {
-      /**
-       * @description 내용
-       * @example Android 앱 개발
-       */
-      content: string;
-      /**
-       * @description 우대사항
-       * @example Kotlin 개발 경험
-       */
-      preference: string;
-    };
-    /** @description 최신소식 */
-    GetAdminLatestNewsResponseRecordDto: {
-      /**
-       * Format: int32
-       * @description 최신소식 ID
-       * @example 1
-       */
-      id: number;
-      /**
-       * @description 최신소식 제목
-       * @example Mind 23
-       */
-      title: string;
-    };
-    /** @description 메인 버튼 스타일 */
-    GetAdminMainButtonResponseRecordDto: {
-      /**
-       * @description 버튼 텍스트
-       * @example 지원하기
-       */
-      text: string;
-      /**
-       * @description 주요 컬러
-       * @example #FF0000
-       */
-      keyColor: string;
-      /**
-       * @description 보조 컬러
-       * @example #CC0000
-       */
-      subColor: string;
-    };
-    /** @description 멤버 정보 */
-    GetAdminMemberResponseRecordDto: {
-      /**
-       * @description 역할
-       * @example 회장
-       */
-      role: string;
-      /**
-       * @description 이름
-       * @example 홍길동
-       */
-      name: string;
-      /**
-       * @description 소속
-       * @example SOPT
-       */
-      affiliation: string;
-      /**
-       * @description 한줄 소개
-       * @example 안녕하세요!
-       */
-      introduction: string;
-      /**
-       * @description 프로필 이미지 링크
-       * @example https://profile.png
-       */
-      profileImage: string;
-      sns: components['schemas']['GetAdminSnsLinksResponseRecordDto'];
-    };
-    /** @description 파트별 커리큘럼 정보 */
-    GetAdminPartCurriculumResponseRecordDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /** @description 주차별 커리큘럼 */
-      curriculums: string[];
-    };
-    /** @description 파트 소개 정보 */
-    GetAdminPartIntroductionResponseRecordDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /**
-       * @description 파트 설명
-       * @example Android 앱 개발
-       */
-      description: string;
-    };
-    /** @description 질문과 답변 정보 */
-    GetAdminQuestionResponseRecordDto: {
-      /**
-       * @description 질문
-       * @example 몇명 뽑나요?
-       */
-      question: string;
-      /**
-       * @description 답변
-       * @example 10명 뽑아요.
-       */
-      answer: string;
-    };
-    /** @description 모집 파트 커리큘럼 정보 */
-    GetAdminRecruitPartCurriculumResponseRecordDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      introduction: components['schemas']['GetAdminIntroductionResponseRecordDto'];
-    };
-    /** @description 모집 질문 정보 */
-    GetAdminRecruitQuestionResponseRecordDto: {
-      /**
-       * @description 파트명
-       * @example 안드로이드
-       */
-      part: string;
-      /** @description 질문 리스트 */
-      questions: components['schemas']['GetAdminQuestionResponseRecordDto'][];
-    };
-    /** @description 모집 일정 정보 */
-    GetAdminRecruitScheduleResponseRecordDto: {
-      /**
-       * @description 타입
-       * @example OB
-       * @enum {string}
-       */
-      type: 'OB' | 'YB';
-      schedule: components['schemas']['GetAdminScheduleResponseRecordDto'];
-    };
-    /** @description 어드민 데이터 조회하기 */
-    GetAdminResponseDto: {
-      /**
-       * Format: int32
-       * @description 기수
-       * @example 34
-       */
-      generation: number;
-      /**
-       * @description 기수명
-       * @example SOPT
-       */
-      name: string;
-      recruitSchedule?: components['schemas']['GetAdminRecruitScheduleResponseRecordDto'][];
-      brandingColor?: components['schemas']['GetAdminBrandingColorResponseRecordDto'];
-      mainButton?: components['schemas']['GetAdminMainButtonResponseRecordDto'];
-      partIntroduction?: components['schemas']['GetAdminPartIntroductionResponseRecordDto'][];
-      latestNews?: components['schemas']['GetAdminLatestNewsResponseRecordDto'][];
-      /**
-       * @description 헤더 이미지 링크
-       * @example https://header.png
-       */
-      headerImage: string;
-      coreValue?: components['schemas']['GetAdminCoreValueResponseRecordDto'][];
-      partCurriculum?: components['schemas']['GetAdminPartCurriculumResponseRecordDto'][];
-      member?: components['schemas']['GetAdminMemberResponseRecordDto'][];
-      /**
-       * @description 지원하기 헤더 이미지 링크
-       * @example https://recruit_header.png
-       */
-      recruitHeaderImage: string;
-      recruitPartCurriculum?: components['schemas']['GetAdminRecruitPartCurriculumResponseRecordDto'][];
-      recruitQuestion?: components['schemas']['GetAdminRecruitQuestionResponseRecordDto'][];
-    };
-    /** @description 상세 일정 정보 */
-    GetAdminScheduleResponseRecordDto: {
-      /**
-       * @description 지원 시작 시간
-       * @example 2024-01-01 09:00:00
-       */
-      applicationStartTime: string;
-      /**
-       * @description 지원 종료 시간
-       * @example 2024-01-31 18:00:00
-       */
-      applicationEndTime: string;
-      /**
-       * @description 지원 결과 발표 시간
-       * @example 2024-02-01 12:00:00
-       */
-      applicationResultTime: string;
-      /**
-       * @description 면접 시작 시간
-       * @example 2024-02-05 09:00:00
-       */
-      interviewStartTime: string;
-      /**
-       * @description 면접 종료 시간
-       * @example 2024-02-05 18:00:00
-       */
-      interviewEndTime: string;
-      /**
-       * @description 최종 결과 발표 시간
-       * @example 2024-02-10 12:00:00
-       */
-      finalResultTime: string;
-    };
-    /** @description SNS 링크 정보 */
-    GetAdminSnsLinksResponseRecordDto: {
-      /**
-       * @description 이메일
-       * @example example@sopt.org
-       */
-      email?: string;
-      /**
-       * @description 링크드인 URL
-       * @example https://www.linkedin.com/in/example
-       */
-      linkedin?: string;
-      /**
-       * @description 깃허브 URL
-       * @example https://github.com/example
-       */
-      github?: string;
-      /**
-       * @description 비핸스 URL
-       * @example https://www.behance.net/example
-       */
-      behance?: string;
-    };
-    /** @description 최신소식 조회하기 */
-    GetAdminNewsResponseDto: {
-      /**
-       * Format: int32
-       * @description 이미지 ID
-       * @example 1
-       */
-      id: number;
-      /**
-       * @description 이미지 링크
-       * @example https://image.url
-       */
-      image: string;
-      /**
-       * @description 제목
-       * @example MIND 23
-       */
-      title: string;
-      /**
-       * @description 링크
-       * @example https://disquiet.io/product/mind-23-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%A9%88%EC%B6%94%EC%A7%80-%EC%95%8A%EB%8A%94-it%EC%9D%B8%EB%93%A4
-       */
-      link: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    schemas: {
+        VisitorCountUpResponseDto: {
+            /**
+             * @description 성공 여부
+             * @example Success
+             */
+            status?: string;
+        };
+        CreateSoptStoryRequest: {
+            link: string;
+        };
+        CreateSoptStoryResponse: {
+            thumbnailUrl?: string;
+            title?: string;
+            description?: string;
+            soptStoryUrl?: string;
+        };
+        LikeSoptStoryResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            soptStoryId?: number;
+            ip?: string;
+        };
+        /** @description Presigned URL 발급 요청 (Lambda 환경용) */
+        PresignedUrlRequest: {
+            /**
+             * @description 업로드할 파일명
+             * @example banner-image.jpg
+             */
+            fileName: string;
+            /**
+             * @description 파일의 Content-Type (클라이언트에서 전달)
+             * @example image/jpeg
+             */
+            contentType: string;
+            /**
+             * @description 저장할 디렉토리 (선택, 기본값: 빈 문자열)
+             * @example news/
+             */
+            directory?: string;
+        };
+        /** @description Presigned URL 발급 응답 (Lambda 환경용) */
+        PresignedUrlResponse: {
+            /**
+             * @description S3 업로드용 Presigned URL (PUT 요청에 사용, 10분간 유효)
+             * @example https://sopt.org.s3.ap-northeast-2.amazonaws.com/develop/news/uuid-image.jpg?X-Amz-Algorithm=...
+             */
+            presignedUrl?: string;
+            /**
+             * @description 업로드 완료 후 파일 접근 URL
+             * @example https://s3.ap-northeast-2.amazonaws.com/sopt.org/develop/news/uuid-image.jpg
+             */
+            fileUrl?: string;
+            /**
+             * Format: int64
+             * @description Presigned URL 만료 시간 (초)
+             * @example 600
+             */
+            expiresIn?: number;
+            /**
+             * @description 저장된 파일 키 (S3 객체 키)
+             * @example develop/news/550e8400-e29b-41d4-a716-446655440000_image.jpg
+             */
+            fileKey?: string;
+        };
+        /** @description 리뷰 생성 요청 */
+        CreateReviewReq: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 34
+             */
+            generation: number;
+            /**
+             * @description 파트
+             * @example SERVER
+             * @enum {string}
+             */
+            part: "iOS" | "기획" | "디자인" | "서버" | "안드로이드" | "웹" | "공통";
+            /**
+             * @description 메인 카테고리
+             * @example 전체 활동
+             */
+            mainCategory: string;
+            /**
+             * @description 세부 활동 목록 (전체 활동일 때만)
+             * @example [
+             *       "세미나",
+             *       "프로젝트"
+             *     ]
+             */
+            subActivities?: string[];
+            /**
+             * @description 세부 리크루팅 (서류/면접일 때만)
+             * @example 서류
+             */
+            subRecruiting?: string;
+            /**
+             * @description 작성자명
+             * @example 홍길동
+             */
+            author: string;
+            /**
+             * @description 작성자 프로필 이미지 URL
+             * @example https://example.com/profile.jpg
+             */
+            authorProfileImageUrl?: string;
+            /**
+             * @description 리뷰 URL (링크)
+             * @example https://medium.com/@sopt/review-article
+             */
+            link: string;
+        };
+        /** @description 모집 알림 신청 요청 */
+        RegisterNotificationRequest: {
+            /**
+             * @description 이메일
+             * @example example@sopt.org
+             */
+            email: string;
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 35
+             */
+            generation: number;
+        };
+        RegisterNotificationResponse: {
+            /** Format: int64 */
+            id?: number;
+            email?: string;
+            /** Format: int32 */
+            generation?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        /** @description 블로그 링크 정보 스크랩 요청 */
+        ScrapLinkRequestDto: {
+            /** @description 블로그 주소 */
+            link: string;
+        };
+        /** @description 블로그 스크랩 정보 응답 */
+        ScrapLinkResponseDto: {
+            /** @description 블로그 스크랩 썸네일 이미지 */
+            thumbnailUrl: string;
+            /** @description 블로그 스크랩 제목 */
+            title: string;
+            /** @description 블로그 스크랩 설명 */
+            description: string;
+            /** @description 블로그 스크랩 URL */
+            url: string;
+        };
+        /** @description 브랜딩 컬러 */
+        AddAdminBrandingColorRequestDto: {
+            /**
+             * @description 메인 컬러
+             * @example FF0000
+             */
+            main: string;
+            /**
+             * @description 로우 톤 컬러
+             * @example CC0000
+             */
+            low: string;
+            /**
+             * @description 하이 톤 컬러
+             * @example FF3333
+             */
+            high: string;
+            /**
+             * @description 포인트 컬러
+             * @example FF9999
+             */
+            point: string;
+        };
+        /** @description 핵심 가치 */
+        AddAdminCoreValueRequestDto: {
+            /**
+             * @description 핵심 가치
+             * @example 용기
+             */
+            value: string;
+            /**
+             * @description 핵심 가치 설명
+             * @example 새로운 도전을 위해 과감히 용기내는 사람
+             */
+            description: string;
+            /**
+             * @description 핵심 가치 이미지 파일명
+             * @example image.png
+             */
+            imageFileName: string;
+        };
+        /** @description 소개글 정보 */
+        AddAdminIntroductionRequestDto: {
+            /**
+             * @description 내용
+             * @example Android 앱 개발
+             */
+            content: string;
+            /**
+             * @description 우대사항
+             * @example Kotlin 개발 경험
+             */
+            preference: string;
+        };
+        /** @description 메인 버튼 스타일 */
+        AddAdminMainButtonRequestDto: {
+            /**
+             * @description 버튼 텍스트
+             * @example 지원하기
+             */
+            text: string;
+            /**
+             * @description 주요 컬러
+             * @example #FF0000
+             */
+            keyColor: string;
+            /**
+             * @description 보조 컬러
+             * @example #CC0000
+             */
+            subColor: string;
+        };
+        /** @description 멤버 정보 */
+        AddAdminMemberRequestDto: {
+            /**
+             * @description 역할
+             * @example 회장
+             */
+            role: string;
+            /**
+             * @description 이름
+             * @example 홍길동
+             */
+            name: string;
+            /**
+             * @description 소속
+             * @example SOPT
+             */
+            affiliation: string;
+            /**
+             * @description 한줄 소개
+             * @example 안녕하세요!
+             */
+            introduction: string;
+            sns: components["schemas"]["AddAdminSnsLinksRequestDto"];
+            /**
+             * @description 프로필 이미지 파일명
+             * @example image.png
+             */
+            profileImageFileName: string;
+        };
+        /** @description 파트별 커리큘럼 */
+        AddAdminPartCurriculumRequestDto: {
+            /**
+             * @description 파트명
+             * @example 안드로이드
+             */
+            part: string;
+            /** @description 주차별 커리큘럼 (배열 순서 = 주차 순서) */
+            curriculums: string[];
+        };
+        /** @description 파트 소개 */
+        AddAdminPartIntroductionRequestDto: {
+            /**
+             * @description 파트명
+             * @example 안드로이드
+             */
+            part: string;
+            /**
+             * @description 파트 설명
+             * @example Android 앱 개발
+             */
+            description: string;
+        };
+        /** @description 질문과 답변 */
+        AddAdminQuestionRequestDto: {
+            /**
+             * @description 질문
+             * @example 몇명 뽑나요?
+             */
+            question: string;
+            /**
+             * @description 답변
+             * @example 10명 뽑아요.
+             */
+            answer: string;
+        };
+        /** @description 모집 파트 커리큘럼 */
+        AddAdminRecruitPartCurriculumRequestDto: {
+            /**
+             * @description 파트명
+             * @example 안드로이드
+             */
+            part: string;
+            introduction: components["schemas"]["AddAdminIntroductionRequestDto"];
+        };
+        /** @description 모집 질문 */
+        AddAdminRecruitQuestionRequestDto: {
+            /**
+             * @description 파트명
+             * @example 안드로이드
+             */
+            part: string;
+            /** @description 질문 리스트 */
+            questions: components["schemas"]["AddAdminQuestionRequestDto"][];
+        };
+        /** @description 모집 일정 */
+        AddAdminRecruitScheduleRequestDto: {
+            /**
+             * @description 타입
+             * @example OB
+             * @enum {string}
+             */
+            type: "OB" | "YB";
+            schedule: components["schemas"]["AddAdminScheduleRequestDto"];
+        };
+        /** @description 어드민 배포하기 */
+        AddAdminRequestDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 34
+             */
+            generation: number;
+            /**
+             * @description 기수명
+             * @example SOPT
+             */
+            name: string;
+            recruitSchedule?: components["schemas"]["AddAdminRecruitScheduleRequestDto"][];
+            brandingColor?: components["schemas"]["AddAdminBrandingColorRequestDto"];
+            mainButton?: components["schemas"]["AddAdminMainButtonRequestDto"];
+            partIntroduction?: components["schemas"]["AddAdminPartIntroductionRequestDto"][];
+            /**
+             * @description 헤더 이미지 파일명
+             * @example header.png
+             */
+            headerImageFileName: string;
+            coreValue?: components["schemas"]["AddAdminCoreValueRequestDto"][];
+            partCurriculum?: components["schemas"]["AddAdminPartCurriculumRequestDto"][];
+            member?: components["schemas"]["AddAdminMemberRequestDto"][];
+            /**
+             * @description 지원하기 헤더 이미지 파일명
+             * @example recruit_header.png
+             */
+            recruitHeaderImageFileName: string;
+            recruitPartCurriculum?: components["schemas"]["AddAdminRecruitPartCurriculumRequestDto"][];
+            recruitQuestion?: components["schemas"]["AddAdminRecruitQuestionRequestDto"][];
+        };
+        /** @description 상세 일정 */
+        AddAdminScheduleRequestDto: {
+            /**
+             * @description 지원 시작 시간
+             * @example 2024-01-01 09:00:00
+             */
+            applicationStartTime: string;
+            /**
+             * @description 지원 종료 시간
+             * @example 2024-01-31 18:00:00
+             */
+            applicationEndTime: string;
+            /**
+             * @description 지원 결과 발표 시간
+             * @example 2024-02-01 12:00:00
+             */
+            applicationResultTime: string;
+            /**
+             * @description 면접 시작 시간
+             * @example 2024-02-05 09:00:00
+             */
+            interviewStartTime: string;
+            /**
+             * @description 면접 종료 시간
+             * @example 2024-02-05 18:00:00
+             */
+            interviewEndTime: string;
+            /**
+             * @description 최종 결과 발표 시간
+             * @example 2024-02-10 12:00:00
+             */
+            finalResultTime: string;
+        };
+        /** @description SNS 링크 정보 */
+        AddAdminSnsLinksRequestDto: {
+            /**
+             * @description 이메일
+             * @example example@sopt.org
+             */
+            email?: string;
+            /**
+             * @description 링크드인 URL
+             * @example https://www.linkedin.com/in/example
+             */
+            linkedin?: string;
+            /**
+             * @description 깃허브 URL
+             * @example https://github.com/example
+             */
+            github?: string;
+            /**
+             * @description 비핸스 URL
+             * @example https://www.behance.net/example
+             */
+            behance?: string;
+        };
+        /** @description 핵심가치 이미지 S3 PresigneUrl 정보 */
+        AddAdminCoreValueResponseRecordDto: {
+            /**
+             * @description 핵심 가치
+             * @example 용기
+             */
+            value: string;
+            /** @description 핵심가치 이미지 PresgiendUrl */
+            image: string;
+        };
+        /** @description 멤버 프로필 이미지 S3 PresigneUrl 정보 */
+        AddAdminMemberResponseRecordDto: {
+            /**
+             * @description 역할
+             * @example 회장
+             */
+            role: string;
+            /**
+             * @description 이름
+             * @example 홍길동
+             */
+            name: string;
+            /** @description 프로필 이미지 PresgiendUrl */
+            profileImage: string;
+        };
+        /** @description 어드민 메인정보 추가 */
+        AddAdminResponseDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 34
+             */
+            generation: number;
+            /**
+             * @description 헤더 이미지 S3 PresignedUrl
+             * @example https://image.url
+             */
+            headerImage: string;
+            /** @description 핵심가치 이미지 S3 PresigneUrl 정보 */
+            coreValues: components["schemas"]["AddAdminCoreValueResponseRecordDto"][];
+            /** @description 멤버 프로필 이미지 S3 PresigneUrl 정보 */
+            members: components["schemas"]["AddAdminMemberResponseRecordDto"][];
+            /**
+             * @description 지원하기 헤더 이미지 S3 PresignedUrl
+             * @example https://image.url
+             */
+            recruitHeaderImage: string;
+        };
+        /** @description 최신소식 추가하기 */
+        AddAdminNewsRequestDto: {
+            /** Format: binary */
+            image: string;
+            /**
+             * @description 제목
+             * @example MIND 23
+             */
+            title: string;
+            /**
+             * @description 링크
+             * @example https://disquiet.io/product/mind-23-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%A9%88%EC%B6%94%EC%A7%80-%EC%95%8A%EB%8A%94-it%EC%9D%B8%EB%93%A4
+             */
+            link: string;
+        };
+        /** @description 최신 소식 추가 */
+        AddAdminNewsResponseDto: {
+            /**
+             * @description 성공 메세지
+             * @example success
+             */
+            message: string;
+        };
+        /** @description 최신소식 추가하기 (Presigned URL 방식) */
+        AddAdminNewsV2RequestDto: {
+            /**
+             * @description S3에 업로드된 이미지 URL (Presigned URL로 업로드 후 받은 fileUrl)
+             * @example https://s3.ap-northeast-2.amazonaws.com/sopt.org/develop/news/uuid_image.jpg
+             */
+            imageUrl: string;
+            /**
+             * @description 제목
+             * @example SOPT 35기 모집 안내
+             */
+            title: string;
+            /**
+             * @description 링크
+             * @example https://sopt.org/recruit
+             */
+            link: string;
+        };
+        /** @description 최신소식 삭제하기 */
+        DeleteAdminNewsRequestDto: {
+            /**
+             * Format: int32
+             * @description 최신소식 ID
+             */
+            id: number;
+        };
+        /** @description 최신소식 삭제 */
+        DeleteAdminNewsResponseDto: {
+            /**
+             * @description 성공 메세지
+             * @example success
+             */
+            message: string;
+        };
+        /** @description 어드민 배포 확인 */
+        AddAdminConfirmRequestDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 34
+             */
+            generation: number;
+        };
+        /** @description 어드민 메인정보 파일 업로드 확인 */
+        AddAdminConfirmResponseDto: {
+            /**
+             * @description 성공 메세지
+             * @example success
+             */
+            message: string;
+        };
+        GetTodayVisitorResponseDto: {
+            /**
+             * Format: int32
+             * @description 오늘 하루 방문자 수
+             * @example 2024
+             */
+            count?: number;
+        };
+        PaginatedSoptStoryResponse: {
+            content?: components["schemas"]["SoptStoryResponse"][];
+            /** Format: int32 */
+            totalCount?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int32 */
+            currentPage?: number;
+            /** Format: int32 */
+            totalPages?: number;
+            hasNext?: boolean;
+            hasPrevious?: boolean;
+        };
+        SoptStoryResponse: {
+            /** Format: int64 */
+            id?: number;
+            thumbnailUrl?: string;
+            title?: string;
+            description?: string;
+            url?: string;
+            /** Format: date-time */
+            uploadedAt?: string;
+            /** Format: int32 */
+            likeCount?: number;
+            isLikedByUser?: boolean;
+        };
+        /** @description 페이지네이션 응답 */
+        PaginateResponseDto: {
+            /**
+             * Format: int32
+             * @description item을 몇개까지 가져올지에 대한 카운트
+             */
+            limit: number;
+            /**
+             * Format: int32
+             * @description 총 data 들의 갯수
+             */
+            totalCount: number;
+            /**
+             * Format: int32
+             * @description 총 페이지 카운트
+             */
+            totalPage: number;
+            /**
+             * Format: int32
+             * @description 현재 페이지
+             */
+            currentPage: number;
+            data?: components["schemas"]["ReviewRes"][];
+            /** @description 다음 페이지가 있는지 여부를 나타냄. */
+            hasNextPage: boolean;
+            /** @description 이전 페이지가 있는지 여부를 나타냄. */
+            hasPrevPage: boolean;
+        };
+        /** @description 리뷰 응답 */
+        ReviewRes: {
+            /**
+             * Format: int64
+             * @description 리뷰 ID
+             */
+            id?: number;
+            /** @description 제목 */
+            title?: string;
+            /** @description 작성자 */
+            author?: string;
+            /** @description 작성자 프로필 이미지 URL */
+            authorProfileImageUrl?: string;
+            /**
+             * Format: int32
+             * @description 기수
+             */
+            generation?: number;
+            /** @description 설명 */
+            description?: string;
+            /**
+             * @description 파트
+             * @enum {string}
+             */
+            partType?: "iOS" | "기획" | "디자인" | "서버" | "안드로이드" | "웹" | "공통";
+            /** @description 카테고리 */
+            category?: string;
+            /** @description 세부 주제 */
+            subject?: string[];
+            /** @description 썸네일 URL */
+            thumbnailUrl?: string;
+            /** @description 플랫폼 */
+            platform?: string;
+            /** @description 리뷰 URL */
+            url?: string;
+        };
+        /** @description 작성자별 리뷰 목록 응답 */
+        ReviewsByAuthorRes: {
+            /**
+             * Format: int32
+             * @description 리뷰 총 개수
+             */
+            reviewCount?: number;
+            /** @description 리뷰 목록 */
+            reviews?: components["schemas"]["ReviewRes"][];
+        };
+        /** @description 프로젝트의 카테고리 */
+        Category: {
+            /** @enum {string} */
+            project: "APPJAM" | "SOPKATHON" | "SOPTERM" | "STUDY" | "JOINTSEMINAR" | "ETC";
+        };
+        /** @description 프로젝트 링크 */
+        Link: {
+            /**
+             * @description 웹사이트, 구글 플레이스토어, 앱스토어, Github, 발표영상 등 프로젝트에 관련된 링크의 종류
+             * @example website
+             * @enum {string}
+             */
+            title: "website" | "googlePlay" | "appStore" | "github" | "media" | "instagram";
+            /**
+             * @description 링크의 url 주소
+             * @example https://example.com
+             */
+            url: string;
+        };
+        /** @description 프로젝트 팀원 */
+        Member: {
+            /** @description 프로젝트 팀원 이름 */
+            name: string;
+            /**
+             * @description 프로젝트 팀원의 역할
+             * @enum {string}
+             */
+            role: "Team Leader" | "Main PM" | "PM" | "Team Improvement" | "디자이너" | "iOS 개발자" | "Android 개발자" | "웹 프론트엔드 개발자" | "서버 개발자";
+            /** @description 프로젝트 팀원의 역할 상세설명 */
+            description: string;
+        };
+        ProjectDetailResponseDto: {
+            /**
+             * Format: int64
+             * @description 프로젝트의 Id
+             */
+            id: number;
+            /** @description 프로젝트의 이름 */
+            name: string;
+            /**
+             * Format: int32
+             * @description 프로젝트가 진행된 기수
+             */
+            generation: number;
+            category: components["schemas"]["Category"];
+            /** @description 서비스 형태 */
+            serviceType: ("WEB" | "APP")[];
+            /** @description 프로젝트 한줄소개 */
+            summary: string;
+            /** @description 프로젝트 설명 */
+            detail: string;
+            /** @description 프로젝트 로고 이미지 URL */
+            logoImage: string;
+            /** @description 프로젝트 썸네일 이미지 URL */
+            thumbnailImage: string;
+            /** @description 서비스 이용 가능 여부 */
+            isAvailable: boolean;
+            /** @description 창업중인지 여부 */
+            isFounding: boolean;
+            /** @description 프로젝트 링크 */
+            links: components["schemas"]["Link"][];
+            /**
+             * Format: date
+             * @description 프로젝트 시작 날짜
+             */
+            startAt: string;
+            /**
+             * Format: date
+             * @description 프로젝트 종료 날짜. 프로젝트가 진행중 일 경우 값 없음
+             */
+            endAt?: string | null;
+            /** @description 프로젝트 이미지 URL */
+            projectImage?: string | null;
+            /**
+             * Format: date-time
+             * @description 프로젝트를 등록한 시간
+             */
+            uploadedAt: string;
+            /**
+             * Format: date-time
+             * @description 프로젝트를 수정한 시간
+             */
+            updatedAt: string;
+            /** @description 프로젝트 팀원 */
+            members: components["schemas"]["Member"][];
+        };
+        NotificationListResponse: {
+            /** Format: int32 */
+            generation?: number;
+            emailList?: string[];
+        };
+        ActivitiesRecords: {
+            /**
+             * Format: int32
+             * @description 활동 회원 수
+             * @example 154
+             */
+            activitiesMemberCount?: number;
+            /**
+             * Format: int32
+             * @description 프로젝트 수
+             * @example 1
+             */
+            projectCounts?: number;
+            /**
+             * Format: int32
+             * @description 스터디 수
+             * @example 98
+             */
+            studyCounts?: number;
+        };
+        BrandingColor: {
+            main?: string;
+            high?: string;
+            low?: string;
+            point?: string;
+        };
+        LatestNews: {
+            /** Format: int32 */
+            id?: number;
+            title?: string;
+            image?: string;
+            link?: string;
+        };
+        MainButton: {
+            text?: string;
+            keyColor?: string;
+            subColor?: string;
+        };
+        /** @description 메인 페이지 데이터 */
+        MainPageResponse: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 35
+             */
+            generation?: number;
+            /**
+             * @description 기수명
+             * @example 35기
+             */
+            name?: string;
+            brandingColor?: components["schemas"]["BrandingColor"];
+            mainButton?: components["schemas"]["MainButton"];
+            partIntroduction?: components["schemas"]["PartIntroduction"][];
+            latestNews?: components["schemas"]["LatestNews"][];
+            recruitSchedule?: components["schemas"]["RecruitSchedule"][];
+            activitiesRecords?: components["schemas"]["ActivitiesRecords"];
+        };
+        PartIntroduction: {
+            part?: string;
+            description?: string;
+        };
+        RecruitSchedule: {
+            type?: string;
+            schedule?: components["schemas"]["Schedule"];
+        };
+        Schedule: {
+            applicationStartTime?: string;
+            applicationEndTime?: string;
+            applicationResultTime?: string;
+            interviewStartTime?: string;
+            interviewEndTime?: string;
+            finalResultTime?: string;
+        };
+        Introduction: {
+            content?: string;
+            preference?: string;
+        };
+        Question: {
+            question?: string;
+            answer?: string;
+        };
+        /** @description Recruiting 페이지 데이터 */
+        RecruitPageResponse: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 35
+             */
+            generation?: number;
+            /**
+             * @description 기수명
+             * @example 35기
+             */
+            name?: string;
+            /** @description 모집 헤더 이미지 URL */
+            recruitHeaderImage?: string;
+            brandingColor?: components["schemas"]["BrandingColor"];
+            recruitSchedule?: components["schemas"]["RecruitSchedule"][];
+            recruitPartCurriculum?: components["schemas"]["RecruitPartCurriculum"][];
+            recruitQuestion?: components["schemas"]["RecruitQuestion"][];
+        };
+        RecruitPartCurriculum: {
+            part?: string;
+            introduction?: components["schemas"]["Introduction"];
+        };
+        RecruitQuestion: {
+            part?: string;
+            questions?: components["schemas"]["Question"][];
+        };
+        /** @description About 페이지 데이터 */
+        AboutPageResponse: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 35
+             */
+            generation?: number;
+            /**
+             * @description 기수명
+             * @example 35기
+             */
+            name?: string;
+            /** @description 헤더 이미지 URL */
+            headerImage?: string;
+            brandingColor?: components["schemas"]["BrandingColor"];
+            coreValue?: components["schemas"]["CoreValue"][];
+            partCurriculum?: components["schemas"]["PartCurriculum"][];
+            member?: components["schemas"]["Member"][];
+        };
+        CoreValue: {
+            value?: string;
+            description?: string;
+            image?: string;
+        };
+        PartCurriculum: {
+            part?: string;
+            curriculums?: string[];
+        };
+        /** @description 브랜딩 컬러 정보 */
+        GetAdminBrandingColorResponseRecordDto: {
+            /**
+             * @description 메인 컬러
+             * @example #FF0000
+             */
+            main: string;
+            /**
+             * @description 로우 톤 컬러
+             * @example #CC0000
+             */
+            low: string;
+            /**
+             * @description 하이 톤 컬러
+             * @example #FF3333
+             */
+            high: string;
+            /**
+             * @description 포인트 컬러
+             * @example #FF9999
+             */
+            point: string;
+        };
+        /** @description 핵심 가치 정보 */
+        GetAdminCoreValueResponseRecordDto: {
+            /**
+             * @description 핵심 가치
+             * @example 용기
+             */
+            value: string;
+            /**
+             * @description 핵심 가치 설명
+             * @example 새로운 도전을 위해 과감히 용기내는 사람
+             */
+            description: string;
+            /**
+             * @description 핵심 가치 이미지 링크
+             * @example https://corevalue.png
+             */
+            image: string;
+        };
+        /** @description 소개글 정보 */
+        GetAdminIntroductionResponseRecordDto: {
+            /**
+             * @description 내용
+             * @example Android 앱 개발
+             */
+            content: string;
+            /**
+             * @description 우대사항
+             * @example Kotlin 개발 경험
+             */
+            preference: string;
+        };
+        /** @description 최신소식 */
+        GetAdminLatestNewsResponseRecordDto: {
+            /**
+             * Format: int32
+             * @description 최신소식 ID
+             * @example 1
+             */
+            id: number;
+            /**
+             * @description 최신소식 제목
+             * @example Mind 23
+             */
+            title: string;
+        };
+        /** @description 메인 버튼 스타일 */
+        GetAdminMainButtonResponseRecordDto: {
+            /**
+             * @description 버튼 텍스트
+             * @example 지원하기
+             */
+            text: string;
+            /**
+             * @description 주요 컬러
+             * @example #FF0000
+             */
+            keyColor: string;
+            /**
+             * @description 보조 컬러
+             * @example #CC0000
+             */
+            subColor: string;
+        };
+        /** @description 멤버 정보 */
+        GetAdminMemberResponseRecordDto: {
+            /**
+             * @description 역할
+             * @example 회장
+             */
+            role: string;
+            /**
+             * @description 이름
+             * @example 홍길동
+             */
+            name: string;
+            /**
+             * @description 소속
+             * @example SOPT
+             */
+            affiliation: string;
+            /**
+             * @description 한줄 소개
+             * @example 안녕하세요!
+             */
+            introduction: string;
+            /**
+             * @description 프로필 이미지 링크
+             * @example https://profile.png
+             */
+            profileImage: string;
+            sns: components["schemas"]["GetAdminSnsLinksResponseRecordDto"];
+        };
+        /** @description 파트별 커리큘럼 정보 */
+        GetAdminPartCurriculumResponseRecordDto: {
+            /**
+             * @description 파트명
+             * @example 안드로이드
+             */
+            part: string;
+            /** @description 주차별 커리큘럼 */
+            curriculums: string[];
+        };
+        /** @description 파트 소개 정보 */
+        GetAdminPartIntroductionResponseRecordDto: {
+            /**
+             * @description 파트명
+             * @example 안드로이드
+             */
+            part: string;
+            /**
+             * @description 파트 설명
+             * @example Android 앱 개발
+             */
+            description: string;
+        };
+        /** @description 질문과 답변 정보 */
+        GetAdminQuestionResponseRecordDto: {
+            /**
+             * @description 질문
+             * @example 몇명 뽑나요?
+             */
+            question: string;
+            /**
+             * @description 답변
+             * @example 10명 뽑아요.
+             */
+            answer: string;
+        };
+        /** @description 모집 파트 커리큘럼 정보 */
+        GetAdminRecruitPartCurriculumResponseRecordDto: {
+            /**
+             * @description 파트명
+             * @example 안드로이드
+             */
+            part: string;
+            introduction: components["schemas"]["GetAdminIntroductionResponseRecordDto"];
+        };
+        /** @description 모집 질문 정보 */
+        GetAdminRecruitQuestionResponseRecordDto: {
+            /**
+             * @description 파트명
+             * @example 안드로이드
+             */
+            part: string;
+            /** @description 질문 리스트 */
+            questions: components["schemas"]["GetAdminQuestionResponseRecordDto"][];
+        };
+        /** @description 모집 일정 정보 */
+        GetAdminRecruitScheduleResponseRecordDto: {
+            /**
+             * @description 타입
+             * @example OB
+             * @enum {string}
+             */
+            type: "OB" | "YB";
+            schedule: components["schemas"]["GetAdminScheduleResponseRecordDto"];
+        };
+        /** @description 어드민 데이터 조회하기 */
+        GetAdminResponseDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 34
+             */
+            generation: number;
+            /**
+             * @description 기수명
+             * @example SOPT
+             */
+            name: string;
+            recruitSchedule?: components["schemas"]["GetAdminRecruitScheduleResponseRecordDto"][];
+            brandingColor?: components["schemas"]["GetAdminBrandingColorResponseRecordDto"];
+            mainButton?: components["schemas"]["GetAdminMainButtonResponseRecordDto"];
+            partIntroduction?: components["schemas"]["GetAdminPartIntroductionResponseRecordDto"][];
+            latestNews?: components["schemas"]["GetAdminLatestNewsResponseRecordDto"][];
+            /**
+             * @description 헤더 이미지 링크
+             * @example https://header.png
+             */
+            headerImage: string;
+            coreValue?: components["schemas"]["GetAdminCoreValueResponseRecordDto"][];
+            partCurriculum?: components["schemas"]["GetAdminPartCurriculumResponseRecordDto"][];
+            member?: components["schemas"]["GetAdminMemberResponseRecordDto"][];
+            /**
+             * @description 지원하기 헤더 이미지 링크
+             * @example https://recruit_header.png
+             */
+            recruitHeaderImage: string;
+            recruitPartCurriculum?: components["schemas"]["GetAdminRecruitPartCurriculumResponseRecordDto"][];
+            recruitQuestion?: components["schemas"]["GetAdminRecruitQuestionResponseRecordDto"][];
+        };
+        /** @description 상세 일정 정보 */
+        GetAdminScheduleResponseRecordDto: {
+            /**
+             * @description 지원 시작 시간
+             * @example 2024-01-01 09:00:00
+             */
+            applicationStartTime: string;
+            /**
+             * @description 지원 종료 시간
+             * @example 2024-01-31 18:00:00
+             */
+            applicationEndTime: string;
+            /**
+             * @description 지원 결과 발표 시간
+             * @example 2024-02-01 12:00:00
+             */
+            applicationResultTime: string;
+            /**
+             * @description 면접 시작 시간
+             * @example 2024-02-05 09:00:00
+             */
+            interviewStartTime: string;
+            /**
+             * @description 면접 종료 시간
+             * @example 2024-02-05 18:00:00
+             */
+            interviewEndTime: string;
+            /**
+             * @description 최종 결과 발표 시간
+             * @example 2024-02-10 12:00:00
+             */
+            finalResultTime: string;
+        };
+        /** @description SNS 링크 정보 */
+        GetAdminSnsLinksResponseRecordDto: {
+            /**
+             * @description 이메일
+             * @example example@sopt.org
+             */
+            email?: string;
+            /**
+             * @description 링크드인 URL
+             * @example https://www.linkedin.com/in/example
+             */
+            linkedin?: string;
+            /**
+             * @description 깃허브 URL
+             * @example https://github.com/example
+             */
+            github?: string;
+            /**
+             * @description 비핸스 URL
+             * @example https://www.behance.net/example
+             */
+            behance?: string;
+        };
+        /** @description 최신소식 조회하기 */
+        GetAdminNewsResponseDto: {
+            /**
+             * Format: int32
+             * @description 이미지 ID
+             * @example 1
+             */
+            id: number;
+            /**
+             * @description 이미지 링크
+             * @example https://image.url
+             */
+            image: string;
+            /**
+             * @description 제목
+             * @example MIND 23
+             */
+            title: string;
+            /**
+             * @description 링크
+             * @example https://disquiet.io/product/mind-23-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%A9%88%EC%B6%94%EC%A7%80-%EC%95%8A%EB%8A%94-it%EC%9D%B8%EB%93%A4
+             */
+            link: string;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  registerNotification: {
-    parameters: {
-      query: {
-        /**
-         * @description 활동 기수
-         * @example 34
-         */
-        generation: string;
-        /**
-         * @description 이메일
-         * @example example@naver.com
-         */
-        email: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getTodayVisitor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': components['schemas']['RegisterNotificationResponseDto'];
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetTodayVisitorResponseDto"];
+                };
+            };
         };
-      };
     };
-  };
-  getMain: {
-    parameters: {
-      query: {
-        /**
-         * @description 기수
-         * @example 35
-         */
-        generation: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    visitorCountUp: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': components['schemas']['GetAdminResponseDto'];
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VisitorCountUpResponseDto"];
+                };
+            };
         };
-      };
     };
-  };
-  addMain: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['AddAdminRequestDto'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getSoptStoryList: {
+        parameters: {
+            query: {
+                sort?: string;
+                pageNo: number;
+                limit: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': components['schemas']['AddAdminResponseDto'];
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaginatedSoptStoryResponse"];
+                };
+            };
         };
-      };
     };
-  };
-  getMainNews: {
-    parameters: {
-      query: {
-        /** @description 최신소식 ID */
-        id: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    createSoptStory: {
+        parameters: {
+            query?: never;
+            header: {
+                "api-key": string;
+            };
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': components['schemas']['GetAdminNewsResponseDto'];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSoptStoryRequest"];
+            };
         };
-      };
-    };
-  };
-  addMainNews: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        'multipart/form-data': components['schemas']['AddAdminNewsRequestDto'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CreateSoptStoryResponse"];
+                };
+            };
         };
-        content: {
-          '*/*': components['schemas']['AddAdminNewsResponseDto'];
+    };
+    unlikeSoptStory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  deleteMainNews: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['DeleteAdminNewsRequestDto'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LikeSoptStoryResponse"];
+                };
+            };
         };
-        content: {
-          '*/*': components['schemas']['DeleteAdminNewsResponseDto'];
+    };
+    likeSoptStory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  addMainConfirm: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['AddAdminConfirmRequestDto'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LikeSoptStoryResponse"];
+                };
+            };
         };
-        content: {
-          '*/*': components['schemas']['AddAdminConfirmResponseDto'];
-        };
-      };
     };
-  };
-  getSemesters: {
-    parameters: {
-      query: {
-        limit: number;
-        page?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getPresignedUrl: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': components['schemas']['SemestersListResponse'];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PresignedUrlRequest"];
+            };
         };
-      };
-    };
-  };
-  getProjects: {
-    parameters: {
-      query?: {
-        /** @description 필터링 키워드 */
-        filter?:
-          | 'APPJAM'
-          | 'SOPKATHON'
-          | 'SOPTERM'
-          | 'STUDY'
-          | 'JOINTSEMINAR'
-          | 'ETC';
-        /** @description 웹/앱 필터링 */
-        platform?: 'WEB' | 'APP';
-        /**
-         * @description 페이지
-         * @example 1
-         */
-        pageNo?: number;
-        /**
-         * @description 페이지별 데이터 개수
-         * @example 10
-         */
-        limit?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Presigned URL 발급 성공 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PresignedUrlResponse"];
+                };
+            };
+            /** @description 잘못된 요청 (허용되지 않는 파일 형식 등) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": 400,
+                     *       "message": "허용되지 않는 파일 형식입니다: application/pdf. 허용된 형식: [image/jpeg, image/png, image/gif, image/webp]"
+                     *     }
+                     */
+                    "application/json": unknown;
+                };
+            };
         };
-        content: {
-          '*/*': components['schemas']['PaginateResponseDto'];
-        };
-      };
     };
-  };
-  getProject: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        projectId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getReviews: {
+        parameters: {
+            query?: {
+                /**
+                 * @description 카테고리
+                 * @example 전체 활동
+                 */
+                category?: string;
+                /**
+                 * @description 활동 (전체 활동일 때만)
+                 * @example 세미나
+                 */
+                activity?: string;
+                /**
+                 * @description 파트
+                 * @example SERVER
+                 */
+                part?: string;
+                /**
+                 * @description 기수
+                 * @example 34
+                 */
+                generation?: string;
+                /**
+                 * @description 페이지 번호 (1부터 시작)
+                 * @example 1
+                 */
+                pageNo?: string;
+                /**
+                 * @description 페이지 크기
+                 * @example 10
+                 */
+                limit?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': components['schemas']['ProjectDetailResponseDto'];
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaginateResponseDto"];
+                };
+            };
         };
-      };
     };
-  };
-  getAllProject: {
-    parameters: {
-      query?: {
-        /** @description 기수 */
-        generation?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    createReview: {
+        parameters: {
+            query?: never;
+            header: {
+                "api-key": string;
+            };
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': components['schemas']['GetNotificationListResponseDto'];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateReviewReq"];
+            };
         };
-      };
-    };
-  };
-  getMainPage: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
         };
-        content: {
-          '*/*': components['schemas']['GetMainPageResponseDto'];
-        };
-      };
     };
-  };
-  get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    register: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': components['schemas']['GetRecruitingPageResponseDto'];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterNotificationRequest"];
+            };
         };
-      };
-    };
-  };
-  getAboutPage: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RegisterNotificationResponse"];
+                };
+            };
         };
-        content: {
-          '*/*': components['schemas']['GetAboutPageResponseDto'];
-        };
-      };
     };
-  };
-  healthCheck: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    scrapLink: {
+        parameters: {
+            query?: never;
+            header: {
+                "api-key": string;
+            };
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          '*/*': string;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScrapLinkRequestDto"];
+            };
         };
-      };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ScrapLinkResponseDto"];
+                };
+            };
+        };
     };
-  };
+    getMain: {
+        parameters: {
+            query: {
+                /**
+                 * @description 기수
+                 * @example 35
+                 */
+                generation: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetAdminResponseDto"];
+                };
+            };
+        };
+    };
+    addMain: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminResponseDto"];
+                };
+            };
+        };
+    };
+    addMainNews: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": components["schemas"]["AddAdminNewsRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminNewsResponseDto"];
+                };
+            };
+        };
+    };
+    addMainNewsV2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminNewsV2RequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminNewsResponseDto"];
+                };
+            };
+        };
+    };
+    deleteMainNews: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteAdminNewsRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DeleteAdminNewsResponseDto"];
+                };
+            };
+        };
+    };
+    addMainConfirm: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminConfirmRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminConfirmResponseDto"];
+                };
+            };
+        };
+    };
+    getRandomReviewsByPart: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ReviewRes"][];
+                };
+            };
+        };
+    };
+    getReviewsByAuthor: {
+        parameters: {
+            query: {
+                /**
+                 * @description 작성자명
+                 * @example 홍길동
+                 */
+                name: string;
+            };
+            header: {
+                "api-key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ReviewsByAuthorRes"];
+                };
+            };
+        };
+    };
+    getProjects: {
+        parameters: {
+            query?: {
+                /** @description 필터링 키워드 */
+                filter?: "APPJAM" | "SOPKATHON" | "SOPTERM" | "STUDY" | "JOINTSEMINAR" | "ETC";
+                /** @description 웹/앱 필터링 */
+                platform?: "WEB" | "APP";
+                /**
+                 * @description 페이지
+                 * @example 1
+                 */
+                pageNo?: number;
+                /**
+                 * @description 페이지별 데이터 개수
+                 * @example 10
+                 */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaginateResponseDto"];
+                };
+            };
+        };
+    };
+    getProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProjectDetailResponseDto"];
+                };
+            };
+        };
+    };
+    getList: {
+        parameters: {
+            query: {
+                generation: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["NotificationListResponse"];
+                };
+            };
+        };
+    };
+    getMainPage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MainPageResponse"];
+                };
+            };
+        };
+    };
+    getRecruitPage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RecruitPageResponse"];
+                };
+            };
+        };
+    };
+    getAboutPage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AboutPageResponse"];
+                };
+            };
+        };
+    };
+    healthCheck: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
+    testSentryError: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    testSentryError3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    testSentryError2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMainNews: {
+        parameters: {
+            query: {
+                /** @description 최신소식 ID */
+                id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetAdminNewsResponseDto"];
+                };
+            };
+        };
+    };
 }
