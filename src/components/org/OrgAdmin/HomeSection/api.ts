@@ -37,7 +37,9 @@ export const getPresignedUrl = async (
   file: File,
 ): Promise<PresignedUrlResponse> => {
   if (!IMAGE_TYPES.includes(file.type as (typeof IMAGE_TYPES)[number])) {
-    throw new Error('지원하지 않는 이미지 형식입니다. (jpeg, jpg, png, gif, webp만 가능)');
+    throw new Error(
+      '지원하지 않는 이미지 형식입니다. (jpeg, jpg, png, gif, webp만 가능)',
+    );
   }
 
   const extension = file.name.split('.').pop();
