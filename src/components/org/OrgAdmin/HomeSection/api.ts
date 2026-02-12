@@ -1,7 +1,9 @@
 import axios from 'axios';
+
 import config from '@/configs/config';
 import { getToken } from '@/utils/auth';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
+
 import { fetcher } from '../api';
 
 interface PresignedUrlResponse {
@@ -58,12 +60,9 @@ export const postNewsV2 = async (data: {
   title: string;
   link: string;
 }) => {
-  const res = await fetcher.POST(
-    '/admin/news/v2',
-    {
-      body: data,
-    }
-  );
+  const res = await fetcher.POST('/admin/news/v2', {
+    body: data,
+  });
 
   return res;
 };
@@ -77,7 +76,6 @@ export const deleteNews = async (id: number) => {
 
   return res;
 };
-
 
 /** 최신소식 추가 (기존 멀티파트 방식 - deprecated) */
 export const postNews = async (formData: FormData) => {
