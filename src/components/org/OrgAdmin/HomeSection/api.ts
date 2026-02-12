@@ -5,7 +5,6 @@ import { getToken } from '@/utils/auth';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 
 import { fetcher } from '../api';
-import { useToast } from '@sopt-makers/ui';
 
 interface PresignedUrlResponse {
   presignedUrl: string;
@@ -37,10 +36,7 @@ const IMAGE_TYPES = [
 export const getPresignedUrl = async (
   file: File,
 ): Promise<PresignedUrlResponse> => {
-  const { open } = useToast();
-
   if (!IMAGE_TYPES.includes(file.type as (typeof IMAGE_TYPES)[number])) {
-    open({ icon: 'error', content: '지원하지 않는 이미지 형식입니다. (jpeg, jpg, png, gif, webp만 가능)' });
     throw new Error('지원하지 않는 이미지 형식입니다. (jpeg, jpg, png, gif, webp만 가능)');
   }
 
