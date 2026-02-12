@@ -4,7 +4,9 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   deleteNews,
   getAdminInfo,
-  postNews,
+  getPresignedUrl,
+  postNewsV2,
+  uploadToS3,
 } from '@/components/org/OrgAdmin/HomeSection/api';
 
 const TOAST_OPTION: Record<'success' | 'error', ToastOptionType> = {
@@ -24,13 +26,25 @@ export const useAddNewsMutation = () => {
   const { open } = useToast();
 
   return useMutation({
-    mutationFn: (formData: FormData) => postNews(formData),
+    mutationFn: async (data: { file: File; title: string; link: string }) => {
+      const presignedData = await getPresignedUrl(data.file);
+      await uploadToS3(presignedData.presignedUrl, data.file);
+
+      return await postNewsV2({
+        imageUrl: presignedData.fileUrl,
+        title: data.title,
+        link: data.link,
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['admin'],
       });
 
       open(TOAST_OPTION.success);
+    },
+    onError: () => {
+      open(TOAST_OPTION.error);
     },
   });
 };
