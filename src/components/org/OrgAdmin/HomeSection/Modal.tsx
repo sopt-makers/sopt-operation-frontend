@@ -35,13 +35,14 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
 
-  const { getValues } = useFormContext();
+  const { getValues, setValue } = useFormContext();
 
   const handleCloseModal = () => {
     closeConfirmModal();
 
     setTitle('');
     setLink('');
+    setValue('newsImage', null);
 
     onCancel?.();
   };
