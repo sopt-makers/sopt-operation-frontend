@@ -29,29 +29,25 @@ export const getPresignedUrl = async (
   const extension = file.name.split('.').pop();
   const fileName = `news-${Date.now()}.${extension}`;
 
-  const { data } = await axios.post<PresignedUrlResponse>(
-    `${config.ORG_API_URL}/v2/s3/presigned-url`,
-    {
+  const { data } = await fetcher.POST('/s3/presigned-url', {
+    body: {
       fileName,
       contentType: file.type,
       directory: 'news/',
     },
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
-        'Content-Type': 'application/json',
-      },
-    },
-  );
+  });
 
-  return data;
+  if (!data) {
+    throw new Error('Failed to get presigned URL');
+  }
+
+  return data as PresignedUrlResponse;
 };
 
 export const uploadToS3 = async (presignedUrl: string, file: File) => {
-  const res = await axios.put(presignedUrl, file, {
-    headers: {
-      'Content-Type': file.type,
-    },
+  const res = await fetch(presignedUrl, {
+    method: 'PUT',
+    body: file,
   });
 
   return res;
@@ -62,19 +58,26 @@ export const postNewsV2 = async (data: {
   title: string;
   link: string;
 }) => {
-  const res = await axios.post(
-    `${config.ORG_API_URL}/v2/admin/news/v2`,
-    data,
+  const res = await fetcher.POST(
+    '/admin/news/v2',
     {
-      headers: {
-        Authorization: getToken('ACCESS'),
-        'Content-Type': 'application/json',
-      },
-    },
+      body: data,
+    }
   );
 
   return res;
 };
+
+export const deleteNews = async (id: number) => {
+  const res = await fetcher.POST('/admin/news/delete', {
+    body: {
+      id,
+    },
+  });
+
+  return res;
+};
+
 
 /** 최신소식 추가 (기존 멀티파트 방식 - deprecated) */
 export const postNews = async (formData: FormData) => {
@@ -85,22 +88,6 @@ export const postNews = async (formData: FormData) => {
       headers: {
         Authorization: getToken('ACCESS'),
         'Content-Type': 'multipart/form-data',
-      },
-    },
-  );
-
-  return res;
-};
-
-export const deleteNews = async (id: number) => {
-  const res = await axios.post(
-    `${config.ORG_API_URL}/v2/admin/news/delete`,
-    {
-      id,
-    },
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
       },
     },
   );
