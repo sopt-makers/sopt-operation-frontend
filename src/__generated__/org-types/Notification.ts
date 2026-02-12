@@ -9,8 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-import { GetAllProjectData, RegisterNotificationData } from './data-contracts';
-import { HttpClient, RequestParams } from './http-client';
+import {
+  GetListData,
+  RegisterData,
+  RegisterNotificationRequest,
+} from './data-contracts';
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Notification<
   SecurityDataType = unknown,
@@ -19,50 +23,36 @@ export class Notification<
    * No description
    *
    * @tags Notification
-   * @name RegisterNotification
+   * @name Register
+   * @summary 모집 알림 신청
    * @request POST:/notification/register
-   * @response `200` `RegisterNotificationData` OK
+   * @response `200` `RegisterData` OK
    */
-  registerNotification = (
-    query: {
-      /**
-       * 활동 기수
-       * @example 34
-       */
-      generation: string;
-      /**
-       * 이메일
-       * @example "example@naver.com"
-       */
-      email: string;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<RegisterNotificationData, any>({
+  register = (data: RegisterNotificationRequest, params: RequestParams = {}) =>
+    this.request<RegisterData, any>({
       path: `/notification/register`,
       method: 'POST',
-      query: query,
+      body: data,
+      type: ContentType.Json,
       ...params,
     });
   /**
    * No description
    *
    * @tags Notification
-   * @name GetAllProject
+   * @name GetList
+   * @summary 모집 알림 목록 조회
    * @request GET:/notification/list
-   * @response `200` `GetAllProjectData` OK
+   * @response `200` `GetListData` OK
    */
-  getAllProject = (
-    query?: {
-      /**
-       * 기수
-       * @format int32
-       */
-      generation?: number;
+  getList = (
+    query: {
+      /** @format int32 */
+      generation: number;
     },
     params: RequestParams = {},
   ) =>
-    this.request<GetAllProjectData, any>({
+    this.request<GetListData, any>({
       path: `/notification/list`,
       method: 'GET',
       query: query,

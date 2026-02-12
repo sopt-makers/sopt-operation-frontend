@@ -88,6 +88,8 @@ const MyDropzone = ({
 
     if (storedData?.previewUrl) {
       setPreviewUrl(storedData.previewUrl);
+    } else {
+      setPreviewUrl(null);
     }
   }, [label, watch]);
 

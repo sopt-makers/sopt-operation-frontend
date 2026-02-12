@@ -12,10 +12,12 @@
 import {
   AddAdminConfirmRequestDto,
   AddAdminNewsRequestDto,
+  AddAdminNewsV2RequestDto,
   AddAdminRequestDto,
   AddMainConfirmData,
   AddMainData,
   AddMainNewsData,
+  AddMainNewsV2Data,
   DeleteAdminNewsRequestDto,
   DeleteMainNewsData,
   GetMainData,
@@ -73,33 +75,9 @@ export class Admin<
       ...params,
     });
   /**
-   * @description 최신소식을 조회합니다
-   *
-   * @tags Admin
-   * @name GetMainNews
-   * @summary 최신소식 조회
-   * @request GET:/admin/news
-   * @secure
-   * @response `200` `GetMainNewsData` OK
-   */
-  getMainNews = (
-    query: {
-      /** 최신소식 ID */
-      id: string;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<GetMainNewsData, any>({
-      path: `/admin/news`,
-      method: 'GET',
-      query: query,
-      secure: true,
-      ...params,
-    });
-  /**
    * @description 최신소식을 추가합니다
    *
-   * @tags Admin
+   * @tags Admin - News
    * @name AddMainNews
    * @summary 최신소식 추가
    * @request POST:/admin/news
@@ -116,9 +94,31 @@ export class Admin<
       ...params,
     });
   /**
+   * @description 람다 전용
+   *
+   * @tags Admin - News
+   * @name AddMainNewsV2
+   * @summary 최신소식 추가 (Presigned URL)
+   * @request POST:/admin/news/v2
+   * @secure
+   * @response `200` `AddMainNewsV2Data` OK
+   */
+  addMainNewsV2 = (
+    data: AddAdminNewsV2RequestDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<AddMainNewsV2Data, any>({
+      path: `/admin/news/v2`,
+      method: 'POST',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
    * @description 최신소식을 삭제합니다
    *
-   * @tags Admin
+   * @tags Admin - News
    * @name DeleteMainNews
    * @summary 최신소식 삭제
    * @request POST:/admin/news/delete
@@ -157,6 +157,30 @@ export class Admin<
       body: data,
       secure: true,
       type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description 최신소식을 조회합니다
+   *
+   * @tags Admin - News
+   * @name GetMainNews
+   * @summary 최신소식 조회
+   * @request GET:/admin/news/news
+   * @secure
+   * @response `200` `GetMainNewsData` OK
+   */
+  getMainNews = (
+    query: {
+      /** 최신소식 ID */
+      id: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetMainNewsData, any>({
+      path: `/admin/news/news`,
+      method: 'GET',
+      query: query,
+      secure: true,
       ...params,
     });
 }
