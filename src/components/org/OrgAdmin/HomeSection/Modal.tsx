@@ -35,29 +35,37 @@ export const AddNewsModal = ({ isOpen, onCancel }: AddNewsModalProps) => {
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
 
-  const { getValues } = useFormContext();
+  const { getValues, setValue } = useFormContext();
 
   const handleCloseModal = () => {
     closeConfirmModal();
 
     setTitle('');
     setLink('');
+    setValue('newsImage', null);
 
     onCancel?.();
   };
 
   const handleSubmit = () => {
-    const data = new FormData();
+    const file = getValues('newsImage')?.file;
 
-    data.append('image', getValues('newsImage')?.file);
-    data.append('title', title);
-    data.append('link', link);
+    if (!file || !title) {
+      return;
+    }
 
-    mutate(data, {
-      onSuccess: () => {
-        handleCloseModal();
+    mutate(
+      {
+        file,
+        title,
+        link,
       },
-    });
+      {
+        onSuccess: () => {
+          handleCloseModal();
+        },
+      },
+    );
   };
 
   return (

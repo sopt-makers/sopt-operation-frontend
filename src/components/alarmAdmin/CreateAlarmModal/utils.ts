@@ -38,6 +38,10 @@ export const targetOptions: ISendTargetOptions[] = [
     label: 'CSV 첨부',
     value: 'CSV 첨부',
   },
+  {
+    label: '전체 발송',
+    value: '전체',
+  },
 ];
 
 export const partOptions: ISendPartOptions[] = [
