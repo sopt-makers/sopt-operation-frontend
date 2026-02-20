@@ -61,7 +61,17 @@ client.interceptors.response.use(
           }
           return { status: 400, error: '요청을 처리하는데 실패했어요' };
         case 401:
-          await reissueAccessToken();
+          if (error?.config?.headers['Reissue-Request']) {
+            destroyToken('ACCESS');
+            window.location.replace('/');
+            return;
+          }
+          const reissueResult = await reissueAccessToken();
+          if (reissueResult && !reissueResult.success) {
+            destroyToken('ACCESS');
+            window.location.replace('/');
+            return;
+          }
           if (error.config) {
             return client(error.config);
           }
