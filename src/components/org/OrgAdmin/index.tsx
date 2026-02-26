@@ -64,19 +64,20 @@ function OrgAdmin() {
     memberImageFile1: getValues('member')?.회장?.profileImageFileName?.file,
     memberImageFile2: getValues('member')?.부회장?.profileImageFileName?.file,
     memberImageFile3: getValues('member')?.총무?.profileImageFileName?.file,
-    memberImageFile4:
-      getValues('member')?.['운영 팀장']?.profileImageFileName?.file,
+    memberImageFile4: getValues('member')?.아트디렉터?.profileImageFileName?.file,
     memberImageFile5:
-      getValues('member')?.['미디어 팀장']?.profileImageFileName?.file,
+      getValues('member')?.['운영 팀장']?.profileImageFileName?.file,
     memberImageFile6:
+      getValues('member')?.['미디어 팀장']?.profileImageFileName?.file,
+    memberImageFile7:
       getValues('member')?.['메이커스 팀장']?.profileImageFileName?.file,
-    memberImageFile7: getValues('member')?.기획?.profileImageFileName?.file,
-    memberImageFile8: getValues('member')?.디자인?.profileImageFileName?.file,
-    memberImageFile9:
+    memberImageFile8: getValues('member')?.기획?.profileImageFileName?.file,
+    memberImageFile9: getValues('member')?.디자인?.profileImageFileName?.file,
+    memberImageFile10:
       getValues('member')?.안드로이드?.profileImageFileName?.file,
-    memberImageFile10: getValues('member')?.iOS?.profileImageFileName?.file,
-    memberImageFile11: getValues('member')?.웹?.profileImageFileName?.file,
-    memberImageFile12: getValues('member')?.서버?.profileImageFileName?.file,
+    memberImageFile11: getValues('member')?.iOS?.profileImageFileName?.file,
+    memberImageFile12: getValues('member')?.웹?.profileImageFileName?.file,
+    memberImageFile13: getValues('member')?.서버?.profileImageFileName?.file,
     recruitHeaderImageFile: getValues('recruitHeaderImage')?.file,
   });
 
@@ -314,6 +315,7 @@ function OrgAdmin() {
       setValue('member.회장.profileImageFileName', headerImage);
       setValue('member.부회장.profileImageFileName', headerImage);
       setValue('member.총무.profileImageFileName', headerImage);
+      setValue('member.아트디렉터.profileImageFileName', headerImage);
       setValue('member.운영 팀장.profileImageFileName', headerImage);
       setValue('member.미디어 팀장.profileImageFileName', headerImage);
       setValue('member.메이커스 팀장.profileImageFileName', headerImage);

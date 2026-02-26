@@ -25,6 +25,7 @@ interface UseMutateSendDataProps {
   memberImageFile10: File;
   memberImageFile11: File;
   memberImageFile12: File;
+  memberImageFile13: File;
   recruitHeaderImageFile: File;
 }
 
@@ -46,6 +47,7 @@ const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
     memberImageFile10,
     memberImageFile11,
     memberImageFile12,
+    memberImageFile13,
     recruitHeaderImageFile,
   } = fileProps;
   const { open } = useToast();
@@ -100,6 +102,7 @@ const useMutateSendData = (fileProps: UseMutateSendDataProps) => {
           memberImageFile10,
           memberImageFile11,
           memberImageFile12,
+          memberImageFile13,
         ];
 
         // 존재하는 임원진 파일만 필터링
