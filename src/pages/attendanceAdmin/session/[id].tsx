@@ -214,7 +214,7 @@ function SessionDetailPage() {
     if (res) {
       const result = id && (await updateAttendance(id));
       if (result) {
-        refetchSession();
+        await refetchSession();
         refetchMembers();
         setChangedMembers([]);
         alert('출석 점수가 갱신되었어요');
@@ -232,8 +232,9 @@ function SessionDetailPage() {
         return <>2차 출석 시작하기</>;
       case 'SECOND':
         return <>출석 완료하기</>;
+      case 'END':
       default:
-        return <></>;
+        return null;
     }
   };
 
@@ -370,7 +371,7 @@ function SessionDetailPage() {
       <div ref={bottomRef} />
       {isFetchingNextPage && <Loading dimmed={false} full={false} />}
 
-      {session && session.status !== 'END' && (
+      {session && getButtonContent(session.status) && (
         <>
           {session.status == 'SECOND' && (
             <HelperText
