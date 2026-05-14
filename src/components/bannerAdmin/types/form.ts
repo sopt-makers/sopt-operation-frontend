@@ -36,7 +36,7 @@ export const getPcImageBaseSize = (
     case 'pg_community':
       return [1824, 328];
     case 'cr_main':
-      return [760, 956];
+      return [760, 1012];
     case 'cr_feed':
       return [760, 760];
   }
