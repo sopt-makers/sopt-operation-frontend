@@ -10,12 +10,11 @@ export const contentList = {
   '생일 광고': 'birthday',
 } as const;
 
-export const LOCATION_KEY = ['커뮤니티', '전체모임', '모임피드'] as const;
-export const LOCATION_VALUE = ['pg_community', 'cr_main', 'cr_feed'] as const;
+export const LOCATION_KEY = ['커뮤니티', '전체모임'] as const;
+export const LOCATION_VALUE = ['pg_community', 'cr_main'] as const;
 export const locationList = {
   커뮤니티: 'pg_community',
   전체모임: 'cr_main',
-  모임피드: 'cr_feed',
 } as const;
 
 const MAX_IMAGE_CAPACITY = 1;
@@ -37,8 +36,6 @@ export const getPcImageBaseSize = (
       return [1824, 328];
     case 'cr_main':
       return [760, 956];
-    case 'cr_feed':
-      return [760, 760];
   }
 };
 
@@ -50,8 +47,6 @@ export const getMoImageBaseSize = (
       return [1340, 672];
     case 'cr_main':
       return [760, 190];
-    case 'cr_feed':
-      return [760, 760];
   }
 };
 

@@ -57,9 +57,7 @@ const BannerImageRegister = () => {
 
       <StDescriptionWrapper>
         <StDescription isError={errors.pcImageFileName ? true : false}>
-          <StDescriptionTitle>
-            {location === 'cr_feed' ? '[PC/MO]' : '[PC]'}
-          </StDescriptionTitle>{' '}
+          <StDescriptionTitle>[PC]</StDescriptionTitle>{' '}
           {`이미지는 ${pcImageBaseWidth}*${pcImageBaseHeight} px`}
           크기로 올려주세요.
           <span>(형식: PNG, 용량: 1MB 이내)</span>
@@ -82,34 +80,30 @@ const BannerImageRegister = () => {
         required
       />
 
-      {location !== 'cr_feed' && (
-        <>
-          <StDescriptionWrapper style={{ marginTop: '2rem' }}>
-            <StDescription isError={!!errors.mobileImageFileName}>
-              <StDescriptionTitle>[MO]</StDescriptionTitle>{' '}
-              {`이미지는 ${moImageBaseWidth}*${moImageBaseHeight} px`}
-              크기로 올려주세요.
-              <span>(형식: PNG, 용량: 1MB 이내)</span>
-            </StDescription>
-            <Button
-              size="sm"
-              variant="outlined"
-              disabled={
-                !getValues('mobileImageFileName')?.file ||
-                'mobileImageFileName' in errors
-              }
-              onClick={() => setIsModalOpen('mobile')}>
-              미리보기
-            </Button>
-          </StDescriptionWrapper>
-          <ImageDropZone
-            method={method}
-            label="mobileImageFileName"
-            width="580px"
-            height="170px"
-          />
-        </>
-      )}
+      <StDescriptionWrapper style={{ marginTop: '2rem' }}>
+        <StDescription isError={!!errors.mobileImageFileName}>
+          <StDescriptionTitle>[MO]</StDescriptionTitle>{' '}
+          {`이미지는 ${moImageBaseWidth}*${moImageBaseHeight} px`}
+          크기로 올려주세요.
+          <span>(형식: PNG, 용량: 1MB 이내)</span>
+        </StDescription>
+        <Button
+          size="sm"
+          variant="outlined"
+          disabled={
+            !getValues('mobileImageFileName')?.file ||
+            'mobileImageFileName' in errors
+          }
+          onClick={() => setIsModalOpen('mobile')}>
+          미리보기
+        </Button>
+      </StDescriptionWrapper>
+      <ImageDropZone
+        method={method}
+        label="mobileImageFileName"
+        width="580px"
+        height="170px"
+      />
 
       {isModalOpen && (
         <Modal>
