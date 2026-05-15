@@ -116,10 +116,7 @@ const CreateBannerModal = ({
       end_date: data.dateRange[1].replaceAll('.', '-'),
       link: data?.link,
       image_pc: data.pcImageFileName.file,
-      image_mobile:
-        data.location === 'cr_feed'
-          ? data.pcImageFileName.file
-          : data.mobileImageFileName.file,
+      image_mobile: data.mobileImageFileName.file,
     };
 
     if (modalState === CREATE_MODAL) {
