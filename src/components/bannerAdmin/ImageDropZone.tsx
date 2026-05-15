@@ -53,17 +53,6 @@ const ImageDropZone = ({
             },
             { shouldValidate: true },
           );
-          if (getValues('location') === 'cr_feed') {
-            setValue(
-              'mobileImageFileName',
-              {
-                file,
-                previewUrl: reader.result,
-                location: getValues('location'),
-              },
-              { shouldValidate: true },
-            );
-          }
         };
         reader.readAsDataURL(file);
       }
