@@ -59,7 +59,8 @@ client.interceptors.response.use(
             destroyToken('ACCESS');
             window.location.replace('/');
           }
-          return { status: 400, error: '요청을 처리하는데 실패했어요' };
+          error.message = '요청을 처리하는데 실패했어요';
+          return Promise.reject(error);
         case 401:
           if (error?.config?.headers['Reissue-Request']) {
             destroyToken('ACCESS');
@@ -75,18 +76,20 @@ client.interceptors.response.use(
           if (error.config) {
             return client(error.config);
           }
-          return { status: 401, error: '만료된 토큰이에요' };
+          error.message = '만료된 토큰이에요';
+          return Promise.reject(error);
         case 403:
-          return { status: 403, error: '권한이 없어요' };
+          error.message = '권한이 없어요';
+          return Promise.reject(error);
         case 404:
-          return { status: 404, error: '잘못된 요청이에요' };
+          error.message = '잘못된 요청이에요';
+          return Promise.reject(error);
         case 500:
-          return { status: 500, error: '알 수 없는 에러예요' };
+          error.message = '알 수 없는 에러예요';
+          return Promise.reject(error);
         default:
-          return {
-            status: error.response.status,
-            error: '알 수 없는 에러예요',
-          };
+          error.message = '알 수 없는 에러예요';
+          return Promise.reject(error);
       }
     } else {
       throw error;
