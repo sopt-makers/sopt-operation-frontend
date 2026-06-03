@@ -1,14 +1,14 @@
 import { useSyncExternalStore } from 'react';
 
-import { breakpoints } from '@/styles/mediaQuery';
-
-type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'desktopLarge';
+import { Breakpoint, breakpoints } from '@/styles/mediaQuery';
 
 function getBreakpoint(): Breakpoint {
-  const w = window.innerWidth;
-  if (w >= breakpoints.desktopLarge) return 'desktopLarge';
-  if (w >= breakpoints.desktop) return 'desktop';
-  if (w >= breakpoints.tablet) return 'tablet';
+  if (window.matchMedia(`(min-width: ${breakpoints.desktopLarge}px)`).matches)
+    return 'desktopLarge';
+  if (window.matchMedia(`(min-width: ${breakpoints.desktop}px)`).matches)
+    return 'desktop';
+  if (window.matchMedia(`(min-width: ${breakpoints.tablet}px)`).matches)
+    return 'tablet';
   return 'mobile';
 }
 
