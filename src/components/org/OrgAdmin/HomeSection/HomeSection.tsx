@@ -8,7 +8,7 @@ import {
   StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 import { PART_KO } from '@/utils/org';
-import HomeHeaderSection from '@/components/org/OrgAdmin/HomeSection/HomeHeaderSection';
+import HomeHeaderSection from '@/components/org/OrgAdmin/HomeSection/_components/Header/HomeHeaderSection';
 
 type HomeSectionProps = {
   selectedIntroPart: PART_KO;
