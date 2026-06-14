@@ -3,6 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
 export const StContainer = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 80px;
@@ -10,15 +11,32 @@ export const StContainer = styled.section`
   padding: 50px 0 270px 0;
 `;
 
-export const StWrapper = styled.div`
+export const StHomeEditButtonWrapper = styled.div`
+  position: absolute;
+  top: 50px;
+  right: 0;
+  z-index: 1;
+`;
+
+export const StSectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: 80px;
 `;
 
-export const StTitle = styled.h2`
+export const StWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  width: 582px;
+`;
+
+export const StTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
   ${fontsObject.TITLE_3_24_SB}
-  margin-bottom: 6px;
   color: ${colors.white};
 `;
 
@@ -39,7 +57,6 @@ export const StInputLabel = styled.label`
   align-items: center;
   gap: 4px;
   ${fontsObject.LABEL_3_14_SB};
-  margin: 30px 0 8px;
   color: ${colors.white};
 
   cursor: pointer;
@@ -98,9 +115,9 @@ export const StImgWrapperTitle = styled.div`
 
 export const StDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
-  color: ${colors.white};
+  color: ${colors.gray300};
 
-  padding-bottom: 8px;
+  padding-bottom: 6spx;
 `;
 
 export const StDescription2 = styled.p`
@@ -167,9 +184,11 @@ export const StNewsList = styled.ul`
   gap: 14px;
 `;
 
-export const StNewsItem = styled.li`
-  display: flex;
-  justify-content: space-between;
+export const StNewsItem = styled.li<{ $isDragging: boolean }>`
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  align-items: center;
+  gap: 14px;
 
   width: 100%;
 
@@ -180,6 +199,7 @@ export const StNewsItem = styled.li`
 
   border-radius: 10px;
   background-color: ${colors.gray800};
+  opacity: ${({ $isDragging }) => ($isDragging ? 0.5 : 1)};
 
   & > svg {
     width: 24px;
@@ -187,12 +207,137 @@ export const StNewsItem = styled.li`
   }
 `;
 
+export const StNewsDragHandle = styled.button`
+  display: grid;
+  place-items: center;
+
+  width: 24px;
+  height: 24px;
+
+  color: ${colors.white};
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  & > svg {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const StNewsContent = styled.span`
+  min-width: 0;
+`;
+
 export const StNewsSectionContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: start;
-  justify-content: space-between;
 `;
 
 export const StLeftColumnSection = styled.div`
   width: 582px;
+`;
+
+export const StStretchContainer = styled.section`
+  position: relative;
+  display: flex;
+  align-items: baseline;
+`;
+export const StContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const StReviewList = styled.ul`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+`;
+
+export const StReviewItem = styled.li<{ $isDragging: boolean }>`
+  display: grid;
+  grid-template-columns: 24px 1fr 34px;
+  align-items: center;
+  gap: 10px;
+
+  opacity: ${({ $isDragging }) => ($isDragging ? 0.5 : 1)};
+`;
+
+export const StReviewDragHandle = styled.button`
+  display: grid;
+  place-items: center;
+
+  width: 24px;
+  height: 40px;
+
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  & > svg {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const StReviewContent = styled.div`
+  display: flex;
+  align-items: center;
+
+  min-height: 40px;
+  padding: 0 20px;
+
+  border-radius: 8px;
+  background-color: ${colors.gray800};
+  color: ${colors.white};
+  ${fontsObject.LABEL_3_14_SB};
+`;
+
+export const StReviewEditButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  padding: 12px 10px 12px 0;
+
+  color: ${colors.white};
+  box-sizing: border-box;
+
+  & > svg {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const StInfoButton = styled.button`
+  color: ${colors.white};
+  width: 20px;
+`;
+
+export const StHomeHeaderModalWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 650px;
+`;
+
+export const StReviewModalWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 650px;
+`;
+
+export const StNewsModalWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 650px;
 `;
