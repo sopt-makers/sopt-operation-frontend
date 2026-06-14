@@ -8,6 +8,7 @@ import {
   StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 import { PART_KO } from '@/utils/org';
+import HomeHeaderSection from '@/components/org/OrgAdmin/HomeSection/_components/Header/HomeHeaderSection';
 
 type HomeSectionProps = {
   selectedIntroPart: PART_KO;
@@ -24,6 +25,7 @@ const HomeSection = ({
     <StContainer>
       <ToastProvider>
         <StWrapper>
+          <HomeHeaderSection />
           <PartIntroSection
             selectedPart={selectedIntroPart}
             onChangePart={onChangeIntroPart}
