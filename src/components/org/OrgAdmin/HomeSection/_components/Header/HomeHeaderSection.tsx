@@ -24,7 +24,9 @@ const HomeHeaderSection = () => {
       <StWrapper>
         <StTitle>
           <h2>홈 헤더</h2>
-          <StInfoButton onClick={onInfoToggle}>
+          <StInfoButton
+            onClick={onInfoToggle}
+            aria-label="홈 헤더 정보 모달 열기">
             <IconInfoCircle />
           </StInfoButton>
         </StTitle>

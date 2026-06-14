@@ -117,7 +117,7 @@ export const StDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
   color: ${colors.gray300};
 
-  padding-bottom: 6spx;
+  padding-bottom: 6px;
 `;
 
 export const StDescription2 = styled.p`
@@ -317,12 +317,6 @@ export const StReviewEditButton = styled.button`
 export const StInfoButton = styled.button`
   color: ${colors.white};
   width: 20px;
-`;
-
-export const StHomeHeaderModalWrapper = styled.div`
-  position: absolute;
-  top: 100px;
-  left: 650px;
 `;
 
 export const StReviewModalWrapper = styled.div`
