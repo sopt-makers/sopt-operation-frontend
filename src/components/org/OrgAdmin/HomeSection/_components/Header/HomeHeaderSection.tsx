@@ -7,13 +7,13 @@ import {
   StContentWrapper,
   StInputLabel,
   StDescription,
-  StHomeHeaderModalWrapper,
   StSectionWrapper,
   StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 import { IconInfoCircle } from '@sopt-makers/icons';
 import MyDropzone from '@/components/org/OrgAdmin/MyDropzone';
 import { useFormContext } from 'react-hook-form';
+import { StHomeHeaderModalWrapper } from '@/components/org/OrgAdmin/HomeSection/_components/Header/style';
 
 const HomeHeaderSection = () => {
   const method = useFormContext();
