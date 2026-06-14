@@ -8,11 +8,11 @@ import {
   StInputLabel,
   StDescription,
   StHomeHeaderModalWrapper,
-  StStretchContainer,
+  StSectionWrapper,
   StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 import { IconInfoCircle } from '@sopt-makers/icons';
-import MyDropzone from '../MyDropzone';
+import MyDropzone from '@/components/org/OrgAdmin/MyDropzone';
 import { useFormContext } from 'react-hook-form';
 
 const HomeHeaderSection = () => {
@@ -20,7 +20,7 @@ const HomeHeaderSection = () => {
   const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
-    <StStretchContainer>
+    <StSectionWrapper>
       <StWrapper>
         <StTitle>
           <h2>홈 헤더</h2>
@@ -39,7 +39,7 @@ const HomeHeaderSection = () => {
           </StDescription>
           <MyDropzone
             method={method}
-            label="headerImageFileName"
+            label="homeHeaderImageFileName"
             width="582px"
             height="327px"
             required
@@ -56,7 +56,7 @@ const HomeHeaderSection = () => {
           onInfoToggle={onInfoToggle}
         />
       </StHomeHeaderModalWrapper>
-    </StStretchContainer>
+    </StSectionWrapper>
   );
 };
 

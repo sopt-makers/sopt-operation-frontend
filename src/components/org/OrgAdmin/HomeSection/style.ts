@@ -241,11 +241,6 @@ export const StLeftColumnSection = styled.div`
   width: 582px;
 `;
 
-export const StStretchContainer = styled.section`
-  position: relative;
-  display: flex;
-  align-items: baseline;
-`;
 export const StContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
