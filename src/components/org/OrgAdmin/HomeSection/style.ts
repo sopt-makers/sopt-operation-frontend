@@ -184,7 +184,7 @@ export const StNewsList = styled.ul`
   gap: 14px;
 `;
 
-export const StNewsItem = styled.li<{ $isDragging: boolean }>`
+export const StNewsItem = styled.li<{ $isDragging?: boolean }>`
   display: grid;
   grid-template-columns: 24px 1fr 24px;
   align-items: center;
@@ -260,7 +260,7 @@ export const StReviewList = styled.ul`
   margin-top: 6px;
 `;
 
-export const StReviewItem = styled.li<{ $isDragging: boolean }>`
+export const StReviewItem = styled.li<{ $isDragging?: boolean }>`
   display: grid;
   grid-template-columns: 24px 1fr 34px;
   align-items: center;
