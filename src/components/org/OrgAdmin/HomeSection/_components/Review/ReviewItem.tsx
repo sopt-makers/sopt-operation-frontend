@@ -7,7 +7,7 @@ import {
   StReviewDragHandle,
   StReviewEditButton,
   StReviewItem,
-} from '@/components/org/OrgAdmin/HomeSection/style';
+} from '@/components/org/OrgAdmin/HomeSection/_components/Review/style';
 import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 
 type ReviewItemProps = Omit<
