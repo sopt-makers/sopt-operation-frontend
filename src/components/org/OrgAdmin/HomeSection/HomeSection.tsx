@@ -67,7 +67,7 @@ const HomeSectionContent = () => {
   const validateHomeInputs = () => {
     const { homeHeaderImageFileName } = getValues();
 
-    if (!homeHeaderImageFileName?.fileName) {
+    if (!homeHeaderImageFileName?.fileName && !data?.homeHeaderImage) {
       setError('homeHeaderImageFileName', {
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,

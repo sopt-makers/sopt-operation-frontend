@@ -1,3 +1,5 @@
+'use client';
+
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { useFormContext } from 'react-hook-form';
 
@@ -5,6 +7,7 @@ import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 import useModal from '@/components/org/OrgAdmin/common/Modal/useModal';
 import { StHomeHeaderModalWrapper } from '@/components/org/OrgAdmin/HomeSection/_components/Header/style';
+import { useAdminInfoQuery } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
   StContentWrapper,
   StDescription,
@@ -22,6 +25,9 @@ type HomeHeaderSectionProps = {
 
 const HomeHeaderSection = ({ isEditable }: HomeHeaderSectionProps) => {
   const method = useFormContext();
+
+  const { data } = useAdminInfoQuery();
+
   const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
@@ -51,6 +57,7 @@ const HomeHeaderSection = ({ isEditable }: HomeHeaderSectionProps) => {
             height="327px"
             required
             disabled={!isEditable}
+            defaultPreviewUrl={data?.homeHeaderImage}
           />
         </StContentWrapper>
       </StWrapper>
