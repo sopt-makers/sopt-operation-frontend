@@ -173,6 +173,34 @@ export interface ScrapLinkResponseDto {
   url: string;
 }
 
+export interface AddAdminReviewRequestDto {
+  /**
+   * 리뷰 제목 (공백 포함 최대 10자)
+   * @minLength 0
+   * @maxLength 10
+   * @example "후회없는 활동"
+   */
+  title: string;
+  /**
+   * 리뷰 내용 (최대 200자)
+   * @minLength 0
+   * @maxLength 200
+   * @example "후회없는 활동이었습니다"
+   */
+  content: string;
+  /**
+   * 작성자 정보
+   * @example "김솝트 | 36,37기 활동 | 서버"
+   */
+  authorInfo: string;
+}
+
+/** 홈페이지 리뷰 추가 */
+export interface AddAdminReviewResponseRecordDto {
+  /** 성공 메시지 */
+  message: string;
+}
+
 /** 소개글 정보 */
 export interface AddAdminIntroductionRequestDto {
   /**
@@ -381,22 +409,6 @@ export interface AddAdminHomeRequestDto {
   review?: AddAdminReviewRequestDto[];
   /** 최신소식 목록 */
   news?: AddAdminNewsRequestDto[];
-}
-
-/** 리뷰 목록 */
-export interface AddAdminReviewRequestDto {
-  /**
-   * 리뷰 제목
-   * @example "후회없는 활동"
-   */
-  title: string;
-  /**
-   * 리뷰 내용
-   * @example "후회없는 활동"
-   */
-  content: string;
-  /** 김솝트 | 36,37기 활동 | 서버 */
-  authorInfo?: string;
 }
 
 /** 어드민 홈 탭 배포 응답 (S3 PresignedUrl 포함) */
@@ -710,6 +722,34 @@ export interface AddAdminMemberResponseRecordDto {
   name: string;
   /** 프로필 이미지 PresgiendUrl */
   profileImage: string;
+}
+
+export interface EditAdminReviewRequestDto {
+  /**
+   * 리뷰 제목 (공백 포함 최대 10자)
+   * @minLength 0
+   * @maxLength 10
+   * @example "후회없는 활동"
+   */
+  title: string;
+  /**
+   * 리뷰 내용 (최대 200자)
+   * @minLength 0
+   * @maxLength 200
+   * @example "후회없는 활동이었습니다"
+   */
+  content: string;
+  /**
+   * 작성자 정보
+   * @example "김솝트 | 36,37기 활동 | 서버"
+   */
+  authorInfo: string;
+}
+
+/** 홈페이지 리뷰 수정 */
+export interface EditAdminReviewResponseRecordDto {
+  /** 성공 메시지 */
+  message: string;
 }
 
 /** 최신소식 수정하기 */
@@ -1171,6 +1211,21 @@ export interface PartCurriculum {
   curriculums?: string[];
 }
 
+/** 리뷰 */
+export interface GetAdminReviewResponseRecordDto {
+  /**
+   * 리뷰 ID
+   * @format int64
+   */
+  id: number;
+  /** 리뷰 제목 */
+  title: string;
+  /** 리뷰 내용 */
+  content: string;
+  /** 작성자 정보 */
+  authorInfo: string;
+}
+
 /** 활동 전체 일정 정보 */
 export interface GetAdminActivityScheduleResponseRecordDto {
   /**
@@ -1433,21 +1488,6 @@ export interface GetAdminResponseDto {
   activitySchedule?: GetAdminActivityScheduleResponseRecordDto[];
 }
 
-/** 리뷰 */
-export interface GetAdminReviewResponseRecordDto {
-  /**
-   * 리뷰 ID
-   * @format int64
-   */
-  id: number;
-  /** 리뷰 제목 */
-  title: string;
-  /** 리뷰 내용 */
-  content: string;
-  /** 작성자 정보 */
-  authorInfo: string;
-}
-
 /** 상세 일정 정보 */
 export interface GetAdminScheduleResponseRecordDto {
   /**
@@ -1553,6 +1593,10 @@ export type RegisterData = RegisterNotificationResponse;
 
 export type ScrapLinkData = ScrapLinkResponseDto;
 
+export type GetReviews1Data = GetAdminReviewResponseRecordDto[];
+
+export type CreateReview1Data = AddAdminReviewResponseRecordDto;
+
 export type AddRecruitData = AddAdminRecruitResponseDto;
 
 export type AddRecruitConfirmData = AddAdminConfirmResponseDto;
@@ -1574,6 +1618,8 @@ export type AddCommonConfirmData = AddAdminConfirmResponseDto;
 export type AddAboutData = AddAdminAboutResponseDto;
 
 export type AddAboutConfirmData = AddAdminConfirmResponseDto;
+
+export type EditReviewData = EditAdminReviewResponseRecordDto;
 
 export type EditMainNewsData = EditAdminNewsResponseDto;
 

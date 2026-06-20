@@ -168,6 +168,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/homepage-reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 홈페이지 리뷰 목록 조회
+         * @description ID 오름차순으로 전체 목록을 반환합니다
+         */
+        get: operations["getReviews_1"];
+        put?: never;
+        /**
+         * 홈페이지 리뷰 추가
+         * @description 제목 최대 10자, 내용 최대 200자
+         */
+        post: operations["createReview_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/recruit": {
         parameters: {
             query?: never;
@@ -386,6 +410,26 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/homepage-reviews/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * 홈페이지 리뷰 수정
+         * @description 제목 최대 10자, 내용 최대 200자
+         */
+        patch: operations["editReview"];
         trace?: never;
     };
     "/admin/news/{id}": {
@@ -873,6 +917,28 @@ export interface components {
             /** @description 블로그 스크랩 URL */
             url: string;
         };
+        AddAdminReviewRequestDto: {
+            /**
+             * @description 리뷰 제목 (공백 포함 최대 10자)
+             * @example 후회없는 활동
+             */
+            title: string;
+            /**
+             * @description 리뷰 내용 (최대 200자)
+             * @example 후회없는 활동이었습니다
+             */
+            content: string;
+            /**
+             * @description 작성자 정보
+             * @example 김솝트 | 36,37기 활동 | 서버
+             */
+            authorInfo: string;
+        };
+        /** @description 홈페이지 리뷰 추가 */
+        AddAdminReviewResponseRecordDto: {
+            /** @description 성공 메시지 */
+            message: string;
+        };
         /** @description 소개글 정보 */
         AddAdminIntroductionRequestDto: {
             /**
@@ -1065,21 +1131,6 @@ export interface components {
             review?: components["schemas"]["AddAdminReviewRequestDto"][];
             /** @description 최신소식 목록 */
             news?: components["schemas"]["AddAdminNewsRequestDto"][];
-        };
-        /** @description 리뷰 목록 */
-        AddAdminReviewRequestDto: {
-            /**
-             * @description 리뷰 제목
-             * @example 후회없는 활동
-             */
-            title: string;
-            /**
-             * @description 리뷰 내용
-             * @example 후회없는 활동
-             */
-            content: string;
-            /** @description 김솝트 | 36,37기 활동 | 서버 */
-            authorInfo?: string;
         };
         /** @description 어드민 홈 탭 배포 응답 (S3 PresignedUrl 포함) */
         AddAdminHomeResponseDto: {
@@ -1364,6 +1415,28 @@ export interface components {
             name: string;
             /** @description 프로필 이미지 PresgiendUrl */
             profileImage: string;
+        };
+        EditAdminReviewRequestDto: {
+            /**
+             * @description 리뷰 제목 (공백 포함 최대 10자)
+             * @example 후회없는 활동
+             */
+            title: string;
+            /**
+             * @description 리뷰 내용 (최대 200자)
+             * @example 후회없는 활동이었습니다
+             */
+            content: string;
+            /**
+             * @description 작성자 정보
+             * @example 김솝트 | 36,37기 활동 | 서버
+             */
+            authorInfo: string;
+        };
+        /** @description 홈페이지 리뷰 수정 */
+        EditAdminReviewResponseRecordDto: {
+            /** @description 성공 메시지 */
+            message: string;
         };
         /** @description 최신소식 수정하기 */
         EditAdminNewsRequestDto: {
@@ -1774,6 +1847,20 @@ export interface components {
             part?: string;
             curriculums?: string[];
         };
+        /** @description 리뷰 */
+        GetAdminReviewResponseRecordDto: {
+            /**
+             * Format: int64
+             * @description 리뷰 ID
+             */
+            id: number;
+            /** @description 리뷰 제목 */
+            title: string;
+            /** @description 리뷰 내용 */
+            content: string;
+            /** @description 작성자 정보 */
+            authorInfo: string;
+        };
         /** @description 활동 전체 일정 정보 */
         GetAdminActivityScheduleResponseRecordDto: {
             /**
@@ -2017,20 +2104,6 @@ export interface components {
             recruitQuestion?: components["schemas"]["GetAdminRecruitQuestionResponseRecordDto"][];
             review?: components["schemas"]["GetAdminReviewResponseRecordDto"][];
             activitySchedule?: components["schemas"]["GetAdminActivityScheduleResponseRecordDto"][];
-        };
-        /** @description 리뷰 */
-        GetAdminReviewResponseRecordDto: {
-            /**
-             * Format: int64
-             * @description 리뷰 ID
-             */
-            id: number;
-            /** @description 리뷰 제목 */
-            title: string;
-            /** @description 리뷰 내용 */
-            content: string;
-            /** @description 작성자 정보 */
-            authorInfo: string;
         };
         /** @description 상세 일정 정보 */
         GetAdminScheduleResponseRecordDto: {
@@ -2421,6 +2494,50 @@ export interface operations {
             };
         };
     };
+    getReviews_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetAdminReviewResponseRecordDto"][];
+                };
+            };
+        };
+    };
+    createReview_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminReviewRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminReviewResponseRecordDto"];
+                };
+            };
+        };
+    };
     addRecruit: {
         parameters: {
             query?: never;
@@ -2681,6 +2798,32 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AddAdminConfirmResponseDto"];
+                };
+            };
+        };
+    };
+    editReview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EditAdminReviewRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EditAdminReviewResponseRecordDto"];
                 };
             };
         };
