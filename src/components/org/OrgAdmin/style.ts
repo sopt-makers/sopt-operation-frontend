@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { TextArea, TextField } from '@sopt-makers/ui';
+import { TextField } from '@sopt-makers/ui';
 
 import theme from '@/styles/theme';
 
 export const StContainer = styled.section`
+  display: flex;
+  flex-direction: column;
   padding: 50px 0 284px;
+  gap: 80px;
 `;
 
 export const StWrapper = styled.div`
@@ -101,13 +104,4 @@ export const StErrorMessage = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
   color: ${colors.error};
-`;
-
-export const StTextArea = styled(TextArea)`
-  max-width: 547px;
-
-  textarea {
-    padding: 8px 14px;
-    margin: 0px;
-  }
 `;

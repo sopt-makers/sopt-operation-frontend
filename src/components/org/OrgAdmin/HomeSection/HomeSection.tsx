@@ -1,9 +1,13 @@
-import { Button, ToastProvider } from '@sopt-makers/ui';
+import { ToastProvider } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-import IcSend from '@/components/icons/IcSend';
 import { ActionModal } from '@/components/org/OrgAdmin/common/ActionModal';
+import {
+  EDIT_STEP,
+  type EditStep,
+} from '@/components/org/OrgAdmin/common/constants/editStep';
+import { EditActionBar } from '@/components/org/OrgAdmin/common/EditActionBar';
 import HomeHeaderSection from '@/components/org/OrgAdmin/HomeSection/_components/Header/HomeHeaderSection';
 import type { News } from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsItem';
 import NewsSection from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsSection';
@@ -18,21 +22,9 @@ import {
 } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
   StContainer,
-  StHomeActionButtonWrapper,
-  StHomeActionWrapper,
-  StHomeEditButtonWrapper,
   StSectionWrapper,
-  StUnsavedChangeText,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 import { VALIDATION_CHECK } from '@/utils/org';
-
-const HOME_STATE = {
-  VIEW: 'view',
-  EDITING: 'editing',
-  DEPLOY: 'deploy',
-} as const;
-
-type HomeState = (typeof HOME_STATE)[keyof typeof HOME_STATE];
 
 type HomeDraft = {
   reviews: Review[];
@@ -43,7 +35,7 @@ const EMPTY_REVIEWS: Review[] = [];
 const EMPTY_NEWS: News[] = [];
 
 const HomeSectionContent = () => {
-  const [homeState, setHomeState] = useState<HomeState>(HOME_STATE.VIEW);
+  const [editStep, setEditStep] = useState<EditStep>(EDIT_STEP.VIEW);
   const [draft, setDraft] = useState<HomeDraft>({
     reviews: EMPTY_REVIEWS,
     news: EMPTY_NEWS,
@@ -63,8 +55,8 @@ const HomeSectionContent = () => {
     name: 'homeHeaderImageFileName',
   });
 
-  const isEditMode = homeState !== HOME_STATE.VIEW;
-  const isDeployModalOpen = homeState === HOME_STATE.DEPLOY;
+  const isEditMode = editStep !== EDIT_STEP.VIEW;
+  const isDeployModalOpen = editStep === EDIT_STEP.DEPLOY;
 
   useEffect(() => {
     setDraft({
@@ -106,7 +98,7 @@ const HomeSectionContent = () => {
     });
     clearErrors('homeHeaderImageFileName');
     resetDraft();
-    setHomeState(HOME_STATE.VIEW);
+    setEditStep(EDIT_STEP.VIEW);
   };
 
   const handleDeploy = () => {
@@ -132,48 +124,18 @@ const HomeSectionContent = () => {
 
   return (
     <>
-      <StHomeEditButtonWrapper>
-        {isEditMode ? (
-          <StHomeActionWrapper>
-            <StHomeActionButtonWrapper>
-              <Button
-                type="button"
-                size="md"
-                variant="outlined"
-                css={{ width: 'fit-content' }}
-                onClick={exitEditMode}>
-                취소
-              </Button>
-              <Button
-                theme="blue"
-                type="button"
-                size="md"
-                LeftIcon={IcSend}
-                disabled={isDeploying}
-                onClick={() => {
-                  if (validateHomeInputs()) {
-                    setHomeState(HOME_STATE.DEPLOY);
-                  }
-                }}>
-                배포
-              </Button>
-            </StHomeActionButtonWrapper>
-            {hasUnsavedChanges && (
-              <StUnsavedChangeText>
-                저장되지 않은 변경사항이 있습니다.
-              </StUnsavedChangeText>
-            )}
-          </StHomeActionWrapper>
-        ) : (
-          <Button
-            type="button"
-            size="md"
-            variant="outlined"
-            onClick={() => setHomeState(HOME_STATE.EDITING)}>
-            수정하기
-          </Button>
-        )}
-      </StHomeEditButtonWrapper>
+      <EditActionBar
+        isEditMode={isEditMode}
+        isDeploying={isDeploying}
+        hasUnsavedChanges={hasUnsavedChanges}
+        onStartEdit={() => setEditStep(EDIT_STEP.EDITING)}
+        onCancel={exitEditMode}
+        onDeploy={() => {
+          if (validateHomeInputs()) {
+            setEditStep(EDIT_STEP.DEPLOY);
+          }
+        }}
+      />
       <StSectionWrapper>
         <HomeHeaderSection isEditable={isEditMode} />
         <ReviewSection
@@ -193,7 +155,7 @@ const HomeSectionContent = () => {
       <ActionModal
         variant="deploy"
         isOpen={isDeployModalOpen}
-        onCancel={() => setHomeState(HOME_STATE.EDITING)}
+        onCancel={() => setEditStep(EDIT_STEP.EDITING)}
         onAction={handleDeploy}
         alertText="배포하시겠습니까?"
         description="입력한 홈 탭 내용은 공홈에 즉시 반영돼요."

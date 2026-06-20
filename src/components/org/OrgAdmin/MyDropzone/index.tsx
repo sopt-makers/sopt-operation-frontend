@@ -28,8 +28,8 @@ interface MyDropzoneProps {
 const MyDropzone = ({
   method,
   label,
-  width = '547px',
-  height = '166px',
+  width = '582px',
+  height = '176px',
   shape = 'square',
   required,
   disabled = false,

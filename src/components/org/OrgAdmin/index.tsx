@@ -37,6 +37,7 @@ function OrgAdmin() {
   const [curriculumPart, setCurriculumPart] = useState<PART_KO>('기획');
   const [fnaPart, setFnaPart] = useState<PART_KO>('기획');
   const [introPart, setIntroPart] = useState<PART_KO>('기획');
+  const [recruitIntroPart, setRecruitIntroPart] = useState<PART_KO>('기획');
 
   const methods = useForm({ mode: 'onBlur' });
   const { handleSubmit, getValues, setError, reset, setValue } = methods;
@@ -115,7 +116,7 @@ function OrgAdmin() {
         handleValidateHomeInputs,
         handleValidationRecruitInputs,
       ],
-      지원하기: [
+      모집안내: [
         handleValidationRecruitInputs,
         handleValidateCommonInputs,
         handleValidateHomeInputs,
@@ -128,7 +129,7 @@ function OrgAdmin() {
     const getPartForValidation = (validateFn: () => boolean) => {
       if (validateFn === handleValidateCommonInputs) return '공통';
       if (validateFn === handleValidationAboutInputs) return '소개';
-      if (validateFn === handleValidationRecruitInputs) return '지원하기';
+      if (validateFn === handleValidationRecruitInputs) return '모집안내';
       if (validateFn === handleValidateHomeInputs) return '홈';
       return '공통';
     };
@@ -373,6 +374,8 @@ function OrgAdmin() {
             />
           ) : (
             <RecruitSection
+              introPart={recruitIntroPart}
+              onChangeIntroPart={(part: PART_KO) => setRecruitIntroPart(part)}
               curriculumPart={curriculumPart}
               onChangeCurriculumPart={(part: PART_KO) =>
                 setCurriculumPart(part)
@@ -381,7 +384,7 @@ function OrgAdmin() {
               onChangeFnaPart={(part: PART_KO) => setFnaPart(part)}
             />
           )}
-          {selectedPart !== '홈' && (
+          {selectedPart !== '홈' && selectedPart !== '모집안내' && (
             <StSubmitButton
               type="button"
               onClick={() => {
