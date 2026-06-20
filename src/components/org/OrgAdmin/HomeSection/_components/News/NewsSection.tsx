@@ -2,7 +2,7 @@
 
 import { IconInfoCircle, IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import { ActionModal } from '@/components/org/OrgAdmin/common/ActionModal';
@@ -31,15 +31,13 @@ import {
 import { useBooleanState } from '@/hooks/useBooleanState';
 
 type NewsSectionProps = {
-  latestNews?: News[];
+  newsItems: News[];
   isEditable: boolean;
-  onChangeNews?: (news: News[]) => void;
+  onChangeNews: (news: News[]) => void;
 };
 
-const EMPTY_NEWS: News[] = [];
-
 const NewsSection = ({
-  latestNews,
+  newsItems,
   isEditable,
   onChangeNews,
 }: NewsSectionProps) => {
@@ -53,16 +51,6 @@ const NewsSection = ({
   } = useBooleanState();
 
   const { isInfoVisible, onInfoToggle } = useModal();
-  const initialNewsItems = latestNews ?? EMPTY_NEWS;
-  const [newsItems, setNewsItems] = useState(initialNewsItems);
-
-  useEffect(() => {
-    setNewsItems(initialNewsItems);
-  }, [initialNewsItems]);
-
-  useEffect(() => {
-    onChangeNews?.(newsItems);
-  }, [newsItems, onChangeNews]);
 
   const { mutate } = useDeleteNewsMutation();
 
@@ -104,7 +92,9 @@ const NewsSection = ({
             <StNewsReorderGroup
               axis="y"
               values={newsItems}
-              onReorder={isEditable ? setNewsItems : () => undefined}>
+              onReorder={
+                isEditable ? (items) => onChangeNews(items) : () => undefined
+              }>
               {newsItems.map((item) => (
                 <NewsItem
                   key={item.id}

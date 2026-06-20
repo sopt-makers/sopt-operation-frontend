@@ -1,14 +1,13 @@
 'use client';
 
 import { IconInfoCircle } from '@sopt-makers/icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 import useModal from '@/components/org/OrgAdmin/common/Modal/useModal';
 import { EditReviewModal } from '@/components/org/OrgAdmin/HomeSection/_components/Modal/EditReviewModal';
 import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
-import { useReviewsQuery } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
   StContentWrapper,
   StDescription,
@@ -24,27 +23,15 @@ import {
 import ReviewItem from './ReviewItem';
 
 interface Props {
-  onChangeReviews?: (reviews: Review[]) => void;
+  reviews: Review[];
+  onChangeReviews: (reviews: Review[]) => void;
   isEditable: boolean;
 }
 
-const EMPTY_REVIEWS: Review[] = [];
-
-const ReviewSection = ({ onChangeReviews, isEditable }: Props) => {
+const ReviewSection = ({ reviews, onChangeReviews, isEditable }: Props) => {
   const [editReviewId, setEditReviewId] = useState<number>();
 
-  const { data } = useReviewsQuery();
   const { isInfoVisible, onInfoToggle } = useModal();
-  const initialReviews = data ?? EMPTY_REVIEWS;
-  const [reviews, setReviews] = useState(initialReviews);
-
-  useEffect(() => {
-    setReviews(initialReviews);
-  }, [initialReviews]);
-
-  useEffect(() => {
-    onChangeReviews?.(reviews);
-  }, [onChangeReviews, reviews]);
 
   return (
     <StSectionWrapper>
@@ -68,7 +55,9 @@ const ReviewSection = ({ onChangeReviews, isEditable }: Props) => {
           <StReviewList
             axis="y"
             values={reviews}
-            onReorder={isEditable ? setReviews : () => undefined}>
+            onReorder={
+              isEditable ? (items) => onChangeReviews(items) : () => undefined
+            }>
             {reviews.map((review) => (
               <ReviewItem
                 key={review.id}
