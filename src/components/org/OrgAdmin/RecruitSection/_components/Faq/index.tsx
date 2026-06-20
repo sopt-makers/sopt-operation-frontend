@@ -70,12 +70,12 @@ const FaqSection = ({ fnaPart, onChangeFnaPart }: Props) => {
   const textAreaContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!data?.recruitQuestion) return;
+    const syncQuestionCountsFromData = () => {
+      if (!data?.recruitQuestion) return;
 
-    setQuestionCounts((prev) => {
-      const next = { ...prev };
+      const next = createDefaultCounts();
 
-      data.recruitQuestion?.forEach(({ part, questions }) => {
+      data.recruitQuestion.forEach(({ part, questions }) => {
         if (!questions?.length) return;
 
         const count = Math.min(questions.length, FAQ_MAX_QUESTION_COUNT);
@@ -90,8 +90,10 @@ const FaqSection = ({ fnaPart, onChangeFnaPart }: Props) => {
         });
       });
 
-      return next;
-    });
+      setQuestionCounts(next);
+    };
+
+    syncQuestionCountsFromData();
   }, [data, setValue]);
 
   const currentCount = questionCounts[fnaPart];
