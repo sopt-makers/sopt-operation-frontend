@@ -4,7 +4,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { HTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import MyDropZone from '../MyDropzone';
+import MyDropZone from '@/components/org/OrgAdmin/MyDropzone';
 
 interface ImageInputProps extends HTMLAttributes<HTMLInputElement> {
   label: string;
@@ -25,8 +25,8 @@ const ImageInput = ({ label, description }: ImageInputProps) => {
       <MyDropZone
         method={method}
         label={label}
-        width="167px"
-        height="211px"
+        width="168px"
+        height="224px"
         required
       />
     </StInputContainer>

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Button } from '@sopt-makers/ui';
+import { Button, TextArea } from '@sopt-makers/ui';
 
 export const StCancelButton = styled(Button)`
   background-color: ${colors.gray600};
@@ -17,17 +17,22 @@ export const StAddButton = styled(Button)`
   color: ${colors.black};
 `;
 
+export const StAddModalTitle = styled.h1`
+  ${fontsObject.HEADING_4_24_B};
+  color: ${colors.white};
+`;
+
 export const StAddModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 32px;
 
   width: 500px;
 
-  padding: 22px 32px 43px 32px;
+  padding: 22px 32px 32px 32px;
 
   background-color: ${colors.gray900};
-  border-radius: 12px;
+  border-radius: 24px;
 `;
 
 export const StAddModalBtnWrapper = styled.div`
@@ -58,4 +63,19 @@ export const StDescription = styled.p`
   color: ${colors.gray300};
 
   padding-bottom: 5px;
+`;
+
+export const StLinkTextArea = styled(TextArea)`
+  & > div:nth-of-type(1) {
+    width: 100%;
+    background-color: ${colors.gray700};
+  }
+
+  & textarea {
+    background-color: ${colors.gray700};
+  }
+`;
+
+export const StTextAreaWrapper = styled.div`
+  width: 100%;
 `;

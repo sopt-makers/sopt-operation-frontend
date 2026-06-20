@@ -8,16 +8,15 @@ import { PARTS } from '@/components/org/OrgAdmin/HomeSection/constant';
 import {
   StChipsContainer,
   StIcon,
-  StInputLabel,
   StSecondSectionContainer,
-  StTextAreaContainer,
-  StTitleWithIcon,
+  StTitle,
+  StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 import { PART_KO, VALIDATION_CHECK } from '@/utils/org';
 
-import RequiredIcon from '../assets/RequiredIcon';
 import Modal from '../common/Modal';
 import useModal from '../common/Modal/useModal';
+import { StTextAreaWrapper } from '@/components/org/OrgAdmin/RecruitSection/style';
 
 type PartIntroSectionProps = {
   selectedPart: PART_KO;
@@ -56,27 +55,26 @@ const PartIntroSection = ({
 
   return (
     <StSecondSectionContainer>
-      <StTextAreaContainer>
-        <StTitleWithIcon>
-          <span>파트별 소개</span>
-          <StIcon onClick={onInfoToggle}>
-            <IconInfoCircle />
-          </StIcon>
-        </StTitleWithIcon>
-        <StInputLabel>
-          <span>파트별 소개 설명</span>
-          <RequiredIcon />
-        </StInputLabel>
-        <StChipsContainer>
-          {PARTS.map((part) => (
-            <Chip
-              key={part}
-              active={getActiveStatus(part)}
-              onClick={() => handleSelectChip(part)}>
-              {part}
-            </Chip>
-          ))}
-        </StChipsContainer>
+      <StTextAreaWrapper>
+        <StWrapper>
+          <StTitle>
+            <span>파트별 소개</span>
+            <StIcon onClick={onInfoToggle}>
+              <IconInfoCircle />
+            </StIcon>
+          </StTitle>
+
+          <StChipsContainer>
+            {PARTS.map((part) => (
+              <Chip
+                key={part}
+                active={getActiveStatus(part)}
+                onClick={() => handleSelectChip(part)}>
+                {part}
+              </Chip>
+            ))}
+          </StChipsContainer>
+        </StWrapper>
 
         <TextArea
           key={selectedPart}
@@ -100,7 +98,7 @@ const PartIntroSection = ({
             '파트별 설명을 작성해주세요. \nex.\n 린스타트업에 기초해 고객 문제정의 - 고객 발굴 - 검증 과정을 거쳐 비즈니스 전략과 핵심지표 설계까지 고객 관점 프로덕트를 만들고 운영하기 위한 모든 과정을 다룹니다.'
           }
         />
-      </StTextAreaContainer>
+      </StTextAreaWrapper>
       <Modal
         title="파트별 소개"
         description="메인 홈 'Part' 속 파트별 소개에요"
