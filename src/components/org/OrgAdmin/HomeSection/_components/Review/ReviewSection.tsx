@@ -1,5 +1,5 @@
 import { IconInfoCircle } from '@sopt-makers/icons';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import Modal from '@/components/org/OrgAdmin/common/Modal';
@@ -20,6 +20,7 @@ import useDragList from '@/components/org/OrgAdmin/HomeSection/_hooks/useDragLis
 
 import ReviewItem from './ReviewItem';
 import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
+import { EditReviewModal } from '@/components/org/OrgAdmin/HomeSection/_components/Modal/EditReviewModal';
 
 interface Props {
   reviews: Review[];
@@ -27,6 +28,8 @@ interface Props {
 }
 
 const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const { isInfoVisible, onInfoToggle } = useModal();
 
   const {
@@ -41,6 +44,10 @@ const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
   useEffect(() => {
     onChangeReviews?.(reviews);
   }, [onChangeReviews, reviews]);
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+  };
 
   return (
     <StSectionWrapper>
@@ -87,6 +94,7 @@ const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
           onInfoToggle={onInfoToggle}
         />
       </StReviewModalWrapper>
+      <EditReviewModal isOpen={isEditModalOpen} onCancel={handleCloseEditModal} />
     </StSectionWrapper>
   );
 };

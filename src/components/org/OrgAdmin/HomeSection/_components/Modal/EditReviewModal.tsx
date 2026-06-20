@@ -15,10 +15,10 @@ import { ReviewForm } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 
 type EditReviewModalProps = {
   isOpen: boolean;
-
+  onCancel?: () => void;
 };
 
-export const EditReviewModal = ({ isOpen }: EditReviewModalProps) => {
+export const EditReviewModal = ({ isOpen, onCancel }: EditReviewModalProps) => {
     const [review, setReview] = useState<ReviewForm>({
         title: '',
         content: '',
@@ -31,6 +31,8 @@ export const EditReviewModal = ({ isOpen }: EditReviewModalProps) => {
         content: '',
         authorInfo: '',
     });
+    
+    onCancel?.();
   };
 
   const handleSubmit = () => {
