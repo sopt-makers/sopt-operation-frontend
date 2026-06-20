@@ -148,9 +148,9 @@ const HomeSectionContent = () => {
           onChangeReviews={handleChangeReviews}
         />
         <NewsSection
+          key={resetKey}
           latestNews={latestNews}
           isEditable={isEditMode}
-          resetKey={resetKey}
           onChangeNews={handleChangeNews}
         />
       </StSectionWrapper>

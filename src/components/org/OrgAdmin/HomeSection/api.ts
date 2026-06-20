@@ -1,10 +1,7 @@
-import axios from 'axios';
-
-import config from '@/configs/config';
-import { getToken } from '@/utils/auth';
+import type { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 
-import { fetcher } from '../api';
+import { fetcher, soptFetcher } from '../api';
 
 interface PresignedUrlResponse {
   presignedUrl: string;
@@ -12,6 +9,14 @@ interface PresignedUrlResponse {
   expiresIn: number;
   fileKey: string;
 }
+
+type ReviewsResponse =
+  | Review[]
+  | {
+      data?: Review[];
+      review?: Review[];
+      reviews?: Review[];
+    };
 
 export const getAdminInfo = async () => {
   const { data } = await fetcher.GET('/admin', {
@@ -91,74 +96,87 @@ export const deleteNews = async (id: number) => {
   return res;
 };
 
-/** 최신소식 추가 (기존 멀티파트 방식 - deprecated) */
-export const postNews = async (formData: FormData) => {
-  const res = await axios.post(
-    `${config.ORG_API_URL}/v2/admin/news`,
-    formData,
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
-        'Content-Type': 'multipart/form-data',
-      },
-    },
-  );
-
-  return res;
-};
-
 export const getNews = async (id: number) => {
-  const res = await axios.get(
-    `${config.ORG_API_URL}/v2/admin/news/${id}`,
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
+  const { data } = await fetcher.GET('/admin/news/news', {
+    params: {
+      query: {
+        id: String(id),
       },
     },
-  );
+  });
 
-  return res;
+  return data;
 };
 
 export const patchNews = async (id: number, formData: FormData) => {
-  const res = await axios.patch(
-    `${config.ORG_API_URL}/v2/admin/news/${id}`,
-    formData,
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
-        'Content-Type': 'multipart/form-data',
+  const res = await fetcher.PATCH('/admin/news/{id}', {
+    params: {
+      path: {
+        id,
       },
     },
-  );
+    body: {
+      image: formData.get('image') as string,
+      title: formData.get('title') as string,
+      link: formData.get('link') as string,
+    },
+  });
+
+  return res;
+};
+
+export const postNews = async (formData: FormData) => {
+  const res = await fetcher.POST('/admin/news', {
+    body: {
+      image: formData.get('image') as string,
+      title: formData.get('title') as string,
+      link: formData.get('link') as string,
+    },
+  });
+
+  return res;
+};
+
+export const getReviews = async () => {
+  const { data } = await soptFetcher.GET('/homepage-reviews');
+  const reviewsData = data as ReviewsResponse | undefined;
+
+  if (!reviewsData) {
+    return [];
+  }
+
+  if (Array.isArray(reviewsData)) {
+    return reviewsData;
+  }
+
+  return reviewsData.data ?? reviewsData.review ?? reviewsData.reviews ?? [];
+};
+
+export const postReview = async (formData: FormData) => {
+  const res = await fetcher.POST('/homepage-reviews', {
+    body: {
+      title: formData.get('title') as string,
+      content: formData.get('content') as string,
+      authorInfo: formData.get('authorInfo') as string,
+    },
+  });
 
   return res;
 };
 
 export const patchReview = async (id: number, formData: FormData) => {
-  const res = await axios.patch(
-    `${config.ORG_API_URL}/v2/reviews/${id}`,
-    formData,
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
-        'Content-Type': 'multipart/form-data',
+  const res = await soptFetcher.PATCH('/homepage-reviews/{id}', {
+    params: {
+      path: {
+        id,
       },
     },
-  );
-
-  return res;
-};
-
-export const getReview = async (id: number) => {
-  const res = await axios.get(
-    `${config.ORG_API_URL}/v2/reviews/${id}`,
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
-      },  
+    body: {
+      title: formData.get('title') as string,
+      content: formData.get('content') as string,
+      authorInfo: formData.get('authorInfo') as string,
     },
-  );
+  });
 
   return res;
 };
