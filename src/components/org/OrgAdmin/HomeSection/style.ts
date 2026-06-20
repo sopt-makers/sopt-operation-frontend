@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+import { Reorder } from 'framer-motion';
 
 export const StContainer = styled.section`
   position: relative;
@@ -211,12 +212,15 @@ export const StContentWrapper = styled.div`
   gap: 8px;
 `;
 
-export const StReviewList = styled.ul`
+export const StReviewList = styled(Reorder.Group)`
   display: flex;
   width: 100%;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   margin-top: 6px;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
 `;
 
 export const StInfoButton = styled.button`

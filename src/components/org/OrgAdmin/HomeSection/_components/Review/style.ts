@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+import { Reorder } from 'framer-motion';
 
-export const StReviewItem = styled.li<{ $isDragging?: boolean }>`
+export const StReviewReorderItem = styled(Reorder.Item)`
   display: grid;
   grid-template-columns: 24px 1fr 34px;
   align-items: center;
   gap: 10px;
-
-  opacity: ${({ $isDragging }) => ($isDragging ? 0.5 : 1)};
+  list-style: none;
 `;
 
 export const StReviewDragHandle = styled.button`
@@ -38,7 +38,7 @@ export const StReviewContent = styled.div`
   align-items: center;
 
   min-height: 40px;
-  padding: 0 20px;
+  padding: 11px 16px;
 
   border-radius: 8px;
   background-color: ${colors.gray800};

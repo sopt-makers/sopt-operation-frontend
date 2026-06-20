@@ -1,4 +1,6 @@
-import type { ComponentPropsWithoutRef } from 'react';
+'use client';
+
+import { useDragControls } from 'framer-motion';
 
 import HandleIcon from '@/components/org/OrgAdmin/assets/HandleIcon';
 import {
@@ -7,22 +9,16 @@ import {
   StIconTrash,
   StNewsContent,
   StNewsDragHandle,
-  StNewsItem,
+  StNewsReorderItem,
 } from '@/components/org/OrgAdmin/HomeSection/_components/News/style';
-import type { DragHandlers } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 
 export type News = {
   id: number;
   title: string;
 };
 
-type NewsItemProps = Omit<
-  ComponentPropsWithoutRef<'li'>,
-  'onDragOver' | 'onDrop'
-> & {
+type NewsItemProps = {
   news: News;
-  isDragging: boolean;
-  dragHandlers: DragHandlers;
   onEdit?: () => void;
   onDelete?: () => void;
   disabled?: boolean;
@@ -30,30 +26,28 @@ type NewsItemProps = Omit<
 
 const NewsItem = ({
   news,
-  isDragging,
-  dragHandlers,
   onEdit,
   onDelete,
   disabled = false,
-  ...props
 }: NewsItemProps) => {
-  const { onDragStart, onDragEnd, onDragOver, onDrop } = dragHandlers;
+  const dragControls = useDragControls();
 
   return (
-    <StNewsItem
-      $isDragging={isDragging}
-      onDragOver={disabled ? undefined : onDragOver}
-      onDrop={disabled ? undefined : (event) => onDrop(event, news.id)}
-      {...props}>
+    <StNewsReorderItem
+      value={news}
+      drag={disabled ? false : 'y'}
+      dragControls={dragControls}
+      dragListener={false}
+      whileDrag={{ opacity: 0.5 }}>
       <StNewsDragHandle
         type="button"
-        draggable={!disabled}
         disabled={disabled}
         aria-label={`${news.title} 순서 변경`}
-        onDragStart={
-          disabled ? undefined : (event) => onDragStart(event, news.id)
-        }
-        onDragEnd={disabled ? undefined : onDragEnd}>
+        onPointerDown={(event) => {
+          if (!disabled) {
+            dragControls.start(event);
+          }
+        }}>
         <HandleIcon />
       </StNewsDragHandle>
 
@@ -79,7 +73,7 @@ const NewsItem = ({
           onClick={disabled ? undefined : onDelete}
         />
       </StButtonWrapper>
-    </StNewsItem>
+    </StNewsReorderItem>
   );
 };
 

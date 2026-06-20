@@ -2,23 +2,42 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconEdit, IconTrash } from '@sopt-makers/icons';
+import { Reorder } from 'framer-motion';
 
-export const StNewsList = styled.ul`
+export const StNewsReorderGroup = styled(Reorder.Group)`
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 `;
 
-export const StNewsItem = styled.li<{ $isDragging?: boolean }>`
+export const StNewsReorderItem = styled(Reorder.Item)`
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
   color: ${colors.white};
   ${fontsObject.TITLE_5_18_SB};
-
   border-radius: 10px;
-  opacity: ${({ $isDragging }) => ($isDragging ? 0.5 : 1)};
+  list-style: none;
+
+  & > svg {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const StNewsEmptyItem = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  color: ${colors.white};
+  ${fontsObject.TITLE_5_18_SB};
+  border-radius: 10px;
+  list-style: none;
 
   & > svg {
     width: 24px;

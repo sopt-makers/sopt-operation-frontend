@@ -1,3 +1,5 @@
+'use client';
+
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { useEffect, useState } from 'react';
 
@@ -5,7 +7,6 @@ import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 import useModal from '@/components/org/OrgAdmin/common/Modal/useModal';
 import { EditReviewModal } from '@/components/org/OrgAdmin/HomeSection/_components/Modal/EditReviewModal';
-import useDragList from '@/components/org/OrgAdmin/HomeSection/_hooks/useDragList';
 import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 import { useReviewsQuery } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
@@ -35,12 +36,11 @@ const ReviewSection = ({ onChangeReviews, isEditable }: Props) => {
   const { data } = useReviewsQuery();
   const { isInfoVisible, onInfoToggle } = useModal();
   const initialReviews = data ?? EMPTY_REVIEWS;
+  const [reviews, setReviews] = useState(initialReviews);
 
-  const {
-    items: reviews,
-    draggingId: draggingReviewId,
-    dragHandlers,
-  } = useDragList(initialReviews);
+  useEffect(() => {
+    setReviews(initialReviews);
+  }, [initialReviews]);
 
   useEffect(() => {
     onChangeReviews?.(reviews);
@@ -65,13 +65,14 @@ const ReviewSection = ({ onChangeReviews, isEditable }: Props) => {
             수 있어요.
           </StDescription>
 
-          <StReviewList>
+          <StReviewList
+            axis="y"
+            values={reviews}
+            onReorder={isEditable ? setReviews : () => undefined}>
             {reviews.map((review) => (
               <ReviewItem
                 key={review.id}
                 review={review}
-                isDragging={draggingReviewId === review.id}
-                dragHandlers={dragHandlers}
                 onEdit={() => setEditReviewId(review.id)}
                 disabled={!isEditable}
               />

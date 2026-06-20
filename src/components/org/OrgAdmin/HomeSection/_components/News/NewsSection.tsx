@@ -1,3 +1,5 @@
+'use client';
+
 import { IconInfoCircle, IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
@@ -13,10 +15,9 @@ import NewsItem, {
   type News,
 } from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsItem';
 import {
-  StNewsList,
+  StNewsReorderGroup,
   StNewsSectionContainer,
 } from '@/components/org/OrgAdmin/HomeSection/_components/News/style';
-import useDragList from '@/components/org/OrgAdmin/HomeSection/_hooks/useDragList';
 import { useDeleteNewsMutation } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
   StContentWrapper,
@@ -53,18 +54,17 @@ const NewsSection = ({
 
   const { isInfoVisible, onInfoToggle } = useModal();
   const initialNewsItems = latestNews ?? EMPTY_NEWS;
+  const [newsItems, setNewsItems] = useState(initialNewsItems);
 
-  const { mutate } = useDeleteNewsMutation();
-
-  const {
-    items: newsItems,
-    draggingId: draggingNewsId,
-    dragHandlers,
-  } = useDragList<News>(initialNewsItems);
+  useEffect(() => {
+    setNewsItems(initialNewsItems);
+  }, [initialNewsItems]);
 
   useEffect(() => {
     onChangeNews?.(newsItems);
   }, [newsItems, onChangeNews]);
+
+  const { mutate } = useDeleteNewsMutation();
 
   const handleDeleteNewsItems = (id: number) => {
     mutate(id, {
@@ -98,23 +98,24 @@ const NewsSection = ({
             이름, 링크를 추가해주세요.
           </StDescription>
 
-          <StNewsList>
-            {newsItems.length === 0 ? (
-              <EmptyItem />
-            ) : (
-              newsItems.map((item) => (
+          {newsItems.length === 0 ? (
+            <EmptyItem />
+          ) : (
+            <StNewsReorderGroup
+              axis="y"
+              values={newsItems}
+              onReorder={isEditable ? setNewsItems : () => undefined}>
+              {newsItems.map((item) => (
                 <NewsItem
                   key={item.id}
                   news={item}
-                  isDragging={draggingNewsId === item.id}
-                  dragHandlers={dragHandlers}
                   onEdit={() => setEditId(item.id)}
                   onDelete={() => setDeleteId(item.id)}
                   disabled={!isEditable}
                 />
-              ))
-            )}
-          </StNewsList>
+              ))}
+            </StNewsReorderGroup>
+          )}
         </StContentWrapper>
       </StWrapper>
 
