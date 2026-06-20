@@ -7,7 +7,6 @@ import {
   useForm,
 } from 'react-hook-form';
 
-import { AddAdminRequestDto } from '@/__generated__/org-types/data-contracts';
 import {
   StDevHStack,
   StListHeader,
@@ -15,6 +14,7 @@ import {
 import FilterButton from '@/components/common/FilterButton';
 import {
   type EXEC_TYPE,
+  FAQ_MAX_QUESTION_COUNT,
   ORG_ADMIN_LIST,
   type PART_KO,
   PART_LIST,
@@ -50,6 +50,7 @@ function OrgAdmin() {
   const [curriculumPart, setCurriculumPart] = useState<PART_KO>('기획');
   const [fnaPart, setFnaPart] = useState<PART_KO>('기획');
   const [introPart, setIntroPart] = useState<PART_KO>('기획');
+  const [recruitIntroPart, setRecruitIntroPart] = useState<PART_KO>('기획');
 
   const methods = useForm({ mode: 'onBlur' });
   const { handleSubmit, getValues, setError, reset, setValue } = methods;
@@ -64,7 +65,8 @@ function OrgAdmin() {
     memberImageFile1: getValues('member')?.회장?.profileImageFileName?.file,
     memberImageFile2: getValues('member')?.부회장?.profileImageFileName?.file,
     memberImageFile3: getValues('member')?.총무?.profileImageFileName?.file,
-    memberImageFile4: getValues('member')?.아트디렉터?.profileImageFileName?.file,
+    memberImageFile4:
+      getValues('member')?.아트디렉터?.profileImageFileName?.file,
     memberImageFile5:
       getValues('member')?.['운영 팀장']?.profileImageFileName?.file,
     memberImageFile6:
@@ -128,7 +130,7 @@ function OrgAdmin() {
         handleValidateHomeInputs,
         handleValidationRecruitInputs,
       ],
-      지원하기: [
+      모집안내: [
         handleValidationRecruitInputs,
         handleValidateCommonInputs,
         handleValidateHomeInputs,
@@ -141,7 +143,7 @@ function OrgAdmin() {
     const getPartForValidation = (validateFn: () => boolean) => {
       if (validateFn === handleValidateCommonInputs) return '공통';
       if (validateFn === handleValidationAboutInputs) return '소개';
-      if (validateFn === handleValidationRecruitInputs) return '지원하기';
+      if (validateFn === handleValidationRecruitInputs) return '모집안내';
       if (validateFn === handleValidateHomeInputs) return '홈';
       return '공통';
     };
@@ -184,7 +186,7 @@ function OrgAdmin() {
       recruitQuestion,
       recruitSchedule,
     } = data;
-    const requestBody: AddAdminRequestDto = {
+    const requestBody = {
       generation: Number(generation),
       name,
       recruitSchedule: [
@@ -199,7 +201,7 @@ function OrgAdmin() {
       ],
       brandingColor,
       mainButton: {
-        text: '지원하기',
+        text: '모집안내',
         keyColor: '#FF0000',
         subColor: '#CC0000',
       },
@@ -262,23 +264,20 @@ function OrgAdmin() {
         part,
         introduction: recruitPartCurriculum[part],
       })),
-      recruitQuestion: PART_LIST.map((part) => ({
-        part,
-        questions: [
-          {
-            question: recruitQuestion[part].question0,
-            answer: recruitQuestion[part].answer0,
-          },
-          {
-            question: recruitQuestion[part].question1,
-            answer: recruitQuestion[part].answer1,
-          },
-          {
-            question: recruitQuestion[part].question2,
-            answer: recruitQuestion[part].answer2,
-          },
-        ],
-      })),
+      recruitQuestion: PART_LIST.map((part) => {
+        const partQuestions = recruitQuestion[part] ?? {};
+
+        return {
+          part,
+          questions: Array.from(
+            { length: FAQ_MAX_QUESTION_COUNT },
+            (_, index) => ({
+              question: partQuestions[`question${index}`],
+              answer: partQuestions[`answer${index}`],
+            }),
+          ).filter(({ question, answer }) => question || answer),
+        };
+      }),
     };
 
     sendMutate(requestBody);
@@ -372,10 +371,7 @@ function OrgAdmin() {
               }}
             />
           ) : selectedPart === '홈' ? (
-            <HomeSection
-              selectedIntroPart={introPart}
-              onChangeIntroPart={onChangeIntroPart}
-            />
+            <HomeSection />
           ) : selectedPart === '소개' ? (
             <AboutSection
               selectedPart={selectedPartInHomeTap}
@@ -389,6 +385,8 @@ function OrgAdmin() {
             />
           ) : (
             <RecruitSection
+              introPart={recruitIntroPart}
+              onChangeIntroPart={(part: PART_KO) => setRecruitIntroPart(part)}
               curriculumPart={curriculumPart}
               onChangeCurriculumPart={(part: PART_KO) =>
                 setCurriculumPart(part)
