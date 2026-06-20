@@ -109,7 +109,7 @@ const HomeSectionContent = () => {
             <StHomeActionButtonWrapper>
               <Button
                 type="button"
-                size="sm"
+                size="md"
                 variant="outlined"
                 css={{ width: 'fit-content' }}
                 onClick={handleClickCancelButton}>
@@ -118,7 +118,7 @@ const HomeSectionContent = () => {
               <Button
                 theme="blue"
                 type="button"
-                size="sm"
+                size="md"
                 LeftIcon={IcSend}
                 onClick={handleClickDeployButton}>
                 배포
@@ -133,7 +133,7 @@ const HomeSectionContent = () => {
         ) : (
           <Button
             type="button"
-            size="sm"
+            size="md"
             variant="outlined"
             onClick={handleClickEditButton}>
             수정하기
