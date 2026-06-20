@@ -2,7 +2,7 @@
 
 import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import type { UseFormReturn } from 'react-hook-form';
+import { type UseFormReturn, useWatch } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
@@ -33,11 +33,12 @@ const MyDropzone = ({
 }: MyDropzoneProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const {
+    control,
     register,
     setValue,
-    watch,
     formState: { errors },
   } = method;
+  const storedData = useWatch({ control, name: label });
 
   const errorMsg = label.includes('.')
     ? label.split('.').length === 2
@@ -84,14 +85,12 @@ const MyDropzone = ({
   });
 
   useEffect(() => {
-    const storedData = watch(label);
-
     if (storedData?.previewUrl) {
       setPreviewUrl(storedData.previewUrl);
     } else {
       setPreviewUrl(null);
     }
-  }, [label, watch]);
+  }, [storedData?.previewUrl]);
 
   return (
     <StImgButtonWrapper>
