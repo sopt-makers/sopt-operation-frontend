@@ -384,7 +384,7 @@ function OrgAdmin() {
               onChangeFnaPart={(part: PART_KO) => setFnaPart(part)}
             />
           )}
-          {selectedPart !== '홈' && (
+          {selectedPart !== '홈' && selectedPart !== '모집안내' && (
             <StSubmitButton
               type="button"
               onClick={() => {

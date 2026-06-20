@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 import useModal from '@/components/org/OrgAdmin/common/Modal/useModal';
+import { useAdminInfoQuery } from '@/components/org/OrgAdmin/HomeSection/queries';
 import MyDropzone from '@/components/org/OrgAdmin/MyDropzone';
 import {
   StInfoButton,
@@ -19,8 +20,13 @@ import {
   StTitleWrapper,
 } from '@/components/org/OrgAdmin/style';
 
-const HeaderSection = () => {
+type HeaderSectionProps = {
+  isEditable: boolean;
+};
+
+const HeaderSection = ({ isEditable }: HeaderSectionProps) => {
   const method = useFormContext();
+  const { data } = useAdminInfoQuery();
   const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
@@ -41,7 +47,13 @@ const HeaderSection = () => {
             이미지는 1920*580 크기로 올려주세요. ‘모집안내’ 탭 가장 상단에
             보여지는 이미지예요.
           </StDescription>
-          <MyDropzone method={method} label="recruitHeaderImage" required />
+          <MyDropzone
+            method={method}
+            label="recruitHeaderImage"
+            required
+            disabled={!isEditable}
+            defaultPreviewUrl={data?.recruitHeaderImage}
+          />
         </StTitleWrapper>
       </StStretchContainer>
       <StModalWrapper>

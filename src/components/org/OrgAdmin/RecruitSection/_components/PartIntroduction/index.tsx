@@ -50,11 +50,15 @@ const createDefaultPreferenceCounts = (): PreferenceCounts =>
   );
 
 type PartIntroSectionProps = {
+  isEditable: boolean;
+  resetKey: number;
   selectedPart: PART_KO;
   onChangePart: (id: PART_KO) => void;
 };
 
 const PartIntroSection = ({
+  isEditable,
+  resetKey,
   selectedPart,
   onChangePart,
 }: PartIntroSectionProps) => {
@@ -85,18 +89,22 @@ const PartIntroSection = ({
   useEffect(() => {
     if (!data?.recruitPartCurriculum) return;
 
-    setPreferenceCounts((prev) => {
-      const next = { ...prev };
+    const next = createDefaultPreferenceCounts();
 
-      data.recruitPartCurriculum?.forEach(({ part, introduction }) => {
-        const items = (introduction?.preference ?? '').split('\n');
-        const count = Math.min(items.length, PREFERENCE_MAX_COUNT);
-        next[part as PART_KO] = Math.max(count, PREFERENCE_DEFAULT_COUNT);
-      });
+    data.recruitPartCurriculum.forEach(({ part, introduction }) => {
+      if (!part) return;
 
-      return next;
+      const items = (introduction?.preference ?? '')
+        .split('\n')
+        .filter((item) => item.trim());
+      const count = items.length
+        ? Math.min(items.length, PREFERENCE_MAX_COUNT)
+        : PREFERENCE_DEFAULT_COUNT;
+      next[part as PART_KO] = Math.max(count, PREFERENCE_DEFAULT_COUNT);
     });
-  }, [data]);
+
+    setPreferenceCounts(next);
+  }, [data, resetKey]);
 
   const handleValidation = (field: string, value: string) => {
     if (value) {
@@ -218,6 +226,7 @@ const PartIntroSection = ({
               }}
               placeholder="ex. IT 프로덕트 기획 역량을 기르고, 팀을 이끄는 전반적인 매니징을 배워요."
               required
+              disabled={!isEditable}
               maxHeight={9999}
               maxLength={ONE_LINE_MAX_LENGTH}
               value={oneLineValue ?? ''}
@@ -239,6 +248,7 @@ const PartIntroSection = ({
               }}
               placeholder="ex. 기획파트는 “어떤 서비스를 만들 것인가?”에서 시작해 “어떻게 사용자가 편하게 쓸 수 있을까?”까지 고민하는 파트예요. 사용자 니즈를 분석하고, 주요 기능과 화면 흐름을 설계하며, 개발/디자인 파트와 함께 프로젝트를 완성해 나가요!"
               required
+              disabled={!isEditable}
               value={contentValue ?? ''}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 handleValidation(contentFieldName, e.currentTarget.value)
@@ -262,6 +272,7 @@ const PartIntroSection = ({
                   }
                   placeholder="ex. 어려움과 고민을 편하게 나누고 공감할 수 있는 유대감과 열린 마음을 가진 분"
                   required={index === 0}
+                  disabled={!isEditable}
                   value={item}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     handleChangePreferenceItem(index, e.currentTarget.value)

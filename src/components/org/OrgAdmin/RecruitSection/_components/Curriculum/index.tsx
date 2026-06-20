@@ -24,11 +24,13 @@ const CURRICULUM = PART_LIST.reduce(
 );
 
 interface CurriculumProps {
+  isEditable: boolean;
   selectedPart: PART_KO;
   onChangeSelectedPart: (part: PART_KO) => void;
 }
 
 const CurriculumSection = ({
+  isEditable,
   selectedPart,
   onChangeSelectedPart,
 }: CurriculumProps) => {
@@ -67,6 +69,7 @@ const CurriculumSection = ({
                   {...register(`partCurriculum.${selectedPart}.${idx}`, {
                     required: true && VALIDATION_CHECK.required.errorText,
                   })}
+                  disabled={!isEditable}
                   isError={
                     (errors as any).partCurriculum?.[selectedPart]?.[idx]
                       ?.message !== undefined

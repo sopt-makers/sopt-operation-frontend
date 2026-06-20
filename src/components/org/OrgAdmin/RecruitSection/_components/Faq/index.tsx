@@ -46,11 +46,18 @@ const createDefaultCounts = (): QuestionCounts =>
   );
 
 interface Props {
+  isEditable: boolean;
+  resetKey: number;
   fnaPart: PART_KO;
   onChangeFnaPart: (part: PART_KO) => void;
 }
 
-const FaqSection = ({ fnaPart, onChangeFnaPart }: Props) => {
+const FaqSection = ({
+  isEditable,
+  resetKey,
+  fnaPart,
+  onChangeFnaPart,
+}: Props) => {
   const {
     register,
     getValues,
@@ -70,31 +77,22 @@ const FaqSection = ({ fnaPart, onChangeFnaPart }: Props) => {
   const textAreaContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const syncQuestionCountsFromData = () => {
-      if (!data?.recruitQuestion) return;
+    if (!data?.recruitQuestion) {
+      setQuestionCounts(createDefaultCounts());
+      return;
+    }
 
-      const next = createDefaultCounts();
+    const next = createDefaultCounts();
 
-      data.recruitQuestion.forEach(({ part, questions }) => {
-        if (!questions?.length) return;
+    data.recruitQuestion.forEach(({ part, questions }) => {
+      if (!part || !questions?.length) return;
 
-        const count = Math.min(questions.length, FAQ_MAX_QUESTION_COUNT);
-        next[part as PART_KO] = Math.max(count, FAQ_DEFAULT_QUESTION_COUNT);
+      const count = Math.min(questions.length, FAQ_MAX_QUESTION_COUNT);
+      next[part as PART_KO] = Math.max(count, FAQ_DEFAULT_QUESTION_COUNT);
+    });
 
-        questions.slice(0, FAQ_MAX_QUESTION_COUNT).forEach((qa, index) => {
-          setValue(
-            `recruitQuestion.${part}.question${index}`,
-            qa.question ?? '',
-          );
-          setValue(`recruitQuestion.${part}.answer${index}`, qa.answer ?? '');
-        });
-      });
-
-      setQuestionCounts(next);
-    };
-
-    syncQuestionCountsFromData();
-  }, [data, setValue]);
+    setQuestionCounts(next);
+  }, [data, resetKey]);
 
   const currentCount = questionCounts[fnaPart];
 
@@ -190,7 +188,7 @@ const FaqSection = ({ fnaPart, onChangeFnaPart }: Props) => {
               <StFnaWrapper key={index}>
                 <StFnaHeader>
                   <StFnaTitle>질문 {index + 1}</StFnaTitle>
-                  {currentCount > 1 && (
+                  {isEditable && currentCount > 1 && (
                     <StDeleteButton
                       type="button"
                       aria-label={`질문 ${index + 1} 삭제`}
@@ -207,6 +205,7 @@ const FaqSection = ({ fnaPart, onChangeFnaPart }: Props) => {
                     labelText: '질문',
                   }}
                   required
+                  disabled={!isEditable}
                   maxHeight={9999}
                   placeholder="질문을 입력해주세요."
                   onChange={(e) =>
@@ -230,6 +229,7 @@ const FaqSection = ({ fnaPart, onChangeFnaPart }: Props) => {
                     labelText: '답변',
                   }}
                   required
+                  disabled={!isEditable}
                   maxHeight={9999}
                   placeholder="답변을 입력해주세요."
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -247,7 +247,7 @@ const FaqSection = ({ fnaPart, onChangeFnaPart }: Props) => {
                 />
               </StFnaWrapper>
             ))}
-            {currentCount < FAQ_MAX_QUESTION_COUNT && (
+            {isEditable && currentCount < FAQ_MAX_QUESTION_COUNT && (
               <Button
                 theme="white"
                 LeftIcon={IconPlus}

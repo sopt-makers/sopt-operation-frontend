@@ -1,6 +1,20 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
+export const StRecruitContainer = styled.section`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  padding: 50px 0 270px;
+`;
+
+export const StRecruitSectionWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+`;
+
 export const StStretchContainer = styled.section`
   display: flex;
   justify-content: space-between;
