@@ -145,8 +145,34 @@ export const StSubColorTitle = styled(StInputLabel)`
 `;
 
 export const StSubColorDescription = styled.p`
-  ${fontsObject.LABEL_3_14_SB}
+  ${fontsObject.LABEL_4_12_SB};
 
   margin-bottom: 8px;
   color: ${colors.gray300};
+`;
+
+export const StColorRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+`;
+
+export const StColorPreviewInline = styled.input`
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+
+  ::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  ::-webkit-color-swatch {
+    border: none;
+  }
 `;

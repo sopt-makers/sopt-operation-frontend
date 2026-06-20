@@ -64,7 +64,7 @@ interface StInputProps {
 }
 
 export const StInput = styled(TextField)<StInputProps>`
-  width: 338px;
+  width: 340px;
   color: ${colors.white};
 
   input[type='datetime-local'] {
