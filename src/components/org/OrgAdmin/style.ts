@@ -43,7 +43,7 @@ export const StDescription = styled.p`
 export const StInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 `;
 
 export const StInputBox = styled.div`

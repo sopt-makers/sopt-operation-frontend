@@ -12,6 +12,12 @@ export const StStretchContainer = styled.section`
   align-items: center;
 `;
 
+export const StInputFieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
+
 export const StRadioWrapper = styled.div`
   display: flex;
   align-items: center;

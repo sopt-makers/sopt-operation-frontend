@@ -1,5 +1,3 @@
-import Modal from '../common/Modal';
-import useModal from '../common/Modal/useModal';
 import {
   StDescription,
   StInputWrapper,
@@ -7,35 +5,64 @@ import {
   StTitleWrapper,
   StWrapper,
 } from '../style';
-import BrandingSubColor from './BrandingSubColor';
 import ColorInputField from './ColorInputField';
-import { StStretchContainer } from './style';
+import ColorRadioField from './ColorRadioField';
+import { StInputFieldWrapper, StStretchContainer } from './style';
+
+const BRANDING_COLOR_FIELD_IDS = {
+  darkKeyColor: 'brandingColor.darkKeyColor',
+  darkTextOnColor: 'brandingColor.darkTextOnColor',
+  lightKeyColor: 'brandingColor.lightKeyColor',
+  lightTextOnColor: 'brandingColor.lightTextOnColor',
+} as const;
 
 const BrandingColor = () => {
-  const { isInfoVisible, onInfoToggle } = useModal();
-
   return (
     <StStretchContainer>
       <StWrapper>
         <StTitleWrapper>
           <StTitle>브랜딩 컬러</StTitle>
-          <StDescription>다크 모드를 고려하여 선정해주세요.</StDescription>
+          <StDescription>
+            콘텐츠를 명확하게 읽을 수 있도록 텍스트 접근성을 고려해
+            설정해주세요.
+          </StDescription>
         </StTitleWrapper>
-        <StInputWrapper>
-          <ColorInputField label="키컬러 (메인)" id="brandingColor.main" />
-          <ColorInputField label="키컬러 (저명도)" id="brandingColor.low" />
-          <ColorInputField label="키컬러 (고명도)" id="brandingColor.high" />
-          <BrandingSubColor onInfoToggle={onInfoToggle} />
-        </StInputWrapper>
-      </StWrapper>{' '}
-      <Modal
-        title="서브컬러 (강조 그레이 컬러) 예시"
-        description="&#39;지원하기&#39; 탭 속 파트별 소개 &#39;👍이런 분이면 좋아요!&#39;의 백그라운 컬러예요."
-        subDescription="키컬러 저명도와 그레이 컬러 사이, 컬러를 지정해주세요."
-        imgSrc="/images/org/imgSubColorInfo.png"
-        isInfoVisible={isInfoVisible}
-        onInfoToggle={onInfoToggle}
-      />
+
+        <StInputFieldWrapper>
+          <StInputWrapper>
+            <ColorInputField
+              label="다크 모드 키컬러"
+              id={BRANDING_COLOR_FIELD_IDS.darkKeyColor}
+              description="다크 모드 텍스트와 컴포넌트에 강조색으로 적용돼요."
+            />
+            <ColorRadioField
+              label="다크 모드 키컬러 위 텍스트"
+              description="다크 모드 키컬러 위에 사용되는 텍스트와 아이콘 컬러예요."
+              id={BRANDING_COLOR_FIELD_IDS.darkTextOnColor}
+              keyColorId={BRANDING_COLOR_FIELD_IDS.darkKeyColor}
+              defaultValue="dark"
+            />
+          </StInputWrapper>
+
+          <StInputWrapper>
+            <ColorInputField
+              label="라이트 모드 키컬러"
+              id={BRANDING_COLOR_FIELD_IDS.lightKeyColor}
+              description="라이트 모드 키컬러와 컴포넌트에 강조색으로 적용돼요."
+              previewDefaultColor="#000000"
+            />
+            <ColorRadioField
+              label="라이트 모드 키컬러 위 텍스트"
+              description="라이트 모드 키컬러 위에 사용되는 텍스트와 아이콘 컬러예요."
+              id={BRANDING_COLOR_FIELD_IDS.lightTextOnColor}
+              keyColorId={BRANDING_COLOR_FIELD_IDS.lightKeyColor}
+              previewDefaultColor="#000000"
+              defaultValue="light"
+              lightRecommended
+            />
+          </StInputWrapper>
+        </StInputFieldWrapper>
+      </StWrapper>
     </StStretchContainer>
   );
 };
