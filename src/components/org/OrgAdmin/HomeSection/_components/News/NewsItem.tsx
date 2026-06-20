@@ -2,12 +2,12 @@ import type { ComponentPropsWithoutRef, DragEvent } from 'react';
 
 import HandleIcon from '@/components/org/OrgAdmin/assets/HandleIcon';
 import {
-  StNewsContent,
-  StNewsDragHandle,
-  StNewsItem,
   StButtonWrapper,
   StIconEdit,
   StIconTrash,
+  StNewsContent,
+  StNewsDragHandle,
+  StNewsItem,
 } from '@/components/org/OrgAdmin/HomeSection/_components/News/style';
 
 export type News = {
@@ -27,6 +27,7 @@ type NewsItemProps = ComponentPropsWithoutRef<'li'> & {
   onNewsDrop: (event: DragEvent<HTMLLIElement>, newsId: number) => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  disabled?: boolean;
 };
 
 const NewsItem = ({
@@ -38,20 +39,24 @@ const NewsItem = ({
   onNewsDrop,
   onEdit,
   onDelete,
+  disabled = false,
   ...props
 }: NewsItemProps) => {
   return (
     <StNewsItem
       $isDragging={isDragging}
-      onDragOver={onNewsDragOver}
-      onDrop={(event) => onNewsDrop(event, news.id)}
+      onDragOver={disabled ? undefined : onNewsDragOver}
+      onDrop={disabled ? undefined : (event) => onNewsDrop(event, news.id)}
       {...props}>
       <StNewsDragHandle
         type="button"
-        draggable
+        draggable={!disabled}
+        disabled={disabled}
         aria-label={`${news.title} 순서 변경`}
-        onDragStart={(event) => onNewsDragStart(event, news.id)}
-        onDragEnd={onNewsDragEnd}>
+        onDragStart={
+          disabled ? undefined : (event) => onNewsDragStart(event, news.id)
+        }
+        onDragEnd={disabled ? undefined : onNewsDragEnd}>
         <HandleIcon />
       </StNewsDragHandle>
 
@@ -61,16 +66,20 @@ const NewsItem = ({
         <StIconEdit
           role="button"
           aria-label={`${news.title} 수정 버튼`}
-          tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && onEdit?.()}
-          onClick={onEdit}
+          aria-disabled={disabled}
+          tabIndex={disabled ? -1 : 0}
+          $isDisabled={disabled}
+          onKeyDown={(e) => !disabled && e.key === 'Enter' && onEdit?.()}
+          onClick={disabled ? undefined : onEdit}
         />
         <StIconTrash
           role="button"
           aria-label={`${news.title} 삭제 버튼`}
-          tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && onDelete?.()}
-          onClick={onDelete}
+          aria-disabled={disabled}
+          tabIndex={disabled ? -1 : 0}
+          $isDisabled={disabled}
+          onKeyDown={(e) => !disabled && e.key === 'Enter' && onDelete?.()}
+          onClick={disabled ? undefined : onDelete}
         />
       </StButtonWrapper>
     </StNewsItem>

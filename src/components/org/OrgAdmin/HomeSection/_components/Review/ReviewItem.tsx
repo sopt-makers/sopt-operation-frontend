@@ -16,13 +16,12 @@ type ReviewItemProps = Omit<
 > & {
   review: Review;
   isDragging: boolean;
-  onDragStart: (
-    event: DragEvent<HTMLButtonElement>,
-    reviewId: number,
-  ) => void;
+  onDragStart: (event: DragEvent<HTMLButtonElement>, reviewId: number) => void;
   onDragEnd: () => void;
   onDragOver: (event: DragEvent<HTMLLIElement>) => void;
   onDrop: (event: DragEvent<HTMLLIElement>, reviewId: number) => void;
+  onEdit?: () => void;
+  disabled?: boolean;
 };
 
 const ReviewItem = ({
@@ -32,24 +31,33 @@ const ReviewItem = ({
   onDragEnd,
   onDragOver,
   onDrop,
+  onEdit,
+  disabled = false,
   ...props
 }: ReviewItemProps) => {
   return (
     <StReviewItem
       $isDragging={isDragging}
-      onDragOver={onDragOver}
-      onDrop={(event) => onDrop(event, review.id)}
+      onDragOver={disabled ? undefined : onDragOver}
+      onDrop={disabled ? undefined : (event) => onDrop(event, review.id)}
       {...props}>
       <StReviewDragHandle
         type="button"
-        draggable
+        draggable={!disabled}
+        disabled={disabled}
         aria-label={`${review.title} 순서 변경`}
-        onDragStart={(event) => onDragStart(event, review.id)}
-        onDragEnd={onDragEnd}>
+        onDragStart={
+          disabled ? undefined : (event) => onDragStart(event, review.id)
+        }
+        onDragEnd={disabled ? undefined : onDragEnd}>
         <HandleIcon />
       </StReviewDragHandle>
       <StReviewContent>{review.title}</StReviewContent>
-      <StReviewEditButton type="button" aria-label={`${review.title} 수정`}>
+      <StReviewEditButton
+        type="button"
+        disabled={disabled}
+        onClick={disabled ? undefined : onEdit}
+        aria-label={`${review.title} 수정`}>
         <IconEdit />
       </StReviewEditButton>
     </StReviewItem>

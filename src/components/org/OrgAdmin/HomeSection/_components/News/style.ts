@@ -36,12 +36,16 @@ export const StNewsDragHandle = styled.button`
     cursor: grabbing;
   }
 
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+
   & > svg {
     width: 24px;
     height: 24px;
   }
 `;
-
 
 export const StButtonWrapper = styled.div`
   display: flex;
@@ -51,24 +55,31 @@ export const StButtonWrapper = styled.div`
 
   & > svg {
     flex-shrink: 0;
-    cursor: pointer;
   }
 `;
 
-export const StIconEdit = styled(IconEdit)`
+type IconButtonProps = {
+  $isDisabled?: boolean;
+};
+
+export const StIconEdit = styled(IconEdit)<IconButtonProps>`
   color: ${colors.white};
   width: 34px;
   height: 48px;
   padding: 12px 10px 12px 0;
   box-sizing: border-box;
+  cursor: ${({ $isDisabled }) => ($isDisabled ? 'default' : 'pointer')};
+  opacity: ${({ $isDisabled }) => ($isDisabled ? 0.5 : 1)};
 `;
 
-export const StIconTrash = styled(IconTrash)`
+export const StIconTrash = styled(IconTrash)<IconButtonProps>`
   color: ${colors.white};
   width: 34px;
   height: 48px;
   padding: 12px 10px 12px 0;
   box-sizing: border-box;
+  cursor: ${({ $isDisabled }) => ($isDisabled ? 'default' : 'pointer')};
+  opacity: ${({ $isDisabled }) => ($isDisabled ? 0.5 : 1)};
 `;
 
 export const StEmptyNewsContent = styled.span`

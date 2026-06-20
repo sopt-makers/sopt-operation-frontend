@@ -1,21 +1,26 @@
+import { IconInfoCircle } from '@sopt-makers/icons';
+import { useFormContext } from 'react-hook-form';
+
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 import useModal from '@/components/org/OrgAdmin/common/Modal/useModal';
+import { StHomeHeaderModalWrapper } from '@/components/org/OrgAdmin/HomeSection/_components/Header/style';
 import {
-  StInfoButton,
-  StTitle,
   StContentWrapper,
-  StInputLabel,
   StDescription,
+  StInfoButton,
+  StInputLabel,
   StSectionWrapper,
+  StTitle,
   StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
-import { IconInfoCircle } from '@sopt-makers/icons';
 import MyDropzone from '@/components/org/OrgAdmin/MyDropzone';
-import { useFormContext } from 'react-hook-form';
-import { StHomeHeaderModalWrapper } from '@/components/org/OrgAdmin/HomeSection/_components/Header/style';
 
-const HomeHeaderSection = () => {
+type HomeHeaderSectionProps = {
+  isEditable: boolean;
+};
+
+const HomeHeaderSection = ({ isEditable }: HomeHeaderSectionProps) => {
   const method = useFormContext();
   const { isInfoVisible, onInfoToggle } = useModal();
 
@@ -45,6 +50,7 @@ const HomeHeaderSection = () => {
             width="582px"
             height="327px"
             required
+            disabled={!isEditable}
           />
         </StContentWrapper>
       </StWrapper>

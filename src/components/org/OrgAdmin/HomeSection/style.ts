@@ -18,6 +18,28 @@ export const StHomeEditButtonWrapper = styled.div`
   z-index: 1;
 `;
 
+export const StHomeActionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+`;
+
+export const StHomeActionButtonWrapper = styled.div`
+  display: flex;
+  gap: 14px;
+`;
+
+export const StUnsavedChangeText = styled.p`
+  ${fontsObject.LABEL_3_14_SB};
+  color: ${colors.error};
+
+  &::before {
+    content: '▲';
+    margin-right: 6px;
+  }
+`;
+
 export const StSectionWrapper = styled.section`
   position: relative;
   display: flex;
@@ -196,7 +218,6 @@ export const StReviewList = styled.ul`
   gap: 12px;
   margin-top: 6px;
 `;
-
 
 export const StInfoButton = styled.button`
   color: ${colors.white};

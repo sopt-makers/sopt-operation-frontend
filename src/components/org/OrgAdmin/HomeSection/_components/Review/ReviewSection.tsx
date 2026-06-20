@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 import useModal from '@/components/org/OrgAdmin/common/Modal/useModal';
+import { EditReviewModal } from '@/components/org/OrgAdmin/HomeSection/_components/Modal/EditReviewModal';
+import useDragList from '@/components/org/OrgAdmin/HomeSection/_hooks/useDragList';
+import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
+import { useReviewsQuery } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
   StContentWrapper,
   StDescription,
@@ -16,21 +20,21 @@ import {
   StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 
-import useDragList from '@/components/org/OrgAdmin/HomeSection/_hooks/useDragList';
-
 import ReviewItem from './ReviewItem';
-import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
-import { EditReviewModal } from '@/components/org/OrgAdmin/HomeSection/_components/Modal/EditReviewModal';
 
 interface Props {
-  reviews: Review[];
   onChangeReviews?: (reviews: Review[]) => void;
+  isEditable: boolean;
 }
 
-const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+const EMPTY_REVIEWS: Review[] = [];
 
+const ReviewSection = ({ onChangeReviews, isEditable }: Props) => {
+  const [editReviewId, setEditReviewId] = useState<number>();
+
+  const { data } = useReviewsQuery();
   const { isInfoVisible, onInfoToggle } = useModal();
+  const initialReviews = data ?? EMPTY_REVIEWS;
 
   const {
     items: reviews,
@@ -44,10 +48,6 @@ const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
   useEffect(() => {
     onChangeReviews?.(reviews);
   }, [onChangeReviews, reviews]);
-
-  const handleCloseEditModal = () => {
-    setIsEditModalOpen(false);
-  };
 
   return (
     <StSectionWrapper>
@@ -67,7 +67,7 @@ const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
             홈의 ‘Review’속 내용을 수정할 수 있어요. 좌측 핸들로 순서를 조정할
             수 있어요.
           </StDescription>
-          
+
           <StReviewList>
             {reviews.map((review) => (
               <ReviewItem
@@ -78,6 +78,8 @@ const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
                 onDragEnd={handleReviewDragEnd}
                 onDragOver={handleReviewDragOver}
                 onDrop={(event) => handleReviewDrop(event, review.id)}
+                onEdit={() => setEditReviewId(review.id)}
+                disabled={!isEditable}
               />
             ))}
           </StReviewList>
@@ -94,7 +96,11 @@ const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
           onInfoToggle={onInfoToggle}
         />
       </StReviewModalWrapper>
-      <EditReviewModal isOpen={isEditModalOpen} onCancel={handleCloseEditModal} />
+      <EditReviewModal
+        isOpen={editReviewId != null}
+        reviewId={editReviewId}
+        onCancel={() => setEditReviewId(undefined)}
+      />
     </StSectionWrapper>
   );
 };

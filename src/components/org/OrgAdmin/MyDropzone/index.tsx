@@ -21,6 +21,7 @@ interface MyDropzoneProps {
   height?: string;
   shape?: 'square' | 'circle';
   required?: boolean;
+  disabled?: boolean;
 }
 
 const MyDropzone = ({
@@ -30,6 +31,7 @@ const MyDropzone = ({
   height = '166px',
   shape = 'square',
   required,
+  disabled = false,
 }: MyDropzoneProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const {
@@ -62,7 +64,7 @@ const MyDropzone = ({
           setValue(
             label,
             { fileName: sanitizedFileName, file, previewUrl: reader.result },
-            { shouldValidate: true },
+            { shouldValidate: true, shouldDirty: true },
           );
         };
         reader.readAsDataURL(file);
@@ -77,6 +79,7 @@ const MyDropzone = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    disabled,
     accept: {
       'image/jpeg': [],
       'image/jpg': [],
@@ -101,12 +104,14 @@ const MyDropzone = ({
         width={width}
         height={height}
         shape={shape}
-        isError={errorMsg}>
+        isError={errorMsg}
+        isDisabled={disabled}>
         <input
           {...register(label, {
             required: required && true && VALIDATION_CHECK.required.errorText,
           })}
           {...getInputProps()}
+          disabled={disabled}
         />
         {previewUrl ? (
           <StImgPreview src={previewUrl} alt="에러가 발생했어요." />
