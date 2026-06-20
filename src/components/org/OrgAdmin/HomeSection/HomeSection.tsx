@@ -1,6 +1,7 @@
 import { Button, ToastProvider } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+
 import { ActionModal } from '@/components/org/OrgAdmin/common/ActionModal';
 import HomeHeaderSection from '@/components/org/OrgAdmin/HomeSection/_components/Header/HomeHeaderSection';
 import NewsSection from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsSection';
@@ -32,7 +33,6 @@ const HomeSectionContent = () => {
 
     return true;
   };
-
 
   const handleClickEditButton = () => {
     if (validateHomeInputs()) {

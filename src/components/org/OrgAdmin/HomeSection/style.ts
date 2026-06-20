@@ -144,9 +144,6 @@ export const StChipsContainer = styled.div`
   align-items: center;
   gap: 6px;
 
-  margin-bottom: 18px;
-  margin-top: 24px;
-
   & > button {
     white-space: nowrap;
   }
@@ -196,7 +193,6 @@ export const StReviewList = styled.ul`
   gap: 12px;
   margin-top: 6px;
 `;
-
 
 export const StInfoButton = styled.button`
   color: ${colors.white};
