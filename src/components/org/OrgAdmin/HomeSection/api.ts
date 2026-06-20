@@ -106,3 +106,59 @@ export const postNews = async (formData: FormData) => {
 
   return res;
 };
+
+export const getNews = async (id: number) => {
+  const res = await axios.get(
+    `${config.ORG_API_URL}/v2/admin/news/${id}`,
+    {
+      headers: {
+        Authorization: getToken('ACCESS'),
+      },
+    },
+  );
+
+  return res;
+};
+
+export const patchNews = async (id: number, formData: FormData) => {
+  const res = await axios.patch(
+    `${config.ORG_API_URL}/v2/admin/news/${id}`,
+    formData,
+    {
+      headers: {
+        Authorization: getToken('ACCESS'),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+
+  return res;
+};
+
+export const patchReview = async (id: number, formData: FormData) => {
+  const res = await axios.patch(
+    `${config.ORG_API_URL}/v2/reviews/${id}`,
+    formData,
+    {
+      headers: {
+        Authorization: getToken('ACCESS'),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+
+  return res;
+};
+
+export const getReview = async (id: number) => {
+  const res = await axios.get(
+    `${config.ORG_API_URL}/v2/reviews/${id}`,
+    {
+      headers: {
+        Authorization: getToken('ACCESS'),
+      },  
+    },
+  );
+
+  return res;
+};

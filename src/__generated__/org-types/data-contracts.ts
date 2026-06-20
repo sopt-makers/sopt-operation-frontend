@@ -173,53 +173,6 @@ export interface ScrapLinkResponseDto {
   url: string;
 }
 
-/** 브랜딩 컬러 */
-export interface AddAdminBrandingColorRequestDto {
-  /**
-   * 메인 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "FF0000"
-   */
-  main: string;
-  /**
-   * 로우 톤 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "CC0000"
-   */
-  low: string;
-  /**
-   * 하이 톤 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "FF3333"
-   */
-  high: string;
-  /**
-   * 포인트 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "FF9999"
-   */
-  point: string;
-}
-
-/** 핵심 가치 */
-export interface AddAdminCoreValueRequestDto {
-  /**
-   * 핵심 가치
-   * @example "용기"
-   */
-  value: string;
-  /**
-   * 핵심 가치 설명
-   * @example "새로운 도전을 위해 과감히 용기내는 사람"
-   */
-  description: string;
-  /**
-   * 핵심 가치 이미지 파일명
-   * @example "image.png"
-   */
-  imageFileName: string;
-}
-
 /** 소개글 정보 */
 export interface AddAdminIntroductionRequestDto {
   /**
@@ -232,58 +185,6 @@ export interface AddAdminIntroductionRequestDto {
    * @example "Kotlin 개발 경험"
    */
   preference: string;
-}
-
-/** 메인 버튼 스타일 */
-export interface AddAdminMainButtonRequestDto {
-  /**
-   * 버튼 텍스트
-   * @example "지원하기"
-   */
-  text: string;
-  /**
-   * 주요 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "#FF0000"
-   */
-  keyColor: string;
-  /**
-   * 보조 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "#CC0000"
-   */
-  subColor: string;
-}
-
-/** 멤버 정보 */
-export interface AddAdminMemberRequestDto {
-  /**
-   * 역할
-   * @example "회장"
-   */
-  role: string;
-  /**
-   * 이름
-   * @example "홍길동"
-   */
-  name: string;
-  /**
-   * 소속
-   * @example "SOPT"
-   */
-  affiliation: string;
-  /**
-   * 한줄 소개
-   * @example "안녕하세요!"
-   */
-  introduction: string;
-  /** SNS 링크 정보 */
-  sns: AddAdminSnsLinksRequestDto;
-  /**
-   * 프로필 이미지 파일명
-   * @example "image.png"
-   */
-  profileImageFileName: string;
 }
 
 /** 파트별 커리큘럼 */
@@ -347,164 +248,58 @@ export interface AddAdminRecruitQuestionRequestDto {
   questions: AddAdminQuestionRequestDto[];
 }
 
-/** 모집 일정 */
-export interface AddAdminRecruitScheduleRequestDto {
-  /**
-   * 타입
-   * @pattern ^(OB|YB)$
-   * @example "OB"
-   */
-  type: 'OB' | 'YB';
-  /** 상세 일정 */
-  schedule: AddAdminScheduleRequestDto;
-}
-
-/** 어드민 배포하기 */
-export interface AddAdminRequestDto {
+/** 어드민 모집안내 탭 배포 */
+export interface AddAdminRecruitRequestDto {
   /**
    * 기수
    * @format int32
-   * @example 34
+   * @example 36
    */
   generation: number;
-  /**
-   * 기수명
-   * @example "SOPT"
-   */
-  name: string;
-  recruitSchedule?: AddAdminRecruitScheduleRequestDto[];
-  /** 브랜딩 컬러 */
-  brandingColor?: AddAdminBrandingColorRequestDto;
-  /** 메인 버튼 스타일 */
-  mainButton?: AddAdminMainButtonRequestDto;
-  partIntroduction?: AddAdminPartIntroductionRequestDto[];
-  /**
-   * 헤더 이미지 파일명
-   * @example "header.png"
-   */
-  headerImageFileName: string;
-  coreValue?: AddAdminCoreValueRequestDto[];
-  partCurriculum?: AddAdminPartCurriculumRequestDto[];
-  member?: AddAdminMemberRequestDto[];
   /**
    * 지원하기 헤더 이미지 파일명
    * @example "recruit_header.png"
    */
   recruitHeaderImageFileName: string;
+  /** 파트별 소개 목록 (한 줄 소개 + 이런 걸 배워요) */
+  partIntroduction?: AddAdminPartIntroductionRequestDto[];
+  /** 파트별 커리큘럼 목록 (이런 걸 배워요 - 주차별) */
+  partCurriculum?: AddAdminPartCurriculumRequestDto[];
+  /** 파트별 상세 소개 목록 (파트 소개 + 이런 분이면 좋아요) */
   recruitPartCurriculum?: AddAdminRecruitPartCurriculumRequestDto[];
+  /** 자주 묻는 질문 목록 */
   recruitQuestion?: AddAdminRecruitQuestionRequestDto[];
 }
 
-/** 상세 일정 */
-export interface AddAdminScheduleRequestDto {
+/** 어드민 모집안내 탭 배포 응답 (S3 PresignedUrl 포함) */
+export interface AddAdminRecruitResponseDto {
   /**
-   * 지원 시작 시간
-   * @example "2024-01-01T09:00:00.000Z"
+   * 기수
+   * @format int32
+   * @example 36
    */
-  applicationStartTime: string;
-  /**
-   * 지원 종료 시간
-   * @example "2024-01-31T18:00:00.000Z"
-   */
-  applicationEndTime: string;
-  /**
-   * 지원 결과 발표 시간
-   * @example "2024-02-01T12:00:00.000Z"
-   */
-  applicationResultTime: string;
-  /**
-   * 면접 시작 시간
-   * @example "2024-02-05T09:00:00.000Z"
-   */
-  interviewStartTime: string;
-  /**
-   * 면접 종료 시간
-   * @example "2024-02-05T18:00:00.000Z"
-   */
-  interviewEndTime: string;
-  /**
-   * 최종 결과 발표 시간
-   * @example "2024-02-10T12:00:00.000Z"
-   */
-  finalResultTime: string;
+  generation: number;
+  /** 모집안내 헤더 이미지 S3 PresignedUrl */
+  recruitHeaderImage: string;
 }
 
-/** SNS 링크 정보 */
-export interface AddAdminSnsLinksRequestDto {
-  /**
-   * 이메일
-   * @example "example@sopt.org"
-   */
-  email?: string;
-  /**
-   * 링크드인 URL
-   * @pattern ^https?://.*
-   * @example "https://www.linkedin.com/in/example"
-   */
-  linkedin?: string;
-  /**
-   * 깃허브 URL
-   * @pattern ^https?://.*
-   * @example "https://github.com/example"
-   */
-  github?: string;
-  /**
-   * 비핸스 URL
-   * @pattern ^https?://.*
-   * @example "https://www.behance.net/example"
-   */
-  behance?: string;
-}
-
-/** 핵심가치 이미지 S3 PresigneUrl 정보 */
-export interface AddAdminCoreValueResponseRecordDto {
-  /**
-   * 핵심 가치
-   * @example "용기"
-   */
-  value: string;
-  /** 핵심가치 이미지 PresgiendUrl */
-  image: string;
-}
-
-/** 멤버 프로필 이미지 S3 PresigneUrl 정보 */
-export interface AddAdminMemberResponseRecordDto {
-  /**
-   * 역할
-   * @example "회장"
-   */
-  role: string;
-  /**
-   * 이름
-   * @example "홍길동"
-   */
-  name: string;
-  /** 프로필 이미지 PresgiendUrl */
-  profileImage: string;
-}
-
-/** 어드민 메인정보 추가 */
-export interface AddAdminResponseDto {
+/** 어드민 배포 확인 */
+export interface AddAdminConfirmRequestDto {
   /**
    * 기수
    * @format int32
    * @example 34
    */
   generation: number;
+}
+
+/** 어드민 메인정보 파일 업로드 확인 */
+export interface AddAdminConfirmResponseDto {
   /**
-   * 헤더 이미지 S3 PresignedUrl
-   * @example "https://image.url"
+   * 성공 메세지
+   * @example "success"
    */
-  headerImage: string;
-  /** 핵심가치 이미지 S3 PresigneUrl 정보 */
-  coreValues: AddAdminCoreValueResponseRecordDto[];
-  /** 멤버 프로필 이미지 S3 PresigneUrl 정보 */
-  members: AddAdminMemberResponseRecordDto[];
-  /**
-   * 지원하기 헤더 이미지 S3 PresignedUrl
-   * @example "https://image.url"
-   */
-  recruitHeaderImage: string;
+  message: string;
 }
 
 /** 최신소식 추가하기 */
@@ -569,23 +364,396 @@ export interface DeleteAdminNewsResponseDto {
   message: string;
 }
 
-/** 어드민 배포 확인 */
-export interface AddAdminConfirmRequestDto {
+/** 어드민 홈 탭 배포 */
+export interface AddAdminHomeRequestDto {
   /**
    * 기수
    * @format int32
-   * @example 34
+   * @example 36
+   */
+  generation: number;
+  /**
+   * 홈 헤더 이미지 파일명
+   * @example "home_header.png"
+   */
+  homeHeaderImageFileName: string;
+  /** 리뷰 목록 */
+  review?: AddAdminReviewRequestDto[];
+  /** 최신소식 목록 */
+  news?: AddAdminNewsRequestDto[];
+}
+
+/** 리뷰 목록 */
+export interface AddAdminReviewRequestDto {
+  /**
+   * 리뷰 제목
+   * @example "후회없는 활동"
+   */
+  title: string;
+  /**
+   * 리뷰 내용
+   * @example "후회없는 활동"
+   */
+  content: string;
+  /** 김솝트 | 36,37기 활동 | 서버 */
+  authorInfo?: string;
+}
+
+/** 어드민 홈 탭 배포 응답 (S3 PresignedUrl 포함) */
+export interface AddAdminHomeResponseDto {
+  /**
+   * 기수
+   * @format int32
+   * @example 36
+   */
+  generation: number;
+  /** 홈 헤더 이미지 S3 PresignedUrl */
+  homeHeaderImage: string;
+  /** 최신소식 이미지 S3 PresignedUrl 목록 */
+  news?: AddAdminNewsResponseRecordDto[];
+}
+
+/** 최신소식 이미지 S3 PresignedUrl 정보 */
+export interface AddAdminNewsResponseRecordDto {
+  /** 뉴스 제목 */
+  title: string;
+  /** 뉴스 이미지 PresignedUrl */
+  imagePresignedUrl: string;
+}
+
+/** 브랜딩 컬러 */
+export interface AddAdminBrandingColorRequestDto {
+  /**
+   * 메인 컬러
+   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+   * @example "FF0000"
+   */
+  main: string;
+  /**
+   * 로우 톤 컬러
+   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+   * @example "CC0000"
+   */
+  low: string;
+  /**
+   * 하이 톤 컬러
+   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+   * @example "FF3333"
+   */
+  high: string;
+  /**
+   * 포인트 컬러
+   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+   * @example "FF9999"
+   */
+  point: string;
+}
+
+/** 어드민 공통 탭 배포 */
+export interface AddAdminCommonRequestDto {
+  /**
+   * 기수
+   * @format int32
+   * @example 36
+   */
+  generation: number;
+  /**
+   * 기수명
+   * @example "SOPT"
+   */
+  name: string;
+  /** 모집 일정 */
+  recruitSchedule?: AddAdminRecruitScheduleRequestDto[];
+  /** 브랜딩 컬러 */
+  brandingColor: AddAdminBrandingColorRequestDto;
+  /** 메인 버튼 스타일 */
+  mainButton: AddAdminMainButtonRequestDto;
+}
+
+/** 메인 버튼 스타일 */
+export interface AddAdminMainButtonRequestDto {
+  /**
+   * 버튼 텍스트
+   * @example "지원하기"
+   */
+  text: string;
+  /**
+   * 주요 컬러
+   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+   * @example "#FF0000"
+   */
+  keyColor: string;
+  /**
+   * 보조 컬러
+   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+   * @example "#CC0000"
+   */
+  subColor: string;
+}
+
+/** 모집 일정 */
+export interface AddAdminRecruitScheduleRequestDto {
+  /**
+   * 타입
+   * @pattern ^(OB|YB)$
+   * @example "OB"
+   */
+  type: 'OB' | 'YB';
+  /** 상세 일정 */
+  schedule: AddAdminScheduleRequestDto;
+}
+
+/** 상세 일정 */
+export interface AddAdminScheduleRequestDto {
+  /**
+   * 지원 시작 시간
+   * @example "2024-01-01T09:00:00.000Z"
+   */
+  applicationStartTime: string;
+  /**
+   * 지원 종료 시간
+   * @example "2024-01-31T18:00:00.000Z"
+   */
+  applicationEndTime: string;
+  /**
+   * 지원 결과 발표 시간
+   * @example "2024-02-01T12:00:00.000Z"
+   */
+  applicationResultTime: string;
+  /**
+   * 면접 시작 시간
+   * @example "2024-02-05T09:00:00.000Z"
+   */
+  interviewStartTime: string;
+  /**
+   * 면접 종료 시간
+   * @example "2024-02-05T18:00:00.000Z"
+   */
+  interviewEndTime: string;
+  /**
+   * 최종 결과 발표 시간
+   * @example "2024-02-10T12:00:00.000Z"
+   */
+  finalResultTime: string;
+}
+
+/** 어드민 공통 탭 배포 응답 (이미지 없음) */
+export interface AddAdminCommonResponseDto {
+  /**
+   * 기수
+   * @format int32
+   * @example 36
    */
   generation: number;
 }
 
-/** 어드민 메인정보 파일 업로드 확인 */
-export interface AddAdminConfirmResponseDto {
+/** 어드민 소개 탭 배포 */
+export interface AddAdminAboutRequestDto {
+  /**
+   * 기수
+   * @format int32
+   * @example 36
+   */
+  generation: number;
+  /**
+   * 헤더 이미지 파일명
+   * @example "header.png"
+   */
+  headerImageFileName: string;
+  /** 핵심가치 목록 */
+  coreValue?: AddAdminCoreValueRequestDto[];
+  /** 임원진 목록 */
+  member?: AddAdminMemberRequestDto[];
+  /** 전체 일정 목록 */
+  activitySchedule?: AddAdminActivityScheduleRequestDto[];
+}
+
+/** 전체 일정 목록 */
+export interface AddAdminActivityScheduleRequestDto {
+  /**
+   * 일정명
+   * @example "OT"
+   */
+  name: string;
+  /**
+   * 시작 날짜 (yyyy-MM-dd)
+   * @example "2026-03-28T00:00:00.000Z"
+   */
+  startDate: string;
+  /**
+   * 종료 날짜 (yyyy-MM-dd), 단일 날짜인 경우 null
+   * @example "2026-03-29T00:00:00.000Z"
+   */
+  endDate?: string;
+}
+
+/** 핵심 가치 */
+export interface AddAdminCoreValueRequestDto {
+  /**
+   * 핵심 가치
+   * @example "용기"
+   */
+  value: string;
+  /**
+   * 핵심 가치 설명
+   * @example "새로운 도전을 위해 과감히 용기내는 사람"
+   */
+  description: string;
+  /**
+   * 핵심 가치 세부 설명
+   * @example "솝트는 쉽게 포기하지 않습니다."
+   */
+  detailDescription: string;
+  /**
+   * 핵심 가치 이미지 파일명
+   * @example "image.png"
+   */
+  imageFileName: string;
+}
+
+/** 멤버 정보 */
+export interface AddAdminMemberRequestDto {
+  /**
+   * 역할
+   * @example "회장"
+   */
+  role: string;
+  /**
+   * 이름
+   * @example "홍길동"
+   */
+  name: string;
+  /**
+   * 소속
+   * @example "SOPT"
+   */
+  affiliation: string;
+  /**
+   * 한줄 소개
+   * @example "안녕하세요!"
+   */
+  introduction: string;
+  /** SNS 링크 정보 */
+  sns: AddAdminSnsLinksRequestDto;
+  /**
+   * 프로필 이미지 파일명
+   * @example "image.png"
+   */
+  profileImageFileName: string;
+}
+
+/** SNS 링크 정보 */
+export interface AddAdminSnsLinksRequestDto {
+  /**
+   * 이메일
+   * @example "example@sopt.org"
+   */
+  email?: string;
+  /**
+   * 링크드인 URL
+   * @pattern ^https?://.*
+   * @example "https://www.linkedin.com/in/example"
+   */
+  linkedin?: string;
+  /**
+   * 깃허브 URL
+   * @pattern ^https?://.*
+   * @example "https://github.com/example"
+   */
+  github?: string;
+  /**
+   * 비핸스 URL
+   * @pattern ^https?://.*
+   * @example "https://www.behance.net/example"
+   */
+  behance?: string;
+}
+
+/** 어드민 소개 탭 배포 응답 (S3 PresignedUrl 포함) */
+export interface AddAdminAboutResponseDto {
+  /**
+   * 기수
+   * @format int32
+   * @example 36
+   */
+  generation: number;
+  /** 소개 헤더 이미지 S3 PresignedUrl */
+  headerImage: string;
+  /** 핵심가치 이미지 S3 PresignedUrl 목록 */
+  coreValues?: AddAdminCoreValueResponseRecordDto[];
+  /** 임원진 프로필 이미지 S3 PresignedUrl 목록 */
+  members?: AddAdminMemberResponseRecordDto[];
+}
+
+/** 핵심가치 이미지 S3 PresigneUrl 정보 */
+export interface AddAdminCoreValueResponseRecordDto {
+  /**
+   * 핵심 가치
+   * @example "용기"
+   */
+  value: string;
+  /** 핵심가치 이미지 PresgiendUrl */
+  image: string;
+}
+
+/** 멤버 프로필 이미지 S3 PresigneUrl 정보 */
+export interface AddAdminMemberResponseRecordDto {
+  /**
+   * 역할
+   * @example "회장"
+   */
+  role: string;
+  /**
+   * 이름
+   * @example "홍길동"
+   */
+  name: string;
+  /** 프로필 이미지 PresgiendUrl */
+  profileImage: string;
+}
+
+/** 최신소식 수정하기 */
+export interface EditAdminNewsRequestDto {
+  /** @format binary */
+  image?: File;
+  /**
+   * 제목
+   * @example "MIND 24"
+   */
+  title: string;
+  /**
+   * 링크
+   * @example "https://example.com"
+   */
+  link: string;
+}
+
+/** 최신소식 수정 */
+export interface EditAdminNewsResponseDto {
   /**
    * 성공 메세지
    * @example "success"
    */
   message: string;
+}
+
+/** 최신소식 수정하기 (Presigned URL 방식) */
+export interface EditAdminNewsV2RequestDto {
+  /**
+   * S3에 업로드된 이미지 URL
+   * @example "https://s3.ap-northeast-2.amazonaws.com/sopt.org/develop/news/uuid_image.jpg"
+   */
+  imageUrl: string;
+  /**
+   * 제목
+   * @example "SOPT 36기 모집 안내"
+   */
+  title: string;
+  /**
+   * 링크
+   * @example "https://sopt.org/recruit"
+   */
+  link: string;
 }
 
 export interface GetTodayVisitorResponseDto {
@@ -697,6 +865,60 @@ export interface ReviewsByAuthorRes {
   reviewCount?: number;
   /** 리뷰 목록 */
   reviews?: ReviewRes[];
+}
+
+/** 기수 브랜딩 컬러 */
+export interface BrandingColor {
+  main?: string;
+  high?: string;
+  low?: string;
+  point?: string;
+}
+
+/** 핵심 가치 */
+export interface CoreValue {
+  value?: string;
+  description?: string;
+  image?: string;
+}
+
+/** 파트별 소개 */
+export interface PartIntroduction {
+  part?: string;
+  description?: string;
+}
+
+export interface Question {
+  question?: string;
+  answer?: string;
+}
+
+export interface RecruitMainPageResponse {
+  /** 모집 헤더 이미지 URL */
+  recruitHeaderImage?: string;
+  /** 기수 브랜딩 컬러 */
+  brandingColor?: BrandingColor;
+  /** 파트별 소개 */
+  partIntroduction?: PartIntroduction[];
+  /** 핵심 가치 */
+  coreValue?: CoreValue[];
+  /** 자주 묻는 질문(FAQ) */
+  recruitQuestion?: RecruitQuestion[];
+}
+
+/** 자주 묻는 질문(FAQ) */
+export interface RecruitQuestion {
+  part?: string;
+  questions?: Question[];
+}
+
+export interface RecruitPartDetailResponse {
+  /** 파트 소개 */
+  introduction?: string;
+  /** 선호하는 인재상 */
+  preferences?: string[];
+  /** 파트 커리큘럼 */
+  partCurriculum?: string[];
 }
 
 /** 프로젝트의 카테고리 */
@@ -831,13 +1053,12 @@ export interface ActivitiesRecords {
    * @example 98
    */
   studyCounts?: number;
-}
-
-export interface BrandingColor {
-  main?: string;
-  high?: string;
-  low?: string;
-  point?: string;
+  /**
+   * 운영 기간
+   * @format int32
+   * @example 37
+   */
+  operationPeriod?: number;
 }
 
 export interface LatestNews {
@@ -867,17 +1088,13 @@ export interface MainPageResponse {
    * @example "35기"
    */
   name?: string;
+  /** 기수 브랜딩 컬러 */
   brandingColor?: BrandingColor;
   mainButton?: MainButton;
   partIntroduction?: PartIntroduction[];
   latestNews?: LatestNews[];
   recruitSchedule?: RecruitSchedule[];
   activitiesRecords?: ActivitiesRecords;
-}
-
-export interface PartIntroduction {
-  part?: string;
-  description?: string;
 }
 
 export interface RecruitSchedule {
@@ -899,11 +1116,6 @@ export interface Introduction {
   preference?: string;
 }
 
-export interface Question {
-  question?: string;
-  answer?: string;
-}
-
 /** Recruiting 페이지 데이터 */
 export interface RecruitPageResponse {
   /**
@@ -919,6 +1131,7 @@ export interface RecruitPageResponse {
   name?: string;
   /** 모집 헤더 이미지 URL */
   recruitHeaderImage?: string;
+  /** 기수 브랜딩 컬러 */
   brandingColor?: BrandingColor;
   recruitSchedule?: RecruitSchedule[];
   recruitPartCurriculum?: RecruitPartCurriculum[];
@@ -928,11 +1141,6 @@ export interface RecruitPageResponse {
 export interface RecruitPartCurriculum {
   part?: string;
   introduction?: Introduction;
-}
-
-export interface RecruitQuestion {
-  part?: string;
-  questions?: Question[];
 }
 
 /** About 페이지 데이터 */
@@ -950,21 +1158,36 @@ export interface AboutPageResponse {
   name?: string;
   /** 헤더 이미지 URL */
   headerImage?: string;
+  /** 기수 브랜딩 컬러 */
   brandingColor?: BrandingColor;
   coreValue?: CoreValue[];
   partCurriculum?: PartCurriculum[];
   member?: Member[];
-}
-
-export interface CoreValue {
-  value?: string;
-  description?: string;
-  image?: string;
+  schedule?: Schedule[];
 }
 
 export interface PartCurriculum {
   part?: string;
   curriculums?: string[];
+}
+
+/** 활동 전체 일정 정보 */
+export interface GetAdminActivityScheduleResponseRecordDto {
+  /**
+   * 일정명
+   * @example "OT"
+   */
+  name?: string;
+  /**
+   * 시작 날짜 (yyyy-MM-dd)
+   * @example "2026-03-28T00:00:00.000Z"
+   */
+  startDate?: string;
+  /**
+   * 종료 날짜 (yyyy-MM-dd), 단일 날짜인 경우 null
+   * @example "2026-03-29T00:00:00.000Z"
+   */
+  endDate?: string;
 }
 
 /** 브랜딩 컬러 정보 */
@@ -1003,6 +1226,11 @@ export interface GetAdminCoreValueResponseRecordDto {
    * @example "새로운 도전을 위해 과감히 용기내는 사람"
    */
   description: string;
+  /**
+   * 핵심 가치 세부 설명
+   * @example "새로운 도전을 위해 과감히 용기내는 사람"
+   */
+  detailDescription: string;
   /**
    * 핵심 가치 이미지 링크
    * @example "https://corevalue.png"
@@ -1186,6 +1414,11 @@ export interface GetAdminResponseDto {
    * @example "https://header.png"
    */
   headerImage: string;
+  /**
+   * 홈 헤더 이미지 링크
+   * @example "https://header.png"
+   */
+  homeHeaderImage: string;
   coreValue?: GetAdminCoreValueResponseRecordDto[];
   partCurriculum?: GetAdminPartCurriculumResponseRecordDto[];
   member?: GetAdminMemberResponseRecordDto[];
@@ -1196,6 +1429,23 @@ export interface GetAdminResponseDto {
   recruitHeaderImage: string;
   recruitPartCurriculum?: GetAdminRecruitPartCurriculumResponseRecordDto[];
   recruitQuestion?: GetAdminRecruitQuestionResponseRecordDto[];
+  review?: GetAdminReviewResponseRecordDto[];
+  activitySchedule?: GetAdminActivityScheduleResponseRecordDto[];
+}
+
+/** 리뷰 */
+export interface GetAdminReviewResponseRecordDto {
+  /**
+   * 리뷰 ID
+   * @format int64
+   */
+  id: number;
+  /** 리뷰 제목 */
+  title: string;
+  /** 리뷰 내용 */
+  content: string;
+  /** 작성자 정보 */
+  authorInfo: string;
 }
 
 /** 상세 일정 정보 */
@@ -1303,9 +1553,9 @@ export type RegisterData = RegisterNotificationResponse;
 
 export type ScrapLinkData = ScrapLinkResponseDto;
 
-export type GetMainData = GetAdminResponseDto;
+export type AddRecruitData = AddAdminRecruitResponseDto;
 
-export type AddMainData = AddAdminResponseDto;
+export type AddRecruitConfirmData = AddAdminConfirmResponseDto;
 
 export type AddMainNewsData = AddAdminNewsResponseDto;
 
@@ -1313,11 +1563,29 @@ export type AddMainNewsV2Data = AddAdminNewsResponseDto;
 
 export type DeleteMainNewsData = DeleteAdminNewsResponseDto;
 
-export type AddMainConfirmData = AddAdminConfirmResponseDto;
+export type AddHomeData = AddAdminHomeResponseDto;
+
+export type AddHomeConfirmData = AddAdminConfirmResponseDto;
+
+export type AddCommonData = AddAdminCommonResponseDto;
+
+export type AddCommonConfirmData = AddAdminConfirmResponseDto;
+
+export type AddAboutData = AddAdminAboutResponseDto;
+
+export type AddAboutConfirmData = AddAdminConfirmResponseDto;
+
+export type EditMainNewsData = EditAdminNewsResponseDto;
+
+export type EditMainNewsV2Data = EditAdminNewsResponseDto;
 
 export type GetRandomReviewsByPartData = ReviewRes[];
 
 export type GetReviewsByAuthorData = ReviewsByAuthorRes;
+
+export type GetRecruitMainPageData = RecruitMainPageResponse;
+
+export type GetPartDetailData = RecruitPartDetailResponse;
 
 export type GetProjectsData = PaginateResponseDto;
 
@@ -1338,5 +1606,7 @@ export type TestSentryErrorData = any;
 export type TestSentryError3Data = any;
 
 export type TestSentryError2Data = any;
+
+export type GetMainData = GetAdminResponseDto;
 
 export type GetMainNewsData = GetAdminNewsResponseDto;

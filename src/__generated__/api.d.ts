@@ -168,24 +168,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin": {
+    "/admin/recruit": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 어드민 메인 데이터 조회
-         * @description 어드민 메인 데이터를 조회합니다
-         */
-        get: operations["getMain"];
+        get?: never;
         put?: never;
         /**
-         * 어드민 메인 데이터 배포
-         * @description 어드민 메인 데이터를 배포합니다
+         * 모집안내 탭 배포
+         * @description 모집 헤더 이미지 Presigned URL을 발급하고 파트별 소개/커리큘럼/FAQ를 캐시에 저장합니다. 응답의 Presigned URL로 이미지 업로드 후 2단계를 호출하세요.
          */
-        post: operations["addMain"];
+        post: operations["addRecruit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/recruit/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 모집안내 탭 배포 확정
+         * @description 이미지 업로드 완료 후 캐시 데이터를 DB에 반영합니다. 공통 탭 배포 이후에 호출해야 합니다.
+         */
+        post: operations["addRecruitConfirm"];
         delete?: never;
         options?: never;
         head?: never;
@@ -252,7 +268,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/confirm": {
+    "/admin/home": {
         parameters: {
             query?: never;
             header?: never;
@@ -262,14 +278,154 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * 어드민 메인 데이터 배포 확인
-         * @description 어드민 메인 데이터 배포를 확인합니다
+         * 홈 탭 배포
+         * @description 홈 헤더 이미지 Presigned URL을 발급하고 리뷰/최신소식을 캐시에 저장합니다. 응답의 Presigned URL로 이미지 업로드 후 2단계를 호출하세요.
          */
-        post: operations["addMainConfirm"];
+        post: operations["addHome"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/admin/home/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 홈 탭 배포 확정
+         * @description 이미지 업로드 완료 후 캐시 데이터를 DB에 반영합니다. 공통 탭 배포 이후에 호출해야 합니다.
+         */
+        post: operations["addHomeConfirm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/common": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 공통 탭 배포
+         * @description 기수 정보, 브랜딩 컬러, 메인 버튼, 모집 일정을 캐시에 저장합니다. 이미지가 없으므로 응답 즉시 2단계(confirm)를 호출해도 됩니다.
+         */
+        post: operations["addCommon"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/common/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 공통 탭 배포 확정
+         * @description 캐시에 저장된 공통 탭 데이터를 DB에 반영합니다. 공통 탭은 반드시 다른 탭보다 먼저 배포해야 합니다.
+         */
+        post: operations["addCommonConfirm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/about": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 소개 탭 배포
+         * @description 소개 헤더/핵심가치/임원진 이미지 Presigned URL을 발급하고 전체 일정을 캐시에 저장합니다. 응답의 Presigned URL로 이미지 업로드 후 2단계를 호출하세요.
+         */
+        post: operations["addAbout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/about/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 소개 탭 배포 확정
+         * @description 이미지 업로드 완료 후 캐시 데이터를 DB에 반영합니다. 공통 탭 배포 이후에 호출해야 합니다.
+         */
+        post: operations["addAboutConfirm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/news/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * 최신소식 수정
+         * @description 최신소식을 수정합니다
+         */
+        patch: operations["editMainNews"];
+        trace?: never;
+    };
+    "/admin/news/{id}/v2": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * 최신소식 수정 (Presigned URL)
+         * @description 람다 전용
+         */
+        patch: operations["editMainNewsV2"];
         trace?: never;
     };
     "/reviews/random": {
@@ -298,6 +454,46 @@ export interface paths {
         };
         /** Playground Internal - 유저 활동후기 데이터 조회 */
         get: operations["getReviewsByAuthor"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/recruit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 지원서 메인 페이지 조회
+         * @description 지원서 메인 페이지 데이터를 조회합니다
+         */
+        get: operations["getRecruitMainPage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/recruit/part": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 지원서 파트 상세 조회
+         * @description 파트별 소개, 선호하는 인재상, 커리큘럼을 조회합니다
+         */
+        get: operations["getPartDetail"];
         put?: never;
         post?: never;
         delete?: never;
@@ -473,6 +669,26 @@ export interface paths {
             cookie?: never;
         };
         get: operations["testSentryError2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 어드민 메인 데이터 조회
+         * @description 어드민 메인 데이터를 조회합니다
+         */
+        get: operations["getMain"];
         put?: never;
         post?: never;
         delete?: never;
@@ -657,47 +873,6 @@ export interface components {
             /** @description 블로그 스크랩 URL */
             url: string;
         };
-        /** @description 브랜딩 컬러 */
-        AddAdminBrandingColorRequestDto: {
-            /**
-             * @description 메인 컬러
-             * @example FF0000
-             */
-            main: string;
-            /**
-             * @description 로우 톤 컬러
-             * @example CC0000
-             */
-            low: string;
-            /**
-             * @description 하이 톤 컬러
-             * @example FF3333
-             */
-            high: string;
-            /**
-             * @description 포인트 컬러
-             * @example FF9999
-             */
-            point: string;
-        };
-        /** @description 핵심 가치 */
-        AddAdminCoreValueRequestDto: {
-            /**
-             * @description 핵심 가치
-             * @example 용기
-             */
-            value: string;
-            /**
-             * @description 핵심 가치 설명
-             * @example 새로운 도전을 위해 과감히 용기내는 사람
-             */
-            description: string;
-            /**
-             * @description 핵심 가치 이미지 파일명
-             * @example image.png
-             */
-            imageFileName: string;
-        };
         /** @description 소개글 정보 */
         AddAdminIntroductionRequestDto: {
             /**
@@ -710,53 +885,6 @@ export interface components {
              * @example Kotlin 개발 경험
              */
             preference: string;
-        };
-        /** @description 메인 버튼 스타일 */
-        AddAdminMainButtonRequestDto: {
-            /**
-             * @description 버튼 텍스트
-             * @example 지원하기
-             */
-            text: string;
-            /**
-             * @description 주요 컬러
-             * @example #FF0000
-             */
-            keyColor: string;
-            /**
-             * @description 보조 컬러
-             * @example #CC0000
-             */
-            subColor: string;
-        };
-        /** @description 멤버 정보 */
-        AddAdminMemberRequestDto: {
-            /**
-             * @description 역할
-             * @example 회장
-             */
-            role: string;
-            /**
-             * @description 이름
-             * @example 홍길동
-             */
-            name: string;
-            /**
-             * @description 소속
-             * @example SOPT
-             */
-            affiliation: string;
-            /**
-             * @description 한줄 소개
-             * @example 안녕하세요!
-             */
-            introduction: string;
-            sns: components["schemas"]["AddAdminSnsLinksRequestDto"];
-            /**
-             * @description 프로필 이미지 파일명
-             * @example image.png
-             */
-            profileImageFileName: string;
         };
         /** @description 파트별 커리큘럼 */
         AddAdminPartCurriculumRequestDto: {
@@ -813,152 +941,55 @@ export interface components {
             /** @description 질문 리스트 */
             questions: components["schemas"]["AddAdminQuestionRequestDto"][];
         };
-        /** @description 모집 일정 */
-        AddAdminRecruitScheduleRequestDto: {
-            /**
-             * @description 타입
-             * @example OB
-             * @enum {string}
-             */
-            type: "OB" | "YB";
-            schedule: components["schemas"]["AddAdminScheduleRequestDto"];
-        };
-        /** @description 어드민 배포하기 */
-        AddAdminRequestDto: {
+        /** @description 어드민 모집안내 탭 배포 */
+        AddAdminRecruitRequestDto: {
             /**
              * Format: int32
              * @description 기수
-             * @example 34
+             * @example 36
              */
             generation: number;
-            /**
-             * @description 기수명
-             * @example SOPT
-             */
-            name: string;
-            recruitSchedule?: components["schemas"]["AddAdminRecruitScheduleRequestDto"][];
-            brandingColor?: components["schemas"]["AddAdminBrandingColorRequestDto"];
-            mainButton?: components["schemas"]["AddAdminMainButtonRequestDto"];
-            partIntroduction?: components["schemas"]["AddAdminPartIntroductionRequestDto"][];
-            /**
-             * @description 헤더 이미지 파일명
-             * @example header.png
-             */
-            headerImageFileName: string;
-            coreValue?: components["schemas"]["AddAdminCoreValueRequestDto"][];
-            partCurriculum?: components["schemas"]["AddAdminPartCurriculumRequestDto"][];
-            member?: components["schemas"]["AddAdminMemberRequestDto"][];
             /**
              * @description 지원하기 헤더 이미지 파일명
              * @example recruit_header.png
              */
             recruitHeaderImageFileName: string;
+            /** @description 파트별 소개 목록 (한 줄 소개 + 이런 걸 배워요) */
+            partIntroduction?: components["schemas"]["AddAdminPartIntroductionRequestDto"][];
+            /** @description 파트별 커리큘럼 목록 (이런 걸 배워요 - 주차별) */
+            partCurriculum?: components["schemas"]["AddAdminPartCurriculumRequestDto"][];
+            /** @description 파트별 상세 소개 목록 (파트 소개 + 이런 분이면 좋아요) */
             recruitPartCurriculum?: components["schemas"]["AddAdminRecruitPartCurriculumRequestDto"][];
+            /** @description 자주 묻는 질문 목록 */
             recruitQuestion?: components["schemas"]["AddAdminRecruitQuestionRequestDto"][];
         };
-        /** @description 상세 일정 */
-        AddAdminScheduleRequestDto: {
+        /** @description 어드민 모집안내 탭 배포 응답 (S3 PresignedUrl 포함) */
+        AddAdminRecruitResponseDto: {
             /**
-             * @description 지원 시작 시간
-             * @example 2024-01-01 09:00:00
+             * Format: int32
+             * @description 기수
+             * @example 36
              */
-            applicationStartTime: string;
-            /**
-             * @description 지원 종료 시간
-             * @example 2024-01-31 18:00:00
-             */
-            applicationEndTime: string;
-            /**
-             * @description 지원 결과 발표 시간
-             * @example 2024-02-01 12:00:00
-             */
-            applicationResultTime: string;
-            /**
-             * @description 면접 시작 시간
-             * @example 2024-02-05 09:00:00
-             */
-            interviewStartTime: string;
-            /**
-             * @description 면접 종료 시간
-             * @example 2024-02-05 18:00:00
-             */
-            interviewEndTime: string;
-            /**
-             * @description 최종 결과 발표 시간
-             * @example 2024-02-10 12:00:00
-             */
-            finalResultTime: string;
+            generation: number;
+            /** @description 모집안내 헤더 이미지 S3 PresignedUrl */
+            recruitHeaderImage: string;
         };
-        /** @description SNS 링크 정보 */
-        AddAdminSnsLinksRequestDto: {
-            /**
-             * @description 이메일
-             * @example example@sopt.org
-             */
-            email?: string;
-            /**
-             * @description 링크드인 URL
-             * @example https://www.linkedin.com/in/example
-             */
-            linkedin?: string;
-            /**
-             * @description 깃허브 URL
-             * @example https://github.com/example
-             */
-            github?: string;
-            /**
-             * @description 비핸스 URL
-             * @example https://www.behance.net/example
-             */
-            behance?: string;
-        };
-        /** @description 핵심가치 이미지 S3 PresigneUrl 정보 */
-        AddAdminCoreValueResponseRecordDto: {
-            /**
-             * @description 핵심 가치
-             * @example 용기
-             */
-            value: string;
-            /** @description 핵심가치 이미지 PresgiendUrl */
-            image: string;
-        };
-        /** @description 멤버 프로필 이미지 S3 PresigneUrl 정보 */
-        AddAdminMemberResponseRecordDto: {
-            /**
-             * @description 역할
-             * @example 회장
-             */
-            role: string;
-            /**
-             * @description 이름
-             * @example 홍길동
-             */
-            name: string;
-            /** @description 프로필 이미지 PresgiendUrl */
-            profileImage: string;
-        };
-        /** @description 어드민 메인정보 추가 */
-        AddAdminResponseDto: {
+        /** @description 어드민 배포 확인 */
+        AddAdminConfirmRequestDto: {
             /**
              * Format: int32
              * @description 기수
              * @example 34
              */
             generation: number;
+        };
+        /** @description 어드민 메인정보 파일 업로드 확인 */
+        AddAdminConfirmResponseDto: {
             /**
-             * @description 헤더 이미지 S3 PresignedUrl
-             * @example https://image.url
+             * @description 성공 메세지
+             * @example success
              */
-            headerImage: string;
-            /** @description 핵심가치 이미지 S3 PresigneUrl 정보 */
-            coreValues: components["schemas"]["AddAdminCoreValueResponseRecordDto"][];
-            /** @description 멤버 프로필 이미지 S3 PresigneUrl 정보 */
-            members: components["schemas"]["AddAdminMemberResponseRecordDto"][];
-            /**
-             * @description 지원하기 헤더 이미지 S3 PresignedUrl
-             * @example https://image.url
-             */
-            recruitHeaderImage: string;
+            message: string;
         };
         /** @description 최신소식 추가하기 */
         AddAdminNewsRequestDto: {
@@ -1017,22 +1048,363 @@ export interface components {
              */
             message: string;
         };
-        /** @description 어드민 배포 확인 */
-        AddAdminConfirmRequestDto: {
+        /** @description 어드민 홈 탭 배포 */
+        AddAdminHomeRequestDto: {
             /**
              * Format: int32
              * @description 기수
-             * @example 34
+             * @example 36
+             */
+            generation: number;
+            /**
+             * @description 홈 헤더 이미지 파일명
+             * @example home_header.png
+             */
+            homeHeaderImageFileName: string;
+            /** @description 리뷰 목록 */
+            review?: components["schemas"]["AddAdminReviewRequestDto"][];
+            /** @description 최신소식 목록 */
+            news?: components["schemas"]["AddAdminNewsRequestDto"][];
+        };
+        /** @description 리뷰 목록 */
+        AddAdminReviewRequestDto: {
+            /**
+             * @description 리뷰 제목
+             * @example 후회없는 활동
+             */
+            title: string;
+            /**
+             * @description 리뷰 내용
+             * @example 후회없는 활동
+             */
+            content: string;
+            /** @description 김솝트 | 36,37기 활동 | 서버 */
+            authorInfo?: string;
+        };
+        /** @description 어드민 홈 탭 배포 응답 (S3 PresignedUrl 포함) */
+        AddAdminHomeResponseDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 36
+             */
+            generation: number;
+            /** @description 홈 헤더 이미지 S3 PresignedUrl */
+            homeHeaderImage: string;
+            /** @description 최신소식 이미지 S3 PresignedUrl 목록 */
+            news?: components["schemas"]["AddAdminNewsResponseRecordDto"][];
+        };
+        /** @description 최신소식 이미지 S3 PresignedUrl 정보 */
+        AddAdminNewsResponseRecordDto: {
+            /** @description 뉴스 제목 */
+            title: string;
+            /** @description 뉴스 이미지 PresignedUrl */
+            imagePresignedUrl: string;
+        };
+        /** @description 브랜딩 컬러 */
+        AddAdminBrandingColorRequestDto: {
+            /**
+             * @description 메인 컬러
+             * @example FF0000
+             */
+            main: string;
+            /**
+             * @description 로우 톤 컬러
+             * @example CC0000
+             */
+            low: string;
+            /**
+             * @description 하이 톤 컬러
+             * @example FF3333
+             */
+            high: string;
+            /**
+             * @description 포인트 컬러
+             * @example FF9999
+             */
+            point: string;
+        };
+        /** @description 어드민 공통 탭 배포 */
+        AddAdminCommonRequestDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 36
+             */
+            generation: number;
+            /**
+             * @description 기수명
+             * @example SOPT
+             */
+            name: string;
+            /** @description 모집 일정 */
+            recruitSchedule?: components["schemas"]["AddAdminRecruitScheduleRequestDto"][];
+            brandingColor: components["schemas"]["AddAdminBrandingColorRequestDto"];
+            mainButton: components["schemas"]["AddAdminMainButtonRequestDto"];
+        };
+        /** @description 메인 버튼 스타일 */
+        AddAdminMainButtonRequestDto: {
+            /**
+             * @description 버튼 텍스트
+             * @example 지원하기
+             */
+            text: string;
+            /**
+             * @description 주요 컬러
+             * @example #FF0000
+             */
+            keyColor: string;
+            /**
+             * @description 보조 컬러
+             * @example #CC0000
+             */
+            subColor: string;
+        };
+        /** @description 모집 일정 */
+        AddAdminRecruitScheduleRequestDto: {
+            /**
+             * @description 타입
+             * @example OB
+             * @enum {string}
+             */
+            type: "OB" | "YB";
+            schedule: components["schemas"]["AddAdminScheduleRequestDto"];
+        };
+        /** @description 상세 일정 */
+        AddAdminScheduleRequestDto: {
+            /**
+             * @description 지원 시작 시간
+             * @example 2024-01-01 09:00:00
+             */
+            applicationStartTime: string;
+            /**
+             * @description 지원 종료 시간
+             * @example 2024-01-31 18:00:00
+             */
+            applicationEndTime: string;
+            /**
+             * @description 지원 결과 발표 시간
+             * @example 2024-02-01 12:00:00
+             */
+            applicationResultTime: string;
+            /**
+             * @description 면접 시작 시간
+             * @example 2024-02-05 09:00:00
+             */
+            interviewStartTime: string;
+            /**
+             * @description 면접 종료 시간
+             * @example 2024-02-05 18:00:00
+             */
+            interviewEndTime: string;
+            /**
+             * @description 최종 결과 발표 시간
+             * @example 2024-02-10 12:00:00
+             */
+            finalResultTime: string;
+        };
+        /** @description 어드민 공통 탭 배포 응답 (이미지 없음) */
+        AddAdminCommonResponseDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 36
              */
             generation: number;
         };
-        /** @description 어드민 메인정보 파일 업로드 확인 */
-        AddAdminConfirmResponseDto: {
+        /** @description 어드민 소개 탭 배포 */
+        AddAdminAboutRequestDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 36
+             */
+            generation: number;
+            /**
+             * @description 헤더 이미지 파일명
+             * @example header.png
+             */
+            headerImageFileName: string;
+            /** @description 핵심가치 목록 */
+            coreValue?: components["schemas"]["AddAdminCoreValueRequestDto"][];
+            /** @description 임원진 목록 */
+            member?: components["schemas"]["AddAdminMemberRequestDto"][];
+            /** @description 전체 일정 목록 */
+            activitySchedule?: components["schemas"]["AddAdminActivityScheduleRequestDto"][];
+        };
+        /** @description 전체 일정 목록 */
+        AddAdminActivityScheduleRequestDto: {
+            /**
+             * @description 일정명
+             * @example OT
+             */
+            name: string;
+            /**
+             * @description 시작 날짜 (yyyy-MM-dd)
+             * @example 2026-03-28
+             */
+            startDate: string;
+            /**
+             * @description 종료 날짜 (yyyy-MM-dd), 단일 날짜인 경우 null
+             * @example 2026-03-29
+             */
+            endDate?: string;
+        };
+        /** @description 핵심 가치 */
+        AddAdminCoreValueRequestDto: {
+            /**
+             * @description 핵심 가치
+             * @example 용기
+             */
+            value: string;
+            /**
+             * @description 핵심 가치 설명
+             * @example 새로운 도전을 위해 과감히 용기내는 사람
+             */
+            description: string;
+            /**
+             * @description 핵심 가치 세부 설명
+             * @example 솝트는 쉽게 포기하지 않습니다.
+             */
+            detailDescription: string;
+            /**
+             * @description 핵심 가치 이미지 파일명
+             * @example image.png
+             */
+            imageFileName: string;
+        };
+        /** @description 멤버 정보 */
+        AddAdminMemberRequestDto: {
+            /**
+             * @description 역할
+             * @example 회장
+             */
+            role: string;
+            /**
+             * @description 이름
+             * @example 홍길동
+             */
+            name: string;
+            /**
+             * @description 소속
+             * @example SOPT
+             */
+            affiliation: string;
+            /**
+             * @description 한줄 소개
+             * @example 안녕하세요!
+             */
+            introduction: string;
+            sns: components["schemas"]["AddAdminSnsLinksRequestDto"];
+            /**
+             * @description 프로필 이미지 파일명
+             * @example image.png
+             */
+            profileImageFileName: string;
+        };
+        /** @description SNS 링크 정보 */
+        AddAdminSnsLinksRequestDto: {
+            /**
+             * @description 이메일
+             * @example example@sopt.org
+             */
+            email?: string;
+            /**
+             * @description 링크드인 URL
+             * @example https://www.linkedin.com/in/example
+             */
+            linkedin?: string;
+            /**
+             * @description 깃허브 URL
+             * @example https://github.com/example
+             */
+            github?: string;
+            /**
+             * @description 비핸스 URL
+             * @example https://www.behance.net/example
+             */
+            behance?: string;
+        };
+        /** @description 어드민 소개 탭 배포 응답 (S3 PresignedUrl 포함) */
+        AddAdminAboutResponseDto: {
+            /**
+             * Format: int32
+             * @description 기수
+             * @example 36
+             */
+            generation: number;
+            /** @description 소개 헤더 이미지 S3 PresignedUrl */
+            headerImage: string;
+            /** @description 핵심가치 이미지 S3 PresignedUrl 목록 */
+            coreValues?: components["schemas"]["AddAdminCoreValueResponseRecordDto"][];
+            /** @description 임원진 프로필 이미지 S3 PresignedUrl 목록 */
+            members?: components["schemas"]["AddAdminMemberResponseRecordDto"][];
+        };
+        /** @description 핵심가치 이미지 S3 PresigneUrl 정보 */
+        AddAdminCoreValueResponseRecordDto: {
+            /**
+             * @description 핵심 가치
+             * @example 용기
+             */
+            value: string;
+            /** @description 핵심가치 이미지 PresgiendUrl */
+            image: string;
+        };
+        /** @description 멤버 프로필 이미지 S3 PresigneUrl 정보 */
+        AddAdminMemberResponseRecordDto: {
+            /**
+             * @description 역할
+             * @example 회장
+             */
+            role: string;
+            /**
+             * @description 이름
+             * @example 홍길동
+             */
+            name: string;
+            /** @description 프로필 이미지 PresgiendUrl */
+            profileImage: string;
+        };
+        /** @description 최신소식 수정하기 */
+        EditAdminNewsRequestDto: {
+            /** Format: binary */
+            image?: string;
+            /**
+             * @description 제목
+             * @example MIND 24
+             */
+            title: string;
+            /**
+             * @description 링크
+             * @example https://example.com
+             */
+            link: string;
+        };
+        /** @description 최신소식 수정 */
+        EditAdminNewsResponseDto: {
             /**
              * @description 성공 메세지
              * @example success
              */
             message: string;
+        };
+        /** @description 최신소식 수정하기 (Presigned URL 방식) */
+        EditAdminNewsV2RequestDto: {
+            /**
+             * @description S3에 업로드된 이미지 URL
+             * @example https://s3.ap-northeast-2.amazonaws.com/sopt.org/develop/news/uuid_image.jpg
+             */
+            imageUrl: string;
+            /**
+             * @description 제목
+             * @example SOPT 36기 모집 안내
+             */
+            title: string;
+            /**
+             * @description 링크
+             * @example https://sopt.org/recruit
+             */
+            link: string;
         };
         GetTodayVisitorResponseDto: {
             /**
@@ -1141,6 +1513,52 @@ export interface components {
             reviewCount?: number;
             /** @description 리뷰 목록 */
             reviews?: components["schemas"]["ReviewRes"][];
+        };
+        /** @description 기수 브랜딩 컬러 */
+        BrandingColor: {
+            main?: string;
+            high?: string;
+            low?: string;
+            point?: string;
+        };
+        /** @description 핵심 가치 */
+        CoreValue: {
+            value?: string;
+            description?: string;
+            image?: string;
+        };
+        /** @description 파트별 소개 */
+        PartIntroduction: {
+            part?: string;
+            description?: string;
+        };
+        Question: {
+            question?: string;
+            answer?: string;
+        };
+        RecruitMainPageResponse: {
+            /** @description 모집 헤더 이미지 URL */
+            recruitHeaderImage?: string;
+            brandingColor?: components["schemas"]["BrandingColor"];
+            /** @description 파트별 소개 */
+            partIntroduction?: components["schemas"]["PartIntroduction"][];
+            /** @description 핵심 가치 */
+            coreValue?: components["schemas"]["CoreValue"][];
+            /** @description 자주 묻는 질문(FAQ) */
+            recruitQuestion?: components["schemas"]["RecruitQuestion"][];
+        };
+        /** @description 자주 묻는 질문(FAQ) */
+        RecruitQuestion: {
+            part?: string;
+            questions?: components["schemas"]["Question"][];
+        };
+        RecruitPartDetailResponse: {
+            /** @description 파트 소개 */
+            introduction?: string;
+            /** @description 선호하는 인재상 */
+            preferences?: string[];
+            /** @description 파트 커리큘럼 */
+            partCurriculum?: string[];
         };
         /** @description 프로젝트의 카테고리 */
         Category: {
@@ -1252,12 +1670,12 @@ export interface components {
              * @example 98
              */
             studyCounts?: number;
-        };
-        BrandingColor: {
-            main?: string;
-            high?: string;
-            low?: string;
-            point?: string;
+            /**
+             * Format: int32
+             * @description 운영 기간
+             * @example 37
+             */
+            operationPeriod?: number;
         };
         LatestNews: {
             /** Format: int32 */
@@ -1291,10 +1709,6 @@ export interface components {
             recruitSchedule?: components["schemas"]["RecruitSchedule"][];
             activitiesRecords?: components["schemas"]["ActivitiesRecords"];
         };
-        PartIntroduction: {
-            part?: string;
-            description?: string;
-        };
         RecruitSchedule: {
             type?: string;
             schedule?: components["schemas"]["Schedule"];
@@ -1310,10 +1724,6 @@ export interface components {
         Introduction: {
             content?: string;
             preference?: string;
-        };
-        Question: {
-            question?: string;
-            answer?: string;
         };
         /** @description Recruiting 페이지 데이터 */
         RecruitPageResponse: {
@@ -1339,10 +1749,6 @@ export interface components {
             part?: string;
             introduction?: components["schemas"]["Introduction"];
         };
-        RecruitQuestion: {
-            part?: string;
-            questions?: components["schemas"]["Question"][];
-        };
         /** @description About 페이지 데이터 */
         AboutPageResponse: {
             /**
@@ -1362,15 +1768,29 @@ export interface components {
             coreValue?: components["schemas"]["CoreValue"][];
             partCurriculum?: components["schemas"]["PartCurriculum"][];
             member?: components["schemas"]["Member"][];
-        };
-        CoreValue: {
-            value?: string;
-            description?: string;
-            image?: string;
+            schedule?: components["schemas"]["Schedule"][];
         };
         PartCurriculum: {
             part?: string;
             curriculums?: string[];
+        };
+        /** @description 활동 전체 일정 정보 */
+        GetAdminActivityScheduleResponseRecordDto: {
+            /**
+             * @description 일정명
+             * @example OT
+             */
+            name?: string;
+            /**
+             * @description 시작 날짜 (yyyy-MM-dd)
+             * @example 2026-03-28
+             */
+            startDate?: string;
+            /**
+             * @description 종료 날짜 (yyyy-MM-dd), 단일 날짜인 경우 null
+             * @example 2026-03-29
+             */
+            endDate?: string;
         };
         /** @description 브랜딩 컬러 정보 */
         GetAdminBrandingColorResponseRecordDto: {
@@ -1407,6 +1827,11 @@ export interface components {
              * @example 새로운 도전을 위해 과감히 용기내는 사람
              */
             description: string;
+            /**
+             * @description 핵심 가치 세부 설명
+             * @example 새로운 도전을 위해 과감히 용기내는 사람
+             */
+            detailDescription: string;
             /**
              * @description 핵심 가치 이미지 링크
              * @example https://corevalue.png
@@ -1575,6 +2000,11 @@ export interface components {
              * @example https://header.png
              */
             headerImage: string;
+            /**
+             * @description 홈 헤더 이미지 링크
+             * @example https://header.png
+             */
+            homeHeaderImage: string;
             coreValue?: components["schemas"]["GetAdminCoreValueResponseRecordDto"][];
             partCurriculum?: components["schemas"]["GetAdminPartCurriculumResponseRecordDto"][];
             member?: components["schemas"]["GetAdminMemberResponseRecordDto"][];
@@ -1585,6 +2015,22 @@ export interface components {
             recruitHeaderImage: string;
             recruitPartCurriculum?: components["schemas"]["GetAdminRecruitPartCurriculumResponseRecordDto"][];
             recruitQuestion?: components["schemas"]["GetAdminRecruitQuestionResponseRecordDto"][];
+            review?: components["schemas"]["GetAdminReviewResponseRecordDto"][];
+            activitySchedule?: components["schemas"]["GetAdminActivityScheduleResponseRecordDto"][];
+        };
+        /** @description 리뷰 */
+        GetAdminReviewResponseRecordDto: {
+            /**
+             * Format: int64
+             * @description 리뷰 ID
+             */
+            id: number;
+            /** @description 리뷰 제목 */
+            title: string;
+            /** @description 리뷰 내용 */
+            content: string;
+            /** @description 작성자 정보 */
+            authorInfo: string;
         };
         /** @description 상세 일정 정보 */
         GetAdminScheduleResponseRecordDto: {
@@ -1975,33 +2421,7 @@ export interface operations {
             };
         };
     };
-    getMain: {
-        parameters: {
-            query: {
-                /**
-                 * @description 기수
-                 * @example 35
-                 */
-                generation: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GetAdminResponseDto"];
-                };
-            };
-        };
-    };
-    addMain: {
+    addRecruit: {
         parameters: {
             query?: never;
             header?: never;
@@ -2010,7 +2430,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AddAdminRequestDto"];
+                "application/json": components["schemas"]["AddAdminRecruitRequestDto"];
             };
         };
         responses: {
@@ -2020,7 +2440,31 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AddAdminResponseDto"];
+                    "*/*": components["schemas"]["AddAdminRecruitResponseDto"];
+                };
+            };
+        };
+    };
+    addRecruitConfirm: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminConfirmRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminConfirmResponseDto"];
                 };
             };
         };
@@ -2097,7 +2541,31 @@ export interface operations {
             };
         };
     };
-    addMainConfirm: {
+    addHome: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminHomeRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminHomeResponseDto"];
+                };
+            };
+        };
+    };
+    addHomeConfirm: {
         parameters: {
             query?: never;
             header?: never;
@@ -2117,6 +2585,154 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AddAdminConfirmResponseDto"];
+                };
+            };
+        };
+    };
+    addCommon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminCommonRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminCommonResponseDto"];
+                };
+            };
+        };
+    };
+    addCommonConfirm: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminConfirmRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminConfirmResponseDto"];
+                };
+            };
+        };
+    };
+    addAbout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminAboutRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminAboutResponseDto"];
+                };
+            };
+        };
+    };
+    addAboutConfirm: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddAdminConfirmRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AddAdminConfirmResponseDto"];
+                };
+            };
+        };
+    };
+    editMainNews: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": components["schemas"]["EditAdminNewsRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EditAdminNewsResponseDto"];
+                };
+            };
+        };
+    };
+    editMainNewsV2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EditAdminNewsV2RequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EditAdminNewsResponseDto"];
                 };
             };
         };
@@ -2165,6 +2781,48 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ReviewsByAuthorRes"];
+                };
+            };
+        };
+    };
+    getRecruitMainPage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RecruitMainPageResponse"];
+                };
+            };
+        };
+    };
+    getPartDetail: {
+        parameters: {
+            query: {
+                part: "iOS" | "기획" | "디자인" | "서버" | "안드로이드" | "웹" | "공통";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RecruitPartDetailResponse"];
                 };
             };
         };
@@ -2379,6 +3037,32 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    getMain: {
+        parameters: {
+            query: {
+                /**
+                 * @description 기수
+                 * @example 35
+                 */
+                generation: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetAdminResponseDto"];
+                };
             };
         };
     };
