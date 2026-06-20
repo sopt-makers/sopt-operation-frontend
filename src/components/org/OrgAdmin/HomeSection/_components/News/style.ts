@@ -2,23 +2,42 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconEdit, IconTrash } from '@sopt-makers/icons';
+import { Reorder } from 'framer-motion';
 
-export const StNewsList = styled.ul`
+export const StNewsReorderGroup = styled(Reorder.Group)`
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 `;
 
-export const StNewsItem = styled.li<{ $isDragging?: boolean }>`
+export const StNewsReorderItem = styled(Reorder.Item)`
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
   color: ${colors.white};
   ${fontsObject.TITLE_5_18_SB};
-
   border-radius: 10px;
-  opacity: ${({ $isDragging }) => ($isDragging ? 0.5 : 1)};
+  list-style: none;
+
+  & > svg {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const StNewsEmptyItem = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  color: ${colors.white};
+  ${fontsObject.TITLE_5_18_SB};
+  border-radius: 10px;
+  list-style: none;
 
   & > svg {
     width: 24px;
@@ -36,12 +55,16 @@ export const StNewsDragHandle = styled.button`
     cursor: grabbing;
   }
 
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+
   & > svg {
     width: 24px;
     height: 24px;
   }
 `;
-
 
 export const StButtonWrapper = styled.div`
   display: flex;
@@ -51,24 +74,31 @@ export const StButtonWrapper = styled.div`
 
   & > svg {
     flex-shrink: 0;
-    cursor: pointer;
   }
 `;
 
-export const StIconEdit = styled(IconEdit)`
+type IconButtonProps = {
+  $isDisabled?: boolean;
+};
+
+export const StIconEdit = styled(IconEdit)<IconButtonProps>`
   color: ${colors.white};
   width: 34px;
   height: 48px;
   padding: 12px 10px 12px 0;
   box-sizing: border-box;
+  cursor: ${({ $isDisabled }) => ($isDisabled ? 'default' : 'pointer')};
+  opacity: ${({ $isDisabled }) => ($isDisabled ? 0.5 : 1)};
 `;
 
-export const StIconTrash = styled(IconTrash)`
+export const StIconTrash = styled(IconTrash)<IconButtonProps>`
   color: ${colors.white};
   width: 34px;
   height: 48px;
   padding: 12px 10px 12px 0;
   box-sizing: border-box;
+  cursor: ${({ $isDisabled }) => ($isDisabled ? 'default' : 'pointer')};
+  opacity: ${({ $isDisabled }) => ($isDisabled ? 0.5 : 1)};
 `;
 
 export const StEmptyNewsContent = styled.span`

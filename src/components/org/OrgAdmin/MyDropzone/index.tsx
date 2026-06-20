@@ -1,6 +1,6 @@
 'use client';
 
-import { type MouseEvent, useCallback, useEffect, useState } from 'react';
+import { type MouseEvent, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { type UseFormReturn, useWatch } from 'react-hook-form';
 
@@ -21,6 +21,8 @@ interface MyDropzoneProps {
   height?: string;
   shape?: 'square' | 'circle';
   required?: boolean;
+  disabled?: boolean;
+  defaultPreviewUrl?: string;
 }
 
 const MyDropzone = ({
@@ -30,8 +32,9 @@ const MyDropzone = ({
   height = '176px',
   shape = 'square',
   required,
+  disabled = false,
+  defaultPreviewUrl,
 }: MyDropzoneProps) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const {
     control,
     register,
@@ -39,6 +42,7 @@ const MyDropzone = ({
     formState: { errors },
   } = method;
   const storedData = useWatch({ control, name: label });
+  const previewUrl = storedData?.previewUrl ?? defaultPreviewUrl ?? null;
 
   const errorMsg = label.includes('.')
     ? label.split('.').length === 2
@@ -58,11 +62,10 @@ const MyDropzone = ({
 
         const reader = new FileReader();
         reader.onloadend = async () => {
-          setPreviewUrl(reader.result as string);
           setValue(
             label,
             { fileName: sanitizedFileName, file, previewUrl: reader.result },
-            { shouldValidate: true },
+            { shouldValidate: true, shouldDirty: true },
           );
         };
         reader.readAsDataURL(file);
@@ -77,20 +80,13 @@ const MyDropzone = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    disabled,
     accept: {
       'image/jpeg': [],
       'image/jpg': [],
       'image/png': [],
     },
   });
-
-  useEffect(() => {
-    if (storedData?.previewUrl) {
-      setPreviewUrl(storedData.previewUrl);
-    } else {
-      setPreviewUrl(null);
-    }
-  }, [storedData?.previewUrl]);
 
   return (
     <StImgButtonWrapper>
@@ -101,12 +97,24 @@ const MyDropzone = ({
         width={width}
         height={height}
         shape={shape}
-        isError={errorMsg}>
+        isError={errorMsg}
+        isDisabled={disabled}>
         <input
           {...register(label, {
-            required: required && true && VALIDATION_CHECK.required.errorText,
+            validate: (value) => {
+              if (!required) {
+                return true;
+              }
+
+              if (value?.fileName || defaultPreviewUrl) {
+                return true;
+              }
+
+              return VALIDATION_CHECK.required.errorText;
+            },
           })}
           {...getInputProps()}
+          disabled={disabled}
         />
         {previewUrl ? (
           <StImgPreview src={previewUrl} alt="에러가 발생했어요." />

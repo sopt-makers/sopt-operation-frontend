@@ -1,4 +1,3 @@
-
 import HandleIcon from '@/components/org/OrgAdmin/assets/HandleIcon';
 import {
   StButtonWrapper,
@@ -6,13 +5,12 @@ import {
   StIconEdit,
   StIconTrash,
   StNewsDragHandle,
-  StNewsItem,
+  StNewsEmptyItem,
 } from '@/components/org/OrgAdmin/HomeSection/_components/News/style';
-
 
 const EmptyItem = () => {
   return (
-    <StNewsItem>
+    <StNewsEmptyItem>
       <StNewsDragHandle type="button">
         <HandleIcon />
       </StNewsDragHandle>
@@ -21,7 +19,7 @@ const EmptyItem = () => {
         <StIconEdit />
         <StIconTrash />
       </StButtonWrapper>
-    </StNewsItem>
+    </StNewsEmptyItem>
   );
 };
 

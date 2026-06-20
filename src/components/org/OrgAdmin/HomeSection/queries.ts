@@ -2,16 +2,22 @@ import { useToast } from '@sopt-makers/ui';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import {
+  DELETE_TOAST_OPTION,
+  DEPLOY_TOAST_OPTION,
   EDIT_TOAST_OPTION,
   TOAST_OPTION,
 } from '@/components/org/OrgAdmin/HomeSection/_constants/constants';
 import {
   deleteNews,
+  deployHomeTab,
   getAdminInfo,
   getNews,
   getPresignedUrl,
+  getReviews,
   patchNews,
+  patchReview,
   postNewsV2,
+  postReview,
   uploadToS3,
 } from '@/components/org/OrgAdmin/HomeSection/api';
 
@@ -19,6 +25,47 @@ export const useAdminInfoQuery = () => {
   return useQuery({
     queryKey: ['admin'],
     queryFn: getAdminInfo,
+  });
+};
+
+export const useReviewsQuery = () => {
+  return useQuery({
+    queryKey: ['homepage-reviews'],
+    queryFn: getReviews,
+  });
+};
+
+export const useReviewQuery = (reviewId?: number) => {
+  return useQuery({
+    queryKey: ['homepage-reviews'],
+    queryFn: getReviews,
+    enabled: Boolean(reviewId),
+    select: (reviews) => reviews.find((review) => review.id === reviewId),
+  });
+};
+
+export const useAddReviewMutation = () => {
+  return useMutation({
+    mutationFn: postReview,
+  });
+};
+
+export const useEditReviewMutation = () => {
+  const queryClient = useQueryClient();
+  const { open } = useToast();
+
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: number; formData: FormData }) =>
+      patchReview(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['homepage-reviews'],
+      });
+      open(EDIT_TOAST_OPTION.success);
+    },
+    onError: () => {
+      open(EDIT_TOAST_OPTION.error);
+    },
   });
 };
 
@@ -97,6 +144,23 @@ export const useEditNewsMutation = () => {
   });
 };
 
+export const useDeployHomeMutation = () => {
+  const queryClient = useQueryClient();
+  const { open } = useToast();
+
+  return useMutation({
+    mutationFn: deployHomeTab,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin'] });
+      queryClient.invalidateQueries({ queryKey: ['homepage-reviews'] });
+      open(DEPLOY_TOAST_OPTION.success);
+    },
+    onError: () => {
+      open(DEPLOY_TOAST_OPTION.error);
+    },
+  });
+};
+
 export const useDeleteNewsMutation = () => {
   const queryClient = useQueryClient();
   const { open } = useToast();
@@ -108,10 +172,10 @@ export const useDeleteNewsMutation = () => {
         queryKey: ['admin'],
       });
 
-      open(TOAST_OPTION.success);
+      open(DELETE_TOAST_OPTION.success);
     },
     onError: () => {
-      open(TOAST_OPTION.error);
+      open(DELETE_TOAST_OPTION.error);
     },
   });
 };

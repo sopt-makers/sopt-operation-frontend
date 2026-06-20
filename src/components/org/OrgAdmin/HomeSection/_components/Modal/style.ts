@@ -78,5 +78,4 @@ export const StLinkTextArea = styled(TextArea)`
 
 export const StTextAreaWrapper = styled.div`
   width: 100%;
-  
 `;

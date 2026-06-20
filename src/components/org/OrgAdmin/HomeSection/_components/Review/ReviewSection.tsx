@@ -1,9 +1,13 @@
+'use client';
+
 import { IconInfoCircle } from '@sopt-makers/icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import RequiredIcon from '@/components/org/OrgAdmin/assets/RequiredIcon';
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 import useModal from '@/components/org/OrgAdmin/common/Modal/useModal';
+import { EditReviewModal } from '@/components/org/OrgAdmin/HomeSection/_components/Modal/EditReviewModal';
+import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 import {
   StContentWrapper,
   StDescription,
@@ -16,38 +20,18 @@ import {
   StWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
 
-import useDragList from '@/components/org/OrgAdmin/HomeSection/_hooks/useDragList';
-
 import ReviewItem from './ReviewItem';
-import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
-import { EditReviewModal } from '@/components/org/OrgAdmin/HomeSection/_components/Modal/EditReviewModal';
 
 interface Props {
   reviews: Review[];
-  onChangeReviews?: (reviews: Review[]) => void;
+  onChangeReviews: (reviews: Review[]) => void;
+  isEditable: boolean;
 }
 
-const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+const ReviewSection = ({ reviews, onChangeReviews, isEditable }: Props) => {
+  const [editReviewId, setEditReviewId] = useState<number>();
 
   const { isInfoVisible, onInfoToggle } = useModal();
-
-  const {
-    items: reviews,
-    draggingId: draggingReviewId,
-    onDragStart: handleReviewDragStart,
-    onDragEnd: handleReviewDragEnd,
-    onDragOver: handleReviewDragOver,
-    onDrop: handleReviewDrop,
-  } = useDragList(initialReviews);
-
-  useEffect(() => {
-    onChangeReviews?.(reviews);
-  }, [onChangeReviews, reviews]);
-
-  const handleCloseEditModal = () => {
-    setIsEditModalOpen(false);
-  };
 
   return (
     <StSectionWrapper>
@@ -67,17 +51,19 @@ const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
             홈의 ‘Review’속 내용을 수정할 수 있어요. 좌측 핸들로 순서를 조정할
             수 있어요.
           </StDescription>
-          
-          <StReviewList>
+
+          <StReviewList
+            axis="y"
+            values={reviews}
+            onReorder={
+              isEditable ? (items) => onChangeReviews(items) : () => undefined
+            }>
             {reviews.map((review) => (
               <ReviewItem
                 key={review.id}
                 review={review}
-                isDragging={draggingReviewId === review.id}
-                onDragStart={(event) => handleReviewDragStart(event, review.id)}
-                onDragEnd={handleReviewDragEnd}
-                onDragOver={handleReviewDragOver}
-                onDrop={(event) => handleReviewDrop(event, review.id)}
+                onEdit={() => setEditReviewId(review.id)}
+                disabled={!isEditable}
               />
             ))}
           </StReviewList>
@@ -94,7 +80,11 @@ const ReviewSection = ({ reviews: initialReviews, onChangeReviews }: Props) => {
           onInfoToggle={onInfoToggle}
         />
       </StReviewModalWrapper>
-      <EditReviewModal isOpen={isEditModalOpen} onCancel={handleCloseEditModal} />
+      <EditReviewModal
+        isOpen={editReviewId != null}
+        reviewId={editReviewId}
+        onCancel={() => setEditReviewId(undefined)}
+      />
     </StSectionWrapper>
   );
 };

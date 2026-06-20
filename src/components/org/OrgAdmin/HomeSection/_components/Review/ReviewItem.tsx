@@ -1,58 +1,53 @@
+'use client';
+
 import { IconEdit } from '@sopt-makers/icons';
-import type { ComponentPropsWithoutRef, DragEvent } from 'react';
+import { useDragControls } from 'framer-motion';
 
 import HandleIcon from '@/components/org/OrgAdmin/assets/HandleIcon';
 import {
   StReviewContent,
   StReviewDragHandle,
   StReviewEditButton,
-  StReviewItem,
+  StReviewReorderItem,
 } from '@/components/org/OrgAdmin/HomeSection/_components/Review/style';
 import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 
-type ReviewItemProps = Omit<
-  ComponentPropsWithoutRef<'li'>,
-  'onDragStart' | 'onDragEnd' | 'onDragOver' | 'onDrop'
-> & {
+type ReviewItemProps = {
   review: Review;
-  isDragging: boolean;
-  onDragStart: (
-    event: DragEvent<HTMLButtonElement>,
-    reviewId: number,
-  ) => void;
-  onDragEnd: () => void;
-  onDragOver: (event: DragEvent<HTMLLIElement>) => void;
-  onDrop: (event: DragEvent<HTMLLIElement>, reviewId: number) => void;
+  onEdit?: () => void;
+  disabled?: boolean;
 };
 
-const ReviewItem = ({
-  review,
-  isDragging,
-  onDragStart,
-  onDragEnd,
-  onDragOver,
-  onDrop,
-  ...props
-}: ReviewItemProps) => {
+const ReviewItem = ({ review, onEdit, disabled = false }: ReviewItemProps) => {
+  const dragControls = useDragControls();
+
   return (
-    <StReviewItem
-      $isDragging={isDragging}
-      onDragOver={onDragOver}
-      onDrop={(event) => onDrop(event, review.id)}
-      {...props}>
+    <StReviewReorderItem
+      value={review}
+      drag={disabled ? false : 'y'}
+      dragControls={dragControls}
+      dragListener={false}
+      whileDrag={{ opacity: 0.5 }}>
       <StReviewDragHandle
         type="button"
-        draggable
+        disabled={disabled}
         aria-label={`${review.title} 순서 변경`}
-        onDragStart={(event) => onDragStart(event, review.id)}
-        onDragEnd={onDragEnd}>
+        onPointerDown={(event) => {
+          if (!disabled) {
+            dragControls.start(event);
+          }
+        }}>
         <HandleIcon />
       </StReviewDragHandle>
       <StReviewContent>{review.title}</StReviewContent>
-      <StReviewEditButton type="button" aria-label={`${review.title} 수정`}>
+      <StReviewEditButton
+        type="button"
+        disabled={disabled}
+        onClick={disabled ? undefined : onEdit}
+        aria-label={`${review.title} 수정`}>
         <IconEdit />
       </StReviewEditButton>
-    </StReviewItem>
+    </StReviewReorderItem>
   );
 };
 
