@@ -1,5 +1,5 @@
 import { IconEdit } from '@sopt-makers/icons';
-import type { ComponentPropsWithoutRef, DragEvent } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
 import HandleIcon from '@/components/org/OrgAdmin/assets/HandleIcon';
 import {
@@ -8,7 +8,10 @@ import {
   StReviewEditButton,
   StReviewItem,
 } from '@/components/org/OrgAdmin/HomeSection/_components/Review/style';
-import { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
+import {
+  type DragHandlers,
+  Review,
+} from '@/components/org/OrgAdmin/HomeSection/_types/types';
 
 type ReviewItemProps = Omit<
   ComponentPropsWithoutRef<'li'>,
@@ -16,10 +19,7 @@ type ReviewItemProps = Omit<
 > & {
   review: Review;
   isDragging: boolean;
-  onDragStart: (event: DragEvent<HTMLButtonElement>, reviewId: number) => void;
-  onDragEnd: () => void;
-  onDragOver: (event: DragEvent<HTMLLIElement>) => void;
-  onDrop: (event: DragEvent<HTMLLIElement>, reviewId: number) => void;
+  dragHandlers: DragHandlers;
   onEdit?: () => void;
   disabled?: boolean;
 };
@@ -27,14 +27,13 @@ type ReviewItemProps = Omit<
 const ReviewItem = ({
   review,
   isDragging,
-  onDragStart,
-  onDragEnd,
-  onDragOver,
-  onDrop,
+  dragHandlers,
   onEdit,
   disabled = false,
   ...props
 }: ReviewItemProps) => {
+  const { onDragStart, onDragEnd, onDragOver, onDrop } = dragHandlers;
+
   return (
     <StReviewItem
       $isDragging={isDragging}

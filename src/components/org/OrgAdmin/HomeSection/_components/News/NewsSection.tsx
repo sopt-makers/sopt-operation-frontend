@@ -59,10 +59,7 @@ const NewsSection = ({
   const {
     items: newsItems,
     draggingId: draggingNewsId,
-    onDragStart: handleDragStart,
-    onDragEnd: handleDragEnd,
-    onDragOver: handleDragOver,
-    onDrop: handleDrop,
+    dragHandlers,
   } = useDragList<News>(initialNewsItems);
 
   useEffect(() => {
@@ -110,10 +107,7 @@ const NewsSection = ({
                   key={item.id}
                   news={item}
                   isDragging={draggingNewsId === item.id}
-                  onNewsDragStart={handleDragStart}
-                  onNewsDragEnd={handleDragEnd}
-                  onNewsDragOver={handleDragOver}
-                  onNewsDrop={handleDrop}
+                  dragHandlers={dragHandlers}
                   onEdit={() => setEditId(item.id)}
                   onDelete={() => setDeleteId(item.id)}
                   disabled={!isEditable}

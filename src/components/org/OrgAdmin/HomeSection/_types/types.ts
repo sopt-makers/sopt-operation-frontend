@@ -1,3 +1,5 @@
+import type { DragEvent } from 'react';
+
 export type Review = {
   id: number;
   title: string;
@@ -6,3 +8,10 @@ export type Review = {
 };
 
 export type ReviewForm = Omit<Review, 'id'>;
+
+export type DragHandlers = {
+  onDragStart: (event: DragEvent<HTMLButtonElement>, id: number) => void;
+  onDragEnd: () => void;
+  onDragOver: (event: DragEvent<HTMLLIElement>) => void;
+  onDrop: (event: DragEvent<HTMLLIElement>, id: number) => void;
+};

@@ -77,10 +77,12 @@ const useDragList = <T extends { id: number }>(initialItems: T[]) => {
     items,
     setItems,
     draggingId,
-    onDragStart,
-    onDragEnd,
-    onDragOver,
-    onDrop,
+    dragHandlers: {
+      onDragStart,
+      onDragEnd,
+      onDragOver,
+      onDrop,
+    },
   };
 };
 

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, DragEvent } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
 import HandleIcon from '@/components/org/OrgAdmin/assets/HandleIcon';
 import {
@@ -9,22 +9,20 @@ import {
   StNewsDragHandle,
   StNewsItem,
 } from '@/components/org/OrgAdmin/HomeSection/_components/News/style';
+import type { DragHandlers } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 
 export type News = {
   id: number;
   title: string;
 };
 
-type NewsItemProps = ComponentPropsWithoutRef<'li'> & {
+type NewsItemProps = Omit<
+  ComponentPropsWithoutRef<'li'>,
+  'onDragOver' | 'onDrop'
+> & {
   news: News;
   isDragging: boolean;
-  onNewsDragStart: (
-    event: DragEvent<HTMLButtonElement>,
-    newsId: number,
-  ) => void;
-  onNewsDragEnd: () => void;
-  onNewsDragOver: (event: DragEvent<HTMLLIElement>) => void;
-  onNewsDrop: (event: DragEvent<HTMLLIElement>, newsId: number) => void;
+  dragHandlers: DragHandlers;
   onEdit?: () => void;
   onDelete?: () => void;
   disabled?: boolean;
@@ -33,20 +31,19 @@ type NewsItemProps = ComponentPropsWithoutRef<'li'> & {
 const NewsItem = ({
   news,
   isDragging,
-  onNewsDragStart,
-  onNewsDragEnd,
-  onNewsDragOver,
-  onNewsDrop,
+  dragHandlers,
   onEdit,
   onDelete,
   disabled = false,
   ...props
 }: NewsItemProps) => {
+  const { onDragStart, onDragEnd, onDragOver, onDrop } = dragHandlers;
+
   return (
     <StNewsItem
       $isDragging={isDragging}
-      onDragOver={disabled ? undefined : onNewsDragOver}
-      onDrop={disabled ? undefined : (event) => onNewsDrop(event, news.id)}
+      onDragOver={disabled ? undefined : onDragOver}
+      onDrop={disabled ? undefined : (event) => onDrop(event, news.id)}
       {...props}>
       <StNewsDragHandle
         type="button"
@@ -54,9 +51,9 @@ const NewsItem = ({
         disabled={disabled}
         aria-label={`${news.title} 순서 변경`}
         onDragStart={
-          disabled ? undefined : (event) => onNewsDragStart(event, news.id)
+          disabled ? undefined : (event) => onDragStart(event, news.id)
         }
-        onDragEnd={disabled ? undefined : onNewsDragEnd}>
+        onDragEnd={disabled ? undefined : onDragEnd}>
         <HandleIcon />
       </StNewsDragHandle>
 

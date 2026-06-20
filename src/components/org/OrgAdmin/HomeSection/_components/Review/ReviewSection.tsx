@@ -39,10 +39,7 @@ const ReviewSection = ({ onChangeReviews, isEditable }: Props) => {
   const {
     items: reviews,
     draggingId: draggingReviewId,
-    onDragStart: handleReviewDragStart,
-    onDragEnd: handleReviewDragEnd,
-    onDragOver: handleReviewDragOver,
-    onDrop: handleReviewDrop,
+    dragHandlers,
   } = useDragList(initialReviews);
 
   useEffect(() => {
@@ -74,10 +71,7 @@ const ReviewSection = ({ onChangeReviews, isEditable }: Props) => {
                 key={review.id}
                 review={review}
                 isDragging={draggingReviewId === review.id}
-                onDragStart={(event) => handleReviewDragStart(event, review.id)}
-                onDragEnd={handleReviewDragEnd}
-                onDragOver={handleReviewDragOver}
-                onDrop={(event) => handleReviewDrop(event, review.id)}
+                dragHandlers={dragHandlers}
                 onEdit={() => setEditReviewId(review.id)}
                 disabled={!isEditable}
               />
