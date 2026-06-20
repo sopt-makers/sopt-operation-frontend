@@ -30,7 +30,7 @@ const BrandingColor = () => {
       </StWrapper>{' '}
       <Modal
         title="서브컬러 (강조 그레이 컬러) 예시"
-        description="&#39;지원하기&#39; 탭 속 파트별 소개 &#39;👍이런 분이면 좋아요!&#39;의 백그라운 컬러예요."
+        description="&#39;모집안내&#39; 탭 속 파트별 소개 &#39;👍이런 분이면 좋아요!&#39;의 백그라운 컬러예요."
         subDescription="키컬러 저명도와 그레이 컬러 사이, 컬러를 지정해주세요."
         imgSrc="/images/org/imgSubColorInfo.png"
         isInfoVisible={isInfoVisible}
