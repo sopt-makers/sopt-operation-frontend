@@ -29,6 +29,10 @@ import {
   AddRecruitData,
   DeleteAdminNewsRequestDto,
   DeleteMainNewsData,
+  EditAdminNewsRequestDto,
+  EditAdminNewsV2RequestDto,
+  EditMainNewsData,
+  EditMainNewsV2Data,
   GetMainData,
   GetMainNewsData,
 } from './data-contracts';
@@ -259,6 +263,52 @@ export class Admin<
     this.request<AddAboutConfirmData, any>({
       path: `/admin/about/confirm`,
       method: 'POST',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description 최신소식을 수정합니다
+   *
+   * @tags Admin - News
+   * @name EditMainNews
+   * @summary 최신소식 수정
+   * @request PATCH:/admin/news/{id}
+   * @secure
+   * @response `200` `EditMainNewsData` OK
+   */
+  editMainNews = (
+    id: number,
+    data: EditAdminNewsRequestDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<EditMainNewsData, any>({
+      path: `/admin/news/${id}`,
+      method: 'PATCH',
+      body: data,
+      secure: true,
+      type: ContentType.FormData,
+      ...params,
+    });
+  /**
+   * @description 람다 전용
+   *
+   * @tags Admin - News
+   * @name EditMainNewsV2
+   * @summary 최신소식 수정 (Presigned URL)
+   * @request PATCH:/admin/news/{id}/v2
+   * @secure
+   * @response `200` `EditMainNewsV2Data` OK
+   */
+  editMainNewsV2 = (
+    id: number,
+    data: EditAdminNewsV2RequestDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<EditMainNewsV2Data, any>({
+      path: `/admin/news/${id}/v2`,
+      method: 'PATCH',
       body: data,
       secure: true,
       type: ContentType.Json,

@@ -712,6 +712,50 @@ export interface AddAdminMemberResponseRecordDto {
   profileImage: string;
 }
 
+/** 최신소식 수정하기 */
+export interface EditAdminNewsRequestDto {
+  /** @format binary */
+  image?: File;
+  /**
+   * 제목
+   * @example "MIND 24"
+   */
+  title: string;
+  /**
+   * 링크
+   * @example "https://example.com"
+   */
+  link: string;
+}
+
+/** 최신소식 수정 */
+export interface EditAdminNewsResponseDto {
+  /**
+   * 성공 메세지
+   * @example "success"
+   */
+  message: string;
+}
+
+/** 최신소식 수정하기 (Presigned URL 방식) */
+export interface EditAdminNewsV2RequestDto {
+  /**
+   * S3에 업로드된 이미지 URL
+   * @example "https://s3.ap-northeast-2.amazonaws.com/sopt.org/develop/news/uuid_image.jpg"
+   */
+  imageUrl: string;
+  /**
+   * 제목
+   * @example "SOPT 36기 모집 안내"
+   */
+  title: string;
+  /**
+   * 링크
+   * @example "https://sopt.org/recruit"
+   */
+  link: string;
+}
+
 export interface GetTodayVisitorResponseDto {
   /**
    * 오늘 하루 방문자 수
@@ -1530,6 +1574,10 @@ export type AddCommonConfirmData = AddAdminConfirmResponseDto;
 export type AddAboutData = AddAdminAboutResponseDto;
 
 export type AddAboutConfirmData = AddAdminConfirmResponseDto;
+
+export type EditMainNewsData = EditAdminNewsResponseDto;
+
+export type EditMainNewsV2Data = EditAdminNewsResponseDto;
 
 export type GetRandomReviewsByPartData = ReviewRes[];
 

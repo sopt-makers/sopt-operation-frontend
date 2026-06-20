@@ -388,6 +388,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/news/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * 최신소식 수정
+         * @description 최신소식을 수정합니다
+         */
+        patch: operations["editMainNews"];
+        trace?: never;
+    };
+    "/admin/news/{id}/v2": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * 최신소식 수정 (Presigned URL)
+         * @description 람다 전용
+         */
+        patch: operations["editMainNewsV2"];
+        trace?: never;
+    };
     "/reviews/random": {
         parameters: {
             query?: never;
@@ -1324,6 +1364,47 @@ export interface components {
             name: string;
             /** @description 프로필 이미지 PresgiendUrl */
             profileImage: string;
+        };
+        /** @description 최신소식 수정하기 */
+        EditAdminNewsRequestDto: {
+            /** Format: binary */
+            image?: string;
+            /**
+             * @description 제목
+             * @example MIND 24
+             */
+            title: string;
+            /**
+             * @description 링크
+             * @example https://example.com
+             */
+            link: string;
+        };
+        /** @description 최신소식 수정 */
+        EditAdminNewsResponseDto: {
+            /**
+             * @description 성공 메세지
+             * @example success
+             */
+            message: string;
+        };
+        /** @description 최신소식 수정하기 (Presigned URL 방식) */
+        EditAdminNewsV2RequestDto: {
+            /**
+             * @description S3에 업로드된 이미지 URL
+             * @example https://s3.ap-northeast-2.amazonaws.com/sopt.org/develop/news/uuid_image.jpg
+             */
+            imageUrl: string;
+            /**
+             * @description 제목
+             * @example SOPT 36기 모집 안내
+             */
+            title: string;
+            /**
+             * @description 링크
+             * @example https://sopt.org/recruit
+             */
+            link: string;
         };
         GetTodayVisitorResponseDto: {
             /**
@@ -2600,6 +2681,58 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AddAdminConfirmResponseDto"];
+                };
+            };
+        };
+    };
+    editMainNews: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": components["schemas"]["EditAdminNewsRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EditAdminNewsResponseDto"];
+                };
+            };
+        };
+    };
+    editMainNewsV2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EditAdminNewsV2RequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EditAdminNewsResponseDto"];
                 };
             };
         };
