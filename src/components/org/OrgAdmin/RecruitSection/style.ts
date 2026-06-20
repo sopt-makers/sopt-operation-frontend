@@ -16,8 +16,7 @@ export const StLabelWrapper = styled.div`
 export const StTextAreaWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 18px;
+  gap: 8px;
 `;
 
 export const StFnaWrapper = styled.div`

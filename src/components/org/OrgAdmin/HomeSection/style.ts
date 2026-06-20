@@ -178,65 +178,6 @@ export const StNewsHeaderText = styled.div`
   }
 `;
 
-export const StNewsList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-`;
-
-export const StNewsItem = styled.li<{ $isDragging?: boolean }>`
-  display: grid;
-  grid-template-columns: 24px 1fr 24px;
-  align-items: center;
-  gap: 14px;
-
-  width: 100%;
-
-  padding: 16px 30px;
-
-  color: ${colors.gray30};
-  ${fontsObject.TITLE_5_18_SB};
-
-  border-radius: 10px;
-  background-color: ${colors.gray800};
-  opacity: ${({ $isDragging }) => ($isDragging ? 0.5 : 1)};
-
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const StNewsDragHandle = styled.button`
-  display: grid;
-  place-items: center;
-
-  width: 24px;
-  height: 24px;
-
-  color: ${colors.white};
-  cursor: grab;
-
-  &:active {
-    cursor: grabbing;
-  }
-
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const StNewsContent = styled.span`
-  min-width: 0;
-`;
-
-export const StNewsSectionContainer = styled.div`
-  position: relative;
-  display: flex;
-  align-items: start;
-`;
-
 export const StLeftColumnSection = styled.div`
   width: 582px;
 `;
