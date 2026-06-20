@@ -3,11 +3,13 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import {
   DELETE_TOAST_OPTION,
+  DEPLOY_TOAST_OPTION,
   EDIT_TOAST_OPTION,
   TOAST_OPTION,
 } from '@/components/org/OrgAdmin/HomeSection/_constants/constants';
 import {
   deleteNews,
+  deployHomeTab,
   getAdminInfo,
   getNews,
   getPresignedUrl,
@@ -138,6 +140,23 @@ export const useEditNewsMutation = () => {
     onError: (error) => {
       console.error('[useEditNewsMutation] 최신소식 수정 실패', error);
       open(EDIT_TOAST_OPTION.error);
+    },
+  });
+};
+
+export const useDeployHomeMutation = () => {
+  const queryClient = useQueryClient();
+  const { open } = useToast();
+
+  return useMutation({
+    mutationFn: deployHomeTab,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin'] });
+      queryClient.invalidateQueries({ queryKey: ['homepage-reviews'] });
+      open(DEPLOY_TOAST_OPTION.success);
+    },
+    onError: () => {
+      open(DEPLOY_TOAST_OPTION.error);
     },
   });
 };

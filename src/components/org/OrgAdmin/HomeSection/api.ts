@@ -1,3 +1,5 @@
+import type { AddAdminHomeRequestDto } from '@/__generated__/org-types/data-contracts';
+import type { News } from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsItem';
 import type { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 
@@ -179,4 +181,90 @@ export const patchReview = async (id: number, formData: FormData) => {
   });
 
   return res;
+};
+
+export const extractFileNameFromUrl = (url: string) => {
+  try {
+    const pathname = new URL(url).pathname;
+
+    return decodeURIComponent(pathname.split('/').pop() ?? '');
+  } catch {
+    return decodeURIComponent(url.split('/').pop() ?? url);
+  }
+};
+
+type PostHomeTabBody = Omit<AddAdminHomeRequestDto, 'news'> & {
+  news?: { image: string; title: string; link: string }[];
+};
+
+export const postHomeTab = async (body: PostHomeTabBody) => {
+  const { data, error } = await soptFetcher.POST('/admin/home', { body });
+
+  if (error || !data) {
+    throw new Error('홈 탭 배포 요청에 실패했습니다.');
+  }
+
+  return data;
+};
+
+export const postHomeTabConfirm = async () => {
+  const { data, error } = await soptFetcher.POST('/admin/home/confirm', {
+    body: {
+      generation: Number(ACTIVITY_GENERATION),
+    },
+  });
+
+  if (error || !data) {
+    throw new Error('홈 탭 배포 확정에 실패했습니다.');
+  }
+
+  return data;
+};
+
+export type DeployHomeInput = {
+  homeHeaderImageFileName: string;
+  homeHeaderImageFile?: File;
+  reviewItems: Review[];
+  newsItems: News[];
+};
+
+export const deployHomeTab = async ({
+  homeHeaderImageFileName,
+  homeHeaderImageFile,
+  reviewItems,
+  newsItems,
+}: DeployHomeInput) => {
+  const newsDetails = await Promise.all(
+    newsItems.map((item) => getNews(item.id)),
+  );
+
+  const deployResponse = await postHomeTab({
+    generation: Number(ACTIVITY_GENERATION),
+    homeHeaderImageFileName,
+    review: reviewItems.map(({ title, content, authorInfo }) => ({
+      title,
+      content: content ?? '',
+      authorInfo: authorInfo ?? '',
+    })),
+    news: newsDetails
+      .filter((news): news is NonNullable<typeof news> => Boolean(news))
+      .map((news) => ({
+        image: extractFileNameFromUrl(news.image),
+        title: news.title,
+        link: news.link,
+      })),
+  });
+
+  if (homeHeaderImageFile && deployResponse.homeHeaderImage) {
+    const uploadResponse = await uploadToS3(
+      deployResponse.homeHeaderImage,
+      homeHeaderImageFile,
+    );
+
+    if (!uploadResponse.ok) {
+      throw new Error('홈 헤더 이미지 업로드에 실패했습니다.');
+    }
+  }
+
+  return postHomeTabConfirm();
 };

@@ -1,5 +1,5 @@
 import { Button, ToastProvider } from '@sopt-makers/ui';
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import IcSend from '@/components/icons/IcSend';
@@ -9,8 +9,11 @@ import type { News } from '@/components/org/OrgAdmin/HomeSection/_components/New
 import NewsSection from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsSection';
 import ReviewSection from '@/components/org/OrgAdmin/HomeSection/_components/Review/ReviewSection';
 import type { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
+import { isSameOrder } from '@/components/org/OrgAdmin/HomeSection/_utils/isSameOrder';
+import { extractFileNameFromUrl } from '@/components/org/OrgAdmin/HomeSection/api';
 import {
   useAdminInfoQuery,
+  useDeployHomeMutation,
   useReviewsQuery,
 } from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
@@ -23,46 +26,64 @@ import {
 } from '@/components/org/OrgAdmin/HomeSection/style';
 import { VALIDATION_CHECK } from '@/utils/org';
 
-const isSameOrder = <T extends { id: number }>(
-  prevItems: T[],
-  nextItems: T[],
-) =>
-  prevItems.length === nextItems.length &&
-  prevItems.every((item, index) => item.id === nextItems[index]?.id);
+const HOME_STATE = {
+  VIEW: 'view',
+  EDITING: 'editing',
+  DEPLOY: 'deploy',
+} as const;
+
+type HomeState = (typeof HOME_STATE)[keyof typeof HOME_STATE];
+
+type HomeDraft = {
+  reviews: Review[];
+  news: News[];
+};
 
 const EMPTY_REVIEWS: Review[] = [];
 const EMPTY_NEWS: News[] = [];
 
 const HomeSectionContent = () => {
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
-  const [reviewItems, setReviewItems] = useState<Review[]>([]);
-  const [newsItems, setNewsItems] = useState<News[]>([]);
-  const [resetKey, setResetKey] = useState(0);
+  const [homeState, setHomeState] = useState<HomeState>(HOME_STATE.VIEW);
+  const [draft, setDraft] = useState<HomeDraft>({
+    reviews: EMPTY_REVIEWS,
+    news: EMPTY_NEWS,
+  });
 
   const { data } = useAdminInfoQuery();
   const { data: reviewsData } = useReviewsQuery();
-  const initialReviewItems = reviewsData ?? EMPTY_REVIEWS;
+  const { mutate: deployHome, isLoading: isDeploying } =
+    useDeployHomeMutation();
+
+  const initialReviews = reviewsData ?? EMPTY_REVIEWS;
+  const latestNews = data?.latestNews ?? EMPTY_NEWS;
   const { control, getValues, setError, setValue, clearErrors } =
     useFormContext();
   const homeHeaderImage = useWatch({
     control,
     name: 'homeHeaderImageFileName',
   });
-  const latestNews = data?.latestNews ?? EMPTY_NEWS;
 
-  const handleChangeReviews = useCallback((reviews: Review[]) => {
-    setReviewItems(reviews);
-  }, []);
+  const isEditMode = homeState !== HOME_STATE.VIEW;
+  const isDeployModalOpen = homeState === HOME_STATE.DEPLOY;
 
-  const handleChangeNews = useCallback((news: News[]) => {
-    setNewsItems(news);
-  }, []);
+  useEffect(() => {
+    setDraft({
+      reviews: initialReviews,
+      news: latestNews,
+    });
+  }, [initialReviews, latestNews]);
+
+  const resetDraft = () => {
+    setDraft({
+      reviews: initialReviews,
+      news: latestNews,
+    });
+  };
 
   const hasUnsavedChanges =
     Boolean(homeHeaderImage?.file) ||
-    !isSameOrder(initialReviewItems, reviewItems) ||
-    !isSameOrder(latestNews, newsItems);
+    !isSameOrder(initialReviews, draft.reviews) ||
+    !isSameOrder(latestNews, draft.news);
 
   const validateHomeInputs = () => {
     const { homeHeaderImageFileName } = getValues();
@@ -78,27 +99,35 @@ const HomeSectionContent = () => {
     return true;
   };
 
-  const handleClickEditButton = () => {
-    setIsEditMode(true);
-  };
-
-  const handleClickCancelButton = () => {
+  const exitEditMode = () => {
     setValue('homeHeaderImageFileName', undefined, {
       shouldDirty: false,
       shouldValidate: false,
     });
     clearErrors('homeHeaderImageFileName');
-    setReviewItems(initialReviewItems);
-    setNewsItems(latestNews);
-    setResetKey((prev) => prev + 1);
-    setIsActionModalOpen(false);
-    setIsEditMode(false);
+    resetDraft();
+    setHomeState(HOME_STATE.VIEW);
   };
 
-  const handleClickDeployButton = () => {
-    if (validateHomeInputs()) {
-      setIsActionModalOpen(true);
-    }
+  const handleDeploy = () => {
+    const { homeHeaderImageFileName } = getValues();
+    const homeHeaderImageFileNameValue =
+      homeHeaderImageFileName?.fileName ??
+      (data?.homeHeaderImage
+        ? extractFileNameFromUrl(data.homeHeaderImage)
+        : '');
+
+    deployHome(
+      {
+        homeHeaderImageFileName: homeHeaderImageFileNameValue,
+        homeHeaderImageFile: homeHeaderImageFileName?.file,
+        reviewItems: draft.reviews,
+        newsItems: draft.news,
+      },
+      {
+        onSuccess: exitEditMode,
+      },
+    );
   };
 
   return (
@@ -112,7 +141,7 @@ const HomeSectionContent = () => {
                 size="md"
                 variant="outlined"
                 css={{ width: 'fit-content' }}
-                onClick={handleClickCancelButton}>
+                onClick={exitEditMode}>
                 취소
               </Button>
               <Button
@@ -120,7 +149,12 @@ const HomeSectionContent = () => {
                 type="button"
                 size="md"
                 LeftIcon={IcSend}
-                onClick={handleClickDeployButton}>
+                disabled={isDeploying}
+                onClick={() => {
+                  if (validateHomeInputs()) {
+                    setHomeState(HOME_STATE.DEPLOY);
+                  }
+                }}>
                 배포
               </Button>
             </StHomeActionButtonWrapper>
@@ -135,7 +169,7 @@ const HomeSectionContent = () => {
             type="button"
             size="md"
             variant="outlined"
-            onClick={handleClickEditButton}>
+            onClick={() => setHomeState(HOME_STATE.EDITING)}>
             수정하기
           </Button>
         )}
@@ -143,26 +177,24 @@ const HomeSectionContent = () => {
       <StSectionWrapper>
         <HomeHeaderSection isEditable={isEditMode} />
         <ReviewSection
-          key={resetKey}
           isEditable={isEditMode}
-          onChangeReviews={handleChangeReviews}
+          reviews={draft.reviews}
+          onChangeReviews={(reviews) =>
+            setDraft((prev) => ({ ...prev, reviews }))
+          }
         />
         <NewsSection
-          key={resetKey}
-          latestNews={latestNews}
           isEditable={isEditMode}
-          onChangeNews={handleChangeNews}
+          newsItems={draft.news}
+          onChangeNews={(news) => setDraft((prev) => ({ ...prev, news }))}
         />
       </StSectionWrapper>
 
       <ActionModal
         variant="deploy"
-        isOpen={isActionModalOpen}
-        onCancel={() => setIsActionModalOpen(false)}
-        onAction={() => {
-          setIsActionModalOpen(false);
-          setIsEditMode(false);
-        }}
+        isOpen={isDeployModalOpen}
+        onCancel={() => setHomeState(HOME_STATE.EDITING)}
+        onAction={handleDeploy}
         alertText="배포하시겠습니까?"
         description="입력한 홈 탭 내용은 공홈에 즉시 반영돼요."
       />

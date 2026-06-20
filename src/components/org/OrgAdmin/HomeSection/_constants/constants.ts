@@ -18,6 +18,12 @@ export const DELETE_TOAST_OPTION: Record<'success' | 'error', ToastOptionType> =
     error: { icon: 'error', content: '삭제에 실패했어요' },
   };
 
+export const DEPLOY_TOAST_OPTION: Record<'success' | 'error', ToastOptionType> =
+  {
+    success: { icon: 'success', content: '성공적으로 배포했어요' },
+    error: { icon: 'error', content: '배포에 실패했어요' },
+  };
+
 export const REVIEW_CONTENT_MIN_HEIGHT = 104;
 export const REVIEW_CONTENT_MAX_HEIGHT = 220;
 
