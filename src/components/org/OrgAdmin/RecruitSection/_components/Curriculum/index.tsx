@@ -24,13 +24,13 @@ const CURRICULUM = PART_LIST.reduce(
 );
 
 interface CurriculumProps {
-  isEditable: boolean;
+  isEditable?: boolean;
   selectedPart: PART_KO;
   onChangeSelectedPart: (part: PART_KO) => void;
 }
 
 const CurriculumSection = ({
-  isEditable,
+  isEditable = true,
   selectedPart,
   onChangeSelectedPart,
 }: CurriculumProps) => {
