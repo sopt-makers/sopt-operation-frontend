@@ -176,3 +176,33 @@ export const StColorPreviewInline = styled.input`
     border: none;
   }
 `;
+
+export const StRadioRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const StRadioOptions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+interface StTextPreviewBoxProps {
+  bgColor: string;
+  textColor: string;
+}
+
+export const StTextPreviewBox = styled.div<StTextPreviewBoxProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background-color: ${({ bgColor }) => bgColor};
+  color: ${({ textColor }) => textColor};
+  ${fontsObject.HEADING_4_24_B};
+  flex-shrink: 0;
+`;
