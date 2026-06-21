@@ -94,10 +94,12 @@ export const validationAboutInputs = (
   const fieldsToValidate = [
     { name: 'headerImageFileName', value: headerImageFileName },
     ...[coreValue1, coreValue2, coreValue3].flatMap((coreValue, idx) =>
-      ['imageFileName', 'value', 'description'].map((key) => ({
-        name: `coreValue${idx + 1}.${key}`,
-        value: coreValue?.[key],
-      })),
+      ['imageFileName', 'value', 'description', 'detailDescription'].map(
+        (key) => ({
+          name: `coreValue${idx + 1}.${key}`,
+          value: coreValue?.[key],
+        }),
+      ),
     ),
     ...PART_LIST.flatMap((part) =>
       Array.from({ length: 8 }).map((_, idx) => ({
