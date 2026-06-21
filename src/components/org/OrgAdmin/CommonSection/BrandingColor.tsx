@@ -1,3 +1,5 @@
+import { colors } from '@sopt-makers/colors';
+
 import {
   StDescription,
   StInputWrapper,
@@ -34,12 +36,14 @@ const BrandingColor = () => {
               label="다크 모드 키컬러"
               id={BRANDING_COLOR_FIELD_IDS.darkKeyColor}
               description="다크 모드 텍스트와 컴포넌트에 강조색으로 적용돼요."
+              previewDefaultColor={colors.white}
             />
             <ColorRadioField
               label="다크 모드 키컬러 위 텍스트"
               description="다크 모드 키컬러 위에 사용되는 텍스트와 아이콘 컬러예요."
               id={BRANDING_COLOR_FIELD_IDS.darkTextOnColor}
               keyColorId={BRANDING_COLOR_FIELD_IDS.darkKeyColor}
+              previewDefaultColor={colors.white}
               defaultValue="dark"
             />
           </StInputWrapper>
@@ -49,14 +53,14 @@ const BrandingColor = () => {
               label="라이트 모드 키컬러"
               id={BRANDING_COLOR_FIELD_IDS.lightKeyColor}
               description="라이트 모드 키컬러와 컴포넌트에 강조색으로 적용돼요."
-              previewDefaultColor="#000000"
+              previewDefaultColor={colors.black}
             />
             <ColorRadioField
               label="라이트 모드 키컬러 위 텍스트"
               description="라이트 모드 키컬러 위에 사용되는 텍스트와 아이콘 컬러예요."
               id={BRANDING_COLOR_FIELD_IDS.lightTextOnColor}
               keyColorId={BRANDING_COLOR_FIELD_IDS.lightKeyColor}
-              previewDefaultColor="#000000"
+              previewDefaultColor={colors.black}
               defaultValue="light"
               lightRecommended
             />
