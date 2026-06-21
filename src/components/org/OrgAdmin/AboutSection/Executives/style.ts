@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
+import { StInput as BaseInput } from '../style';
+
 export const StChipWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,4 +51,8 @@ export const StSNSBox = styled.li`
   & svg {
     cursor: pointer;
   }
+`;
+
+export const ExecInput = styled(BaseInput)`
+  width: 376px;
 `;

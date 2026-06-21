@@ -10,7 +10,7 @@ import IcLinkedinLogo from '../assets/IcLinkedinLogo';
 import IcMailLogo from '../assets/IcMailLogo';
 import { StDescription, StInput, StInputLabel } from '../style';
 import SNSInput from './SNSInput';
-import { StPhotoWrapper, StSNSWrapper } from './style';
+import { ExecInput, StPhotoWrapper, StSNSWrapper } from './style';
 
 interface ExecInfoProps {
   selectedExec: string;
@@ -30,6 +30,7 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
           <span>프로필 사진</span>
           <RequiredIcon />
         </StInputLabel>
+
         <StDescription>
           사진은 1:1 비율로 올려주세요. 사진 용량은 00mb 아래로 첨부해주세요.
         </StDescription>
@@ -41,23 +42,25 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
           shape="circle"
         />
       </StPhotoWrapper>
-      <StInput
+
+      <ExecInput
         {...register(`member.${selectedExec}.name`)}
         labelText="이름"
         placeholder="ex. 김솝트"
         required
       />
-      <StInput
+      <ExecInput
         {...register(`member.${selectedExec}.affiliation`)}
         labelText="소속"
         placeholder="ex. 솝트대학교 / 솝트컴퍼니 / 앱잼 프로덕트명"
       />
-      <StInput
+      <ExecInput
         {...register(`member.${selectedExec}.introduction`)}
         labelText="한 줄 소개"
         placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
         required
       />
+
       <StSNSWrapper>
         <span>SNS</span>
         <SNSInput

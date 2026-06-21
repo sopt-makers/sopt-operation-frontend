@@ -24,7 +24,7 @@ const Executives = ({
       <StTitle>임원진</StTitle>
       <StChipWrapper>
         <StChipLine>
-          <StChipLabel>임원진</StChipLabel>
+          <StChipLabel>회·팀장단</StChipLabel>
           {임원진_LIST.map((role) => (
             <Chip
               key={role}
@@ -40,7 +40,7 @@ const Executives = ({
             <Chip
               key={part}
               onClick={() => handleSetSelectedExec(part)}
-              active={selectedExec === part}>{`${part} 파트장`}</Chip>
+              active={selectedExec === part}>{`${part}`}</Chip>
           ))}
         </StChipLine>
       </StChipWrapper>
