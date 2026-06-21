@@ -16,14 +16,14 @@ interface ColorInputFieldProps {
   label: string;
   id: string;
   description?: string;
-  previewDefaultColor?: string;
+  previewDefaultColor: string;
 }
 
 const ColorInputField = ({
   label,
   id,
   description,
-  previewDefaultColor = '#ffffff',
+  previewDefaultColor,
 }: ColorInputFieldProps) => {
   const {
     register,

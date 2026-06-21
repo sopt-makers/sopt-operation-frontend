@@ -22,7 +22,7 @@ interface ColorRadioFieldProps {
   /** 배경색으로 사용할 키컬러 필드 ID */
   keyColorId: string;
   /** 키컬러가 비어 있을 때 미리보기 배경색 */
-  previewDefaultColor?: string;
+  previewDefaultColor: string;
   /** 초기 선택값 */
   defaultValue?: 'dark' | 'light';
   /** true이면 밝은 텍스트 옵션에 "(권장)" 표시 */
@@ -34,7 +34,7 @@ const ColorRadioField = ({
   description,
   id,
   keyColorId,
-  previewDefaultColor = '#ffffff',
+  previewDefaultColor,
   defaultValue,
   lightRecommended,
 }: ColorRadioFieldProps) => {
