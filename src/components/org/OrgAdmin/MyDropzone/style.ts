@@ -11,6 +11,7 @@ export const StImgButtonWrapper = styled.div`
 
 interface StImgButtonProps {
   isError: boolean;
+  isDisabled: boolean;
   width: string;
   height: string;
   shape: 'square' | 'circle';
@@ -29,7 +30,8 @@ export const StImgButton = styled.div<StImgButtonProps>`
   background-color: ${colors.gray800};
   border: ${({ isError }) => (isError ? `1px solid ${colors.error}` : 'none')};
   border-radius: ${({ shape }) => (shape === 'square' ? '10px' : '50%')};
-  cursor: pointer;
+  cursor: ${({ isDisabled }) => (isDisabled ? 'default' : 'pointer')};
+  opacity: ${({ isDisabled }) => (isDisabled ? 0.6 : 1)};
   overflow: hidden;
 `;
 

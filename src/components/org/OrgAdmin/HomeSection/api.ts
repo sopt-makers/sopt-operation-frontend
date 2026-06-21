@@ -1,10 +1,9 @@
-import axios from 'axios';
-
-import config from '@/configs/config';
-import { getToken } from '@/utils/auth';
+import type { AddAdminHomeRequestDto } from '@/__generated__/org-types/data-contracts';
+import type { News } from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsItem';
+import type { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 
-import { fetcher } from '../api';
+import { fetcher, soptFetcher } from '../api';
 
 interface PresignedUrlResponse {
   presignedUrl: string;
@@ -12,6 +11,14 @@ interface PresignedUrlResponse {
   expiresIn: number;
   fileKey: string;
 }
+
+type ReviewsResponse =
+  | Review[]
+  | {
+      data?: Review[];
+      review?: Review[];
+      reviews?: Review[];
+    };
 
 export const getAdminInfo = async () => {
   const { data } = await fetcher.GET('/admin', {
@@ -91,18 +98,173 @@ export const deleteNews = async (id: number) => {
   return res;
 };
 
-/** 최신소식 추가 (기존 멀티파트 방식 - deprecated) */
-export const postNews = async (formData: FormData) => {
-  const res = await axios.post(
-    `${config.ORG_API_URL}/v2/admin/news`,
-    formData,
-    {
-      headers: {
-        Authorization: getToken('ACCESS'),
-        'Content-Type': 'multipart/form-data',
+export const getNews = async (id: number) => {
+  const { data } = await fetcher.GET('/admin/news/news', {
+    params: {
+      query: {
+        id: String(id),
       },
     },
-  );
+  });
+
+  return data;
+};
+
+export const patchNews = async (id: number, formData: FormData) => {
+  const res = await fetcher.PATCH('/admin/news/{id}', {
+    params: {
+      path: {
+        id,
+      },
+    },
+    body: {
+      image: formData.get('image') as string,
+      title: formData.get('title') as string,
+      link: formData.get('link') as string,
+    },
+  });
 
   return res;
+};
+
+export const postNews = async (formData: FormData) => {
+  const res = await fetcher.POST('/admin/news', {
+    body: {
+      image: formData.get('image') as string,
+      title: formData.get('title') as string,
+      link: formData.get('link') as string,
+    },
+  });
+
+  return res;
+};
+
+export const getReviews = async () => {
+  const { data } = await soptFetcher.GET('/homepage-reviews');
+  const reviewsData = data as ReviewsResponse | undefined;
+
+  if (!reviewsData) {
+    return [];
+  }
+
+  if (Array.isArray(reviewsData)) {
+    return reviewsData;
+  }
+
+  return reviewsData.data ?? reviewsData.review ?? reviewsData.reviews ?? [];
+};
+
+export const postReview = async (formData: FormData) => {
+  const res = await fetcher.POST('/homepage-reviews', {
+    body: {
+      title: formData.get('title') as string,
+      content: formData.get('content') as string,
+      authorInfo: formData.get('authorInfo') as string,
+    },
+  });
+
+  return res;
+};
+
+export const patchReview = async (id: number, formData: FormData) => {
+  const res = await soptFetcher.PATCH('/homepage-reviews/{id}', {
+    params: {
+      path: {
+        id,
+      },
+    },
+    body: {
+      title: formData.get('title') as string,
+      content: formData.get('content') as string,
+      authorInfo: formData.get('authorInfo') as string,
+    },
+  });
+
+  return res;
+};
+
+export const extractFileNameFromUrl = (url: string) => {
+  try {
+    const pathname = new URL(url).pathname;
+
+    return decodeURIComponent(pathname.split('/').pop() ?? '');
+  } catch {
+    return decodeURIComponent(url.split('/').pop() ?? url);
+  }
+};
+
+type PostHomeTabBody = Omit<AddAdminHomeRequestDto, 'news'> & {
+  news?: { image: string; title: string; link: string }[];
+};
+
+export const postHomeTab = async (body: PostHomeTabBody) => {
+  const { data, error } = await soptFetcher.POST('/admin/home', { body });
+
+  if (error || !data) {
+    throw new Error('홈 탭 배포 요청에 실패했습니다.');
+  }
+
+  return data;
+};
+
+export const postHomeTabConfirm = async () => {
+  const { data, error } = await soptFetcher.POST('/admin/home/confirm', {
+    body: {
+      generation: Number(ACTIVITY_GENERATION),
+    },
+  });
+
+  if (error || !data) {
+    throw new Error('홈 탭 배포 확정에 실패했습니다.');
+  }
+
+  return data;
+};
+
+export type DeployHomeInput = {
+  homeHeaderImageFileName: string;
+  homeHeaderImageFile?: File;
+  reviewItems: Review[];
+  newsItems: News[];
+};
+
+export const deployHomeTab = async ({
+  homeHeaderImageFileName,
+  homeHeaderImageFile,
+  reviewItems,
+  newsItems,
+}: DeployHomeInput) => {
+  const newsDetails = await Promise.all(
+    newsItems.map((item) => getNews(item.id)),
+  );
+
+  const deployResponse = await postHomeTab({
+    generation: Number(ACTIVITY_GENERATION),
+    homeHeaderImageFileName,
+    review: reviewItems.map(({ title, content, authorInfo }) => ({
+      title,
+      content: content ?? '',
+      authorInfo: authorInfo ?? '',
+    })),
+    news: newsDetails
+      .filter((news): news is NonNullable<typeof news> => Boolean(news))
+      .map((news) => ({
+        image: extractFileNameFromUrl(news.image),
+        title: news.title,
+        link: news.link,
+      })),
+  });
+
+  if (homeHeaderImageFile && deployResponse.homeHeaderImage) {
+    const uploadResponse = await uploadToS3(
+      deployResponse.homeHeaderImage,
+      homeHeaderImageFile,
+    );
+
+    if (!uploadResponse.ok) {
+      throw new Error('홈 헤더 이미지 업로드에 실패했습니다.');
+    }
+  }
+
+  return postHomeTabConfirm();
 };

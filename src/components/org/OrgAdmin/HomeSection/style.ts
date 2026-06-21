@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+import { Reorder } from 'framer-motion';
 
 export const StContainer = styled.section`
   position: relative;
@@ -11,14 +12,8 @@ export const StContainer = styled.section`
   padding: 50px 0 270px 0;
 `;
 
-export const StHomeEditButtonWrapper = styled.div`
-  position: absolute;
-  top: 50px;
-  right: 0;
-  z-index: 1;
-`;
-
 export const StSectionWrapper = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 80px;
@@ -143,9 +138,6 @@ export const StChipsContainer = styled.div`
   align-items: center;
   gap: 6px;
 
-  margin-bottom: 18px;
-  margin-top: 24px;
-
   & > button {
     white-space: nowrap;
   }
@@ -178,65 +170,6 @@ export const StNewsHeaderText = styled.div`
   }
 `;
 
-export const StNewsList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-`;
-
-export const StNewsItem = styled.li<{ $isDragging?: boolean }>`
-  display: grid;
-  grid-template-columns: 24px 1fr 24px;
-  align-items: center;
-  gap: 14px;
-
-  width: 100%;
-
-  padding: 16px 30px;
-
-  color: ${colors.gray30};
-  ${fontsObject.TITLE_5_18_SB};
-
-  border-radius: 10px;
-  background-color: ${colors.gray800};
-  opacity: ${({ $isDragging }) => ($isDragging ? 0.5 : 1)};
-
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const StNewsDragHandle = styled.button`
-  display: grid;
-  place-items: center;
-
-  width: 24px;
-  height: 24px;
-
-  color: ${colors.white};
-  cursor: grab;
-
-  &:active {
-    cursor: grabbing;
-  }
-
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const StNewsContent = styled.span`
-  min-width: 0;
-`;
-
-export const StNewsSectionContainer = styled.div`
-  position: relative;
-  display: flex;
-  align-items: start;
-`;
-
 export const StLeftColumnSection = styled.div`
   width: 582px;
 `;
@@ -247,71 +180,15 @@ export const StContentWrapper = styled.div`
   gap: 8px;
 `;
 
-export const StReviewList = styled.ul`
+export const StReviewList = styled(Reorder.Group)`
   display: flex;
   width: 100%;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   margin-top: 6px;
-`;
-
-export const StReviewItem = styled.li<{ $isDragging?: boolean }>`
-  display: grid;
-  grid-template-columns: 24px 1fr 34px;
-  align-items: center;
-  gap: 10px;
-
-  opacity: ${({ $isDragging }) => ($isDragging ? 0.5 : 1)};
-`;
-
-export const StReviewDragHandle = styled.button`
-  display: grid;
-  place-items: center;
-
-  width: 24px;
-  height: 40px;
-
-  cursor: grab;
-
-  &:active {
-    cursor: grabbing;
-  }
-
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const StReviewContent = styled.div`
-  display: flex;
-  align-items: center;
-
-  min-height: 40px;
-  padding: 0 20px;
-
-  border-radius: 8px;
-  background-color: ${colors.gray800};
-  color: ${colors.white};
-  ${fontsObject.LABEL_3_14_SB};
-`;
-
-export const StReviewEditButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 34px;
-  padding: 12px 10px 12px 0;
-
-  color: ${colors.white};
-  box-sizing: border-box;
-
-  & > svg {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-  }
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
 `;
 
 export const StInfoButton = styled.button`

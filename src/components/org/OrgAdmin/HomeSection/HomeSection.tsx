@@ -1,37 +1,174 @@
 import { ToastProvider } from '@sopt-makers/ui';
+import { useEffect, useState } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 
-import NewsSection from '@/components/org/OrgAdmin/HomeSection/NewsSection';
-import PartIntroSection from '@/components/org/OrgAdmin/HomeSection/PartIntroSection';
-import { useAdminInfoQuery } from '@/components/org/OrgAdmin/HomeSection/queries';
+import { ActionModal } from '@/components/org/OrgAdmin/common/ActionModal';
+import {
+  EDIT_STEP,
+  type EditStep,
+} from '@/components/org/OrgAdmin/common/constants/editStep';
+import { EditActionBar } from '@/components/org/OrgAdmin/common/EditActionBar';
+import HomeHeaderSection from '@/components/org/OrgAdmin/HomeSection/_components/Header/HomeHeaderSection';
+import type { News } from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsItem';
+import NewsSection from '@/components/org/OrgAdmin/HomeSection/_components/News/NewsSection';
+import ReviewSection from '@/components/org/OrgAdmin/HomeSection/_components/Review/ReviewSection';
+import type { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
+import { isSameOrder } from '@/components/org/OrgAdmin/HomeSection/_utils/isSameOrder';
+import { extractFileNameFromUrl } from '@/components/org/OrgAdmin/HomeSection/api';
+import {
+  useAdminInfoQuery,
+  useDeployHomeMutation,
+  useReviewsQuery,
+} from '@/components/org/OrgAdmin/HomeSection/queries';
 import {
   StContainer,
-  StWrapper,
+  StSectionWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/style';
-import { PART_KO } from '@/utils/org';
-import HomeHeaderSection from '@/components/org/OrgAdmin/HomeSection/_components/Header/HomeHeaderSection';
+import { VALIDATION_CHECK } from '@/utils/org';
 
-type HomeSectionProps = {
-  selectedIntroPart: PART_KO;
-  onChangeIntroPart: (part: PART_KO) => void;
+type HomeDraft = {
+  reviews: Review[];
+  news: News[];
 };
 
-const HomeSection = ({
-  selectedIntroPart,
-  onChangeIntroPart,
-}: HomeSectionProps) => {
-  const { data } = useAdminInfoQuery();
+const EMPTY_REVIEWS: Review[] = [];
+const EMPTY_NEWS: News[] = [];
 
+const HomeSectionContent = () => {
+  const [editStep, setEditStep] = useState<EditStep>(EDIT_STEP.VIEW);
+  const [draft, setDraft] = useState<HomeDraft>({
+    reviews: EMPTY_REVIEWS,
+    news: EMPTY_NEWS,
+  });
+
+  const { data } = useAdminInfoQuery();
+  const { data: reviewsData } = useReviewsQuery();
+  const { mutate: deployHome, isLoading: isDeploying } =
+    useDeployHomeMutation();
+
+  const initialReviews = reviewsData ?? EMPTY_REVIEWS;
+  const latestNews = data?.latestNews ?? EMPTY_NEWS;
+  const { control, getValues, setError, setValue, clearErrors } =
+    useFormContext();
+  const homeHeaderImage = useWatch({
+    control,
+    name: 'homeHeaderImageFileName',
+  });
+
+  const isEditMode = editStep !== EDIT_STEP.VIEW;
+  const isDeployModalOpen = editStep === EDIT_STEP.DEPLOY;
+
+  useEffect(() => {
+    setDraft({
+      reviews: initialReviews,
+      news: latestNews,
+    });
+  }, [initialReviews, latestNews]);
+
+  const resetDraft = () => {
+    setDraft({
+      reviews: initialReviews,
+      news: latestNews,
+    });
+  };
+
+  const hasUnsavedChanges =
+    Boolean(homeHeaderImage?.file) ||
+    !isSameOrder(initialReviews, draft.reviews) ||
+    !isSameOrder(latestNews, draft.news);
+
+  const validateHomeInputs = () => {
+    const { homeHeaderImageFileName } = getValues();
+
+    if (!homeHeaderImageFileName?.fileName && !data?.homeHeaderImage) {
+      setError('homeHeaderImageFileName', {
+        type: 'required',
+        message: VALIDATION_CHECK.required.errorText,
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const exitEditMode = () => {
+    setValue('homeHeaderImageFileName', undefined, {
+      shouldDirty: false,
+      shouldValidate: false,
+    });
+    clearErrors('homeHeaderImageFileName');
+    resetDraft();
+    setEditStep(EDIT_STEP.VIEW);
+  };
+
+  const handleDeploy = () => {
+    const { homeHeaderImageFileName } = getValues();
+    const homeHeaderImageFileNameValue =
+      homeHeaderImageFileName?.fileName ??
+      (data?.homeHeaderImage
+        ? extractFileNameFromUrl(data.homeHeaderImage)
+        : '');
+
+    deployHome(
+      {
+        homeHeaderImageFileName: homeHeaderImageFileNameValue,
+        homeHeaderImageFile: homeHeaderImageFileName?.file,
+        reviewItems: draft.reviews,
+        newsItems: draft.news,
+      },
+      {
+        onSuccess: exitEditMode,
+      },
+    );
+  };
+
+  return (
+    <>
+      <EditActionBar
+        isEditMode={isEditMode}
+        isDeploying={isDeploying}
+        hasUnsavedChanges={hasUnsavedChanges}
+        onStartEdit={() => setEditStep(EDIT_STEP.EDITING)}
+        onCancel={exitEditMode}
+        onDeploy={() => {
+          if (validateHomeInputs()) {
+            setEditStep(EDIT_STEP.DEPLOY);
+          }
+        }}
+      />
+      <StSectionWrapper>
+        <HomeHeaderSection isEditable={isEditMode} />
+        <ReviewSection
+          isEditable={isEditMode}
+          reviews={draft.reviews}
+          onChangeReviews={(reviews) =>
+            setDraft((prev) => ({ ...prev, reviews }))
+          }
+        />
+        <NewsSection
+          isEditable={isEditMode}
+          newsItems={draft.news}
+          onChangeNews={(news) => setDraft((prev) => ({ ...prev, news }))}
+        />
+      </StSectionWrapper>
+
+      <ActionModal
+        variant="deploy"
+        isOpen={isDeployModalOpen}
+        onCancel={() => setEditStep(EDIT_STEP.EDITING)}
+        onAction={handleDeploy}
+        alertText="배포하시겠습니까?"
+        description="입력한 홈 탭 내용은 공홈에 즉시 반영돼요."
+      />
+    </>
+  );
+};
+
+const HomeSection = () => {
   return (
     <StContainer>
       <ToastProvider>
-        <StWrapper>
-          <HomeHeaderSection />
-          <PartIntroSection
-            selectedPart={selectedIntroPart}
-            onChangePart={onChangeIntroPart}
-          />
-        </StWrapper>
-        <NewsSection latestNews={data?.latestNews} />
+        <HomeSectionContent />
       </ToastProvider>
     </StContainer>
   );

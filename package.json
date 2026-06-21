@@ -29,6 +29,7 @@
     "dayjs": "^1.11.9",
     "eslint-config-next": "^14.1.4",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "framer-motion": "^12.40.0",
     "immer": "^10.1.1",
     "next": "^14.1.4",
     "openapi-fetch": "^0.13.0",

@@ -1,7 +1,7 @@
 import { EXEC_TYPE, PART_KO } from '@/utils/org';
 
+import Curriculum from '../RecruitSection/_components/Curriculum';
 import CoreValue from './CoreValue';
-import Curriculum from './Curriculum';
 import Executives from './Executives';
 import HeaderBanner from './HeaderBanner';
 import { StContainer } from './style';

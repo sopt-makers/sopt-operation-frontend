@@ -15,6 +15,7 @@ export const StContainer = styled.section`
 export const StWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 582px;
   gap: 20px;
 `;
 
@@ -49,7 +50,7 @@ interface StInputProps {
 }
 
 export const StInput = styled(TextField)<StInputProps>`
-  width: 338px;
+  width: 100%;
   color: ${({ hasValue = true }) =>
     hasValue ? `${colors.white}` : `${colors.gray300}`};
 
