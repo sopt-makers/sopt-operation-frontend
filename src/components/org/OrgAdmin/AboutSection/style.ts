@@ -8,6 +8,7 @@ export const StContainer = styled.section`
   flex-direction: column;
   gap: 80px;
   padding: 50px 0;
+  max-width: 582px;
 `;
 
 // TODO : StTitleWrapper, StTitle common 분리
@@ -50,8 +51,6 @@ interface StInputProps {
 
 export const StInput = styled(TextField)<StInputProps>`
   width: 338px;
-  color: ${({ hasValue = true }) =>
-    hasValue ? `${colors.white}` : `${colors.gray300}`};
 
   & label {
     gap: 8px;

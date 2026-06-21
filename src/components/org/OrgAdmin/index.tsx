@@ -43,8 +43,6 @@ function OrgAdmin() {
 
   const [group, setGroup] = useState<Group>('OB');
 
-  const [selectedPartInHomeTap, setSelectedPartInHomeTap] =
-    useState<PART_KO>('기획');
   const [selectedExec, setSelectedExec] = useState<EXEC_TYPE>('회장');
 
   const [curriculumPart, setCurriculumPart] = useState<PART_KO>('기획');
@@ -64,7 +62,8 @@ function OrgAdmin() {
     memberImageFile1: getValues('member')?.회장?.profileImageFileName?.file,
     memberImageFile2: getValues('member')?.부회장?.profileImageFileName?.file,
     memberImageFile3: getValues('member')?.총무?.profileImageFileName?.file,
-    memberImageFile4: getValues('member')?.아트디렉터?.profileImageFileName?.file,
+    memberImageFile4:
+      getValues('member')?.아트디렉터?.profileImageFileName?.file,
     memberImageFile5:
       getValues('member')?.['운영 팀장']?.profileImageFileName?.file,
     memberImageFile6:
@@ -95,12 +94,7 @@ function OrgAdmin() {
     const handleValidateHomeInputs = () =>
       validationHomeInputs(getValues, setError, onChangeIntroPart);
     const handleValidationAboutInputs = () =>
-      validationAboutInputs(
-        getValues,
-        setError,
-        setSelectedPartInHomeTap,
-        setSelectedExec,
-      );
+      validationAboutInputs(getValues, setError);
     const handleValidationRecruitInputs = () =>
       validationRecruitInputs(
         getValues,
@@ -378,10 +372,6 @@ function OrgAdmin() {
             />
           ) : selectedPart === '소개' ? (
             <AboutSection
-              selectedPart={selectedPartInHomeTap}
-              onChangeSelectedPart={(part: PART_KO) =>
-                setSelectedPartInHomeTap(part)
-              }
               selectedExec={selectedExec}
               onChangeSelectedExec={(member: EXEC_TYPE) =>
                 setSelectedExec(member)
