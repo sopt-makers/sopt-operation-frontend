@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { TextArea, TextField } from '@sopt-makers/ui';
+import { TextField } from '@sopt-makers/ui';
 
 import theme from '@/styles/theme';
 
 export const StContainer = styled.section`
+  position: relative;
+  display: flex;
+  flex-direction: column;
   padding: 50px 0 284px;
+  gap: 80px;
 `;
 
 export const StWrapper = styled.div`
@@ -43,7 +47,7 @@ export const StDescription = styled.p`
 export const StInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 `;
 
 export const StInputBox = styled.div`
@@ -64,7 +68,7 @@ interface StInputProps {
 }
 
 export const StInput = styled(TextField)<StInputProps>`
-  width: 338px;
+  width: 340px;
   color: ${colors.white};
 
   input[type='datetime-local'] {
@@ -101,13 +105,4 @@ export const StErrorMessage = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
   color: ${colors.error};
-`;
-
-export const StTextArea = styled(TextArea)`
-  max-width: 547px;
-
-  textarea {
-    padding: 8px 14px;
-    margin: 0px;
-  }
 `;

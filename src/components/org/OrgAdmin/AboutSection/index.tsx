@@ -1,5 +1,6 @@
 import { EXEC_TYPE } from '@/utils/org';
 
+import Curriculum from '../RecruitSection/_components/Curriculum';
 import CoreValue from './CoreValue';
 import Executives from './Executives';
 import HeaderBanner from './HeaderBanner';

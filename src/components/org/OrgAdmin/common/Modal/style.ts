@@ -47,17 +47,32 @@ export const StInfoCloseButton = styled.button`
 export const StInfoDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
 
-  margin-bottom: 8px;
   color: ${colors.white};
 `;
 
 export const StInfoSubDescription = styled.p`
   ${fontsObject.LABEL_4_12_SB};
 
-  margin-bottom: 14px;
+  margin-top: 8px;
   color: ${colors.gray300};
 `;
 
+export const StInfoContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+`;
+
+export const StInfoSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+`;
+
 export const StInfoImg = styled.img`
+  width: 425px;
+  height: 213px;
+  border-radius: 12px;
   color: ${colors.white};
+  object-fit: cover;
 `;

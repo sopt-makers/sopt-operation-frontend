@@ -12,6 +12,12 @@ export const StStretchContainer = styled.section`
   align-items: center;
 `;
 
+export const StInputFieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
+
 export const StRadioWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -145,8 +151,64 @@ export const StSubColorTitle = styled(StInputLabel)`
 `;
 
 export const StSubColorDescription = styled.p`
-  ${fontsObject.LABEL_3_14_SB}
+  ${fontsObject.LABEL_4_12_SB};
 
   margin-bottom: 8px;
   color: ${colors.gray300};
+`;
+
+export const StColorRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+`;
+
+export const StColorPreviewInline = styled.input`
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+
+  ::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  ::-webkit-color-swatch {
+    border: none;
+  }
+`;
+
+export const StRadioRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const StRadioOptions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+interface StTextPreviewBoxProps {
+  bgColor: string;
+  textColor: string;
+}
+
+export const StTextPreviewBox = styled.div<StTextPreviewBoxProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background-color: ${({ bgColor }) => bgColor};
+  color: ${({ textColor }) => textColor};
+  ${fontsObject.HEADING_4_24_B};
+  flex-shrink: 0;
 `;

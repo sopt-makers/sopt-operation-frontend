@@ -18,9 +18,9 @@ export const VALIDATION_CHECK = {
   },
 };
 
-export const ORG_ADMIN_LIST: ORG_ADMIN[] = ['공통', '홈', '소개', '지원하기'];
+export const ORG_ADMIN_LIST: ORG_ADMIN[] = ['공통', '홈', '소개', '모집안내'];
 
-export const orgAdminList: ORG_ADMIN[] = ['공통', '홈', '소개', '지원하기'];
+export const orgAdminList: ORG_ADMIN[] = ['공통', '홈', '소개', '모집안내'];
 
 export const 임원진_LIST = [
   '회장',
@@ -42,6 +42,10 @@ export const PART_LIST: PART_KO[] = [
   '웹',
   '서버',
 ] as const;
+
+// 모집안내 탭 FAQ 파트별 질문 최대 개수
+export const FAQ_MAX_QUESTION_COUNT = 10;
+export const FAQ_DEFAULT_QUESTION_COUNT = 3;
 
 export type EXEC_TYPE =
   | (typeof 임원진_LIST)[number]

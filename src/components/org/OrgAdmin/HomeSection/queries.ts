@@ -1,23 +1,79 @@
-import { type ToastOptionType, useToast } from '@sopt-makers/ui';
+import { useToast } from '@sopt-makers/ui';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import {
+  DELETE_TOAST_OPTION,
+  DEPLOY_TOAST_OPTION,
+  EDIT_TOAST_OPTION,
+  TOAST_OPTION,
+} from '@/components/org/OrgAdmin/HomeSection/_constants/constants';
+import {
   deleteNews,
+  deployHomeTab,
   getAdminInfo,
+  getNews,
   getPresignedUrl,
+  getReviews,
+  patchNews,
+  patchReview,
   postNewsV2,
+  postReview,
   uploadToS3,
 } from '@/components/org/OrgAdmin/HomeSection/api';
-
-const TOAST_OPTION: Record<'success' | 'error', ToastOptionType> = {
-  success: { icon: 'success', content: '성공적으로 추가되었어요' },
-  error: { icon: 'error', content: '추가에 실패했어요' },
-};
 
 export const useAdminInfoQuery = () => {
   return useQuery({
     queryKey: ['admin'],
     queryFn: getAdminInfo,
+  });
+};
+
+export const useReviewsQuery = () => {
+  return useQuery({
+    queryKey: ['homepage-reviews'],
+    queryFn: getReviews,
+  });
+};
+
+export const useReviewQuery = (reviewId?: number) => {
+  return useQuery({
+    queryKey: ['homepage-reviews'],
+    queryFn: getReviews,
+    enabled: Boolean(reviewId),
+    select: (reviews) => reviews.find((review) => review.id === reviewId),
+  });
+};
+
+export const useAddReviewMutation = () => {
+  return useMutation({
+    mutationFn: postReview,
+  });
+};
+
+export const useEditReviewMutation = () => {
+  const queryClient = useQueryClient();
+  const { open } = useToast();
+
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: number; formData: FormData }) =>
+      patchReview(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['homepage-reviews'],
+      });
+      open(EDIT_TOAST_OPTION.success);
+    },
+    onError: () => {
+      open(EDIT_TOAST_OPTION.error);
+    },
+  });
+};
+
+export const useNewsQuery = (id?: number) => {
+  return useQuery({
+    queryKey: ['admin', 'news', id],
+    queryFn: () => getNews(id ?? 0),
+    enabled: Boolean(id),
   });
 };
 
@@ -49,13 +105,65 @@ export const useAddNewsMutation = () => {
   });
 };
 
+export const useEditNewsMutation = () => {
+  const queryClient = useQueryClient();
+  const { open } = useToast();
+
+  return useMutation({
+    mutationFn: async (data: {
+      id: number;
+      file?: File;
+      title: string;
+      link: string;
+    }) => {
+      const formData = new FormData();
+
+      if (data.file) {
+        formData.append('image', data.file);
+      }
+
+      formData.append('title', data.title);
+      formData.append('link', data.link);
+
+      return await patchNews(data.id, formData);
+    },
+    onSuccess: (_, data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['admin'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['admin', 'news', data.id],
+      });
+
+      open(EDIT_TOAST_OPTION.success);
+    },
+    onError: (error) => {
+      console.error('[useEditNewsMutation] 최신소식 수정 실패', error);
+      open(EDIT_TOAST_OPTION.error);
+    },
+  });
+};
+
+export const useDeployHomeMutation = () => {
+  const queryClient = useQueryClient();
+  const { open } = useToast();
+
+  return useMutation({
+    mutationFn: deployHomeTab,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin'] });
+      queryClient.invalidateQueries({ queryKey: ['homepage-reviews'] });
+      open(DEPLOY_TOAST_OPTION.success);
+    },
+    onError: () => {
+      open(DEPLOY_TOAST_OPTION.error);
+    },
+  });
+};
+
 export const useDeleteNewsMutation = () => {
   const queryClient = useQueryClient();
   const { open } = useToast();
-  const option: ToastOptionType = {
-    icon: 'success',
-    content: '성공적으로 삭제되었어요.',
-  };
 
   return useMutation({
     mutationFn: (id: number) => deleteNews(id),
@@ -64,10 +172,10 @@ export const useDeleteNewsMutation = () => {
         queryKey: ['admin'],
       });
 
-      open(TOAST_OPTION.success);
+      open(DELETE_TOAST_OPTION.success);
     },
     onError: () => {
-      open(TOAST_OPTION.error);
+      open(DELETE_TOAST_OPTION.error);
     },
   });
 };
