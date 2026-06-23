@@ -21,6 +21,7 @@ export const StDummyImageInput = styled.div`
 `;
 
 export const StInputBox = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
