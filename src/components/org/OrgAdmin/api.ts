@@ -23,10 +23,7 @@ const soptAuthMiddleware: Middleware = {
     const token = getToken('ACCESS');
 
     if (token) {
-      request.headers.set(
-        'Authorization',
-        token.startsWith('Bearer ') ? token : `Bearer ${token}`,
-      );
+      request.headers.set('Authorization', token);
     } else {
       request.headers.delete('Authorization');
     }

@@ -16,9 +16,14 @@ import { StDateWrapper, StRadioWrapper } from './style';
 interface ScheduleInputProps {
   id: string;
   label: string;
+  isEditable?: boolean;
 }
 
-const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
+const ScheduleInput = ({
+  id,
+  label,
+  isEditable = true,
+}: ScheduleInputProps) => {
   const {
     register,
     formState: { errors },
@@ -35,6 +40,7 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
       labelText={label}
       id={id}
       type="datetime-local"
+      disabled={!isEditable}
       hasValue={!!watch(`${recruitSchedule}.${group}.${time}`)}
       isError={!!(errors as any)[recruitSchedule]?.[group]?.[time]?.message}
       errorMessage={
@@ -47,9 +53,14 @@ const ScheduleInput = ({ id, label }: ScheduleInputProps) => {
 interface RecruitScheduleProps {
   group: Group;
   onChangeGroup: (group: Group) => void;
+  isEditable?: boolean;
 }
 
-const RecruitSchedule = ({ group, onChangeGroup }: RecruitScheduleProps) => {
+const RecruitSchedule = ({
+  group,
+  onChangeGroup,
+  isEditable = true,
+}: RecruitScheduleProps) => {
   const currentFields = SCHEDULE_FIELDS[group];
 
   return (

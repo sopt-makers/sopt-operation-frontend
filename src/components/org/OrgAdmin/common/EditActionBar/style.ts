@@ -19,6 +19,7 @@ export const StEditActionWrapper = styled.div`
 export const StEditActionButtonWrapper = styled.div`
   display: flex;
   gap: 14px;
+  align-self: flex-end;
 `;
 
 export const StUnsavedChangeText = styled.p`

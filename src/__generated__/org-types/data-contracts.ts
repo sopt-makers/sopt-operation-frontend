@@ -397,7 +397,7 @@ export interface AddAdminHomeRequestDto {
   /**
    * 기수
    * @format int32
-   * @example 36
+   * @example 39
    */
   generation: number;
   /**
@@ -408,7 +408,26 @@ export interface AddAdminHomeRequestDto {
   /** 리뷰 목록 */
   review?: AddAdminReviewRequestDto[];
   /** 최신소식 목록 */
-  news?: AddAdminNewsRequestDto[];
+  news?: AddAdminNewsPresignedRequestDto[];
+}
+
+/** 최신소식 목록 */
+export interface AddAdminNewsPresignedRequestDto {
+  /**
+   * 이미지 파일명
+   * @example "news.png"
+   */
+  imageFileName: string;
+  /**
+   * 제목
+   * @example "MIND 23"
+   */
+  title: string;
+  /**
+   * 링크
+   * @example "https://disquiet.io/product/mind-23-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%A9%88%EC%B6%94%EC%A7%80-%EC%95%8A%EB%8A%94-it%EC%9D%B8%EB%93%A4"
+   */
+  link: string;
 }
 
 /** 어드민 홈 탭 배포 응답 (S3 PresignedUrl 포함) */
@@ -436,29 +455,29 @@ export interface AddAdminNewsResponseRecordDto {
 /** 브랜딩 컬러 */
 export interface AddAdminBrandingColorRequestDto {
   /**
-   * 메인 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "FF0000"
+   * 다크모드 키 컬러
+   * @pattern ^#?[A-Fa-f0-9]{6}$
+   * @example "#FF0000"
    */
-  main: string;
+  darkModeKeyColor: string;
   /**
-   * 로우 톤 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "CC0000"
+   * 다크모드 텍스트 컬러
+   * @pattern ^(white|black)$
+   * @example "white"
    */
-  low: string;
+  darkModeTextColor: string;
   /**
-   * 하이 톤 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "FF3333"
+   * 라이트모드 키 컬러
+   * @pattern ^#?[A-Fa-f0-9]{6}$
+   * @example "#FF0000"
    */
-  high: string;
+  lightModeKeyColor: string;
   /**
-   * 포인트 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "FF9999"
+   * 라이트모드 텍스트 컬러
+   * @pattern ^(white|black)$
+   * @example "black"
    */
-  point: string;
+  lightModeTextColor: string;
 }
 
 /** 어드민 공통 탭 배포 */
@@ -478,29 +497,6 @@ export interface AddAdminCommonRequestDto {
   recruitSchedule?: AddAdminRecruitScheduleRequestDto[];
   /** 브랜딩 컬러 */
   brandingColor: AddAdminBrandingColorRequestDto;
-  /** 메인 버튼 스타일 */
-  mainButton: AddAdminMainButtonRequestDto;
-}
-
-/** 메인 버튼 스타일 */
-export interface AddAdminMainButtonRequestDto {
-  /**
-   * 버튼 텍스트
-   * @example "지원하기"
-   */
-  text: string;
-  /**
-   * 주요 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "#FF0000"
-   */
-  keyColor: string;
-  /**
-   * 보조 컬러
-   * @pattern ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-   * @example "#CC0000"
-   */
-  subColor: string;
 }
 
 /** 모집 일정 */
@@ -909,10 +905,10 @@ export interface ReviewsByAuthorRes {
 
 /** 기수 브랜딩 컬러 */
 export interface BrandingColor {
-  main?: string;
-  high?: string;
-  low?: string;
-  point?: string;
+  darkModeKeyColor?: string;
+  darkModeTextColor?: string;
+  lightModeKeyColor?: string;
+  lightModeTextColor?: string;
 }
 
 /** 핵심 가치 */
@@ -1109,12 +1105,6 @@ export interface LatestNews {
   link?: string;
 }
 
-export interface MainButton {
-  text?: string;
-  keyColor?: string;
-  subColor?: string;
-}
-
 /** 메인 페이지 데이터 */
 export interface MainPageResponse {
   /**
@@ -1130,16 +1120,40 @@ export interface MainPageResponse {
   name?: string;
   /** 기수 브랜딩 컬러 */
   brandingColor?: BrandingColor;
-  mainButton?: MainButton;
   partIntroduction?: PartIntroduction[];
   latestNews?: LatestNews[];
   recruitSchedule?: RecruitSchedule[];
   activitiesRecords?: ActivitiesRecords;
+  reviews?: Review[];
 }
 
 export interface RecruitSchedule {
   type?: string;
   schedule?: Schedule;
+}
+
+export interface Review {
+  /**
+   * ID
+   * @format int32
+   * @example 1
+   */
+  id?: number;
+  /**
+   * 제목
+   * @example "후회없는 활동"
+   */
+  title?: string;
+  /**
+   * 내용
+   * @example "후회없는 활동이었어요"
+   */
+  content?: string;
+  /**
+   * 작성자 정보
+   * @example "김솝트 | 36, 37기 활동 | 서버"
+   */
+  authorInfo?: string;
 }
 
 export interface Schedule {
@@ -1248,25 +1262,25 @@ export interface GetAdminActivityScheduleResponseRecordDto {
 /** 브랜딩 컬러 정보 */
 export interface GetAdminBrandingColorResponseRecordDto {
   /**
-   * 메인 컬러
+   * 다크모드 키 컬러
    * @example "#FF0000"
    */
-  main: string;
+  darkModeKeyColor: string;
   /**
-   * 로우 톤 컬러
-   * @example "#CC0000"
+   * 다크모드 텍스트 컬러
+   * @example "white"
    */
-  low: string;
+  darkModeTextColor: string;
   /**
-   * 하이 톤 컬러
-   * @example "#FF3333"
+   * 라이트모드 키 컬러
+   * @example "#FF0000"
    */
-  high: string;
+  lightModeKeyColor: string;
   /**
-   * 포인트 컬러
-   * @example "#FF9999"
+   * 라이트모드 텍스트 컬러
+   * @example "black"
    */
-  point: string;
+  lightModeTextColor: string;
 }
 
 /** 핵심 가치 정보 */
@@ -1320,25 +1334,6 @@ export interface GetAdminLatestNewsResponseRecordDto {
    * @example "Mind 23"
    */
   title: string;
-}
-
-/** 메인 버튼 스타일 */
-export interface GetAdminMainButtonResponseRecordDto {
-  /**
-   * 버튼 텍스트
-   * @example "지원하기"
-   */
-  text: string;
-  /**
-   * 주요 컬러
-   * @example "#FF0000"
-   */
-  keyColor: string;
-  /**
-   * 보조 컬러
-   * @example "#CC0000"
-   */
-  subColor: string;
 }
 
 /** 멤버 정보 */
@@ -1460,8 +1455,6 @@ export interface GetAdminResponseDto {
   recruitSchedule?: GetAdminRecruitScheduleResponseRecordDto[];
   /** 브랜딩 컬러 정보 */
   brandingColor?: GetAdminBrandingColorResponseRecordDto;
-  /** 메인 버튼 스타일 */
-  mainButton?: GetAdminMainButtonResponseRecordDto;
   partIntroduction?: GetAdminPartIntroductionResponseRecordDto[];
   latestNews?: GetAdminLatestNewsResponseRecordDto[];
   /**

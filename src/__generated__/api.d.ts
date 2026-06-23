@@ -1119,7 +1119,7 @@ export interface components {
             /**
              * Format: int32
              * @description 기수
-             * @example 36
+             * @example 39
              */
             generation: number;
             /**
@@ -1130,7 +1130,25 @@ export interface components {
             /** @description 리뷰 목록 */
             review?: components["schemas"]["AddAdminReviewRequestDto"][];
             /** @description 최신소식 목록 */
-            news?: components["schemas"]["AddAdminNewsRequestDto"][];
+            news?: components["schemas"]["AddAdminNewsPresignedRequestDto"][];
+        };
+        /** @description 최신소식 목록 */
+        AddAdminNewsPresignedRequestDto: {
+            /**
+             * @description 이미지 파일명
+             * @example news.png
+             */
+            imageFileName: string;
+            /**
+             * @description 제목
+             * @example MIND 23
+             */
+            title: string;
+            /**
+             * @description 링크
+             * @example https://disquiet.io/product/mind-23-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%A9%88%EC%B6%94%EC%A7%80-%EC%95%8A%EB%8A%94-it%EC%9D%B8%EB%93%A4
+             */
+            link: string;
         };
         /** @description 어드민 홈 탭 배포 응답 (S3 PresignedUrl 포함) */
         AddAdminHomeResponseDto: {
@@ -1155,25 +1173,25 @@ export interface components {
         /** @description 브랜딩 컬러 */
         AddAdminBrandingColorRequestDto: {
             /**
-             * @description 메인 컬러
-             * @example FF0000
+             * @description 다크모드 키 컬러
+             * @example #FF0000
              */
-            main: string;
+            darkModeKeyColor: string;
             /**
-             * @description 로우 톤 컬러
-             * @example CC0000
+             * @description 다크모드 텍스트 컬러
+             * @example white
              */
-            low: string;
+            darkModeTextColor: string;
             /**
-             * @description 하이 톤 컬러
-             * @example FF3333
+             * @description 라이트모드 키 컬러
+             * @example #FF0000
              */
-            high: string;
+            lightModeKeyColor: string;
             /**
-             * @description 포인트 컬러
-             * @example FF9999
+             * @description 라이트모드 텍스트 컬러
+             * @example black
              */
-            point: string;
+            lightModeTextColor: string;
         };
         /** @description 어드민 공통 탭 배포 */
         AddAdminCommonRequestDto: {
@@ -1191,25 +1209,6 @@ export interface components {
             /** @description 모집 일정 */
             recruitSchedule?: components["schemas"]["AddAdminRecruitScheduleRequestDto"][];
             brandingColor: components["schemas"]["AddAdminBrandingColorRequestDto"];
-            mainButton: components["schemas"]["AddAdminMainButtonRequestDto"];
-        };
-        /** @description 메인 버튼 스타일 */
-        AddAdminMainButtonRequestDto: {
-            /**
-             * @description 버튼 텍스트
-             * @example 지원하기
-             */
-            text: string;
-            /**
-             * @description 주요 컬러
-             * @example #FF0000
-             */
-            keyColor: string;
-            /**
-             * @description 보조 컬러
-             * @example #CC0000
-             */
-            subColor: string;
         };
         /** @description 모집 일정 */
         AddAdminRecruitScheduleRequestDto: {
@@ -1589,10 +1588,10 @@ export interface components {
         };
         /** @description 기수 브랜딩 컬러 */
         BrandingColor: {
-            main?: string;
-            high?: string;
-            low?: string;
-            point?: string;
+            darkModeKeyColor?: string;
+            darkModeTextColor?: string;
+            lightModeKeyColor?: string;
+            lightModeTextColor?: string;
         };
         /** @description 핵심 가치 */
         CoreValue: {
@@ -1757,11 +1756,6 @@ export interface components {
             image?: string;
             link?: string;
         };
-        MainButton: {
-            text?: string;
-            keyColor?: string;
-            subColor?: string;
-        };
         /** @description 메인 페이지 데이터 */
         MainPageResponse: {
             /**
@@ -1776,15 +1770,38 @@ export interface components {
              */
             name?: string;
             brandingColor?: components["schemas"]["BrandingColor"];
-            mainButton?: components["schemas"]["MainButton"];
             partIntroduction?: components["schemas"]["PartIntroduction"][];
             latestNews?: components["schemas"]["LatestNews"][];
             recruitSchedule?: components["schemas"]["RecruitSchedule"][];
             activitiesRecords?: components["schemas"]["ActivitiesRecords"];
+            reviews?: components["schemas"]["Review"][];
         };
         RecruitSchedule: {
             type?: string;
             schedule?: components["schemas"]["Schedule"];
+        };
+        Review: {
+            /**
+             * Format: int32
+             * @description ID
+             * @example 1
+             */
+            id?: number;
+            /**
+             * @description 제목
+             * @example 후회없는 활동
+             */
+            title?: string;
+            /**
+             * @description 내용
+             * @example 후회없는 활동이었어요
+             */
+            content?: string;
+            /**
+             * @description 작성자 정보
+             * @example 김솝트 | 36, 37기 활동 | 서버
+             */
+            authorInfo?: string;
         };
         Schedule: {
             applicationStartTime?: string;
@@ -1882,25 +1899,25 @@ export interface components {
         /** @description 브랜딩 컬러 정보 */
         GetAdminBrandingColorResponseRecordDto: {
             /**
-             * @description 메인 컬러
+             * @description 다크모드 키 컬러
              * @example #FF0000
              */
-            main: string;
+            darkModeKeyColor: string;
             /**
-             * @description 로우 톤 컬러
-             * @example #CC0000
+             * @description 다크모드 텍스트 컬러
+             * @example white
              */
-            low: string;
+            darkModeTextColor: string;
             /**
-             * @description 하이 톤 컬러
-             * @example #FF3333
+             * @description 라이트모드 키 컬러
+             * @example #FF0000
              */
-            high: string;
+            lightModeKeyColor: string;
             /**
-             * @description 포인트 컬러
-             * @example #FF9999
+             * @description 라이트모드 텍스트 컬러
+             * @example black
              */
-            point: string;
+            lightModeTextColor: string;
         };
         /** @description 핵심 가치 정보 */
         GetAdminCoreValueResponseRecordDto: {
@@ -1951,24 +1968,6 @@ export interface components {
              * @example Mind 23
              */
             title: string;
-        };
-        /** @description 메인 버튼 스타일 */
-        GetAdminMainButtonResponseRecordDto: {
-            /**
-             * @description 버튼 텍스트
-             * @example 지원하기
-             */
-            text: string;
-            /**
-             * @description 주요 컬러
-             * @example #FF0000
-             */
-            keyColor: string;
-            /**
-             * @description 보조 컬러
-             * @example #CC0000
-             */
-            subColor: string;
         };
         /** @description 멤버 정보 */
         GetAdminMemberResponseRecordDto: {
@@ -2079,7 +2078,6 @@ export interface components {
             name: string;
             recruitSchedule?: components["schemas"]["GetAdminRecruitScheduleResponseRecordDto"][];
             brandingColor?: components["schemas"]["GetAdminBrandingColorResponseRecordDto"];
-            mainButton?: components["schemas"]["GetAdminMainButtonResponseRecordDto"];
             partIntroduction?: components["schemas"]["GetAdminPartIntroductionResponseRecordDto"][];
             latestNews?: components["schemas"]["GetAdminLatestNewsResponseRecordDto"][];
             /**

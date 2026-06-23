@@ -194,7 +194,7 @@ export const extractFileNameFromUrl = (url: string) => {
 };
 
 type PostHomeTabBody = Omit<AddAdminHomeRequestDto, 'news'> & {
-  news?: { image: string; title: string; link: string }[];
+  news?: { imageFileName: string; title: string; link: string }[];
 };
 
 export const postHomeTab = async (body: PostHomeTabBody) => {
@@ -249,7 +249,7 @@ export const deployHomeTab = async ({
     news: newsDetails
       .filter((news): news is NonNullable<typeof news> => Boolean(news))
       .map((news) => ({
-        image: extractFileNameFromUrl(news.image),
+        imageFileName: extractFileNameFromUrl(news.image),
         title: news.title,
         link: news.link,
       })),

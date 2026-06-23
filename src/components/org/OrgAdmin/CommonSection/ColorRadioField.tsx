@@ -24,9 +24,10 @@ interface ColorRadioFieldProps {
   /** 키컬러가 비어 있을 때 미리보기 배경색 */
   previewDefaultColor: string;
   /** 초기 선택값 */
-  defaultValue?: 'dark' | 'light';
+  defaultValue?: 'black' | 'white';
   /** true이면 밝은 텍스트 옵션에 "(권장)" 표시 */
   lightRecommended?: boolean;
+  disabled?: boolean;
 }
 
 const ColorRadioField = ({
@@ -37,13 +38,14 @@ const ColorRadioField = ({
   previewDefaultColor,
   defaultValue,
   lightRecommended,
+  disabled = false,
 }: ColorRadioFieldProps) => {
   const { control } = useFormContext();
   const selectedValue = useWatch({
     control,
     name: id,
     defaultValue: defaultValue ?? '',
-  }) as 'dark' | 'light' | '';
+  }) as 'black' | 'white' | '';
 
   const currentKeyColor = useWatch({
     control,
@@ -57,7 +59,7 @@ const ColorRadioField = ({
   const keyColor = currentKeyColor
     ? expandHexColor(currentKeyColor)
     : previewDefaultColor;
-  const previewTextColor = selectedValue === 'light' ? '#ffffff' : '#000000';
+  const previewTextColor = selectedValue === 'white' ? '#ffffff' : '#000000';
 
   return (
     <StInputBox>
@@ -79,19 +81,21 @@ const ColorRadioField = ({
                   name={field.name}
                   ref={field.ref}
                   onBlur={field.onBlur}
-                  onChange={() => field.onChange('dark')}
-                  checked={field.value === 'dark'}
+                  onChange={() => field.onChange('black')}
+                  checked={field.value === 'black'}
                   label="어두운 텍스트"
-                  value="dark"
+                  value="black"
+                  disabled={disabled}
                 />
                 <Radio
                   name={field.name}
                   ref={field.ref}
                   onBlur={field.onBlur}
-                  onChange={() => field.onChange('light')}
-                  checked={field.value === 'light'}
+                  onChange={() => field.onChange('white')}
+                  checked={field.value === 'white'}
                   label={lightTextLabel}
-                  value="light"
+                  value="white"
+                  disabled={disabled}
                 />
               </>
             )}

@@ -11,7 +11,13 @@ import {
   StWrapper,
 } from '../style';
 
-const GenerationInformation = () => {
+interface GenerationInformationProps {
+  isEditable?: boolean;
+}
+
+const GenerationInformation = ({
+  isEditable = true,
+}: GenerationInformationProps) => {
   const {
     register,
     formState: { errors },
@@ -47,6 +53,7 @@ const GenerationInformation = () => {
           id="generation"
           type="text"
           placeholder="ex. 35"
+          disabled={!isEditable}
           isError={errors.generation?.message != undefined}
           errorMessage={errors.generation?.message as string}
         />
@@ -63,6 +70,7 @@ const GenerationInformation = () => {
           id="sopt-name"
           type="text"
           placeholder="ex. 00 SOPT"
+          disabled={!isEditable}
           isError={errors.name?.message != undefined}
           errorMessage={errors.name?.message as string}
         />

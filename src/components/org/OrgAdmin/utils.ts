@@ -8,6 +8,7 @@ import {
   임원진_LIST,
 } from '@/utils/org';
 
+import { BRANDING_COLOR_FIELD_IDS } from './CommonSection/BrandingColor';
 import type { Group } from './types';
 
 export const validationCommonInputs = (
@@ -33,7 +34,7 @@ export const validationCommonInputs = (
         value: recruitSchedule?.[group]?.[time],
       })),
     ),
-    ...['main', 'low', 'high', 'point'].map((color) => ({
+    ...Object.keys(BRANDING_COLOR_FIELD_IDS).map((color) => ({
       name: `brandingColor.${color}`,
       value: brandingColor?.[color],
     })),
