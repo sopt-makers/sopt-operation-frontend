@@ -384,18 +384,20 @@ function OrgAdmin() {
               onChangeFnaPart={(part: PART_KO) => setFnaPart(part)}
             />
           )}
-          {selectedPart !== '홈' && selectedPart !== '모집안내' && (
-            <StSubmitButton
-              type="button"
-              onClick={() => {
-                if (handleCheckNonFilledInputs()) {
-                  setIsActionModalOpen(true);
-                }
-              }}>
-              <SubmitIcon />
-              <StSubmitText>배포</StSubmitText>
-            </StSubmitButton>
-          )}
+          {selectedPart !== '홈' &&
+            selectedPart !== '모집안내' &&
+            selectedPart !== '공통' && (
+              <StSubmitButton
+                type="button"
+                onClick={() => {
+                  if (handleCheckNonFilledInputs()) {
+                    setIsActionModalOpen(true);
+                  }
+                }}>
+                <SubmitIcon />
+                <StSubmitText>배포</StSubmitText>
+              </StSubmitButton>
+            )}
         </form>
       </FormProvider>
       <ActionModal
