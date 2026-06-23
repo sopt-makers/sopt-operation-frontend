@@ -7,7 +7,7 @@ const CLIENT_URL = 'https://operation.sopt.org';
 const ORG_API_URL =
   process.env.NEXT_PUBLIC_API_URL === 'PRODUCTION'
     ? 'https://api.sopt.org'
-    : 'https://org-api-dev.sopt.org';
+    : 'https://api-dev.sopt.org';
 const SOPT_API_URL =
   process.env.NEXT_PUBLIC_API_URL === 'PRODUCTION'
     ? 'https://api.sopt.org'
