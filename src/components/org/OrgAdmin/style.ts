@@ -46,7 +46,7 @@ export const StDescription = styled.p`
 export const StInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 `;
 
 export const StInputBox = styled.div`
@@ -67,7 +67,7 @@ interface StInputProps {
 }
 
 export const StInput = styled(TextField)<StInputProps>`
-  width: 338px;
+  width: 340px;
   color: ${colors.white};
 
   input[type='datetime-local'] {
