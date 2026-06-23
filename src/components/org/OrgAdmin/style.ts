@@ -6,6 +6,7 @@ import { TextField } from '@sopt-makers/ui';
 import theme from '@/styles/theme';
 
 export const StContainer = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 50px 0 284px;
