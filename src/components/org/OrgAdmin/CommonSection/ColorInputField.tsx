@@ -17,6 +17,7 @@ interface ColorInputFieldProps {
   id: string;
   description?: string;
   previewDefaultColor: string;
+  disabled?: boolean;
 }
 
 const ColorInputField = ({
@@ -24,6 +25,7 @@ const ColorInputField = ({
   id,
   description,
   previewDefaultColor,
+  disabled = false,
 }: ColorInputFieldProps) => {
   const {
     register,
@@ -56,6 +58,7 @@ const ColorInputField = ({
           type="text"
           maxLength={8}
           placeholder="ex. ffffff"
+          disabled={disabled}
           isError={!!(errors as any)[brandingColor]?.[color]?.message}
           errorMessage={
             (errors as any)[brandingColor]?.[color]?.message as string
@@ -64,6 +67,7 @@ const ColorInputField = ({
         <StColorPreviewInline
           type="color"
           value={previewColor}
+          disabled={disabled}
           onChange={(e) =>
             setValue(id, e.target.value.replace('#', ''), {
               shouldDirty: true,

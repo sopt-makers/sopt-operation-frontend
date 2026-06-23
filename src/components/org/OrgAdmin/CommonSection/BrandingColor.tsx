@@ -11,14 +11,18 @@ import ColorInputField from './ColorInputField';
 import ColorRadioField from './ColorRadioField';
 import { StInputFieldWrapper, StStretchContainer } from './style';
 
-const BRANDING_COLOR_FIELD_IDS = {
+export const BRANDING_COLOR_FIELD_IDS = {
   darkKeyColor: 'brandingColor.darkKeyColor',
   darkTextOnColor: 'brandingColor.darkTextOnColor',
   lightKeyColor: 'brandingColor.lightKeyColor',
   lightTextOnColor: 'brandingColor.lightTextOnColor',
 } as const;
 
-const BrandingColor = () => {
+interface BrandingColorProps {
+  isEditable?: boolean;
+}
+
+const BrandingColor = ({ isEditable = true }: BrandingColorProps) => {
   return (
     <StStretchContainer>
       <StWrapper>
@@ -37,6 +41,7 @@ const BrandingColor = () => {
               id={BRANDING_COLOR_FIELD_IDS.darkKeyColor}
               description="다크 모드 텍스트와 컴포넌트에 강조색으로 적용돼요."
               previewDefaultColor={colors.white}
+              disabled={!isEditable}
             />
             <ColorRadioField
               label="다크 모드 키컬러 위 텍스트"
@@ -44,7 +49,8 @@ const BrandingColor = () => {
               id={BRANDING_COLOR_FIELD_IDS.darkTextOnColor}
               keyColorId={BRANDING_COLOR_FIELD_IDS.darkKeyColor}
               previewDefaultColor={colors.white}
-              defaultValue="dark"
+              defaultValue="black"
+              disabled={!isEditable}
             />
           </StInputWrapper>
 
@@ -54,6 +60,7 @@ const BrandingColor = () => {
               id={BRANDING_COLOR_FIELD_IDS.lightKeyColor}
               description="라이트 모드 키컬러와 컴포넌트에 강조색으로 적용돼요."
               previewDefaultColor={colors.black}
+              disabled={!isEditable}
             />
             <ColorRadioField
               label="라이트 모드 키컬러 위 텍스트"
@@ -61,8 +68,9 @@ const BrandingColor = () => {
               id={BRANDING_COLOR_FIELD_IDS.lightTextOnColor}
               keyColorId={BRANDING_COLOR_FIELD_IDS.lightKeyColor}
               previewDefaultColor={colors.black}
-              defaultValue="light"
+              defaultValue="white"
               lightRecommended
+              disabled={!isEditable}
             />
           </StInputWrapper>
         </StInputFieldWrapper>
