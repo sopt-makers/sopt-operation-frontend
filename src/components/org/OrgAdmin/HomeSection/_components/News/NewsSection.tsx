@@ -121,7 +121,9 @@ const NewsSection = ({
       </StNewsModalWrapper>
       <ActionModal
         key={deleteId ?? undefined}
-        variant="delete"
+        variant="danger"
+        title="삭제하시겠습니까?"
+        description="최신 소식은 ‘배포’버튼을 거치지 않고 즉시 배포가 돼요."
         isOpen={deleteId != null}
         onCancel={() => setDeleteId(null)}
         onAction={() => {
@@ -129,8 +131,6 @@ const NewsSection = ({
             handleDeleteNewsItems(deleteId);
           }
         }}
-        alertText="삭제하시겠습니까?"
-        description="최신 소식은 ‘배포’버튼을 거치지 않고 즉시 배포가 돼요."
       />
       <AddNewsModal isOpen={isAddNewsModalOpen} onCancel={closeAddModal} />
       <EditNewsModal

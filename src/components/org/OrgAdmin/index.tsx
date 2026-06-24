@@ -401,6 +401,7 @@ function OrgAdmin() {
         </form>
       </FormProvider>
       <ActionModal
+        title="배포하시겠습니까?"
         isOpen={isActionModalOpen}
         onCancel={() => {
           setIsActionModalOpen(false);
@@ -409,11 +410,6 @@ function OrgAdmin() {
           setIsActionModalOpen(false);
           // handleSubmit(onSubmit)();
         }}
-        variant="deploy"
-        alertText="배포하시겠습니까?"
-        description={
-          '입력한 내용은 공홈에 즉시 반영돼요.\n잘못 기입된 부분이 없는지 마지막으로 확인해주세요.'
-        }
       />
     </>
   );

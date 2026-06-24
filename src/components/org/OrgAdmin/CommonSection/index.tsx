@@ -109,12 +109,10 @@ const CommonSectionContent = ({ group, onChangeGroup }: CommonSectionProps) => {
       <BrandingColor isEditable={isEditMode} />
 
       <ActionModal
-        variant="deploy"
         isOpen={isDeployModalOpen}
+        title="배포하시겠습니까?"
         onCancel={() => setEditStep(EDIT_STEP.EDITING)}
         onAction={handleDeploy}
-        alertText="배포하시겠습니까?"
-        description="입력한 공통 설정 내용은 공홈에 즉시 반영돼요."
       />
     </StContainer>
   );

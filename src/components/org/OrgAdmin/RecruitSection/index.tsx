@@ -147,12 +147,10 @@ const RecruitSectionContent = ({
       </StRecruitSectionWrapper>
 
       <ActionModal
-        variant="deploy"
+        title="배포하시겠습니까?"
         isOpen={isDeployModalOpen}
         onCancel={() => setEditStep(EDIT_STEP.EDITING)}
         onAction={handleDeploy}
-        alertText="배포하시겠습니까?"
-        description="입력한 모집안내 탭 내용은 공홈에 즉시 반영돼요."
       />
     </>
   );
