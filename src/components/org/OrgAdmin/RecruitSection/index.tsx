@@ -22,25 +22,20 @@ import {
 import { validationRecruitInputs } from '@/components/org/OrgAdmin/utils';
 import { PART_KO, VALIDATION_CHECK } from '@/utils/org';
 
-interface RecruitSectionProps {
-  introPart: PART_KO;
-  onChangeIntroPart: (part: PART_KO) => void;
-  curriculumPart: PART_KO;
-  onChangeCurriculumPart: (part: PART_KO) => void;
-  fnaPart: PART_KO;
-  onChangeFnaPart: (part: PART_KO) => void;
-}
+type SelectedParts = {
+  intro: PART_KO;
+  curriculum: PART_KO;
+  fna: PART_KO;
+};
 
-const RecruitSectionContent = ({
-  introPart,
-  onChangeIntroPart,
-  curriculumPart,
-  onChangeCurriculumPart,
-  fnaPart,
-  onChangeFnaPart,
-}: RecruitSectionProps) => {
+const RecruitSectionContent = () => {
+  const [selectedParts, setSelectedParts] = useState<SelectedParts>({
+    intro: '기획',
+    curriculum: '기획',
+    fna: '기획',
+  });
   const [editStep, setEditStep] = useState<EditStep>(EDIT_STEP.VIEW);
-  const [resetKey, setResetKey] = useState(0);
+  const [restoreSignal, setRestoreSignal] = useState(0);
 
   const { data } = useAdminInfoQuery();
   const { mutate: deployRecruit, isLoading: isDeploying } =
@@ -88,6 +83,18 @@ const RecruitSectionContent = ({
     );
   };
 
+  const onChangeIntroPart = (part: PART_KO) => {
+    setSelectedParts((prev) => ({ ...prev, intro: part }));
+  };
+
+  const onChangeCurriculumPart = (part: PART_KO) => {
+    setSelectedParts((prev) => ({ ...prev, curriculum: part }));
+  };
+
+  const onChangeFnaPart = (part: PART_KO) => {
+    setSelectedParts((prev) => ({ ...prev, fna: part }));
+  };
+
   const exitEditMode = () => {
     setValue('recruitHeaderImage', undefined, {
       shouldDirty: false,
@@ -95,7 +102,7 @@ const RecruitSectionContent = ({
     });
     clearErrors('recruitHeaderImage');
     syncRecruitFormFromAdminData(data, setValue);
-    setResetKey((prev) => prev + 1);
+    setRestoreSignal((prev) => prev + 1);
     setEditStep(EDIT_STEP.VIEW);
   };
 
@@ -128,20 +135,20 @@ const RecruitSectionContent = ({
       <StRecruitSectionWrapper>
         <HeaderSection isEditable={isEditMode} />
         <PartIntroSection
-          resetKey={resetKey}
+          restoreSignal={restoreSignal}
           isEditable={isEditMode}
-          selectedPart={introPart}
+          selectedPart={selectedParts.intro}
           onChangePart={onChangeIntroPart}
         />
         <CurriculumSection
           isEditable={isEditMode}
-          selectedPart={curriculumPart}
+          selectedPart={selectedParts.curriculum}
           onChangeSelectedPart={onChangeCurriculumPart}
         />
         <FaqSection
-          resetKey={resetKey}
+          restoreSignal={restoreSignal}
           isEditable={isEditMode}
-          fnaPart={fnaPart}
+          fnaPart={selectedParts.fna}
           onChangeFnaPart={onChangeFnaPart}
         />
       </StRecruitSectionWrapper>
@@ -156,11 +163,11 @@ const RecruitSectionContent = ({
   );
 };
 
-const RecruitSection = (props: RecruitSectionProps) => {
+const RecruitSection = () => {
   return (
     <StRecruitContainer>
       <ToastProvider>
-        <RecruitSectionContent {...props} />
+        <RecruitSectionContent />
       </ToastProvider>
     </StRecruitContainer>
   );

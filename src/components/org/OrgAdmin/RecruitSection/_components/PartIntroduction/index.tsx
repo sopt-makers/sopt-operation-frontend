@@ -51,14 +51,14 @@ const createDefaultPreferenceCounts = (): PreferenceCounts =>
 
 type PartIntroSectionProps = {
   isEditable: boolean;
-  resetKey: number;
+  restoreSignal: number;
   selectedPart: PART_KO;
   onChangePart: (id: PART_KO) => void;
 };
 
 const PartIntroSection = ({
   isEditable,
-  resetKey,
+  restoreSignal,
   selectedPart,
   onChangePart,
 }: PartIntroSectionProps) => {
@@ -104,7 +104,7 @@ const PartIntroSection = ({
     });
 
     setPreferenceCounts(next);
-  }, [data, resetKey]);
+  }, [data, restoreSignal]);
 
   const handleValidation = (field: string, value: string) => {
     if (value) {

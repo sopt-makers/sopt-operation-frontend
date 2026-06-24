@@ -47,14 +47,14 @@ const createDefaultCounts = (): QuestionCounts =>
 
 interface Props {
   isEditable: boolean;
-  resetKey: number;
+  restoreSignal: number;
   fnaPart: PART_KO;
   onChangeFnaPart: (part: PART_KO) => void;
 }
 
 const FaqSection = ({
   isEditable,
-  resetKey,
+  restoreSignal,
   fnaPart,
   onChangeFnaPart,
 }: Props) => {
@@ -92,7 +92,7 @@ const FaqSection = ({
     });
 
     setQuestionCounts(next);
-  }, [data, resetKey]);
+  }, [data, restoreSignal]);
 
   const currentCount = questionCounts[fnaPart];
 
