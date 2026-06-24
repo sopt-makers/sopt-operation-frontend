@@ -157,15 +157,6 @@ const PartIntroSection = ({
     syncPreference(nextItems);
   };
 
-  const handleDeletePreferenceItem = (index: number) => {
-    const nextItems = preferenceItems.filter((_, i) => i !== index);
-    syncPreference(nextItems);
-    setPreferenceCounts((prev) => ({
-      ...prev,
-      [selectedPart]: Math.max(prev[selectedPart] - 1, 1),
-    }));
-  };
-
   const textAreaContainerRef = useRef<HTMLDivElement>(null);
 
   // setValue로 채운 값은 onChange를 거치지 않아 자동 높이 계산이 안 되므로 직접 재계산
@@ -185,12 +176,7 @@ const PartIntroSection = ({
     onChangePart(id);
   };
 
-  const oneLineRegister = register(oneLineFieldName, {
-    maxLength: {
-      value: ONE_LINE_MAX_LENGTH,
-      message: ERROR_MESSAGES.oneLine,
-    },
-  });
+  const contentRegister = register(contentFieldName);
 
   return (
     <StSectionWrapper>
@@ -218,7 +204,6 @@ const PartIntroSection = ({
 
           <StTextAreaContainer ref={textAreaContainerRef}>
             <TextArea
-              {...oneLineRegister}
               topAddon={{
                 labelText: '파트 한줄 소개',
                 descriptionText:
@@ -231,8 +216,10 @@ const PartIntroSection = ({
               maxLength={ONE_LINE_MAX_LENGTH}
               value={oneLineValue ?? ''}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                oneLineRegister.onChange(e);
-                handleOneLineValidation(e.currentTarget.value);
+                const { value } = e.currentTarget;
+
+                setValue(oneLineFieldName, value, { shouldDirty: true });
+                handleOneLineValidation(value);
               }}
               isError={!!(errors as any)[oneLineFieldName]}
               errorMessage={
@@ -240,7 +227,7 @@ const PartIntroSection = ({
               }
             />
             <StPartIntroductionTextArea
-              {...register(contentFieldName)}
+              {...contentRegister}
               topAddon={{
                 labelText: '이런 걸 배워요',
                 descriptionText:
@@ -250,9 +237,12 @@ const PartIntroSection = ({
               required
               disabled={!isEditable}
               value={contentValue ?? ''}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                handleValidation(contentFieldName, e.currentTarget.value)
-              }
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                const { value } = e.currentTarget;
+
+                setValue(contentFieldName, value, { shouldDirty: true });
+                handleValidation(contentFieldName, value);
+              }}
               isError={
                 !!(errors as any).recruitPartCurriculum?.[selectedPart]?.content
               }
