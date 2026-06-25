@@ -153,12 +153,10 @@ const HomeSectionContent = () => {
       </StSectionWrapper>
 
       <ActionModal
-        variant="deploy"
         isOpen={isDeployModalOpen}
+        title="배포하시겠습니까?"
         onCancel={() => setEditStep(EDIT_STEP.EDITING)}
         onAction={handleDeploy}
-        alertText="배포하시겠습니까?"
-        description="입력한 홈 탭 내용은 공홈에 즉시 반영돼요."
       />
     </>
   );
