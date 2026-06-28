@@ -2,6 +2,7 @@ import type { FieldValues } from 'react-hook-form';
 
 import { type PART_KO, PART_LIST, VALIDATION_CHECK } from '@/utils/org';
 
+import { EXEC_ROLE_LIST, toMemberRole } from './AboutSection/memberRole';
 import { BRANDING_COLOR_FIELD_IDS } from './CommonSection/BrandingColor';
 import type { Group } from './types';
 
@@ -74,20 +75,33 @@ export const validationHomeInputs = (
 export const validationAboutInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  existingHeaderImageUrl?: string,
+  existingCoreValues?: { image?: string }[],
+  existingMembers?: { role: string; profileImage?: string }[],
 ) => {
   const { headerImageFileName, coreValue1, coreValue2, coreValue3 } =
     getValues();
 
+  // 이미지 드롭존은 새 파일을 올렸을 때만 폼 값이 채워진다.
+  // 기존에 등록된 이미지를 그대로 두면(미리보기로만 보여주고 폼 값은 비어있음)
+  // existing*Url이 있어야 "채워졌다"고 판단할 수 있다.
   const fieldsToValidate = [
-    { name: 'headerImageFileName', value: headerImageFileName },
-    ...[coreValue1, coreValue2, coreValue3].flatMap((coreValue, idx) =>
-      ['imageFileName', 'value', 'description', 'detailDescription'].map(
-        (key) => ({
-          name: `coreValue${idx + 1}.${key}`,
-          value: coreValue?.[key],
-        }),
-      ),
-    ),
+    {
+      name: 'headerImageFileName',
+      value: headerImageFileName?.fileName ?? existingHeaderImageUrl,
+    },
+    ...[coreValue1, coreValue2, coreValue3].flatMap((coreValue, idx) => [
+      {
+        name: `coreValue${idx + 1}.imageFileName`,
+        value:
+          coreValue?.imageFileName?.fileName ??
+          existingCoreValues?.[idx]?.image,
+      },
+      ...['value', 'description', 'detailDescription'].map((key) => ({
+        name: `coreValue${idx + 1}.${key}`,
+        value: coreValue?.[key],
+      })),
+    ]),
   ];
 
   let isAllFilled = true;
@@ -105,7 +119,88 @@ export const validationAboutInputs = (
     }
   }
 
-  return isAllFilled;
+  if (!isAllFilled) return false;
+
+  // 이름을 채운 임원진만 실존 인물로 보고, 소속/소개/사진(새 파일 or 기존 이미지)을 요구한다.
+  const { member } = getValues();
+
+  for (const execType of EXEC_ROLE_LIST) {
+    const memberValue = member?.[execType];
+    if (!memberValue?.name) continue;
+
+    const apiRole = toMemberRole(execType);
+    const existingImage = existingMembers?.find(
+      (m) => m.role === apiRole,
+    )?.profileImage;
+
+    const memberFieldsToValidate = [
+      {
+        name: `member.${execType}.affiliation`,
+        value: memberValue.affiliation,
+      },
+      {
+        name: `member.${execType}.introduction`,
+        value: memberValue.introduction,
+      },
+      {
+        name: `member.${execType}.profileImageFileName`,
+        value: memberValue.profileImageFileName?.fileName ?? existingImage,
+      },
+    ];
+
+    for (const { name, value } of memberFieldsToValidate) {
+      if (!value) {
+        setError(name, {
+          type: 'required',
+          message: VALIDATION_CHECK.required.errorText,
+        });
+
+        return false;
+      }
+    }
+  }
+
+  // 일정 행 중 날짜/세션 한쪽만 채워진 게 있으면 에러 처리한다(조용히 누락시키지 않는다).
+  const { activitySchedule } = getValues();
+  const scheduleRows = activitySchedule as
+    | { date?: string; session?: string }[]
+    | undefined;
+
+  for (let index = 0; index < (scheduleRows?.length ?? 0); index += 1) {
+    const row = scheduleRows?.[index];
+
+    if (row?.date && !row?.session) {
+      setError(`activitySchedule.${index}.session`, {
+        type: 'required',
+        message: '세션명을 입력해주세요.',
+      });
+
+      return false;
+    }
+
+    if (!row?.date && row?.session) {
+      setError(`activitySchedule.${index}.date`, {
+        type: 'required',
+        message: '날짜를 입력해주세요.',
+      });
+
+      return false;
+    }
+  }
+
+  // 일정은 16개 행이 모두 채워질 필요는 없고, 최소 1개 행(날짜+세션)만 있으면 된다.
+  const hasAnySchedule = scheduleRows?.some((row) => row?.date && row?.session);
+
+  if (!hasAnySchedule) {
+    setError('activitySchedule.0.date', {
+      type: 'required',
+      message: '최소 1개 이상의 일정을 입력해주세요.',
+    });
+
+    return false;
+  }
+
+  return true;
 };
 
 export const validationRecruitInputs = (
