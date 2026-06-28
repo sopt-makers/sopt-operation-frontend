@@ -20,50 +20,47 @@ import {
   StRecruitSectionWrapper,
 } from '@/components/org/OrgAdmin/RecruitSection/style';
 import { validationRecruitInputs } from '@/components/org/OrgAdmin/utils';
-import { PART_KO, VALIDATION_CHECK } from '@/utils/org';
+import { PART_KO, PART_LIST, VALIDATION_CHECK } from '@/utils/org';
 
-interface RecruitSectionProps {
-  introPart: PART_KO;
-  onChangeIntroPart: (part: PART_KO) => void;
-  curriculumPart: PART_KO;
-  onChangeCurriculumPart: (part: PART_KO) => void;
-  fnaPart: PART_KO;
-  onChangeFnaPart: (part: PART_KO) => void;
-}
+type SelectedParts = {
+  intro: PART_KO;
+  curriculum: PART_KO;
+  fna: PART_KO;
+};
 
-const RecruitSectionContent = ({
-  introPart,
-  onChangeIntroPart,
-  curriculumPart,
-  onChangeCurriculumPart,
-  fnaPart,
-  onChangeFnaPart,
-}: RecruitSectionProps) => {
+const RECRUIT_FIELD_NAMES = [
+  'recruitHeaderImage',
+  ...PART_LIST.map((part) => `partIntroduction${part}`),
+  'partCurriculum',
+  'recruitPartCurriculum',
+  'recruitQuestion',
+];
+
+const RecruitSectionContent = () => {
+  const [selectedParts, setSelectedParts] = useState<SelectedParts>({
+    intro: '기획',
+    curriculum: '기획',
+    fna: '기획',
+  });
   const [editStep, setEditStep] = useState<EditStep>(EDIT_STEP.VIEW);
-  const [resetKey, setResetKey] = useState(0);
+  const [restoreSignal, setRestoreSignal] = useState(0);
+  const [snapshot, setSnapshot] = useState<unknown[] | null>(null);
 
   const { data } = useAdminInfoQuery();
   const { mutate: deployRecruit, isLoading: isDeploying } =
     useDeployRecruitMutation();
 
-  const {
-    control,
-    getValues,
-    setError,
-    setValue,
-    clearErrors,
-    formState: { isDirty },
-  } = useFormContext();
+  const { control, getValues, setError, setValue, clearErrors } =
+    useFormContext();
 
-  const recruitHeaderImage = useWatch({
-    control,
-    name: 'recruitHeaderImage',
-  });
+  const watchedValues = useWatch({ control, name: RECRUIT_FIELD_NAMES });
 
   const isEditMode = editStep !== EDIT_STEP.VIEW;
   const isDeployModalOpen = editStep === EDIT_STEP.DEPLOY;
   const hasUnsavedChanges =
-    isEditMode && (Boolean(recruitHeaderImage?.file) || isDirty);
+    isEditMode &&
+    snapshot !== null &&
+    JSON.stringify(watchedValues) !== JSON.stringify(snapshot);
 
   useEffect(() => {
     syncRecruitFormFromAdminData(data, setValue);
@@ -88,6 +85,23 @@ const RecruitSectionContent = ({
     );
   };
 
+  const onChangeIntroPart = (part: PART_KO) => {
+    setSelectedParts((prev) => ({ ...prev, intro: part }));
+  };
+
+  const onChangeCurriculumPart = (part: PART_KO) => {
+    setSelectedParts((prev) => ({ ...prev, curriculum: part }));
+  };
+
+  const onChangeFnaPart = (part: PART_KO) => {
+    setSelectedParts((prev) => ({ ...prev, fna: part }));
+  };
+
+  const startEditMode = () => {
+    setSnapshot(JSON.parse(JSON.stringify(getValues(RECRUIT_FIELD_NAMES))));
+    setEditStep(EDIT_STEP.EDITING);
+  };
+
   const exitEditMode = () => {
     setValue('recruitHeaderImage', undefined, {
       shouldDirty: false,
@@ -95,7 +109,8 @@ const RecruitSectionContent = ({
     });
     clearErrors('recruitHeaderImage');
     syncRecruitFormFromAdminData(data, setValue);
-    setResetKey((prev) => prev + 1);
+    setRestoreSignal((prev) => prev + 1);
+    setSnapshot(null);
     setEditStep(EDIT_STEP.VIEW);
   };
 
@@ -117,7 +132,7 @@ const RecruitSectionContent = ({
         isEditMode={isEditMode}
         isDeploying={isDeploying}
         hasUnsavedChanges={hasUnsavedChanges}
-        onStartEdit={() => setEditStep(EDIT_STEP.EDITING)}
+        onStartEdit={startEditMode}
         onCancel={exitEditMode}
         onDeploy={() => {
           if (validateRecruitTabInputs()) {
@@ -128,41 +143,39 @@ const RecruitSectionContent = ({
       <StRecruitSectionWrapper>
         <HeaderSection isEditable={isEditMode} />
         <PartIntroSection
-          resetKey={resetKey}
+          restoreSignal={restoreSignal}
           isEditable={isEditMode}
-          selectedPart={introPart}
+          selectedPart={selectedParts.intro}
           onChangePart={onChangeIntroPart}
         />
         <CurriculumSection
           isEditable={isEditMode}
-          selectedPart={curriculumPart}
+          selectedPart={selectedParts.curriculum}
           onChangeSelectedPart={onChangeCurriculumPart}
         />
         <FaqSection
-          resetKey={resetKey}
+          restoreSignal={restoreSignal}
           isEditable={isEditMode}
-          fnaPart={fnaPart}
+          fnaPart={selectedParts.fna}
           onChangeFnaPart={onChangeFnaPart}
         />
       </StRecruitSectionWrapper>
 
       <ActionModal
-        variant="deploy"
+        title="배포하시겠습니까?"
         isOpen={isDeployModalOpen}
         onCancel={() => setEditStep(EDIT_STEP.EDITING)}
         onAction={handleDeploy}
-        alertText="배포하시겠습니까?"
-        description="입력한 모집안내 탭 내용은 공홈에 즉시 반영돼요."
       />
     </>
   );
 };
 
-const RecruitSection = (props: RecruitSectionProps) => {
+const RecruitSection = () => {
   return (
     <StRecruitContainer>
       <ToastProvider>
-        <RecruitSectionContent {...props} />
+        <RecruitSectionContent />
       </ToastProvider>
     </StRecruitContainer>
   );

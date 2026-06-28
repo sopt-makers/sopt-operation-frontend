@@ -9,6 +9,7 @@ interface StInfoWrapperProps {
 }
 
 export const StInfoWrapper = styled.article<StInfoWrapperProps>`
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   width: fit-content;
   position: relative;
   border-radius: 12px;
@@ -17,6 +18,7 @@ export const StInfoWrapper = styled.article<StInfoWrapperProps>`
   transform: ${({ isVisible }) =>
     isVisible ? 'translateX(0)' : 'translateX(100%)'};
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  pointer-events: ${({ isVisible }) => (isVisible ? 'auto' : 'none')};
   transition: all 0.5s ease-in-out;
   z-index: ${zIndex.modal};
 `;

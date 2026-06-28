@@ -1,67 +1,54 @@
-import { CheckBox } from '@sopt-makers/ui';
-import { type HTMLAttributes, useState } from 'react';
+import { type HTMLAttributes } from 'react';
 import type { FieldValues, SubmitHandler } from 'react-hook-form';
 
 import Modal from '@/components/common/modal';
 
 import {
-  StActionButton,
-  StCancelButton,
+  StLeftButton,
   StModalBtnWrapper,
   StModalContainer,
+  StModalContent,
+  StRightButton,
 } from './style';
+
+export type ActionModalVariant = 'default' | 'danger';
 
 interface ActionModalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
   isOpen: boolean;
+  title: string;
+  description?: string;
+  variant?: ActionModalVariant;
+  leftButtonText?: string;
+  rightButtonText?: string;
   onCancel?: () => void;
   onAction?: () => void | SubmitHandler<FieldValues>;
-  variant: 'add' | 'delete' | 'deploy';
-  alertText: string;
-  description?: string;
 }
 
 export const ActionModal = ({
   isOpen,
+  title,
+  description,
+  variant = 'default',
+  leftButtonText = '취소',
+  rightButtonText = '확인',
   onCancel,
   onAction,
-  variant,
-  alertText,
-  description,
 }: ActionModalProps) => {
-  const [checked, setChecked] = useState(false);
-
   return (
     isOpen && (
       <Modal>
         <StModalContainer>
-          <h2>{alertText}</h2>
-          <p>{description}</p>
-          <CheckBox
-            label="확인했어요."
-            checked={checked}
-            onChange={() => setChecked((prev) => !prev)}
-          />
+          <StModalContent>
+            <h2>{title}</h2>
+            {description && <p>{description}</p>}
+          </StModalContent>
           <StModalBtnWrapper>
-            <StCancelButton
-              onClick={() => {
-                onCancel && onCancel();
-                setChecked(false);
-              }}>
-              취소
-            </StCancelButton>
-            <StActionButton
-              btntype={variant}
-              disabled={!checked}
-              onClick={() => {
-                setChecked(false);
-                onAction && onAction();
-              }}>
-              {variant === 'add'
-                ? '추가'
-                : variant === 'delete'
-                  ? '삭제'
-                  : '배포'}
-            </StActionButton>
+            <StLeftButton type="button" onClick={() => onCancel?.()}>
+              {leftButtonText}
+            </StLeftButton>
+            <StRightButton btntype={variant} onClick={() => onAction?.()}>
+              {rightButtonText}
+            </StRightButton>
           </StModalBtnWrapper>
         </StModalContainer>
       </Modal>
