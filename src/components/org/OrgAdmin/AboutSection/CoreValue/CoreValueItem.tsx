@@ -3,6 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { VALIDATION_CHECK } from '@/utils/org';
 
 import RequiredIcon from '../../assets/RequiredIcon';
+import { useAdminInfoQuery } from '../../HomeSection/queries';
 import MyDropzone from '../../MyDropzone';
 import { StDescription, StInput, StInputLabel } from '../style';
 import {
@@ -14,6 +15,7 @@ import {
 
 interface CoreValueItemProps {
   index: 1 | 2 | 3;
+  isEditable?: boolean;
 }
 
 const CORE_VALUE_COPY = {
@@ -37,7 +39,7 @@ const CORE_VALUE_COPY = {
   },
 } as const;
 
-const CoreValueItem = ({ index }: CoreValueItemProps) => {
+const CoreValueItem = ({ index, isEditable = true }: CoreValueItemProps) => {
   const fieldKey = `coreValue${index}` as const;
   const method = useFormContext();
   const {
@@ -45,6 +47,7 @@ const CoreValueItem = ({ index }: CoreValueItemProps) => {
     control,
     formState: { errors },
   } = method;
+  const { data } = useAdminInfoQuery();
 
   const coreValueErrors = (errors as any)[fieldKey] ?? {};
   const copy = CORE_VALUE_COPY[index];
@@ -63,6 +66,8 @@ const CoreValueItem = ({ index }: CoreValueItemProps) => {
           width="224px"
           height="190px"
           required
+          disabled={!isEditable}
+          defaultPreviewUrl={data?.coreValue?.[index - 1]?.image}
         />
         <StInputBox>
           <StInput
@@ -73,6 +78,7 @@ const CoreValueItem = ({ index }: CoreValueItemProps) => {
             errorMessage={coreValueErrors?.value?.message as string}
             labelText="가치"
             required
+            disabled={!isEditable}
             placeholder={copy.valuePlaceholder}
           />
           <StInput
@@ -83,6 +89,7 @@ const CoreValueItem = ({ index }: CoreValueItemProps) => {
             errorMessage={coreValueErrors?.description?.message as string}
             labelText="가치 설명"
             required
+            disabled={!isEditable}
             placeholder={copy.descriptionPlaceholder}
           />
           <Controller
@@ -110,6 +117,7 @@ const CoreValueItem = ({ index }: CoreValueItemProps) => {
                   descriptionText: '‘-습니다’체를 사용해 주세요.',
                 }}
                 required
+                disabled={!isEditable}
                 fixedHeight={126}
                 maxLength={100}
                 placeholder={copy.detailPlaceholder}
