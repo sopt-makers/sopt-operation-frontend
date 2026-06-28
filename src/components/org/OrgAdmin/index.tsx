@@ -375,7 +375,8 @@ function OrgAdmin() {
           )}
           {selectedPart !== '홈' &&
             selectedPart !== '모집안내' &&
-            selectedPart !== '공통' && (
+            selectedPart !== '공통' &&
+            selectedPart !== '소개' && (
               <StSubmitButton
                 type="button"
                 onClick={() => {
