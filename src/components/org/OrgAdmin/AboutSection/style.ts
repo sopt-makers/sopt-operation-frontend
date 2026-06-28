@@ -3,14 +3,6 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { TextField } from '@sopt-makers/ui';
 
-export const StContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 80px;
-  padding: 50px 0;
-  max-width: 582px;
-`;
-
 // TODO : StTitleWrapper, StTitle common 분리
 
 export const StWrapper = styled.div`
