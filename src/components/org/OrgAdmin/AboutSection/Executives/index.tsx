@@ -2,6 +2,8 @@ import { Chip } from '@sopt-makers/ui';
 
 import { EXEC_TYPE, PART_LIST, 임원진_LIST } from '@/utils/org';
 
+import { useAdminInfoQuery } from '../../HomeSection/queries';
+import { toMemberRole } from '../memberRole';
 import { StTitle, StWrapper } from '../style';
 import ExecInfo from './ExecInfo';
 import { StChipLabel, StChipLine, StChipWrapper } from './style';
@@ -9,12 +11,19 @@ import { StChipLabel, StChipLine, StChipWrapper } from './style';
 interface ExecutivesProps {
   selectedExec: EXEC_TYPE;
   onChangeSelectedExec: (member: EXEC_TYPE) => void;
+  isEditable?: boolean;
 }
 
 const Executives = ({
   selectedExec,
   onChangeSelectedExec,
+  isEditable = true,
 }: ExecutivesProps) => {
+  const { data } = useAdminInfoQuery();
+  const defaultProfileImageUrl = data?.member?.find(
+    (member) => member.role === toMemberRole(selectedExec),
+  )?.profileImage;
+
   const handleSetSelectedExec = (value: EXEC_TYPE) => {
     onChangeSelectedExec(value);
   };
@@ -24,7 +33,7 @@ const Executives = ({
       <StTitle>임원진</StTitle>
       <StChipWrapper>
         <StChipLine>
-          <StChipLabel>임원진</StChipLabel>
+          <StChipLabel>회·팀장단</StChipLabel>
           {임원진_LIST.map((role) => (
             <Chip
               key={role}
@@ -40,11 +49,16 @@ const Executives = ({
             <Chip
               key={part}
               onClick={() => handleSetSelectedExec(part)}
-              active={selectedExec === part}>{`${part} 파트장`}</Chip>
+              active={selectedExec === part}>{`${part}`}</Chip>
           ))}
         </StChipLine>
       </StChipWrapper>
-      <ExecInfo key={selectedExec} selectedExec={selectedExec} />
+      <ExecInfo
+        key={selectedExec}
+        selectedExec={selectedExec}
+        isEditable={isEditable}
+        defaultProfileImageUrl={defaultProfileImageUrl}
+      />
     </StWrapper>
   );
 };

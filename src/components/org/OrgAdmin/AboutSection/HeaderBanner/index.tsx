@@ -4,12 +4,18 @@ import { useFormContext } from 'react-hook-form';
 import RequiredIcon from '../../assets/RequiredIcon';
 import Modal from '../../common/Modal';
 import useModal from '../../common/Modal/useModal';
+import { useAdminInfoQuery } from '../../HomeSection/queries';
 import MyDropzone from '../../MyDropzone';
 import { StDescription, StInputLabel, StTitle, StWrapper } from '../style';
 import { StContentWrapper, StInfoButton, StStretchContainer } from './style';
 
-const HeaderBanner = () => {
+interface HeaderBannerProps {
+  isEditable?: boolean;
+}
+
+const HeaderBanner = ({ isEditable = true }: HeaderBannerProps) => {
   const method = useFormContext();
+  const { data } = useAdminInfoQuery();
   const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
@@ -36,6 +42,8 @@ const HeaderBanner = () => {
             width="582px"
             height="191px"
             required
+            disabled={!isEditable}
+            defaultPreviewUrl={data?.headerImage}
           />
         </StContentWrapper>
       </StWrapper>

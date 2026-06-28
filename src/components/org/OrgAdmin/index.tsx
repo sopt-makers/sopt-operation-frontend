@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { StListHeader } from '@/components/attendanceAdmin/session/SessionList/style';
 import FilterButton from '@/components/common/FilterButton';
 import { usePageLeaveBlocker } from '@/components/org/OrgAdmin/_hooks/usePageLeaveBlocker';
-import { EXEC_TYPE, ORG_ADMIN_LIST, PART_KO } from '@/utils/org';
+import { EXEC_TYPE, ORG_ADMIN_LIST } from '@/utils/org';
 
 import AboutSection from './AboutSection';
 import { ActionModal } from './common/ActionModal';
@@ -16,8 +16,6 @@ import type { Group } from './types';
 function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
   const [group, setGroup] = useState<Group>('OB');
-  const [selectedPartInHomeTap, setSelectedPartInHomeTap] =
-    useState<PART_KO>('기획');
   const [selectedExec, setSelectedExec] = useState<EXEC_TYPE>('회장');
 
   const { isPageLeaveModalOpen, onCancelPageLeave, onLeavePage } =
@@ -52,10 +50,6 @@ function OrgAdmin() {
             <HomeSection />
           ) : selectedPart === '소개' ? (
             <AboutSection
-              selectedPart={selectedPartInHomeTap}
-              onChangeSelectedPart={(part: PART_KO) =>
-                setSelectedPartInHomeTap(part)
-              }
               selectedExec={selectedExec}
               onChangeSelectedExec={(member: EXEC_TYPE) =>
                 setSelectedExec(member)
