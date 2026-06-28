@@ -1016,10 +1016,10 @@ export interface components {
              */
             generation: number;
             /**
-             * @description 지원하기 헤더 이미지 파일명
+             * @description 지원하기 헤더 이미지 파일명 (생략 시 기존 이미지 유지)
              * @example recruit_header.png
              */
-            recruitHeaderImageFileName: string;
+            recruitHeaderImageFileName?: string;
             /** @description 파트별 소개 목록 (한 줄 소개 + 이런 걸 배워요) */
             partIntroduction?: components["schemas"]["AddAdminPartIntroductionRequestDto"][];
             /** @description 파트별 커리큘럼 목록 (이런 걸 배워요 - 주차별) */
@@ -1123,10 +1123,10 @@ export interface components {
              */
             generation: number;
             /**
-             * @description 홈 헤더 이미지 파일명
+             * @description 홈 헤더 이미지 파일명 (생략 시 기존 이미지 유지)
              * @example home_header.png
              */
-            homeHeaderImageFileName: string;
+            homeHeaderImageFileName?: string;
             /** @description 리뷰 목록 */
             review?: components["schemas"]["AddAdminReviewRequestDto"][];
             /** @description 최신소식 목록 */
@@ -1271,10 +1271,10 @@ export interface components {
              */
             generation: number;
             /**
-             * @description 헤더 이미지 파일명
+             * @description 헤더 이미지 파일명 (생략 시 기존 이미지 유지)
              * @example header.png
              */
-            headerImageFileName: string;
+            headerImageFileName?: string;
             /** @description 핵심가치 목록 */
             coreValue?: components["schemas"]["AddAdminCoreValueRequestDto"][];
             /** @description 임원진 목록 */
@@ -1318,10 +1318,10 @@ export interface components {
              */
             detailDescription: string;
             /**
-             * @description 핵심 가치 이미지 파일명
+             * @description 핵심 가치 이미지 파일명 (생략 시 기존 이미지 유지)
              * @example image.png
              */
-            imageFileName: string;
+            imageFileName?: string;
         };
         /** @description 멤버 정보 */
         AddAdminMemberRequestDto: {
@@ -1347,10 +1347,10 @@ export interface components {
             introduction: string;
             sns: components["schemas"]["AddAdminSnsLinksRequestDto"];
             /**
-             * @description 프로필 이미지 파일명
+             * @description 프로필 이미지 파일명 (생략 시 기존 이미지 유지)
              * @example image.png
              */
-            profileImageFileName: string;
+            profileImageFileName?: string;
         };
         /** @description SNS 링크 정보 */
         AddAdminSnsLinksRequestDto: {

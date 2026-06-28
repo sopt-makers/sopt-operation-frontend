@@ -285,10 +285,10 @@ export interface AddAdminRecruitRequestDto {
    */
   generation: number;
   /**
-   * 지원하기 헤더 이미지 파일명
+   * 지원하기 헤더 이미지 파일명 (생략 시 기존 이미지 유지)
    * @example "recruit_header.png"
    */
-  recruitHeaderImageFileName: string;
+  recruitHeaderImageFileName?: string;
   /** 파트별 소개 목록 (한 줄 소개 + 이런 걸 배워요) */
   partIntroduction?: AddAdminPartIntroductionRequestDto[];
   /** 파트별 커리큘럼 목록 (이런 걸 배워요 - 주차별) */
@@ -401,10 +401,10 @@ export interface AddAdminHomeRequestDto {
    */
   generation: number;
   /**
-   * 홈 헤더 이미지 파일명
+   * 홈 헤더 이미지 파일명 (생략 시 기존 이미지 유지)
    * @example "home_header.png"
    */
-  homeHeaderImageFileName: string;
+  homeHeaderImageFileName?: string;
   /** 리뷰 목록 */
   review?: AddAdminReviewRequestDto[];
   /** 최신소식 목록 */
@@ -564,10 +564,10 @@ export interface AddAdminAboutRequestDto {
    */
   generation: number;
   /**
-   * 헤더 이미지 파일명
+   * 헤더 이미지 파일명 (생략 시 기존 이미지 유지)
    * @example "header.png"
    */
-  headerImageFileName: string;
+  headerImageFileName?: string;
   /** 핵심가치 목록 */
   coreValue?: AddAdminCoreValueRequestDto[];
   /** 임원진 목록 */
@@ -613,10 +613,10 @@ export interface AddAdminCoreValueRequestDto {
    */
   detailDescription: string;
   /**
-   * 핵심 가치 이미지 파일명
+   * 핵심 가치 이미지 파일명 (생략 시 기존 이미지 유지)
    * @example "image.png"
    */
-  imageFileName: string;
+  imageFileName?: string;
 }
 
 /** 멤버 정보 */
@@ -644,10 +644,10 @@ export interface AddAdminMemberRequestDto {
   /** SNS 링크 정보 */
   sns: AddAdminSnsLinksRequestDto;
   /**
-   * 프로필 이미지 파일명
+   * 프로필 이미지 파일명 (생략 시 기존 이미지 유지)
    * @example "image.png"
    */
-  profileImageFileName: string;
+  profileImageFileName?: string;
 }
 
 /** SNS 링크 정보 */
