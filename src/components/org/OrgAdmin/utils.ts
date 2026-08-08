@@ -209,11 +209,9 @@ export const validationRecruitInputs = (
   setCurriculumPart: (curriculumPart: PART_KO) => void,
   setFnaPart: (fnaPart: PART_KO) => void,
 ) => {
-  const { recruitHeaderImage, recruitPartCurriculum, recruitQuestion } =
-    getValues();
+  const { recruitPartCurriculum, recruitQuestion } = getValues();
 
   const fieldsToValidate = [
-    { name: 'recruitHeaderImage', value: recruitHeaderImage },
     ...PART_LIST.flatMap((part) =>
       ['content', 'preference'].map((item) => ({
         name: `recruitPartCurriculum.${part}.${item}`,
