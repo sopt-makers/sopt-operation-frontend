@@ -1,5 +1,9 @@
 import type { FieldValues } from 'react-hook-form';
 
+import {
+  ONE_LINE_MAX_LENGTH,
+  ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
+} from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
 import { type PART_KO, PART_LIST, VALIDATION_CHECK } from '@/utils/org';
 
 import { EXEC_ROLE_LIST, toMemberRole } from './AboutSection/memberRole';
@@ -206,14 +210,24 @@ export const validationAboutInputs = (
 export const validationRecruitInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setIntroPart: (introPart: PART_KO) => void,
   setCurriculumPart: (curriculumPart: PART_KO) => void,
   setFnaPart: (fnaPart: PART_KO) => void,
 ) => {
   const { recruitHeaderImage, recruitPartCurriculum, recruitQuestion } =
     getValues();
 
-  const fieldsToValidate = [
+  const fieldsToValidate: {
+    name: string;
+    value: unknown;
+    maxLength?: number;
+  }[] = [
     { name: 'recruitHeaderImage', value: recruitHeaderImage },
+    ...PART_LIST.map((part) => ({
+      name: `partIntroduction${part}`,
+      value: getValues(`partIntroduction${part}`),
+      maxLength: ONE_LINE_MAX_LENGTH,
+    })),
     ...PART_LIST.flatMap((part) =>
       ['content', 'preference'].map((item) => ({
         name: `recruitPartCurriculum.${part}.${item}`,
@@ -237,8 +251,22 @@ export const validationRecruitInputs = (
 
   let isAllFilled = true;
 
-  for (const { name, value } of fieldsToValidate) {
-    if (!value) {
+  for (const { name, value, maxLength } of fieldsToValidate) {
+    if (typeof value === 'string' && maxLength && value.length > maxLength) {
+      isAllFilled = false;
+
+      setError(name, {
+        type: 'maxLength',
+        message: ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
+      });
+
+      if (name.startsWith('partIntroduction'))
+        setIntroPart(name.replace('partIntroduction', '') as PART_KO);
+
+      break;
+    }
+
+    if (!value || (typeof value === 'string' && !value.trim())) {
       isAllFilled = false;
 
       setError(name, {
@@ -246,6 +274,8 @@ export const validationRecruitInputs = (
         message: VALIDATION_CHECK.required.errorText,
       });
 
+      if (name.startsWith('partIntroduction'))
+        setIntroPart(name.replace('partIntroduction', '') as PART_KO);
       if (name.includes('recruitPartCurriculum'))
         setCurriculumPart(name.split('.')[1] as PART_KO);
       if (name.includes('recruitQuestion'))

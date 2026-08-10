@@ -80,6 +80,7 @@ const RecruitSectionContent = () => {
     return validationRecruitInputs(
       getValues,
       setError,
+      onChangeIntroPart,
       onChangeCurriculumPart,
       onChangeFnaPart,
     );
