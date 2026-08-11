@@ -17,6 +17,8 @@ import {
   StSNSWrapper,
 } from './style';
 
+const EXEC_INTRODUCTION_MAX_LENGTH = 23;
+
 interface ExecInfoProps {
   selectedExec: EXEC_TYPE;
   isEditable?: boolean;
@@ -90,6 +92,7 @@ const ExecInfo = ({
           placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
           required
           disabled={!isEditable}
+          maxLength={EXEC_INTRODUCTION_MAX_LENGTH}
         />
 
         <StSNSWrapper>
