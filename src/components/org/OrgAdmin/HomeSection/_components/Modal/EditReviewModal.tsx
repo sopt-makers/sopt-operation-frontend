@@ -16,9 +16,11 @@ import {
 import {
   EMPTY_REVIEW,
   REVIEW_CONTENT_MAX_HEIGHT,
+  REVIEW_CONTENT_MAX_LENGTH,
   REVIEW_CONTENT_MIN_HEIGHT,
+  REVIEW_TITLE_MAX_LENGTH,
 } from '@/components/org/OrgAdmin/HomeSection/_constants/constants';
-import { ReviewForm } from '@/components/org/OrgAdmin/HomeSection/_types/types';
+import type { ReviewForm } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 import {
   useEditReviewMutation,
   useReviewQuery,
@@ -81,7 +83,14 @@ export const EditReviewModal = ({
   };
 
   const handleSubmit = () => {
-    if (!reviewId || !review.title || !review.content || !review.authorInfo) {
+    if (
+      !reviewId ||
+      !review.title ||
+      !review.content ||
+      !review.authorInfo ||
+      review.title.length > REVIEW_TITLE_MAX_LENGTH ||
+      (review.content?.length ?? 0) > REVIEW_CONTENT_MAX_LENGTH
+    ) {
       return;
     }
 
@@ -99,7 +108,9 @@ export const EditReviewModal = ({
     !reviewId ||
     !review.title ||
     !review.content ||
-    !review.authorInfo;
+    !review.authorInfo ||
+    review.title.length > REVIEW_TITLE_MAX_LENGTH ||
+    (review.content?.length ?? 0) > REVIEW_CONTENT_MAX_LENGTH;
 
   return (
     isOpen && (
@@ -114,6 +125,7 @@ export const EditReviewModal = ({
             required
             labelText="리뷰 제목"
             descriptionText="공백 포함 최대 10자까지 작성할 수 있어요"
+            maxLength={REVIEW_TITLE_MAX_LENGTH}
             placeholder="ex. 후회없는 활동"
           />
           <StTextAreaWrapper ref={contentTextAreaRef}>
@@ -128,6 +140,7 @@ export const EditReviewModal = ({
                 descriptionText: '공백 포함 최대 200자까지 작성할 수 있어요',
               }}
               placeholder="ex. 좋은 사람들도 많이 만났고 기획분야를 제대로 배울 수 있었던 기회였어요. 대학생활 마지막 대외 활동이었지만, 회사 일을 하면서도 미련을 못버리고 메이커스나 솝텀을 기웃거려요. 엄청 오랜 기간동안 애정을 담고 있는 단체예요."
+              maxLength={REVIEW_CONTENT_MAX_LENGTH}
               maxHeight={REVIEW_CONTENT_MAX_HEIGHT}
             />
           </StTextAreaWrapper>

@@ -26,6 +26,8 @@ export const DEPLOY_TOAST_OPTION: Record<'success' | 'error', ToastOptionType> =
 
 export const REVIEW_CONTENT_MIN_HEIGHT = 104;
 export const REVIEW_CONTENT_MAX_HEIGHT = 220;
+export const REVIEW_TITLE_MAX_LENGTH = 10;
+export const REVIEW_CONTENT_MAX_LENGTH = 200;
 
 export const EMPTY_REVIEW: ReviewForm = {
   title: '',

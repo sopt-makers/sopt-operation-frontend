@@ -1,6 +1,10 @@
 import type { FieldValues } from 'react-hook-form';
 
-import { CURRICULUM_WEEK_COUNT } from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
+import {
+  CURRICULUM_WEEK_COUNT,
+  ONE_LINE_MAX_LENGTH,
+  ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
+} from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
 import {
   type EXEC_TYPE,
   FAQ_MAX_QUESTION_COUNT,
@@ -253,8 +257,19 @@ export const validationRecruitInputs = (
 
   for (const part of PART_LIST) {
     const name = `partIntroduction${part}`;
+    const value = values[name];
 
-    if (!values[name]) {
+    if (typeof value === 'string' && value.length > ONE_LINE_MAX_LENGTH) {
+      setError(name, {
+        type: 'maxLength',
+        message: ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
+      });
+      onInvalidIntroPart(part);
+      requestAnimationFrame(() => setFocus(name));
+      return false;
+    }
+
+    if (!value || (typeof value === 'string' && !value.trim())) {
       focusInvalidField(name, onInvalidIntroPart, part);
       return false;
     }

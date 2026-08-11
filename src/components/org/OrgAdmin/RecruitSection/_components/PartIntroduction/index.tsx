@@ -119,6 +119,14 @@ const PartIntroSection = ({
 
   const handleOneLineValidation = useCallback(
     (value: string) => {
+      if (!value.trim()) {
+        setError(oneLineFieldName, {
+          type: 'required',
+          message: ERROR_MESSAGES.required,
+        });
+        return;
+      }
+
       if (value.length > ONE_LINE_MAX_LENGTH) {
         setError(oneLineFieldName, {
           type: 'maxLength',
