@@ -1,16 +1,12 @@
 import type { FieldValues } from 'react-hook-form';
 
 import type { AddAdminRecruitRequestDto } from '@/__generated__/org-types/data-contracts';
-import {
-  extractFileNameFromUrl,
-  uploadToS3,
-} from '@/components/org/OrgAdmin/HomeSection/api';
+import { uploadToS3 } from '@/components/org/OrgAdmin/HomeSection/api';
+import { CURRICULUM_WEEK_COUNT } from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 import { FAQ_MAX_QUESTION_COUNT, PART_LIST } from '@/utils/org';
 
 import { soptFetcher } from '../api';
-
-const CURRICULUM_WEEK_COUNT = 8;
 
 type RecruitHeaderImageField = {
   fileName?: string;
@@ -42,7 +38,7 @@ export const postRecruitTabConfirm = async () => {
 };
 
 export type DeployRecruitInput = {
-  recruitHeaderImageFileName: string;
+  recruitHeaderImageFileName?: string;
   recruitHeaderImageFile?: File;
   partIntroduction: AddAdminRecruitRequestDto['partIntroduction'];
   partCurriculum: AddAdminRecruitRequestDto['partCurriculum'];
@@ -88,12 +84,13 @@ export const buildDeployRecruitInputFromForm = (
 
 export const resolveRecruitHeaderImageFileName = (
   recruitHeaderImage: RecruitHeaderImageField | undefined,
-  existingRecruitHeaderImageUrl?: string,
-) =>
-  recruitHeaderImage?.fileName ??
-  (existingRecruitHeaderImageUrl
-    ? extractFileNameFromUrl(existingRecruitHeaderImageUrl)
-    : '');
+) => {
+  const { file, fileName } = recruitHeaderImage ?? {};
+
+  if (!file || !fileName) return undefined;
+
+  return `${file.lastModified}-${file.size}-${fileName}`;
+};
 
 export const deployRecruitTab = async ({
   recruitHeaderImageFileName,
@@ -126,19 +123,14 @@ export const deployRecruitTab = async ({
   return postRecruitTabConfirm();
 };
 
-export const deployRecruitTabFromForm = async (
-  values: FieldValues,
-  existingRecruitHeaderImageUrl?: string,
-) => {
+export const deployRecruitTabFromForm = async (values: FieldValues) => {
   const recruitHeaderImage = values.recruitHeaderImage as
     | RecruitHeaderImageField
     | undefined;
 
   return deployRecruitTab({
-    recruitHeaderImageFileName: resolveRecruitHeaderImageFileName(
-      recruitHeaderImage,
-      existingRecruitHeaderImageUrl,
-    ),
+    recruitHeaderImageFileName:
+      resolveRecruitHeaderImageFileName(recruitHeaderImage),
     recruitHeaderImageFile: recruitHeaderImage?.file,
     ...buildDeployRecruitInputFromForm(values),
   });

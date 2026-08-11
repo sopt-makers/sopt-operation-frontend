@@ -22,6 +22,7 @@ import RecruitSchedule from './RecruitSchedule';
 interface CommonSectionProps {
   group: Group;
   onChangeGroup: (group: Group) => void;
+  onEditModeChange: (isEditing: boolean) => void;
 }
 
 const COMMON_FIELD_NAMES = [
@@ -31,7 +32,11 @@ const COMMON_FIELD_NAMES = [
   'brandingColor',
 ];
 
-const CommonSectionContent = ({ group, onChangeGroup }: CommonSectionProps) => {
+const CommonSectionContent = ({
+  group,
+  onChangeGroup,
+  onEditModeChange,
+}: CommonSectionProps) => {
   const [editStep, setEditStep] = useState<EditStep>(EDIT_STEP.VIEW);
   const [snapshot, setSnapshot] = useState<unknown[] | null>(null);
 
@@ -39,7 +44,7 @@ const CommonSectionContent = ({ group, onChangeGroup }: CommonSectionProps) => {
   const { mutate: deployCommon, isLoading: isDeploying } =
     useDeployCommonMutation();
 
-  const { control, getValues, setValue, setError, clearErrors } =
+  const { control, getValues, setValue, setError, setFocus, clearErrors } =
     useFormContext();
 
   const watchedValues = useWatch({ control, name: COMMON_FIELD_NAMES });
@@ -50,6 +55,10 @@ const CommonSectionContent = ({ group, onChangeGroup }: CommonSectionProps) => {
     isEditMode &&
     snapshot !== null &&
     JSON.stringify(watchedValues) !== JSON.stringify(snapshot);
+
+  useEffect(() => {
+    onEditModeChange(isEditMode);
+  }, [isEditMode, onEditModeChange]);
 
   useEffect(() => {
     syncCommonFormFromAdminData(data, setValue);
@@ -95,7 +104,9 @@ const CommonSectionContent = ({ group, onChangeGroup }: CommonSectionProps) => {
         onStartEdit={startEditMode}
         onCancel={cancelEditMode}
         onDeploy={() => {
-          if (validationCommonInputs(getValues, setError, onChangeGroup)) {
+          if (
+            validationCommonInputs(getValues, setError, setFocus, onChangeGroup)
+          ) {
             setEditStep(EDIT_STEP.DEPLOY);
           }
         }}

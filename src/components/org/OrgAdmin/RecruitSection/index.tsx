@@ -36,7 +36,11 @@ const RECRUIT_FIELD_NAMES = [
   'recruitQuestion',
 ];
 
-const RecruitSectionContent = () => {
+interface RecruitSectionProps {
+  onEditModeChange: (isEditing: boolean) => void;
+}
+
+const RecruitSectionContent = ({ onEditModeChange }: RecruitSectionProps) => {
   const [selectedParts, setSelectedParts] = useState<SelectedParts>({
     intro: '기획',
     curriculum: '기획',
@@ -50,7 +54,7 @@ const RecruitSectionContent = () => {
   const { mutate: deployRecruit, isLoading: isDeploying } =
     useDeployRecruitMutation();
 
-  const { control, getValues, setError, setValue, clearErrors } =
+  const { control, getValues, setError, setFocus, setValue, clearErrors } =
     useFormContext();
 
   const watchedValues = useWatch({ control, name: RECRUIT_FIELD_NAMES });
@@ -61,6 +65,10 @@ const RecruitSectionContent = () => {
     isEditMode &&
     snapshot !== null &&
     JSON.stringify(watchedValues) !== JSON.stringify(snapshot);
+
+  useEffect(() => {
+    onEditModeChange(isEditMode);
+  }, [isEditMode, onEditModeChange]);
 
   useEffect(() => {
     syncRecruitFormFromAdminData(data, setValue);
@@ -74,12 +82,14 @@ const RecruitSectionContent = () => {
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
       });
+      setFocus('recruitHeaderImage');
       return false;
     }
 
     return validationRecruitInputs(
       getValues,
       setError,
+      setFocus,
       onChangeIntroPart,
       onChangeCurriculumPart,
       onChangeFnaPart,
@@ -119,7 +129,6 @@ const RecruitSectionContent = () => {
     deployRecruit(
       {
         values: getValues(),
-        existingRecruitHeaderImageUrl: data?.recruitHeaderImage,
       },
       {
         onSuccess: exitEditMode,
@@ -172,11 +181,11 @@ const RecruitSectionContent = () => {
   );
 };
 
-const RecruitSection = () => {
+const RecruitSection = (props: RecruitSectionProps) => {
   return (
     <StRecruitContainer>
       <ToastProvider>
-        <RecruitSectionContent />
+        <RecruitSectionContent {...props} />
       </ToastProvider>
     </StRecruitContainer>
   );

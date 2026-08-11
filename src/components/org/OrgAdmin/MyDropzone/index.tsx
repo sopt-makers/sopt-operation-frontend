@@ -1,6 +1,6 @@
 'use client';
 
-import { type MouseEvent, useCallback } from 'react';
+import { type MouseEvent, type MutableRefObject, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { type UseFormReturn, useWatch } from 'react-hook-form';
 
@@ -78,7 +78,7 @@ const MyDropzone = ({
     e.preventDefault();
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, inputRef, isDragActive } = useDropzone({
     onDrop,
     disabled,
     accept: {
@@ -87,6 +87,27 @@ const MyDropzone = ({
       'image/png': [],
     },
   });
+  const { ref: formRef, ...formInputProps } = register(label, {
+    validate: (value) => {
+      if (!required) {
+        return true;
+      }
+
+      if (value?.fileName || defaultPreviewUrl) {
+        return true;
+      }
+
+      return VALIDATION_CHECK.required.errorText;
+    },
+  });
+  const dropzoneInputProps = getInputProps();
+  const setInputRef = useCallback(
+    (element: HTMLInputElement | null) => {
+      formRef(element);
+      (inputRef as MutableRefObject<HTMLInputElement | null>).current = element;
+    },
+    [formRef, inputRef],
+  );
 
   return (
     <StImgButtonWrapper>
@@ -100,20 +121,9 @@ const MyDropzone = ({
         isError={errorMsg}
         isDisabled={disabled}>
         <input
-          {...register(label, {
-            validate: (value) => {
-              if (!required) {
-                return true;
-              }
-
-              if (value?.fileName || defaultPreviewUrl) {
-                return true;
-              }
-
-              return VALIDATION_CHECK.required.errorText;
-            },
-          })}
-          {...getInputProps()}
+          {...formInputProps}
+          {...dropzoneInputProps}
+          ref={setInputRef}
           disabled={disabled}
         />
         {previewUrl ? (

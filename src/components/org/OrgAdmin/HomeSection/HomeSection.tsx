@@ -34,7 +34,11 @@ type HomeDraft = {
 const EMPTY_REVIEWS: Review[] = [];
 const EMPTY_NEWS: News[] = [];
 
-const HomeSectionContent = () => {
+interface HomeSectionProps {
+  onEditModeChange: (isEditing: boolean) => void;
+}
+
+const HomeSectionContent = ({ onEditModeChange }: HomeSectionProps) => {
   const [editStep, setEditStep] = useState<EditStep>(EDIT_STEP.VIEW);
   const [draft, setDraft] = useState<HomeDraft>({
     reviews: EMPTY_REVIEWS,
@@ -48,7 +52,7 @@ const HomeSectionContent = () => {
 
   const initialReviews = reviewsData ?? EMPTY_REVIEWS;
   const latestNews = data?.latestNews ?? EMPTY_NEWS;
-  const { control, getValues, setError, setValue, clearErrors } =
+  const { control, getValues, setError, setFocus, setValue, clearErrors } =
     useFormContext();
   const homeHeaderImage = useWatch({
     control,
@@ -73,9 +77,14 @@ const HomeSectionContent = () => {
   };
 
   const hasUnsavedChanges =
-    Boolean(homeHeaderImage?.file) ||
-    !isSameOrder(initialReviews, draft.reviews) ||
-    !isSameOrder(latestNews, draft.news);
+    isEditMode &&
+    (Boolean(homeHeaderImage?.file) ||
+      !isSameOrder(initialReviews, draft.reviews) ||
+      !isSameOrder(latestNews, draft.news));
+
+  useEffect(() => {
+    onEditModeChange(isEditMode);
+  }, [isEditMode, onEditModeChange]);
 
   const validateHomeInputs = () => {
     const { homeHeaderImageFileName } = getValues();
@@ -85,6 +94,7 @@ const HomeSectionContent = () => {
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
       });
+      setFocus('homeHeaderImageFileName');
       return false;
     }
 
@@ -162,11 +172,11 @@ const HomeSectionContent = () => {
   );
 };
 
-const HomeSection = () => {
+const HomeSection = (props: HomeSectionProps) => {
   return (
     <StContainer>
       <ToastProvider>
-        <HomeSectionContent />
+        <HomeSectionContent {...props} />
       </ToastProvider>
     </StContainer>
   );

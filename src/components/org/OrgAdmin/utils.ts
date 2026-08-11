@@ -1,10 +1,17 @@
 import type { FieldValues } from 'react-hook-form';
 
 import {
+  CURRICULUM_WEEK_COUNT,
   ONE_LINE_MAX_LENGTH,
   ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
 } from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
-import { type PART_KO, PART_LIST, VALIDATION_CHECK } from '@/utils/org';
+import {
+  type EXEC_TYPE,
+  FAQ_MAX_QUESTION_COUNT,
+  type PART_KO,
+  PART_LIST,
+  VALIDATION_CHECK,
+} from '@/utils/org';
 
 import { EXEC_ROLE_LIST, toMemberRole } from './AboutSection/memberRole';
 import { BRANDING_COLOR_FIELD_IDS } from './CommonSection/BrandingColor';
@@ -13,6 +20,7 @@ import type { Group } from './types';
 export const validationCommonInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
   setGroup: (group: Group) => void,
 ) => {
   const { generation, name, recruitSchedule, brandingColor } = getValues();
@@ -49,6 +57,7 @@ export const validationCommonInputs = (
       if (name.includes('YB')) setGroup('YB');
       else if (name.includes('OB')) setGroup('OB');
 
+      requestAnimationFrame(() => setFocus(name));
       return false;
     }
   }
@@ -59,6 +68,7 @@ export const validationCommonInputs = (
 export const validationHomeInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
   onChangeIntroPart: (part: PART_KO) => void,
 ) => {
   for (const part of PART_LIST) {
@@ -70,6 +80,7 @@ export const validationHomeInputs = (
         message: VALIDATION_CHECK.required.errorText,
       });
       onChangeIntroPart(part);
+      requestAnimationFrame(() => setFocus(name));
       return false;
     }
   }
@@ -79,6 +90,8 @@ export const validationHomeInputs = (
 export const validationAboutInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
+  onChangeSelectedExec: (execType: EXEC_TYPE) => void,
   existingHeaderImageUrl?: string,
   existingCoreValues?: { image?: string }[],
   existingMembers?: { role: string; profileImage?: string }[],
@@ -118,6 +131,7 @@ export const validationAboutInputs = (
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
       });
+      requestAnimationFrame(() => setFocus(name));
 
       break;
     }
@@ -158,6 +172,8 @@ export const validationAboutInputs = (
           type: 'required',
           message: VALIDATION_CHECK.required.errorText,
         });
+        onChangeSelectedExec(execType);
+        requestAnimationFrame(() => setFocus(name));
 
         return false;
       }
@@ -174,19 +190,23 @@ export const validationAboutInputs = (
     const row = scheduleRows?.[index];
 
     if (row?.date && !row?.session) {
-      setError(`activitySchedule.${index}.session`, {
+      const name = `activitySchedule.${index}.session`;
+      setError(name, {
         type: 'required',
         message: '세션명을 입력해주세요.',
       });
+      requestAnimationFrame(() => setFocus(name));
 
       return false;
     }
 
     if (!row?.date && row?.session) {
-      setError(`activitySchedule.${index}.date`, {
+      const name = `activitySchedule.${index}.date`;
+      setError(name, {
         type: 'required',
         message: '날짜를 입력해주세요.',
       });
+      requestAnimationFrame(() => setFocus(name));
 
       return false;
     }
@@ -196,10 +216,12 @@ export const validationAboutInputs = (
   const hasAnySchedule = scheduleRows?.some((row) => row?.date && row?.session);
 
   if (!hasAnySchedule) {
-    setError('activitySchedule.0.date', {
+    const name = 'activitySchedule.0.date';
+    setError(name, {
       type: 'required',
       message: '최소 1개 이상의 일정을 입력해주세요.',
     });
+    requestAnimationFrame(() => setFocus(name));
 
     return false;
   }
@@ -210,80 +232,108 @@ export const validationAboutInputs = (
 export const validationRecruitInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
-  setIntroPart: (introPart: PART_KO) => void,
-  setCurriculumPart: (curriculumPart: PART_KO) => void,
-  setFnaPart: (fnaPart: PART_KO) => void,
+  setFocus: (name: string) => void,
+  onInvalidIntroPart: (introPart: PART_KO) => void,
+  onInvalidCurriculumPart: (curriculumPart: PART_KO) => void,
+  onInvalidFaqPart: (faqPart: PART_KO) => void,
 ) => {
-  const { recruitHeaderImage, recruitPartCurriculum, recruitQuestion } =
-    getValues();
+  const values = getValues();
+  const { partCurriculum, recruitPartCurriculum, recruitQuestion } = values;
+  const setRequiredError = (name: string) => {
+    setError(name, {
+      type: 'required',
+      message: VALIDATION_CHECK.required.errorText,
+    });
+  };
+  const focusInvalidField = (
+    name: string,
+    selectPart: (part: PART_KO) => void,
+    part: PART_KO,
+  ) => {
+    setRequiredError(name);
+    selectPart(part);
+    requestAnimationFrame(() => setFocus(name));
+  };
 
-  const fieldsToValidate: {
-    name: string;
-    value: unknown;
-    maxLength?: number;
-  }[] = [
-    { name: 'recruitHeaderImage', value: recruitHeaderImage },
-    ...PART_LIST.map((part) => ({
-      name: `partIntroduction${part}`,
-      value: getValues(`partIntroduction${part}`),
-      maxLength: ONE_LINE_MAX_LENGTH,
-    })),
-    ...PART_LIST.flatMap((part) =>
-      ['content', 'preference'].map((item) => ({
-        name: `recruitPartCurriculum.${part}.${item}`,
-        value: recruitPartCurriculum?.[part]?.[item],
-      })),
-    ),
-    ...PART_LIST.flatMap((part) =>
-      [
-        'answer0',
-        'answer1',
-        'answer2',
-        'question0',
-        'question1',
-        'question2',
-      ].map((item) => ({
-        name: `recruitQuestion.${part}.${item}`,
-        value: recruitQuestion?.[part]?.[item],
-      })),
-    ),
-  ];
+  for (const part of PART_LIST) {
+    const name = `partIntroduction${part}`;
+    const value = values[name];
 
-  let isAllFilled = true;
-
-  for (const { name, value, maxLength } of fieldsToValidate) {
-    if (typeof value === 'string' && maxLength && value.length > maxLength) {
-      isAllFilled = false;
-
+    if (typeof value === 'string' && value.length > ONE_LINE_MAX_LENGTH) {
       setError(name, {
         type: 'maxLength',
         message: ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
       });
-
-      if (name.startsWith('partIntroduction'))
-        setIntroPart(name.replace('partIntroduction', '') as PART_KO);
-
-      break;
+      onInvalidIntroPart(part);
+      requestAnimationFrame(() => setFocus(name));
+      return false;
     }
 
     if (!value || (typeof value === 'string' && !value.trim())) {
-      isAllFilled = false;
-
-      setError(name, {
-        type: 'required',
-        message: VALIDATION_CHECK.required.errorText,
-      });
-
-      if (name.startsWith('partIntroduction'))
-        setIntroPart(name.replace('partIntroduction', '') as PART_KO);
-      if (name.includes('recruitPartCurriculum'))
-        setCurriculumPart(name.split('.')[1] as PART_KO);
-      if (name.includes('recruitQuestion'))
-        setFnaPart(name.split('.')[1] as PART_KO);
-
-      break;
+      focusInvalidField(name, onInvalidIntroPart, part);
+      return false;
     }
   }
 
-  return isAllFilled;
+  for (const part of PART_LIST) {
+    for (const item of ['content', 'preference'] as const) {
+      const name = `recruitPartCurriculum.${part}.${item}`;
+      const rawValue = recruitPartCurriculum?.[part]?.[item] ?? '';
+      const value =
+        item === 'preference' ? rawValue.replace(/\n/g, '').trim() : rawValue;
+
+      if (!value) {
+        focusInvalidField(name, onInvalidIntroPart, part);
+        return false;
+      }
+    }
+  }
+
+  for (const part of PART_LIST) {
+    for (let index = 0; index < CURRICULUM_WEEK_COUNT; index += 1) {
+      const name = `partCurriculum.${part}.${index}`;
+
+      if (!partCurriculum?.[part]?.[index]) {
+        focusInvalidField(name, onInvalidCurriculumPart, part);
+        return false;
+      }
+    }
+  }
+
+  for (const part of PART_LIST) {
+    let hasCompletePair = false;
+    const partQuestions = recruitQuestion?.[part];
+
+    for (let index = 0; index < FAQ_MAX_QUESTION_COUNT; index += 1) {
+      const questionName = `recruitQuestion.${part}.question${index}`;
+      const answerName = `recruitQuestion.${part}.answer${index}`;
+      const question = (partQuestions?.[`question${index}`] ?? '').trim();
+      const answer = (partQuestions?.[`answer${index}`] ?? '').trim();
+
+      if (!question && !answer) continue;
+
+      if (!question) {
+        focusInvalidField(questionName, onInvalidFaqPart, part);
+        return false;
+      }
+
+      if (!answer) {
+        focusInvalidField(answerName, onInvalidFaqPart, part);
+        return false;
+      }
+
+      hasCompletePair = true;
+    }
+
+    if (!hasCompletePair) {
+      focusInvalidField(
+        `recruitQuestion.${part}.question0`,
+        onInvalidFaqPart,
+        part,
+      );
+      return false;
+    }
+  }
+
+  return true;
 };

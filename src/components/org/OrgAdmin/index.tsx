@@ -17,14 +17,23 @@ function OrgAdmin() {
   const [selectedPart, setSelectedPart] = useState<ORG_ADMIN>('공통');
   const [group, setGroup] = useState<Group>('OB');
   const [selectedExec, setSelectedExec] = useState<EXEC_TYPE>('회장');
+  const [isEditing, setIsEditing] = useState(false);
 
-  const { isPageLeaveModalOpen, onCancelPageLeave, onLeavePage } =
-    usePageLeaveBlocker();
+  const {
+    isPageLeaveModalOpen,
+    onCancelPageLeave,
+    onLeavePage,
+    requestPageLeave,
+  } = usePageLeaveBlocker(isEditing);
 
   const methods = useForm({ mode: 'onBlur' });
 
   const onChangePart = (part: ORG_ADMIN): void => {
-    setSelectedPart(part);
+    if (part === selectedPart) {
+      return;
+    }
+
+    requestPageLeave(() => setSelectedPart(part));
   };
 
   return (
@@ -42,21 +51,23 @@ function OrgAdmin() {
           {selectedPart === '공통' ? (
             <CommonSection
               group={group}
+              onEditModeChange={setIsEditing}
               onChangeGroup={(group: Group) => {
                 setGroup(group);
               }}
             />
           ) : selectedPart === '홈' ? (
-            <HomeSection />
+            <HomeSection onEditModeChange={setIsEditing} />
           ) : selectedPart === '소개' ? (
             <AboutSection
               selectedExec={selectedExec}
+              onEditModeChange={setIsEditing}
               onChangeSelectedExec={(member: EXEC_TYPE) =>
                 setSelectedExec(member)
               }
             />
           ) : (
-            <RecruitSection />
+            <RecruitSection onEditModeChange={setIsEditing} />
           )}
         </form>
       </FormProvider>

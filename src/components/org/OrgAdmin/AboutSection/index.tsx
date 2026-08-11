@@ -23,11 +23,13 @@ import Schedule from './Schedule';
 interface AboutSectionProps {
   selectedExec: EXEC_TYPE;
   onChangeSelectedExec: (member: EXEC_TYPE) => void;
+  onEditModeChange: (isEditing: boolean) => void;
 }
 
 const AboutSectionContent = ({
   selectedExec,
   onChangeSelectedExec,
+  onEditModeChange,
 }: AboutSectionProps) => {
   const [editStep, setEditStep] = useState<EditStep>(EDIT_STEP.VIEW);
 
@@ -39,6 +41,7 @@ const AboutSectionContent = ({
     getValues,
     setValue,
     setError,
+    setFocus,
     clearErrors,
     formState: { isDirty },
   } = useFormContext();
@@ -46,6 +49,10 @@ const AboutSectionContent = ({
   const isEditMode = editStep !== EDIT_STEP.VIEW;
   const isDeployModalOpen = editStep === EDIT_STEP.DEPLOY;
   const hasUnsavedChanges = isEditMode && isDirty;
+
+  useEffect(() => {
+    onEditModeChange(isEditMode);
+  }, [isEditMode, onEditModeChange]);
 
   useEffect(() => {
     syncAboutFormFromAdminData(data, setValue);
@@ -79,6 +86,8 @@ const AboutSectionContent = ({
             validationAboutInputs(
               getValues,
               setError,
+              setFocus,
+              onChangeSelectedExec,
               data?.headerImage,
               data?.coreValue,
               data?.member,

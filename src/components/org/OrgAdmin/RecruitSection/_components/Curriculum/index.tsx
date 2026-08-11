@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 import useModal from '@/components/org/OrgAdmin/common/Modal/useModal';
+import { CURRICULUM_WEEK_COUNT } from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
 import { PART_KO, PART_LIST, VALIDATION_CHECK } from '@/utils/org';
 
 import { StInput, StTitle, StWrapper } from '../../../AboutSection/style';
@@ -17,7 +18,7 @@ import { StItem, StList, StWeek } from './style';
 
 const CURRICULUM = PART_LIST.reduce(
   (acc, part) => {
-    acc[part] = Array.from({ length: 8 });
+    acc[part] = Array.from({ length: CURRICULUM_WEEK_COUNT });
     return acc;
   },
   {} as Record<string, string[]>,
