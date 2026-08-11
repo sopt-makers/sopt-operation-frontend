@@ -129,6 +129,7 @@ const RecruitSectionContent = ({ onEditModeChange }: RecruitSectionProps) => {
     deployRecruit(
       {
         values: getValues(),
+        existingRecruitHeaderImageUrl: data?.recruitHeaderImage,
       },
       {
         onSuccess: exitEditMode,
