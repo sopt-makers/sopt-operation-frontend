@@ -7,5 +7,6 @@ export const ERROR_MESSAGES = {
 
 export const PREFERENCE_DEFAULT_COUNT = 3;
 export const PREFERENCE_MAX_COUNT = 10;
+export const CURRICULUM_WEEK_COUNT = 8;
 export const ONE_LINE_MAX_LENGTH = 50;
 export const ONE_LINE_MAX_LENGTH_ERROR_MESSAGE = '50자 이내로 입력해 주세요.';

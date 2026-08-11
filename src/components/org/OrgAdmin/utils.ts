@@ -1,6 +1,12 @@
 import type { FieldValues } from 'react-hook-form';
 
-import { type PART_KO, PART_LIST, VALIDATION_CHECK } from '@/utils/org';
+import { CURRICULUM_WEEK_COUNT } from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
+import {
+  FAQ_MAX_QUESTION_COUNT,
+  type PART_KO,
+  PART_LIST,
+  VALIDATION_CHECK,
+} from '@/utils/org';
 
 import { EXEC_ROLE_LIST, toMemberRole } from './AboutSection/memberRole';
 import { BRANDING_COLOR_FIELD_IDS } from './CommonSection/BrandingColor';
@@ -206,52 +212,89 @@ export const validationAboutInputs = (
 export const validationRecruitInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
-  setCurriculumPart: (curriculumPart: PART_KO) => void,
-  setFnaPart: (fnaPart: PART_KO) => void,
+  onInvalidIntroPart: (introPart: PART_KO) => void,
+  onInvalidCurriculumPart: (curriculumPart: PART_KO) => void,
+  onInvalidFaqPart: (faqPart: PART_KO) => void,
 ) => {
-  const { recruitPartCurriculum, recruitQuestion } = getValues();
+  const values = getValues();
+  const { partCurriculum, recruitPartCurriculum, recruitQuestion } = values;
+  const setRequiredError = (name: string) => {
+    setError(name, {
+      type: 'required',
+      message: VALIDATION_CHECK.required.errorText,
+    });
+  };
 
-  const fieldsToValidate = [
-    ...PART_LIST.flatMap((part) =>
-      ['content', 'preference'].map((item) => ({
-        name: `recruitPartCurriculum.${part}.${item}`,
-        value: recruitPartCurriculum?.[part]?.[item],
-      })),
-    ),
-    ...PART_LIST.flatMap((part) =>
-      [
-        'answer0',
-        'answer1',
-        'answer2',
-        'question0',
-        'question1',
-        'question2',
-      ].map((item) => ({
-        name: `recruitQuestion.${part}.${item}`,
-        value: recruitQuestion?.[part]?.[item],
-      })),
-    ),
-  ];
+  for (const part of PART_LIST) {
+    const name = `partIntroduction${part}`;
 
-  let isAllFilled = true;
-
-  for (const { name, value } of fieldsToValidate) {
-    if (!value) {
-      isAllFilled = false;
-
-      setError(name, {
-        type: 'required',
-        message: VALIDATION_CHECK.required.errorText,
-      });
-
-      if (name.includes('recruitPartCurriculum'))
-        setCurriculumPart(name.split('.')[1] as PART_KO);
-      if (name.includes('recruitQuestion'))
-        setFnaPart(name.split('.')[1] as PART_KO);
-
-      break;
+    if (!values[name]) {
+      setRequiredError(name);
+      onInvalidIntroPart(part);
+      return false;
     }
   }
 
-  return isAllFilled;
+  for (const part of PART_LIST) {
+    for (const item of ['content', 'preference'] as const) {
+      const name = `recruitPartCurriculum.${part}.${item}`;
+      const rawValue = recruitPartCurriculum?.[part]?.[item] ?? '';
+      const value =
+        item === 'preference' ? rawValue.replace(/\n/g, '').trim() : rawValue;
+
+      if (!value) {
+        setRequiredError(name);
+        onInvalidIntroPart(part);
+        return false;
+      }
+    }
+  }
+
+  for (const part of PART_LIST) {
+    for (let index = 0; index < CURRICULUM_WEEK_COUNT; index += 1) {
+      const name = `partCurriculum.${part}.${index}`;
+
+      if (!partCurriculum?.[part]?.[index]) {
+        setRequiredError(name);
+        onInvalidCurriculumPart(part);
+        return false;
+      }
+    }
+  }
+
+  for (const part of PART_LIST) {
+    let hasCompletePair = false;
+    const partQuestions = recruitQuestion?.[part];
+
+    for (let index = 0; index < FAQ_MAX_QUESTION_COUNT; index += 1) {
+      const questionName = `recruitQuestion.${part}.question${index}`;
+      const answerName = `recruitQuestion.${part}.answer${index}`;
+      const question = (partQuestions?.[`question${index}`] ?? '').trim();
+      const answer = (partQuestions?.[`answer${index}`] ?? '').trim();
+
+      if (!question && !answer) continue;
+
+      if (!question) {
+        setRequiredError(questionName);
+        onInvalidFaqPart(part);
+        return false;
+      }
+
+      if (!answer) {
+        setRequiredError(answerName);
+        onInvalidFaqPart(part);
+        return false;
+      }
+
+      hasCompletePair = true;
+    }
+
+    if (!hasCompletePair) {
+      setRequiredError(`recruitQuestion.${part}.question0`);
+      onInvalidFaqPart(part);
+      return false;
+    }
+  }
+
+  return true;
 };

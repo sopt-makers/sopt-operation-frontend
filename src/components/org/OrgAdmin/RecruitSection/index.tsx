@@ -89,6 +89,7 @@ const RecruitSectionContent = ({ onEditModeChange }: RecruitSectionProps) => {
       getValues,
       setError,
       onChangeIntroPart,
+      onChangeCurriculumPart,
       onChangeFnaPart,
     );
   };
