@@ -6,8 +6,8 @@ interface RouterEventOptions {
 }
 
 interface PendingLeave {
-  action: () => void;
-  allowsRouteChange: boolean;
+  onLeavePage: () => void;
+  isRouteChangeAllowed: boolean;
 }
 
 export const usePageLeaveBlocker = (isEditing: boolean) => {
@@ -27,19 +27,19 @@ export const usePageLeaveBlocker = (isEditing: boolean) => {
       return;
     }
 
-    isLeaveAllowedRef.current = pendingLeave.allowsRouteChange;
+    isLeaveAllowedRef.current = pendingLeave.isRouteChangeAllowed;
     setPendingLeave(null);
-    pendingLeave.action();
+    pendingLeave.onLeavePage();
   };
 
   const requestPageLeave = useCallback(
-    (leaveAction: () => void, allowsRouteChange = false) => {
+    (onLeavePage: () => void, isRouteChangeAllowed = false) => {
       if (!isEditing) {
-        leaveAction();
+        onLeavePage();
         return;
       }
 
-      setPendingLeave({ action: leaveAction, allowsRouteChange });
+      setPendingLeave({ onLeavePage, isRouteChangeAllowed });
     },
     [isEditing],
   );
