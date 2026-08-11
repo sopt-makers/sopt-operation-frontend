@@ -177,6 +177,8 @@ const PartIntroSection = ({
   };
 
   const contentRegister = register(contentFieldName);
+  const oneLineRegister = register(oneLineFieldName);
+  const preferenceRegister = register(preferenceFieldName);
 
   return (
     <StSectionWrapper>
@@ -204,6 +206,7 @@ const PartIntroSection = ({
 
           <StTextAreaContainer ref={textAreaContainerRef}>
             <TextArea
+              {...oneLineRegister}
               topAddon={{
                 labelText: '파트 한줄 소개',
                 descriptionText:
@@ -252,6 +255,7 @@ const PartIntroSection = ({
             {preferenceItems.map((item, index) => (
               <StPreferenceItem key={index}>
                 <StPartIntroductionTextArea
+                  ref={index === 0 ? preferenceRegister.ref : undefined}
                   topAddon={
                     index === 0
                       ? {

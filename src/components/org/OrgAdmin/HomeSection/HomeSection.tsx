@@ -52,7 +52,7 @@ const HomeSectionContent = ({ onEditModeChange }: HomeSectionProps) => {
 
   const initialReviews = reviewsData ?? EMPTY_REVIEWS;
   const latestNews = data?.latestNews ?? EMPTY_NEWS;
-  const { control, getValues, setError, setValue, clearErrors } =
+  const { control, getValues, setError, setFocus, setValue, clearErrors } =
     useFormContext();
   const homeHeaderImage = useWatch({
     control,
@@ -94,6 +94,7 @@ const HomeSectionContent = ({ onEditModeChange }: HomeSectionProps) => {
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
       });
+      setFocus('homeHeaderImageFileName');
       return false;
     }
 

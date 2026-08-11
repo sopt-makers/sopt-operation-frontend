@@ -54,7 +54,7 @@ const RecruitSectionContent = ({ onEditModeChange }: RecruitSectionProps) => {
   const { mutate: deployRecruit, isLoading: isDeploying } =
     useDeployRecruitMutation();
 
-  const { control, getValues, setError, setValue, clearErrors } =
+  const { control, getValues, setError, setFocus, setValue, clearErrors } =
     useFormContext();
 
   const watchedValues = useWatch({ control, name: RECRUIT_FIELD_NAMES });
@@ -82,12 +82,14 @@ const RecruitSectionContent = ({ onEditModeChange }: RecruitSectionProps) => {
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
       });
+      setFocus('recruitHeaderImage');
       return false;
     }
 
     return validationRecruitInputs(
       getValues,
       setError,
+      setFocus,
       onChangeIntroPart,
       onChangeCurriculumPart,
       onChangeFnaPart,

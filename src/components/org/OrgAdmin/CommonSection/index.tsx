@@ -44,7 +44,7 @@ const CommonSectionContent = ({
   const { mutate: deployCommon, isLoading: isDeploying } =
     useDeployCommonMutation();
 
-  const { control, getValues, setValue, setError, clearErrors } =
+  const { control, getValues, setValue, setError, setFocus, clearErrors } =
     useFormContext();
 
   const watchedValues = useWatch({ control, name: COMMON_FIELD_NAMES });
@@ -104,7 +104,9 @@ const CommonSectionContent = ({
         onStartEdit={startEditMode}
         onCancel={cancelEditMode}
         onDeploy={() => {
-          if (validationCommonInputs(getValues, setError, onChangeGroup)) {
+          if (
+            validationCommonInputs(getValues, setError, setFocus, onChangeGroup)
+          ) {
             setEditStep(EDIT_STEP.DEPLOY);
           }
         }}

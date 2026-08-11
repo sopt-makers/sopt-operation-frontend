@@ -2,6 +2,7 @@ import type { FieldValues } from 'react-hook-form';
 
 import { CURRICULUM_WEEK_COUNT } from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
 import {
+  type EXEC_TYPE,
   FAQ_MAX_QUESTION_COUNT,
   type PART_KO,
   PART_LIST,
@@ -15,6 +16,7 @@ import type { Group } from './types';
 export const validationCommonInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
   setGroup: (group: Group) => void,
 ) => {
   const { generation, name, recruitSchedule, brandingColor } = getValues();
@@ -51,6 +53,7 @@ export const validationCommonInputs = (
       if (name.includes('YB')) setGroup('YB');
       else if (name.includes('OB')) setGroup('OB');
 
+      requestAnimationFrame(() => setFocus(name));
       return false;
     }
   }
@@ -61,6 +64,7 @@ export const validationCommonInputs = (
 export const validationHomeInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
   onChangeIntroPart: (part: PART_KO) => void,
 ) => {
   for (const part of PART_LIST) {
@@ -72,6 +76,7 @@ export const validationHomeInputs = (
         message: VALIDATION_CHECK.required.errorText,
       });
       onChangeIntroPart(part);
+      requestAnimationFrame(() => setFocus(name));
       return false;
     }
   }
@@ -81,6 +86,8 @@ export const validationHomeInputs = (
 export const validationAboutInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
+  onChangeSelectedExec: (execType: EXEC_TYPE) => void,
   existingHeaderImageUrl?: string,
   existingCoreValues?: { image?: string }[],
   existingMembers?: { role: string; profileImage?: string }[],
@@ -120,6 +127,7 @@ export const validationAboutInputs = (
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
       });
+      requestAnimationFrame(() => setFocus(name));
 
       break;
     }
@@ -160,6 +168,8 @@ export const validationAboutInputs = (
           type: 'required',
           message: VALIDATION_CHECK.required.errorText,
         });
+        onChangeSelectedExec(execType);
+        requestAnimationFrame(() => setFocus(name));
 
         return false;
       }
@@ -176,19 +186,23 @@ export const validationAboutInputs = (
     const row = scheduleRows?.[index];
 
     if (row?.date && !row?.session) {
-      setError(`activitySchedule.${index}.session`, {
+      const name = `activitySchedule.${index}.session`;
+      setError(name, {
         type: 'required',
         message: '세션명을 입력해주세요.',
       });
+      requestAnimationFrame(() => setFocus(name));
 
       return false;
     }
 
     if (!row?.date && row?.session) {
-      setError(`activitySchedule.${index}.date`, {
+      const name = `activitySchedule.${index}.date`;
+      setError(name, {
         type: 'required',
         message: '날짜를 입력해주세요.',
       });
+      requestAnimationFrame(() => setFocus(name));
 
       return false;
     }
@@ -198,10 +212,12 @@ export const validationAboutInputs = (
   const hasAnySchedule = scheduleRows?.some((row) => row?.date && row?.session);
 
   if (!hasAnySchedule) {
-    setError('activitySchedule.0.date', {
+    const name = 'activitySchedule.0.date';
+    setError(name, {
       type: 'required',
       message: '최소 1개 이상의 일정을 입력해주세요.',
     });
+    requestAnimationFrame(() => setFocus(name));
 
     return false;
   }
@@ -212,6 +228,7 @@ export const validationAboutInputs = (
 export const validationRecruitInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
   onInvalidIntroPart: (introPart: PART_KO) => void,
   onInvalidCurriculumPart: (curriculumPart: PART_KO) => void,
   onInvalidFaqPart: (faqPart: PART_KO) => void,
@@ -224,13 +241,21 @@ export const validationRecruitInputs = (
       message: VALIDATION_CHECK.required.errorText,
     });
   };
+  const focusInvalidField = (
+    name: string,
+    selectPart: (part: PART_KO) => void,
+    part: PART_KO,
+  ) => {
+    setRequiredError(name);
+    selectPart(part);
+    requestAnimationFrame(() => setFocus(name));
+  };
 
   for (const part of PART_LIST) {
     const name = `partIntroduction${part}`;
 
     if (!values[name]) {
-      setRequiredError(name);
-      onInvalidIntroPart(part);
+      focusInvalidField(name, onInvalidIntroPart, part);
       return false;
     }
   }
@@ -243,8 +268,7 @@ export const validationRecruitInputs = (
         item === 'preference' ? rawValue.replace(/\n/g, '').trim() : rawValue;
 
       if (!value) {
-        setRequiredError(name);
-        onInvalidIntroPart(part);
+        focusInvalidField(name, onInvalidIntroPart, part);
         return false;
       }
     }
@@ -255,8 +279,7 @@ export const validationRecruitInputs = (
       const name = `partCurriculum.${part}.${index}`;
 
       if (!partCurriculum?.[part]?.[index]) {
-        setRequiredError(name);
-        onInvalidCurriculumPart(part);
+        focusInvalidField(name, onInvalidCurriculumPart, part);
         return false;
       }
     }
@@ -275,14 +298,12 @@ export const validationRecruitInputs = (
       if (!question && !answer) continue;
 
       if (!question) {
-        setRequiredError(questionName);
-        onInvalidFaqPart(part);
+        focusInvalidField(questionName, onInvalidFaqPart, part);
         return false;
       }
 
       if (!answer) {
-        setRequiredError(answerName);
-        onInvalidFaqPart(part);
+        focusInvalidField(answerName, onInvalidFaqPart, part);
         return false;
       }
 
@@ -290,8 +311,11 @@ export const validationRecruitInputs = (
     }
 
     if (!hasCompletePair) {
-      setRequiredError(`recruitQuestion.${part}.question0`);
-      onInvalidFaqPart(part);
+      focusInvalidField(
+        `recruitQuestion.${part}.question0`,
+        onInvalidFaqPart,
+        part,
+      );
       return false;
     }
   }

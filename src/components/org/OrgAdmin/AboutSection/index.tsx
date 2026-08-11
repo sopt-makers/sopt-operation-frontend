@@ -41,6 +41,7 @@ const AboutSectionContent = ({
     getValues,
     setValue,
     setError,
+    setFocus,
     clearErrors,
     formState: { isDirty },
   } = useFormContext();
@@ -85,6 +86,8 @@ const AboutSectionContent = ({
             validationAboutInputs(
               getValues,
               setError,
+              setFocus,
+              onChangeSelectedExec,
               data?.headerImage,
               data?.coreValue,
               data?.member,
