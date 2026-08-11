@@ -7,6 +7,7 @@ import { deployRecruitTabFromForm } from '@/components/org/OrgAdmin/RecruitSecti
 
 type DeployRecruitTabFromFormInput = {
   values: FieldValues;
+  existingRecruitHeaderImageUrl?: string;
 };
 
 export const useDeployRecruitMutation = () => {
@@ -14,8 +15,11 @@ export const useDeployRecruitMutation = () => {
   const { open } = useToast();
 
   return useMutation({
-    mutationFn: ({ values }: DeployRecruitTabFromFormInput) =>
-      deployRecruitTabFromForm(values),
+    mutationFn: ({
+      values,
+      existingRecruitHeaderImageUrl,
+    }: DeployRecruitTabFromFormInput) =>
+      deployRecruitTabFromForm(values, existingRecruitHeaderImageUrl),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin'] });
       open(DEPLOY_TOAST_OPTION.success);
