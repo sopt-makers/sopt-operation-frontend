@@ -36,7 +36,11 @@ const RECRUIT_FIELD_NAMES = [
   'recruitQuestion',
 ];
 
-const RecruitSectionContent = () => {
+interface RecruitSectionProps {
+  onEditModeChange: (isEditing: boolean) => void;
+}
+
+const RecruitSectionContent = ({ onEditModeChange }: RecruitSectionProps) => {
   const [selectedParts, setSelectedParts] = useState<SelectedParts>({
     intro: '기획',
     curriculum: '기획',
@@ -63,6 +67,10 @@ const RecruitSectionContent = () => {
     JSON.stringify(watchedValues) !== JSON.stringify(snapshot);
 
   useEffect(() => {
+    onEditModeChange(isEditMode);
+  }, [isEditMode, onEditModeChange]);
+
+  useEffect(() => {
     syncRecruitFormFromAdminData(data, setValue);
   }, [data, setValue]);
 
@@ -80,7 +88,7 @@ const RecruitSectionContent = () => {
     return validationRecruitInputs(
       getValues,
       setError,
-      onChangeCurriculumPart,
+      onChangeIntroPart,
       onChangeFnaPart,
     );
   };
@@ -118,7 +126,6 @@ const RecruitSectionContent = () => {
     deployRecruit(
       {
         values: getValues(),
-        existingRecruitHeaderImageUrl: data?.recruitHeaderImage,
       },
       {
         onSuccess: exitEditMode,
@@ -171,11 +178,11 @@ const RecruitSectionContent = () => {
   );
 };
 
-const RecruitSection = () => {
+const RecruitSection = (props: RecruitSectionProps) => {
   return (
     <StRecruitContainer>
       <ToastProvider>
-        <RecruitSectionContent />
+        <RecruitSectionContent {...props} />
       </ToastProvider>
     </StRecruitContainer>
   );

@@ -5,34 +5,52 @@ interface RouterEventOptions {
   shallow: boolean;
 }
 
-export const usePageLeaveBlocker = () => {
-  const [blockedRoute, setBlockedRoute] = useState<string | null>(null);
+interface PendingLeave {
+  action: () => void;
+  allowsRouteChange: boolean;
+}
+
+export const usePageLeaveBlocker = (isEditing: boolean) => {
+  const [pendingLeave, setPendingLeave] = useState<PendingLeave | null>(null);
   const isLeaveAllowedRef = useRef(false);
 
   const router = useRouter();
 
-  const isPageLeaveModalOpen = blockedRoute !== null;
+  const isPageLeaveModalOpen = pendingLeave !== null;
 
   const onCancelPageLeave = () => {
-    setBlockedRoute(null);
+    setPendingLeave(null);
   };
 
   const onLeavePage = () => {
-    if (!blockedRoute) {
+    if (!pendingLeave) {
       return;
     }
 
-    isLeaveAllowedRef.current = true;
-    router.push(blockedRoute);
+    isLeaveAllowedRef.current = pendingLeave.allowsRouteChange;
+    setPendingLeave(null);
+    pendingLeave.action();
   };
 
-  const blockPageLeave = useCallback((url: string) => {
-    setBlockedRoute(url);
-  }, []);
+  const requestPageLeave = useCallback(
+    (leaveAction: () => void, allowsRouteChange = false) => {
+      if (!isEditing) {
+        leaveAction();
+        return;
+      }
+
+      setPendingLeave({ action: leaveAction, allowsRouteChange });
+    },
+    [isEditing],
+  );
 
   // 새로고침, 탭 닫기 차단
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!isEditing) {
+        return;
+      }
+
       event.preventDefault();
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -40,16 +58,18 @@ export const usePageLeaveBlocker = () => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, []);
+  }, [isEditing]);
 
   // 브라우저 뒤로가기/앞으로가기 차단
   useEffect(() => {
     router.beforePopState(({ as }) => {
-      if (isLeaveAllowedRef.current || as === router.asPath) {
+      if (!isEditing || isLeaveAllowedRef.current || as === router.asPath) {
         return true;
       }
 
-      blockPageLeave(as);
+      requestPageLeave(() => {
+        void router.push(as);
+      }, true);
       window.history.pushState(null, '', router.asPath);
 
       return false;
@@ -58,7 +78,7 @@ export const usePageLeaveBlocker = () => {
     return () => {
       router.beforePopState(() => true);
     };
-  }, [blockPageLeave, router, router.asPath]);
+  }, [isEditing, requestPageLeave, router, router.asPath]);
 
   // Next.js 내부 라우트 이동 차단
   useEffect(() => {
@@ -66,11 +86,13 @@ export const usePageLeaveBlocker = () => {
       url: string,
       options: RouterEventOptions,
     ) => {
-      if (isLeaveAllowedRef.current || url === router.asPath) {
+      if (!isEditing || isLeaveAllowedRef.current || url === router.asPath) {
         return;
       }
 
-      blockPageLeave(url);
+      requestPageLeave(() => {
+        void router.push(url);
+      }, true);
 
       router.events.emit(
         'routeChangeError',
@@ -87,11 +109,12 @@ export const usePageLeaveBlocker = () => {
     return () => {
       router.events.off('routeChangeStart', handleRouteChangeStart);
     };
-  }, [blockPageLeave, router, router.asPath]);
+  }, [isEditing, requestPageLeave, router, router.asPath]);
 
   return {
     isPageLeaveModalOpen,
     onCancelPageLeave,
     onLeavePage,
+    requestPageLeave,
   };
 };
