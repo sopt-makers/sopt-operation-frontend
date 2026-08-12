@@ -155,7 +155,8 @@ const PartIntroSection = ({
   const syncPreference = (items: string[]) => {
     const joined = items.join('\n');
     setValue(preferenceFieldName, joined);
-    handleValidation(preferenceFieldName, joined.replace(/\n/g, '').trim());
+    const hasEmptyItem = items.some((item) => !item.trim());
+    handleValidation(preferenceFieldName, hasEmptyItem ? '' : joined);
   };
 
   const handleChangePreferenceItem = (index: number, value: string) => {
@@ -165,6 +166,7 @@ const PartIntroSection = ({
   };
 
   const textAreaContainerRef = useRef<HTMLDivElement>(null);
+  const firstPreferenceRef = useRef<HTMLTextAreaElement>(null);
 
   // setValue로 채운 값은 onChange를 거치지 않아 자동 높이 계산이 안 되므로 직접 재계산
   useLayoutEffect(() => {
@@ -185,7 +187,6 @@ const PartIntroSection = ({
 
   const contentRegister = register(contentFieldName);
   const oneLineRegister = register(oneLineFieldName);
-  const preferenceRegister = register(preferenceFieldName);
 
   return (
     <StSectionWrapper>
@@ -262,7 +263,7 @@ const PartIntroSection = ({
             {preferenceItems.map((item, index) => (
               <StPreferenceItem key={index}>
                 <StPartIntroductionTextArea
-                  ref={index === 0 ? preferenceRegister.ref : undefined}
+                  ref={index === 0 ? firstPreferenceRef : undefined}
                   topAddon={
                     index === 0
                       ? {
@@ -272,19 +273,19 @@ const PartIntroSection = ({
                       : undefined
                   }
                   placeholder="ex. 어려움과 고민을 편하게 나누고 공감할 수 있는 유대감과 열린 마음을 가진 분"
-                  required={index === 0}
+                  required
                   disabled={!isEditable}
                   value={item}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     handleChangePreferenceItem(index, e.currentTarget.value)
                   }
                   isError={
-                    index === 0 &&
+                    !item.trim() &&
                     !!(errors as any).recruitPartCurriculum?.[selectedPart]
                       ?.preference
                   }
                   errorMessage={
-                    index === 0
+                    !item.trim()
                       ? ((errors as any).recruitPartCurriculum?.[selectedPart]
                           ?.preference?.message as string)
                       : undefined
