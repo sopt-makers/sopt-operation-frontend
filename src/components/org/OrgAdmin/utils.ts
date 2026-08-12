@@ -4,6 +4,7 @@ import {
   CURRICULUM_WEEK_COUNT,
   ONE_LINE_MAX_LENGTH,
   ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
+  PREFERENCE_DEFAULT_COUNT,
 } from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
 import {
   type EXEC_TYPE,
@@ -288,7 +289,13 @@ export const validationRecruitInputs = (
       const name = `recruitPartCurriculum.${part}.${item}`;
       const rawValue = recruitPartCurriculum?.[part]?.[item] ?? '';
       const value =
-        item === 'preference' ? rawValue.replace(/\n/g, '').trim() : rawValue;
+        item === 'preference'
+          ? rawValue
+              .split('\n')
+              .slice(0, PREFERENCE_DEFAULT_COUNT)
+              .every((preference: string) => preference.trim()) &&
+            rawValue.split('\n').length >= PREFERENCE_DEFAULT_COUNT
+          : rawValue;
 
       if (!value) {
         focusInvalidField(name, onInvalidIntroPart, part);
