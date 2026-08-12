@@ -1,11 +1,13 @@
 import { IconInfoCircle } from '@sopt-makers/icons';
 import { Button, DialogOptionType, useDialog } from '@sopt-makers/ui';
+import { useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import Modal from '@/components/org/OrgAdmin/common/Modal';
 
 import RequiredIcon from '../../assets/RequiredIcon';
 import useModal from '../../common/Modal/useModal';
+import { FIRST_SCHEDULE_SESSION_NAME } from '../scheduleConstants';
 import { StWrapper } from '../style';
 import {
   StScheduleBody,
@@ -46,6 +48,15 @@ const Schedule = ({ isEditable = true }: ScheduleProps) => {
   const hasAnyDate = SCHEDULE_ROW_INDICES.some(
     (index) => activitySchedule?.[index]?.date,
   );
+
+  useEffect(() => {
+    if (activitySchedule?.[0]?.session !== FIRST_SCHEDULE_SESSION_NAME) {
+      setValue('activitySchedule.0.session', FIRST_SCHEDULE_SESSION_NAME, {
+        shouldDirty: false,
+        shouldValidate: false,
+      });
+    }
+  }, [activitySchedule, setValue]);
 
   const handleResetDates = () => {
     SCHEDULE_ROW_INDICES.forEach((index) => {
@@ -122,7 +133,7 @@ const Schedule = ({ isEditable = true }: ScheduleProps) => {
                   {...register(`activitySchedule.${index}.session`)}
                   id={`schedule-session-${index}`}
                   placeholder="세션명을 입력해 주세요."
-                  disabled={!isEditable}
+                  disabled={!isEditable || index === 0}
                 />
               </StScheduleRow>
             ))}

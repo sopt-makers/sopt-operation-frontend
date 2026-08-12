@@ -87,12 +87,23 @@ const FaqSection = ({
     data.recruitQuestion.forEach(({ part, questions }) => {
       if (!part || !questions?.length) return;
 
-      const count = Math.min(questions.length, FAQ_MAX_QUESTION_COUNT);
-      next[part as PART_KO] = Math.max(count, FAQ_DEFAULT_QUESTION_COUNT);
+      next[part as PART_KO] = Math.min(
+        questions.length,
+        FAQ_MAX_QUESTION_COUNT,
+      );
     });
 
     setQuestionCounts(next);
   }, [data, restoreSignal]);
+
+  useEffect(() => {
+    PART_LIST.forEach((part) => {
+      setValue(`recruitQuestionCount.${part}`, questionCounts[part], {
+        shouldDirty: false,
+        shouldValidate: false,
+      });
+    });
+  }, [questionCounts, setValue]);
 
   const currentCount = questionCounts[fnaPart];
 
