@@ -139,12 +139,11 @@ export const validationAboutInputs = (
 
   if (!isAllFilled) return false;
 
-  // 이름을 채운 임원진만 실존 인물로 보고, 소속/소개/사진(새 파일 or 기존 이미지)을 요구한다.
+  // 모든 임원진 역할은 이름/소속/소개/사진이 필수다.
   const { member } = getValues();
 
   for (const execType of EXEC_ROLE_LIST) {
     const memberValue = member?.[execType];
-    if (!memberValue?.name) continue;
 
     const apiRole = toMemberRole(execType);
     const existingImage = existingMembers?.find(
@@ -153,16 +152,20 @@ export const validationAboutInputs = (
 
     const memberFieldsToValidate = [
       {
+        name: `member.${execType}.name`,
+        value: memberValue?.name,
+      },
+      {
         name: `member.${execType}.affiliation`,
-        value: memberValue.affiliation,
+        value: memberValue?.affiliation,
       },
       {
         name: `member.${execType}.introduction`,
-        value: memberValue.introduction,
+        value: memberValue?.introduction,
       },
       {
         name: `member.${execType}.profileImageFileName`,
-        value: memberValue.profileImageFileName?.fileName ?? existingImage,
+        value: memberValue?.profileImageFileName?.fileName ?? existingImage,
       },
     ];
 

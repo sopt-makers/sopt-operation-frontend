@@ -51,6 +51,7 @@ const ExecInfo = ({
         <MyDropzone
           method={method}
           label={`member.${selectedExec}.profileImageFileName`}
+          required
           width="168px"
           height="168px"
           shape="circle"
