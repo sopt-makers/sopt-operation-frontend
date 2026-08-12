@@ -2,8 +2,9 @@ import { IconInfoCircle } from '@sopt-makers/icons';
 import { Button, DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useFormContext, useWatch } from 'react-hook-form';
 
+import Modal from '@/components/org/OrgAdmin/common/Modal';
+
 import RequiredIcon from '../../assets/RequiredIcon';
-// import Modal from '../../common/Modal';
 import useModal from '../../common/Modal/useModal';
 import { StWrapper } from '../style';
 import {
@@ -13,7 +14,7 @@ import {
   StScheduleHeader,
   StScheduleIndex,
   StScheduleInfoButton,
-  // StScheduleModalWrapper,
+  StScheduleModalWrapper,
   StScheduleRow,
   StScheduleRowWrapper,
   StScheduleSessionField,
@@ -127,18 +128,18 @@ const Schedule = ({ isEditable = true }: ScheduleProps) => {
             ))}
           </StScheduleRowWrapper>
         </StScheduleBody>
-      </StScheduleWrapper>
 
-      {/* <StScheduleModalWrapper>
-        <Modal
-          title="전체 일정"
-          description="전체 일정 및 진행 세션을 순서대로 작성하는 영역이에요."
-          subDescription="왼쪽부터 번호, 날짜, 세션명 순서로 정리해주세요."
-          imgSrc="/images/org/imgAboutHeaderInfo.png"
-          isInfoVisible={isInfoVisible}
-          onInfoToggle={onInfoToggle}
-        />
-      </StScheduleModalWrapper> */}
+        <StScheduleModalWrapper>
+          <Modal
+            title="전체 일정"
+            description="전체 일정 및 진행 세션을 순서대로 작성하는 영역이에요."
+            subDescription="왼쪽부터 번호, 날짜, 세션명 순서로 정리해주세요."
+            imgSrc="/images/org/imgSchedule.png"
+            isInfoVisible={isInfoVisible}
+            onInfoToggle={onInfoToggle}
+          />
+        </StScheduleModalWrapper>
+      </StScheduleWrapper>
     </StWrapper>
   );
 };

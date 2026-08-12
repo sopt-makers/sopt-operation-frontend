@@ -98,6 +98,6 @@ export const StScheduleSessionField = styled(TextField)`
 
 export const StScheduleModalWrapper = styled.div`
   position: absolute;
-  top: 0;
+  top: 56px;
   left: calc(100% + 20px);
 `;
