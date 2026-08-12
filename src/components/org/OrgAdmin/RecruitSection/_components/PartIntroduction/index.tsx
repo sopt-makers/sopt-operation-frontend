@@ -30,7 +30,6 @@ import {
   ERROR_MESSAGES,
   ONE_LINE_MAX_LENGTH,
   PREFERENCE_DEFAULT_COUNT,
-  PREFERENCE_MAX_COUNT,
 } from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
 import {
   StSectionWrapper,
@@ -98,7 +97,7 @@ const PartIntroSection = ({
         .split('\n')
         .filter((item) => item.trim());
       const count = items.length
-        ? Math.min(items.length, PREFERENCE_MAX_COUNT)
+        ? Math.min(items.length, PREFERENCE_DEFAULT_COUNT)
         : PREFERENCE_DEFAULT_COUNT;
       next[part as PART_KO] = Math.max(count, PREFERENCE_DEFAULT_COUNT);
     });
