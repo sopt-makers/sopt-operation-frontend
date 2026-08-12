@@ -3,18 +3,12 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { TextField } from '@sopt-makers/ui';
 
-export const StContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 80px;
-  padding: 50px 0;
-`;
-
 // TODO : StTitleWrapper, StTitle common 분리
 
 export const StWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 582px;
   gap: 20px;
 `;
 
@@ -49,7 +43,7 @@ interface StInputProps {
 }
 
 export const StInput = styled(TextField)<StInputProps>`
-  width: 338px;
+  width: 100%;
   color: ${({ hasValue = true }) =>
     hasValue ? `${colors.white}` : `${colors.gray300}`};
 

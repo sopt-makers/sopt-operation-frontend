@@ -1,20 +1,15 @@
-const bp = {
-  mobile: 480,
-  tablet: 1024,
-};
+export const breakpoints = {
+  mobile: 0,
+  tablet: 768,
+  desktop: 1024,
+  desktopLarge: 1260,
+} as const;
 
-const mq = (label: keyof typeof bp) => {
-  const bpArray = Object.keys(bp).map((key) => [
-    key,
-    bp[key as keyof typeof bp],
-  ]);
+export const media = {
+  mobile: `@media (max-width: ${breakpoints.tablet - 1}px)`,
+  tablet: `@media (min-width: ${breakpoints.tablet}px) and (max-width: ${breakpoints.desktop - 1}px)`,
+  desktop: `@media (min-width: ${breakpoints.desktop}px) and (max-width: ${breakpoints.desktopLarge - 1}px)`,
+  desktopLarge: `@media (min-width: ${breakpoints.desktopLarge}px)`,
+} as const;
 
-  const [result] = bpArray.reduce((acc, [name, size]) => {
-    if (label === name) return [...acc, `@media (max-width: ${size}px)`];
-    return acc;
-  }, []);
-
-  return result;
-};
-
-export default mq;
+export type Breakpoint = keyof typeof media;

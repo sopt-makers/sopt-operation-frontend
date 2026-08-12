@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 
-import { VALIDATION_CHECK } from '@/utils/org';
+import { type EXEC_TYPE, VALIDATION_CHECK } from '@/utils/org';
 
 import RequiredIcon from '../../assets/RequiredIcon';
 import MyDropzone from '../../MyDropzone';
@@ -10,18 +10,32 @@ import IcLinkedinLogo from '../assets/IcLinkedinLogo';
 import IcMailLogo from '../assets/IcMailLogo';
 import { StDescription, StInput, StInputLabel } from '../style';
 import SNSInput from './SNSInput';
-import { StPhotoWrapper, StSNSWrapper } from './style';
+import {
+  ExecInput,
+  StInputWrapper,
+  StPhotoWrapper,
+  StSNSWrapper,
+} from './style';
+
+const EXEC_INTRODUCTION_MAX_LENGTH = 23;
 
 interface ExecInfoProps {
-  selectedExec: string;
+  selectedExec: EXEC_TYPE;
+  isEditable?: boolean;
+  defaultProfileImageUrl?: string;
 }
 
-const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
+const ExecInfo = ({
+  selectedExec,
+  isEditable = true,
+  defaultProfileImageUrl,
+}: ExecInfoProps) => {
   const method = useFormContext();
   const {
     register,
     formState: { errors },
   } = method;
+  const memberErrors = (errors as any).member?.[selectedExec] ?? {};
 
   return (
     <>
@@ -30,57 +44,89 @@ const ExecInfo = ({ selectedExec }: ExecInfoProps) => {
           <span>프로필 사진</span>
           <RequiredIcon />
         </StInputLabel>
+
         <StDescription>
           사진은 1:1 비율로 올려주세요. 사진 용량은 00mb 아래로 첨부해주세요.
         </StDescription>
         <MyDropzone
           method={method}
           label={`member.${selectedExec}.profileImageFileName`}
+          required
           width="168px"
           height="168px"
           shape="circle"
+          disabled={!isEditable}
+          defaultPreviewUrl={defaultProfileImageUrl}
         />
       </StPhotoWrapper>
-      <StInput
-        {...register(`member.${selectedExec}.name`)}
-        labelText="이름"
-        placeholder="ex. 김솝트"
-        required
-      />
-      <StInput
-        {...register(`member.${selectedExec}.affiliation`)}
-        labelText="소속"
-        placeholder="ex. 솝트대학교 / 솝트컴퍼니 / 앱잼 프로덕트명"
-      />
-      <StInput
-        {...register(`member.${selectedExec}.introduction`)}
-        labelText="한 줄 소개"
-        placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
-        required
-      />
-      <StSNSWrapper>
-        <span>SNS</span>
-        <SNSInput
-          label={`member.${selectedExec}.sns.email`}
-          icon={IcMailLogo}
-          placeholder="ex. 000@sopt.org"
+
+      <StInputWrapper>
+        <ExecInput
+          {...register(`member.${selectedExec}.name`, {
+            required: true && VALIDATION_CHECK.required.errorText,
+          })}
+          isError={memberErrors?.name?.message !== undefined}
+          errorMessage={memberErrors?.name?.message as string}
+          labelText="이름"
+          placeholder="ex. 김솝트"
+          required
+          disabled={!isEditable}
         />
-        <SNSInput
-          label={`member.${selectedExec}.sns.linkedin`}
-          icon={IcLinkedinLogo}
-          placeholder="ex. https://www.linkedin.com/..."
+        <ExecInput
+          {...register(`member.${selectedExec}.affiliation`, {
+            required: true && VALIDATION_CHECK.required.errorText,
+          })}
+          isError={memberErrors?.affiliation?.message !== undefined}
+          errorMessage={memberErrors?.affiliation?.message as string}
+          labelText="소속"
+          placeholder="ex. 솝트대학교 / 솝트컴퍼니 / 앱잼 프로덕트명"
+          required
+          disabled={!isEditable}
         />
-        <SNSInput
-          label={`member.${selectedExec}.sns.github`}
-          icon={IcGithubLogo}
-          placeholder="ex. https://github.com/..."
+        <ExecInput
+          {...register(`member.${selectedExec}.introduction`, {
+            required: true && VALIDATION_CHECK.required.errorText,
+          })}
+          isError={memberErrors?.introduction?.message !== undefined}
+          errorMessage={memberErrors?.introduction?.message as string}
+          labelText="한 줄 소개"
+          placeholder="ex. 새로운 도전을 위해 과감히 용기내는 사람"
+          required
+          disabled={!isEditable}
+          maxLength={EXEC_INTRODUCTION_MAX_LENGTH}
         />
-        <SNSInput
-          label={`member.${selectedExec}.sns.behance`}
-          icon={IcBehanceLogo}
-          placeholder="ex. https://www.behance.net/..."
-        />
-      </StSNSWrapper>
+
+        <StSNSWrapper>
+          <span>SNS</span>
+          <SNSInput
+            label={`member.${selectedExec}.sns.email`}
+            icon={IcMailLogo}
+            placeholder="ex. 000@sopt.org"
+            disabled={!isEditable}
+          />
+          <SNSInput
+            label={`member.${selectedExec}.sns.linkedin`}
+            icon={IcLinkedinLogo}
+            placeholder="ex. https://www.linkedin.com/..."
+            disabled={!isEditable}
+            validateUrl
+          />
+          <SNSInput
+            label={`member.${selectedExec}.sns.github`}
+            icon={IcGithubLogo}
+            placeholder="ex. https://github.com/..."
+            disabled={!isEditable}
+            validateUrl
+          />
+          <SNSInput
+            label={`member.${selectedExec}.sns.behance`}
+            icon={IcBehanceLogo}
+            validateUrl
+            placeholder="ex. https://www.behance.net/..."
+            disabled={!isEditable}
+          />
+        </StSNSWrapper>
+      </StInputWrapper>
     </>
   );
 };

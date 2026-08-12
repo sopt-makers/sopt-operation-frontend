@@ -1,8 +1,8 @@
 'use client';
 
-import { type MouseEvent, useCallback, useEffect, useState } from 'react';
+import { type MouseEvent, type MutableRefObject, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import type { UseFormReturn } from 'react-hook-form';
+import { type UseFormReturn, useWatch } from 'react-hook-form';
 
 import { VALIDATION_CHECK } from '@/utils/org';
 
@@ -21,23 +21,28 @@ interface MyDropzoneProps {
   height?: string;
   shape?: 'square' | 'circle';
   required?: boolean;
+  disabled?: boolean;
+  defaultPreviewUrl?: string;
 }
 
 const MyDropzone = ({
   method,
   label,
-  width = '547px',
-  height = '166px',
+  width = '582px',
+  height = '176px',
   shape = 'square',
   required,
+  disabled = false,
+  defaultPreviewUrl,
 }: MyDropzoneProps) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const {
+    control,
     register,
     setValue,
-    watch,
     formState: { errors },
   } = method;
+  const storedData = useWatch({ control, name: label });
+  const previewUrl = storedData?.previewUrl ?? defaultPreviewUrl ?? null;
 
   const errorMsg = label.includes('.')
     ? label.split('.').length === 2
@@ -57,11 +62,10 @@ const MyDropzone = ({
 
         const reader = new FileReader();
         reader.onloadend = async () => {
-          setPreviewUrl(reader.result as string);
           setValue(
             label,
             { fileName: sanitizedFileName, file, previewUrl: reader.result },
-            { shouldValidate: true },
+            { shouldValidate: true, shouldDirty: true },
           );
         };
         reader.readAsDataURL(file);
@@ -74,24 +78,36 @@ const MyDropzone = ({
     e.preventDefault();
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, inputRef, isDragActive } = useDropzone({
     onDrop,
+    disabled,
     accept: {
       'image/jpeg': [],
       'image/jpg': [],
       'image/png': [],
     },
   });
+  const { ref: formRef, ...formInputProps } = register(label, {
+    validate: (value) => {
+      if (!required) {
+        return true;
+      }
 
-  useEffect(() => {
-    const storedData = watch(label);
+      if (value?.fileName || defaultPreviewUrl) {
+        return true;
+      }
 
-    if (storedData?.previewUrl) {
-      setPreviewUrl(storedData.previewUrl);
-    } else {
-      setPreviewUrl(null);
-    }
-  }, [label, watch]);
+      return VALIDATION_CHECK.required.errorText;
+    },
+  });
+  const dropzoneInputProps = getInputProps();
+  const setInputRef = useCallback(
+    (element: HTMLInputElement | null) => {
+      formRef(element);
+      (inputRef as MutableRefObject<HTMLInputElement | null>).current = element;
+    },
+    [formRef, inputRef],
+  );
 
   return (
     <StImgButtonWrapper>
@@ -102,12 +118,13 @@ const MyDropzone = ({
         width={width}
         height={height}
         shape={shape}
-        isError={errorMsg}>
+        isError={errorMsg}
+        isDisabled={disabled}>
         <input
-          {...register(label, {
-            required: required && true && VALIDATION_CHECK.required.errorText,
-          })}
-          {...getInputProps()}
+          {...formInputProps}
+          {...dropzoneInputProps}
+          ref={setInputRef}
+          disabled={disabled}
         />
         {previewUrl ? (
           <StImgPreview src={previewUrl} alt="에러가 발생했어요." />

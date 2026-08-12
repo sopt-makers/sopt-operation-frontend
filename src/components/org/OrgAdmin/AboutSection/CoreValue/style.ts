@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { TextArea } from '@sopt-makers/ui';
 
 export const StValueWrapper = styled.div`
   display: flex;
@@ -20,7 +21,10 @@ export const StDummyImageInput = styled.div`
 `;
 
 export const StInputBox = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
 `;
+
+export const StTextArea = styled(TextArea)``;

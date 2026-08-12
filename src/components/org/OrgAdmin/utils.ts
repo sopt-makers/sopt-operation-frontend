@@ -1,18 +1,27 @@
 import type { FieldValues } from 'react-hook-form';
 
 import {
+  CURRICULUM_WEEK_COUNT,
+  ONE_LINE_MAX_LENGTH,
+  ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
+  PREFERENCE_DEFAULT_COUNT,
+} from '@/components/org/OrgAdmin/RecruitSection/_constants/constants';
+import {
   type EXEC_TYPE,
+  FAQ_MAX_QUESTION_COUNT,
   type PART_KO,
   PART_LIST,
   VALIDATION_CHECK,
-  임원진_LIST,
 } from '@/utils/org';
 
+import { EXEC_ROLE_LIST, toMemberRole } from './AboutSection/memberRole';
+import { BRANDING_COLOR_FIELD_IDS } from './CommonSection/BrandingColor';
 import type { Group } from './types';
 
 export const validationCommonInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
   setGroup: (group: Group) => void,
 ) => {
   const { generation, name, recruitSchedule, brandingColor } = getValues();
@@ -33,7 +42,7 @@ export const validationCommonInputs = (
         value: recruitSchedule?.[group]?.[time],
       })),
     ),
-    ...['main', 'low', 'high', 'point'].map((color) => ({
+    ...Object.keys(BRANDING_COLOR_FIELD_IDS).map((color) => ({
       name: `brandingColor.${color}`,
       value: brandingColor?.[color],
     })),
@@ -49,6 +58,7 @@ export const validationCommonInputs = (
       if (name.includes('YB')) setGroup('YB');
       else if (name.includes('OB')) setGroup('OB');
 
+      requestAnimationFrame(() => setFocus(name));
       return false;
     }
   }
@@ -59,6 +69,7 @@ export const validationCommonInputs = (
 export const validationHomeInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
+  setFocus: (name: string) => void,
   onChangeIntroPart: (part: PART_KO) => void,
 ) => {
   for (const part of PART_LIST) {
@@ -70,6 +81,7 @@ export const validationHomeInputs = (
         message: VALIDATION_CHECK.required.errorText,
       });
       onChangeIntroPart(part);
+      requestAnimationFrame(() => setFocus(name));
       return false;
     }
   }
@@ -79,38 +91,35 @@ export const validationHomeInputs = (
 export const validationAboutInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
-  setSelectedPartInHomeTap: (part: PART_KO) => void,
-  setSelectedExec: (member: EXEC_TYPE) => void,
+  setFocus: (name: string) => void,
+  onChangeSelectedExec: (execType: EXEC_TYPE) => void,
+  existingHeaderImageUrl?: string,
+  existingCoreValues?: { image?: string }[],
+  existingMembers?: { role: string; profileImage?: string }[],
 ) => {
-  const {
-    headerImageFileName,
-    coreValue1,
-    coreValue2,
-    coreValue3,
-    partCurriculum,
-    member,
-  } = getValues();
+  const { headerImageFileName, coreValue1, coreValue2, coreValue3 } =
+    getValues();
 
+  // 이미지 드롭존은 새 파일을 올렸을 때만 폼 값이 채워진다.
+  // 기존에 등록된 이미지를 그대로 두면(미리보기로만 보여주고 폼 값은 비어있음)
+  // existing*Url이 있어야 "채워졌다"고 판단할 수 있다.
   const fieldsToValidate = [
-    { name: 'headerImageFileName', value: headerImageFileName },
-    ...[coreValue1, coreValue2, coreValue3].flatMap((coreValue, idx) =>
-      ['imageFileName', 'value', 'description'].map((key) => ({
+    {
+      name: 'headerImageFileName',
+      value: headerImageFileName?.fileName ?? existingHeaderImageUrl,
+    },
+    ...[coreValue1, coreValue2, coreValue3].flatMap((coreValue, idx) => [
+      {
+        name: `coreValue${idx + 1}.imageFileName`,
+        value:
+          coreValue?.imageFileName?.fileName ??
+          existingCoreValues?.[idx]?.image,
+      },
+      ...['value', 'description', 'detailDescription'].map((key) => ({
         name: `coreValue${idx + 1}.${key}`,
         value: coreValue?.[key],
       })),
-    ),
-    ...PART_LIST.flatMap((part) =>
-      Array.from({ length: 8 }).map((_, idx) => ({
-        name: `partCurriculum.${part}.${idx}`,
-        value: partCurriculum?.[part]?.[idx],
-      })),
-    ),
-    // ...[...임원진_LIST, ...PART_LIST].flatMap((item) =>
-    //   ['profileImageFileName', 'name', 'introduction'].map((key) => ({
-    //     name: `member.${item}.${key}`,
-    //     value: member?.[item]?.[key],
-    //   })),
-    // ),
+    ]),
   ];
 
   let isAllFilled = true;
@@ -123,70 +132,214 @@ export const validationAboutInputs = (
         type: 'required',
         message: VALIDATION_CHECK.required.errorText,
       });
-
-      if (name.includes('partCurriculum'))
-        setSelectedPartInHomeTap(name.split('.')[1] as PART_KO);
-      else if (name.includes('member'))
-        setSelectedExec(name.split('.')[1] as EXEC_TYPE);
+      requestAnimationFrame(() => setFocus(name));
 
       break;
     }
   }
 
-  return isAllFilled;
+  if (!isAllFilled) return false;
+
+  // 모든 임원진 역할은 이름/소속/소개/사진이 필수다.
+  const { member } = getValues();
+
+  for (const execType of EXEC_ROLE_LIST) {
+    const memberValue = member?.[execType];
+
+    const apiRole = toMemberRole(execType);
+    const existingImage = existingMembers?.find(
+      (m) => m.role === apiRole,
+    )?.profileImage;
+
+    const memberFieldsToValidate = [
+      {
+        name: `member.${execType}.name`,
+        value: memberValue?.name,
+      },
+      {
+        name: `member.${execType}.affiliation`,
+        value: memberValue?.affiliation,
+      },
+      {
+        name: `member.${execType}.introduction`,
+        value: memberValue?.introduction,
+      },
+      {
+        name: `member.${execType}.profileImageFileName`,
+        value: memberValue?.profileImageFileName?.fileName ?? existingImage,
+      },
+    ];
+
+    for (const { name, value } of memberFieldsToValidate) {
+      if (!value) {
+        setError(name, {
+          type: 'required',
+          message: VALIDATION_CHECK.required.errorText,
+        });
+        onChangeSelectedExec(execType);
+        requestAnimationFrame(() => setFocus(name));
+
+        return false;
+      }
+    }
+  }
+
+  // 일정 행 중 날짜/세션 한쪽만 채워진 게 있으면 에러 처리한다(조용히 누락시키지 않는다).
+  const { activitySchedule } = getValues();
+  const scheduleRows = activitySchedule as
+    | { date?: string; session?: string }[]
+    | undefined;
+
+  for (let index = 0; index < (scheduleRows?.length ?? 0); index += 1) {
+    const row = scheduleRows?.[index];
+
+    if (row?.date && !row?.session) {
+      const name = `activitySchedule.${index}.session`;
+      setError(name, {
+        type: 'required',
+        message: '세션명을 입력해주세요.',
+      });
+      requestAnimationFrame(() => setFocus(name));
+
+      return false;
+    }
+
+    if (!row?.date && row?.session) {
+      const name = `activitySchedule.${index}.date`;
+      setError(name, {
+        type: 'required',
+        message: '날짜를 입력해주세요.',
+      });
+      requestAnimationFrame(() => setFocus(name));
+
+      return false;
+    }
+  }
+
+  // 일정은 16개 행이 모두 채워질 필요는 없고, 최소 1개 행(날짜+세션)만 있으면 된다.
+  const hasAnySchedule = scheduleRows?.some((row) => row?.date && row?.session);
+
+  if (!hasAnySchedule) {
+    const name = 'activitySchedule.0.date';
+    setError(name, {
+      type: 'required',
+      message: '최소 1개 이상의 일정을 입력해주세요.',
+    });
+    requestAnimationFrame(() => setFocus(name));
+
+    return false;
+  }
+
+  return true;
 };
 
 export const validationRecruitInputs = (
   getValues: (payload?: string | string[]) => FieldValues,
   setError: (name: string, error: { type: string; message: string }) => void,
-  setCurriculumPart: (curriculumPart: PART_KO) => void,
-  setFnaPart: (fnaPart: PART_KO) => void,
+  setFocus: (name: string) => void,
+  onInvalidIntroPart: (introPart: PART_KO) => void,
+  onInvalidCurriculumPart: (curriculumPart: PART_KO) => void,
+  onInvalidFaqPart: (faqPart: PART_KO) => void,
 ) => {
-  const { recruitHeaderImage, recruitPartCurriculum, recruitQuestion } =
-    getValues();
+  const values = getValues();
+  const {
+    partCurriculum,
+    recruitPartCurriculum,
+    recruitQuestion,
+    recruitQuestionCount,
+  } = values;
+  const setRequiredError = (name: string) => {
+    setError(name, {
+      type: 'required',
+      message: VALIDATION_CHECK.required.errorText,
+    });
+  };
+  const focusInvalidField = (
+    name: string,
+    selectPart: (part: PART_KO) => void,
+    part: PART_KO,
+  ) => {
+    setRequiredError(name);
+    selectPart(part);
+    requestAnimationFrame(() => setFocus(name));
+  };
 
-  const fieldsToValidate = [
-    { name: 'recruitHeaderImage', value: recruitHeaderImage },
-    ...PART_LIST.flatMap((part) =>
-      ['content', 'preference'].map((item) => ({
-        name: `recruitPartCurriculum.${part}.${item}`,
-        value: recruitPartCurriculum?.[part]?.[item],
-      })),
-    ),
-    ...PART_LIST.flatMap((part) =>
-      [
-        'answer0',
-        'answer1',
-        'answer2',
-        'question0',
-        'question1',
-        'question2',
-      ].map((item) => ({
-        name: `recruitQuestion.${part}.${item}`,
-        value: recruitQuestion?.[part]?.[item],
-      })),
-    ),
-  ];
+  for (const part of PART_LIST) {
+    const name = `partIntroduction${part}`;
+    const value = values[name];
 
-  let isAllFilled = true;
-
-  for (const { name, value } of fieldsToValidate) {
-    if (!value) {
-      isAllFilled = false;
-
+    if (typeof value === 'string' && value.length > ONE_LINE_MAX_LENGTH) {
       setError(name, {
-        type: 'required',
-        message: VALIDATION_CHECK.required.errorText,
+        type: 'maxLength',
+        message: ONE_LINE_MAX_LENGTH_ERROR_MESSAGE,
       });
+      onInvalidIntroPart(part);
+      requestAnimationFrame(() => setFocus(name));
+      return false;
+    }
 
-      if (name.includes('recruitPartCurriculum'))
-        setCurriculumPart(name.split('.')[1] as PART_KO);
-      if (name.includes('recruitQuestion'))
-        setFnaPart(name.split('.')[1] as PART_KO);
-
-      break;
+    if (!value || (typeof value === 'string' && !value.trim())) {
+      focusInvalidField(name, onInvalidIntroPart, part);
+      return false;
     }
   }
 
-  return isAllFilled;
+  for (const part of PART_LIST) {
+    for (const item of ['content', 'preference'] as const) {
+      const name = `recruitPartCurriculum.${part}.${item}`;
+      const rawValue = recruitPartCurriculum?.[part]?.[item] ?? '';
+      const value =
+        item === 'preference'
+          ? rawValue
+              .split('\n')
+              .slice(0, PREFERENCE_DEFAULT_COUNT)
+              .every((preference: string) => preference.trim()) &&
+            rawValue.split('\n').length >= PREFERENCE_DEFAULT_COUNT
+          : rawValue;
+
+      if (!value) {
+        focusInvalidField(name, onInvalidIntroPart, part);
+        return false;
+      }
+    }
+  }
+
+  for (const part of PART_LIST) {
+    for (let index = 0; index < CURRICULUM_WEEK_COUNT; index += 1) {
+      const name = `partCurriculum.${part}.${index}`;
+
+      if (!partCurriculum?.[part]?.[index]) {
+        focusInvalidField(name, onInvalidCurriculumPart, part);
+        return false;
+      }
+    }
+  }
+
+  for (const part of PART_LIST) {
+    const partQuestions = recruitQuestion?.[part];
+    const count = Math.min(
+      recruitQuestionCount?.[part] ?? 1,
+      FAQ_MAX_QUESTION_COUNT,
+    );
+
+    // 화면에 보이는 칸은 전부 필수. 안 쓸 칸은 채우거나 삭제 버튼으로 지워야 한다.
+    for (let index = 0; index < count; index += 1) {
+      const questionName = `recruitQuestion.${part}.question${index}`;
+      const answerName = `recruitQuestion.${part}.answer${index}`;
+      const question = (partQuestions?.[`question${index}`] ?? '').trim();
+      const answer = (partQuestions?.[`answer${index}`] ?? '').trim();
+
+      if (!question) {
+        focusInvalidField(questionName, onInvalidFaqPart, part);
+        return false;
+      }
+
+      if (!answer) {
+        focusInvalidField(answerName, onInvalidFaqPart, part);
+        return false;
+      }
+    }
+  }
+
+  return true;
 };

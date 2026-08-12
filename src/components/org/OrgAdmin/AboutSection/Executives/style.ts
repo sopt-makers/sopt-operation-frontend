@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 
+import { StInput as BaseInput } from '../style';
+
 export const StChipWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,6 +12,7 @@ export const StChipWrapper = styled.div`
 `;
 export const StChipLine = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 `;
 export const StChipLabel = styled.span`
@@ -28,6 +31,13 @@ export const StDummyImageInput = styled.div`
   height: 168px;
   background-color: ${colors.gray800};
   border-radius: 100px;
+`;
+
+export const StInputWrapper = styled.div`
+  width: 376px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 export const StSNSWrapper = styled.ul`
@@ -49,4 +59,8 @@ export const StSNSBox = styled.li`
   & svg {
     cursor: pointer;
   }
+`;
+
+export const ExecInput = styled(BaseInput)`
+  width: 376px;
 `;

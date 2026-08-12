@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
+import { Reorder } from 'framer-motion';
 
 export const StContainer = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 80px;
@@ -10,15 +12,26 @@ export const StContainer = styled.section`
   padding: 50px 0 270px 0;
 `;
 
-export const StWrapper = styled.div`
+export const StSectionWrapper = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 80px;
 `;
 
-export const StTitle = styled.h2`
+export const StWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  width: 582px;
+`;
+
+export const StTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
   ${fontsObject.TITLE_3_24_SB}
-  margin-bottom: 6px;
   color: ${colors.white};
 `;
 
@@ -39,7 +52,6 @@ export const StInputLabel = styled.label`
   align-items: center;
   gap: 4px;
   ${fontsObject.LABEL_3_14_SB};
-  margin: 30px 0 8px;
   color: ${colors.white};
 
   cursor: pointer;
@@ -98,9 +110,9 @@ export const StImgWrapperTitle = styled.div`
 
 export const StDescription = styled.p`
   ${fontsObject.LABEL_3_14_SB};
-  color: ${colors.white};
+  color: ${colors.gray300};
 
-  padding-bottom: 8px;
+  padding-bottom: 6px;
 `;
 
 export const StDescription2 = styled.p`
@@ -125,9 +137,6 @@ export const StChipsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-
-  margin-bottom: 18px;
-  margin-top: 24px;
 
   & > button {
     white-space: nowrap;
@@ -161,38 +170,40 @@ export const StNewsHeaderText = styled.div`
   }
 `;
 
-export const StNewsList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-`;
-
-export const StNewsItem = styled.li`
-  display: flex;
-  justify-content: space-between;
-
-  width: 100%;
-
-  padding: 16px 30px;
-
-  color: ${colors.gray30};
-  ${fontsObject.TITLE_5_18_SB};
-
-  border-radius: 10px;
-  background-color: ${colors.gray800};
-
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const StNewsSectionContainer = styled.div`
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-`;
-
 export const StLeftColumnSection = styled.div`
   width: 582px;
+`;
+
+export const StContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const StReviewList = styled(Reorder.Group)`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 6px;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+`;
+
+export const StInfoButton = styled.button`
+  color: ${colors.white};
+  width: 20px;
+`;
+
+export const StReviewModalWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 650px;
+`;
+
+export const StNewsModalWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 650px;
 `;
