@@ -143,8 +143,8 @@ const Schedule = ({ isEditable = true }: ScheduleProps) => {
         <StScheduleModalWrapper>
           <Modal
             title="전체 일정"
-            description="전체 일정 및 진행 세션을 순서대로 작성하는 영역이에요."
-            subDescription="왼쪽부터 번호, 날짜, 세션명 순서로 정리해주세요."
+            description="소개 탭에 표시되는 이번 기수의 전체 일정이에요."
+            subDescription="날짜 순서대로 입력해 주세요."
             imgSrc="/images/org/imgSchedule.png"
             isInfoVisible={isInfoVisible}
             onInfoToggle={onInfoToggle}
