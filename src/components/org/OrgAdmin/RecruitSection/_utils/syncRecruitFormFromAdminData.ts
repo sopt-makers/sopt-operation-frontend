@@ -59,17 +59,20 @@ export const syncRecruitFormFromAdminData = (
   data.recruitQuestion?.forEach(({ part, questions }) => {
     if (!part) return;
 
-    questions?.slice(0, FAQ_MAX_QUESTION_COUNT).forEach((qa, index) => {
+    // 서버에 없는 인덱스도 명시적으로 비워야 삭제된 질문이 폼에 남아있지 않음
+    for (let index = 0; index < FAQ_MAX_QUESTION_COUNT; index += 1) {
+      const qa = questions?.[index];
+
       setValue(
         `recruitQuestion.${part}.question${index}`,
-        qa.question ?? '',
+        qa?.question ?? '',
         setValueOptions,
       );
       setValue(
         `recruitQuestion.${part}.answer${index}`,
-        qa.answer ?? '',
+        qa?.answer ?? '',
         setValueOptions,
       );
-    });
+    }
   });
 };
