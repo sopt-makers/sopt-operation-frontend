@@ -1,6 +1,7 @@
 import type { FieldValues, UseFormSetValue } from 'react-hook-form';
 
 import { fromMemberRole } from './memberRole';
+import { FIRST_SCHEDULE_SESSION_NAME } from './scheduleConstants';
 
 type AdminAboutMember = {
   role: string;
@@ -33,6 +34,25 @@ type AdminAboutData = {
 };
 
 const setValueOptions = { shouldDirty: false, shouldValidate: false };
+
+const normalizeSessionName = (name?: string) => name?.trim().toUpperCase();
+
+// (과거 데이터가 순서와 무관하게 저장됐을 가능성에 대비한 안전장치)
+// 이름으로 못 찾으면 원래 순서를 그대로 두고, 이후 로직에서 0번째 행을 OT로 강제하는 걸로 폴백한다.
+const reorderScheduleWithOtFirst = (
+  schedule: AdminAboutSchedule[],
+): AdminAboutSchedule[] => {
+  const otIndex = schedule.findIndex(
+    (item) => normalizeSessionName(item.name) === FIRST_SCHEDULE_SESSION_NAME,
+  );
+
+  if (otIndex <= 0) return schedule;
+
+  const otEntry = schedule[otIndex];
+  const rest = schedule.filter((_, index) => index !== otIndex);
+
+  return [otEntry, ...rest];
+};
 
 export const syncAboutFormFromAdminData = (
   data: AdminAboutData | undefined,
@@ -89,12 +109,21 @@ export const syncAboutFormFromAdminData = (
     );
   });
 
-  data.activitySchedule?.forEach(({ name, startDate }, index) => {
+  const orderedSchedule = data.activitySchedule
+    ? reorderScheduleWithOtFirst(data.activitySchedule)
+    : undefined;
+
+  orderedSchedule?.forEach(({ name, startDate }, index) => {
     setValue(
       `activitySchedule.${index}.date`,
       startDate ?? '',
       setValueOptions,
     );
-    setValue(`activitySchedule.${index}.session`, name ?? '', setValueOptions);
+    // 이름으로 OT를 못 찾아 재정렬되지 않았더라도, 0번째 행은 항상 OT로 고정한다(폴백).
+    setValue(
+      `activitySchedule.${index}.session`,
+      index === 0 ? FIRST_SCHEDULE_SESSION_NAME : (name ?? ''),
+      setValueOptions,
+    );
   });
 };

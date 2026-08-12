@@ -13,6 +13,7 @@ import { ACTIVITY_GENERATION } from '@/utils/generation';
 
 import { soptFetcher } from '../api';
 import { EXEC_ROLE_LIST, toMemberRole } from './memberRole';
+import { FIRST_SCHEDULE_SESSION_NAME } from './scheduleConstants';
 
 type ImageField = { fileName?: string; file?: File } | undefined;
 
@@ -110,13 +111,14 @@ const SCHEDULE_ROW_COUNT = 16;
 export const buildActivityScheduleFromForm = (
   values: FieldValues,
 ): AddAdminActivityScheduleRequestDto[] =>
-  Array.from(
-    { length: SCHEDULE_ROW_COUNT },
-    (_, index) => values.activitySchedule?.[index],
-  )
-    .filter((row) => row?.date && row?.session)
-    .map((row) => ({
-      name: row.session,
+  Array.from({ length: SCHEDULE_ROW_COUNT }, (_, index) => ({
+    index,
+    row: values.activitySchedule?.[index],
+  }))
+    .filter(({ row }) => row?.date && row?.session)
+    .map(({ index, row }) => ({
+      // 첫 일정은 지원서/공홈에서 이 이름으로 식별하므로 폼 값과 무관하게 고정한다.
+      name: index === 0 ? FIRST_SCHEDULE_SESSION_NAME : row.session,
       startDate: row.date,
     }));
 
