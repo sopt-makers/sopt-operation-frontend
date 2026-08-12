@@ -66,7 +66,14 @@ const AboutSectionContent = ({
 
   const handleDeploy = () => {
     deployAbout(
-      { values: getValues() },
+      {
+        values: getValues(),
+        existingData: {
+          headerImage: data?.headerImage,
+          coreValue: data?.coreValue,
+          member: data?.member,
+        },
+      },
       {
         onSuccess: () => setEditStep(EDIT_STEP.VIEW),
       },
