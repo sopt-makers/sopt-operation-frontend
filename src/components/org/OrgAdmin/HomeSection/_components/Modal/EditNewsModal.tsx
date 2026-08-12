@@ -72,6 +72,7 @@ export const EditNewsModal = ({
       {
         id: newsId,
         file: image.file,
+        existingImageUrl: news?.image,
         title,
         link: link ?? '',
       },

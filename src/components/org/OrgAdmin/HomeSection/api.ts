@@ -110,18 +110,17 @@ export const getNews = async (id: number) => {
   return data;
 };
 
-export const patchNews = async (id: number, formData: FormData) => {
-  const res = await fetcher.PATCH('/admin/news/{id}', {
+export const patchNewsV2 = async (
+  id: number,
+  data: { imageUrl: string; title: string; link: string },
+) => {
+  const res = await fetcher.PATCH('/admin/news/{id}/v2', {
     params: {
       path: {
         id,
       },
     },
-    body: {
-      image: formData.get('image') as string,
-      title: formData.get('title') as string,
-      link: formData.get('link') as string,
-    },
+    body: data,
   });
 
   return res;
@@ -234,9 +233,9 @@ export const deployHomeTab = async ({
   reviewItems,
   newsItems,
 }: DeployHomeInput) => {
-  const newsDetails = await Promise.all(
-    newsItems.map((item) => getNews(item.id)),
-  );
+  const newsDetails = (
+    await Promise.all(newsItems.map((item) => getNews(item.id)))
+  ).filter((news): news is NonNullable<typeof news> => Boolean(news));
 
   const deployResponse = await postHomeTab({
     generation: Number(ACTIVITY_GENERATION),
@@ -246,13 +245,11 @@ export const deployHomeTab = async ({
       content: content ?? '',
       authorInfo: authorInfo ?? '',
     })),
-    news: newsDetails
-      .filter((news): news is NonNullable<typeof news> => Boolean(news))
-      .map((news) => ({
-        imageFileName: extractFileNameFromUrl(news.image),
-        title: news.title,
-        link: news.link,
-      })),
+    news: newsDetails.map((news) => ({
+      imageFileName: extractFileNameFromUrl(news.image),
+      title: news.title,
+      link: news.link,
+    })),
   });
 
   if (homeHeaderImageFile && deployResponse.homeHeaderImage) {
