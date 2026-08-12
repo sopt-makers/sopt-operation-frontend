@@ -110,18 +110,17 @@ export const getNews = async (id: number) => {
   return data;
 };
 
-export const patchNews = async (id: number, formData: FormData) => {
-  const res = await fetcher.PATCH('/admin/news/{id}', {
+export const patchNewsV2 = async (
+  id: number,
+  data: { imageUrl: string; title: string; link: string },
+) => {
+  const res = await fetcher.PATCH('/admin/news/{id}/v2', {
     params: {
       path: {
         id,
       },
     },
-    body: {
-      image: formData.get('image') as string,
-      title: formData.get('title') as string,
-      link: formData.get('link') as string,
-    },
+    body: data,
   });
 
   return res;
@@ -234,9 +233,9 @@ export const deployHomeTab = async ({
   reviewItems,
   newsItems,
 }: DeployHomeInput) => {
-  const newsDetails = await Promise.all(
-    newsItems.map((item) => getNews(item.id)),
-  );
+  const newsDetails = (
+    await Promise.all(newsItems.map((item) => getNews(item.id)))
+  ).filter((news): news is NonNullable<typeof news> => Boolean(news));
 
   const deployResponse = await postHomeTab({
     generation: Number(ACTIVITY_GENERATION),
@@ -246,13 +245,11 @@ export const deployHomeTab = async ({
       content: content ?? '',
       authorInfo: authorInfo ?? '',
     })),
-    news: newsDetails
-      .filter((news): news is NonNullable<typeof news> => Boolean(news))
-      .map((news) => ({
-        imageFileName: extractFileNameFromUrl(news.image),
-        title: news.title,
-        link: news.link,
-      })),
+    news: newsDetails.map((news) => ({
+      imageFileName: extractFileNameFromUrl(news.image),
+      title: news.title,
+      link: news.link,
+    })),
   });
 
   if (homeHeaderImageFile && deployResponse.homeHeaderImage) {
@@ -265,6 +262,31 @@ export const deployHomeTab = async ({
       throw new Error('홈 헤더 이미지 업로드에 실패했습니다.');
     }
   }
+
+  // /admin/home은 뉴스마다 새 presigned URL을 발급한다(기존 이미지를 그대로
+  // 재사용하지 않음). 이 URL에 실제로 업로드하지 않으면 confirm 단계에서
+  // 이미지가 비어있는 채로 반영되어 최신소식 이미지가 깨지거나 누락된다.
+  await Promise.all(
+    newsDetails.map(async (news, index) => {
+      const presignedUrl = deployResponse.news?.[index]?.imagePresignedUrl;
+
+      if (!presignedUrl) return;
+
+      const imageResponse = await fetch(news.image);
+      const imageBlob = await imageResponse.blob();
+
+      const uploadResponse = await fetch(presignedUrl, {
+        method: 'PUT',
+        body: imageBlob,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error(
+          `최신소식(${news.title}) 이미지 업로드에 실패했습니다.`,
+        );
+      }
+    }),
+  );
 
   return postHomeTabConfirm();
 };

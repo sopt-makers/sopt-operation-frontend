@@ -14,7 +14,7 @@ import {
   getNews,
   getPresignedUrl,
   getReviews,
-  patchNews,
+  patchNewsV2,
   patchReview,
   postNewsV2,
   postReview,
@@ -113,19 +113,27 @@ export const useEditNewsMutation = () => {
     mutationFn: async (data: {
       id: number;
       file?: File;
+      existingImageUrl?: string;
       title: string;
       link: string;
     }) => {
-      const formData = new FormData();
+      let imageUrl = data.existingImageUrl;
 
       if (data.file) {
-        formData.append('image', data.file);
+        const presignedData = await getPresignedUrl(data.file);
+        await uploadToS3(presignedData.presignedUrl, data.file);
+        imageUrl = presignedData.fileUrl;
       }
 
-      formData.append('title', data.title);
-      formData.append('link', data.link);
+      if (!imageUrl) {
+        throw new Error('이미지가 필요합니다.');
+      }
 
-      return await patchNews(data.id, formData);
+      return await patchNewsV2(data.id, {
+        imageUrl,
+        title: data.title,
+        link: data.link,
+      });
     },
     onSuccess: (_, data) => {
       queryClient.invalidateQueries({

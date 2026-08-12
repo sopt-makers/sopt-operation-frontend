@@ -95,9 +95,10 @@ const Schedule = ({ isEditable = true }: ScheduleProps) => {
         <StScheduleHeader>
           <StScheduleTitle>
             <span>전체 일정</span>
-            <StScheduleInfoButton onClick={onInfoToggle} type="button">
+            {/* TODO: 이미지 제대로 안뜨는 이슈로 잠시 주석처리 */}
+            {/* <StScheduleInfoButton onClick={onInfoToggle} type="button">
               <IconInfoCircle />
-            </StScheduleInfoButton>
+            </StScheduleInfoButton> */}
           </StScheduleTitle>
           <Button
             size="md"
@@ -140,7 +141,7 @@ const Schedule = ({ isEditable = true }: ScheduleProps) => {
           </StScheduleRowWrapper>
         </StScheduleBody>
 
-        <StScheduleModalWrapper>
+        {/* <StScheduleModalWrapper>
           <Modal
             title="전체 일정"
             description="소개 탭에 표시되는 이번 기수의 전체 일정이에요."
@@ -149,7 +150,7 @@ const Schedule = ({ isEditable = true }: ScheduleProps) => {
             isInfoVisible={isInfoVisible}
             onInfoToggle={onInfoToggle}
           />
-        </StScheduleModalWrapper>
+        </StScheduleModalWrapper> */}
       </StScheduleWrapper>
     </StWrapper>
   );
