@@ -10,7 +10,9 @@ const MAKERS_APPLICATION_URL = 'https://recruiting-admin.sopt.org/';
 const SOPT_APPLICATION_URL = 'https://recruit-admin.sopt.org/';
 
 export const GENERATION_INFO = [
-  { generation: '38', slogan: `LET'S` },
+  { generation: '39', slogan: 'PLAY' },
+  // eslint-disable-next-line prettier/prettier
+  { generation: '38', slogan: 'LET\'S' },
   { generation: '37', slogan: 'DIVE' },
   { generation: '36', slogan: 'AT' },
   {
