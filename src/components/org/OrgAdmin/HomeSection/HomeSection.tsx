@@ -14,6 +14,7 @@ import NewsSection from '@/components/org/OrgAdmin/HomeSection/_components/News/
 import ReviewSection from '@/components/org/OrgAdmin/HomeSection/_components/Review/ReviewSection';
 import type { Review } from '@/components/org/OrgAdmin/HomeSection/_types/types';
 import { isSameOrder } from '@/components/org/OrgAdmin/HomeSection/_utils/isSameOrder';
+import { reconcileWithServerData } from '@/components/org/OrgAdmin/HomeSection/_utils/reconcileWithServerData';
 import { extractFileNameFromUrl } from '@/components/org/OrgAdmin/HomeSection/api';
 import {
   useAdminInfoQuery,
@@ -64,6 +65,14 @@ const HomeSectionContent = ({ onEditModeChange }: HomeSectionProps) => {
 
   useEffect(() => {
     if (isEditMode) {
+      // 편집 중엔 로컬 재정렬(드래그 순서)을 그대로 유지하되, 그 사이 추가/삭제된
+      // 항목만 반영한다. 서버 데이터로 통째로 덮어쓰면 로컬 순서가 날아가고
+      // (리뷰 수정 시 순서 초기화 버그), 반대로 아예 무시하면 편집 중 새로
+      // 추가한 항목이 draft에 안 실려 배포 시 누락된다.
+      setDraft((prev) => ({
+        reviews: reconcileWithServerData(prev.reviews, initialReviews),
+        news: reconcileWithServerData(prev.news, latestNews),
+      }));
       return;
     }
 
