@@ -238,7 +238,12 @@ export const validationRecruitInputs = (
   onInvalidFaqPart: (faqPart: PART_KO) => void,
 ) => {
   const values = getValues();
-  const { partCurriculum, recruitPartCurriculum, recruitQuestion } = values;
+  const {
+    partCurriculum,
+    recruitPartCurriculum,
+    recruitQuestion,
+    recruitQuestionCount,
+  } = values;
   const setRequiredError = (name: string) => {
     setError(name, {
       type: 'required',
@@ -301,16 +306,18 @@ export const validationRecruitInputs = (
   }
 
   for (const part of PART_LIST) {
-    let hasCompletePair = false;
     const partQuestions = recruitQuestion?.[part];
+    const count = Math.min(
+      recruitQuestionCount?.[part] ?? 1,
+      FAQ_MAX_QUESTION_COUNT,
+    );
 
-    for (let index = 0; index < FAQ_MAX_QUESTION_COUNT; index += 1) {
+    // 화면에 보이는 칸은 전부 필수. 안 쓸 칸은 채우거나 삭제 버튼으로 지워야 한다.
+    for (let index = 0; index < count; index += 1) {
       const questionName = `recruitQuestion.${part}.question${index}`;
       const answerName = `recruitQuestion.${part}.answer${index}`;
       const question = (partQuestions?.[`question${index}`] ?? '').trim();
       const answer = (partQuestions?.[`answer${index}`] ?? '').trim();
-
-      if (!question && !answer) continue;
 
       if (!question) {
         focusInvalidField(questionName, onInvalidFaqPart, part);
@@ -321,17 +328,6 @@ export const validationRecruitInputs = (
         focusInvalidField(answerName, onInvalidFaqPart, part);
         return false;
       }
-
-      hasCompletePair = true;
-    }
-
-    if (!hasCompletePair) {
-      focusInvalidField(
-        `recruitQuestion.${part}.question0`,
-        onInvalidFaqPart,
-        part,
-      );
-      return false;
     }
   }
 
