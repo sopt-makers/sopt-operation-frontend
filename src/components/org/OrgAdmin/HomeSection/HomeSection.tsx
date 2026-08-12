@@ -63,11 +63,15 @@ const HomeSectionContent = ({ onEditModeChange }: HomeSectionProps) => {
   const isDeployModalOpen = editStep === EDIT_STEP.DEPLOY;
 
   useEffect(() => {
+    if (isEditMode) {
+      return;
+    }
+
     setDraft({
       reviews: initialReviews,
       news: latestNews,
     });
-  }, [initialReviews, latestNews]);
+  }, [initialReviews, isEditMode, latestNews]);
 
   const resetDraft = () => {
     setDraft({

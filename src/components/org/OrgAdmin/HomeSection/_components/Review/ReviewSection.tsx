@@ -84,6 +84,15 @@ const ReviewSection = ({ reviews, onChangeReviews, isEditable }: Props) => {
         isOpen={editReviewId != null}
         reviewId={editReviewId}
         onCancel={() => setEditReviewId(undefined)}
+        onSuccess={(updatedReview) => {
+          onChangeReviews(
+            reviews.map((review) =>
+              review.id === editReviewId
+                ? { ...review, ...updatedReview }
+                : review,
+            ),
+          );
+        }}
       />
     </StSectionWrapper>
   );
