@@ -46,7 +46,7 @@ const ExecInfo = ({
         </StInputLabel>
 
         <StDescription>
-          사진은 1:1 비율로 올려주세요. 사진 용량은 00mb 아래로 첨부해주세요.
+          사진은 1:1 비율로 올려주세요. 사진 용량은 10mb 아래로 첨부해주세요.
         </StDescription>
         <MyDropzone
           method={method}
