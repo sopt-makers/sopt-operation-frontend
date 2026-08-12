@@ -62,26 +62,6 @@ export const SCHEDULE_FIELDS = {
         id: 'recruitSchedule.OB.applicationEndTime',
         label: 'OB 서류 접수 마감',
       },
-      {
-        id: 'recruitSchedule.OB.applicationResultTime',
-        label: 'OB 서류 결과 발표',
-      },
-    ],
-    interview: [
-      {
-        id: 'recruitSchedule.OB.interviewStartTime',
-        label: 'OB 면접 시작',
-      },
-      {
-        id: 'recruitSchedule.OB.interviewEndTime',
-        label: 'OB 면접 마감',
-      },
-    ],
-    final: [
-      {
-        id: 'recruitSchedule.OB.finalResultTime',
-        label: 'OB 최종 결과 발표',
-      },
     ],
   },
   YB: {
@@ -93,26 +73,6 @@ export const SCHEDULE_FIELDS = {
       {
         id: 'recruitSchedule.YB.applicationEndTime',
         label: 'YB 서류 접수 마감',
-      },
-      {
-        id: 'recruitSchedule.YB.applicationResultTime',
-        label: 'YB 서류 결과 발표',
-      },
-    ],
-    interview: [
-      {
-        id: 'recruitSchedule.YB.interviewStartTime',
-        label: 'YB 면접 시작',
-      },
-      {
-        id: 'recruitSchedule.YB.interviewEndTime',
-        label: 'YB 면접 마감',
-      },
-    ],
-    final: [
-      {
-        id: 'recruitSchedule.YB.finalResultTime',
-        label: 'YB 최종 결과 발표',
       },
     ],
   },
