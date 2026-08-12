@@ -5,7 +5,10 @@ import type {
   AddAdminActivityScheduleRequestDto,
   AddAdminMemberRequestDto,
 } from '@/__generated__/org-types/data-contracts';
-import { uploadToS3 } from '@/components/org/OrgAdmin/HomeSection/api';
+import {
+  extractFileNameFromUrl,
+  uploadToS3,
+} from '@/components/org/OrgAdmin/HomeSection/api';
 import { ACTIVITY_GENERATION } from '@/utils/generation';
 
 import { soptFetcher } from '../api';
@@ -51,25 +54,36 @@ type MemberInput = AddAdminMemberRequestDto & {
 
 export const buildCoreValuesFromForm = (
   values: FieldValues,
+  existingCoreValues?: { image?: string }[],
 ): CoreValueInput[] =>
   [1, 2, 3].map((index) => {
     const coreValue = values[`coreValue${index}`] ?? {};
     const imageFileName = coreValue.imageFileName as ImageField;
+    const existingImage = existingCoreValues?.[index - 1]?.image;
 
     return {
       value: coreValue.value ?? '',
       description: coreValue.description ?? '',
       detailDescription: coreValue.detailDescription ?? '',
-      imageFileName: imageFileName?.fileName,
+      // 이미지를 새로 올리지 않았다면(=폼 값이 비어있으면) 기존 이미지 URL에서 파일명을 재사용한다.
+      imageFileName:
+        imageFileName?.fileName ??
+        (existingImage ? extractFileNameFromUrl(existingImage) : undefined),
       file: imageFileName?.file,
     };
   });
 
-export const buildMembersFromForm = (values: FieldValues): MemberInput[] =>
+export const buildMembersFromForm = (
+  values: FieldValues,
+  existingMembers?: { role: string; profileImage?: string }[],
+): MemberInput[] =>
   EXEC_ROLE_LIST.map((role) => {
     const member = values.member?.[role];
     const apiRole = toMemberRole(role);
     const profileImageFileName = member?.profileImageFileName as ImageField;
+    const existingImage = existingMembers?.find(
+      (item) => item.role === apiRole,
+    )?.profileImage;
 
     return {
       role: apiRole,
@@ -82,7 +96,9 @@ export const buildMembersFromForm = (values: FieldValues): MemberInput[] =>
         github: member?.sns?.github ?? '',
         behance: member?.sns?.behance ?? '',
       },
-      profileImageFileName: profileImageFileName?.fileName,
+      profileImageFileName:
+        profileImageFileName?.fileName ??
+        (existingImage ? extractFileNameFromUrl(existingImage) : undefined),
       file: profileImageFileName?.file,
     };
     // 이름이 없으면 실존 인물이 아니라 빈 슬롯이다(이미지만 우연히 붙어도 마찬가지).
@@ -184,14 +200,28 @@ export const deployAboutTab = async ({
   return postAboutTabConfirm();
 };
 
-export const deployAboutTabFromForm = async (values: FieldValues) => {
+export type ExistingAboutData = {
+  headerImage?: string;
+  coreValue?: { image?: string }[];
+  member?: { role: string; profileImage?: string }[];
+};
+
+export const deployAboutTabFromForm = async (
+  values: FieldValues,
+  existingData?: ExistingAboutData,
+) => {
   const headerImageFileName = values.headerImageFileName as ImageField;
+  const existingHeaderImage = existingData?.headerImage;
 
   return deployAboutTab({
-    headerImageFileName: headerImageFileName?.fileName,
+    headerImageFileName:
+      headerImageFileName?.fileName ??
+      (existingHeaderImage
+        ? extractFileNameFromUrl(existingHeaderImage)
+        : undefined),
     headerImageFile: headerImageFileName?.file,
-    coreValues: buildCoreValuesFromForm(values),
-    members: buildMembersFromForm(values),
+    coreValues: buildCoreValuesFromForm(values, existingData?.coreValue),
+    members: buildMembersFromForm(values, existingData?.member),
     activitySchedule: buildActivityScheduleFromForm(values),
   });
 };
