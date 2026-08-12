@@ -30,12 +30,14 @@ type EditReviewModalProps = {
   isOpen: boolean;
   reviewId?: number;
   onCancel?: () => void;
+  onSuccess?: (review: ReviewForm) => void;
 };
 
 export const EditReviewModal = ({
   isOpen,
   reviewId,
   onCancel,
+  onSuccess,
 }: EditReviewModalProps) => {
   const [editedReview, setEditedReview] = useState<ReviewForm | null>(null);
   const contentTextAreaRef = useRef<HTMLDivElement>(null);
@@ -99,7 +101,15 @@ export const EditReviewModal = ({
     formData.append('content', review.content);
     formData.append('authorInfo', review.authorInfo);
 
-    mutate({ id: reviewId, formData }, { onSuccess: () => handleCloseModal() });
+    mutate(
+      { id: reviewId, formData },
+      {
+        onSuccess: () => {
+          onSuccess?.(review);
+          handleCloseModal();
+        },
+      },
+    );
   };
 
   const isSubmitDisabled =
