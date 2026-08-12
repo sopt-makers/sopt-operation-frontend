@@ -1,4 +1,4 @@
-export const ACTIVITY_GENERATION: string = '38';
+export const ACTIVITY_GENERATION: string = '39';
 
 export const GENERATION_LIST: string[] = [
   '39',

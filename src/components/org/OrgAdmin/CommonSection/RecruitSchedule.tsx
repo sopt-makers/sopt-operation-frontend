@@ -85,18 +85,6 @@ const RecruitSchedule = ({
           <ScheduleInput key={id} id={id} label={label} />
         ))}
       </StDateWrapper>
-
-      <StDateWrapper>
-        {currentFields.interview.map(({ id, label }) => (
-          <ScheduleInput key={id} id={id} label={label} />
-        ))}
-      </StDateWrapper>
-
-      <StDateWrapper>
-        {currentFields.final.map(({ id, label }) => (
-          <ScheduleInput key={id} id={id} label={label} />
-        ))}
-      </StDateWrapper>
     </StWrapper>
   );
 };
