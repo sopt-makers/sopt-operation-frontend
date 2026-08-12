@@ -4,10 +4,11 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import { DEPLOY_TOAST_OPTION } from '@/components/org/OrgAdmin/HomeSection/_constants/constants';
 
-import { deployAboutTabFromForm } from './api';
+import { deployAboutTabFromForm, type ExistingAboutData } from './api';
 
 type DeployAboutTabFromFormInput = {
   values: FieldValues;
+  existingData?: ExistingAboutData;
 };
 
 export const useDeployAboutMutation = () => {
@@ -15,8 +16,8 @@ export const useDeployAboutMutation = () => {
   const { open } = useToast();
 
   return useMutation({
-    mutationFn: ({ values }: DeployAboutTabFromFormInput) =>
-      deployAboutTabFromForm(values),
+    mutationFn: ({ values, existingData }: DeployAboutTabFromFormInput) =>
+      deployAboutTabFromForm(values, existingData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin'] });
       open(DEPLOY_TOAST_OPTION.success);
