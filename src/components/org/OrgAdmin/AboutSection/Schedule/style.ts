@@ -5,8 +5,17 @@ import { TextField } from '@sopt-makers/ui';
 
 import { StInput as BaseInput } from '../style';
 
-export const StScheduleWrapper = styled.div`
+export const StSectionWrapper = styled.section`
   position: relative;
+`;
+
+export const StScheduleModalWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 650px;
+`;
+
+export const StScheduleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -94,10 +103,4 @@ export const StScheduleDateField = styled(BaseInput)`
 
 export const StScheduleSessionField = styled(TextField)`
   width: 376px;
-`;
-
-export const StScheduleModalWrapper = styled.div`
-  position: absolute;
-  top: 56px;
-  left: calc(100% + 20px);
 `;

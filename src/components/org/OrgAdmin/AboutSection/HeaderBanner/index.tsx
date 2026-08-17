@@ -7,7 +7,12 @@ import useModal from '../../common/Modal/useModal';
 import { useAdminInfoQuery } from '../../HomeSection/queries';
 import MyDropzone from '../../MyDropzone';
 import { StDescription, StInputLabel, StTitle, StWrapper } from '../style';
-import { StContentWrapper, StInfoButton, StStretchContainer } from './style';
+import {
+  StContentWrapper,
+  StHeaderBannerModalWrapper,
+  StInfoButton,
+  StSectionWrapper,
+} from './style';
 
 interface HeaderBannerProps {
   isEditable?: boolean;
@@ -19,7 +24,7 @@ const HeaderBanner = ({ isEditable = true }: HeaderBannerProps) => {
   const { isInfoVisible, onInfoToggle } = useModal();
 
   return (
-    <StStretchContainer>
+    <StSectionWrapper>
       <StWrapper>
         <StTitle>
           <span>소개탭 헤더</span>
@@ -47,15 +52,17 @@ const HeaderBanner = ({ isEditable = true }: HeaderBannerProps) => {
           />
         </StContentWrapper>
       </StWrapper>
-      <Modal
-        title="소개탭 헤더"
-        description="소개탭 가장 상단에 보이는 헤더 이미지예요."
-        subDescription="이번 기수의 핵심 가치가 돋보이는 이미지를 넣어주세요."
-        imgSrc="/images/org/imgAboutHeaderInfo.png"
-        isInfoVisible={isInfoVisible}
-        onInfoToggle={onInfoToggle}
-      />
-    </StStretchContainer>
+      <StHeaderBannerModalWrapper>
+        <Modal
+          title="소개탭 헤더"
+          description="소개탭 가장 상단에 보이는 헤더 이미지예요."
+          subDescription="이번 기수의 핵심 가치가 돋보이는 이미지를 넣어주세요."
+          imgSrc="/images/org/imgAboutHeaderInfo.png"
+          isInfoVisible={isInfoVisible}
+          onInfoToggle={onInfoToggle}
+        />
+      </StHeaderBannerModalWrapper>
+    </StSectionWrapper>
   );
 };
 

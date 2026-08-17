@@ -22,6 +22,7 @@ import {
   StScheduleSessionField,
   StScheduleTitle,
   StScheduleWrapper,
+  StSectionWrapper,
 } from './style';
 
 export const SCHEDULE_ROW_COUNT = 16;
@@ -90,69 +91,72 @@ const Schedule = ({ isEditable = true }: ScheduleProps) => {
     | undefined;
 
   return (
-    <StWrapper>
-      <StScheduleWrapper>
-        <StScheduleHeader>
-          <StScheduleTitle>
-            <span>전체 일정</span>
-            {/* TODO: 이미지 제대로 안뜨는 이슈로 잠시 주석처리 */}
-            {/* <StScheduleInfoButton onClick={onInfoToggle} type="button">
-              <IconInfoCircle />
-            </StScheduleInfoButton> */}
-          </StScheduleTitle>
-          <Button
-            size="md"
-            variant="fill"
-            onClick={handleOpenDateResetConfirmation}
-            disabled={!isEditable || !hasAnyDate}>
-            날짜 초기화
-          </Button>
-        </StScheduleHeader>
+    <StSectionWrapper>
+      <StWrapper>
+        <StScheduleWrapper>
+          <StScheduleHeader>
+            <StScheduleTitle>
+              <span>전체 일정</span>
+              {/* TODO: 이미지 제대로 안뜨는 이슈로 잠시 주석처리 */}
+              <StScheduleInfoButton onClick={onInfoToggle} type="button">
+                <IconInfoCircle />
+              </StScheduleInfoButton>
+            </StScheduleTitle>
+            <Button
+              size="md"
+              variant="fill"
+              onClick={handleOpenDateResetConfirmation}
+              disabled={!isEditable || !hasAnyDate}>
+              날짜 초기화
+            </Button>
+          </StScheduleHeader>
 
-        <StScheduleBody>
-          <StScheduleFieldLabel>
-            <span>전체 일정 및 진행 세션</span>
-            <RequiredIcon />
-          </StScheduleFieldLabel>
-          <StScheduleRowWrapper>
-            {SCHEDULE_ROW_INDICES.map((index) => (
-              <StScheduleRow key={index}>
-                <StScheduleIndex>
-                  {String(index + 1).padStart(2, '0')}
-                </StScheduleIndex>
-                <StScheduleDateField
-                  {...register(`activitySchedule.${index}.date`)}
-                  id={`schedule-date-${index}`}
-                  type="date"
-                  placeholder="YYYY.MM.DD"
-                  hasValue={Boolean(activitySchedule?.[index]?.date)}
-                  disabled={!isEditable}
-                  isError={index === 0 && Boolean(firstRowErrorMessage)}
-                  errorMessage={index === 0 ? firstRowErrorMessage : undefined}
-                />
-                <StScheduleSessionField
-                  {...register(`activitySchedule.${index}.session`)}
-                  id={`schedule-session-${index}`}
-                  placeholder="세션명을 입력해 주세요."
-                  disabled={!isEditable || index === 0}
-                />
-              </StScheduleRow>
-            ))}
-          </StScheduleRowWrapper>
-        </StScheduleBody>
-
-        {/* <StScheduleModalWrapper>
-          <Modal
-            title="전체 일정"
-            description="소개 탭에 표시되는 이번 기수의 전체 일정이에요."
-            subDescription="날짜 순서대로 입력해 주세요."
-            imgSrc="/images/org/imgSchedule.png"
-            isInfoVisible={isInfoVisible}
-            onInfoToggle={onInfoToggle}
-          />
-        </StScheduleModalWrapper> */}
-      </StScheduleWrapper>
-    </StWrapper>
+          <StScheduleBody>
+            <StScheduleFieldLabel>
+              <span>전체 일정 및 진행 세션</span>
+              <RequiredIcon />
+            </StScheduleFieldLabel>
+            <StScheduleRowWrapper>
+              {SCHEDULE_ROW_INDICES.map((index) => (
+                <StScheduleRow key={index}>
+                  <StScheduleIndex>
+                    {String(index + 1).padStart(2, '0')}
+                  </StScheduleIndex>
+                  <StScheduleDateField
+                    {...register(`activitySchedule.${index}.date`)}
+                    id={`schedule-date-${index}`}
+                    type="date"
+                    placeholder="YYYY.MM.DD"
+                    hasValue={Boolean(activitySchedule?.[index]?.date)}
+                    disabled={!isEditable}
+                    isError={index === 0 && Boolean(firstRowErrorMessage)}
+                    errorMessage={
+                      index === 0 ? firstRowErrorMessage : undefined
+                    }
+                  />
+                  <StScheduleSessionField
+                    {...register(`activitySchedule.${index}.session`)}
+                    id={`schedule-session-${index}`}
+                    placeholder="세션명을 입력해 주세요."
+                    disabled={!isEditable || index === 0}
+                  />
+                </StScheduleRow>
+              ))}
+            </StScheduleRowWrapper>
+          </StScheduleBody>
+        </StScheduleWrapper>
+      </StWrapper>
+      <StScheduleModalWrapper>
+        <Modal
+          title="전체 일정"
+          description="소개 탭에 표시되는 이번 기수의 전체 일정이에요."
+          subDescription="날짜 순서대로 입력해 주세요."
+          imgSrc="/images/org/imgEntireSchedule.png"
+          isInfoVisible={isInfoVisible}
+          onInfoToggle={onInfoToggle}
+        />
+      </StScheduleModalWrapper>
+    </StSectionWrapper>
   );
 };
 

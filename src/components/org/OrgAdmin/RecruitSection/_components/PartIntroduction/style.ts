@@ -15,7 +15,6 @@ export const StPreferenceItem = styled.div`
 
 export const StPartIntroductionModalWrapper = styled.div`
   position: absolute;
-  top: 80px;
-  right: 0px;
+  top: 100px;
+  left: 650px;
 `;
-
