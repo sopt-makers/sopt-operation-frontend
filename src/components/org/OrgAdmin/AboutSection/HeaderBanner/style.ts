@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-export const StStretchContainer = styled.section`
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+export const StSectionWrapper = styled.section`
+  position: relative;
+`;
+
+export const StHeaderBannerModalWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 650px;
 `;
 export const StContentWrapper = styled.div`
   display: flex;
