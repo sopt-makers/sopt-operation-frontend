@@ -52,8 +52,8 @@ export const StSectionWrapper = styled.section`
 
 export const StModalWrapper = styled.div`
   position: absolute;
-  top: 80px;
-  right: 0px;
+  top: 100px;
+  left: 650px;
 `;
 
 export const StInfoButton = styled.button`
