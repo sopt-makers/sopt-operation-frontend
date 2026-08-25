@@ -30,14 +30,7 @@ export const validationCommonInputs = (
     { name: 'generation', value: generation },
     { name: 'name', value: name },
     ...['OB', 'YB'].flatMap((group) =>
-      [
-        'applicationStartTime',
-        'applicationEndTime',
-        'applicationResultTime',
-        'interviewStartTime',
-        'interviewEndTime',
-        'finalResultTime',
-      ].map((time) => ({
+      ['applicationStartTime', 'applicationEndTime'].map((time) => ({
         name: `recruitSchedule.${group}.${time}`,
         value: recruitSchedule?.[group]?.[time],
       })),
