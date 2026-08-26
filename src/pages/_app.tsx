@@ -12,6 +12,7 @@ import { RecoilRoot } from 'recoil';
 
 import Layout from '@/components/common/Layout';
 import { AdminStatusProvider } from '@/components/devTools/AdminContextProvider';
+import { IS_PRODUCTION } from '@/configs/config';
 import global from '@/styles/global';
 import theme from '@/styles/theme';
 import { getToken } from '@/utils/auth';
@@ -36,11 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>
-          {process.env.NEXT_PUBLIC_API_URL !== 'PRODUCTION'
-            ? '[DEV] SOPT Admin'
-            : 'SOPT Admin'}
-        </title>
+        <title>{IS_PRODUCTION ? 'SOPT Admin' : '[DEV] SOPT Admin'}</title>
       </Head>
       <QueryClientProvider client={client}>
         <AdminStatusProvider>
