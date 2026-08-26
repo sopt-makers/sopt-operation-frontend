@@ -1,7 +1,9 @@
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL === 'PRODUCTION'
     ? 'https://operation.api.sopt.org/api/v1'
-    : 'https://operation-api-dev.sopt.org/api/v1';
+    : process.env.NEXT_PUBLIC_API_URL === 'DEVELOPMENT'
+      ? 'https://operation-api-dev.sopt.org/api/v1'
+      : 'https://dev.api.sopt.org/api/v1/admin';
 const CLIENT_URL = 'https://operation.sopt.org';
 
 const ORG_API_URL =
