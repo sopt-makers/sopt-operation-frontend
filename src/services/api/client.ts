@@ -1,7 +1,12 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+} from 'axios';
 
 import config from '@/configs/config';
-import { destroyToken, getAuthHeader, getToken } from '@/utils/auth';
+import { destroyToken, getBearerTokenAuthHeader, getToken } from '@/utils/auth';
 
 import { reissueAccessToken } from './auth';
 
@@ -33,19 +38,21 @@ const orgAxiosConfig: AxiosRequestConfig<IAxiosConfig> = {
 const client: AxiosInstance = axios.create(axiosConfig);
 const orgClient: AxiosInstance = axios.create(orgAxiosConfig);
 
-client.interceptors.request.use(
-  async (config) => {
-    if (window.location.pathname !== '/' && !getToken('ACCESS')) {
-      window.location.replace('/');
-    } else {
-      config.headers.Authorization = getAuthHeader().Authorization;
-    }
-    return config;
-  },
-  (error) => {
-    console.error(error);
-  },
-);
+const setAuthHeader = (config: InternalAxiosRequestConfig) => {
+  if (window.location.pathname !== '/' && !getToken('ACCESS')) {
+    window.location.replace('/');
+  } else {
+    config.headers.Authorization = getBearerTokenAuthHeader().Authorization;
+  }
+  return config;
+};
+
+client.interceptors.request.use(setAuthHeader, (error) => {
+  console.error(error);
+});
+orgClient.interceptors.request.use(setAuthHeader, (error) => {
+  console.error(error);
+});
 
 client.interceptors.response.use(
   (response) => {
