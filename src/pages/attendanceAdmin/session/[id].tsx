@@ -45,6 +45,8 @@ interface UpdateMemberAttendanceParams {
   memberId: number;
   firstSubAttendanceId: number;
   secondSubAttendanceId: number;
+  firstRoundStatus: ATTEND_STATUS;
+  secondRoundStatus: ATTEND_STATUS;
 }
 
 function SessionDetailPage() {
@@ -134,14 +136,9 @@ function SessionDetailPage() {
       memberId,
       firstSubAttendanceId,
       secondSubAttendanceId,
+      firstRoundStatus,
+      secondRoundStatus,
     }: UpdateMemberAttendanceParams) => {
-      const changedStatus = getChangedStatus(memberId);
-
-      if (!changedStatus) {
-        throw new Error();
-      }
-
-      const { firstRoundStatus, secondRoundStatus } = changedStatus;
       const attendanceUpdateResults = await Promise.allSettled([
         updateMemberAttendStatus(firstSubAttendanceId, firstRoundStatus),
         updateMemberAttendStatus(secondSubAttendanceId, secondRoundStatus),
@@ -339,13 +336,17 @@ function SessionDetailPage() {
                       </p>
                     </div>
                     <ListActionButton
-                      onClick={() =>
+                      onClick={() => {
+                        if (!changedStatus) return;
+
                         onUpdateScore({
                           memberId: member.member.memberId,
                           firstSubAttendanceId: firstRound.subAttendanceId,
                           secondSubAttendanceId: secondRound.subAttendanceId,
-                        })
-                      }
+                          firstRoundStatus: changedStatus.firstRoundStatus,
+                          secondRoundStatus: changedStatus.secondRoundStatus,
+                        });
+                      }}
                       text="갱신"
                       disabled={
                         isUpdatingScore ||
