@@ -141,8 +141,17 @@ function SessionDetailPage() {
       }
 
       const { firstRoundStatus, secondRoundStatus } = changedStatus;
-      await updateMemberAttendStatus(firstSubAttendanceId, firstRoundStatus);
-      await updateMemberAttendStatus(secondSubAttendanceId, secondRoundStatus);
+      const attendanceUpdateResults = await Promise.allSettled([
+        updateMemberAttendStatus(firstSubAttendanceId, firstRoundStatus),
+        updateMemberAttendStatus(secondSubAttendanceId, secondRoundStatus),
+      ]);
+      const failedAttendanceUpdate = attendanceUpdateResults.find(
+        (result) => result.status === 'rejected',
+      );
+      if (failedAttendanceUpdate?.status === 'rejected') {
+        throw failedAttendanceUpdate.reason;
+      }
+
       await updateMemberScore(memberId);
     },
     {
