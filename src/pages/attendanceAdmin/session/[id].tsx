@@ -7,6 +7,7 @@ import { ReactNode, RefObject, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
+import { getUpdatedScore } from '@/components/attendanceAdmin/session/utils/getUpdatedScore';
 import Chip from '@/components/common/Chip';
 import FloatingButton from '@/components/common/FloatingButton';
 import HelperText from '@/components/common/HelperText';
@@ -100,8 +101,6 @@ function SessionDetailPage() {
     round: number,
     status: ATTEND_STATUS,
   ) => {
-    const attribute = session?.attribute;
-
     const prevStatus = getChangedStatus(memberId);
     const anotherRound = round === 1 ? 2 : 1;
     const anotherRoundStatus = prevStatus
@@ -113,35 +112,13 @@ function SessionDetailPage() {
 
     const firstRoundStatus = round === 1 ? status : anotherRoundStatus;
     const secondRoundStatus = round === 2 ? status : anotherRoundStatus;
-    let updatedScore = 0;
+    if (!session) return;
 
-    switch (attribute) {
-      case 'SEMINAR':
-        if (
-          firstRoundStatus === 'ATTENDANCE' &&
-          secondRoundStatus === 'ATTENDANCE'
-        ) {
-          updatedScore = 0;
-        } else if (
-          firstRoundStatus === 'ABSENT' &&
-          secondRoundStatus === 'ABSENT'
-        ) {
-          updatedScore = -1;
-        } else {
-          updatedScore = -0.5;
-        }
-        break;
-      case 'EVENT':
-        if (firstRoundStatus === 'ABSENT' && secondRoundStatus === 'ABSENT') {
-          updatedScore = 0;
-        } else {
-          updatedScore = 0.5;
-        }
-        break;
-      case 'ETC':
-        updatedScore = 0;
-        break;
-    }
+    const updatedScore = getUpdatedScore(
+      session.attribute,
+      firstRoundStatus,
+      secondRoundStatus,
+    );
 
     const newList = changedUpdatedStatusList.filter(
       (item) => item.memberId !== memberId,
