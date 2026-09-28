@@ -5,22 +5,12 @@ import { client } from '@/services/api/client';
 export const updateMemberAttendStatus = async (
   subAttendanceId: number,
   status: ATTEND_STATUS,
-): Promise<void | ProjectError> => {
-  try {
-    await client.patch('/attendances', { subAttendanceId, status });
-  } catch (e) {
-    console.error(e);
-  }
+): Promise<void> => {
+  await client.patch('/attendances', { subAttendanceId, status });
 };
 
-export const updateMemberScore = async (
-  memberId: number,
-): Promise<void | ProjectError> => {
-  try {
-    await client.patch(`/attendances/member/${memberId}`, {});
-  } catch (e) {
-    console.error(e);
-  }
+export const updateMemberScore = async (memberId: number): Promise<void> => {
+  await client.patch(`/attendances/member/${memberId}`, {});
 };
 
 export const getMemberAttendance = async (memberId: number) => {
