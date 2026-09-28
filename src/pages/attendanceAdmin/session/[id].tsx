@@ -136,8 +136,9 @@ function SessionDetailPage() {
       secondSubAttendanceId,
     }: UpdateMemberAttendanceParams) => {
       const changedStatus = getChangedStatus(memberId);
-      if (!session || !changedStatus) {
-        throw new Error('갱신할 출석 상태가 없어요');
+
+      if (!changedStatus) {
+        throw new Error();
       }
 
       const { firstRoundStatus, secondRoundStatus } = changedStatus;
