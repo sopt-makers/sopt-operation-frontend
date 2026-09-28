@@ -4,6 +4,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { ReactNode, RefObject, useRef, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
 import Chip from '@/components/common/Chip';
@@ -39,18 +40,24 @@ interface ChangedUpdatedStatus {
   updatedScore: number;
 }
 
+interface UpdateMemberAttendanceParams {
+  memberId: number;
+  firstSubAttendanceId: number;
+  secondSubAttendanceId: number;
+}
+
 function SessionDetailPage() {
   const router = useRouter();
   const id =
     typeof router.query.id === 'string' ? Number(router.query.id) : null;
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [changedUpdatedStatusList, setChangedUpdatedStatusList] = useState<
     ChangedUpdatedStatus[]
   >([]);
   const [modal, setModal] = useState<number | null>(null);
   const bottomRef: RefObject<HTMLDivElement> = useRef(null);
+  const queryClient = useQueryClient();
 
   useUnauthorizedStatus('MAKERS');
 
@@ -84,6 +91,9 @@ function SessionDetailPage() {
     setSelectedPart(part);
   };
 
+  const getChangedStatus = (memberId: number) =>
+    changedUpdatedStatusList.find((item) => item.memberId === memberId);
+
   const calcUpdatedScore = (
     memberId: number,
     attendances: Attendance[],
@@ -92,9 +102,7 @@ function SessionDetailPage() {
   ) => {
     const attribute = session?.attribute;
 
-    const prevStatus = changedUpdatedStatusList.find(
-      (item) => item.memberId === memberId,
-    );
+    const prevStatus = getChangedStatus(memberId);
     const anotherRound = round === 1 ? 2 : 1;
     const anotherRoundStatus = prevStatus
       ? round === 1
@@ -115,23 +123,19 @@ function SessionDetailPage() {
         ) {
           updatedScore = 0;
         } else if (
-          firstRoundStatus === 'ATTENDANCE' ||
-          secondRoundStatus === 'ATTENDANCE'
+          firstRoundStatus === 'ABSENT' &&
+          secondRoundStatus === 'ABSENT'
         ) {
-          updatedScore = -0.5;
-        } else {
           updatedScore = -1;
+        } else {
+          updatedScore = -0.5;
         }
         break;
       case 'EVENT':
-        if (
-          (firstRoundStatus === 'ATTENDANCE' ||
-            firstRoundStatus === 'ABSENT') &&
-          secondRoundStatus === 'ATTENDANCE'
-        ) {
-          updatedScore = 0.5;
-        } else {
+        if (firstRoundStatus === 'ABSENT' && secondRoundStatus === 'ABSENT') {
           updatedScore = 0;
+        } else {
+          updatedScore = 0.5;
         }
         break;
       case 'ETC':
@@ -148,53 +152,47 @@ function SessionDetailPage() {
     ]);
   };
 
+  const { mutate: onUpdateScore, isLoading: isUpdatingScore } = useMutation(
+    async ({
+      memberId,
+      firstSubAttendanceId,
+      secondSubAttendanceId,
+    }: UpdateMemberAttendanceParams) => {
+      const changedStatus = getChangedStatus(memberId);
+      if (!session || !changedStatus) {
+        throw new Error('갱신할 출석 상태가 없어요');
+      }
+
+      const { firstRoundStatus, secondRoundStatus } = changedStatus;
+      await updateMemberAttendStatus(firstSubAttendanceId, firstRoundStatus);
+      await updateMemberAttendStatus(secondSubAttendanceId, secondRoundStatus);
+      await updateMemberScore(memberId);
+    },
+    {
+      onSuccess: async (_, { memberId }) => {
+        await queryClient.invalidateQueries(['sessionMembers', id], undefined, {
+          throwOnError: true,
+        });
+        setChangedUpdatedStatusList((items) =>
+          items.filter((item) => item.memberId !== memberId),
+        );
+        queryClient.invalidateQueries(['sessionDetail', id]);
+        queryClient.invalidateQueries('memberList');
+        queryClient.invalidateQueries(['memberAttendance', memberId]);
+      },
+      onError: () => {
+        alert('출석 점수를 갱신하는데 실패했어요');
+      },
+    },
+  );
+
   const onChangeStatus = async (
     status: ATTEND_STATUS,
     member: SessionMember,
     round: number,
   ) => {
-    setChangedMembers([...changedMembers, member]);
+    if (isUpdatingScore) return;
     calcUpdatedScore(member.member.memberId, member.attendances, round, status);
-  };
-
-  const onUpdateScore = async (
-    memberId: number,
-    firstSubAttendanceId: number,
-    secondSubAttendanceId: number,
-  ) => {
-    if (session) {
-      const { firstRoundStatus, secondRoundStatus, updatedScore } =
-        changedUpdatedStatusList.find(
-          (item) => item.memberId === memberId,
-        ) as ChangedUpdatedStatus;
-
-      const firstRoundError = await updateMemberAttendStatus(
-        firstSubAttendanceId,
-        firstRoundStatus,
-      );
-      const secondRoundError = await updateMemberAttendStatus(
-        secondSubAttendanceId,
-        secondRoundStatus,
-      );
-      const updateScoreError = await updateMemberScore(memberId);
-
-      if (firstRoundError || secondRoundError || updateScoreError) {
-        alert('출석 점수를 갱신하는데 실패했어요');
-      } else {
-        setChangedMembers(
-          changedMembers.filter(
-            (member) => member.member.memberId !== memberId,
-          ),
-        );
-        refetchSession();
-      }
-    }
-  };
-
-  const isChangedMember = (member: SessionMember) => {
-    return changedMembers.find(
-      (item) => item.member.memberId === member.member.memberId,
-    );
   };
 
   const startAttendance = (round: number) => {
@@ -216,7 +214,7 @@ function SessionDetailPage() {
       if (result) {
         await refetchSession();
         refetchMembers();
-        setChangedMembers([]);
+        setChangedUpdatedStatusList([]);
         alert('출석 점수가 갱신되었어요');
       } else {
         alert('출석 점수를 갱신하는데 실패했어요');
@@ -294,17 +292,14 @@ function SessionDetailPage() {
                 const secondRoundTime = dayjs(secondRound.updateAt).format(
                   'YYYY/MM/DD HH:mm',
                 );
+                const changedStatus = getChangedStatus(member.member.memberId);
                 const updatedScore =
-                  changedUpdatedStatusList.find(
-                    (item) => item.memberId === member.member.memberId,
-                  )?.updatedScore ?? member.updatedScore;
+                  changedStatus?.updatedScore ?? member.updatedScore;
 
                 return (
                   <StListItem
                     key={member.member.memberId}
-                    className={
-                      isChangedMember(member) ? 'focused' : 'no-pointer'
-                    }>
+                    className={changedStatus ? 'focused' : 'no-pointer'}>
                     <p className="member-index">
                       {precision(pageIndex * PAGE_SIZE + index + 1, 2)}
                     </p>
@@ -340,21 +335,22 @@ function SessionDetailPage() {
                             ? 'member-score minus-score'
                             : 'member-score'
                         }>
-                        {addPlus(updatedScore)}점
+                        {updatedScore === 0 ? 0 : addPlus(updatedScore)}점
                       </p>
                     </div>
                     <ListActionButton
                       onClick={() =>
-                        onUpdateScore(
-                          member.member.memberId,
-                          firstRound.subAttendanceId,
-                          secondRound.subAttendanceId,
-                        )
+                        onUpdateScore({
+                          memberId: member.member.memberId,
+                          firstSubAttendanceId: firstRound.subAttendanceId,
+                          secondSubAttendanceId: secondRound.subAttendanceId,
+                        })
                       }
                       text="갱신"
                       disabled={
+                        isUpdatingScore ||
                         !(
-                          isChangedMember(member) &&
+                          changedStatus &&
                           String(session.generation) === ACTIVITY_GENERATION
                         )
                       }
@@ -399,7 +395,9 @@ function SessionDetailPage() {
         </Modal>
       )}
 
-      {(isLoadingSession || status === 'loading') && <Loading />}
+      {(isLoadingSession || status === 'loading' || isUpdatingScore) && (
+        <Loading />
+      )}
     </StPageWrapper>
   );
 }
