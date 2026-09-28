@@ -164,10 +164,19 @@ function SessionDetailPage() {
           items.filter((item) => item.memberId !== memberId),
         );
         queryClient.invalidateQueries(['sessionDetail', id]);
-        queryClient.invalidateQueries('memberList');
+        queryClient.invalidateQueries(['memberList', session?.generation]);
         queryClient.invalidateQueries(['memberAttendance', memberId]);
       },
-      onError: () => {
+      onError: async (_error, { memberId }) => {
+        await Promise.all([
+          queryClient.invalidateQueries(['sessionMembers', id]),
+          queryClient.invalidateQueries(['sessionDetail', id]),
+          queryClient.invalidateQueries(['memberList', session?.generation]),
+          queryClient.invalidateQueries(['memberAttendance', memberId]),
+        ]);
+        setChangedUpdatedStatusList((items) =>
+          items.filter((item) => item.memberId !== memberId),
+        );
         alert('출석 점수를 갱신하는데 실패했어요');
       },
     },
@@ -300,7 +309,9 @@ function SessionDetailPage() {
                       </p>
                     </div>
                     <Select
-                      selected={firstRound.status}
+                      selected={
+                        changedStatus?.firstRoundStatus ?? firstRound.status
+                      }
                       options={attendanceOptions.first}
                       round="1차"
                       onChange={(value) => onChangeStatus(value, member, 1)}
@@ -308,7 +319,9 @@ function SessionDetailPage() {
                     />
                     <p className="member-date">{firstRoundTime}</p>
                     <Select
-                      selected={secondRound.status}
+                      selected={
+                        changedStatus?.secondRoundStatus ?? secondRound.status
+                      }
                       options={attendanceOptions.second}
                       round="2차"
                       onChange={(value) => onChangeStatus(value, member, 2)}
