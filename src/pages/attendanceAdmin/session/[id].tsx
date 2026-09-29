@@ -165,15 +165,19 @@ function SessionDetailPage() {
         queryClient.invalidateQueries(['memberAttendance', memberId]);
       },
       onError: async (_error, { memberId }) => {
-        await Promise.all([
-          queryClient.invalidateQueries(['sessionMembers', id]),
+        const refetchResults = await Promise.allSettled([
+          queryClient.invalidateQueries(['sessionMembers', id], undefined, {
+            throwOnError: true,
+          }),
           queryClient.invalidateQueries(['sessionDetail', id]),
           queryClient.invalidateQueries(['memberList', session?.generation]),
           queryClient.invalidateQueries(['memberAttendance', memberId]),
         ]);
-        setChangedUpdatedStatusList((items) =>
-          items.filter((item) => item.memberId !== memberId),
-        );
+        if (refetchResults[0].status === 'fulfilled') {
+          setChangedUpdatedStatusList((items) =>
+            items.filter((item) => item.memberId !== memberId),
+          );
+        }
         alert('출석 점수를 갱신하는데 실패했어요');
       },
     },
