@@ -4,8 +4,10 @@ import { fontsObject } from '@sopt-makers/fonts';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { ReactNode, RefObject, useRef, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
 import AttendanceModal from '@/components/attendanceAdmin/session/AttendanceModal';
+import { getUpdatedScore } from '@/components/attendanceAdmin/session/utils/getUpdatedScore';
 import Chip from '@/components/common/Chip';
 import FloatingButton from '@/components/common/FloatingButton';
 import HelperText from '@/components/common/HelperText';
@@ -39,18 +41,26 @@ interface ChangedUpdatedStatus {
   updatedScore: number;
 }
 
+interface UpdateMemberAttendanceParams {
+  memberId: number;
+  firstSubAttendanceId: number;
+  secondSubAttendanceId: number;
+  firstRoundStatus: ATTEND_STATUS;
+  secondRoundStatus: ATTEND_STATUS;
+}
+
 function SessionDetailPage() {
   const router = useRouter();
   const id =
     typeof router.query.id === 'string' ? Number(router.query.id) : null;
 
   const [selectedPart, setSelectedPart] = useState<PART>('ALL');
-  const [changedMembers, setChangedMembers] = useState<SessionMember[]>([]);
   const [changedUpdatedStatusList, setChangedUpdatedStatusList] = useState<
     ChangedUpdatedStatus[]
   >([]);
   const [modal, setModal] = useState<number | null>(null);
   const bottomRef: RefObject<HTMLDivElement> = useRef(null);
+  const queryClient = useQueryClient();
 
   useUnauthorizedStatus('MAKERS');
 
@@ -84,17 +94,16 @@ function SessionDetailPage() {
     setSelectedPart(part);
   };
 
+  const getChangedStatus = (memberId: number) =>
+    changedUpdatedStatusList.find((item) => item.memberId === memberId);
+
   const calcUpdatedScore = (
     memberId: number,
     attendances: Attendance[],
     round: number,
     status: ATTEND_STATUS,
   ) => {
-    const attribute = session?.attribute;
-
-    const prevStatus = changedUpdatedStatusList.find(
-      (item) => item.memberId === memberId,
-    );
+    const prevStatus = getChangedStatus(memberId);
     const anotherRound = round === 1 ? 2 : 1;
     const anotherRoundStatus = prevStatus
       ? round === 1
@@ -105,39 +114,13 @@ function SessionDetailPage() {
 
     const firstRoundStatus = round === 1 ? status : anotherRoundStatus;
     const secondRoundStatus = round === 2 ? status : anotherRoundStatus;
-    let updatedScore = 0;
+    if (!session) return;
 
-    switch (attribute) {
-      case 'SEMINAR':
-        if (
-          firstRoundStatus === 'ATTENDANCE' &&
-          secondRoundStatus === 'ATTENDANCE'
-        ) {
-          updatedScore = 0;
-        } else if (
-          firstRoundStatus === 'ATTENDANCE' ||
-          secondRoundStatus === 'ATTENDANCE'
-        ) {
-          updatedScore = -0.5;
-        } else {
-          updatedScore = -1;
-        }
-        break;
-      case 'EVENT':
-        if (
-          (firstRoundStatus === 'ATTENDANCE' ||
-            firstRoundStatus === 'ABSENT') &&
-          secondRoundStatus === 'ATTENDANCE'
-        ) {
-          updatedScore = 0.5;
-        } else {
-          updatedScore = 0;
-        }
-        break;
-      case 'ETC':
-        updatedScore = 0;
-        break;
-    }
+    const updatedScore = getUpdatedScore(
+      session.attribute,
+      firstRoundStatus,
+      secondRoundStatus,
+    );
 
     const newList = changedUpdatedStatusList.filter(
       (item) => item.memberId !== memberId,
@@ -148,53 +131,65 @@ function SessionDetailPage() {
     ]);
   };
 
+  const { mutate: onUpdateScore, isLoading: isUpdatingScore } = useMutation(
+    async ({
+      memberId,
+      firstSubAttendanceId,
+      secondSubAttendanceId,
+      firstRoundStatus,
+      secondRoundStatus,
+    }: UpdateMemberAttendanceParams) => {
+      const attendanceUpdateResults = await Promise.allSettled([
+        updateMemberAttendStatus(firstSubAttendanceId, firstRoundStatus),
+        updateMemberAttendStatus(secondSubAttendanceId, secondRoundStatus),
+      ]);
+      const failedAttendanceUpdate = attendanceUpdateResults.find(
+        (result) => result.status === 'rejected',
+      );
+      if (failedAttendanceUpdate?.status === 'rejected') {
+        throw failedAttendanceUpdate.reason;
+      }
+
+      await updateMemberScore(memberId);
+    },
+    {
+      onSuccess: async (_, { memberId }) => {
+        await queryClient.invalidateQueries(['sessionMembers', id], undefined, {
+          throwOnError: true,
+        });
+        setChangedUpdatedStatusList((items) =>
+          items.filter((item) => item.memberId !== memberId),
+        );
+        queryClient.invalidateQueries(['sessionDetail', id]);
+        queryClient.invalidateQueries(['memberList', session?.generation]);
+        queryClient.invalidateQueries(['memberAttendance', memberId]);
+      },
+      onError: async (_error, { memberId }) => {
+        const refetchResults = await Promise.allSettled([
+          queryClient.invalidateQueries(['sessionMembers', id], undefined, {
+            throwOnError: true,
+          }),
+          queryClient.invalidateQueries(['sessionDetail', id]),
+          queryClient.invalidateQueries(['memberList', session?.generation]),
+          queryClient.invalidateQueries(['memberAttendance', memberId]),
+        ]);
+        if (refetchResults[0].status === 'fulfilled') {
+          setChangedUpdatedStatusList((items) =>
+            items.filter((item) => item.memberId !== memberId),
+          );
+        }
+        alert('출석 점수를 갱신하는데 실패했어요');
+      },
+    },
+  );
+
   const onChangeStatus = async (
     status: ATTEND_STATUS,
     member: SessionMember,
     round: number,
   ) => {
-    setChangedMembers([...changedMembers, member]);
+    if (isUpdatingScore) return;
     calcUpdatedScore(member.member.memberId, member.attendances, round, status);
-  };
-
-  const onUpdateScore = async (
-    memberId: number,
-    firstSubAttendanceId: number,
-    secondSubAttendanceId: number,
-  ) => {
-    if (session) {
-      const { firstRoundStatus, secondRoundStatus, updatedScore } =
-        changedUpdatedStatusList.find(
-          (item) => item.memberId === memberId,
-        ) as ChangedUpdatedStatus;
-
-      const firstRoundError = await updateMemberAttendStatus(
-        firstSubAttendanceId,
-        firstRoundStatus,
-      );
-      const secondRoundError = await updateMemberAttendStatus(
-        secondSubAttendanceId,
-        secondRoundStatus,
-      );
-      const updateScoreError = await updateMemberScore(memberId);
-
-      if (firstRoundError || secondRoundError || updateScoreError) {
-        alert('출석 점수를 갱신하는데 실패했어요');
-      } else {
-        setChangedMembers(
-          changedMembers.filter(
-            (member) => member.member.memberId !== memberId,
-          ),
-        );
-        refetchSession();
-      }
-    }
-  };
-
-  const isChangedMember = (member: SessionMember) => {
-    return changedMembers.find(
-      (item) => item.member.memberId === member.member.memberId,
-    );
   };
 
   const startAttendance = (round: number) => {
@@ -216,7 +211,7 @@ function SessionDetailPage() {
       if (result) {
         await refetchSession();
         refetchMembers();
-        setChangedMembers([]);
+        setChangedUpdatedStatusList([]);
         alert('출석 점수가 갱신되었어요');
       } else {
         alert('출석 점수를 갱신하는데 실패했어요');
@@ -294,17 +289,14 @@ function SessionDetailPage() {
                 const secondRoundTime = dayjs(secondRound.updateAt).format(
                   'YYYY/MM/DD HH:mm',
                 );
+                const changedStatus = getChangedStatus(member.member.memberId);
                 const updatedScore =
-                  changedUpdatedStatusList.find(
-                    (item) => item.memberId === member.member.memberId,
-                  )?.updatedScore ?? member.updatedScore;
+                  changedStatus?.updatedScore ?? member.updatedScore;
 
                 return (
                   <StListItem
                     key={member.member.memberId}
-                    className={
-                      isChangedMember(member) ? 'focused' : 'no-pointer'
-                    }>
+                    className={changedStatus ? 'focused' : 'no-pointer'}>
                     <p className="member-index">
                       {precision(pageIndex * PAGE_SIZE + index + 1, 2)}
                     </p>
@@ -318,7 +310,9 @@ function SessionDetailPage() {
                       </p>
                     </div>
                     <Select
-                      selected={firstRound.status}
+                      selected={
+                        changedStatus?.firstRoundStatus ?? firstRound.status
+                      }
                       options={attendanceOptions.first}
                       round="1차"
                       onChange={(value) => onChangeStatus(value, member, 1)}
@@ -326,7 +320,9 @@ function SessionDetailPage() {
                     />
                     <p className="member-date">{firstRoundTime}</p>
                     <Select
-                      selected={secondRound.status}
+                      selected={
+                        changedStatus?.secondRoundStatus ?? secondRound.status
+                      }
                       options={attendanceOptions.second}
                       round="2차"
                       onChange={(value) => onChangeStatus(value, member, 2)}
@@ -340,21 +336,26 @@ function SessionDetailPage() {
                             ? 'member-score minus-score'
                             : 'member-score'
                         }>
-                        {addPlus(updatedScore)}점
+                        {updatedScore === 0 ? 0 : addPlus(updatedScore)}점
                       </p>
                     </div>
                     <ListActionButton
-                      onClick={() =>
-                        onUpdateScore(
-                          member.member.memberId,
-                          firstRound.subAttendanceId,
-                          secondRound.subAttendanceId,
-                        )
-                      }
+                      onClick={() => {
+                        if (!changedStatus) return;
+
+                        onUpdateScore({
+                          memberId: member.member.memberId,
+                          firstSubAttendanceId: firstRound.subAttendanceId,
+                          secondSubAttendanceId: secondRound.subAttendanceId,
+                          firstRoundStatus: changedStatus.firstRoundStatus,
+                          secondRoundStatus: changedStatus.secondRoundStatus,
+                        });
+                      }}
                       text="갱신"
                       disabled={
+                        isUpdatingScore ||
                         !(
-                          isChangedMember(member) &&
+                          changedStatus &&
                           String(session.generation) === ACTIVITY_GENERATION
                         )
                       }
@@ -399,7 +400,9 @@ function SessionDetailPage() {
         </Modal>
       )}
 
-      {(isLoadingSession || status === 'loading') && <Loading />}
+      {(isLoadingSession || status === 'loading' || isUpdatingScore) && (
+        <Loading />
+      )}
     </StPageWrapper>
   );
 }
