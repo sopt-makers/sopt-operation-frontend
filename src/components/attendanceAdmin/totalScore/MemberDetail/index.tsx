@@ -76,7 +76,9 @@ function MemberDetail(props: Props) {
                       />
                     </div>
                     <p className="session-date">
-                      2023년 00월 00일 14:00 - 18:00
+                      {`${dayjs(lecture.startDate).format(
+                        'YYYY년 MM월 DD일 HH:mm',
+                      )} - ${dayjs(lecture.endDate).format('HH:mm')}`}
                     </p>
                   </div>
                   <div className="attendance-info">

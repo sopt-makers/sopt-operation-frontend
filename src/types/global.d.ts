@@ -74,6 +74,8 @@ declare global {
       lecture: string;
       additiveScore: number;
       status: ATTEND_STATUS_KR;
+      startDate: string;
+      endDate: string;
       attendances: ScoreDetailAttendance[];
     }>;
   }
