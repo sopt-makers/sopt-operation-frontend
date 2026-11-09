@@ -30,6 +30,7 @@ export const REVIEW_TITLE_MAX_LENGTH = 10;
 export const REVIEW_CONTENT_MAX_LENGTH = 200;
 
 export const EMPTY_REVIEW: ReviewForm = {
+  type: 'ACTIVITY',
   title: '',
   content: '',
   authorInfo: '',

@@ -1,6 +1,6 @@
 'use client';
 
-import { TextField } from '@sopt-makers/ui';
+import { Radio, TextField } from '@sopt-makers/ui';
 import { useLayoutEffect, useRef, useState } from 'react';
 
 import Modal from '@/components/common/modal';
@@ -10,6 +10,8 @@ import {
   StAddModalContainer,
   StAddModalTitle,
   StCancelButton,
+  StInputContainer,
+  StLabel,
   StLinkTextArea,
   StTextAreaWrapper,
 } from '@/components/org/OrgAdmin/HomeSection/_components/Modal/style';
@@ -51,6 +53,7 @@ export const EditReviewModal = ({
     editedReview ??
     (reviewData
       ? {
+          type: reviewData.type,
           title: reviewData.title,
           content: reviewData.content ?? '',
           authorInfo: reviewData.authorInfo ?? '',
@@ -97,6 +100,7 @@ export const EditReviewModal = ({
     }
 
     const formData = new FormData();
+    formData.append('type', review.type);
     formData.append('title', review.title);
     formData.append('content', review.content);
     formData.append('authorInfo', review.authorInfo);
@@ -127,6 +131,29 @@ export const EditReviewModal = ({
       <Modal>
         <StAddModalContainer>
           <StAddModalTitle>리뷰</StAddModalTitle>
+          <StInputContainer>
+            <StLabel id="review-type-label">후기 종류</StLabel>
+            <div role="radiogroup" aria-labelledby="review-type-label">
+              <Radio
+                name="reviewType"
+                value="ACTIVITY"
+                label="활동 후기"
+                checked={review.type === 'ACTIVITY'}
+                onChange={() =>
+                  setEditedReview({ ...review, type: 'ACTIVITY' })
+                }
+              />
+              <Radio
+                name="reviewType"
+                value="RECRUITING"
+                label="지원 후기"
+                checked={review.type === 'RECRUITING'}
+                onChange={() =>
+                  setEditedReview({ ...review, type: 'RECRUITING' })
+                }
+              />
+            </div>
+          </StInputContainer>
           <TextField
             value={review.title}
             onChange={(e) =>
