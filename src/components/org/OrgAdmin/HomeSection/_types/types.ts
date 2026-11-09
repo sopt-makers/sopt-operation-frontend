@@ -1,5 +1,6 @@
 export type Review = {
   id: number;
+  type: 'ACTIVITY' | 'RECRUITING';
   title: string;
   content?: string;
   authorInfo?: string;

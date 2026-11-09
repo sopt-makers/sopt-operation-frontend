@@ -156,6 +156,7 @@ export const getReviews = async () => {
 export const postReview = async (formData: FormData) => {
   const res = await fetcher.POST('/homepage-reviews', {
     body: {
+      type: (formData.get('type') as Review['type'] | null) ?? undefined,
       title: formData.get('title') as string,
       content: formData.get('content') as string,
       authorInfo: formData.get('authorInfo') as string,
@@ -173,6 +174,7 @@ export const patchReview = async (id: number, formData: FormData) => {
       },
     },
     body: {
+      type: (formData.get('type') as Review['type'] | null) ?? undefined,
       title: formData.get('title') as string,
       content: formData.get('content') as string,
       authorInfo: formData.get('authorInfo') as string,
@@ -240,7 +242,8 @@ export const deployHomeTab = async ({
   const deployResponse = await postHomeTab({
     generation: Number(ACTIVITY_GENERATION),
     homeHeaderImageFileName,
-    review: reviewItems.map(({ title, content, authorInfo }) => ({
+    review: reviewItems.map(({ title, content, authorInfo, type }) => ({
+      type,
       title,
       content: content ?? '',
       authorInfo: authorInfo ?? '',

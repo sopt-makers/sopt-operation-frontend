@@ -174,6 +174,8 @@ export interface ScrapLinkResponseDto {
 }
 
 export interface AddAdminReviewRequestDto {
+  /** 후기 종류 */
+  type?: 'ACTIVITY' | 'RECRUITING';
   /**
    * 리뷰 제목 (공백 포함 최대 10자)
    * @minLength 0
@@ -721,6 +723,8 @@ export interface AddAdminMemberResponseRecordDto {
 }
 
 export interface EditAdminReviewRequestDto {
+  /** 후기 종류 */
+  type?: 'ACTIVITY' | 'RECRUITING';
   /**
    * 리뷰 제목 (공백 포함 최대 10자)
    * @minLength 0
@@ -1227,6 +1231,8 @@ export interface PartCurriculum {
 
 /** 리뷰 */
 export interface GetAdminReviewResponseRecordDto {
+  /** 후기 종류 */
+  type: 'ACTIVITY' | 'RECRUITING';
   /**
    * 리뷰 ID
    * @format int64
