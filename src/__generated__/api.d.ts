@@ -918,6 +918,8 @@ export interface components {
             url: string;
         };
         AddAdminReviewRequestDto: {
+            /** @description 후기 종류 */
+            type?: "ACTIVITY" | "RECRUITING";
             /**
              * @description 리뷰 제목 (공백 포함 최대 10자)
              * @example 후회없는 활동
@@ -1416,6 +1418,8 @@ export interface components {
             profileImage: string;
         };
         EditAdminReviewRequestDto: {
+            /** @description 후기 종류 */
+            type?: "ACTIVITY" | "RECRUITING";
             /**
              * @description 리뷰 제목 (공백 포함 최대 10자)
              * @example 후회없는 활동
@@ -1866,6 +1870,8 @@ export interface components {
         };
         /** @description 리뷰 */
         GetAdminReviewResponseRecordDto: {
+            /** @description 후기 종류 */
+            type: "ACTIVITY" | "RECRUITING";
             /**
              * Format: int64
              * @description 리뷰 ID
